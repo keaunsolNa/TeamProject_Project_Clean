@@ -1,8 +1,10 @@
 package com.project.clean.controller.common;
 
-import java.util.ArrayList;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Collection;
-import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/common")
@@ -29,7 +30,7 @@ public class LoginController {
 	
 	@PostMapping("afterLogin")
 	@ResponseBody
-	public ModelAndView afterMemberLoginForm(@AuthenticationPrincipal User userinfo, ModelAndView mv ) {
+	public ModelAndView afterMemberLoginForm(@AuthenticationPrincipal User userinfo, ModelAndView mv, HttpServletRequest request ) {
 
 		System.out.println(userinfo.getAuthorities());
 
@@ -47,7 +48,7 @@ public class LoginController {
 	        	mv.setViewName("admin/adminMainPage");
 	        } else if(isEmployee == true) {
 	        	mv.setViewName("employee/empMainPage");
-	        }
+	        } 
 	        
 		
 		return mv;

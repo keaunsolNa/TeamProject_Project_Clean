@@ -6,30 +6,32 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="TBL_ADMIN_IP_ADDRESS")
+@Table(name="TBL_ADMIN_IP_ADRESS")
 public class AdminIpAddress implements java.io.Serializable{
 
+	private static final long serialVersionUID = 4101364744100557303L;
+
 	@Id
-	@Column(name="ADMIN_IP_ADRESS_NO")
-	private int ipAddressNo;
+	@Column(name="ADMIN_NO")
+	private int adminNo;
 	
 	@Column(name="ADMIN_IP_ADRESS_VALUE")
 	private String ipAddressValue;
 
-	public AdminIpAddress() {
-	}
-
-	public AdminIpAddress(int ipAddressNo, String ipAddressValue) {
-		this.ipAddressNo = ipAddressNo;
+	public AdminIpAddress(int adminNo, String ipAddressValue) {
+		this.adminNo = adminNo;
 		this.ipAddressValue = ipAddressValue;
 	}
 
-	public int getIpAddressNo() {
-		return ipAddressNo;
+	public AdminIpAddress() {
 	}
 
-	public void setIpAddressNo(int ipAddressNo) {
-		this.ipAddressNo = ipAddressNo;
+	public int getAdminNo() {
+		return adminNo;
+	}
+
+	public void setAdminNo(int adminNo) {
+		this.adminNo = adminNo;
 	}
 
 	public String getIpAddressValue() {
@@ -40,10 +42,15 @@ public class AdminIpAddress implements java.io.Serializable{
 		this.ipAddressValue = ipAddressValue;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public String toString() {
-		return "AdminIpAddress [ipAddressNo=" + ipAddressNo + ", ipAddressValue=" + ipAddressValue + "]";
+		return "AdminIpAddress [adminNo=" + adminNo + ", ipAddressValue=" + ipAddressValue + "]";
 	}
+
 	
 	
 	

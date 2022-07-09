@@ -1,5 +1,7 @@
 package com.project.clean.model.service.common;
 
+import java.net.InetAddress;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,48 +16,59 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.project.clean.model.domain.commonEntity.AdminIpAddress;
 import com.project.clean.model.domain.commonEntity.Authority;
 import com.project.clean.model.domain.joinEntity.AdminAndAdminMemberAuthority;
 import com.project.clean.model.domain.joinEntity.AdminMemberRoleAndAuthority;
 import com.project.clean.model.domain.joinEntity.EmployeeAndAdminMemberAuthority;
+import com.project.clean.model.dto.commonDTO.AdminDTO;
+import com.project.clean.model.dto.commonDTO.AdminIpAddressDTO;
 import com.project.clean.model.dto.joinDTO.AdminImpl;
 import com.project.clean.model.dto.joinDTO.EmployeeImpl;
 import com.project.clean.model.repository.Common.CommonAdminLoginRepository;
 import com.project.clean.model.repository.Common.CommonEmployeeLoginRepository;
+import com.project.clean.model.repository.admin.AdminIpRepository;
 
 @Service
 public class LoginServiceImpl implements LoginService{
 
 	private CommonAdminLoginRepository commonAdminLoginRepository;
 	private CommonEmployeeLoginRepository commonEmployeeLoginRepository;
+	private AdminIpRepository adminIpRepositroy;
 	private ModelMapper modelMapper;
 	
 	
-	
 	@Autowired
-	public LoginServiceImpl(CommonAdminLoginRepository commonLoginRepository, CommonEmployeeLoginRepository commonEmployeeLoginRepository, ModelMapper modelMapper) {
+	public LoginServiceImpl(CommonAdminLoginRepository commonLoginRepository, CommonEmployeeLoginRepository commonEmployeeLoginRepository, 
+							ModelMapper modelMapper, AdminIpRepository adminIpRepositroy) {
 		this.commonAdminLoginRepository = commonLoginRepository;
 		this.commonEmployeeLoginRepository = commonEmployeeLoginRepository;
+		this.adminIpRepositroy = adminIpRepositroy;
 		this.modelMapper = modelMapper;
 	}
+	
 	
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 		
 		System.out.println(userId);
-		
-		
+
 		if(!userId.contains("cleanup")) {
 			/* employee */
-			EmployeeAndAdminMemberAuthority employee = commonEmployeeLoginRepository.findByEmployeeId(userId);
 			
+			EmployeeAndAdminMemberAuthority employee = commonEmployeeLoginRepository.findByEmployeeIdAndRetireYn(userId, "N");
+			 
 			if(employee == null) {
 				employee = new EmployeeAndAdminMemberAuthority();
 				
 				List<GrantedAuthority> authorities = new ArrayList<>();
-				authorities.add(new SimpleGrantedAuthority("ROLE_FAIL"));
+//				authorities.add(new SimpleGrantedAuthority("ROLE_FAIL"));
 			}
+			
+			Date lastLoginTime = new java.sql.Date(System.currentTimeMillis());
+			
+			employee.setLastLoginDate(lastLoginTime);
 			
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			
@@ -74,12 +87,15 @@ public class LoginServiceImpl implements LoginService{
 			
 		} else {
 			/* admin */
-			AdminAndAdminMemberAuthority admin = commonAdminLoginRepository.findByAdminId(userId);
+			AdminAndAdminMemberAuthority admin = commonAdminLoginRepository.findByAdminIdAndAdminRetireYn(userId, "N");
 
 			if(admin == null) {
 				admin = new AdminAndAdminMemberAuthority();
-			}
+			} 
 			
+			Date lastLoginTime = new java.sql.Date(System.currentTimeMillis());
+			
+			admin.setAdminLastLoginDate(lastLoginTime);
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			
 			if(admin.getAdminMemberRoleAndAuthority() != null) {
@@ -90,6 +106,38 @@ public class LoginServiceImpl implements LoginService{
 					authorities.add(new SimpleGrantedAuthority(list.getName()));
 				}
 			}
+			
+			AdminDTO adminDTO = modelMapper.map(admin, AdminDTO.class);
+			AdminIpAddressDTO adminIp = new AdminIpAddressDTO();
+			
+			try {
+	            InetAddress inetAddress = InetAddress.getLocalHost();
+	            String strIpAdress = inetAddress.getHostAddress();
+	            String IpAdressNo = admin.getAdminId();
+	            
+	            if(null != strIpAdress) {
+	            	if(admin.getAdminIpAddress().isEmpty()) {
+	            		adminIp.setAdminNo(adminDTO.getAdminNo());
+	            		adminIp.setIpAddressValue(strIpAdress);
+	            		
+	            		adminIpRepositroy.save(modelMapper.map(adminIp, AdminIpAddress.class));
+	            	};
+	            } else if(admin.getAdminIpAddress().size() < 4) {
+	            	if(!(admin.getAdminIpAddress().contains(strIpAdress))) {
+	            		
+	            		adminIp.setAdminNo(adminDTO.getAdminNo());
+	            		adminIp.setIpAddressValue(strIpAdress);
+	            		
+	            		adminIpRepositroy.save(modelMapper.map(adminIp, AdminIpAddress.class));
+	            	}
+	            }
+	            
+	            List<String> adminIpAdress = new ArrayList<>();
+	            adminIpAdress.add(strIpAdress);
+	            
+	        } catch (java.net.UnknownHostException e) {
+	            e.printStackTrace();
+	        }
 			
 			AdminImpl user = new AdminImpl(admin.getAdminId(), admin.getAdminPwd(), authorities);
 			

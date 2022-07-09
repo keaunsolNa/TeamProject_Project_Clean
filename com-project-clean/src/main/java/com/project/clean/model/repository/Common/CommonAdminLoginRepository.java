@@ -1,14 +1,14 @@
 package com.project.clean.model.repository.Common;
 
-import java.util.List;
+import org.springframework.data.repository.CrudRepository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
+import com.project.clean.model.domain.commonEntity.AdminIpAddress;
 import com.project.clean.model.domain.joinEntity.AdminAndAdminMemberAuthority;
-import com.project.clean.model.domain.joinEntity.EmployeeAndAdminMemberAuthority;
 
-public interface CommonAdminLoginRepository extends JpaRepository<AdminAndAdminMemberAuthority, String>{
+public interface CommonAdminLoginRepository extends CrudRepository<AdminAndAdminMemberAuthority, String>{
 
-	AdminAndAdminMemberAuthority findByAdminId(String userId);
+	AdminAndAdminMemberAuthority findByAdminIdAndAdminRetireYn(String userId, String string);
+
+	AdminIpAddress findAllByAdminNo(int adminNo);
 
 }

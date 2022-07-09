@@ -12,6 +12,8 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.project.clean.model.domain.commonEntity.AdminIpAddress;
+
 @Entity
 @Table(name = "TBL_ADMIN")
 public class AdminAndAdminMemberAuthority implements java.io.Serializable {
@@ -69,13 +71,17 @@ public class AdminAndAdminMemberAuthority implements java.io.Serializable {
 	@JoinColumn(name = "ADMIN_NO")
 	private List<AdminMemberRoleAndAuthority> adminMemberRoleAndAuthority;
 
+	@OneToMany
+	@JoinColumn(name = "ADMIN_NO")
+	private List<AdminIpAddress> adminIpAddress;
+
 	public AdminAndAdminMemberAuthority() {
 	}
 
 	public AdminAndAdminMemberAuthority(int adminNo, String adminName, String adminId, String adminPwd, Date adminBirth,
 			String adminGender, String adminPhone, Date adminHireDate, Date adminRetireDate, String adminRetireYn,
 			String adminJob, Blob adminSign, Date adminLastLoginDate, int adminSalary, int annualVacationUse,
-			List<AdminMemberRoleAndAuthority> adminMemberRoleAndAuthority) {
+			List<AdminMemberRoleAndAuthority> adminMemberRoleAndAuthority, List<AdminIpAddress> adminIpAddress) {
 		this.adminNo = adminNo;
 		this.adminName = adminName;
 		this.adminId = adminId;
@@ -92,6 +98,7 @@ public class AdminAndAdminMemberAuthority implements java.io.Serializable {
 		this.adminSalary = adminSalary;
 		this.annualVacationUse = annualVacationUse;
 		this.adminMemberRoleAndAuthority = adminMemberRoleAndAuthority;
+		this.adminIpAddress = adminIpAddress;
 	}
 
 	public int getAdminNo() {
@@ -222,6 +229,14 @@ public class AdminAndAdminMemberAuthority implements java.io.Serializable {
 		this.adminMemberRoleAndAuthority = adminMemberRoleAndAuthority;
 	}
 
+	public List<AdminIpAddress> getAdminIpAddress() {
+		return adminIpAddress;
+	}
+
+	public void setAdminIpAddress(List<AdminIpAddress> adminIpAddress) {
+		this.adminIpAddress = adminIpAddress;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -234,8 +249,11 @@ public class AdminAndAdminMemberAuthority implements java.io.Serializable {
 				+ adminRetireDate + ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob + ", adminSign="
 				+ adminSign + ", adminLastLoginDate=" + adminLastLoginDate + ", adminSalary=" + adminSalary
 				+ ", annualVacationUse=" + annualVacationUse + ", adminMemberRoleAndAuthority="
-				+ adminMemberRoleAndAuthority + "]";
+				+ adminMemberRoleAndAuthority + ", adminIpAddress=" + adminIpAddress + "]";
 	}
+
+
+	
 
 	
 	
