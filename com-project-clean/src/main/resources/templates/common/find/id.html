@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/login/idFinder.css}" />
+<script	type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<title>Insert title here</title>
+</head>
+<body>
+	
+	<th:block sec:authorize="isAnonymous()">
+		<section class="container-fluid">
+		
+			<div class="logintopnav col-xl-3">
+            	<a href="/"><h1>CLEANUP</h1></a>
+        	</div>
+
+        	<div class="loginmidnav col-xl-3">
+            	Id 찾기
+        	</div>
+		
+	        <form action="/common/find/id" method="post" id="loginForm">
+	        	<select class=" col-xl-3" name="adminOrEmp">
+					<option value="admin">관리자</option>
+					<option value="employee">직원</option>
+	        	</select>
+				
+				<br><br>
+
+	            <div class="loginbottomnav col-xl-3">
+	                <label class="personalcolordiv col-xl-3">이름 : </label>
+	                <input type="text" name="name" class="name"><br>
+	            </div>
+
+				<br>	
+
+	            <div class="loginbottomnav col-xl-3">
+	                <label class="personalcolordiv col-xl-3">전화번호 : </label>
+	                <input type="text" name="phone" class="phone"><br>
+	            </div>
+
+	            <div  class="loginbottomnav col-xl-3">
+	                <button type="submit" class="login col-xl-3">아이디 찾기</button>
+	            </div>
+	        </form>
+
+    	</section>
+	</th:block>	
+</body>
+
+<script>
+
+$(function(){
+
+    $(".name").focus(function(){
+    }).blur(function(){
+    }).change(function(){
+    }).select(function(){
+    })
+
+    $(".name").change(function(){
+        
+        var regExp = /^[가-힣]{2,}$/;
+
+        if(regExp.test($(this).val())){     
+        } else {
+        	alert("한글로 두 자 이상 입력하세요")
+            $(this).val('');
+        }
+    })
+
+
+/*       $(".phone").change(function(){
+    	
+    	var phoneCheck = /^(?=.*[0-9]).{10, 11}$/;
+    	
+    	if(phoneCheck.test($(this).val())){
+    	} else {
+    		alert("전화번호는 - 없이 숫자로만 입력 해 주세요..")
+    		$(this).val('');
+    	}
+    }) */
+    
+})
+</script>
+
+
+</html>

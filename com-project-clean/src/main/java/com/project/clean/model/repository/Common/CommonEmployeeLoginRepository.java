@@ -1,4 +1,4 @@
-package com.project.clean.model.repository;
+package com.project.clean.model.repository.Common;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

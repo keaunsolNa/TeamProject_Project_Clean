@@ -3,7 +3,6 @@ package com.project.clean.model.service.common;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
@@ -21,8 +20,8 @@ import com.project.clean.model.domain.joinEntity.AdminMemberRoleAndAuthority;
 import com.project.clean.model.domain.joinEntity.EmployeeAndAdminMemberAuthority;
 import com.project.clean.model.dto.joinDTO.AdminImpl;
 import com.project.clean.model.dto.joinDTO.EmployeeImpl;
-import com.project.clean.model.repository.CommonAdminLoginRepository;
-import com.project.clean.model.repository.CommonEmployeeLoginRepository;
+import com.project.clean.model.repository.Common.CommonAdminLoginRepository;
+import com.project.clean.model.repository.Common.CommonEmployeeLoginRepository;
 
 @Service
 public class LoginServiceImpl implements LoginService{
@@ -45,6 +44,7 @@ public class LoginServiceImpl implements LoginService{
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 		
 		System.out.println(userId);
+		
 		
 		if(!userId.contains("cleanup")) {
 			/* employee */

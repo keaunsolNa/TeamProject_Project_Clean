@@ -3,15 +3,21 @@
 	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" th:href="@{/css/LoginPage.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/login/loginPage.css}" />
 <title>Insert title here</title>
 </head>
 <body>
 
+	<script>
+		const userFindId = "[[${userFindId}]]";
+		if(userFindId){
+			alert(userFindId)
+		}
+	</script>
 	<th:block sec:authorize="isAnonymous()">
 		<section class="container-fluid">
 			<div class="logintopnav col-xl-3">
-            	<h1>CLEANUP</h1>
+            	<a href="/"><h1>CLEANUP</h1></a>
         	</div>
 
         	<div class="loginmidnav col-xl-3">
@@ -36,10 +42,11 @@
 
 	        <div>
 	
+			<br>
 	            <div class="loginbottomnav col-xl-3">
-	                <button type="button" class="idFind col-xl-3">아이디 찾기</button>
+	                <button type="button" onclick="location.href='common/find/id'" class="idFind col-xl-3">아이디 찾기</button>
 	            </div>
-	            
+            <br>
 	            <div  class="loginbottomnav col-xl-3">
 	                <button type="button" class="pwdFind col-xl-3">비밀번호 찾기</button>
 	            </div>
@@ -49,13 +56,5 @@
     	</section>
 	</th:block>	
 	
-	<th:block sec:authorize="isAuthenticated()">
-		<h3><span sec:authentication="principal"></span></h3>
-		<button onclick="location.href='/member/logout'">로그아웃</button>
-	</th:block>
-	
-	<th:block sec:authorize="hasRole('EMPLOYEE')">
-		<h3><span sec:authentication="principal"></span></h3>
-	</th:block>
 </body>
 </html>
