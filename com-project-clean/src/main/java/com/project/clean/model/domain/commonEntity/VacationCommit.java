@@ -1,0 +1,96 @@
+package com.project.clean.model.domain.commonEntity;
+
+import java.io.Serializable;
+import java.sql.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "TBL_VACATION_COMMIT")
+public class VacationCommit implements Serializable {
+
+	private static final long serialVersionUID = -8882971212931923117L;
+	
+	@Id
+	@Column(name="ADMIN_NO")
+	private int adminNo;
+
+	@Column(name="VACATION_NO")
+	private int vacationNo;
+	
+	@Column(name="CATEGORY_NO")
+	private int categoryNo;
+	
+	@Column(name="RETURN_REASON")
+	private String returnReason;
+	
+	@Column(name="CONFIRM_DATE")
+	private java.sql.Date confirmDate;
+
+	public VacationCommit() {
+	}
+
+	public VacationCommit(int adminNo, int vacationNo, int categoryNo, String returnReason, Date confirmDate) {
+		this.adminNo = adminNo;
+		this.vacationNo = vacationNo;
+		this.categoryNo = categoryNo;
+		this.returnReason = returnReason;
+		this.confirmDate = confirmDate;
+	}
+
+	public int getAdminNo() {
+		return adminNo;
+	}
+
+	public void setAdminNo(int adminNo) {
+		this.adminNo = adminNo;
+	}
+
+	public int getVacationNo() {
+		return vacationNo;
+	}
+
+	public void setVacationNo(int vacationNo) {
+		this.vacationNo = vacationNo;
+	}
+
+	public int getCategoryNo() {
+		return categoryNo;
+	}
+
+	public void setCategoryNo(int categoryNo) {
+		this.categoryNo = categoryNo;
+	}
+
+	public String getReturnReason() {
+		return returnReason;
+	}
+
+	public void setReturnReason(String returnReason) {
+		this.returnReason = returnReason;
+	}
+
+	public java.sql.Date getConfirmDate() {
+		return confirmDate;
+	}
+
+	public void setConfirmDate(java.sql.Date confirmDate) {
+		this.confirmDate = confirmDate;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	@Override
+	public String toString() {
+		return "VacationCommit [adminNo=" + adminNo + ", vacationNo=" + vacationNo + ", categoryNo=" + categoryNo
+				+ ", returnReason=" + returnReason + ", confirmDate=" + confirmDate + "]";
+	}
+	
+	
+	
+}

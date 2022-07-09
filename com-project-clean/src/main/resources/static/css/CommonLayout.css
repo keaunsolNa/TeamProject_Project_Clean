@@ -1,0 +1,61 @@
+#test{
+    background: pink !important;
+}
+
+.btn2{
+    width: fit-content;
+    height: 30px;
+}
+
+header{
+    width: auto;
+    height: 20%;
+}
+
+aside{
+    width: 20%;
+    height: 80%;
+    border-right: 1px solid black;
+    float: left;
+}
+
+section{
+    width: 50%;
+    height: auto;
+    float: left;
+    margin-left: 10%;
+    margin-top: 3%;
+}
+
+.upnavvar{
+    background-color: rgba(104, 228, 255, 1);
+}
+
+.downnavvar{
+    background-color: rgba(217, 217, 217, 1);
+}
+
+.mainlogo{
+    color: white;
+    font-style: italic;
+}
+
+
+.AsideVar li{
+    margin-top: 5%;
+    margin-left: 5%;
+    font-size: large;
+}
+
+.AsideVar button{
+    margin-left: 5%;
+    background-color: rgba(217, 217, 217, 1);
+    margin-top: 10%;
+}
+
+@font-face {
+    font-family: 'MinSans-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}

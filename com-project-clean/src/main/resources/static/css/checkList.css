@@ -1,0 +1,121 @@
+.logintopnav{
+    width: 100%;
+    height: 20%;
+    border: 0px solid;
+    background-color: rgba(104, 228, 255, 1);
+    font-size: xx-large;
+    font-style: italic;
+    color: white;
+}
+.title{
+    text-align: center;
+    width: 100%;
+
+}
+
+.checklist{
+    background-color: rgba(104, 228, 255, 1);
+    width: 15%;
+    height: 35%;
+    border: 1px solid black;
+    margin: auto;
+    margin-top: 3%;
+    margin-bottom: 2%;
+}
+
+input{
+    margin-left: 5%;
+    margin-bottom: 5%;
+    transform: scale(2);
+}
+
+.pic{
+    width: 15%;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    
+}
+
+.sign{
+    width:25%; 
+    height:25%;
+    margin: auto;            
+}
+
+.savebtn{
+    background-color: rgba(104, 228, 255, 1);
+    margin: auto;
+}
+
+.canvas{
+    border:1px solid black
+}
+
+.content-img-area {
+    width:150px;
+    height:100px;
+    border:2px dashed darkgray;
+    text-align:center;
+    margin: auto;
+    display:table-cell;
+    vertical-align:middle;
+}
+
+.content-img{
+    width: "120"; 
+    height: "100";
+}
+
+.adminOpnionArea{
+    background-color: rgba(104, 228, 255, 1);
+    width: 50%;
+    text-align: center;
+}
+
+.employeeOpnionArea{
+    background-color: rgba(104, 228, 255, 1);
+    width: 50%;
+    text-align: center;
+}
+
+.OpnionArea{
+    text-align: center;
+    margin-left: 30%;
+}
+
+.OpnionArea label{
+    font-size: x-large;
+    margin-top: 0px;
+    text-align: center;
+}
+
+.OpnionArea textarea{
+    width: 500px;
+    height: max-content;
+    border: 0px;
+    resize: none;
+    margin-top: 30px;
+}
+
+.adminOpnionArea input{
+    transform: none;
+    border: 0px;
+    background-color:  gainsboro;
+}
+
+.employeeOpnionArea input{
+    transform: none;
+    border: 0px;
+    background-color:  gainsboro;
+}
+
+.Opnion{
+    transform: none;
+    resize: none;
+    text-align: center;
+}
+
+.canvasbtn{
+    text-align: center;
+}

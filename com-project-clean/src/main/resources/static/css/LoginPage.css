@@ -1,0 +1,58 @@
+.logintopnav{
+    width: 100%;
+    height: 20%;
+    border: 0px solid;
+    background-color: rgba(104, 228, 255, 1);
+    font-size: xx-large;
+    font-style: italic;
+    color: white;
+}
+
+.loginmidnav{
+    width: 100%;
+    height: 20%;
+    text-align: center;
+    font-size: xx-large;
+    font-style: oblique;
+    color: rgba(104, 228, 255, 1);
+    text-shadow: 1px 1px 4px gray;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.loginbottomnav{
+    width: 100%;
+    height: 40%;
+    text-align: center;
+}
+
+label{
+    background-color: rgba(104, 228, 255, 1);
+    width: 20%;
+}
+
+input{
+    width: 20%;
+    background-color: rgba(217, 217, 217, 1);
+    border: 0px;
+
+}
+
+.login {
+    background-color: rgba(104, 228, 255, 1);
+    border: 0px;
+    width: 10%;
+    margin-top: 10%;
+}
+
+.idFind {
+    width: 10%;
+    background-color: rgba(104, 228, 255, 1);
+    border: 0px;
+}
+
+.pwdFind {
+    width: 10%;
+    background-color: rgba(104, 228, 255, 1);
+    border: 0px;
+}

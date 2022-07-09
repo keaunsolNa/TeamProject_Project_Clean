@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" th:href="@{/css/LoginPage.css}" />
+<title>Insert title here</title>
+</head>
+<body>
+
+	<th:block sec:authorize="isAnonymous()">
+		<section class="container-fluid">
+			<div class="logintopnav col-xl-3">
+            	<h1>CLEANUP</h1>
+        	</div>
+
+        	<div class="loginmidnav col-xl-3">
+            	CLEANUP ERP
+        	</div>
+		
+	        <form action="/common/login" method="post" id="loginForm">
+	            <div class="loginbottomnav col-xl-3">
+	                <label class="personalcolordiv col-xl-3">아이디 : </label>
+	                <input type="text" name="username"><br>
+	            </div>
+	
+	            <div class="loginbottomnav col-xl-3">
+	                <label class="personalcolordiv col-xl-3">비밀번호 : </label>
+	                <input type="password" name="password"><br>
+	            </div>
+	
+	            <div  class="loginbottomnav col-xl-3">
+	                <button type="submit" class="login col-xl-3">로그인</button>
+	            </div>
+	        </form>
+
+	        <div>
+	
+	            <div class="loginbottomnav col-xl-3">
+	                <button type="button" class="idFind col-xl-3">아이디 찾기</button>
+	            </div>
+	            
+	            <div  class="loginbottomnav col-xl-3">
+	                <button type="button" class="pwdFind col-xl-3">비밀번호 찾기</button>
+	            </div>
+	
+	        </div>
+	        
+    	</section>
+	</th:block>	
+	
+	<th:block sec:authorize="isAuthenticated()">
+		<h3><span sec:authentication="principal"></span></h3>
+		<button onclick="location.href='/member/logout'">로그아웃</button>
+	</th:block>
+	
+	<th:block sec:authorize="hasRole('EMPLOYEE')">
+		<h3><span sec:authentication="principal"></span></h3>
+	</th:block>
+</body>
+</html>
