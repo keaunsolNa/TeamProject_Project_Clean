@@ -37,7 +37,8 @@ public class LoginServiceImpl implements LoginService{
 	private AdminIpRepository adminIpRepositroy;
 	private ModelMapper modelMapper;
 	
-	
+
+	/* Bean DI */
 	@Autowired
 	public LoginServiceImpl(CommonAdminLoginRepository commonLoginRepository, CommonEmployeeLoginRepository commonEmployeeLoginRepository, 
 							ModelMapper modelMapper, AdminIpRepository adminIpRepositroy) {
@@ -55,22 +56,21 @@ public class LoginServiceImpl implements LoginService{
 		System.out.println(userId);
 
 		if(!userId.contains("cleanup")) {
-			/* employee */
 			
+			/* employee select*/
 			EmployeeAndAdminMemberAuthority employee = commonEmployeeLoginRepository.findByEmployeeIdAndRetireYn(userId, "N");
 			 
+			/* authorities 빈 객체 생성 */
+			List<GrantedAuthority> authorities = new ArrayList<>();
+			
+			/* 조회 실패 시 */
 			if(employee == null) {
 				employee = new EmployeeAndAdminMemberAuthority();
-				
-				List<GrantedAuthority> authorities = new ArrayList<>();
-//				authorities.add(new SimpleGrantedAuthority("ROLE_FAIL"));
 			}
 			
 			Date lastLoginTime = new java.sql.Date(System.currentTimeMillis());
 			
 			employee.setLastLoginDate(lastLoginTime);
-			
-			List<GrantedAuthority> authorities = new ArrayList<>();
 			
 			if(employee.getEmployeeMemberRoleeeAndAuthority() != null) {
 				List<AdminMemberRoleAndAuthority> roleList = employee.getEmployeeMemberRoleeeAndAuthority();
@@ -86,17 +86,20 @@ public class LoginServiceImpl implements LoginService{
 			return new User(employee.getEmployeeId(), employee.getPwd(), authorities);
 			
 		} else {
-			/* admin */
+			
+			/* admin select*/
 			AdminAndAdminMemberAuthority admin = commonAdminLoginRepository.findByAdminIdAndAdminRetireYn(userId, "N");
 
+			/* authorities 빈 객체 등록 */
+			List<GrantedAuthority> authorities = new ArrayList<>();
+
+			/* select 실패 시 */
 			if(admin == null) {
 				admin = new AdminAndAdminMemberAuthority();
 			} 
 			
 			Date lastLoginTime = new java.sql.Date(System.currentTimeMillis());
 			
-			admin.setAdminLastLoginDate(lastLoginTime);
-			List<GrantedAuthority> authorities = new ArrayList<>();
 			
 			if(admin.getAdminMemberRoleAndAuthority() != null) {
 				List<AdminMemberRoleAndAuthority> roleList = admin.getAdminMemberRoleAndAuthority();
@@ -121,7 +124,7 @@ public class LoginServiceImpl implements LoginService{
 	            		adminIp.setIpAddressValue(strIpAdress);
 	            		
 	            		adminIpRepositroy.save(modelMapper.map(adminIp, AdminIpAddress.class));
-	            	};
+	            	}
 	            } else if(admin.getAdminIpAddress().size() < 4) {
 	            	if(!(admin.getAdminIpAddress().contains(strIpAdress))) {
 	            		
@@ -130,14 +133,15 @@ public class LoginServiceImpl implements LoginService{
 	            		
 	            		adminIpRepositroy.save(modelMapper.map(adminIp, AdminIpAddress.class));
 	            	}
+	            } else {
+	            	
 	            }
-	            
-	            List<String> adminIpAdress = new ArrayList<>();
-	            adminIpAdress.add(strIpAdress);
 	            
 	        } catch (java.net.UnknownHostException e) {
 	            e.printStackTrace();
 	        }
+			
+			admin.setAdminLastLoginDate(lastLoginTime);
 			
 			AdminImpl user = new AdminImpl(admin.getAdminId(), admin.getAdminPwd(), authorities);
 			

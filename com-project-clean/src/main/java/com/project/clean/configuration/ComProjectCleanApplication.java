@@ -11,6 +11,11 @@ public class ComProjectCleanApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ComProjectCleanApplication.class, args);
+		System.out.println("테스트");
+		System.out.println("테스트");
+		System.out.println("테스트");
+		System.out.println("테스트");
+//		System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
 	}
 
 }

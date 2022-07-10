@@ -1,22 +1,14 @@
 package com.project.clean.controller.common;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Collection;
-
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/common")
@@ -25,33 +17,17 @@ public class LoginController {
 	@GetMapping("login")
 	public String  memberLoginForm() {
 		System.out.println("로그인 요청");
-		return "/main/main";
+		return "redirect:/main";
 	};
 	
-	@PostMapping("afterLogin")
-	@ResponseBody
-	public ModelAndView afterMemberLoginForm(@AuthenticationPrincipal User userinfo, ModelAndView mv, HttpServletRequest request ) {
-
-		System.out.println(userinfo.getAuthorities());
-
-		userinfo.getAuthorities();
+	@PostMapping("loginFailed")
+	public String afterLoginFailed(ModelAndView mv, HttpServletRequest request, RedirectAttributes rttr) {
 		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		System.out.println("로그인 실패");
 
-			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-
-			boolean isAdmin = authorities.stream().filter(o -> o.getAuthority().equals("모든 관리자")).findAny().isPresent();
-	        
-	        boolean isEmployee = authorities.stream().filter(o -> o.getAuthority().equals("직원")).findAny().isPresent();
-
-	        if(isAdmin == true) {
-	        	mv.setViewName("admin/adminMainPage");
-	        } else if(isEmployee == true) {
-	        	mv.setViewName("employee/empMainPage");
-	        } 
-	        
+		rttr.addFlashAttribute("resultMessage", request.getAttribute("errorMessage"));
 		
-		return mv;
+		return "redirect:/main";
 	}
 	
 }

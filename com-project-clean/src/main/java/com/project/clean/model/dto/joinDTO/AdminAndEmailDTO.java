@@ -1,71 +1,39 @@
-package com.project.clean.model.domain.commonEntity;
+package com.project.clean.model.dto.joinDTO;
 
+import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.Date;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import com.project.clean.model.dto.commonDTO.AdminEmailDTO;
 
-@Entity(name = "ADMIN")
-@Table(name = "TBL_ADMIN")
-public class Admin implements java.io.Serializable{
+public class AdminAndEmailDTO implements Serializable{
 
-	private static final long serialVersionUID = 7851783671514083890L;
-
-	
-	@Id
-	@Column(name="ADMIN_NO")
+	private static final long serialVersionUID = 8760802372335757455L;
 	private int adminNo;
-
-	@Column(name="ADMIN_NAME")
 	private String adminName;
-
-	@Column(name="ADMIN_ID")
 	private String adminId;
-	
-	@Column(name="ADMIN_PWD")
 	private String adminPwd;
-	
-	@Column(name="ADMIN_BIRTH")
 	private java.sql.Date adminBirth;
-	
-	@Column(name="ADMIN_GENDER")
 	private String adminGender;
-	
-	@Column(name="ADMIN_PHONE")
 	private String adminPhone;
-	
-	@Column(name="ADMIN_HIRE_DATE")
 	private java.sql.Date adminHireDate;
-	
-	@Column(name="ADMIN_RETIRE_DATE")
 	private java.sql.Date adminRetireDate;
-	
-	@Column(name="ADMIN_RETIRE_YN")
 	private String adminRetireYn;
-	
-	@Column(name="ADMIN_JOB")
 	private String adminJob;
-	
-	@Column(name="ADMIN_SIGN")
-	@Lob
 	private java.sql.Blob adminSign;
-	
-	@Column(name="ADMIN_LAST_LOGIN_DATE")
 	private java.sql.Date adminLastLoginDate;
-	
-	@Column(name="ADMIN_SALARY")
 	private int adminSalary;
-	
-	@Column(name="ADMIN_USE_ANNUAL_VACATION")
 	private int annualVacationUse;
-
-	public Admin(int adminNo, String adminName, String adminId, String adminPwd, Date adminBirth, String adminGender,
-			String adminPhone, Date adminHireDate, Date adminRetireDate, String adminRetireYn, String adminJob,
-			Blob adminSign, Date adminLastLoginDate, int adminSalary, int annualVacationUse) {
+	private List<AdminEmailDTO> adminEmail;
+	
+	public AdminAndEmailDTO() {
+	}
+	
+	public AdminAndEmailDTO(int adminNo, String adminName, String adminId, String adminPwd, Date adminBirth,
+			String adminGender, String adminPhone, Date adminHireDate, Date adminRetireDate, String adminRetireYn,
+			String adminJob, Blob adminSign, Date adminLastLoginDate, int adminSalary, int annualVacationUse,
+			List<AdminEmailDTO> adminEmail) {
 		this.adminNo = adminNo;
 		this.adminName = adminName;
 		this.adminId = adminId;
@@ -81,9 +49,7 @@ public class Admin implements java.io.Serializable{
 		this.adminLastLoginDate = adminLastLoginDate;
 		this.adminSalary = adminSalary;
 		this.annualVacationUse = annualVacationUse;
-	}
-
-	public Admin() {
+		this.adminEmail = adminEmail;
 	}
 
 	public int getAdminNo() {
@@ -206,21 +172,28 @@ public class Admin implements java.io.Serializable{
 		this.annualVacationUse = annualVacationUse;
 	}
 
+	public List<AdminEmailDTO> getAdminEmail() {
+		return adminEmail;
+	}
+
+	public void setAdminEmail(List<AdminEmailDTO> adminEmail) {
+		this.adminEmail = adminEmail;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
 	@Override
 	public String toString() {
-		return "Admin [adminNo=" + adminNo + ", adminName=" + adminName + ", adminId=" + adminId + ", adminPwd="
-				+ adminPwd + ", adminBirth=" + adminBirth + ", adminGender=" + adminGender + ", adminPhone="
-				+ adminPhone + ", adminHireDate=" + adminHireDate + ", adminRetireDate=" + adminRetireDate
-				+ ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob + ", adminSign=" + adminSign
-				+ ", adminLastLoginDate=" + adminLastLoginDate + ", adminSalary=" + adminSalary + ", annualVacationUse="
-				+ annualVacationUse + "]";
+		return "AdminAndEmailDTO [adminNo=" + adminNo + ", adminName=" + adminName + ", adminId=" + adminId
+				+ ", adminPwd=" + adminPwd + ", adminBirth=" + adminBirth + ", adminGender=" + adminGender
+				+ ", adminPhone=" + adminPhone + ", adminHireDate=" + adminHireDate + ", adminRetireDate="
+				+ adminRetireDate + ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob + ", adminSign="
+				+ adminSign + ", adminLastLoginDate=" + adminLastLoginDate + ", adminSalary=" + adminSalary
+				+ ", annualVacationUse=" + annualVacationUse + ", adminEmail=" + adminEmail + "]";
 	}
 
 	
-
 	
 }

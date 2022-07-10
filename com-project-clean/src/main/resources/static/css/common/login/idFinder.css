@@ -27,7 +27,6 @@
 }
 
 label{
-    background-color: rgba(104, 228, 255, 1);
     width: 20%;
 }
 
@@ -39,7 +38,6 @@ input{
 }
 
 .login {
-    background-color: rgba(104, 228, 255, 1);
     border: 0px;
     width: 10%;
     margin-top: 10%;

@@ -2,6 +2,7 @@ package com.project.clean.controller.common;
 
 import java.util.Collection;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

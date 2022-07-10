@@ -4,12 +4,12 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" th:href="@{/css/common/login/loginPage.css}" />
-<title>Insert title here</title>
+<title>Project Clean ERP</title>
 </head>
 <body>
 
 	<script>
-		const userFindId = "[[${userFindId}]]";
+		const userFindId = "[[${resultMessage}]]";
 		if(userFindId){
 			alert(userFindId)
 		}
@@ -29,15 +29,19 @@
 	                <label class="personalcolordiv col-xl-3">아이디 : </label>
 	                <input type="text" name="username"><br>
 	            </div>
-	
+				<br>
 	            <div class="loginbottomnav col-xl-3">
 	                <label class="personalcolordiv col-xl-3">비밀번호 : </label>
-	                <input type="password" name="password"><br>
+	                <input type="password" name="password"><br><br>
+	               	<label>로그인 상태 유지</label> 
+	                <input type="checkbox" name ="remember-me">
 	            </div>
 	
 	            <div  class="loginbottomnav col-xl-3">
 	                <button type="submit" class="login col-xl-3">로그인</button>
 	            </div>
+	            
+	            	
 	        </form>
 
 	        <div>
@@ -48,7 +52,7 @@
 	            </div>
             <br>
 	            <div  class="loginbottomnav col-xl-3">
-	                <button type="button" class="pwdFind col-xl-3">비밀번호 찾기</button>
+	                <button type="button" onclick="location.href='common/find/password'" class="pwdFind col-xl-3">비밀번호 찾기</button>
 	            </div>
 	
 	        </div>
