@@ -23,9 +23,9 @@ public class MainController {
 
 			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-	        boolean isAdmin = authorities.stream().filter(o -> o.getAuthority().equals("모든 관리자")).findAny().isPresent();
+	        boolean isAdmin = authorities.stream().filter(o -> o.getAuthority().equals("ROLE_ADMIN")).findAny().isPresent();
 
-	        boolean isEmployee = authorities.stream().filter(o -> o.getAuthority().equals("직원")).findAny().isPresent();
+	        boolean isEmployee = authorities.stream().filter(o -> o.getAuthority().equals("ROLE_EMPLOYEE")).findAny().isPresent();
 	        
 	        if(isAdmin == true) {
 	        	mv.setViewName("admin/adminMainPage");

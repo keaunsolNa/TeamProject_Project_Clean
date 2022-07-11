@@ -77,6 +77,7 @@ public class LoginServiceImpl implements LoginService{
 				
 				for(int i = 0; i < roleList.size(); i++) {
 					Authority list = roleList.get(i).getAuthority();
+					System.out.println(list.getName());
 					authorities.add(new SimpleGrantedAuthority(list.getName()));
 				}
 			}
@@ -106,6 +107,7 @@ public class LoginServiceImpl implements LoginService{
 				
 				for(int i = 0; i< roleList.size(); i++) {
 					Authority list = roleList.get(i).getAuthority();
+					System.out.println(list.getName());
 					authorities.add(new SimpleGrantedAuthority(list.getName()));
 				}
 			}

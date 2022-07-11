@@ -16,18 +16,18 @@ public class Authority implements java.io.Serializable {
 	private int authorityCode;
 	
 	@Column(name="AUTHORITY_DESC")
-	private String name;
+	private String desc;
 	
 	@Column(name="AUTHORITY_NAME")
-	private String desc;
+	private String name;
 
 	public Authority() {
 	}
 
-	public Authority(int authorityCode, String name, String desc) {
+	public Authority(int authorityCode, String desc, String name) {
 		this.authorityCode = authorityCode;
-		this.name = name;
 		this.desc = desc;
+		this.name = name;
 	}
 
 	public int getAuthorityCode() {
@@ -38,14 +38,6 @@ public class Authority implements java.io.Serializable {
 		this.authorityCode = authorityCode;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getDesc() {
 		return desc;
 	}
@@ -54,13 +46,24 @@ public class Authority implements java.io.Serializable {
 		this.desc = desc;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
 	@Override
 	public String toString() {
-		return "Authority [authorityCode=" + authorityCode + ", name=" + name + ", desc=" + desc + "]";
+		return "Authority [authorityCode=" + authorityCode + ", desc=" + desc + ", name=" + name + "]";
 	}
+
+	
+	
 
 }
