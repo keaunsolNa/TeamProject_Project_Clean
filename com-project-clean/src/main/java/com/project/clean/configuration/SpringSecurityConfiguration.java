@@ -76,7 +76,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 			.and()
 				.formLogin()
 				.loginPage("/common/login")
-//				.authenticationDetailsSource(null)
+				.authenticationDetailsSource(null)
 				.successHandler(authSuccessHandler)
 				.failureHandler(authFailureHandler)
 				.permitAll()

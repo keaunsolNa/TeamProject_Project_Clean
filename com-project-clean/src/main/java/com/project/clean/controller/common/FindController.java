@@ -116,13 +116,14 @@ public class FindController {
 					AdminEmailDTO reciverEmail = findService.findAdminEmailById(admin.getAdminId(),  password, admin.getAdminNo());
 					String emailAddress = reciverEmail.getEmail() + "@" + reciverEmail.getDomain();
 					
+					System.out.println(emailAddress);
 					response.setContentType("text/html; charset=UTF-8");
 					PrintWriter out=null;
 					
 					SimpleEmail email = new SimpleEmail();
 					email.setHostName("smtp.naver.com");
 					email.setSmtpPort(465);
-					email.setAuthentication("knsol1992", "V4K81B8YTWRJ");
+					email.setAuthentication("knsol1992@naver.com", "V4K81B8YTWRJ");
 					
 					email.setSSLOnConnect(true);
 					email.setStartTLSEnabled(true);
@@ -130,20 +131,23 @@ public class FindController {
 					String response1 = "fail";
 					
 					try {
-//						email.setFrom("knsol1992", "관리자", "UTF-8");
+						email.setFrom("knsol1992@naver.com", "관리자", "UTF-8");
 						
-//						email.addTo(emailAddress, "테스트", "UTF-8");
+						email.addTo(emailAddress, "테스트", "UTF-8");
 						
 						email.setSubject("제목");
 						
-//						email.setMsg("메시지");
+						email.setMsg("메시지");
 						
 						try {
 							out = response.getWriter();
-//							response1 = email.send();
+							response1 = email.send();
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
+					} catch (EmailException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					} finally {
 						
 					}

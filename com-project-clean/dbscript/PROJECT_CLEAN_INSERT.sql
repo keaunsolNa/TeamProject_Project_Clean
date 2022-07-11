@@ -10,7 +10,6 @@ INSERT
   1, 'ROLE_CLIENT', '고객'
   );
 
-
 INSERT
   INTO TBL_AUTHORITY
   (
