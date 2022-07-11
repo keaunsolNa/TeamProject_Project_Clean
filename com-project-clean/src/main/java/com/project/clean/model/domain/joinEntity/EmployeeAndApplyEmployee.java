@@ -69,7 +69,7 @@ public class EmployeeAndApplyEmployee implements Serializable{
 	@Column(name="EMPLOYEE_FIRST_CONFIRM_YN")
 	private String employeeFirstConfirmYn;
 	
-	@Column(name="EMPLOYEE_SECOND_CONFIRMER")
+	@Column(name="EMPLOYEE_SECOND_CONFIRM_YN")
 	private String employeeSecondConfirmYn;
 	
 	@Column(name="EMPLOYEE_LAST_CONFIRM_YN")
@@ -108,7 +108,7 @@ public class EmployeeAndApplyEmployee implements Serializable{
 		this.employeeLastLoginDate = employeeLastLoginDate;
 		this.employeeBlackListYn = employeeBlackListYn;
 		this.employeeRetireYn = employeeRetireYn;
-		RequestDate = requestDate;
+		this.RequestDate = requestDate;
 		this.employeeFirstConfirmYn = employeeFirstConfirmYn;
 		this.employeeSecondConfirmYn = employeeSecondConfirmYn;
 		this.employeeLastConfirmYn = employeeLastConfirmYn;
@@ -234,7 +234,7 @@ public class EmployeeAndApplyEmployee implements Serializable{
 	}
 
 	public void setRequestDate(java.sql.Date requestDate) {
-		RequestDate = requestDate;
+		this.RequestDate = requestDate;
 	}
 
 	public String getEmployeeFirstConfirmYn() {

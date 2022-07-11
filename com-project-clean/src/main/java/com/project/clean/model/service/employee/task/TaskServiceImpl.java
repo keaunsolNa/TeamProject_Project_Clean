@@ -1,13 +1,12 @@
 package com.project.clean.model.service.employee.task;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.project.clean.model.domain.commonEntity.ApplyEmployee;
@@ -16,25 +15,28 @@ import com.project.clean.model.domain.joinEntity.EmployeeAndApplyEmployee;
 import com.project.clean.model.dto.commonDTO.ApplyEmployeeDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeDTO;
 import com.project.clean.model.repository.employee.EmpRepository;
+import com.project.clean.model.repository.employee.apply.ApplyRepository;
 import com.project.clean.model.repository.employee.applyEmp.ApplyEmpRepository;
 
 @Service
 @Transactional
 public class TaskServiceImpl implements TaskService{
 
-//	private final ReservationRepository reservationRepository;
 	private final EmpRepository empRepository;
-	private final ApplyEmpRepository applyEmpRepository;
+	private final ApplyRepository applyRepository;
 	private final ModelMapper modelMapper;
+	private final ApplyEmpRepository applyEmpRepository;
 	
 	@Autowired
-	public TaskServiceImpl(EmpRepository empRepository, ApplyEmpRepository applyEmpRepository, ModelMapper modelMapper) {
+	public TaskServiceImpl(EmpRepository empRepository, ApplyRepository applyRepository, ModelMapper modelMapper, ApplyEmpRepository applyEmpRepository) {
 		this.empRepository = empRepository;
-		this.applyEmpRepository = applyEmpRepository;
+		this.applyRepository = applyRepository;
 		this.modelMapper = modelMapper;
+		this.applyEmpRepository = applyEmpRepository;
 	}
 	
 	@Override
+	@Transactional
 	public List<ApplyEmployeeDTO> selectReservationListByEmployeeId(String employeeId) {
 
 		System.out.println("테스트");
@@ -42,25 +44,20 @@ public class TaskServiceImpl implements TaskService{
 		System.out.println("테스트");
 		System.out.println("테스트");
 		
-//		EmployeeAndApplyEmployee empAndApplyEmp = applyEmpRepository.findByEmployeeId(employeeId);
 		
-//		System.out.println(empAndApplyEmp);
+		List<ApplyEmployee> applyEmployee = new ArrayList<>();
 		
+		Employee empAndApplyEmp = empRepository.findByEmployeeId(employeeId);
+		EmployeeDTO emplist = modelMapper.map(empAndApplyEmp, EmployeeDTO.class);
 		
-//		return null;
+		Integer employeeNo = emplist.getEmployeeNo();
+		System.out.println("조회한 회원 번호 : " + employeeNo);
 		
-		Employee emp = empRepository.findByEmployeeId(employeeId);
-		
-		System.out.println(emp);
-		
-		EmployeeDTO emplist = modelMapper.map(emp, EmployeeDTO.class);
-		
-		int empNo = emplist.getEmployeeNo();
-		
-		
-		List<EmployeeAndApplyEmployee> applyemp = applyEmpRepository.findAll(Sort.by("employeeNo"));
-		
-		return  applyemp.stream().map(applyEmpList -> modelMapper.map(applyEmpList, ApplyEmployeeDTO.class)).collect(Collectors.toList());
+		List<ApplyEmployee> applyEmployeeList = applyRepository.findByApplyEmployeeNo(emplist.getEmployeeNo());
+				
+		System.out.println(applyEmployeeList);
+
+		return  null;
 		   
 	}
 

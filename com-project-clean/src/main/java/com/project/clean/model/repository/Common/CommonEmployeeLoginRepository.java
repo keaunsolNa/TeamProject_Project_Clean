@@ -6,6 +6,6 @@ import com.project.clean.model.domain.joinEntity.EmployeeAndAdminMemberAuthority
 
 public interface CommonEmployeeLoginRepository extends CrudRepository<EmployeeAndAdminMemberAuthority, String>{
 
-	EmployeeAndAdminMemberAuthority findByEmployeeIdAndRetireYn(String userId, String string);
+	EmployeeAndAdminMemberAuthority findByEmployeeIdAndEmployeeRetireYn(String userId, String string);
 
 }

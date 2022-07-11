@@ -59,7 +59,7 @@ public class LoginServiceImpl implements LoginService{
 		if(!userId.contains("cleanup")) {
 			
 			/* employee select*/
-			EmployeeAndAdminMemberAuthority employee = commonEmployeeLoginRepository.findByEmployeeIdAndRetireYn(userId, "N");
+			EmployeeAndAdminMemberAuthority employee = commonEmployeeLoginRepository.findByEmployeeIdAndEmployeeRetireYn(userId, "N");
 			 
 			/* authorities 빈 객체 생성 */
 			List<GrantedAuthority> authorities = new ArrayList<>();
@@ -71,7 +71,7 @@ public class LoginServiceImpl implements LoginService{
 			
 			Date lastLoginTime = new java.sql.Date(System.currentTimeMillis());
 			
-			employee.setLastLoginDate(lastLoginTime);
+			employee.setEmployeeLastLoginDate(lastLoginTime);
 			
 			if(employee.getEmployeeMemberRoleeeAndAuthority() != null) {
 				List<AdminMemberRoleAndAuthority> roleList = employee.getEmployeeMemberRoleeeAndAuthority();
@@ -83,7 +83,7 @@ public class LoginServiceImpl implements LoginService{
 				}
 			}
 			
-			EmployeeImpl user = new EmployeeImpl(employee.getEmployeeId(), employee.getPwd(), authorities);
+			EmployeeImpl user = new EmployeeImpl(employee.getEmployeeId(), employee.getEmployeePwd(), authorities);
 			user.SetDetailEmployee(modelMapper.map(employee, EmployeeAndAdminMemberAuthorityDTO.class));
 			return user;
 			

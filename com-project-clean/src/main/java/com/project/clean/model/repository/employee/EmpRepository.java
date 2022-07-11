@@ -7,7 +7,7 @@ import com.project.clean.model.domain.commonEntity.Employee;
 
 public interface EmpRepository extends JpaRepository<Employee, String> {
 
-	Employee findByPhone(String userPhone);
+	Employee findByEmployeePhone(String userPhone);
 
 	Employee findByEmployeeId(String employeeId);
 
