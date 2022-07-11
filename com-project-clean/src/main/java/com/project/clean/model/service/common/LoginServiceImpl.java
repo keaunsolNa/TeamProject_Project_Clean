@@ -11,7 +11,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -23,11 +22,13 @@ import com.project.clean.model.domain.joinEntity.AdminMemberRoleAndAuthority;
 import com.project.clean.model.domain.joinEntity.EmployeeAndAdminMemberAuthority;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.AdminIpAddressDTO;
+import com.project.clean.model.dto.joinDTO.AdminAndAdminMemberAuthorityDTO;
 import com.project.clean.model.dto.joinDTO.AdminImpl;
+import com.project.clean.model.dto.joinDTO.EmployeeAndAdminMemberAuthorityDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeImpl;
-import com.project.clean.model.repository.Common.CommonAdminLoginRepository;
-import com.project.clean.model.repository.Common.CommonEmployeeLoginRepository;
 import com.project.clean.model.repository.admin.AdminIpRepository;
+import com.project.clean.model.repository.common.CommonAdminLoginRepository;
+import com.project.clean.model.repository.common.CommonEmployeeLoginRepository;
 
 @Service
 public class LoginServiceImpl implements LoginService{
@@ -83,8 +84,8 @@ public class LoginServiceImpl implements LoginService{
 			}
 			
 			EmployeeImpl user = new EmployeeImpl(employee.getEmployeeId(), employee.getPwd(), authorities);
-			
-			return new User(employee.getEmployeeId(), employee.getPwd(), authorities);
+			user.SetDetailEmployee(modelMapper.map(employee, EmployeeAndAdminMemberAuthorityDTO.class));
+			return user;
 			
 		} else {
 			
@@ -144,10 +145,11 @@ public class LoginServiceImpl implements LoginService{
 	        }
 			
 			admin.setAdminLastLoginDate(lastLoginTime);
+
 			
 			AdminImpl user = new AdminImpl(admin.getAdminId(), admin.getAdminPwd(), authorities);
-			
-			return new User(admin.getAdminId(), admin.getAdminPwd(), authorities);
+			user.SetDetailsAdmin(modelMapper.map(admin, AdminAndAdminMemberAuthorityDTO.class));
+			return user;
 			
 		}
 		

@@ -21,7 +21,7 @@ public class Employee implements java.io.Serializable{
 	private String name;
 	
 	@Column(name = "EMPLOYEE_ID")
-	private String id;
+	private String employeeId;
 	
 	@Column(name = "EMPLOYEE_PWD")
 	private String pwd;
@@ -75,15 +75,16 @@ public class Employee implements java.io.Serializable{
 	private String registReturnYn;
 
 	public Employee() {
+		super();
 	}
 
-	public Employee(int no, String name, String id, String pwd, Date birth, String gender, String phone, Date hireDate,
-			Date retireDate, int sumCount, int sumTime, Date lastLoginDate, String blackListYn, String retireYn,
-			Date requestDate, String firstConfirmYn, String secondConfirmer, String lastConfirmYn, Date lastConfirmDate,
-			String registReturnYn) {
+	public Employee(int no, String name, String employeeId, String pwd, Date birth, String gender, String phone,
+			Date hireDate, Date retireDate, int sumCount, int sumTime, Date lastLoginDate, String blackListYn,
+			String retireYn, Date requestDate, String firstConfirmYn, String secondConfirmer, String lastConfirmYn,
+			Date lastConfirmDate, String registReturnYn) {
 		this.no = no;
 		this.name = name;
-		this.id = id;
+		this.employeeId = employeeId;
 		this.pwd = pwd;
 		this.birth = birth;
 		this.gender = gender;
@@ -119,12 +120,12 @@ public class Employee implements java.io.Serializable{
 		this.name = name;
 	}
 
-	public String getId() {
-		return id;
+	public String getEmployeeId() {
+		return employeeId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
 	}
 
 	public String getPwd() {
@@ -269,13 +270,15 @@ public class Employee implements java.io.Serializable{
 
 	@Override
 	public String toString() {
-		return "Employee [no=" + no + ", name=" + name + ", id=" + id + ", pwd=" + pwd + ", birth=" + birth
-				+ ", gender=" + gender + ", phone=" + phone + ", hireDate=" + hireDate + ", retireDate=" + retireDate
-				+ ", sumCount=" + sumCount + ", sumTime=" + sumTime + ", lastLoginDate=" + lastLoginDate
+		return "Employee [no=" + no + ", name=" + name + ", employeeId=" + employeeId + ", pwd=" + pwd + ", birth="
+				+ birth + ", gender=" + gender + ", phone=" + phone + ", hireDate=" + hireDate + ", retireDate="
+				+ retireDate + ", sumCount=" + sumCount + ", sumTime=" + sumTime + ", lastLoginDate=" + lastLoginDate
 				+ ", blackListYn=" + blackListYn + ", retireYn=" + retireYn + ", requestDate=" + requestDate
 				+ ", firstConfirmYn=" + firstConfirmYn + ", secondConfirmer=" + secondConfirmer + ", lastConfirmYn="
 				+ lastConfirmYn + ", lastConfirmDate=" + lastConfirmDate + ", registReturnYn=" + registReturnYn + "]";
 	}
+
+	
 	
 	
 	
