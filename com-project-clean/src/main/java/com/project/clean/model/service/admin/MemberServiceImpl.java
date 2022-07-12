@@ -1,19 +1,19 @@
-package com.project.clean.model.service.member;
+package com.project.clean.model.service.admin;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.clean.model.domain.adminEntity.AdminEmployee;
-import com.project.clean.model.domain.adminEntity.AdminEmployeeAddress;
-import com.project.clean.model.domain.adminEntity.AdminEmployeeEmail;
-import com.project.clean.model.dto.commonDTO.EmployeeAddressDTO;
-import com.project.clean.model.dto.commonDTO.EmployeeEmailDTO;
+import com.project.clean.model.domain.adminEntity.*;
+import com.project.clean.model.dto.commonDTO.*;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
 import com.project.clean.model.repository.admin.*;
 
-@Service
-public class MemberSerivceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
 
 	private final EmployeeReopsitory employeeRepository;
 	private final EmployeeAddressRepository employeeAddressRepository;
@@ -22,7 +22,7 @@ public class MemberSerivceImpl implements MemberService{
 	private final ModelMapper modelMapper;
 	
 	@Autowired
-	public MemberSerivceImpl(EmployeeReopsitory employeeRepository, EmployeeAddressRepository employeeAddressRepository
+	public MemberServiceImpl(EmployeeReopsitory employeeRepository, EmployeeAddressRepository employeeAddressRepository
 					   , ModelMapper modelMapper, EmployeeEmailRepository employeeEmailRepository, EmployeePictureRepository employeePictureRepository) {
 		this.employeeRepository = employeeRepository;
 		this.employeeAddressRepository = employeeAddressRepository;
@@ -31,10 +31,10 @@ public class MemberSerivceImpl implements MemberService{
 		this.modelMapper = modelMapper;
 	}
 
-	public EmployeeAndAllDTO selectOneEmployee(int EmpNo) {
+	public EmployeeDTO selectOneEmployee(int EmpNo) {
 		AdminEmployee employee = employeeRepository.findById(EmpNo).get();
 		
-		return modelMapper.map(employee, EmployeeAndAllDTO.class);
+		return modelMapper.map(employee, EmployeeDTO.class);
 	}
 	
 	public EmployeeAddressDTO selectOneEmployeeAddress(int EmpNo) {
@@ -48,4 +48,5 @@ public class MemberSerivceImpl implements MemberService{
 		
 		return modelMapper.map(employeeEmail, EmployeeEmailDTO.class);
 	}
+	
 }

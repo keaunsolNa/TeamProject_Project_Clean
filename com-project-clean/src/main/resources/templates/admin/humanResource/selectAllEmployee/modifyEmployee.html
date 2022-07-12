@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        
+    <style type="text/css">
+        .tg  {border-collapse:collapse; border-spacing:0;}
+        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+          overflow:hidden;padding:10px 10px;word-break:normal;}
+        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+          font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;}
+        .tg .tg-7btt{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
+        #modify, #entire{
+            margin: 20px;
+        }
+        </style>
+</head>
+<body>
+    <div align="center">
+    	<form action="/admin/modify/employee" method="post" id="modifyForm">
+	        <table class="tg" style="table-layout: fixed; width: 736px">
+	        <colgroup>
+	        <col style="width: 158px">
+	        <col style="width: 147px">
+	        <col style="width: 155px">
+	        <col style="width: 139px">
+	        <col style="width: 68px">
+	        <col style="width: 69px">
+	        </colgroup>
+	        <thead>
+	          <tr>
+	            <td class="tg-7btt">직원번호</td>
+	            <td class="tg-7btt" th:text="${employee.employeeNo}"></td>
+	            <td style="display: none;"><input name="employeeNo" th:value="${employee.employeeNo}"></td>
+	            <td class="tg-7btt">이름</td>
+	            <td class="tg-7btt" th:text="${employee.employeeName}"></td>
+	            <td class="tg-7btt" colspan="2" rowspan="3" th:text="사진"></td>
+	            <!-- <td class="tg-7btt" colspan="2" rowspan="3" th:text="${employeePicture.employeePictureSaveName}"></td> -->
+	          </tr>
+	          <tr>
+	            <td class="tg-7btt">ID</td>
+	            <td class="tg-7btt" th:text="${employee.employeeId}"></td>
+                <td class="tg-7btt">전화번호</td>
+                <td class="tg-7btt">
+	             	<select id="employeePhone1" name="employeePhone1" class="required">
+	             		<option selected>010</option>
+	             		<option>011</option>
+	             		<option>016</option>
+	             		<option>017</option>
+	             		<option>019</option>
+	             	</select>-
+	             	<input type="text" id="employeePhone2" name="employeePhone2" class="required" maxlength='4' th:value="${phoneNumber.middlePhoneNumber}" required>-
+	             	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' th:value="${phoneNumber.lastPhoneNumber}" required>
+	             </td>
+                <td class="tg-7btt"><input type="text" th:value="${employee.employeePhone}" id="employeePhone" name="employeePhone" class="required" required placeholder="전화번호를 입력해주세요"></td>
+	          </tr>
+	          <tr>
+	            <td class="tg-7btt">생년월일</td>
+	            <td class="tg-7btt" th:text="${employee.employeeBirth}"></td>
+	            <td class="tg-7btt">퇴사여부</td>
+	            <td class="tg-7btt">
+	              <Label for="Y">Y</Label>
+	              <input type="radio" name="employeeRetireYn" id="Y" value="Y">
+	              <Label for="N">&nbsp;&nbsp;N</Label>
+	              <input type="radio" name="employeeRetireYn" id="N" value="N">
+	            </td>
+	            <td class="tg-7btt" th:text="${employee.employeeRetireYn}"></td>
+	            <td style="display: none;"><input type="text" th:value="${employee.employeeRetireYn}" id="retireYn" name="retireYn"></td>
+	          </tr>
+	        </thead>
+	        <tbody>
+	          <tr>
+	          	<td class="tg-7btt">이메일</td>
+	            <td class="tg-7btt" colspan="3"><input th:value="${employeeEmail.employeeEmail}" type="text" id="employeeEmail" class="required" name="employeeEmail" placeholder="이메일을 입력해주세요" required style="width: 200px;"> @ 
+		            <select name="employeeDomain" id="employeeDomain" style="width: 100px; height: 25px;">
+			            <option value="naver.com" selected>naver.com</option>
+			            <option value="google.com">google.com</option>
+			            <option value="hanmail.com">hanmail.com</option>
+		            </select>
+	            <td class="tg-7btt"><button type="button" id="registPicture">수정</button></td>
+	            <td class="tg-7btt"><button type="button" id="deletePicture">삭제</button></td>
+	          </tr>
+	                  <tr>
+	                    <td class="tg-7btt">우편번호</td>
+	                    <td class="tg-7btt"><div id="addressNo" th:text="${employeeAddress.employeeAddressNo}"></div></td>
+	                    <td class="tg-7btt"style="display: none;"><input id="employeeAddressNo" type="number" name="employeeAddressNo"/></td>
+	                    <td class="tg-7btt">기본주소</td>
+	                    <td class="tg-7btt"><div id="address" th:text="${employeeAddress.employeeAddress}"></div></td>
+	                    <td class="tg-7btt"style="display: none;"><input type="text" id="employeeAddress" name="employeeAddress" /></td>
+	                    <td class="tg-7btt" colspan="2"><button type="button" id="findAddress">주소찾기</button></td>
+	                  </tr>
+	                  <tr>
+	                    <td class="tg-7btt">상세주소</td>
+	                    <td class="tg-7btt" colspan="5"><input type=text th:value="${employeeAddress.employeeDetailAddress}" id="addressDetail" class="required" name="employeeDetailAddress" placeholder="상세주소를 입력해주세요" required></td>
+	                  </tr>
+	          <tr>
+	            <td class="tg-7btt">입사일</td>
+	            <td class="tg-7btt" th:text="${employee.employeeHireDate}"></td>
+	            <td class="tg-7btt">퇴사일</td>
+	            <td class="tg-7btt" colspan="3" th:text="${employee.employeeRetireDate}"></td>
+	          </tr>
+	          <tr>
+	            <td class="tg-7btt">누적경고횟수</td>
+	            <td class="tg-7btt" th:text="${employee.employeeSumCount}"></td>
+	            <td class="tg-7btt">누적근무시간</td>
+	            <td class="tg-7btt" colspan="3" th:text="${employee.employeeSumTime}"></td>
+	          </tr>
+	          <tr>
+	            <td class="tg-7btt">마지막 로그인 일자</td>
+	            <td class="tg-7btt" th:text="${employee.employeeLastLoginDate}"></td>
+	            <td class="tg-7btt">블랙리스트 여부</td>
+	            <td class="tg-7btt" colspan="3" th:text="${employee.employeeBlackListYn}"></td>
+	          </tr>
+	        </tbody>
+	        </table>
+	        <br>
+	        <table class="button">
+	            <tr>
+	                <td><button type="button" id="modify">수정 확인</button></td>
+	                <td><button type="button" id="entire">수정 취소</button></td>
+	            </tr>
+	        </table>
+		</form>
+    </div>
+    
+    
+    <script>
+    
+	/* 핸드폰 번호 정규표현식 */
+	
+    $("#employeePhone2").focusout(function (event) {
+
+    	var regexp = /^[0-9]{3,4}/gi;
+        phoneCheck = $(this).val();
+        if (!regexp.test(phoneCheck)) {
+            alert("3 ~ 4자리의 숫자만 사용하기로 약속해요11");
+            $(this).val('');
+        }
+    });
+	
+    $("#employeePhone3").focusout(function (event) {
+
+    	var regexp = /^[0-9]{3,4}/gi;
+        phoneCheck = $(this).val();
+        if (!regexp.test(phoneCheck)) {
+            alert("4자리의 숫자만 사용하기로 약속해요11");
+            $(this).val('');
+        }
+    });
+    
+    /* 우편번호 스크립트 */
+    $("#findAddress").click(
+    		
+            function sample4_execDaumPostcode() {
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        var roadAddr = data.roadAddress; // 도로명 주소 변수
+
+                        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                        $("#address").text(roadAddr);
+                        $("#addressNo").text(data.zonecode);
+                    }
+                }).open();
+            }
+        )
+        
+    /* 회원 수정 정보 */
+  	$("#modify").click(function(){
+  		const employeePhone2 = $("#employeePhone2").val();
+  		const employeePhone3 = $("#employeePhone3").val();
+  		const email = $("#employeeEmail").val();
+		const addressNo = $("#addressNo").text();
+		const address = $("#address").text();
+  		const addressDetail = $("#addressDetail").val();
+  		
+  			if(!(employeePhone2 && employeePhone3 && email && addressNo && addressDetail)){
+  				alert("입력되지 않은 항목이 있습니다.");
+  			}else{
+			if(confirm("등록하시겠습니까?")){
+				$('#employeeAddressNo').attr('value', addressNo );
+				$('#employeeAddress').attr('value', address );
+				$("#modifyForm").submit();
+  			}
+  		}
+	})  
+    	
+    	/* 취소 시 */
+    	$("#entire").click(function(){
+    		if(!confirm("수정을 취소하시겠습니까?")){
+    		} else{
+			alert("취소 되었습니다.")    			
+    		location.href="/";
+    		}
+    	});
+    	
+    	/* 퇴사자 라디오 버튼 체크 */
+    	$(function(){
+    		const checkedValue = $("#retireYn").val();
+    		$(":radio[name='employeeRetireYn'][value='" + checkedValue + "']").attr('checked', true);
+    	})
+    	
+    </script>
+</body>
+</html>
+

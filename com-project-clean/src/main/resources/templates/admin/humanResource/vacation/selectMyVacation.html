@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+<style type="text/css">
+    /* 결재 라인 */
+    .tg  {border-collapse:collapse;border-spacing:0;}
+      .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
+        overflow:hidden;padding:5px;word-break:normal;}
+      .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
+        font-weight:normal;overflow:hidden;padding:5px;word-break:normal;}
+      .tg .tg-amwm{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
+
+      .comfirmBox td{
+        height: 75px;
+      }
+
+      .confirmTable{
+        margin: 20px;
+      }
+
+      .confirmHeight{
+        margin: auto;
+        line-height: center;
+        line-height: 100px;
+      }
+    /* 결재 승인 */
+
+
+    /* 휴가신청서 */
+    .tg2  {border-collapse:collapse;border-spacing:0;}
+    .tg2 td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    overflow:hidden;padding:10px 10px;word-break:normal;}
+    .tg2 th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;}
+    .tg2 .tg2-7btt{border-color:inherit; font-weight:bold;text-align:center;vertical-align:top}
+
+    .confirmDateContainer{
+        margin: 25px;
+    }
+    .container{
+        width: 1500px;
+    }
+
+    .reason{
+        height: 100px;
+        line-height: 100px;
+    }
+
+    .confirmLine{
+        line-height: 75px;
+    }
+
+
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="confirmDateContainer">
+            <table class="tg confirmTable" style="table-layout: fixed; width: 588px">
+              <colgroup>
+                <col style="width: 186px">
+                <col style="width: 201px">
+                <col style="width: 201px">
+              </colgroup>
+              <thead>
+                <tr>
+                  <td class="tg-amwm">결재 신청 날짜</td>
+                  <td class="tg-amwm" colspan="2">
+                    <div name="confirmDate"> yyyy-MM-dd</div>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="tg-amwm confirmHeight" rowspan="3">결재</td>
+                  <td class="tg-amwm">인사담당자</td>
+                  <td class="tg-amwm">대표</td>
+                </tr>
+                <tr class="comfirmBox">
+                  <td class="tg-amwm">
+                    <div id="humanResource" name="humanResource"></div>
+                  </td>
+                  <td class="tg-amwm">
+                    <div id="boss" name="boss"></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tg-amwm">yyyy-MM-dd</td>
+                  <td class="tg-amwm">yyyy-MM-dd</td>
+                </tr>
+              </tbody>
+            </table>
+    </div>
+
+    <div class="registVacationContainer">
+        <table class="tg2" style="table-layout: fixed; width: 502px">
+            <colgroup>
+            <col style="width: 250px">
+            <col style="width: 450px">
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="tg2-7btt" colspan="2">휴가신청서</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tg2-7btt">성명</td>
+                <td class="tg2-7btt">유한조</td>
+              </tr>
+              <tr>
+                <td class="tg2-7btt">직급</td>
+                <td class="tg2-7btt">사원</td>
+              </tr>
+              <tr>
+                <td class="tg2-7btt">휴가명</td>
+                <td class="tg2-7btt">월차</td>
+              </tr>
+              <tr>
+                <td class="tg2-7btt">기간</td>
+                <td class="tg2-7btt">2022-08-28 ~ 2024-08-28</td>
+              </tr>
+              <tr>
+                <td class="tg2-7btt">연락망</td>
+                <td class="tg2-7btt">010-1111-1111</td>
+              </tr>
+              <tr>
+                <td class="tg2-7btt"><div class="reason">사유</div></td>
+                <td class="tg2-7btt"><div class="reason">휴가 신청합니다.</div></td>
+              </tr>
+              <tr>
+                <td class="tg2-7btt" colspan="2">위와 같이 휴가를 신청하오니 승인하여 주시기 바랍니다.</td>
+              </tr>
+            </tbody>
+            </table>
+
+    </div>
+    </div>
+</body>
+</html>

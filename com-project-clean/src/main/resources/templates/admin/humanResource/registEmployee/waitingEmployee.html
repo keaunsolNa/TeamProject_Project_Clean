@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head xmlns:th="http://www.thymeleaf.org">
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <style type="text/css">
+
+      /* 결재 테이블 */
+      .tg  {border-collapse:collapse;border-spacing:0;}
+      .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
+        overflow:hidden;padding:5px;word-break:normal;}
+      .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
+        font-weight:normal;overflow:hidden;padding:5px;word-break:normal;}
+      .tg .tg-amwm{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
+
+      .comfirmBox td{
+        height: 75px;
+      }
+
+      .confirmTable{
+        margin: 20px;
+      }
+
+      .confirmHeight{
+        margin: auto;
+        line-height: center;
+        line-height: 100px;
+      }
+
+      /* 인사 테이블 */
+        .tg2  {border-collapse:collapse; border-spacing:0;}
+        .tg2 td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+          overflow:hidden;padding:10px 10px;word-break:normal;}
+        .tg2 th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+          font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;}
+        .tg2 .tg2-7btt{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
+
+
+        
+
+
+      /* 부가 */
+      #confirm, #return{
+            margin: 15px;
+        }
+
+      button{
+          height: 30px;
+          width: 70px;
+        }
+
+
+
+      .container {
+            width: 1500px;
+            margin: 0 auto;
+        }
+
+
+        </style>
+</head>
+<body>
+  <div class="container">
+
+  <!-- 결재라인 -->
+    <div>
+      <table class="tg confirmTable" style="table-layout: fixed; width: 588px">
+        <colgroup>
+          <col style="width: 186px">
+          <col style="width: 201px">
+          <col style="width: 201px">
+        </colgroup>
+        <thead>
+          <tr>
+            <td class="tg-amwm">결재 신청 날짜</td>
+            <td class="tg-amwm" colspan="2">
+              <div name="confirmDate" th:text="${waitingEmployee.RequestDate}"></div>
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tg-amwm confirmHeight" rowspan="3">결재</td>
+            <td class="tg-amwm">인사담당자</td>
+            <td class="tg-amwm">대표</td>
+          </tr>
+          <tr class="comfirmBox">
+            <td class="tg-amwm">
+              <div id="humanResource" name="humanResource"></div>
+            </td>
+            <td class="tg-amwm">
+              <div id="boss" name="boss"></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="tg-amwm" th:text="${waitingEmployee.employeePwd}"></td>
+            <td class="tg-amwm" th:text="${waitingEmployee.employeePwd}"></td>
+          </tr>
+        </tbody>
+      </table>
+  	</div>
+        <!-- 회원정보 -->
+        <div>
+          <form action="/admin/hr/confirm/restCommit" id="confirmForm" method="post">
+	          <table class="tg2" style="table-layout: fixed; width: 736px">
+	            <colgroup>
+	              <col style="width: 158px">
+	              <col style="width: 147px">
+	              <col style="width: 155px">
+	              <col style="width: 139px">
+	              <col style="width: 68px">
+	              <col style="width: 69px">
+	            </colgroup>
+	            <thead>
+	              <tr>
+	                <td class="tg2-7btt">직원번호</td>
+	                <td class="tg2-7btt" th:text="${waitingEmployee.employeeNo}"></td>
+	                 <!-- 수정 -->
+		             <!-- 수정 -->
+		             <!-- 수정 -->
+		             <!-- 수정 -->
+		             <!-- 수정 -->
+		             <td style="display: none;"><input name="adminNo" th:value="7"></td>
+		             <!-- 수정 -->
+		             <!-- 수정 -->
+		             <!-- 수정 -->
+		             <!-- 수정 -->
+		             <!-- 수정 -->
+	                <td style="display: none;"><input name="employeeNo" th:value="${waitingEmployee.employeeNo}"></td>
+	                <td class="tg2-7btt">이름</td>
+	                <td class="tg2-7btt" th:text="${waitingEmployee.employeeName}"></td>
+	                <td class="tg2-7btt" colspan="2" rowspan="3">
+	                  <div id="picture" >사진</div>
+	                </td>
+	              </tr>
+	              <tr>
+	                <td class="tg2-7btt">ID</td>
+	                <td class="tg2-7btt" th:text="${waitingEmployee.employeeId}"></td>
+	                <td class="tg2-7btt">전화번호</td>
+	                <td class="tg2-7btt" th:text="${waitingEmployee.employeePhone}"></td>
+	              </tr>
+	              <tr>
+	                <td class="tg2-7btt">생년월일</td>
+	                <td class="tg2-7btt" th:text="${waitingEmployee.employeeBirth}"></td>
+	                <td class="tg2-7btt">퇴사여부</td>
+	                <td class="tg2-7btt" th:text="${waitingEmployee.employeeRetireYn}"></td>
+	              </tr>
+	            </thead>
+	            <tbody>
+	              <tr>
+	                <td class="tg2-7btt">이메일</td>
+         		    <td class="tg2-7btt" colspan="5" th:text="${waitingEmployee.EmployeeEmailDTO.employeeEmail}+'@'+${waitingEmployee.EmployeeEmailDTO.employeeDomain}"></td>
+	              </tr>
+	              <tr>
+	                <td class="tg2-7btt">우편번호</td>
+	                <td class="tg2-7btt" th:text="${waitingEmployee.EmployeeAddressDTO.employeeAddressNo}"></td>
+	                <td class="tg2-7btt">기본주소</td>
+	                <td class="tg2-7btt" colspan="3" th:text="${waitingEmployee.EmployeeAddressDTO.employeeAddress}"></td>
+	              </tr>
+	              <tr>
+	                <td class="tg2-7btt">상세주소</td>
+	                <td class="tg2-7btt" colspan="5" th:text="${waitingEmployee.EmployeeAddressDTO.employeeDetailAddress}"></td>
+	              </tr>
+	              <tr>
+	                <td class="tg2-7btt">입사일</td>
+	                <td class="tg2-7btt" th:text="${waitingEmployee.employeeHireDate}"></td>
+	                <td class="tg2-7btt">퇴사일</td>
+	                <td class="tg2-7btt" colspan="3" th:text="${waitingEmployee.employeeRetireDate}"></td>
+	              </tr>
+	              <tr>
+	                <td class="tg2-7btt">누적경고횟수</td>
+	                <td class="tg2-7btt" th:text="${waitingEmployee.employeeSumCount}"></td>
+	                <td class="tg2-7btt">누적근무시간</td>
+	                <td class="tg2-7btt" colspan="3" th:text="${waitingEmployee.employeeSumTime}"></td>
+	              </tr>
+	              <tr>
+	                <td class="tg2-7btt">마지막 로그인 일자</td>
+	                <td class="tg2-7btt" th:text="${waitingEmployee.employeeLastLoginDate}"></td>
+	                <td class="tg2-7btt">블랙리스트 여부</td>
+	                <td class="tg2-7btt" colspan="3" th:text="${waitingEmployee.employeeBlackListYn}"></td>
+	              </tr>
+	              <tr>
+	                <td class="tg2-7btt">
+	                  <div style="line-height: 150px;">반려사유</div>
+	                </td>
+	                <td class="tg2-7btt" colspan="5">
+	                  <textarea name="returnReason" id="returnReason" cols="70" rows="10" style="resize: none;"
+	                    placeholder="사유를 입력해주세요."></textarea>
+	                </td>
+	              </tr>
+	            </tbody>
+	          </table>
+	          <br>
+		          <table class="button">
+		            <tr>
+		              <td><button type="button" id="confirm">승인</button></td>
+		              <td><button type="button" id="return">반려</button></td>
+		            </tr>
+		      </table>
+          </form>
+        </div>
+      </div>
+      <script>
+      
+      $("#confirm").click(function(){
+		if(confirm("승인 하시겠습니까?")){
+			$("#confirmForm").submit();
+			}
+      });
+      
+      $("#return").click(function(){
+  		if(confirm("반려 하시겠습니까?")){
+  			$("#confirmForm").attr("action", "/admin/hr/return/restCommit");
+  			$("#confirmForm").submit();
+			}
+        });
+
+      </script>
+      </body>
+</html>
