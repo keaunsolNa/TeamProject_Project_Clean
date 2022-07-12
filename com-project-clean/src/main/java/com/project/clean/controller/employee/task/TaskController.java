@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.clean.model.dto.commonDTO.ApplyEmployeeDTO;
+import com.project.clean.model.dto.commonDTO.ReservationInfoDTO;
 import com.project.clean.model.service.employee.task.TaskService;
 
 @Controller
@@ -28,14 +29,12 @@ public class TaskController {
 	public ModelAndView selectMyTask(ModelAndView mv, Principal principal) {
 
 		String employeeId = principal.getName();
-		List<ApplyEmployeeDTO> reservationList =  taskService.selectReservationListByEmployeeId(employeeId);
+		List<ReservationInfoDTO> reservationList =  taskService.selectReservationListByEmployeeId(employeeId);
 		
-		System.out.println(reservationList);
+		System.out.println("Controller에서 가져온 결과값 : " +  reservationList);
 		
-		for (ApplyEmployeeDTO applyEmployee : reservationList) {
-			System.out.println(applyEmployee);
-		}
-		
+		mv.addObject("reservationList", reservationList);
+		mv.setViewName("employee/task/selectMyTask");
 		return mv;
 	}
 	
