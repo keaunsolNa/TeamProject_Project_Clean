@@ -1,0 +1,81 @@
+section {
+	padding-top:60px;
+}
+
+
+h2 {
+	font-weight: 800;
+}
+table {
+	width: 100%;
+	font-family: 'MinSans-Medium';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+	border: 1px solid #9AE8F9;
+	text-align: center;
+	border-collapse: collapse;
+	margin-top:20px;
+}
+
+table td {
+	font-weight: normal;
+	font-style: normal;	
+	font-size: 20px;
+}
+
+table th {
+	background-size: cover;
+	background-repeat: no-repeat;
+	border: 1px;
+	
+	
+	
+}
+
+table tr:first-of-type p {
+	font-size: large;
+}
+
+table th, table tr, table td {
+	border: 1px solid black;
+}
+
+#surchargeTable:nth-of-type(1) tr th, #surchargeUpdateTable th {
+	width: 285px;
+	height: 10px;
+	font-size: 20px;
+}
+
+
+#surchargeTable tr:nth-of-type(1), #surchargeUpdateTable tr:nth-of-type(1)
+	{
+	background: #9AE8F9;
+}
+
+th input {
+	width: 95%;
+	height: 100%;
+	border: none;
+	font-size: 13px;
+}
+
+#surchargeButton {
+	
+	width: 170px;
+	height: 40px;
+	border-style: none;
+	background: #9AE8F9;
+	color: white;
+	font-size: medium;
+	float:right;
+}
+
+th p {
+	margin-top: 15px;
+	
+}
+
+
