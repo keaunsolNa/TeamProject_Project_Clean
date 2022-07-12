@@ -148,6 +148,92 @@ public class EmployeeImpl extends User{
 	public List<AdminMemberRoleAndAuthority> getEmployeeMemberRoleeeAndAuthority() {
 		return employeeMemberRoleeeAndAuthority;
 	}
+	
+	
+
+	public void setEmployeeNo(int employeeNo) {
+		this.employeeNo = employeeNo;
+	}
+
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	public void setEmployeePwd(String employeePwd) {
+		this.employeePwd = employeePwd;
+	}
+
+	public void setEmployeeBirth(java.sql.Date employeeBirth) {
+		this.employeeBirth = employeeBirth;
+	}
+
+	public void setEmployeeGender(String employeeGender) {
+		this.employeeGender = employeeGender;
+	}
+
+	public void setEmployeePhone(String employeePhone) {
+		this.employeePhone = employeePhone;
+	}
+
+	public void setEmployeeHireDate(java.sql.Date employeeHireDate) {
+		this.employeeHireDate = employeeHireDate;
+	}
+
+	public void setEmployeeRetireDate(java.sql.Date employeeRetireDate) {
+		this.employeeRetireDate = employeeRetireDate;
+	}
+
+	public void setEmployeeSumCount(int employeeSumCount) {
+		this.employeeSumCount = employeeSumCount;
+	}
+
+	public void setEmployeeSumTime(int employeeSumTime) {
+		this.employeeSumTime = employeeSumTime;
+	}
+
+	public void setEmployeeLastLoginDate(java.sql.Date employeeLastLoginDate) {
+		this.employeeLastLoginDate = employeeLastLoginDate;
+	}
+
+	public void setEmployeeBlackListYn(String employeeBlackListYn) {
+		this.employeeBlackListYn = employeeBlackListYn;
+	}
+
+	public void setEmployeeRetireYn(String employeeRetireYn) {
+		this.employeeRetireYn = employeeRetireYn;
+	}
+
+	public void setRequestDate(java.sql.Date requestDate) {
+		RequestDate = requestDate;
+	}
+
+	public void setEmployeeFirstConfirmYn(String employeeFirstConfirmYn) {
+		this.employeeFirstConfirmYn = employeeFirstConfirmYn;
+	}
+
+	public void setEmployeeSecondConfirmYn(String employeeSecondConfirmYn) {
+		this.employeeSecondConfirmYn = employeeSecondConfirmYn;
+	}
+
+	public void setEmployeeLastConfirmYn(String employeeLastConfirmYn) {
+		this.employeeLastConfirmYn = employeeLastConfirmYn;
+	}
+
+	public void setEmployeeLastConfirmDate(java.sql.Date employeeLastConfirmDate) {
+		this.employeeLastConfirmDate = employeeLastConfirmDate;
+	}
+
+	public void setEmployeeRegistReturnYn(String employeeRegistReturnYn) {
+		this.employeeRegistReturnYn = employeeRegistReturnYn;
+	}
+
+	public void setEmployeeMemberRoleeeAndAuthority(List<AdminMemberRoleAndAuthority> employeeMemberRoleeeAndAuthority) {
+		this.employeeMemberRoleeeAndAuthority = employeeMemberRoleeeAndAuthority;
+	}
 
 	@Override
 	public String toString() {

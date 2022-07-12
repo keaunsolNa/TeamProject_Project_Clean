@@ -1,6 +1,5 @@
 package com.project.clean.model.domain.commonEntity;
 
-import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -8,76 +7,88 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+
 @Entity
-@Table(name="TBL_EMPLOYEE_REST_COMMIT")
-public class EmployeeRestCommit implements Serializable{
-	private static final long serialVersionUID = 1227252943717788373L;
+@Table(name = "TBL_EMPLOYEE_REST_COMMIT")
+@DynamicInsert
+public class EmployeeRestCommit {
+   
+   @Id
+   @Column(name = "CONFIRM_NO")
+   private int confirmNo;
 
-	@Id
-	@Column(name="EMPLOYEE_NO")
-	private int employeeNo;
-	
-	@Column(name="ADMIN_NO")
-	private int adminNo;
-	
-	@Column(name="REASON")
-	private String reason;
-	
-	@Column(name="EMPLOYEE_LAST_CONFIRM_DATE")
-	private java.sql.Date employeeLastConfirmDate;
+   @Column(name = "EMPLOYEE_NO")
+   private int employeeNo;
+   
+   @Column(name = "ADMIN_NO")
+   private int adminNo;
+   
+   @Column(name = "RETURN_REASON")
+   private String returnReason;
+   
+   @Column(name = "EMPLOYEE_LAST_CONFIRM_DATE")
+   private java.sql.Date employeeLastConfirmDate;
 
-	public EmployeeRestCommit() {
-	}
+   public EmployeeRestCommit() {
+      super();
+   }
 
-	public EmployeeRestCommit(int employeeNo, int adminNo, String reason, Date employeeLastConfirmDate) {
-		this.employeeNo = employeeNo;
-		this.adminNo = adminNo;
-		this.reason = reason;
-		this.employeeLastConfirmDate = employeeLastConfirmDate;
-	}
+   public EmployeeRestCommit(int confirmNo, int employeeNo, int adminNo, String returnReason,
+         Date employeeLastConfirmDate) {
+      super();
+      this.confirmNo = confirmNo;
+      this.employeeNo = employeeNo;
+      this.adminNo = adminNo;
+      this.returnReason = returnReason;
+      this.employeeLastConfirmDate = employeeLastConfirmDate;
+   }
 
-	public int getEmployeeNo() {
-		return employeeNo;
-	}
+   public int getConfirmNo() {
+      return confirmNo;
+   }
 
-	public void setEmployeeNo(int employeeNo) {
-		this.employeeNo = employeeNo;
-	}
+   public void setConfirmNo(int confirmNo) {
+      this.confirmNo = confirmNo;
+   }
 
-	public int getAdminNo() {
-		return adminNo;
-	}
+   public int getEmployeeNo() {
+      return employeeNo;
+   }
 
-	public void setAdminNo(int adminNo) {
-		this.adminNo = adminNo;
-	}
+   public void setEmployeeNo(int employeeNo) {
+      this.employeeNo = employeeNo;
+   }
 
-	public String getReason() {
-		return reason;
-	}
+   public int getAdminNo() {
+      return adminNo;
+   }
 
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
+   public void setAdminNo(int adminNo) {
+      this.adminNo = adminNo;
+   }
 
-	public java.sql.Date getEmployeeLastConfirmDate() {
-		return employeeLastConfirmDate;
-	}
+   public String getReturnReason() {
+      return returnReason;
+   }
 
-	public void setEmployeeLastConfirmDate(java.sql.Date employeeLastConfirmDate) {
-		this.employeeLastConfirmDate = employeeLastConfirmDate;
-	}
+   public void setReturnReason(String returnReason) {
+      this.returnReason = returnReason;
+   }
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+   public java.sql.Date getEmployeeLastConfirmDate() {
+      return employeeLastConfirmDate;
+   }
 
-	@Override
-	public String toString() {
-		return "EmployeeRestCommit [employeeNo=" + employeeNo + ", adminNo=" + adminNo + ", reason=" + reason
-				+ ", employeeLastConfirmDate=" + employeeLastConfirmDate + "]";
-	}
+   public void setEmployeeLastConfirmDate(java.sql.Date employeeLastConfirmDate) {
+      this.employeeLastConfirmDate = employeeLastConfirmDate;
+   }
 
-	
-
+   @Override
+   public String toString() {
+      return "EmployeeRestCommit [confirmNo=" + confirmNo + ", employeeNo=" + employeeNo + ", adminNo=" + adminNo
+            + ", returnReason=" + returnReason + ", employeeLastConfirmDate=" + employeeLastConfirmDate + "]";
+   }
+   
+   
 }

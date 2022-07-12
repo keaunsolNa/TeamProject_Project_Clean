@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.User;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 
 public class AdminImpl extends User{
-	
+
 	private static final long serialVersionUID = -8418537379278429510L;
 	private int adminNo;
 	private String adminName;
@@ -31,6 +31,7 @@ public class AdminImpl extends User{
 	public AdminImpl(String username, String password, Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, authorities);
 	}
+	
 
 	public void SetDetailsAdmin(AdminAndAdminMemberAuthorityDTO admin) {
 		this.adminNo = admin.getAdminNo();

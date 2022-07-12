@@ -1,4 +1,4 @@
-package com.project.clean.model.repository.Common;
+package com.project.clean.model.repository.common;
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -6,6 +6,6 @@ import com.project.clean.model.domain.joinEntity.EmployeeAndAdminMemberAuthority
 
 public interface CommonEmployeeLoginRepository extends CrudRepository<EmployeeAndAdminMemberAuthority, String>{
 
-	EmployeeAndAdminMemberAuthority findByEmployeeIdAndRetireYn(String userId, String string);
+	EmployeeAndAdminMemberAuthority findByEmployeeIdAndEmployeeRetireYn(String userId, String string);
 
 }

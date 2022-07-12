@@ -54,7 +54,7 @@ public class FindServiceImpl implements FindService{
 	@Override
 	public EmployeeDTO findEmpIdByPhone(String userPhone) {
 
-		Employee emp = empRepository.findByPhone(userPhone);
+		Employee emp = empRepository.findByEmployeePhone(userPhone);
 		
 		if(emp == null) {
 			emp = new Employee();
