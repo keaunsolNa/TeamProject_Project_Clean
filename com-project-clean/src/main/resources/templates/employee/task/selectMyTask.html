@@ -26,49 +26,57 @@
 	</table>
 	 
 	<script>
-	window.onload = function(){
-			$.ajax({
-				url : "selectMyTask",
-				method : "post",
-				success:function(data){
-					
-					const $table = $("#taskInfo tbody");
-					$table.html("");
-					
-					const currentDate = new Date();
-					console.log(currentDate) 
-					
-					for(var index in data){
-						$tr = $("<tr>");
-						$noTd = $("<td>").text(data[index].reservationNo);
-						$nameTd = $("<td>").text(data[index].userName);
-						$startTimeTd = $("<td>").text(data[index].businessStartTime);
-						$endTimeTd = $("<td>").text(data[index].businessEndTime);
-						$paymentTd = $("<td>").text(data[index].totalPayment);
+		const currentDate = new Date();
+		var businessStartTime = new Date();
+		
+			window.onload = function(){
+				$.ajax({
+					url : "selectMyTask",
+					method : "post",
+					success:function(data){
 						
-						$tr.append($noTd);
-						$tr.append($nameTd);
-						$tr.append($startTimeTd);
-						$tr.append($endTimeTd);
-						$tr.append($paymentTd);
-						$tr.append('<button id="btn">제출하기</button>');
-						$table.append($tr);
-
-						const businessStartTime = data[index].businessStartTime;
-						console.log(businessStartTime)
-			
+						const $table = $("#taskInfo tbody");
+						$table.html("");
+						
+						
+						for(var index in data){
+							$tr = $("<tr>");
+							$noTd = $("<td>").text(data[index].reservationNo);
+							$nameTd = $("<td>").text(data[index].userName);
+							$startTimeTd = $("<td>").text(data[index].businessStartTime);
+							$endTimeTd = $("<td>").text(data[index].businessEndTime);
+							$paymentTd = $("<td>").text(data[index].totalPayment);
+							
+							$tr.append($noTd);
+							$tr.append($nameTd);
+							$tr.append($startTimeTd);
+							$tr.append($endTimeTd);
+							$tr.append($paymentTd);
+	 						$tr.append('<button id="btn">제출하기</button>'); 
+							$table.append($tr);
+							
+							businessStartTime = data[index].businessStartTime;
+							
+						};
+					},
+					error:function(error){
+						console.log(error);
 					}
-				},
-				error:function(error){
-					console.log(error);
-				}
-			})
-			
-			$(document).on("click","#btn",function(){
-				location.href="/"
-			})
-
-			
+				})
+				
+				$(document).on("click","#btn",function(){
+					console.log("현재 시간 : " + currentDate);
+					console.log("업무 시간 : " + businessStartTime);
+					
+					console.log(currentDate);
+					console.log(businessStartTime);
+					
+					if(businessStartTime > currentDate){
+						alert("업무 가능")
+					} else{
+						alert("업무 불가능")
+					};
+				});
 		};
    	</script>
 </body>
