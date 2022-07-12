@@ -1,20 +1,22 @@
-package com.project.clean.model.domain.commonEntity;
+package com.project.clean.model.domain.joinEntity;
 
 import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.project.clean.model.domain.commonEntity.Admin;
 
 @Entity
 @Table(name="TBL_ADMIN_PAY")
+public class AdminPayAndAdmin implements java.io.Serializable{
 
-public class AdminPay implements java.io.Serializable{
-	
+	private static final long serialVersionUID = 6199703563922919312L;
+
 	@Id
 	@Column(name="PAY_HISTORY_ADMIN_NO")
 	private int payHistoryAdminNo;
@@ -24,14 +26,20 @@ public class AdminPay implements java.io.Serializable{
 	
 	@Column(name="PAY_ADMIN_DATE")
 	private java.sql.Date payAdminDate;
-
-	public AdminPay() {
+	
+	@ManyToOne
+	@JoinColumn(name = "PAY_ADMIN_NO", insertable = false, updatable = false)
+	private Admin admin;
+	
+	public AdminPayAndAdmin() {
 	}
 
-	public AdminPay(int payHistoryAdminNo, int payAdminNo, Date payAdminDate) {
+	public AdminPayAndAdmin(int payHistoryAdminNo, int payAdminNo, Date payAdminDate, Admin admin) {
+		super();
 		this.payHistoryAdminNo = payHistoryAdminNo;
 		this.payAdminNo = payAdminNo;
 		this.payAdminDate = payAdminDate;
+		this.admin = admin;
 	}
 
 	public int getPayHistoryAdminNo() {
@@ -58,11 +66,21 @@ public class AdminPay implements java.io.Serializable{
 		this.payAdminDate = payAdminDate;
 	}
 
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
+
 	@Override
 	public String toString() {
-		return "AdminPay [payHistoryAdminNo=" + payHistoryAdminNo + ", payAdminNo=" + payAdminNo + ", payAdminDate="
-				+ payAdminDate + "]";
+		return "AdminPayAndAdmin [payHistoryAdminNo=" + payHistoryAdminNo + ", payAdminNo=" + payAdminNo
+				+ ", payAdminDate=" + payAdminDate + ", admin=" + admin + "]";
 	}
+	
+	
 	
 	
 }

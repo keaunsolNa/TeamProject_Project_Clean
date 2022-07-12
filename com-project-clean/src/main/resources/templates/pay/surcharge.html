@@ -8,6 +8,10 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<script>
+		const successMessage = "[[${ modifySuccessMessage }]]";
+		alert(successMessage);
+	</script>
 	<div th:include="common/header.html"></div>
 	<div th:include="common/taskAside.html"></div>
 	<section>
@@ -26,7 +30,7 @@
 	    </table> 
 	    <br>
 
-	    <form>
+	    <form action="/pay/surcharge" method="post">
 	        <table id="surchargeUpdateTable" border="1">
 	            <tr>
 	                <th>4대보험</th>
@@ -34,10 +38,9 @@
 	                <th>이달의 우수직원 보너스</th>
 	            </tr>
 	            <tr th:each="surcharge : ${ surchargeList }">
-	                <td th:text="|${surcharge.surchargeInsurance}%|"></td>
-	                <td hidden="" th:value="${surcharge.surchargeInsurance}"></td>
-	                <th><input id="commission" type="text" placeholder="수정할 수수료 비율을 입력해주세요(40이하)"  autofocus></th>
-	                <th><input id="monthBonus" type="text" placeholder="수정할 보너스를 입력해주세요(1000000이하)"></th>
+	                <th><input readonly id="insurance" name="surchargeInsurance" type="text" th:value="${surcharge.surchargeInsurance}">%</th>
+	                <th><input id="commission" name="surchargeCommission" type="number"  min="0" max="30" placeholder="수정할 수수료 비율을 입력해주세요(40이하)" autofocus></th>
+	                <th><input id="monthBonus" name="surchargeBonus"  min="100000" max="1000000" type="number" placeholder="수정할 보너스를 입력해주세요(1000000이하)"></th>
 	            </tr>
 	        </table>
 			<br>
@@ -45,8 +48,4 @@
 	    </form> 
 	 </section>
 </body>
-<script>
-	var surchargeUpdateTable = $("#surchargeUpdateTable").val();
-	console.log(surchargeUpdateTable);
-</script>
 </html>
