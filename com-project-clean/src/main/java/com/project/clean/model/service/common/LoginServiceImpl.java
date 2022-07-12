@@ -25,8 +25,8 @@ import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.AdminIpAddressDTO;
 import com.project.clean.model.dto.joinDTO.AdminImpl;
 import com.project.clean.model.dto.joinDTO.EmployeeImpl;
-import com.project.clean.model.repository.Common.CommonAdminLoginRepository;
-import com.project.clean.model.repository.Common.CommonEmployeeLoginRepository;
+import com.project.clean.model.repository.common.CommonAdminLoginRepository;
+import com.project.clean.model.repository.common.CommonEmployeeLoginRepository;
 import com.project.clean.model.repository.admin.AdminIpRepository;
 
 @Service
