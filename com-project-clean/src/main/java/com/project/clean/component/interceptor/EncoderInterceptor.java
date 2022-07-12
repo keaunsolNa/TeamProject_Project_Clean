@@ -10,8 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class EncoderInterceptor implements HandlerInterceptor{
 
-	public void postHandle(HttpRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView) {
+//	public void postHandle(HttpRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView) {
 		
-		response.setCharacterEncoding("applicationjson; charset=UTF-8");
-	}
+//		response.setCharacterEncoding("applicationjson; charset=UTF-8");
+//	}
 }

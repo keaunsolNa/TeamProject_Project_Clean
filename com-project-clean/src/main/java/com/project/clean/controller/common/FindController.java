@@ -122,11 +122,11 @@ public class FindController {
 					
 					SimpleEmail email = new SimpleEmail();
 					email.setHostName("smtp.naver.com");
-					email.setSmtpPort(465);
+//					email.setSmtpPort(587);
 					email.setAuthentication("knsol1992@naver.com", "V4K81B8YTWRJ");
-					
+					email.setSslSmtpPort("465");
 					email.setSSLOnConnect(true);
-					email.setStartTLSEnabled(true);
+					email.setStartTLSEnabled(false);
 					
 					String response1 = "fail";
 					

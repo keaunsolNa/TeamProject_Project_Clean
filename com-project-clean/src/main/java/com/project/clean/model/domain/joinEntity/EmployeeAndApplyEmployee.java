@@ -1,53 +1,60 @@
-package com.project.clean.model.domain.commonEntity;
+package com.project.clean.model.domain.joinEntity;
 
+import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity(name = "EMPLOYEE")
-@Table(name = "TBL_EMPLOYEE")
-public class Employee implements java.io.Serializable{
+import com.project.clean.model.domain.commonEntity.ApplyEmployee;
+import com.project.clean.model.dto.commonDTO.ApplyEmployeeDTO;
 
-	private static final long serialVersionUID = -4995141440070784493L;
+@Entity
+@Table(name="TBL_APPLY_EMPLOYEE")
+public class EmployeeAndApplyEmployee implements Serializable{
+
+	private static final long serialVersionUID = -1745146064316843313L;
 	
 	@Id
-	@Column(name = "EMPLOYEE_NO")
+	@Column(name="EMPLOYEE_NO")
 	private int employeeNo;
 	
-	@Column(name = "EMPLOYEE_NAME")
+	@Column(name="EMPLOYEE_NAME")
 	private String employeeName;
 	
-	@Column(name = "EMPLOYEE_ID")
+	@Column(name="EMPLOYEE_ID")
 	private String employeeId;
 	
-	@Column(name = "EMPLOYEE_PWD")
+	@Column(name="EMPLOYEE_PWD")
 	private String employeePwd;
 	
-	@Column(name = "EMPLOYEE_BIRTH" )
+	@Column(name="EMPLOYEE_BIRTH")
 	private java.sql.Date employeeBirth;
 	
-	@Column(name = "EMPLOYEE_GENDER")
+	@Column(name="EMPLOYEE_GENDER")
 	private String employeeGender;
 	
-	@Column(name = "EMPLOYEE_PHONE")
+	@Column(name="EMPLOYEE_PHONE")
 	private String employeePhone;
 	
-	@Column(name = "EMPLOYEE_HIRE_DATE")
+	@Column(name="EMPLOYEE_HIRE_DATE")
 	private java.sql.Date employeeHireDate;
 	
-	@Column(name ="EMPLOYEE_RETIRE_DATE", nullable=true)
+	@Column(name="EMPLOYEE_RETIRE_DATE")
 	private java.sql.Date employeeRetireDate;
 	
-	@Column(name ="EMPLOYEE_SUM_COUNT")
+	@Column(name="EMPLOYEE_SUM_COUNT")
 	private int employeeSumCount;
 	
-	@Column(name ="EMPLOYEE_SUM_TIME", nullable=true)
+	@Column(name="EMPLOYEE_SUM_TIME")
 	private int employeeSumTime;
 	
-	@Column(name="EMPLOYEE_LAST_LOGIN_DATE", nullable=true)
+	@Column(name="EMPLOYEE_LAST_LOGIN_DATE")
 	private java.sql.Date employeeLastLoginDate;
 	
 	@Column(name="EMPLOYEE_BLACKLIST_YN")
@@ -56,8 +63,8 @@ public class Employee implements java.io.Serializable{
 	@Column(name="EMPLOYEE_RETIRE_YN")
 	private String employeeRetireYn;
 	
-	@Column(name="REQUEST_DATE", nullable=true)
-	private java.sql.Date employeeRequestDate;
+	@Column(name="REQUEST_DATE")
+	private java.sql.Date RequestDate;
 	
 	@Column(name="EMPLOYEE_FIRST_CONFIRM_YN")
 	private String employeeFirstConfirmYn;
@@ -67,22 +74,26 @@ public class Employee implements java.io.Serializable{
 	
 	@Column(name="EMPLOYEE_LAST_CONFIRM_YN")
 	private String employeeLastConfirmYn;
-
-	@Column(name="EMPLOYEE_LAST_CONFIRM_DATE", nullable=true)
+	
+	@Column(name="EMPLOYEE_LAST_CONFIRM_DATE")
 	private java.sql.Date employeeLastConfirmDate;
 	
 	@Column(name="EMPLOYEE_REGIST_RETURN_YN")
 	private String employeeRegistReturnYn;
 
-	public Employee() {
+	@OneToMany
+	@JoinColumn(name="EMPLOYEE_NO")
+	List<ApplyEmployee> applyEmployeeDTO;
+
+	public EmployeeAndApplyEmployee() {
 	}
 
-	public Employee(int employeeNo, String employeeName, String employeeId, String employeePwd, Date employeeBirth,
-			String employeeGender, String employeePhone, Date employeeHireDate, Date employeeRetireDate,
-			int employeeSumCount, int employeeSumTime, Date employeeLastLoginDate, String employeeBlackListYn,
-			String employeeRetireYn, Date employeeRequestDate, String employeeFirstConfirmYn,
+	public EmployeeAndApplyEmployee(int employeeNo, String employeeName, String employeeId, String employeePwd,
+			Date employeeBirth, String employeeGender, String employeePhone, Date employeeHireDate,
+			Date employeeRetireDate, int employeeSumCount, int employeeSumTime, Date employeeLastLoginDate,
+			String employeeBlackListYn, String employeeRetireYn, Date requestDate, String employeeFirstConfirmYn,
 			String employeeSecondConfirmYn, String employeeLastConfirmYn, Date employeeLastConfirmDate,
-			String employeeRegistReturnYn) {
+			String employeeRegistReturnYn, List<ApplyEmployee> applyEmployeeDTO) {
 		this.employeeNo = employeeNo;
 		this.employeeName = employeeName;
 		this.employeeId = employeeId;
@@ -97,12 +108,13 @@ public class Employee implements java.io.Serializable{
 		this.employeeLastLoginDate = employeeLastLoginDate;
 		this.employeeBlackListYn = employeeBlackListYn;
 		this.employeeRetireYn = employeeRetireYn;
-		this.employeeRequestDate = employeeRequestDate;
+		this.RequestDate = requestDate;
 		this.employeeFirstConfirmYn = employeeFirstConfirmYn;
 		this.employeeSecondConfirmYn = employeeSecondConfirmYn;
 		this.employeeLastConfirmYn = employeeLastConfirmYn;
 		this.employeeLastConfirmDate = employeeLastConfirmDate;
 		this.employeeRegistReturnYn = employeeRegistReturnYn;
+		this.applyEmployeeDTO = applyEmployeeDTO;
 	}
 
 	public int getEmployeeNo() {
@@ -217,12 +229,12 @@ public class Employee implements java.io.Serializable{
 		this.employeeRetireYn = employeeRetireYn;
 	}
 
-	public java.sql.Date getEmployeeRequestDate() {
-		return employeeRequestDate;
+	public java.sql.Date getRequestDate() {
+		return RequestDate;
 	}
 
-	public void setEmployeeRequestDate(java.sql.Date employeeRequestDate) {
-		this.employeeRequestDate = employeeRequestDate;
+	public void setRequestDate(java.sql.Date requestDate) {
+		this.RequestDate = requestDate;
 	}
 
 	public String getEmployeeFirstConfirmYn() {
@@ -265,25 +277,32 @@ public class Employee implements java.io.Serializable{
 		this.employeeRegistReturnYn = employeeRegistReturnYn;
 	}
 
+	public List<ApplyEmployee> getApplyEmployeeDTO() {
+		return applyEmployeeDTO;
+	}
+
+	public void setApplyEmployeeDTO(List<ApplyEmployee> applyEmployeeDTO) {
+		this.applyEmployeeDTO = applyEmployeeDTO;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
 	@Override
 	public String toString() {
-		return "Employee [employeeNo=" + employeeNo + ", employeeName=" + employeeName + ", employeeId=" + employeeId
-				+ ", employeePwd=" + employeePwd + ", employeeBirth=" + employeeBirth + ", employeeGender="
+		return "EmployeeAndApplyEmployee [employeeNo=" + employeeNo + ", employeeName=" + employeeName + ", employeeId="
+				+ employeeId + ", employeePwd=" + employeePwd + ", employeeBirth=" + employeeBirth + ", employeeGender="
 				+ employeeGender + ", employeePhone=" + employeePhone + ", employeeHireDate=" + employeeHireDate
 				+ ", employeeRetireDate=" + employeeRetireDate + ", employeeSumCount=" + employeeSumCount
 				+ ", employeeSumTime=" + employeeSumTime + ", employeeLastLoginDate=" + employeeLastLoginDate
 				+ ", employeeBlackListYn=" + employeeBlackListYn + ", employeeRetireYn=" + employeeRetireYn
-				+ ", employeeRequestDate=" + employeeRequestDate + ", employeeFirstConfirmYn=" + employeeFirstConfirmYn
+				+ ", RequestDate=" + RequestDate + ", employeeFirstConfirmYn=" + employeeFirstConfirmYn
 				+ ", employeeSecondConfirmYn=" + employeeSecondConfirmYn + ", employeeLastConfirmYn="
 				+ employeeLastConfirmYn + ", employeeLastConfirmDate=" + employeeLastConfirmDate
-				+ ", employeeRegistReturnYn=" + employeeRegistReturnYn + "]";
+				+ ", employeeRegistReturnYn=" + employeeRegistReturnYn + ", applyEmployeeDTO=" + applyEmployeeDTO + "]";
 	}
 
-	
 	
 	
 	

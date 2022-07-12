@@ -13,7 +13,7 @@ public class ApplyEmployee implements java.io.Serializable {
 	
 	@Id
 	@Column(name="APPLY_EMPLOYEE_NO")
-	private int employeeNo;
+	private int applyEmployeeNo;
 	
 	@Column(name="APPLY_RESERVATION_NO")
 	private int reservationNo;
@@ -27,19 +27,19 @@ public class ApplyEmployee implements java.io.Serializable {
 	public ApplyEmployee() {
 	}
 
-	public ApplyEmployee(int employeeNo, int reservationNo, String canselYn, String checkEmployeeYn) {
-		this.employeeNo = employeeNo;
+	public ApplyEmployee(int applyEmployeeNo, int reservationNo, String canselYn, String checkEmployeeYn) {
+		this.applyEmployeeNo = applyEmployeeNo;
 		this.reservationNo = reservationNo;
 		this.canselYn = canselYn;
 		this.checkEmployeeYn = checkEmployeeYn;
 	}
 
 	public int getEmployeeNo() {
-		return employeeNo;
+		return applyEmployeeNo;
 	}
 
-	public void setEmployeeNo(int employeeNo) {
-		this.employeeNo = employeeNo;
+	public void setEmployeeNo(int applyEmployeeNo) {
+		this.applyEmployeeNo = applyEmployeeNo;
 	}
 
 	public int getReservationNo() {
@@ -72,7 +72,7 @@ public class ApplyEmployee implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "ApplyEmployee [employeeNo=" + employeeNo + ", reservationNo=" + reservationNo + ", canselYn=" + canselYn
+		return "ApplyEmployee [applyEmployeeNo=" + applyEmployeeNo + ", reservationNo=" + reservationNo + ", canselYn=" + canselYn
 				+ ", checkEmployeeYn=" + checkEmployeeYn + "]";
 	}
 	
