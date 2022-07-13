@@ -20,7 +20,6 @@ public class AdminAndAdminMemberAuthorityDTO implements Serializable{
 	private java.sql.Date adminRetireDate;
 	private String adminRetireYn;
 	private String adminJob;
-	private java.sql.Blob adminSign;
 	private java.sql.Date adminLastLoginDate;
 	private int adminSalary;
 	private int annualVacationUse;
@@ -44,7 +43,6 @@ public class AdminAndAdminMemberAuthorityDTO implements Serializable{
 		this.adminRetireDate = adminRetireDate;
 		this.adminRetireYn = adminRetireYn;
 		this.adminJob = adminJob;
-		this.adminSign = adminSign;
 		this.adminLastLoginDate = adminLastLoginDate;
 		this.adminSalary = adminSalary;
 		this.annualVacationUse = annualVacationUse;
@@ -117,12 +115,6 @@ public class AdminAndAdminMemberAuthorityDTO implements Serializable{
 	public void setAdminJob(String adminJob) {
 		this.adminJob = adminJob;
 	}
-	public java.sql.Blob getAdminSign() {
-		return adminSign;
-	}
-	public void setAdminSign(java.sql.Blob adminSign) {
-		this.adminSign = adminSign;
-	}
 	public java.sql.Date getAdminLastLoginDate() {
 		return adminLastLoginDate;
 	}
@@ -150,16 +142,17 @@ public class AdminAndAdminMemberAuthorityDTO implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
 	@Override
 	public String toString() {
 		return "AdminAndAdminMemberAuthorityDTO [adminNo=" + adminNo + ", adminName=" + adminName + ", adminId="
 				+ adminId + ", adminPwd=" + adminPwd + ", adminBirth=" + adminBirth + ", adminGender=" + adminGender
 				+ ", adminPhone=" + adminPhone + ", adminHireDate=" + adminHireDate + ", adminRetireDate="
-				+ adminRetireDate + ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob + ", adminSign="
-				+ adminSign + ", adminLastLoginDate=" + adminLastLoginDate + ", adminSalary=" + adminSalary
-				+ ", annualVacationUse=" + annualVacationUse + ", adminMemberRoleAndAuthorityList="
-				+ adminMemberRoleAndAuthorityList + "]";
+				+ adminRetireDate + ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob
+				+ ", adminLastLoginDate=" + adminLastLoginDate + ", adminSalary=" + adminSalary + ", annualVacationUse="
+				+ annualVacationUse + ", adminMemberRoleAndAuthorityList=" + adminMemberRoleAndAuthorityList + "]";
 	}
+
 	
 	
 

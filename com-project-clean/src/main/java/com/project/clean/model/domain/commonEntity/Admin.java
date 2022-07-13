@@ -50,10 +50,6 @@ public class Admin implements java.io.Serializable{
 	@Column(name="ADMIN_JOB")
 	private String adminJob;
 	
-	@Column(name="ADMIN_SIGN")
-	@Lob
-	private java.sql.Blob adminSign;
-	
 	@Column(name="ADMIN_LAST_LOGIN_DATE")
 	private java.sql.Date adminLastLoginDate;
 	
@@ -63,9 +59,12 @@ public class Admin implements java.io.Serializable{
 	@Column(name="ADMIN_USE_ANNUAL_VACATION")
 	private int annualVacationUse;
 
+	public Admin() {
+	}
+
 	public Admin(int adminNo, String adminName, String adminId, String adminPwd, Date adminBirth, String adminGender,
 			String adminPhone, Date adminHireDate, Date adminRetireDate, String adminRetireYn, String adminJob,
-			Blob adminSign, Date adminLastLoginDate, int adminSalary, int annualVacationUse) {
+			Date adminLastLoginDate, int adminSalary, int annualVacationUse) {
 		this.adminNo = adminNo;
 		this.adminName = adminName;
 		this.adminId = adminId;
@@ -77,13 +76,9 @@ public class Admin implements java.io.Serializable{
 		this.adminRetireDate = adminRetireDate;
 		this.adminRetireYn = adminRetireYn;
 		this.adminJob = adminJob;
-		this.adminSign = adminSign;
 		this.adminLastLoginDate = adminLastLoginDate;
 		this.adminSalary = adminSalary;
 		this.annualVacationUse = annualVacationUse;
-	}
-
-	public Admin() {
 	}
 
 	public int getAdminNo() {
@@ -174,14 +169,6 @@ public class Admin implements java.io.Serializable{
 		this.adminJob = adminJob;
 	}
 
-	public java.sql.Blob getAdminSign() {
-		return adminSign;
-	}
-
-	public void setAdminSign(java.sql.Blob adminSign) {
-		this.adminSign = adminSign;
-	}
-
 	public java.sql.Date getAdminLastLoginDate() {
 		return adminLastLoginDate;
 	}
@@ -215,11 +202,12 @@ public class Admin implements java.io.Serializable{
 		return "Admin [adminNo=" + adminNo + ", adminName=" + adminName + ", adminId=" + adminId + ", adminPwd="
 				+ adminPwd + ", adminBirth=" + adminBirth + ", adminGender=" + adminGender + ", adminPhone="
 				+ adminPhone + ", adminHireDate=" + adminHireDate + ", adminRetireDate=" + adminRetireDate
-				+ ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob + ", adminSign=" + adminSign
-				+ ", adminLastLoginDate=" + adminLastLoginDate + ", adminSalary=" + adminSalary + ", annualVacationUse="
-				+ annualVacationUse + "]";
+				+ ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob + ", adminLastLoginDate="
+				+ adminLastLoginDate + ", adminSalary=" + adminSalary + ", annualVacationUse=" + annualVacationUse
+				+ "]";
 	}
 
+	
 	
 
 	

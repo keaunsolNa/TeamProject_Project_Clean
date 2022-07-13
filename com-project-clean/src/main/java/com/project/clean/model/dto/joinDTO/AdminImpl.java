@@ -22,7 +22,6 @@ public class AdminImpl extends User{
 	private java.sql.Date adminRetireDate;
 	private String adminRetireYn;
 	private String adminJob;
-	private java.sql.Blob adminSign;
 	private java.sql.Date adminLastLoginDate;
 	private int adminSalary;
 	private int annualVacationUse;
@@ -45,7 +44,6 @@ public class AdminImpl extends User{
 		this.adminRetireDate = admin.getAdminRetireDate();
 		this.adminRetireYn = admin.getAdminRetireYn();
 		this.adminJob = admin.getAdminJob();
-		this.adminSign = admin.getAdminSign();
 		this.adminLastLoginDate = admin.getAdminLastLoginDate();
 		this.adminSalary = admin.getAdminSalary();
 		this.annualVacationUse = admin.getAnnualVacationUse();
@@ -96,10 +94,6 @@ public class AdminImpl extends User{
 		return adminJob;
 	}
 
-	public java.sql.Blob getAdminSign() {
-		return adminSign;
-	}
-
 	public java.sql.Date getAdminLastLoginDate() {
 		return adminLastLoginDate;
 	}
@@ -116,15 +110,17 @@ public class AdminImpl extends User{
 		return adminMemberRoleAndAuthorityList;
 	}
 
+
 	@Override
 	public String toString() {
 		return "AdminImpl [adminNo=" + adminNo + ", adminName=" + adminName + ", adminId=" + adminId + ", adminPwd="
 				+ adminPwd + ", adminBirth=" + adminBirth + ", adminGender=" + adminGender + ", adminPhone="
 				+ adminPhone + ", adminHireDate=" + adminHireDate + ", adminRetireDate=" + adminRetireDate
-				+ ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob + ", adminSign=" + adminSign
-				+ ", adminLastLoginDate=" + adminLastLoginDate + ", adminSalary=" + adminSalary + ", annualVacationUse="
-				+ annualVacationUse + ", adminMemberRoleAndAuthorityList=" + adminMemberRoleAndAuthorityList + "]";
+				+ ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob + ", adminLastLoginDate="
+				+ adminLastLoginDate + ", adminSalary=" + adminSalary + ", annualVacationUse=" + annualVacationUse
+				+ ", adminMemberRoleAndAuthorityList=" + adminMemberRoleAndAuthorityList + "]";
 	}
+
 	
 	
 	
