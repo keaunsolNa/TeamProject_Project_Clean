@@ -81,16 +81,14 @@
 						button.onclick = function() {
 							const timer = button.parentNode.querySelector('.sh').innerText.substring(10, 16);
 							console.log("업무 시간 : " + timer)
-							if(timer < nowtime2){
+							if(timer > nowtime2){
 								
 								
-									const resNo = document.querySelectorAll('table#taskInfo tbody tr td1');
-									const reservationNo = resNo[i];
-									const re = reservationNo.parentNode.querySelector('.rn').innerText;
-									
-									console.log(re)
-								/* location.href="/employee/checklist/insert" */
-								 location.href="/employee/checklist/insert?re="+ re;
+									const resNo1 = document.querySelectorAll('table#taskInfo tbody tr td1');
+									const resNo2 = resNo1[i];
+									var resNo3 = resNo2.parentNode.querySelector('.rn').innerText;
+									console.log(typeof(resNo3))
+								 	location.href="/employee/checklist/insert?re="+ resNo3;
 								
 							} else{
 								alert("업무를 시작할 수 없습니다. ")
