@@ -38,7 +38,6 @@ public class CheckListController {
 	}
 	
 	@PostMapping(value="insert")
-	@ResponseBody
 	public String checkListInsert(RedirectAttributes rttr, HttpServletRequest request, Principal principal) {
 		
 		String inputText = request.getParameter("jbHtml");
@@ -55,14 +54,18 @@ public class CheckListController {
 		checkListDTO.setCheckStatus("N");
 		
 		/* 테스트 데이터. 추후 수정 요망 */
-		checkListDTO.setCheckReservationNo(7);
+		checkListDTO.setCheckReservationNo(4);
 
+		System.out.println("수행 전 ");
 		int result = taskService.registNewCheckList(checkListDTO);
+		System.out.println("수행 후 ");
 		
 		LocalDate now = LocalDate.now();
 		
 		rttr.addFlashAttribute("resultMessage", now + " 시에 업무를 시작하셨습니다. 업무 완료 후 작성 버튼을 눌러주세요.");
 		
-		return "redirect:/employee/task/selectMyTask";
+		System.out.println("rttr : " + rttr);
+		
+		return "redirect:/main";
 	}
 } 

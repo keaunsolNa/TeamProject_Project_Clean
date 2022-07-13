@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style>
+        body {
+            margin-top: 100px;
+            font-family: 'Trebuchet MS', serif;
+            line-height: 1.6
+        }
+
+        /* 전체 크기 */
+        .container {
+            width: 1500px;
+            margin: 0 auto;
+        }
+
+        ul.tabs {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+        }
+
+        /* 선택하지 않은 탭 css */
+        ul.tabs li {
+            background: rgba(219, 243, 249, 1);
+            color: rgb(0, 0, 0);
+            display: inline-block;
+            padding: 10px 15px;
+            /* 좌측은 위아래 사이즈 우측은 좌우 사이즈 */
+            cursor: pointer;
+        }
+
+        /* 선택한 탭 css 설정 */
+        ul.tabs li.current {
+            background: rgba(104, 228, 255, 1);
+            color: rgb(0, 0, 0);
+        }
+
+        /* 선택한 탭의 내용 css 설정 */
+        .tab-content {
+            display: none;
+            background: #e95151;
+            padding: 15px;
+        }
+
+        .tab-content.current {
+            display: inherit;
+        }
+    </style>
+</head>
+<body>
+	<div th:include="common/Header.html"></div>
+	<div th:include="common/hrAside.html"></div>
+	<div class="container">
+	
+
+        <ul class="tabs">
+            <li class="tab-link current" data-tab="tab-1">직원</li>
+            <li class="tab-link" data-tab="tab-2">관리자</li>
+        </ul>
+
+        <!-- 직원 내용 -->
+        <div id="tab-1" class="tab-content current">
+            <span>인사관리 카드 조회</span>
+
+            <select name="category" id="category">
+                <option value="empNo" selected>사원번호</option>
+                <option value="empName">이름</option>
+                <option value="empBirth">생년월일</option>
+                <option value="empAddress">주소</option>
+                <option value="empPhone">전화번호</option>
+            </select>
+            <input type="text" name="categoryValue">
+            <button type="button" id="search">검색</button>
+            <input type="radio" value="admin" name="retire" id="retireN"> 
+            <label for="retireN">재직자</label>
+            <input type="radio" value="admin" name="retire" id="retireY"> 
+            <label for="retireY">퇴사자</label>
+
+			
+            <table id="employeeList" border="1">
+                <thead>
+                    <tr>
+                        <th>사원번호</th>
+                        <th>이름</th>
+                        <th>생년월일</th>
+                        <th>주소</th>
+                        <th>전화번호</th>
+                        <th>입사날짜</th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 관리자 내용 -->
+            <div id="tab-2" class="tab-content">
+                <span>인사관리 카드 조회</span>
+                    <select name="category" id="category">
+                        <option value="adminNo" selected>관리자번호</option> 
+                        <option value="adminName">이름</option>
+                        <option value="adminBirth">생년월일</option>
+                        <option value="adminJob">직책명</option>
+                        <!-- <option value="empPhone">전화번호</option> -->
+                    </select>
+                <input type="text" name="categoryValue">
+                <button type="button" id="search">검색</button>
+                <input type="radio" value="admin" name="retire" id="adminRetireN"> 
+                <label for="adminRetireN">재직자</label>
+                <input type="radio" value="admin" name="retire" id="adminRetireY"> 
+                <label for="adminRetireY">퇴사자</label>
+    
+                <table id="adminList" border="1">
+                    <thead>
+                        <tr>
+                            <th>관리자번호</th>
+                            <th>이름</th>
+                            <th>생년월일</th>
+                            <th>입사일</th>
+                            <th>직급명</th>
+                            <th>전화번호</th>
+                     		<th>이동</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    	<tr th:each="admin : ${ adminList }">
+							<td th:text="${ admin.adminNo }"></td>
+							<td th:text="${ admin.adminName }"></td>
+							<td th:text="${ admin.adminBirth }"></td>
+							<td th:text="${ admin.adminHireDate }"></td>
+							<td th:text="${ admin.adminJob }"></td>
+							<td th:text="${ admin.adminPhone }"></td>
+							<td>
+							 <a th:href="@{adminDetail/{adminNo}/(adminNo=${admin.adminNo})}">
+							<button>조회</button>	
+							</a>
+							</td>
+						</tr>
+                    </tbody>
+                </table>    
+            </div>
+        </div>
+    <script>
+        /* 탭 전환 관련 스크립트 */
+        $(document).ready(function () {
+
+            $('ul.tabs li').click(function () {
+                var tab_id = $(this).attr('data-tab');
+
+                $('ul.tabs li').removeClass('current');
+                $('.tab-content').removeClass('current');
+
+                $(this).addClass('current');
+                $("#" + tab_id).addClass('current');
+            })
+
+        })
+
+       
+        
+       /*  게시글 리스트에서 해당 게시글에 마우스를 올릴 떄에 대한 스타일 처리 
+		if (document.querySelectorAll("#adminList td")) {
+			const $tds = document.querySelectorAll("#adminList td");
+			for (let i = 0; i < $tds.length; i++) {
+
+				$tds[i].onmouseenter = function() {
+					this.parentNode.style.backgroundColor = "white";
+					this.parentNode.style.cursor = "pointer";
+				}
+
+				$tds[i].onmouseout = function() {
+					this.parentNode.style.backgroundColor = "white";
+				}
+
+				$tds[i].onclick = function() {
+					const no = this.parentNode.children[0].innerText;
+					location.href = "adminDetail?adminNo=" + no;
+				}
+			}
+		}
+        */
+    </script>
+    
+
+</body>
+</html>

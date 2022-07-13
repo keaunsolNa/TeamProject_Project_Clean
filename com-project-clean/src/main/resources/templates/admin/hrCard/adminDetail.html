@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.tg  {border-collapse:collapse;border-spacing:0;}
+    .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+      overflow:hidden;padding:10px 5px;word-break:normal; border-color:#c0c0c0;text-align:center;vertical-align:middle}
+    .btn_regist {
+      background: #9AE8F9;
+      padding: 6px;
+      border-radius: 3px;
+      border : 0;
+      outline: 0;
+    }
+    .btn_regist:hover {
+      box-shadow: 1px 1px 1px #ddd;
+    }
+    .btn_cascade {
+      background: #9AE8F9;
+      padding: 6px;
+      border-radius: 3px;
+      border : 0;
+      outline: 0;
+    }
+    .btn_cascade:hover {
+      box-shadow: 1px 1px 1px #ddd;
+    }
+</style>
+</head>
+<body>
+
+	<div th:include="common/Header.html"></div>
+	<div th:include="common/hrAside.html"></div>
+	<button onclick="history.back()">Back</button>
+    <form action="admin/hrCard/adminRegist" method="post">
+	    <table class="tg">
+	    <colgroup>
+	    <col style="width: 100px">
+	    <col style="width: 120px">
+	    <col style="width: 100px">
+	    <col style="width: 200px">
+	    <col style="width: 60px">
+	    <col style="width: 60px">
+	    
+		    <thead>
+		      <tr>
+		        <td class="tg-wman">관리자번호</td>
+		        <td th:text="${ admin.adminNo }"></td>
+		        <td>이름</td>
+		        <td th:text="${ admin.adminName }"></td>
+		        <td colspan="2" rowspan="3"><img ></td>
+		      </tr>
+		      <tr>
+		        <td>ID</td>
+		        <td th:text="${ admin.adminId }"></td>
+		        <td>전화번호</td>
+		        <td th:text="${ admin.adminPhone }"></td>
+		      </tr>
+		      <tr>
+		        <td>생년월일</td>
+		        <td th:text="${ admin.adminBirth }"></td>
+		        <td>성별</td>
+		        <td th:text="${admin.adminGender}"></td>
+		        
+		      </tr>
+		    </thead>
+		    <tbody>
+		     <tr>
+		        <td class="tg-wman">이메일</td>
+		        <td class="tg-wman" colspan="3" th:text="${email}"></td>
+		        <td>퇴사여부</td>
+		        <td th:text="${ admin.adminRetireYn }"></td>
+		     </tr>
+		     <tr>
+		        <td class="tg-wman">우편번호</td>
+		        <td class="tg-wman" th:text="${adminAddress.addressNo}"></td>
+		        <td class="tg-wman">기본주소</td>
+		        <td class="tg-wman" colspan="3" th:text="${adminAddress.address}"></td>
+		      </tr>
+		      <tr>
+		        <td class="tg-wman">상세주소</td>
+		        <td class="tg-wman" colspan="5" th:text="${adminAddress.detailAddress}"></td>
+		      </tr>
+		      <tr>
+		        <td>입사일</td>
+		        <td colspan="2" th:text="${ admin.adminHireDate }"></td>
+		        <td>퇴사일</td>
+		        <td colspan="2" th:text="${ admin.adminRetireDate }">-</td>
+		      </tr>
+		      <tr>
+		        <td>직급명</td>
+		        <td colspan="2" th:text="${ admin.adminJob }"></td>
+		        <td>마지막 로그인 일자</td>
+		        <td colspan="2" th:text="${ admin.adminLastLoginDate }"></td>
+		      </tr>
+		      <tr>
+		        <td class="tg-wman">연차 사용 횟수</td>
+		        <td class="tg-wman" colspan="2" th:text="${ admin.adminUseAnnualVacation}"></td>
+		      </tr>
+		    </tbody>
+   	 </table>
+     <button type="button" id="confirm">승인</button> <button type="button" id="return">퇴사처리</button>
+
+    </form>
+    
+    <script>
+      
+      $("#confirm").click(function(){
+      if(confirm("수정 하시겠습니까?")){
+         $("#confirmForm").submit();
+         }
+      });
+      
+      $("#return").click(function(){
+        if(confirm("삭제 하시겠습니까?")){
+           $("#confirmForm").attr("action", "/admin/hrCard/Delete");
+           $("#confirmForm").submit();
+         }
+        });
+
+      </script>
+    
+</body>
+</html>

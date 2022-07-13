@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.project.clean.model.domain.commonEntity.AdminIpAddress;
@@ -45,7 +46,7 @@ public class AdminAndAdminMemberAuthority implements java.io.Serializable {
 	@Column(name="ADMIN_HIRE_DATE")
 	private java.sql.Date adminHireDate;
 	
-	@Column(name="ADMIN_RETIRE_DATE")
+	@Column(name="ADMIN_RETIRE_DATE", nullable = true)
 	private java.sql.Date adminRetireDate;
 	
 	@Column(name="ADMIN_RETIRE_YN")
@@ -54,14 +55,15 @@ public class AdminAndAdminMemberAuthority implements java.io.Serializable {
 	@Column(name="ADMIN_JOB")
 	private String adminJob;
 	
-	@Column(name="ADMIN_LAST_LOGIN_DATE")
+	
+	@Column(name="ADMIN_LAST_LOGIN_DATE", nullable = true)
 	private java.sql.Date adminLastLoginDate;
 	
 	@Column(name="ADMIN_SALARY")
 	private int adminSalary;
 	
-	@Column(name="ADMIN_USE_ANNUAL_VACATION")
-	private int annualVacationUse;
+	@Column(name="ADMIN_USE_ANNUAL_VACATION", nullable = true)
+	private int adminUseAnnualVacation;
 	
 	@OneToMany
 	@JoinColumn(name = "ADMIN_NO")
@@ -76,7 +78,7 @@ public class AdminAndAdminMemberAuthority implements java.io.Serializable {
 
 	public AdminAndAdminMemberAuthority(int adminNo, String adminName, String adminId, String adminPwd, Date adminBirth,
 			String adminGender, String adminPhone, Date adminHireDate, Date adminRetireDate, String adminRetireYn,
-			String adminJob, Blob adminSign, Date adminLastLoginDate, int adminSalary, int annualVacationUse,
+			String adminJob, Date adminLastLoginDate, int adminSalary, int adminUseAnnualVacation,
 			List<AdminMemberRoleAndAuthority> adminMemberRoleAndAuthority, List<AdminIpAddress> adminIpAddress) {
 		this.adminNo = adminNo;
 		this.adminName = adminName;
@@ -91,7 +93,7 @@ public class AdminAndAdminMemberAuthority implements java.io.Serializable {
 		this.adminJob = adminJob;
 		this.adminLastLoginDate = adminLastLoginDate;
 		this.adminSalary = adminSalary;
-		this.annualVacationUse = annualVacationUse;
+		this.adminUseAnnualVacation = adminUseAnnualVacation;
 		this.adminMemberRoleAndAuthority = adminMemberRoleAndAuthority;
 		this.adminIpAddress = adminIpAddress;
 	}
@@ -200,12 +202,12 @@ public class AdminAndAdminMemberAuthority implements java.io.Serializable {
 		this.adminSalary = adminSalary;
 	}
 
-	public int getAnnualVacationUse() {
-		return annualVacationUse;
+	public int getAdminUseAnnualVacation() {
+		return adminUseAnnualVacation;
 	}
 
-	public void setAnnualVacationUse(int annualVacationUse) {
-		this.annualVacationUse = annualVacationUse;
+	public void setAdminUseAnnualVacation(int adminUseAnnualVacation) {
+		this.adminUseAnnualVacation = adminUseAnnualVacation;
 	}
 
 	public List<AdminMemberRoleAndAuthority> getAdminMemberRoleAndAuthority() {
@@ -234,14 +236,10 @@ public class AdminAndAdminMemberAuthority implements java.io.Serializable {
 				+ ", adminPwd=" + adminPwd + ", adminBirth=" + adminBirth + ", adminGender=" + adminGender
 				+ ", adminPhone=" + adminPhone + ", adminHireDate=" + adminHireDate + ", adminRetireDate="
 				+ adminRetireDate + ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob
-				+ ", adminLastLoginDate=" + adminLastLoginDate + ", adminSalary=" + adminSalary + ", annualVacationUse="
-				+ annualVacationUse + ", adminMemberRoleAndAuthority=" + adminMemberRoleAndAuthority
-				+ ", adminIpAddress=" + adminIpAddress + "]";
+				+ ", adminLastLoginDate=" + adminLastLoginDate + ", adminSalary=" + adminSalary
+				+ ", adminUseAnnualVacation=" + adminUseAnnualVacation + ", adminMemberRoleAndAuthority="
+				+ adminMemberRoleAndAuthority + ", adminIpAddress=" + adminIpAddress + "]";
 	}
-
-
-
-	
 
 	
 	

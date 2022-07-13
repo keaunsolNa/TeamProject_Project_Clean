@@ -6,11 +6,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div th:include="common/header.html"></div>
+	<div th:include="common/Header.html"></div>
+	<div th:include="common/hrAside.html"></div>
 	<h3>관리자 메인 페이지</h3>
 		<script>
 		console.log("관리자")
 		</script>
+		
+		<input type="button" onclick="location.href='/admin/hrCard/adminList'">
+		<input value="직원등록" type="button" onclick="location.href='/admin/hrCard/adminRegist'">
 	
 </body>
 </html>

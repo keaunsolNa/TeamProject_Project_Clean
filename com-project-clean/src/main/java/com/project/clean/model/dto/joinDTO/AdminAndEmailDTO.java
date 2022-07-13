@@ -1,7 +1,6 @@
 package com.project.clean.model.dto.joinDTO;
 
 import java.io.Serializable;
-import java.sql.Blob;
 import java.sql.Date;
 import java.util.List;
 
@@ -23,15 +22,15 @@ public class AdminAndEmailDTO implements Serializable{
 	private String adminJob;
 	private java.sql.Date adminLastLoginDate;
 	private int adminSalary;
-	private int annualVacationUse;
+	private int adminUseAnnualVacation;
 	private List<AdminEmailDTO> adminEmail;
 	
 	public AdminAndEmailDTO() {
 	}
-	
+
 	public AdminAndEmailDTO(int adminNo, String adminName, String adminId, String adminPwd, Date adminBirth,
 			String adminGender, String adminPhone, Date adminHireDate, Date adminRetireDate, String adminRetireYn,
-			String adminJob, Blob adminSign, Date adminLastLoginDate, int adminSalary, int annualVacationUse,
+			String adminJob, Date adminLastLoginDate, int adminSalary, int adminUseAnnualVacation,
 			List<AdminEmailDTO> adminEmail) {
 		this.adminNo = adminNo;
 		this.adminName = adminName;
@@ -46,7 +45,7 @@ public class AdminAndEmailDTO implements Serializable{
 		this.adminJob = adminJob;
 		this.adminLastLoginDate = adminLastLoginDate;
 		this.adminSalary = adminSalary;
-		this.annualVacationUse = annualVacationUse;
+		this.adminUseAnnualVacation = adminUseAnnualVacation;
 		this.adminEmail = adminEmail;
 	}
 
@@ -154,12 +153,12 @@ public class AdminAndEmailDTO implements Serializable{
 		this.adminSalary = adminSalary;
 	}
 
-	public int getAnnualVacationUse() {
-		return annualVacationUse;
+	public int getAdminUseAnnualVacation() {
+		return adminUseAnnualVacation;
 	}
 
-	public void setAnnualVacationUse(int annualVacationUse) {
-		this.annualVacationUse = annualVacationUse;
+	public void setAdminUseAnnualVacation(int adminUseAnnualVacation) {
+		this.adminUseAnnualVacation = adminUseAnnualVacation;
 	}
 
 	public List<AdminEmailDTO> getAdminEmail() {
@@ -180,11 +179,9 @@ public class AdminAndEmailDTO implements Serializable{
 				+ ", adminPwd=" + adminPwd + ", adminBirth=" + adminBirth + ", adminGender=" + adminGender
 				+ ", adminPhone=" + adminPhone + ", adminHireDate=" + adminHireDate + ", adminRetireDate="
 				+ adminRetireDate + ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob
-				+ ", adminLastLoginDate=" + adminLastLoginDate + ", adminSalary=" + adminSalary + ", annualVacationUse="
-				+ annualVacationUse + ", adminEmail=" + adminEmail + "]";
+				+ ", adminLastLoginDate=" + adminLastLoginDate + ", adminSalary=" + adminSalary
+				+ ", adminUseAnnualVacation=" + adminUseAnnualVacation + ", adminEmail=" + adminEmail + "]";
 	}
 
-	
-	
 	
 }

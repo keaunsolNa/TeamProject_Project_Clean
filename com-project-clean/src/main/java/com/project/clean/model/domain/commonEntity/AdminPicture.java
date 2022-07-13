@@ -12,22 +12,22 @@ public class AdminPicture implements java.io.Serializable{
 	private static final long serialVersionUID = -2625424420628119196L;
 	
 	@Id
-	@Column(name="ADMIN_PICTURE_NO")
+	@Column(name="ADMIN_PICTURE_NO", nullable = true)
 	private int pictureNo;
 	
-	@Column(name="ADMIN_PICTURE_ORIGIN_NAME")
+	@Column(name="ADMIN_PICTURE_ORIGIN_NAME", nullable = true)
 	private String pictureOriginName;
 	
-	@Column(name="ADMIN_PICTURE_SAVE_NAME")
+	@Column(name="ADMIN_PICTURE_SAVE_NAME", nullable = true)
 	private String pictureSaveName;
 	
-	@Column(name="ADMIN_PICTURE_SAVE_ROOT")
+	@Column(name="ADMIN_PICTURE_SAVE_ROOT", nullable = true)
 	private String pictureSaveRoot;
 	
-	@Column(name="ADMIN_PICTURE_THUMBNAIL_NAME")
+	@Column(name="ADMIN_PICTURE_THUMBNAIL_NAME", nullable = true)
 	private String pictureThumbnailName;
 	
-	@Column(name="ADMIN_NO")
+	@Column(name="ADMIN_NO", nullable = true)
 	private int no;
 
 	public AdminPicture() {
