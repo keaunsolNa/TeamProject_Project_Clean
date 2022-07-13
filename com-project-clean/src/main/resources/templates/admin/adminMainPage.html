@@ -6,10 +6,22 @@
 <title>Insert title here</title>
 </head>
 <body>
+<<<<<<< HEAD
 	 <div th:include="common/header.html"></div>
 	 
 	<button onclick="location.href='/admin/select/retireNEmployee'">전체 인원 조회</button>
 	<button onclick="location.href='/admin/hr/regist/employee'">직원 등록(hr)</button>
+=======
+	<div th:include="common/Header.html"></div>
+	<div th:include="common/hrAside.html"></div>
+	<h3>관리자 메인 페이지</h3>
+		<script>
+		console.log("관리자")
+		</script>
+		
+		<input type="button" onclick="location.href='/admin/hrCard/adminList'">
+		<input value="직원등록" type="button" onclick="location.href='/admin/hrCard/adminRegist'">
+>>>>>>> master
 	
 	<div sec:authorize="hasRole('ROLE_ADMIN_HR')">
 	<th:block sec:authorize="!hasRole('ROLE_ADMIN_BOSS')">

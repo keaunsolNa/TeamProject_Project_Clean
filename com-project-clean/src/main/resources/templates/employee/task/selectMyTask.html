@@ -2,25 +2,83 @@
 <html xmlns:th="http://www.thymleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 <title>ProjectClean</title>
 </head>
 <body>
-
-	<table align="center" border="1">
-		<tr>
-			<th>예약 번호</th>
-			<th>고객 이름</th>
-			<th>시작 시간</th>
-			<th>종료 시간</th>
-			<th>예상 급여</th>
-		</tr>
-		<tr th:each="resList : ${ reservationList }">
-			<td th:text="${ resList.reservationNo }"></td>
-			<td th:text="${ resList.userName }"></td>
-			<td th:text="${ resList.businessStartTime }"></td>
-			<td th:text="${ resList.businessEndTime }"></td>
-			<td th:text="${ resList.totalPayment }"></td>
-		</tr>
+	<div th:include="common/header.html"></div>
+	<div th:include="common/taskAside.html"></div>
+	<table id="taskInfo" border="1">
+		<thead>
+			<tr>
+				<td width="100">예약 번호</td>
+				<td width="100">고객 이름</td>
+				<td width="200">시작 시간</td>
+				<td width="200">종료 시간</td>
+				<td width="100">예상 급여</td>
+				<td width="100">업무 시작</td>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
 	</table>
+	 
+	<script>
+		const currentDate = new Date();
+		var businessStartTime = new Date();
+		
+			window.onload = function(){
+				$.ajax({
+					url : "selectMyTask",
+					method : "post",
+					success:function(data){
+						
+						const $table = $("#taskInfo tbody");
+						$table.html("");
+						
+						
+						for(var index in data){
+							$tr = $("<tr>");
+							$noTd = $("<td>").text(data[index].reservationNo);
+							$nameTd = $("<td>").text(data[index].userName);
+							$startTimeTd = $("<td>").text(data[index].businessStartTime);
+							$endTimeTd = $("<td>").text(data[index].businessEndTime);
+							$paymentTd = $("<td>").text(data[index].totalPayment);
+							
+							$tr.append($noTd);
+							$tr.append($nameTd);
+							$tr.append($startTimeTd);
+							$tr.append($endTimeTd);
+							$tr.append($paymentTd);
+	 						$tr.append('<button id="btn">제출하기</button>'); 
+							$table.append($tr);
+							
+							businessStartTime = data[index].businessStartTime;
+							console.log(businessStartTime)
+							
+						};
+					},
+					error:function(error){
+						console.log(error);
+					}
+				})
+				
+				$(document).on("click","#btn",function(){
+					console.log("현재 시간 : " + currentDate);
+					console.log("업무 시간 : " + businessStartTime);
+					
+					console.log(currentDate);
+					console.log(businessStartTime);
+					
+					if(businessStartTime > currentDate){
+						alert("업무 가능")
+					} else{
+						alert("업무 불가능")
+					};
+				});
+		};
+   	</script>
 </body>
 </html>

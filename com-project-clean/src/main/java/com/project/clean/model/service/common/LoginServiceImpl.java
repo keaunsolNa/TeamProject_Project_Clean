@@ -26,9 +26,9 @@ import com.project.clean.model.dto.joinDTO.AdminAndAdminMemberAuthorityDTO;
 import com.project.clean.model.dto.joinDTO.AdminImpl;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAdminMemberAuthorityDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeImpl;
-import com.project.clean.model.repository.admin.AdminIpRepository;
 import com.project.clean.model.repository.common.CommonAdminLoginRepository;
 import com.project.clean.model.repository.common.CommonEmployeeLoginRepository;
+import com.project.clean.model.repository.admin.AdminIpRepository;
 
 @Service
 public class LoginServiceImpl implements LoginService{
@@ -58,9 +58,11 @@ public class LoginServiceImpl implements LoginService{
 
 		if(!userId.contains("cleanup")) {
 			
+			System.out.println("EMPLOYEE 조회 시작");
 			/* employee select*/
 			EmployeeAndAdminMemberAuthority employee = commonEmployeeLoginRepository.findByEmployeeIdAndEmployeeRetireYn(userId, "N");
-			 
+			
+			System.out.println("조회 해 온 멤버 객체 : " + employee);
 			/* authorities 빈 객체 생성 */
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			
@@ -91,7 +93,8 @@ public class LoginServiceImpl implements LoginService{
 			
 			/* admin select*/
 			AdminAndAdminMemberAuthority admin = commonAdminLoginRepository.findByAdminIdAndAdminRetireYn(userId, "N");
-
+			System.out.println("조회 해 온 멤버 객체 : " + admin);
+			
 			/* authorities 빈 객체 등록 */
 			List<GrantedAuthority> authorities = new ArrayList<>();
 
@@ -116,10 +119,13 @@ public class LoginServiceImpl implements LoginService{
 			AdminDTO adminDTO = modelMapper.map(admin, AdminDTO.class);
 			AdminIpAddressDTO adminIp = new AdminIpAddressDTO();
 			
+			System.out.println("조회해온 멤버 변환 객체 : " + adminDTO);
 			try {
 	            InetAddress inetAddress = InetAddress.getLocalHost();
 	            String strIpAdress = inetAddress.getHostAddress();
 	            String IpAdressNo = admin.getAdminId();
+	            
+	            System.out.println("조회해온 IP 주소 : " + strIpAdress);
 	            
 	            if(null != strIpAdress) {
 	            	if(admin.getAdminIpAddress().isEmpty()) {
@@ -148,7 +154,10 @@ public class LoginServiceImpl implements LoginService{
 
 			
 			AdminImpl user = new AdminImpl(admin.getAdminId(), admin.getAdminPwd(), authorities);
+			
+			System.out.println("재정의 전 AdminImpl 객체 :" + user);
 			user.SetDetailsAdmin(modelMapper.map(admin, AdminAndAdminMemberAuthorityDTO.class));
+			System.out.println("재정의 후 AdminImpl 객체 :" + user);
 			return user;
 			
 		}
