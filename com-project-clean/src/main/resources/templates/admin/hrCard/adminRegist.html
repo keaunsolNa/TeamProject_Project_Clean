@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+    .tg  {border-collapse:collapse;border-spacing:0;}
+    .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+      overflow:hidden;padding:10px 5px;word-break:normal; border-color:#c0c0c0;text-align:center;vertical-align:middle}
+
+    .btn_sign {
+      background: #9AE8F9;
+      padding: 6px;
+      border-radius: 3px;
+      border : 0;
+      outline: 0;
+    }
+    .btn_sign:hover {
+      box-shadow: 1px 1px 1px #ddd;
+    }
+
+    .btn_cancle {
+      background: #9AE8F9;
+      padding: 6px;
+      border-radius: 3px;
+      border : 0;
+      outline: 0;
+    }
+    .btn_cancle:hover {
+      box-shadow: 1px 1px 1px #ddd;
+    }
+    .btn_address {
+      background: #9AE8F9;
+      padding: 6px;
+      border-radius: 3px;
+      border : 0;
+      outline: 0;
+    }
+    .btn_address:hover {
+      box-shadow: 1px 1px 1px #ddd;
+    }
+    .btn_profile {
+      background: #9AE8F9;
+      padding: 6px;
+      border-radius: 3px;
+      border : 0;
+      outline: 0;
+    }
+    .btn_profile:hover {
+      box-shadow: 1px 1px 1px #ddd;
+    }
+    .btn_hrcard {
+      background: #9AE8F9;
+      padding: 6px;
+      border-radius: 3px;
+      border : 0;
+      outline: 0;
+    }
+    .btn_hrcard:hover {
+      box-shadow: 1px 1px 1px #ddd;
+    }
+    </style>
+</head>
+<body>
+	<div th:include="common/Header.html"></div>
+	<div th:include="common/hrAside.html"></div>
+
+	<button onclick="history.back()">Back</button>
+    <form action="/admin/hrCard/adminRegist" method="post">
+	    <table class="tg" style=" table-layout: fixed; width: 597px">
+	    <colgroup>
+	    <col style="width: 100px">
+	    <col style="width: 120px">
+	    <col style="width: 100px">
+	    <col style="width: 200px">
+	    <col style="width: 60px">
+	    <col style="width: 60px">
+	    </colgroup>
+		    <thead>
+		      <tr>
+		        <td>관리자번호</td>
+		        <td th:text="${ adminNo }"></td>
+		        <td>이름</td>
+		        <td><input type="text" name="adminName" required></td>
+		        <td colspan="2" rowspan="3"></td>
+		      </tr>
+		      <tr>
+		        <td>ID</td>
+		        <td th:text="${ adminId }"></td>
+		        <td>전화번호</td>
+		          <td> 
+		        	<input
+					       type="text"
+					       name="adminPhone"
+					       maxLength='11'
+					       placeholder='-없이 입력'
+						   onChange={handlePress}
+						   required
+					 >
+			      </td>
+		      </tr>
+		      <tr>
+		        <td>생년월일</td>
+		        <td><input type="date" name="adminBirth" min="1950-01-01" max="2003-01-01" required></td>
+		        <td>성별</td>
+		        <td>
+		        	<select name="adminGender" style="text-align: center;">
+		                <option value="F">여성</option>
+		                <option value="M">남성</option>
+		                <!-- <option value="총관리자">총관리자</option> -->
+		            </select>
+		        </td>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr>
+		        <td>이메일</td>
+		        <td colspan="3"><input type="text" name="email">@<input type="text" name="domain"></td>
+		        <td>퇴사여부</td>
+		        <td>N</td>
+		      </tr>
+		      <tr>
+		        <td>우편번호</td>
+		        <td><input type="text" name="addressNo" id="zipCode" readonly></td>
+		        <td>기본주소</td>
+		        <td><input type="text" name="address" id="address1" readonly></td>
+		        <td colspan="2"><input type="button" value="검색" class="btn btn-yg" id="searchZipCode"></td>
+		      </tr>
+		      <tr>
+		        <td>상세주소</td>
+		        <td colspan="5"><input type="text" name="detailAddress" id="address2"></td>
+		      </tr>
+		      <tr>
+		        <td>입사일</td>
+		        <td colspan="2"><input type="date" name="adminHireDate" required></td>
+		        <td>퇴사일</td>
+		        <td colspan="2">-</td>
+		      </tr>
+		      <tr>
+		        <td>직책</td>
+		        <td colspan="2">
+		        	<select name="adminJob" style="text-align: center;">
+		                <option value="일반관리자">일반관리자</option>
+		                <option value="인사관리자">인사관리자</option>
+		                <option value="재정담당자">재정담당자</option>
+		                <option value="보안담당자">보안담당자</option>
+		                <!-- <option value="총관리자">총관리자</option> -->
+		            </select>
+		        </td>
+		        <td>마지막 로그인 일자</td>
+		        <td colspan="2">-</td>
+		      </tr>
+		      <tr>
+		        <td>연차 사용 횟수</td>
+		        <td colspan="2">-</td>
+		      </tr>
+		    </tbody>
+		    </table>
+	    <input class="btn_hrcard" type="submit" value="등록완료">
+	    <input name="adminId" type="hidden" th:value="${ adminId }">
+	    <input name="adminNo" type="hidden" th:value="${ adminNo }">
+  </form>
+  
+  <!-- 참고 링크 : http://postcode.map.daum.net/guide -->
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script>
+		const $searchZipCode = document.getElementById("searchZipCode");
+		/* const $goMain = document.getElementById("goMain"); */
+		
+		$searchZipCode.onclick = function() {
+		
+			/* 다음 우편번호 검색 창을 오픈하면서 동작할 콜백 메소드를 포함한 객체를 매개변수로 전달한다. */
+			new daum.Postcode({
+				oncomplete: function(data){
+					
+					/* 팝업에서 검색결과 항목을 클릭했을 시 실행할 코드를 작성하는 부분 */
+					document.getElementById("zipCode").value = data.zonecode;
+					document.getElementById("address1").value = data.address;
+					document.getElementById("address2").focus();
+				}
+			}).open();
+		}
+		
+		/* $goMain.onclick = function() {
+			location.href = "${ pageContext.servletContext.contextPath }";
+		} */
+		
+		/* const handlePress = (e) => {
+	        const regex = /^[0-9\b -]{0,13}$/;
+	        if (regex.test(e.target.value)) {
+	            setTel(e.target.value);
+	        }
+	    }; */
+	</script>
+</body>
+</html>

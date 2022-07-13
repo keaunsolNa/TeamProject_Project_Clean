@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
+@Entity(name="AdminEmail")
 @Table(name="TBL_ADMIN_EMAIL")
 public class AdminEmail implements java.io.Serializable{
 

@@ -1,5 +1,7 @@
 package com.project.clean.model.dto.joinDTO;
 
+import java.sql.Blob;
+import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
@@ -22,16 +24,15 @@ public class AdminImpl extends User{
 	private java.sql.Date adminRetireDate;
 	private String adminRetireYn;
 	private String adminJob;
-	private java.sql.Blob adminSign;
 	private java.sql.Date adminLastLoginDate;
 	private int adminSalary;
-	private int annualVacationUse;
+	private int adminUseAnnualVacation;
 	private List<AdminMemberRoleAndAuthorityDTO> adminMemberRoleAndAuthorityList;
 	
 	public AdminImpl(String username, String password, Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, authorities);
 	}
-	
+
 
 	public void SetDetailsAdmin(AdminAndAdminMemberAuthorityDTO admin) {
 		this.adminNo = admin.getAdminNo();
@@ -45,10 +46,9 @@ public class AdminImpl extends User{
 		this.adminRetireDate = admin.getAdminRetireDate();
 		this.adminRetireYn = admin.getAdminRetireYn();
 		this.adminJob = admin.getAdminJob();
-		this.adminSign = admin.getAdminSign();
 		this.adminLastLoginDate = admin.getAdminLastLoginDate();
 		this.adminSalary = admin.getAdminSalary();
-		this.annualVacationUse = admin.getAnnualVacationUse();
+		this.adminUseAnnualVacation = admin.getAdminUseAnnualVacation();
 		this.adminMemberRoleAndAuthorityList = admin.getAdminMemberRoleAndAuthorityList();
 	}
 
@@ -56,80 +56,129 @@ public class AdminImpl extends User{
 		return adminNo;
 	}
 
+	public void setAdminNo(int adminNo) {
+		this.adminNo = adminNo;
+	}
+
 	public String getAdminName() {
 		return adminName;
+	}
+
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
 	}
 
 	public String getAdminId() {
 		return adminId;
 	}
 
+	public void setAdminId(String adminId) {
+		this.adminId = adminId;
+	}
+
 	public String getAdminPwd() {
 		return adminPwd;
+	}
+
+	public void setAdminPwd(String adminPwd) {
+		this.adminPwd = adminPwd;
 	}
 
 	public java.sql.Date getAdminBirth() {
 		return adminBirth;
 	}
 
+	public void setAdminBirth(java.sql.Date adminBirth) {
+		this.adminBirth = adminBirth;
+	}
+
 	public String getAdminGender() {
 		return adminGender;
+	}
+
+	public void setAdminGender(String adminGender) {
+		this.adminGender = adminGender;
 	}
 
 	public String getAdminPhone() {
 		return adminPhone;
 	}
 
+	public void setAdminPhone(String adminPhone) {
+		this.adminPhone = adminPhone;
+	}
+
 	public java.sql.Date getAdminHireDate() {
 		return adminHireDate;
+	}
+
+	public void setAdminHireDate(java.sql.Date adminHireDate) {
+		this.adminHireDate = adminHireDate;
 	}
 
 	public java.sql.Date getAdminRetireDate() {
 		return adminRetireDate;
 	}
 
+	public void setAdminRetireDate(java.sql.Date adminRetireDate) {
+		this.adminRetireDate = adminRetireDate;
+	}
+
 	public String getAdminRetireYn() {
 		return adminRetireYn;
+	}
+
+	public void setAdminRetireYn(String adminRetireYn) {
+		this.adminRetireYn = adminRetireYn;
 	}
 
 	public String getAdminJob() {
 		return adminJob;
 	}
 
-	public java.sql.Blob getAdminSign() {
-		return adminSign;
-	}
-
 	public java.sql.Date getAdminLastLoginDate() {
 		return adminLastLoginDate;
+	}
+
+	public void setAdminLastLoginDate(java.sql.Date adminLastLoginDate) {
+		this.adminLastLoginDate = adminLastLoginDate;
 	}
 
 	public int getAdminSalary() {
 		return adminSalary;
 	}
 
-	public int getAnnualVacationUse() {
-		return annualVacationUse;
+	public void setAdminSalary(int adminSalary) {
+		this.adminSalary = adminSalary;
+	}
+
+	public int getAdminUseAnnualVacation() {
+		return adminUseAnnualVacation;
+	}
+
+	public void setAdminUseAnnualVacation(int adminUseAnnualVacation) {
+		this.adminUseAnnualVacation = adminUseAnnualVacation;
 	}
 
 	public List<AdminMemberRoleAndAuthorityDTO> getAdminMemberRoleAndAuthorityList() {
 		return adminMemberRoleAndAuthorityList;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "AdminImpl [adminNo=" + adminNo + ", adminName=" + adminName + ", adminId=" + adminId + ", adminPwd="
 				+ adminPwd + ", adminBirth=" + adminBirth + ", adminGender=" + adminGender + ", adminPhone="
 				+ adminPhone + ", adminHireDate=" + adminHireDate + ", adminRetireDate=" + adminRetireDate
-				+ ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob + ", adminSign=" + adminSign
-				+ ", adminLastLoginDate=" + adminLastLoginDate + ", adminSalary=" + adminSalary + ", annualVacationUse="
-				+ annualVacationUse + ", adminMemberRoleAndAuthorityList=" + adminMemberRoleAndAuthorityList + "]";
+				+ ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob + ", adminLastLoginDate="
+				+ adminLastLoginDate + ", adminSalary=" + adminSalary + ", adminUseAnnualVacation=" + adminUseAnnualVacation
+				+ ", adminMemberRoleAndAuthorityList=" + adminMemberRoleAndAuthorityList + "]";
 	}
-	
+
 	
 	
 	
 	
 
-	
 }

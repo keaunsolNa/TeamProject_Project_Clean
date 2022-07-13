@@ -1,4 +1,4 @@
-package com.project.clean.model.repository.common;
+package com.project.clean.model.repository.Common;
 
 import org.springframework.data.repository.CrudRepository;
 

@@ -1,0 +1,62 @@
+
+@font-face {
+    font-family: 'MinSans-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+.btn2{
+    width: fit-content;
+    height: 30px;
+}
+
+header{
+    width: auto;
+    height: 20%;
+}
+
+aside{
+    font-family: 'MinSans-Medium';
+    width: 20%;
+    height: 80%;
+    border-right: 1px solid rgb(134, 134, 134);
+    float: left;
+}
+
+section{
+    
+    width: 50%;
+    height: auto;
+    float: left;
+    margin-left: 10%;
+    margin-top: 3%;
+}
+
+.upnavvar{
+    background-color: rgba(217, 217, 217, 1);
+}
+
+.downnavvar{
+    background-color: rgba(217, 217, 217, 1);
+}
+
+h3{
+    color: white;
+    font-style: italic;
+}
+
+
+.AsideVar li{
+    margin-top: 5%;
+    margin-left: 5%;
+    font-size: large;
+}
+
+.AsideVar button{
+    font-size: 20px;
+    margin-left: 5%;
+    background-color: rgba(217, 217, 217, 1);
+    margin-top: 10%;
+}
