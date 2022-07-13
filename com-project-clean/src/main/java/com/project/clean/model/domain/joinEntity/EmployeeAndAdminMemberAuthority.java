@@ -19,64 +19,64 @@ public class EmployeeAndAdminMemberAuthority implements Serializable{
 
 	@Id
 	@Column(name = "EMPLOYEE_NO")
-	private int no;
+	private int employeeNo;
 	
 	@Column(name = "EMPLOYEE_NAME")
-	private String name;
+	private String employeeName;
 	
 	@Column(name = "EMPLOYEE_ID")
 	private String employeeId;
 	
 	@Column(name = "EMPLOYEE_PWD")
-	private String pwd;
+	private String employeePwd;
 	
 	@Column(name = "EMPLOYEE_BIRTH" )
-	private java.sql.Date birth;
+	private java.sql.Date employeeBirth;
 	
 	@Column(name = "EMPLOYEE_GENDER")
-	private String gender;
+	private String employeeGender;
 	
 	@Column(name = "EMPLOYEE_PHONE")
-	private String phone;
+	private String employeePhone;
 	
 	@Column(name = "EMPLOYEE_HIRE_DATE")
-	private java.sql.Date hireDate;
+	private java.sql.Date employeeHireDate;
 	
 	@Column(name ="EMPLOYEE_RETIRE_DATE", nullable=true)
-	private java.sql.Date retireDate;
+	private java.sql.Date employeeRetireDate;
 	
 	@Column(name ="EMPLOYEE_SUM_COUNT")
-	private int sumCount;
+	private int employeeSumCount;
 	
 	@Column(name ="EMPLOYEE_SUM_TIME", nullable=true)
-	private int sumTime;
+	private int employeeSumTime;
 	
 	@Column(name="EMPLOYEE_LAST_LOGIN_DATE", nullable=true)
-	private java.sql.Date lastLoginDate;
+	private java.sql.Date employeeLastLoginDate;
 	
 	@Column(name="EMPLOYEE_BLACKLIST_YN")
-	private String blackListYn;
+	private String employeeBlackListYn;
 	
 	@Column(name="EMPLOYEE_RETIRE_YN")
-	private String retireYn;
+	private String employeeRetireYn;
 	
 	@Column(name="REQUEST_DATE", nullable=true)
-	private java.sql.Date requestDate;
+	private java.sql.Date employeeRequestDate;
 	
 	@Column(name="EMPLOYEE_FIRST_CONFIRM_YN")
-	private String firstConfirmYn;
+	private String employeeFirstConfirmYn;
 	
-	@Column(name="EMPLOYEE_SECOND_CONFIRMER")
-	private String secondConfirmer;
+	@Column(name="EMPLOYEE_SECOND_CONFIRM_YN")
+	private String employeeSecondConfirmer;
 	
 	@Column(name="EMPLOYEE_LAST_CONFIRM_YN")
-	private String lastConfirmYn;
+	private String employeeLastConfirmYn;
 
 	@Column(name="EMPLOYEE_LAST_CONFIRM_DATE", nullable=true)
-	private java.sql.Date lastConfirmDate;
+	private java.sql.Date employeeLastConfirmDate;
 	
 	@Column(name="EMPLOYEE_REGIST_RETURN_YN")
-	private String registReturnYn;
+	private String employeeRegistReturnYn;
 	
 	@OneToMany
 	@JoinColumn(name = "EMPLOYEE_NO")
@@ -85,48 +85,50 @@ public class EmployeeAndAdminMemberAuthority implements Serializable{
 	public EmployeeAndAdminMemberAuthority() {
 	}
 
-	public EmployeeAndAdminMemberAuthority(int no, String name, String employeeId, String pwd, Date birth,
-			String gender, String phone, Date hireDate, Date retireDate, int sumCount, int sumTime, Date lastLoginDate,
-			String blackListYn, String retireYn, Date requestDate, String firstConfirmYn, String secondConfirmer,
-			String lastConfirmYn, Date lastConfirmDate, String registReturnYn,
+	public EmployeeAndAdminMemberAuthority(int employeeNo, String employeeName, String employeeId, String employeePwd,
+			Date employeeBirth, String employeeGender, String employeePhone, Date employeeHireDate,
+			Date employeeRetireDate, int employeeSumCount, int employeeSumTime, Date employeeLastLoginDate,
+			String employeeBlackListYn, String employeeRetireYn, Date employeeRequestDate,
+			String employeeFirstConfirmYn, String employeeSecondConfirmer, String employeeLastConfirmYn,
+			Date employeeLastConfirmDate, String employeeRegistReturnYn,
 			List<AdminMemberRoleAndAuthority> employeeMemberRoleeeAndAuthority) {
-		this.no = no;
-		this.name = name;
+		this.employeeNo = employeeNo;
+		this.employeeName = employeeName;
 		this.employeeId = employeeId;
-		this.pwd = pwd;
-		this.birth = birth;
-		this.gender = gender;
-		this.phone = phone;
-		this.hireDate = hireDate;
-		this.retireDate = retireDate;
-		this.sumCount = sumCount;
-		this.sumTime = sumTime;
-		this.lastLoginDate = lastLoginDate;
-		this.blackListYn = blackListYn;
-		this.retireYn = retireYn;
-		this.requestDate = requestDate;
-		this.firstConfirmYn = firstConfirmYn;
-		this.secondConfirmer = secondConfirmer;
-		this.lastConfirmYn = lastConfirmYn;
-		this.lastConfirmDate = lastConfirmDate;
-		this.registReturnYn = registReturnYn;
+		this.employeePwd = employeePwd;
+		this.employeeBirth = employeeBirth;
+		this.employeeGender = employeeGender;
+		this.employeePhone = employeePhone;
+		this.employeeHireDate = employeeHireDate;
+		this.employeeRetireDate = employeeRetireDate;
+		this.employeeSumCount = employeeSumCount;
+		this.employeeSumTime = employeeSumTime;
+		this.employeeLastLoginDate = employeeLastLoginDate;
+		this.employeeBlackListYn = employeeBlackListYn;
+		this.employeeRetireYn = employeeRetireYn;
+		this.employeeRequestDate = employeeRequestDate;
+		this.employeeFirstConfirmYn = employeeFirstConfirmYn;
+		this.employeeSecondConfirmer = employeeSecondConfirmer;
+		this.employeeLastConfirmYn = employeeLastConfirmYn;
+		this.employeeLastConfirmDate = employeeLastConfirmDate;
+		this.employeeRegistReturnYn = employeeRegistReturnYn;
 		this.employeeMemberRoleeeAndAuthority = employeeMemberRoleeeAndAuthority;
 	}
 
-	public int getNo() {
-		return no;
+	public int getEmployeeNo() {
+		return employeeNo;
 	}
 
-	public void setNo(int no) {
-		this.no = no;
+	public void setEmployeeNo(int employeeNo) {
+		this.employeeNo = employeeNo;
 	}
 
-	public String getName() {
-		return name;
+	public String getEmployeeName() {
+		return employeeName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
 	}
 
 	public String getEmployeeId() {
@@ -137,140 +139,140 @@ public class EmployeeAndAdminMemberAuthority implements Serializable{
 		this.employeeId = employeeId;
 	}
 
-	public String getPwd() {
-		return pwd;
+	public String getEmployeePwd() {
+		return employeePwd;
 	}
 
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
+	public void setEmployeePwd(String employeePwd) {
+		this.employeePwd = employeePwd;
 	}
 
-	public java.sql.Date getBirth() {
-		return birth;
+	public java.sql.Date getEmployeeBirth() {
+		return employeeBirth;
 	}
 
-	public void setBirth(java.sql.Date birth) {
-		this.birth = birth;
+	public void setEmployeeBirth(java.sql.Date employeeBirth) {
+		this.employeeBirth = employeeBirth;
 	}
 
-	public String getGender() {
-		return gender;
+	public String getEmployeeGender() {
+		return employeeGender;
 	}
 
-	public void setGender(String gender) {
-		this.gender = gender;
+	public void setEmployeeGender(String employeeGender) {
+		this.employeeGender = employeeGender;
 	}
 
-	public String getPhone() {
-		return phone;
+	public String getEmployeePhone() {
+		return employeePhone;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setEmployeePhone(String employeePhone) {
+		this.employeePhone = employeePhone;
 	}
 
-	public java.sql.Date getHireDate() {
-		return hireDate;
+	public java.sql.Date getEmployeeHireDate() {
+		return employeeHireDate;
 	}
 
-	public void setHireDate(java.sql.Date hireDate) {
-		this.hireDate = hireDate;
+	public void setEmployeeHireDate(java.sql.Date employeeHireDate) {
+		this.employeeHireDate = employeeHireDate;
 	}
 
-	public java.sql.Date getRetireDate() {
-		return retireDate;
+	public java.sql.Date getEmployeeRetireDate() {
+		return employeeRetireDate;
 	}
 
-	public void setRetireDate(java.sql.Date retireDate) {
-		this.retireDate = retireDate;
+	public void setEmployeeRetireDate(java.sql.Date employeeRetireDate) {
+		this.employeeRetireDate = employeeRetireDate;
 	}
 
-	public int getSumCount() {
-		return sumCount;
+	public int getEmployeeSumCount() {
+		return employeeSumCount;
 	}
 
-	public void setSumCount(int sumCount) {
-		this.sumCount = sumCount;
+	public void setEmployeeSumCount(int employeeSumCount) {
+		this.employeeSumCount = employeeSumCount;
 	}
 
-	public int getSumTime() {
-		return sumTime;
+	public int getEmployeeSumTime() {
+		return employeeSumTime;
 	}
 
-	public void setSumTime(int sumTime) {
-		this.sumTime = sumTime;
+	public void setEmployeeSumTime(int employeeSumTime) {
+		this.employeeSumTime = employeeSumTime;
 	}
 
-	public java.sql.Date getLastLoginDate() {
-		return lastLoginDate;
+	public java.sql.Date getEmployeeLastLoginDate() {
+		return employeeLastLoginDate;
 	}
 
-	public void setLastLoginDate(java.sql.Date lastLoginDate) {
-		this.lastLoginDate = lastLoginDate;
+	public void setEmployeeLastLoginDate(java.sql.Date employeeLastLoginDate) {
+		this.employeeLastLoginDate = employeeLastLoginDate;
 	}
 
-	public String getBlackListYn() {
-		return blackListYn;
+	public String getEmployeeBlackListYn() {
+		return employeeBlackListYn;
 	}
 
-	public void setBlackListYn(String blackListYn) {
-		this.blackListYn = blackListYn;
+	public void setEmployeeBlackListYn(String employeeBlackListYn) {
+		this.employeeBlackListYn = employeeBlackListYn;
 	}
 
-	public String getRetireYn() {
-		return retireYn;
+	public String getEmployeeRetireYn() {
+		return employeeRetireYn;
 	}
 
-	public void setRetireYn(String retireYn) {
-		this.retireYn = retireYn;
+	public void setEmployeeRetireYn(String employeeRetireYn) {
+		this.employeeRetireYn = employeeRetireYn;
 	}
 
-	public java.sql.Date getRequestDate() {
-		return requestDate;
+	public java.sql.Date getEmployeeRequestDate() {
+		return employeeRequestDate;
 	}
 
-	public void setRequestDate(java.sql.Date requestDate) {
-		this.requestDate = requestDate;
+	public void setEmployeeRequestDate(java.sql.Date employeeRequestDate) {
+		this.employeeRequestDate = employeeRequestDate;
 	}
 
-	public String getFirstConfirmYn() {
-		return firstConfirmYn;
+	public String getEmployeeFirstConfirmYn() {
+		return employeeFirstConfirmYn;
 	}
 
-	public void setFirstConfirmYn(String firstConfirmYn) {
-		this.firstConfirmYn = firstConfirmYn;
+	public void setEmployeeFirstConfirmYn(String employeeFirstConfirmYn) {
+		this.employeeFirstConfirmYn = employeeFirstConfirmYn;
 	}
 
-	public String getSecondConfirmer() {
-		return secondConfirmer;
+	public String getEmployeeSecondConfirmer() {
+		return employeeSecondConfirmer;
 	}
 
-	public void setSecondConfirmer(String secondConfirmer) {
-		this.secondConfirmer = secondConfirmer;
+	public void setEmployeeSecondConfirmer(String employeeSecondConfirmer) {
+		this.employeeSecondConfirmer = employeeSecondConfirmer;
 	}
 
-	public String getLastConfirmYn() {
-		return lastConfirmYn;
+	public String getEmployeeLastConfirmYn() {
+		return employeeLastConfirmYn;
 	}
 
-	public void setLastConfirmYn(String lastConfirmYn) {
-		this.lastConfirmYn = lastConfirmYn;
+	public void setEmployeeLastConfirmYn(String employeeLastConfirmYn) {
+		this.employeeLastConfirmYn = employeeLastConfirmYn;
 	}
 
-	public java.sql.Date getLastConfirmDate() {
-		return lastConfirmDate;
+	public java.sql.Date getEmployeeLastConfirmDate() {
+		return employeeLastConfirmDate;
 	}
 
-	public void setLastConfirmDate(java.sql.Date lastConfirmDate) {
-		this.lastConfirmDate = lastConfirmDate;
+	public void setEmployeeLastConfirmDate(java.sql.Date employeeLastConfirmDate) {
+		this.employeeLastConfirmDate = employeeLastConfirmDate;
 	}
 
-	public String getRegistReturnYn() {
-		return registReturnYn;
+	public String getEmployeeRegistReturnYn() {
+		return employeeRegistReturnYn;
 	}
 
-	public void setRegistReturnYn(String registReturnYn) {
-		this.registReturnYn = registReturnYn;
+	public void setEmployeeRegistReturnYn(String employeeRegistReturnYn) {
+		this.employeeRegistReturnYn = employeeRegistReturnYn;
 	}
 
 	public List<AdminMemberRoleAndAuthority> getEmployeeMemberRoleeeAndAuthority() {
@@ -287,14 +289,20 @@ public class EmployeeAndAdminMemberAuthority implements Serializable{
 
 	@Override
 	public String toString() {
-		return "EmployeeAndAdminMemberAuthority [no=" + no + ", name=" + name + ", employeeId=" + employeeId + ", pwd="
-				+ pwd + ", birth=" + birth + ", gender=" + gender + ", phone=" + phone + ", hireDate=" + hireDate
-				+ ", retireDate=" + retireDate + ", sumCount=" + sumCount + ", sumTime=" + sumTime + ", lastLoginDate="
-				+ lastLoginDate + ", blackListYn=" + blackListYn + ", retireYn=" + retireYn + ", requestDate="
-				+ requestDate + ", firstConfirmYn=" + firstConfirmYn + ", secondConfirmer=" + secondConfirmer
-				+ ", lastConfirmYn=" + lastConfirmYn + ", lastConfirmDate=" + lastConfirmDate + ", registReturnYn="
-				+ registReturnYn + ", employeeMemberRoleeeAndAuthority=" + employeeMemberRoleeeAndAuthority + "]";
+		return "EmployeeAndAdminMemberAuthority [employeeNo=" + employeeNo + ", employeeName=" + employeeName
+				+ ", employeeId=" + employeeId + ", employeePwd=" + employeePwd + ", employeeBirth=" + employeeBirth
+				+ ", employeeGender=" + employeeGender + ", employeePhone=" + employeePhone + ", employeeHireDate="
+				+ employeeHireDate + ", employeeRetireDate=" + employeeRetireDate + ", employeeSumCount="
+				+ employeeSumCount + ", employeeSumTime=" + employeeSumTime + ", employeeLastLoginDate="
+				+ employeeLastLoginDate + ", employeeBlackListYn=" + employeeBlackListYn + ", employeeRetireYn="
+				+ employeeRetireYn + ", employeeRequestDate=" + employeeRequestDate + ", employeeFirstConfirmYn="
+				+ employeeFirstConfirmYn + ", employeeSecondConfirmer=" + employeeSecondConfirmer
+				+ ", employeeLastConfirmYn=" + employeeLastConfirmYn + ", employeeLastConfirmDate="
+				+ employeeLastConfirmDate + ", employeeRegistReturnYn=" + employeeRegistReturnYn
+				+ ", employeeMemberRoleeeAndAuthority=" + employeeMemberRoleeeAndAuthority + "]";
 	}
+
+	
 
 
 	

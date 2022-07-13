@@ -1,7 +1,6 @@
 package com.project.clean.model.dto.joinDTO;
 
 import java.io.Serializable;
-import java.sql.Blob;
 import java.sql.Date;
 import java.util.List;
 
@@ -136,7 +135,6 @@ public class AdminAndAdminMemberAuthorityDTO implements Serializable{
 	public void setAdminJob(String adminJob) {
 		this.adminJob = adminJob;
 	}
-
 	public java.sql.Date getAdminLastLoginDate() {
 		return adminLastLoginDate;
 	}
@@ -183,6 +181,7 @@ public class AdminAndAdminMemberAuthorityDTO implements Serializable{
 				+ ", adminUseAnnualVacation=" + adminUseAnnualVacation + ", adminMemberRoleAndAuthorityList="
 				+ adminMemberRoleAndAuthorityList + "]";
 	}
+
 	
 	
 

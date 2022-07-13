@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org"
-	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" th:href="@{/css/common/login/loginPage.css}" />
@@ -34,7 +33,7 @@
 	                <label class="personalcolordiv col-xl-3">비밀번호 : </label>
 	                <input type="password" name="password"><br><br>
 	               	<label>로그인 상태 유지</label> 
-	                <input type="checkbox" name ="remember-me">
+	                <input type="checkbox" class="custom-control-input" name ="_spring_security_remember_me" value="true" id="customCheck1">
 	            </div>
 	
 	            <div  class="loginbottomnav col-xl-3">
@@ -51,10 +50,11 @@
 	                <button type="button" onclick="location.href='common/find/id'" class="idFind col-xl-3">아이디 찾기</button>
 	            </div>
             <br>
+<!--  
 	            <div  class="loginbottomnav col-xl-3">
 	                <button type="button" onclick="location.href='common/find/password'" class="pwdFind col-xl-3">비밀번호 찾기</button>
 	            </div>
-	
+	 -->
 	        </div>
 	        
     	</section>

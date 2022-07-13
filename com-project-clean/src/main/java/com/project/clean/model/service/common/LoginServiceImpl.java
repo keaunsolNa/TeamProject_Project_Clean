@@ -11,7 +11,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,9 @@ import com.project.clean.model.domain.joinEntity.AdminMemberRoleAndAuthority;
 import com.project.clean.model.domain.joinEntity.EmployeeAndAdminMemberAuthority;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.AdminIpAddressDTO;
+import com.project.clean.model.dto.joinDTO.AdminAndAdminMemberAuthorityDTO;
 import com.project.clean.model.dto.joinDTO.AdminImpl;
+import com.project.clean.model.dto.joinDTO.EmployeeAndAdminMemberAuthorityDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeImpl;
 import com.project.clean.model.repository.Common.CommonAdminLoginRepository;
 import com.project.clean.model.repository.Common.CommonEmployeeLoginRepository;
@@ -57,9 +58,11 @@ public class LoginServiceImpl implements LoginService{
 
 		if(!userId.contains("cleanup")) {
 			
+			System.out.println("EMPLOYEE 조회 시작");
 			/* employee select*/
-			EmployeeAndAdminMemberAuthority employee = commonEmployeeLoginRepository.findByEmployeeIdAndRetireYn(userId, "N");
-			 
+			EmployeeAndAdminMemberAuthority employee = commonEmployeeLoginRepository.findByEmployeeIdAndEmployeeRetireYn(userId, "N");
+			
+			System.out.println("조회 해 온 멤버 객체 : " + employee);
 			/* authorities 빈 객체 생성 */
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			
@@ -70,26 +73,28 @@ public class LoginServiceImpl implements LoginService{
 			
 			Date lastLoginTime = new java.sql.Date(System.currentTimeMillis());
 			
-			employee.setLastLoginDate(lastLoginTime);
+			employee.setEmployeeLastLoginDate(lastLoginTime);
 			
 			if(employee.getEmployeeMemberRoleeeAndAuthority() != null) {
 				List<AdminMemberRoleAndAuthority> roleList = employee.getEmployeeMemberRoleeeAndAuthority();
 				
 				for(int i = 0; i < roleList.size(); i++) {
 					Authority list = roleList.get(i).getAuthority();
+					System.out.println(list.getName());
 					authorities.add(new SimpleGrantedAuthority(list.getName()));
 				}
 			}
 			
-			EmployeeImpl user = new EmployeeImpl(employee.getEmployeeId(), employee.getPwd(), authorities);
-			
-			return new User(employee.getEmployeeId(), employee.getPwd(), authorities);
+			EmployeeImpl user = new EmployeeImpl(employee.getEmployeeId(), employee.getEmployeePwd(), authorities);
+			user.SetDetailEmployee(modelMapper.map(employee, EmployeeAndAdminMemberAuthorityDTO.class));
+			return user;
 			
 		} else {
 			
 			/* admin select*/
 			AdminAndAdminMemberAuthority admin = commonAdminLoginRepository.findByAdminIdAndAdminRetireYn(userId, "N");
-
+			System.out.println("조회 해 온 멤버 객체 : " + admin);
+			
 			/* authorities 빈 객체 등록 */
 			List<GrantedAuthority> authorities = new ArrayList<>();
 
@@ -106,6 +111,7 @@ public class LoginServiceImpl implements LoginService{
 				
 				for(int i = 0; i< roleList.size(); i++) {
 					Authority list = roleList.get(i).getAuthority();
+					System.out.println(list.getName());
 					authorities.add(new SimpleGrantedAuthority(list.getName()));
 				}
 			}
@@ -113,10 +119,13 @@ public class LoginServiceImpl implements LoginService{
 			AdminDTO adminDTO = modelMapper.map(admin, AdminDTO.class);
 			AdminIpAddressDTO adminIp = new AdminIpAddressDTO();
 			
+			System.out.println("조회해온 멤버 변환 객체 : " + adminDTO);
 			try {
 	            InetAddress inetAddress = InetAddress.getLocalHost();
 	            String strIpAdress = inetAddress.getHostAddress();
 	            String IpAdressNo = admin.getAdminId();
+	            
+	            System.out.println("조회해온 IP 주소 : " + strIpAdress);
 	            
 	            if(null != strIpAdress) {
 	            	if(admin.getAdminIpAddress().isEmpty()) {
@@ -142,10 +151,14 @@ public class LoginServiceImpl implements LoginService{
 	        }
 			
 			admin.setAdminLastLoginDate(lastLoginTime);
+
 			
 			AdminImpl user = new AdminImpl(admin.getAdminId(), admin.getAdminPwd(), authorities);
 			
-			return new User(admin.getAdminId(), admin.getAdminPwd(), authorities);
+			System.out.println("재정의 전 AdminImpl 객체 :" + user);
+			user.SetDetailsAdmin(modelMapper.map(admin, AdminAndAdminMemberAuthorityDTO.class));
+			System.out.println("재정의 후 AdminImpl 객체 :" + user);
+			return user;
 			
 		}
 		

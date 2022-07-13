@@ -45,58 +45,6 @@ public class AdminController {
 	@PostMapping("adminMainPage")
 	public void AdminMainpage() {}
 	
-	/* 관리자 등록 양식 및 최대 관리자 번호, 아이디 조회 */
-	@GetMapping("hrCard/adminRegist")
-	@Transactional
-	public ModelAndView registAdmin(ModelAndView mv, HttpServletRequest request) {
-		
-		int adminNo = adminService.findMaxAdmin();
-
-		System.out.println(adminNo);
-		
-		/* 기본 아이디 문자열 저장 */
-		String clean = "cleanup";
-		
-		// 아이디 지정을 위한 현재 날짜 구하기        
-		LocalDateTime now = LocalDateTime.now();             
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMddhhmm");         
-		String up = now.format(formatter);          
-		
-		System.out.println(up); 
-	
-		/* 아이디 */
-		String adminId = clean + up;
-		
-		System.out.println("새로운 아이디 : " + adminId);
-		
-		mv.addObject("adminNo", adminNo);
-		mv.addObject("adminId", adminId);
-		mv.setViewName("admin/hrCard/adminRegist");
-		
-		return mv;
-	}
-	
-	/* 관리자 등록 */
-	@PostMapping("hrCard/adminRegist")
-//	@Transactional
-	public ModelAndView registAdminHrCard(ModelAndView mv, AdminDTO newAdmin, RedirectAttributes rttr) {
-		
-		
-		String pwd = "000000";
-		String adminRetireYn = "N";
-		Integer adminSalary = 2000000;
-	
-		newAdmin.setAdminPwd(pwd);
-		newAdmin.setAdminRetireYn(adminRetireYn);
-		newAdmin.setAdminSalary(adminSalary);
-		
-		adminService.registNewAdmin(newAdmin);
-		
-		rttr.addFlashAttribute("registSuccessMessage", "관리자 등록에 성공하셨습니다.");
-		mv.setViewName("redirect:/admin/hrCard/adminList");
-		
-		return null;
-	}
 	
 	
 	/* 관리자 목록 조회(퇴사여부 N) */

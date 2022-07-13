@@ -1,7 +1,6 @@
 package com.project.clean.model.dto.joinDTO;
 
 import java.io.Serializable;
-import java.sql.Blob;
 import java.sql.Date;
 import java.util.List;
 
@@ -184,9 +183,5 @@ public class AdminAndEmailDTO implements Serializable{
 				+ ", adminUseAnnualVacation=" + adminUseAnnualVacation + ", adminEmail=" + adminEmail + "]";
 	}
 
-	
-	
-	
-	
 	
 }

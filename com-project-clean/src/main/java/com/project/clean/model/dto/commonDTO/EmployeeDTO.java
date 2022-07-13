@@ -47,7 +47,7 @@ public class EmployeeDTO implements Serializable{
 		this.employeeLastLoginDate = employeeLastLoginDate;
 		this.employeeBlackListYn = employeeBlackListYn;
 		this.employeeRetireYn = employeeRetireYn;
-		this.employeeBirth  = requestDate;
+		this.RequestDate = requestDate;
 		this.employeeFirstConfirmYn = employeeFirstConfirmYn;
 		this.employeeSecondConfirmYn = employeeSecondConfirmYn;
 		this.employeeLastConfirmYn = employeeLastConfirmYn;
@@ -174,8 +174,6 @@ public class EmployeeDTO implements Serializable{
 	public void setEmployeeRegistReturnYn(String employeeRegistReturnYn) {
 		this.employeeRegistReturnYn = employeeRegistReturnYn;
 	}
-	
-	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

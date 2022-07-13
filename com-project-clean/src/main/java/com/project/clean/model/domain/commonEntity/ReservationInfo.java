@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "TBL_RESERVATION_INFO")
@@ -41,13 +43,13 @@ public class ReservationInfo implements Serializable {
 	private String userRequirements;
 
 	@Column(name="BUSINESS_DATE")
-	private java.sql.Date businessDate;
+	private java.util.Date businessDate;
 	
 	@Column(name="BUSINESS_START_TIME")
-	private java.sql.Date businessStartTime;
+	private java.util.Date businessStartTime;
 	
 	@Column(name="BUSINESS_END_TIME")
-	private java.sql.Date businessEndTime;
+	private java.util.Date businessEndTime;
 	
 	@Column(name="BUSINESS_FIXED_PEOPLE")
 	private int businessFixedPeople;
@@ -72,9 +74,9 @@ public class ReservationInfo implements Serializable {
 
 	public ReservationInfo(int reservationNo, String userName, String userPhoneNo, int userPostalNo, String userAddress,
 			String userDetailAddress, int userHouseSize, Date userReservationDate, String userRequirements,
-			Date businessDate, Date businessStartTime, Date businessEndTime, int businessFixedPeople,
-			int businessApplyPeople, int totalPayment, String applyEndYn, String reservationCancelYn,
-			String paymentYn) {
+			java.util.Date businessDate, java.util.Date businessStartTime, java.util.Date businessEndTime,
+			int businessFixedPeople, int businessApplyPeople, int totalPayment, String applyEndYn,
+			String reservationCancelYn, String paymentYn) {
 		this.reservationNo = reservationNo;
 		this.userName = userName;
 		this.userPhoneNo = userPhoneNo;
@@ -167,27 +169,27 @@ public class ReservationInfo implements Serializable {
 		this.userRequirements = userRequirements;
 	}
 
-	public java.sql.Date getBusinessDate() {
+	public java.util.Date getBusinessDate() {
 		return businessDate;
 	}
 
-	public void setBusinessDate(java.sql.Date businessDate) {
+	public void setBusinessDate(java.util.Date businessDate) {
 		this.businessDate = businessDate;
 	}
 
-	public java.sql.Date getBusinessStartTime() {
+	public java.util.Date getBusinessStartTime() {
 		return businessStartTime;
 	}
 
-	public void setBusinessStartTime(java.sql.Date businessStartTime) {
+	public void setBusinessStartTime(java.util.Date businessStartTime) {
 		this.businessStartTime = businessStartTime;
 	}
 
-	public java.sql.Date getBusinessEndTime() {
+	public java.util.Date getBusinessEndTime() {
 		return businessEndTime;
 	}
 
-	public void setBusinessEndTime(java.sql.Date businessEndTime) {
+	public void setBusinessEndTime(java.util.Date businessEndTime) {
 		this.businessEndTime = businessEndTime;
 	}
 
@@ -250,7 +252,7 @@ public class ReservationInfo implements Serializable {
 				+ businessApplyPeople + ", totalPayment=" + totalPayment + ", applyEndYn=" + applyEndYn
 				+ ", ReservationCancelYn=" + ReservationCancelYn + ", paymentYn=" + paymentYn + "]";
 	}
-	
+
 	
 	
 }

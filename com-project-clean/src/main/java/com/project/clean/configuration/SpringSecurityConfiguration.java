@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
@@ -29,14 +30,16 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	private DataSource dataSource;
 	private AuthFailedHandler authFailureHandler;
 	private AuthSuccessHandler authSuccessHandler;
+	private UserDetailsService userDetailsService;
 	
 	@Autowired 
 	public SpringSecurityConfiguration(LoginService loginService, DataSource dataSource, LoginController successLoginHandler, AuthFailedHandler authFailureHandler,
-			AuthSuccessHandler authSuccessHandler) {
+			AuthSuccessHandler authSuccessHandler, UserDetailsService userDetailsService) {
 		this.loginService = loginService;
 		this.dataSource = dataSource;
 		this.authFailureHandler = authFailureHandler;
 		this.authSuccessHandler = authSuccessHandler;
+		this.userDetailsService = userDetailsService;
 	}
 	
 	@Bean
@@ -93,9 +96,10 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	
 		http.rememberMe()
 			.key("rembmerMeKeyByK")
-			.tokenRepository(tokenRepository())
-			.rememberMeParameter("remember-me")
-			.tokenValiditySeconds(86400 * 7);
+			.rememberMeParameter("_spring_security_remember_me")
+			.tokenValiditySeconds(3600)
+			.alwaysRemember(false)
+			.userDetailsService(userDetailsService);
 		
 	}
 	

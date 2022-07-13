@@ -243,5 +243,4 @@ public class AdminAndAdminMemberAuthority implements java.io.Serializable {
 
 	
 	
-	
 }

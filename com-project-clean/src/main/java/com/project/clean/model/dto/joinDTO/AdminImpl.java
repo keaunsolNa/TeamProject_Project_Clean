@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.User;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 
 public class AdminImpl extends User{
-	
+
 	private static final long serialVersionUID = -8418537379278429510L;
 	private int adminNo;
 	private String adminName;
@@ -33,27 +33,23 @@ public class AdminImpl extends User{
 		super(username, password, authorities);
 	}
 
-	public AdminImpl(String username, String password, Collection<? extends GrantedAuthority> authorities, int adminNo,
-			String adminName, String adminId, String adminPwd, Date adminBirth, String adminGender, String adminPhone,
-			Date adminHireDate, Date adminRetireDate, String adminRetireYn, String adminJob, Date adminLastLoginDate,
-			int adminSalary, int adminUseAnnualVacation,
-			List<AdminMemberRoleAndAuthorityDTO> adminMemberRoleAndAuthorityList) {
-		super(username, password, authorities);
-		this.adminNo = adminNo;
-		this.adminName = adminName;
-		this.adminId = adminId;
-		this.adminPwd = adminPwd;
-		this.adminBirth = adminBirth;
-		this.adminGender = adminGender;
-		this.adminPhone = adminPhone;
-		this.adminHireDate = adminHireDate;
-		this.adminRetireDate = adminRetireDate;
-		this.adminRetireYn = adminRetireYn;
-		this.adminJob = adminJob;
-		this.adminLastLoginDate = adminLastLoginDate;
-		this.adminSalary = adminSalary;
-		this.adminUseAnnualVacation = adminUseAnnualVacation;
-		this.adminMemberRoleAndAuthorityList = adminMemberRoleAndAuthorityList;
+
+	public void SetDetailsAdmin(AdminAndAdminMemberAuthorityDTO admin) {
+		this.adminNo = admin.getAdminNo();
+		this.adminName = admin.getAdminName();
+		this.adminId = admin.getAdminId();
+		this.adminPwd = admin.getAdminPwd();
+		this.adminBirth = admin.getAdminBirth();
+		this.adminGender = admin.getAdminGender();
+		this.adminPhone = admin.getAdminPhone();
+		this.adminHireDate = admin.getAdminHireDate();
+		this.adminRetireDate = admin.getAdminRetireDate();
+		this.adminRetireYn = admin.getAdminRetireYn();
+		this.adminJob = admin.getAdminJob();
+		this.adminLastLoginDate = admin.getAdminLastLoginDate();
+		this.adminSalary = admin.getAdminSalary();
+		this.adminUseAnnualVacation = admin.getAdminUseAnnualVacation();
+		this.adminMemberRoleAndAuthorityList = admin.getAdminMemberRoleAndAuthorityList();
 	}
 
 	public int getAdminNo() {
@@ -140,10 +136,6 @@ public class AdminImpl extends User{
 		return adminJob;
 	}
 
-	public void setAdminJob(String adminJob) {
-		this.adminJob = adminJob;
-	}
-
 	public java.sql.Date getAdminLastLoginDate() {
 		return adminLastLoginDate;
 	}
@@ -172,13 +164,7 @@ public class AdminImpl extends User{
 		return adminMemberRoleAndAuthorityList;
 	}
 
-	public void setAdminMemberRoleAndAuthorityList(List<AdminMemberRoleAndAuthorityDTO> adminMemberRoleAndAuthorityList) {
-		this.adminMemberRoleAndAuthorityList = adminMemberRoleAndAuthorityList;
-	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 
 	@Override
 	public String toString() {
@@ -186,8 +172,8 @@ public class AdminImpl extends User{
 				+ adminPwd + ", adminBirth=" + adminBirth + ", adminGender=" + adminGender + ", adminPhone="
 				+ adminPhone + ", adminHireDate=" + adminHireDate + ", adminRetireDate=" + adminRetireDate
 				+ ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob + ", adminLastLoginDate="
-				+ adminLastLoginDate + ", adminSalary=" + adminSalary + ", adminUseAnnualVacation="
-				+ adminUseAnnualVacation + ", adminMemberRoleAndAuthorityList=" + adminMemberRoleAndAuthorityList + "]";
+				+ adminLastLoginDate + ", adminSalary=" + adminSalary + ", adminUseAnnualVacation=" + adminUseAnnualVacation
+				+ ", adminMemberRoleAndAuthorityList=" + adminMemberRoleAndAuthorityList + "]";
 	}
 
 	

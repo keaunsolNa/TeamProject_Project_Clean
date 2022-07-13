@@ -1,6 +1,5 @@
 package com.project.clean.model.domain.commonEntity;
 
-import java.sql.Blob;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -8,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -79,7 +77,6 @@ public class Admin implements java.io.Serializable{
 	}
 
 
-
 	public Admin(int adminNo, String adminName, String adminId, String adminPwd, Date adminBirth, String adminGender,
 			String adminPhone, Date adminHireDate, Date adminRetireDate, String adminRetireYn, String adminJob,
 			Date adminLastLoginDate, int adminSalary, int adminUseAnnualVacation) {
@@ -99,10 +96,6 @@ public class Admin implements java.io.Serializable{
 		this.adminUseAnnualVacation = adminUseAnnualVacation;
 	}
 
-
-
-	
-	
 	public int getAdminNo() {
 		return adminNo;
 	}
@@ -233,8 +226,6 @@ public class Admin implements java.io.Serializable{
 		this.adminJob = adminJob;
 	}
 
-
-
 	public java.sql.Date getAdminLastLoginDate() {
 		return adminLastLoginDate;
 	}
@@ -285,11 +276,6 @@ public class Admin implements java.io.Serializable{
 				+ adminPwd + ", adminRetireDate=" + adminRetireDate + ", adminRetireYn=" + adminRetireYn
 				+ ", adminSalary=" + adminSalary + ", adminUseAnnualVacation=" + adminUseAnnualVacation + "]";
 	}
-
-
-
-	
-	
 
 	
 }

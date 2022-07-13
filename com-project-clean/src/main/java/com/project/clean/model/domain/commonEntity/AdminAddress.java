@@ -75,7 +75,6 @@ public class AdminAddress implements java.io.Serializable{
 		return "AdminAddress [adminNo=" + adminNo + ", addressNo=" + addressNo + ", address=" + address
 				+ ", detailAddress=" + detailAddress + "]";
 	}
-
 	
 	
 	

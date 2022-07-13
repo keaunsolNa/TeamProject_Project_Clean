@@ -63,5 +63,4 @@ public class AdminAddressDTO implements Serializable {
 	}
 	
 	
-	
 }

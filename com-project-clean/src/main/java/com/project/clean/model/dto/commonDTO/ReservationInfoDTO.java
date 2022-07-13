@@ -15,9 +15,9 @@ public class ReservationInfoDTO implements Serializable{
 	private int userHouseSize;
 	private java.sql.Date userReservationDate;
 	private String userRequirements;
-	private java.sql.Date businessDate;
-	private java.sql.Date businessStartTime;
-	private java.sql.Date businessEndTime;
+	private java.util.Date businessDate;
+	private java.util.Date businessStartTime;
+	private java.util.Date businessEndTime;
 	private int businessFixedPeople;
 	private int businessApplyPeople;
 	private int totalPayment;
@@ -28,9 +28,9 @@ public class ReservationInfoDTO implements Serializable{
 	}
 	public ReservationInfoDTO(int reservationNo, String userName, String userPhoneNo, int userPostalNo,
 			String userAddress, String userDetailAddress, int userHouseSize, Date userReservationDate,
-			String userRequirements, Date businessDate, Date businessStartTime, Date businessEndTime,
-			int businessFixedPeople, int businessApplyPeople, int totalPayment, String applyEndYn,
-			String reservationCancelYn, String paymentYn) {
+			String userRequirements, java.util.Date businessDate, java.util.Date businessStartTime,
+			java.util.Date businessEndTime, int businessFixedPeople, int businessApplyPeople, int totalPayment,
+			String applyEndYn, String reservationCancelYn, String paymentYn) {
 		this.reservationNo = reservationNo;
 		this.userName = userName;
 		this.userPhoneNo = userPhoneNo;
@@ -50,115 +50,114 @@ public class ReservationInfoDTO implements Serializable{
 		ReservationCancelYn = reservationCancelYn;
 		this.paymentYn = paymentYn;
 	}
-	int getReservationNo() {
+	public int getReservationNo() {
 		return reservationNo;
 	}
-	void setReservationNo(int reservationNo) {
+	public void setReservationNo(int reservationNo) {
 		this.reservationNo = reservationNo;
 	}
-	String getUserName() {
+	public String getUserName() {
 		return userName;
 	}
-	void setUserName(String userName) {
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	String getUserPhoneNo() {
+	public String getUserPhoneNo() {
 		return userPhoneNo;
 	}
-	void setUserPhoneNo(String userPhoneNo) {
+	public void setUserPhoneNo(String userPhoneNo) {
 		this.userPhoneNo = userPhoneNo;
 	}
-	int getUserPostalNo() {
+	public int getUserPostalNo() {
 		return UserPostalNo;
 	}
-	void setUserPostalNo(int userPostalNo) {
+	public void setUserPostalNo(int userPostalNo) {
 		UserPostalNo = userPostalNo;
 	}
-	String getUserAddress() {
+	public String getUserAddress() {
 		return userAddress;
 	}
-	void setUserAddress(String userAddress) {
+	public void setUserAddress(String userAddress) {
 		this.userAddress = userAddress;
 	}
-	String getUserDetailAddress() {
+	public String getUserDetailAddress() {
 		return userDetailAddress;
 	}
-	void setUserDetailAddress(String userDetailAddress) {
+	public void setUserDetailAddress(String userDetailAddress) {
 		this.userDetailAddress = userDetailAddress;
 	}
-	int getUserHouseSize() {
+	public int getUserHouseSize() {
 		return userHouseSize;
 	}
-	void setUserHouseSize(int userHouseSize) {
+	public void setUserHouseSize(int userHouseSize) {
 		this.userHouseSize = userHouseSize;
 	}
-	java.sql.Date getUserReservationDate() {
+	public java.sql.Date getUserReservationDate() {
 		return userReservationDate;
 	}
-	void setUserReservationDate(java.sql.Date userReservationDate) {
+	public void setUserReservationDate(java.sql.Date userReservationDate) {
 		this.userReservationDate = userReservationDate;
 	}
-	String getUserRequirements() {
+	public String getUserRequirements() {
 		return userRequirements;
 	}
-	void setUserRequirements(String userRequirements) {
+	public void setUserRequirements(String userRequirements) {
 		this.userRequirements = userRequirements;
 	}
-	java.sql.Date getBusinessDate() {
+	public java.util.Date getBusinessDate() {
 		return businessDate;
 	}
-	void setBusinessDate(java.sql.Date businessDate) {
+	public void setBusinessDate(java.util.Date businessDate) {
 		this.businessDate = businessDate;
 	}
-	java.sql.Date getBusinessStartTime() {
+	public java.util.Date getBusinessStartTime() {
 		return businessStartTime;
 	}
-	void setBusinessStartTime(java.sql.Date businessStartTime) {
+	public void setBusinessStartTime(java.util.Date businessStartTime) {
 		this.businessStartTime = businessStartTime;
 	}
-	java.sql.Date getBusinessEndTime() {
+	public java.util.Date getBusinessEndTime() {
 		return businessEndTime;
 	}
-	void setBusinessEndTime(java.sql.Date businessEndTime) {
+	public void setBusinessEndTime(java.util.Date businessEndTime) {
 		this.businessEndTime = businessEndTime;
 	}
-	int getBusinessFixedPeople() {
+	public int getBusinessFixedPeople() {
 		return businessFixedPeople;
 	}
-	void setBusinessFixedPeople(int businessFixedPeople) {
+	public void setBusinessFixedPeople(int businessFixedPeople) {
 		this.businessFixedPeople = businessFixedPeople;
 	}
-	int getBusinessApplyPeople() {
+	public int getBusinessApplyPeople() {
 		return businessApplyPeople;
 	}
-	void setBusinessApplyPeople(int businessApplyPeople) {
+	public void setBusinessApplyPeople(int businessApplyPeople) {
 		this.businessApplyPeople = businessApplyPeople;
 	}
-	int getTotalPayment() {
+	public int getTotalPayment() {
 		return totalPayment;
 	}
-	void setTotalPayment(int totalPayment) {
+	public void setTotalPayment(int totalPayment) {
 		this.totalPayment = totalPayment;
 	}
-	String getApplyEndYn() {
+	public String getApplyEndYn() {
 		return applyEndYn;
 	}
-	void setApplyEndYn(String applyEndYn) {
+	public void setApplyEndYn(String applyEndYn) {
 		this.applyEndYn = applyEndYn;
 	}
-	String getReservationCancelYn() {
+	public String getReservationCancelYn() {
 		return ReservationCancelYn;
 	}
-	void setReservationCancelYn(String reservationCancelYn) {
+	public void setReservationCancelYn(String reservationCancelYn) {
 		ReservationCancelYn = reservationCancelYn;
 	}
-	String getPaymentYn() {
+	public String getPaymentYn() {
 		return paymentYn;
 	}
-	void setPaymentYn(String paymentYn) {
+	public void setPaymentYn(String paymentYn) {
 		this.paymentYn = paymentYn;
 	}
-	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -173,5 +172,7 @@ public class ReservationInfoDTO implements Serializable{
 				+ businessApplyPeople + ", totalPayment=" + totalPayment + ", applyEndYn=" + applyEndYn
 				+ ", ReservationCancelYn=" + ReservationCancelYn + ", paymentYn=" + paymentYn + "]";
 	}
+	
+	
 	
 }
