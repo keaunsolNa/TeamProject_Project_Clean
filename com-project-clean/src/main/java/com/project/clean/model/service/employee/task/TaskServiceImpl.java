@@ -1,8 +1,5 @@
 package com.project.clean.model.service.employee.task;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,14 +9,17 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.clean.model.domain.commonEntity.CheckList;
 import com.project.clean.model.domain.commonEntity.Employee;
 import com.project.clean.model.domain.commonEntity.ReservationInfo;
 import com.project.clean.model.domain.joinEntity.ApplyEmployeeEmbedded;
+import com.project.clean.model.dto.commonDTO.CheckListDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeDTO;
 import com.project.clean.model.dto.commonDTO.ReservationInfoDTO;
 import com.project.clean.model.repository.employee.EmpRepository;
 import com.project.clean.model.repository.employee.apply.ApplyRepository;
 import com.project.clean.model.repository.employee.apply.ReservationInfoRepository;
+import com.project.clean.model.repository.employee.checkList.CheckListRepository;
 
 @Service
 @Transactional
@@ -29,13 +29,16 @@ public class TaskServiceImpl implements TaskService{
 	private final ApplyRepository applyRepository;
 	private final ModelMapper modelMapper;
 	private final ReservationInfoRepository reservationInfoRepository;
+	private final CheckListRepository checkListRepository;
 	
 	@Autowired
-	public TaskServiceImpl(EmpRepository empRepository,  ApplyRepository applyRepository, ModelMapper modelMapper, ReservationInfoRepository reservationInfoRepository) {
+	public TaskServiceImpl(EmpRepository empRepository,  ApplyRepository applyRepository, ModelMapper modelMapper, ReservationInfoRepository reservationInfoRepository,
+			CheckListRepository checkListRepository) {
 		this.empRepository = empRepository;
 		this.applyRepository = applyRepository;
 		this.modelMapper = modelMapper;
 		this.reservationInfoRepository = reservationInfoRepository;
+		this.checkListRepository = checkListRepository;
 	}
 	
 	@Override
@@ -56,24 +59,46 @@ public class TaskServiceImpl implements TaskService{
 		
 		for (ApplyEmployeeEmbedded applyEmployeeEmbedded : applyEmployeeList) {
 			
-			System.out.println("예약 번호 : " + applyEmployeeEmbedded.getApplyEmployeeIdAndApplyReservationNo().getApplyReservationNo());
-			
 			Integer reservationNo = applyEmployeeEmbedded.getApplyEmployeeIdAndApplyReservationNo().getApplyReservationNo();
 			
-			ReservationInfo reservationInfo = reservationInfoRepository.findByReservationNo(reservationNo);
-			
-			ReservationInfoDTO reservationInfoList = modelMapper.map(reservationInfo, ReservationInfoDTO.class);
-			
-			reservationInfoArrayList.add(reservationInfoList);
-			
+			System.out.println("예약 번호 : " + reservationNo);
+
+				try {
+					
+				CheckList checkList = checkListRepository.findById(reservationNo).get();
+				
+				} catch(java.util.NoSuchElementException e) {
+				
+					System.out.println("실행 확인");
+
+						ReservationInfo reservationInfo = reservationInfoRepository.findByReservationNo(reservationNo);
+						ReservationInfoDTO reservationInfoList = modelMapper.map(reservationInfo, ReservationInfoDTO.class);
+						reservationInfoArrayList.add(reservationInfoList);
+						System.out.println("해당 직원 예약 목록 : " + reservationInfoArrayList);
+						
+				}  
 		}
 		
+		return reservationInfoArrayList;
 		
-		System.out.println("해당 직원 예약 목록 : " + reservationInfoArrayList);
-		
-		
-		return reservationInfoArrayList;  
 		   
+	}
+
+	@Override
+	public int selectEmployeeNo(String employeeId) {
+		
+		Employee empAndApplyEmp = empRepository.findByEmployeeId(employeeId);
+		EmployeeDTO emplist = modelMapper.map(empAndApplyEmp, EmployeeDTO.class);
+		
+		return emplist.getEmployeeNo();
+	}
+
+	@Override
+	public int registNewCheckList(CheckListDTO checkListDTO) {
+		
+		checkListRepository.save(modelMapper.map(checkListDTO, CheckList.class));
+		
+		return 0;
 	}
 
 	

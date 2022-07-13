@@ -26,8 +26,18 @@
 	</table>
 	 
 	<script>
-		const currentDate = new Date();
-		var businessStartTime = new Date();
+      $( document ).ready( function() {
+        var i=1
+        $( 'button' ).each( function() {
+          $( this ).addClass( 's' + i );
+          i = i + 1;
+        } );
+      } );
+    </script>
+	 
+	<script>
+ 		var businessTime = []; 
+ 		let i;
 		
 			window.onload = function(){
 				$.ajax({
@@ -38,12 +48,11 @@
 						const $table = $("#taskInfo tbody");
 						$table.html("");
 						
-						
 						for(var index in data){
 							$tr = $("<tr>");
-							$noTd = $("<td>").text(data[index].reservationNo);
+							$noTd = $("<td1>").text(data[index].reservationNo);
 							$nameTd = $("<td>").text(data[index].userName);
-							$startTimeTd = $("<td>").text(data[index].businessStartTime);
+							$startTimeTd = $("<td2>").text(data[index].businessStartTime);
 							$endTimeTd = $("<td>").text(data[index].businessEndTime);
 							$paymentTd = $("<td>").text(data[index].totalPayment);
 							
@@ -52,33 +61,44 @@
 							$tr.append($startTimeTd);
 							$tr.append($endTimeTd);
 							$tr.append($paymentTd);
-	 						$tr.append('<button id="btn">제출하기</button>'); 
+	 						$tr.append('<button>제출하기</button>'); 
 							$table.append($tr);
 							
-							businessStartTime = data[index].businessStartTime;
-							console.log(businessStartTime)
-							
+							for( i = 0; i < data.length; i++){
+								businessTime = data[index].businessStartTime;
+							}
 						};
 					},
 					error:function(error){
 						console.log(error);
 					}
-				})
+				});
 				
-				$(document).on("click","#btn",function(){
-					console.log("현재 시간 : " + currentDate);
-					console.log("업무 시간 : " + businessStartTime);
+				$("#taskInfo tbody").on("click", this.find('button'), function(){
+					var nowtime = new Date();
+					nowtime.setMinutes(nowtime.getMinutes() - 30)
 					
-					console.log(currentDate);
-					console.log(businessStartTime);
+					const nowtime2 = nowtime.toString().substring(16, 21);
 					
-					if(businessStartTime > currentDate){
+					console.log("업무 시간 : " + businessTime);
+ 					console.log("개별 데이터 : " + $(this).find('td2').text()) 
+ 					
+ 					console.log("문자열 타입 현재 시간 : " + nowtime2)
+ 					const timer =  $(this).find('td2').text().substring(11,16)
+					 					
+ 					console.log(nowtime2)
+ 					console.log(timer)
+ 					
+					if(businessTime > nowtime2){
 						alert("업무 가능")
+						
 					} else{
 						alert("업무 불가능")
 					};
+					
 				});
 		};
    	</script>
+   	
 </body>
 </html>
