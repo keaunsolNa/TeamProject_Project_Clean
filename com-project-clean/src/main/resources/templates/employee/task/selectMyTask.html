@@ -10,6 +10,7 @@
 <body>
 	<div th:include="common/header.html"></div>
 	<div th:include="common/taskAside.html"></div>
+	
 	<table id="taskInfo" border="1">
 		<thead>
 			<tr>
@@ -25,19 +26,9 @@
 		</tbody>
 	</table>
 	 
-	<script>
-      $( document ).ready( function() {
-        var i=1
-        $( 'button' ).each( function() {
-          $( this ).addClass( 's' + i );
-          i = i + 1;
-        } );
-      } );
-    </script>
 	 
 	<script>
- 		var businessTime = []; 
- 		let i;
+ 		let i = 0;
 		
 			window.onload = function(){
 				$.ajax({
@@ -47,26 +38,29 @@
 						
 						const $table = $("#taskInfo tbody");
 						$table.html("");
-						
 						for(var index in data){
+							console.log(i)
 							$tr = $("<tr>");
-							$noTd = $("<td1>").text(data[index].reservationNo);
+							$noTd = $("<td1>").addClass('rn').text(data[index].reservationNo);
 							$nameTd = $("<td>").text(data[index].userName);
-							$startTimeTd = $("<td2>").text(data[index].businessStartTime);
+							$startTimeTd = $("<td>").addClass('sh').text(data[index].businessStartTime);
 							$endTimeTd = $("<td>").text(data[index].businessEndTime);
-							$paymentTd = $("<td>").text(data[index].totalPayment);
+							$paymentTd = $("<td>").text(data[index].totalPayment)
+							$buttonTd = $("<button>제출하기</button>").addClass('btn').addClass([index]);
 							
 							$tr.append($noTd);
 							$tr.append($nameTd);
 							$tr.append($startTimeTd);
 							$tr.append($endTimeTd);
 							$tr.append($paymentTd);
-	 						$tr.append('<button>제출하기</button>'); 
+	 						$tr.append($buttonTd); 
 							$table.append($tr);
 							
-							for( i = 0; i < data.length; i++){
-								businessTime = data[index].businessStartTime;
-							}
+							i++
+							
+			 		 		businessStartTime = data[index].businessStartTime;
+							console.log(businessStartTime)  
+
 						};
 					},
 					error:function(error){
@@ -74,29 +68,39 @@
 					}
 				});
 				
-				$("#taskInfo tbody").on("click", this.find('button'), function(){
-					var nowtime = new Date();
-					nowtime.setMinutes(nowtime.getMinutes() - 30)
+				setTimeout(function() {
+					const buttons = document.querySelectorAll('table#taskInfo tbody tr button');
 					
-					const nowtime2 = nowtime.toString().substring(16, 21);
-					
-					console.log("업무 시간 : " + businessTime);
- 					console.log("개별 데이터 : " + $(this).find('td2').text()) 
- 					
- 					console.log("문자열 타입 현재 시간 : " + nowtime2)
- 					const timer =  $(this).find('td2').text().substring(11,16)
-					 					
- 					console.log(nowtime2)
- 					console.log(timer)
- 					
-					if(businessTime > nowtime2){
-						alert("업무 가능")
+					for(let i = 0; i < buttons.length; i++) {
+						var nowtime = new Date();
+						nowtime.setMinutes(nowtime.getMinutes() - 30)
+						const nowtime2 = nowtime.toString().substring(15, 21);
+						console.log(nowtime2)
 						
-					} else{
-						alert("업무 불가능")
-					};
+						const button = buttons[i];
+						button.onclick = function() {
+							const timer = button.parentNode.querySelector('.sh').innerText.substring(10, 16);
+							console.log("업무 시간 : " + timer)
+							if(timer < nowtime2){
+								
+								
+									const resNo = document.querySelectorAll('table#taskInfo tbody tr td1');
+									const reservationNo = resNo[i];
+									const re = reservationNo.parentNode.querySelector('.rn').innerText;
+									
+									console.log(re)
+								/* location.href="/employee/checklist/insert" */
+								 location.href="/employee/checklist/insert?re="+ re;
+								
+							} else{
+								alert("업무를 시작할 수 없습니다. ")
+							}; 
+						}						
+	
+					}
 					
-				});
+				}, 100)
+				
 		};
    	</script>
    	

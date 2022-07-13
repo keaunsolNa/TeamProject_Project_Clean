@@ -42,7 +42,9 @@ public class CheckListController {
 		
 		String inputText = request.getParameter("jbHtml");
 		String userId = principal.getName();
-
+		String re = request.getParameter("re");
+		
+		System.out.println("넘어온 값 확인 : " + re );
 		int employeeNo = taskService.selectEmployeeNo(userId);
 		
 		System.out.println("로그인 한 회원 번호 : " + employeeNo);
@@ -54,7 +56,7 @@ public class CheckListController {
 		checkListDTO.setCheckStatus("N");
 		
 		/* 테스트 데이터. 추후 수정 요망 */
-		checkListDTO.setCheckReservationNo(4);
+		checkListDTO.setCheckReservationNo(5);
 
 		System.out.println("수행 전 ");
 		int result = taskService.registNewCheckList(checkListDTO);
@@ -66,6 +68,6 @@ public class CheckListController {
 		
 		System.out.println("rttr : " + rttr);
 		
-		return "redirect:/main";
+		return "common/main";
 	}
 } 
