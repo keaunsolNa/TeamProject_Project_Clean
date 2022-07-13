@@ -41,9 +41,19 @@ public class PayServiceImpl implements PayService{
 		System.out.println("서비스임플");
 		
 		Surcharge foundSurcharge = payRepository.findById(surcharge.getSurchargeInsurance()).get();
+		Integer Commission = surcharge.getSurchargeCommission();
+		Integer Bonus = surcharge.getSurchargeBonus();
+		if(Commission != 0 && Bonus != 0) {
+			foundSurcharge.setSurchargeCommission(surcharge.getSurchargeCommission());
+			foundSurcharge.setSurchargeBonus(surcharge.getSurchargeBonus());
+		} else if(Commission != 0 && Bonus == 0){
+			foundSurcharge.setSurchargeCommission(surcharge.getSurchargeCommission());
+		} else if(Commission == 0 && Bonus != 0) {
+			foundSurcharge.setSurchargeBonus(surcharge.getSurchargeBonus());
+		} else {
+		  System.out.println("오류 발생");	
+		}
 		
-		foundSurcharge.setSurchargeCommission(surcharge.getSurchargeCommission());
-		foundSurcharge.setSurchargeBonus(surcharge.getSurchargeBonus());
 		
 		payRepository.save(foundSurcharge);
 		
