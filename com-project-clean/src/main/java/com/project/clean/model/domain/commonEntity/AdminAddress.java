@@ -13,7 +13,7 @@ public class AdminAddress implements java.io.Serializable{
 
 	@Id
 	@Column(name="ADMIN_NO")
-	private int no;
+	private int adminNo;
 
 	@Column(name="ADMIN_ADDRESS_NO")
 	private int addressNo;
@@ -27,19 +27,19 @@ public class AdminAddress implements java.io.Serializable{
 	public AdminAddress() {
 	}
 
-	public AdminAddress(int no, int addressNo, String address, String detailAddress) {
-		this.no = no;
+	public AdminAddress(int adminNo, int addressNo, String address, String detailAddress) {
+		this.adminNo = adminNo;
 		this.addressNo = addressNo;
 		this.address = address;
 		this.detailAddress = detailAddress;
 	}
 
-	public int getNo() {
-		return no;
+	public int getAdminNo() {
+		return adminNo;
 	}
 
-	public void setNo(int no) {
-		this.no = no;
+	public void setAdminNo(int adminNo) {
+		this.adminNo = adminNo;
 	}
 
 	public int getAddressNo() {
@@ -72,10 +72,11 @@ public class AdminAddress implements java.io.Serializable{
 
 	@Override
 	public String toString() {
-		return "AdminAddress [no=" + no + ", addressNo=" + addressNo + ", address=" + address + ", detailAddress="
-				+ detailAddress + "]";
+		return "AdminAddress [adminNo=" + adminNo + ", addressNo=" + addressNo + ", address=" + address
+				+ ", detailAddress=" + detailAddress + "]";
 	}
 
+	
 	
 	
 	

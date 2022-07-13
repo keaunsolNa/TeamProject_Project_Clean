@@ -11,30 +11,30 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
-@WebFilter("*")
-public class EncodingFilter implements Filter{
-
-	public EncodingFilter() {
-		
-	}
-		
-		public void destroy() {
-			
-		}
-		
-			@Override
-			public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-					
-				HttpServletRequest hrequest = (HttpServletRequest) request;
-				if("POST".equals(hrequest.getMethod())) {
-					hrequest.setCharacterEncoding("UTF-8");
-				}
-					
-				chain.doFilter(hrequest, response);
-			}
-			
-				public void init(FilterConfig fconfig) {
-					
-				}
-	
-}
+//@WebFilter("*")
+//public class EncodingFilter implements Filter{
+//
+//	public EncodingFilter() {
+//		
+//	}
+//		
+//		public void destroy() {
+//			
+//		}
+//		
+//			@Override
+//			public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+//					
+//				HttpServletRequest hrequest = (HttpServletRequest) request;
+//				if("POST".equals(hrequest.getMethod())) {
+//					hrequest.setCharacterEncoding("UTF-8");
+//				}
+//					
+//				chain.doFilter(hrequest, response);
+//			}
+//			
+//				public void init(FilterConfig fconfig) {
+//					
+//				}
+//	
+//}
