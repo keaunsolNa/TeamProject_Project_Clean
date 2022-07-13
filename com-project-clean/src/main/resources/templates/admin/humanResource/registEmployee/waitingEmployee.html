@@ -124,7 +124,7 @@
 		             <!-- 수정 -->
 		             <!-- 수정 -->
 		             <td style="display: none;"><input name="adminNo"></td>
-		             <td style="display: none;" id="adminNo" sec:authentication="principal.adminNo"></td>
+		             <td style="display: none;" id="adminNoValue" sec:authentication="principal.adminNo"></td>
 		             <!-- 수정 -->
 		             <!-- 수정 -->
 		             <!-- 수정 -->
@@ -208,10 +208,11 @@
         </div>
       </div>
       <script>
-    	  const adminNo = $("#adminNo").text();
+    	  const adminNoValue = $("#adminNoValue").text();
       
       $("#hrConfirm").click(function(){
-    	  $("input[name=adminNo]").val(adminNo);
+    	  alert(adminNoValue);
+    	  $("input[name=adminNo]").val(adminNoValue);
 		if(confirm("승인 하시겠습니까?")){
 			$("#confirmForm").submit();
 			}

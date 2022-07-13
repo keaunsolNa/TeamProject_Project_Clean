@@ -8,6 +8,7 @@ import com.project.clean.model.dto.commonDTO.EmployeeAddressDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeEmailDTO;
 import com.project.clean.model.dto.commonDTO.EmployeePictureDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeRestCommitDTO;
+import com.project.clean.model.dto.commonDTO.ReasonDTO;
 
 public class EmployeeAndAllDTO {
 
@@ -31,7 +32,7 @@ public class EmployeeAndAllDTO {
 	private String employeeLastConfirmYn;
 	private java.sql.Date employeeLastConfirmDate;
 	private String employeeRegistReturnYn;
-	private List<EmployeeRestCommitDTO> employeeRestCommitList = new ArrayList<>();
+	private List<ReasonDTO> employeeRestCommitList = new ArrayList<>();
 	private EmployeeAddressDTO employeeAddressDTO;
 	private EmployeeEmailDTO employeeEmailDTO;
 	private EmployeePictureDTO employeePictureDTO;
@@ -43,7 +44,7 @@ public class EmployeeAndAllDTO {
 			Date employeeRetireDate, int employeeSumCount, int employeeSumTime, Date employeeLastLoginDate,
 			String employeeBlackListYn, String employeeRetireYn, Date requestDate, String employeeFirstConfirmYn,
 			String employeeSecondConfirmYn, String employeeLastConfirmYn, Date employeeLastConfirmDate,
-			String employeeRegistReturnYn, List<EmployeeRestCommitDTO> employeeRestCommitList,
+			String employeeRegistReturnYn, List<ReasonDTO> employeeRestCommitList,
 			EmployeeAddressDTO employeeAddressDTO, EmployeeEmailDTO employeeEmailDTO,
 			EmployeePictureDTO employeePictureDTO) {
 		super();
@@ -192,10 +193,10 @@ public class EmployeeAndAllDTO {
 	public void setEmployeeRegistReturnYn(String employeeRegistReturnYn) {
 		this.employeeRegistReturnYn = employeeRegistReturnYn;
 	}
-	public List<EmployeeRestCommitDTO> getEmployeeRestCommitList() {
+	public List<ReasonDTO> getEmployeeRestCommitList() {
 		return employeeRestCommitList;
 	}
-	public void setEmployeeRestCommitList(List<EmployeeRestCommitDTO> employeeRestCommitList) {
+	public void setEmployeeRestCommitList(List<ReasonDTO> employeeRestCommitList) {
 		this.employeeRestCommitList = employeeRestCommitList;
 	}
 	public EmployeeAddressDTO getEmployeeAddressDTO() {
@@ -231,6 +232,7 @@ public class EmployeeAndAllDTO {
 				+ employeeRestCommitList + ", employeeAddressDTO=" + employeeAddressDTO + ", employeeEmailDTO="
 				+ employeeEmailDTO + ", employeePictureDTO=" + employeePictureDTO + "]";
 	}
+
 	
 	
 	

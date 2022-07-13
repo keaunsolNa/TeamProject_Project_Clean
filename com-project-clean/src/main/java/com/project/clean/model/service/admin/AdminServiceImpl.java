@@ -1,8 +1,7 @@
 package com.project.clean.model.service.admin;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -10,23 +9,23 @@ import javax.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import com.project.clean.model.domain.adminEntity.AdminEmployee;
 import com.project.clean.model.domain.adminEntity.AdminEmployeeAddress;
 import com.project.clean.model.domain.adminEntity.AdminEmployeeEmail;
 import com.project.clean.model.domain.adminEntity.AdminEmployeePicture;
-import com.project.clean.model.domain.adminEntity.AdminEmployeeRestCommit;
-import com.project.clean.model.domain.commonEntity.EmployeeRestCommit;
+import com.project.clean.model.domain.adminEntity.AdminReason;
 import com.project.clean.model.dto.commonDTO.EmployeeAddressDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeEmailDTO;
 import com.project.clean.model.dto.commonDTO.EmployeePictureDTO;
-import com.project.clean.model.dto.commonDTO.EmployeeRestCommitDTO;
+import com.project.clean.model.dto.commonDTO.ReasonDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
+import com.project.clean.model.repository.admin.ReasonRepository;
 import com.project.clean.model.repository.employee.EmployeeAddressRepository;
 import com.project.clean.model.repository.employee.EmployeeEmailRepository;
 import com.project.clean.model.repository.employee.EmployeePictureRepository;
 import com.project.clean.model.repository.employee.EmployeeReopsitory;
-import com.project.clean.model.repository.employee.EmployeeRestCommitRepository;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -36,17 +35,17 @@ public class AdminServiceImpl implements AdminService {
 	private final EmployeeAddressRepository employeeAddressRepository;
 	private final EmployeeEmailRepository employeeEmailRepository;
 	private final EmployeePictureRepository employeePictureRepository;
-	private final EmployeeRestCommitRepository employeeRestCommitRepository;
+	private final ReasonRepository reasonRepository;
 
 	@Autowired
 	public AdminServiceImpl(EmployeeReopsitory employeeReopsitory, EmployeeAddressRepository employeeAddressRepository
-			   , ModelMapper modelMapper, EmployeeEmailRepository employeeEmailRepository, EmployeePictureRepository employeePictureRepository, EmployeeRestCommitRepository employeeRestCommitRepository) {
+			   , ModelMapper modelMapper, EmployeeEmailRepository employeeEmailRepository, EmployeePictureRepository employeePictureRepository, ReasonRepository reasonRepository) {
 		this.employeeRepository = employeeReopsitory;
 		this.employeeAddressRepository = employeeAddressRepository;
 		this.employeeEmailRepository = employeeEmailRepository;
 		this.employeePictureRepository = employeePictureRepository;
 		this.modelMapper = modelMapper;
-		this.employeeRestCommitRepository = employeeRestCommitRepository;
+		this.reasonRepository = reasonRepository;
 		}
 
 	/* 전체 직원 조회(재직자) */
@@ -145,8 +144,8 @@ public class AdminServiceImpl implements AdminService {
 		
 	}
 	@Transactional
-	public void registEmployeeCommit(EmployeeRestCommitDTO employeeRestCommitDTO) {
-		employeeRestCommitRepository.save(modelMapper.map(employeeRestCommitDTO, AdminEmployeeRestCommit.class));
+	public void registEmployeeCommit(ReasonDTO ReasonDTO) {
+		reasonRepository.save(modelMapper.map(ReasonDTO, AdminReason.class));
 		
 	}
 
@@ -189,6 +188,7 @@ public class AdminServiceImpl implements AdminService {
 		List<AdminEmployeeAddress> selectReturnEmployeeAddressList = employeeAddressRepository.findByRegistReturnN();
 		return selectReturnEmployeeAddressList.stream().map(waitingAddress -> modelMapper.map(waitingAddress, EmployeeAddressDTO.class)).toList();
 	}
+	
 	@Transactional
 	public EmployeeAndAllDTO waitingEmployee(int empNo) {
 		AdminEmployee employee = employeeRepository.findById(empNo).get();
@@ -232,22 +232,50 @@ public class AdminServiceImpl implements AdminService {
 		
 		return modelMapper.map(employeeAddress, EmployeeAddressDTO.class);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Transactional
-	public List<EmployeeRestCommitDTO> waitingEmployeeRest(int empNo) {
-		List<AdminEmployeeRestCommit> employeeCommitList = employeeRestCommitRepository.findByEmployeeNo(empNo);
+	public List<ReasonDTO> adminSignWaitingEmployee(int empNo) {
+		List<AdminReason> employeeCommitList = reasonRepository.findById(empNo);
+		if(employeeCommitList == null) {
+			employeeCommitList = new ArrayList<>();
+		}
 		
-		return employeeCommitList.stream().map(commit -> modelMapper.map(commit, EmployeeRestCommitDTO.class)).toList();
+		
+		return employeeCommitList.stream().map(commit -> modelMapper.map(commit, ReasonDTO.class)).toList(); 
+				
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Transactional
-	public List<EmployeeRestCommitDTO> returnEmployeeRest(int empNo) {
-		List<AdminEmployeeRestCommit> employeeCommitList = employeeRestCommitRepository.findByEmployeeNo(empNo);
+	public List<ReasonDTO> returnEmployeeRest(int empNo) {
+		List<AdminReason> employeeCommitList = reasonRepository.findByEmployeeNo(empNo);
 		
-		return employeeCommitList.stream().map(commit -> modelMapper.map(commit, EmployeeRestCommitDTO.class)).toList();
+		return employeeCommitList.stream().map(commit -> modelMapper.map(commit, ReasonDTO.class)).toList();
 	}
 
 	@Transactional
-	public void insertRestCommitConfirm(EmployeeRestCommitDTO restCommitDTO) {
-		employeeRestCommitRepository.save(modelMapper.map(restCommitDTO, AdminEmployeeRestCommit.class));
+	public void insertRestCommitConfirm(ReasonDTO restCommitDTO) {
+		reasonRepository.save(modelMapper.map(restCommitDTO, AdminReason.class));
 		AdminEmployee employee = employeeRepository.findById(restCommitDTO.getEmployeeNo()).get();
 		
 		employee.setEmployeeFirstConfirmYn("Y");
@@ -255,8 +283,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Transactional
-	public void insertRestCommitReturn(EmployeeRestCommitDTO restCommitDTO) {
-		employeeRestCommitRepository.save(modelMapper.map(restCommitDTO, AdminEmployeeRestCommit.class));
+	public void insertRestCommitReturn(ReasonDTO restCommitDTO) {
+		reasonRepository.save(modelMapper.map(restCommitDTO, AdminReason.class));
 		AdminEmployee employee = employeeRepository.findById(restCommitDTO.getEmployeeNo()).get();
 		employee.setEmployeeFirstConfirmYn("Y");
 		employee.setEmployeeRegistReturnYn("Y");
@@ -264,8 +292,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Transactional
-	public void insertAndupdateRestCommitConfirmBoss(EmployeeRestCommitDTO restCommitDTO) {
-		employeeRestCommitRepository.save(modelMapper.map(restCommitDTO, AdminEmployeeRestCommit.class));
+	public void insertAndupdateRestCommitConfirmBoss(ReasonDTO restCommitDTO) {
+		reasonRepository.save(modelMapper.map(restCommitDTO, AdminReason.class));
 		AdminEmployee employee = employeeRepository.findById(restCommitDTO.getEmployeeNo()).get();
 
 		LocalDate now = LocalDate.now();
@@ -279,8 +307,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Transactional
-	public void insertAndupdateRestCommitReturnBoss(EmployeeRestCommitDTO restCommitDTO) {
-		employeeRestCommitRepository.save(modelMapper.map(restCommitDTO, AdminEmployeeRestCommit.class));
+	public void insertAndupdateRestCommitReturnBoss(ReasonDTO restCommitDTO) {
+		reasonRepository.save(modelMapper.map(restCommitDTO, AdminReason.class));
 		
 		AdminEmployee employee = employeeRepository.findById(restCommitDTO.getEmployeeNo()).get();
 		employee.setEmployeeRegistReturnYn("Y");
@@ -300,6 +328,9 @@ public class AdminServiceImpl implements AdminService {
 															   
 		return waitingEmployeeAddressList.stream().map(waitingAddress -> modelMapper.map(waitingAddress, EmployeeAddressDTO.class)).toList();
 	}
+
+
+
 	
 
 

@@ -3,10 +3,9 @@ package com.project.clean.model.service.admin;
 import java.util.List;
 
 import com.project.clean.model.dto.commonDTO.EmployeeAddressDTO;
-import com.project.clean.model.dto.commonDTO.EmployeeDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeEmailDTO;
 import com.project.clean.model.dto.commonDTO.EmployeePictureDTO;
-import com.project.clean.model.dto.commonDTO.EmployeeRestCommitDTO;
+import com.project.clean.model.dto.commonDTO.ReasonDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
 
 public interface AdminService {
@@ -53,7 +52,7 @@ public interface AdminService {
 	
 	public void registEmployeeEmail(EmployeeEmailDTO emailDTO);
 	
-	public void registEmployeeCommit(EmployeeRestCommitDTO employeeRestCommitDTO);
+	public void registEmployeeCommit(ReasonDTO ReasonDTO);
 
 	
 	public void modifyEmployee(EmployeeAndAllDTO employeeDTO);
@@ -83,21 +82,21 @@ public interface AdminService {
 	
 	public EmployeeAddressDTO returnEmployeeAddress(int empNo);
 	
-	public List<EmployeeRestCommitDTO> waitingEmployeeRest(int empNo);
-	
-	public List<EmployeeRestCommitDTO> returnEmployeeRest(int empNo);
+//	public List<ReasonDTO> returnEmployeeRest(int empNo);
 
 	
-	public void insertRestCommitConfirm(EmployeeRestCommitDTO restCommitDTO);
+	public void insertRestCommitConfirm(ReasonDTO restCommitDTO);
 	
 	
-	public void insertRestCommitReturn(EmployeeRestCommitDTO restCommitDTO);
+	public void insertRestCommitReturn(ReasonDTO restCommitDTO);
 
-	public void insertAndupdateRestCommitConfirmBoss(EmployeeRestCommitDTO restCommitDTO);
+	public void insertAndupdateRestCommitConfirmBoss(ReasonDTO restCommitDTO);
 
-	public void insertAndupdateRestCommitReturnBoss(EmployeeRestCommitDTO restCommitDTO);
+	public void insertAndupdateRestCommitReturnBoss(ReasonDTO restCommitDTO);
 
-	
+	public List<ReasonDTO> adminSignWaitingEmployee(int empNo);
+
+
 	
 	
 	
