@@ -1,6 +1,8 @@
 package com.project.clean.model.dto.joinDTO;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.project.clean.model.dto.commonDTO.EmployeeAddressDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeEmailDTO;
@@ -29,7 +31,7 @@ public class EmployeeAndAllDTO {
 	private String employeeLastConfirmYn;
 	private java.sql.Date employeeLastConfirmDate;
 	private String employeeRegistReturnYn;
-	private EmployeeRestCommitDTO employeeRestCommitDTO;
+	private List<EmployeeRestCommitDTO> employeeRestCommitList = new ArrayList<>();
 	private EmployeeAddressDTO employeeAddressDTO;
 	private EmployeeEmailDTO employeeEmailDTO;
 	private EmployeePictureDTO employeePictureDTO;
@@ -41,7 +43,7 @@ public class EmployeeAndAllDTO {
 			Date employeeRetireDate, int employeeSumCount, int employeeSumTime, Date employeeLastLoginDate,
 			String employeeBlackListYn, String employeeRetireYn, Date requestDate, String employeeFirstConfirmYn,
 			String employeeSecondConfirmYn, String employeeLastConfirmYn, Date employeeLastConfirmDate,
-			String employeeRegistReturnYn, EmployeeRestCommitDTO employeeRestCommitDTO,
+			String employeeRegistReturnYn, List<EmployeeRestCommitDTO> employeeRestCommitList,
 			EmployeeAddressDTO employeeAddressDTO, EmployeeEmailDTO employeeEmailDTO,
 			EmployeePictureDTO employeePictureDTO) {
 		super();
@@ -65,7 +67,7 @@ public class EmployeeAndAllDTO {
 		this.employeeLastConfirmYn = employeeLastConfirmYn;
 		this.employeeLastConfirmDate = employeeLastConfirmDate;
 		this.employeeRegistReturnYn = employeeRegistReturnYn;
-		this.employeeRestCommitDTO = employeeRestCommitDTO;
+		this.employeeRestCommitList = employeeRestCommitList;
 		this.employeeAddressDTO = employeeAddressDTO;
 		this.employeeEmailDTO = employeeEmailDTO;
 		this.employeePictureDTO = employeePictureDTO;
@@ -190,11 +192,11 @@ public class EmployeeAndAllDTO {
 	public void setEmployeeRegistReturnYn(String employeeRegistReturnYn) {
 		this.employeeRegistReturnYn = employeeRegistReturnYn;
 	}
-	public EmployeeRestCommitDTO getEmployeeRestCommitDTO() {
-		return employeeRestCommitDTO;
+	public List<EmployeeRestCommitDTO> getEmployeeRestCommitList() {
+		return employeeRestCommitList;
 	}
-	public void setEmployeeRestCommitDTO(EmployeeRestCommitDTO employeeRestCommitDTO) {
-		this.employeeRestCommitDTO = employeeRestCommitDTO;
+	public void setEmployeeRestCommitList(List<EmployeeRestCommitDTO> employeeRestCommitList) {
+		this.employeeRestCommitList = employeeRestCommitList;
 	}
 	public EmployeeAddressDTO getEmployeeAddressDTO() {
 		return employeeAddressDTO;
@@ -216,7 +218,7 @@ public class EmployeeAndAllDTO {
 	}
 	@Override
 	public String toString() {
-		return "EmployeeAndAll [employeeNo=" + employeeNo + ", employeeName=" + employeeName + ", employeeId="
+		return "EmployeeAndAllDTO [employeeNo=" + employeeNo + ", employeeName=" + employeeName + ", employeeId="
 				+ employeeId + ", employeePwd=" + employeePwd + ", employeeBirth=" + employeeBirth + ", employeeGender="
 				+ employeeGender + ", employeePhone=" + employeePhone + ", employeeHireDate=" + employeeHireDate
 				+ ", employeeRetireDate=" + employeeRetireDate + ", employeeSumCount=" + employeeSumCount
@@ -225,14 +227,11 @@ public class EmployeeAndAllDTO {
 				+ ", RequestDate=" + RequestDate + ", employeeFirstConfirmYn=" + employeeFirstConfirmYn
 				+ ", employeeSecondConfirmYn=" + employeeSecondConfirmYn + ", employeeLastConfirmYn="
 				+ employeeLastConfirmYn + ", employeeLastConfirmDate=" + employeeLastConfirmDate
-				+ ", employeeRegistReturnYn=" + employeeRegistReturnYn + ", employeeRestCommitDTO="
-				+ employeeRestCommitDTO + ", employeeAddressDTO=" + employeeAddressDTO + ", employeeEmailDTO="
+				+ ", employeeRegistReturnYn=" + employeeRegistReturnYn + ", employeeRestCommitList="
+				+ employeeRestCommitList + ", employeeAddressDTO=" + employeeAddressDTO + ", employeeEmailDTO="
 				+ employeeEmailDTO + ", employeePictureDTO=" + employeePictureDTO + "]";
 	}
 	
 	
 	
-	
-	
-	
-}
+	}

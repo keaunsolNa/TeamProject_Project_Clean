@@ -62,6 +62,10 @@ public interface AdminService {
 	
 	public List<EmployeeAddressDTO> selectWaitingEmployeeAddressList();
 	
+	public List<EmployeeAndAllDTO> selectWaitingEmployeeListBoss();
+	
+	public List<EmployeeAddressDTO> selectWaitingEmployeeAddressListBoss();
+	
 	public List<EmployeeAndAllDTO> selectReturnEmployeeList();
 
 	
@@ -79,15 +83,19 @@ public interface AdminService {
 	
 	public EmployeeAddressDTO returnEmployeeAddress(int empNo);
 	
-	public EmployeeRestCommitDTO waitingEmployeeRest(int empNo);
+	public List<EmployeeRestCommitDTO> waitingEmployeeRest(int empNo);
 	
-	public EmployeeRestCommitDTO returnEmployeeRest(int empNo);
+	public List<EmployeeRestCommitDTO> returnEmployeeRest(int empNo);
 
 	
-	public void updateRestCommitConfirm(EmployeeRestCommitDTO restCommitDTO);
+	public void insertRestCommitConfirm(EmployeeRestCommitDTO restCommitDTO);
 	
 	
-	public void updateRestCommitReturn(EmployeeRestCommitDTO restCommitDTO);
+	public void insertRestCommitReturn(EmployeeRestCommitDTO restCommitDTO);
+
+	public void insertAndupdateRestCommitConfirmBoss(EmployeeRestCommitDTO restCommitDTO);
+
+	public void insertAndupdateRestCommitReturnBoss(EmployeeRestCommitDTO restCommitDTO);
 
 	
 	

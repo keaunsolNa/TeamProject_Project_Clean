@@ -1,17 +1,18 @@
 package com.project.clean.model.service.admin;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import com.project.clean.model.domain.adminEntity.*;
-import com.project.clean.model.dto.commonDTO.*;
-import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
-import com.project.clean.model.repository.admin.*;
+import com.project.clean.model.domain.adminEntity.AdminEmployee;
+import com.project.clean.model.domain.adminEntity.AdminEmployeeAddress;
+import com.project.clean.model.domain.adminEntity.AdminEmployeeEmail;
+import com.project.clean.model.dto.commonDTO.EmployeeAddressDTO;
+import com.project.clean.model.dto.commonDTO.EmployeeDTO;
+import com.project.clean.model.dto.commonDTO.EmployeeEmailDTO;
+import com.project.clean.model.repository.employee.EmployeeAddressRepository;
+import com.project.clean.model.repository.employee.EmployeeEmailRepository;
+import com.project.clean.model.repository.employee.EmployeePictureRepository;
+import com.project.clean.model.repository.employee.EmployeeReopsitory;
 
 public class MemberServiceImpl implements MemberService {
 

@@ -98,11 +98,11 @@ public class AdminEmployee {
 	@Column(name = "EMPLOYEE_REGIST_RETURN_YN")
 	private String employeeRegistReturnYn;
 
-	public Employee() {
+	public AdminEmployee() {
 		super();
 	}
 
-	public Employee(int employeeNo, String employeeName, String employeeId, String employeePwd, Date employeeBirth,
+	public AdminEmployee(int employeeNo, String employeeName, String employeeId, String employeePwd, Date employeeBirth,
 			String employeeGender, String employeePhone, Date employeeHireDate, Date employeeRetireDate,
 			int employeeSumCount, Integer employeeSumTime, Date employeeLastLoginDate, String employeeBlackListYn,
 			String employeeRetireYn, Date requestDate, String employeeFirstConfirmYn, String employeeSecondConfirmYn,

@@ -1,4 +1,4 @@
-package com.project.clean.model.repository.admin;
+package com.project.clean.model.repository.employee;
 
 import java.util.List;
 
@@ -17,10 +17,10 @@ public interface EmployeeAddressRepository extends JpaRepository<AdminEmployeeAd
 	List<AdminEmployeeAddress> selectRetireYEmployeeAddressList();
 
 	@Query(value = "   SELECT * \r\n"
-			+ "  FROM TBL_EMPLOYEE_ADDRESS A\r\n"
-			+ "  JOIN TBL_EMPLOYEE B ON (A.EMPLOYEE_NO = B.EMPLOYEE_NO)\r\n"
-			+ " WHERE B.EMPLOYEE_RETIRE_YN = 'N'\r\n"
-			+ "   AND B.EMPLOYEE_LAST_CONFIRM_YN = 'Y'", nativeQuery = true)
+					+ "  FROM TBL_EMPLOYEE_ADDRESS A\r\n"
+					+ "  JOIN TBL_EMPLOYEE B ON (A.EMPLOYEE_NO = B.EMPLOYEE_NO)\r\n"
+					+ " WHERE B.EMPLOYEE_RETIRE_YN = 'N'\r\n"
+					+ "   AND B.EMPLOYEE_LAST_CONFIRM_YN = 'Y'", nativeQuery = true)
 	List<AdminEmployeeAddress> selectRetireNEmployeeAddressList();
 
 	
@@ -38,14 +38,28 @@ public interface EmployeeAddressRepository extends JpaRepository<AdminEmployeeAd
 	List<AdminEmployeeAddress> findByFirstConfirmN();
 
 	@Query(value = " SELECT\r\n"
-			+ "        A.EMPLOYEE_NO\r\n"
-			+ "      , A.EMPLOYEE_ADDRESS_NO\r\n"
-			+ "      , A.EMPLOYEE_ADDRESS\r\n"
-			+ "      , A.EMPLOYEE_DETAIL_ADDRESS\r\n"
-			+ "   FROM TBL_EMPLOYEE_ADDRESS A\r\n"
-			+ "   JOIN TBL_EMPLOYEE B ON (A.EMPLOYEE_NO = B.EMPLOYEE_NO)\r\n"
-			+ "    AND B.EMPLOYEE_REGIST_RETURN_YN = 'Y'", nativeQuery = true)
+				 + "        A.EMPLOYEE_NO\r\n"
+				 + "      , A.EMPLOYEE_ADDRESS_NO\r\n"
+				 + "      , A.EMPLOYEE_ADDRESS\r\n"
+				 + "      , A.EMPLOYEE_DETAIL_ADDRESS\r\n"
+				 + "   FROM TBL_EMPLOYEE_ADDRESS A\r\n"
+				 + "   JOIN TBL_EMPLOYEE B ON (A.EMPLOYEE_NO = B.EMPLOYEE_NO)\r\n"
+				 + "    AND B.EMPLOYEE_REGIST_RETURN_YN = 'Y'", nativeQuery = true)
 	List<AdminEmployeeAddress> findByRegistReturnN();
+
+	@Query(value = "SELECT\r\n"
+				 + "       A.EMPLOYEE_NO\r\n"
+				 + "     , A.EMPLOYEE_ADDRESS_NO\r\n"
+				 + "     , A.EMPLOYEE_ADDRESS\r\n"
+				 + "     , A.EMPLOYEE_DETAIL_ADDRESS\r\n"
+				 + "  FROM TBL_EMPLOYEE_ADDRESS A\r\n"
+				 + "  JOIN TBL_EMPLOYEE B ON (A.EMPLOYEE_NO = B.EMPLOYEE_NO)\r\n"
+				 + " WHERE B.EMPLOYEE_FIRST_CONFIRM_YN = 'Y'\r\n"
+				 + "   AND B.EMPLOYEE_SECOND_CONFIRM_YN = 'N'\r\n"
+				 + "   AND B.EMPLOYEE_LAST_CONFIRM_YN = 'N'\r\n"
+				 + "   AND B.EMPLOYEE_REGIST_RETURN_YN = 'N'", nativeQuery = true)
+	List<AdminEmployeeAddress> secondConfirmN();
+
 
 }
 

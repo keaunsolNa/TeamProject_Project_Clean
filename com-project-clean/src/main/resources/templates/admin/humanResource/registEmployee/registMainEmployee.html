@@ -1,5 +1,6 @@
-
-<head xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
     <meta charset="UTF-8">
     <title>Document</title>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -222,9 +223,10 @@
                         <th>성별</th>
                     </tr>
                 </thead>
-                <tbody>
-                <div sec:authorize="hasRole('ROLE_ADMIN_HR')">
-                    <tr th:each="index : ${waitingEmployeeList}">
+                <tbody sec:authorize="hasRole('ROLE_ADMIN_HR')">
+                	
+                	<!-- HR -->
+                    <tr sec:authorize="!hasRole('ROLE_ADMIN_BOSS')" th:each="index : ${waitingEmployeeList}">	
 	                    <td class="waitingEmployee" th:text="${ index.employeeNo }"></td>
 	                    <td class="waitingEmployee" th:text="${ index.employeeName }"></td>
 	                    <td class="waitingEmployee" th:text="${ index.employeeBirth }"></td>
@@ -232,10 +234,9 @@
 	                    <td class="waitingEmployee" th:text="${ index.employeePhone }"></td>
 	                    <td class="waitingEmployee" th:text="${ index.employeeGender }"></td>
                     </tr>
-                    </div>
                     
-                <div sec:authorize="hasRole('ROLE_ADMIN_BOSS')">
-                    <tr th:each="index : ${waitingEmployeeList}">
+                    <!-- BOSS -->
+                    <tr sec:authorize="hasRole('ROLE_ADMIN_BOSS')" th:each="index : ${waitingEmployeeListBoss}">
 	                    <td class="waitingEmployee" th:text="${ index.employeeNo }"></td>
 	                    <td class="waitingEmployee" th:text="${ index.employeeName }"></td>
 	                    <td class="waitingEmployee" th:text="${ index.employeeBirth }"></td>
@@ -243,7 +244,6 @@
 	                    <td class="waitingEmployee" th:text="${ index.employeePhone }"></td>
 	                    <td class="waitingEmployee" th:text="${ index.employeeGender }"></td>
                     </tr>
-                    </div>
                 </tbody>
             </table>
 

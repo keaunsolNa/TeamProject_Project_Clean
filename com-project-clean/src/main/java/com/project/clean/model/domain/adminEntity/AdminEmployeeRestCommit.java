@@ -45,11 +45,11 @@ public class AdminEmployeeRestCommit {
 	@Column(name = "EMPLOYEE_LAST_CONFIRM_DATE")
 	private java.sql.Date employeeLastConfirmDate;
 
-	public EmployeeRestCommit() {
+	public AdminEmployeeRestCommit() {
 		super();
 	}
 
-	public EmployeeRestCommit(int confirmNo, int employeeNo, int adminNo, String returnReason,
+	public AdminEmployeeRestCommit(int confirmNo, int employeeNo, int adminNo, String returnReason,
 			Date employeeLastConfirmDate) {
 		super();
 		this.confirmNo = confirmNo;

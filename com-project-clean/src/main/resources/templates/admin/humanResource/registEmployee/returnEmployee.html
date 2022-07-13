@@ -165,9 +165,15 @@
           </tr>
           <tr>
             <td class="tg2-7btt" style="line-height: 150px;" >
-              <div>반려사유</div>
+              <div>인사담당자 의견</div>
             </td>
-            <td class="tg2-7btt" style="line-height: 150px;" colspan="5" th:text="${returnEmployee.EmployeeRestCommitDTO.returnReason}"></td>
+            <td class="tg2-7btt" style="line-height: 150px;" colspan="5" th:text="${hrReturnReason}"></td>
+          </tr>
+          <tr>
+            <td class="tg2-7btt" style="line-height: 150px;" >
+              <div>대표 의견</div>
+            </td>
+            <td class="tg2-7btt" style="line-height: 150px;" colspan="5" th:text="${bossReturnReason}"></td>
           </tr>
         </tbody>
       </table>

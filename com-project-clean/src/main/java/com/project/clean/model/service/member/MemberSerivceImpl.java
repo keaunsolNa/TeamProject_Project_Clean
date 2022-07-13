@@ -10,7 +10,10 @@ import com.project.clean.model.domain.adminEntity.AdminEmployeeEmail;
 import com.project.clean.model.dto.commonDTO.EmployeeAddressDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeEmailDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
-import com.project.clean.model.repository.admin.*;
+import com.project.clean.model.repository.employee.EmployeeAddressRepository;
+import com.project.clean.model.repository.employee.EmployeeEmailRepository;
+import com.project.clean.model.repository.employee.EmployeePictureRepository;
+import com.project.clean.model.repository.employee.EmployeeReopsitory;
 
 @Service
 public class MemberSerivceImpl implements MemberService{

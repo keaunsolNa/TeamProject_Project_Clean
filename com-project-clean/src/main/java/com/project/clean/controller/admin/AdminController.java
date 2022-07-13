@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.project.clean.model.domain.adminEntity.*;
-import com.project.clean.model.dto.commonDTO.*;
+import com.project.clean.model.dto.commonDTO.EmployeeAddressDTO;
+import com.project.clean.model.dto.commonDTO.EmployeeEmailDTO;
+import com.project.clean.model.dto.commonDTO.EmployeeRestCommitDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
-import com.project.clean.model.repository.admin.*;
 import com.project.clean.model.service.admin.AdminService;
 
 @Controller
@@ -148,10 +148,7 @@ public class AdminController {
 		mv.addAttribute("employeeDTO", employeeDTO);
 		return "redirect:/admin/select/retireNEmployee";
 	}
-	
-	
-	
-	
+
 	
 	/* 직원 등록 페이지 이동*/
 	@GetMapping("/hr/regist/employee")
@@ -164,7 +161,7 @@ public class AdminController {
 		
 		int id = Integer.valueOf(frontId + maxMemberNo);
 		
-		/* 대기중인 인원 조회 */
+		/* HR 대기중인 인원 조회 */
 		List<EmployeeAndAllDTO> selectWaitingEmployeeList = adminService.selectWaitingEmployeeList();
 		List<EmployeeAddressDTO> waitingEmployeeAddress = adminService.selectWaitingEmployeeAddressList();
 		/* 직원들 중 1번째 승인과 최종승인이 N인 직원 */
@@ -178,7 +175,23 @@ public class AdminController {
 			/* employeeDTO 안에 Address를 넣는 작업 */
 				employeeDTO.setEmployeeAddressDTO(employeeAddressDTO);
 				waitingEmployeeList.add(employeeDTO);
+			}
+		}
+		
+		/* BOSS 대기중인 인원 조회 */
+		List<EmployeeAndAllDTO> selectWaitingEmployeeListBoss = adminService.selectWaitingEmployeeListBoss();
+		List<EmployeeAddressDTO> waitingEmployeeAddressBoss = adminService.selectWaitingEmployeeAddressListBoss();
+		/* 직원들 중 1번째 승인과 최종승인이 N인 직원 */
+		List<EmployeeAndAllDTO> waitingEmployeeListBoss = new ArrayList<>();
+		if(!selectWaitingEmployeeListBoss.isEmpty() && !waitingEmployeeAddressBoss.isEmpty()) {
+			
+			for(int i = 0; i < selectWaitingEmployeeListBoss.size(); i ++) {
+				EmployeeAndAllDTO employeeDTO = selectWaitingEmployeeListBoss.get(i);
+				EmployeeAddressDTO employeeAddressDTO = waitingEmployeeAddressBoss.get(i);
 				
+				/* employeeDTO 안에 Address를 넣는 작업 */
+				employeeDTO.setEmployeeAddressDTO(employeeAddressDTO);
+				waitingEmployeeListBoss.add(employeeDTO);
 			}
 		}
 		
@@ -198,8 +211,9 @@ public class AdminController {
 			}
 		}
 		
-		mv.addAttribute("waitingEmployeeList", waitingEmployeeList);
-		mv.addAttribute("returnEmployeeList", returnEmployeeList);
+		mv.addAttribute("waitingEmployeeList", waitingEmployeeList);		//HR authority
+		mv.addAttribute("returnEmployeeList", returnEmployeeList);			
+		mv.addAttribute("waitingEmployeeListBoss", waitingEmployeeListBoss);	//BOSS authority
 		
 		mv.addAttribute("employeeNo", maxMemberNo + 1);
 		mv.addAttribute("employeeHireDate", sysdate);
@@ -210,7 +224,7 @@ public class AdminController {
 	
 	/* 직원등록 */
 	@PostMapping("/hr/regist/employee")
-		public String registEmployee(EmployeeAndAllDTO employeeDTO, EmployeeRestCommitDTO employeeRestCommitDTO, EmployeeAddressDTO addressDTO, EmployeeEmailDTO emailDTO,
+		public String registEmployee(EmployeeAndAllDTO employeeDTO, EmployeeAddressDTO addressDTO, EmployeeEmailDTO emailDTO,
 										String employeePhone1, String employeePhone2, String employeePhone3) {
 		
 		String employeePhone = employeePhone1 + employeePhone2 + employeePhone3;
@@ -228,7 +242,6 @@ public class AdminController {
 		  /* 비크립트 */
 		  employeeDTO.setEmployeeAddressDTO(addressDTO);
 		  employeeDTO.setEmployeeEmailDTO(emailDTO);
-		 employeeDTO.setEmployeeRestCommitDTO(employeeRestCommitDTO);
 		  adminService.registEmployee(employeeDTO);
 		
 		return "redirect:/main";
@@ -241,7 +254,7 @@ public class AdminController {
 		EmployeeAndAllDTO waitingEmployee = adminService.waitingEmployee(empNo);
 		EmployeeAddressDTO employeeAddress = adminService.waitingEmployeeAddress(empNo);
 		EmployeeEmailDTO employeeEmail = adminService.waitingEmployeeEmail(empNo);
-		EmployeeRestCommitDTO employeeRest = adminService.waitingEmployeeRest(empNo);
+		List<EmployeeRestCommitDTO> employeeRestList = adminService.waitingEmployeeRest(empNo);
 
 		/* 핸드폰 번호 출력 시 - 추가 */
 		String firstPhoneNumber = "";
@@ -259,7 +272,7 @@ public class AdminController {
 		
 		waitingEmployee.setEmployeeAddressDTO(employeeAddress);
 		waitingEmployee.setEmployeeEmailDTO(employeeEmail);
-		waitingEmployee.setEmployeeRestCommitDTO(employeeRest);
+		waitingEmployee.setEmployeeRestCommitList(employeeRestList);
 		
 		mv.addAttribute("waitingEmployee", waitingEmployee);
 		return "admin/humanResource/registEmployee/waitingEmployee";
@@ -270,7 +283,7 @@ public class AdminController {
 		EmployeeAndAllDTO returnEmployee = adminService.returnEmployee(empNo);
 		EmployeeAddressDTO employeeAddress = adminService.returnEmployeeAddress(empNo);
 		EmployeeEmailDTO employeeEmail = adminService.returnEmployeeEmail(empNo);
-		EmployeeRestCommitDTO employeeRest = adminService.returnEmployeeRest(empNo);
+		List<EmployeeRestCommitDTO> employeeRestList = adminService.returnEmployeeRest(empNo);
 		
 		/* 핸드폰 번호 출력 시 - 추가 */
 		String firstPhoneNumber = "";
@@ -285,28 +298,57 @@ public class AdminController {
 			lastPhoneNumber = returnEmployee.getEmployeePhone().substring(6,10);
 		}
 		returnEmployee.setEmployeePhone(firstPhoneNumber+"-"+middlePhoneNumber+"-"+lastPhoneNumber);
-		
 		returnEmployee.setEmployeeAddressDTO(employeeAddress);
 		returnEmployee.setEmployeeEmailDTO(employeeEmail);
-		returnEmployee.setEmployeeRestCommitDTO(employeeRest);
-		
+
+		String hrReturnReason = "";
+		String bossReturnReason = "";
+		/* 1차 2차 null 판별 알고리즘 */
+		if(employeeRestList.size() == 0) {
+			mv.addAttribute("hrReturnReason", "내용없음");
+			mv.addAttribute( "bossReturnReason", "내용없음");
+		} else if(employeeRestList.size() == 1) {
+			mv.addAttribute("hrReturnReason", employeeRestList.get(0).getReturnReason());
+			mv.addAttribute("bossReturnReason", "내용없음");
+			
+		} else if(employeeRestList.size() == 2) {
+			mv.addAttribute("hrReturnReason", employeeRestList.get(0).getReturnReason());
+			mv.addAttribute("bossReturnReason", employeeRestList.get(1).getReturnReason());
+		}
 		mv.addAttribute("returnEmployee", returnEmployee);
 		return "admin/humanResource/registEmployee/returnEmployee";
 	}
 	
 	@PostMapping("/hr/confirm/restCommit")
-	public String updateRestCommitConfirm(EmployeeRestCommitDTO restCommitDTO) {
-		adminService.updateRestCommitConfirm(restCommitDTO);
+	public String insertRestCommitConfirm(EmployeeRestCommitDTO restCommitDTO) {
+		adminService.insertRestCommitConfirm(restCommitDTO);
 
 		return "redirect:/admin/hr/regist/employee";
 		
 	}
 	
 	@PostMapping("/hr/return/restCommit")
-	public String updateRestCommitReturn(EmployeeRestCommitDTO restCommitDTO) {
-		adminService.updateRestCommitReturn(restCommitDTO);
+	public String insertRestCommitReturn(EmployeeRestCommitDTO restCommitDTO) {
+		adminService.insertRestCommitReturn(restCommitDTO);
 		return "redirect:/admin/hr/regist/employee";
 	}
+	
+	/* 사장 직원 2차승인 */
+	@PostMapping("/boss/confirm/restCommit")
+	public String insertAndUpdateRestCommitConfirmBoss(EmployeeRestCommitDTO restCommitDTO) {
+		adminService.insertAndupdateRestCommitConfirmBoss(restCommitDTO);
+
+		return "redirect:/admin/hr/regist/employee";
+		
+	}
+	
+	/* 사장 직원 2차반려 */
+	@PostMapping("/boss/return/restCommit")
+	public String insertAndupdateRestReturnReturnBoss(EmployeeRestCommitDTO restCommitDTO) {
+		adminService.insertAndupdateRestCommitReturnBoss(restCommitDTO);
+		return "redirect:/admin/hr/regist/employee";
+	}
+	
 	/* 블랙리스트 조회 */
 	@GetMapping("/select/blackList")
 	public String employeeModify() {

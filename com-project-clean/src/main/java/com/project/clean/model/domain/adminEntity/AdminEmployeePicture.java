@@ -2,7 +2,6 @@ package com.project.clean.model.domain.adminEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -28,11 +27,11 @@ public class AdminEmployeePicture {
 	@Column(name = "EMPLOYEE_NO")
 	private int employeeNo;
 
-	public EmployeePicture() {
+	public AdminEmployeePicture() {
 		super();
 	}
 
-	public EmployeePicture(int employeePictureNo, String employeePictureOrginName, String employeePictureSaveName,
+	public AdminEmployeePicture(int employeePictureNo, String employeePictureOrginName, String employeePictureSaveName,
 			String employeePictureSaveRoot, String employeePictureThumbnailName, int employeeNo) {
 		super();
 		this.employeePictureNo = employeePictureNo;

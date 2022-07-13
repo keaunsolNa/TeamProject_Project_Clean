@@ -21,11 +21,11 @@ public class AdminEmployeeEmail {
 	@Column(name = "EMPLOYEE_DOMAIN")
 	private String EmployeeDomain;
 
-	public EmployeeEmail() {
+	public AdminEmployeeEmail() {
 		super();
 	}
 
-	public EmployeeEmail(int employeeNo, String employeeEmail, String employeeDomain) {
+	public AdminEmployeeEmail(int employeeNo, String employeeEmail, String employeeDomain) {
 		super();
 		this.employeeNo = employeeNo;
 		this.employeeEmail = employeeEmail;

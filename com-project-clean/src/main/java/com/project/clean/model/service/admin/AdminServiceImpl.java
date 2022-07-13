@@ -1,5 +1,8 @@
 package com.project.clean.model.service.admin;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -8,10 +11,22 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.clean.model.domain.adminEntity.*;
-import com.project.clean.model.dto.commonDTO.*;
+import com.project.clean.model.domain.adminEntity.AdminEmployee;
+import com.project.clean.model.domain.adminEntity.AdminEmployeeAddress;
+import com.project.clean.model.domain.adminEntity.AdminEmployeeEmail;
+import com.project.clean.model.domain.adminEntity.AdminEmployeePicture;
+import com.project.clean.model.domain.adminEntity.AdminEmployeeRestCommit;
+import com.project.clean.model.domain.commonEntity.EmployeeRestCommit;
+import com.project.clean.model.dto.commonDTO.EmployeeAddressDTO;
+import com.project.clean.model.dto.commonDTO.EmployeeEmailDTO;
+import com.project.clean.model.dto.commonDTO.EmployeePictureDTO;
+import com.project.clean.model.dto.commonDTO.EmployeeRestCommitDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
-import com.project.clean.model.repository.admin.*;
+import com.project.clean.model.repository.employee.EmployeeAddressRepository;
+import com.project.clean.model.repository.employee.EmployeeEmailRepository;
+import com.project.clean.model.repository.employee.EmployeePictureRepository;
+import com.project.clean.model.repository.employee.EmployeeReopsitory;
+import com.project.clean.model.repository.employee.EmployeeRestCommitRepository;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -117,7 +132,6 @@ public class AdminServiceImpl implements AdminService {
 		employeeRepository.save(modelMapper.map(employeeDTO, AdminEmployee.class));
 		employeeAddressRepository.save(modelMapper.map(employeeDTO.getEmployeeAddressDTO(), AdminEmployeeAddress.class));
 		employeeEmailRepository.save(modelMapper.map(employeeDTO.getEmployeeEmailDTO(), AdminEmployeeEmail.class));
-		employeeRestCommitRepository.save(modelMapper.map(employeeDTO.getEmployeeRestCommitDTO(), AdminEmployeeRestCommit.class));
 		
 	}
 	@Transactional
@@ -219,44 +233,74 @@ public class AdminServiceImpl implements AdminService {
 		return modelMapper.map(employeeAddress, EmployeeAddressDTO.class);
 	}
 	@Transactional
-	public EmployeeRestCommitDTO waitingEmployeeRest(int empNo) {
-		AdminEmployeeRestCommit employeeCommit = employeeRestCommitRepository.findById(empNo).get();
+	public List<EmployeeRestCommitDTO> waitingEmployeeRest(int empNo) {
+		List<AdminEmployeeRestCommit> employeeCommitList = employeeRestCommitRepository.findByEmployeeNo(empNo);
 		
-		return modelMapper.map(employeeCommit, EmployeeRestCommitDTO.class);
+		return employeeCommitList.stream().map(commit -> modelMapper.map(commit, EmployeeRestCommitDTO.class)).toList();
 	}
 	@Transactional
-	public EmployeeRestCommitDTO returnEmployeeRest(int empNo) {
-		AdminEmployeeRestCommit employeeCommit = employeeRestCommitRepository.findByEmployeeNo(empNo);
+	public List<EmployeeRestCommitDTO> returnEmployeeRest(int empNo) {
+		List<AdminEmployeeRestCommit> employeeCommitList = employeeRestCommitRepository.findByEmployeeNo(empNo);
 		
-		return modelMapper.map(employeeCommit, EmployeeRestCommitDTO.class);
+		return employeeCommitList.stream().map(commit -> modelMapper.map(commit, EmployeeRestCommitDTO.class)).toList();
 	}
 
 	@Transactional
-	public void updateRestCommitConfirm(EmployeeRestCommitDTO restCommitDTO) {
-		AdminEmployeeRestCommit restCommitConfirm = employeeRestCommitRepository.findByEmployeeNo(restCommitDTO.getEmployeeNo());
+	public void insertRestCommitConfirm(EmployeeRestCommitDTO restCommitDTO) {
+		employeeRestCommitRepository.save(modelMapper.map(restCommitDTO, AdminEmployeeRestCommit.class));
 		AdminEmployee employee = employeeRepository.findById(restCommitDTO.getEmployeeNo()).get();
-		restCommitConfirm.setAdminNo(restCommitDTO.getAdminNo());
-		restCommitConfirm.setReturnReason(restCommitDTO.getReturnReason());
 		
 		employee.setEmployeeFirstConfirmYn("Y");
 		
 	}
 	
 	@Transactional
-	public void updateRestCommitReturn(EmployeeRestCommitDTO restCommitDTO) {
-		AdminEmployeeRestCommit restCommitReturn = employeeRestCommitRepository.findByEmployeeNo(restCommitDTO.getEmployeeNo());
+	public void insertRestCommitReturn(EmployeeRestCommitDTO restCommitDTO) {
+		employeeRestCommitRepository.save(modelMapper.map(restCommitDTO, AdminEmployeeRestCommit.class));
 		AdminEmployee employee = employeeRepository.findById(restCommitDTO.getEmployeeNo()).get();
 		employee.setEmployeeFirstConfirmYn("Y");
 		employee.setEmployeeRegistReturnYn("Y");
-		restCommitReturn.setAdminNo(restCommitDTO.getAdminNo());
-		restCommitReturn.setReturnReason(restCommitDTO.getReturnReason());
+		
+	}
+	
+	@Transactional
+	public void insertAndupdateRestCommitConfirmBoss(EmployeeRestCommitDTO restCommitDTO) {
+		employeeRestCommitRepository.save(modelMapper.map(restCommitDTO, AdminEmployeeRestCommit.class));
+		AdminEmployee employee = employeeRepository.findById(restCommitDTO.getEmployeeNo()).get();
+
+		LocalDate now = LocalDate.now();
+		java.sql.Date today = java.sql.Date.valueOf(now);
+		
+		employee.setEmployeeHireDate(today);
+		employee.setEmployeeSecondConfirmYn("Y");
+		employee.setEmployeeLastConfirmYn("Y");
+		employee.setEmployeeLastConfirmDate(today);
+		
+	}
+	
+	@Transactional
+	public void insertAndupdateRestCommitReturnBoss(EmployeeRestCommitDTO restCommitDTO) {
+		employeeRestCommitRepository.save(modelMapper.map(restCommitDTO, AdminEmployeeRestCommit.class));
+		
+		AdminEmployee employee = employeeRepository.findById(restCommitDTO.getEmployeeNo()).get();
+		employee.setEmployeeRegistReturnYn("Y");
+		
 		
 	}
 
-
-
-
-
+	@Transactional
+	public List<EmployeeAndAllDTO> selectWaitingEmployeeListBoss() {
+		List<AdminEmployee> selectWaitingEmployeeList = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeLastConfirmYnAndEmployeeRegistReturnYn("Y","N","N","N");
+		
+		return selectWaitingEmployeeList.stream().map(waiting -> modelMapper.map(waiting, EmployeeAndAllDTO.class)).toList();
+	}
+	@Transactional
+	public List<EmployeeAddressDTO> selectWaitingEmployeeAddressListBoss() {
+		List<AdminEmployeeAddress> waitingEmployeeAddressList = employeeAddressRepository.secondConfirmN();
+															   
+		return waitingEmployeeAddressList.stream().map(waitingAddress -> modelMapper.map(waitingAddress, EmployeeAddressDTO.class)).toList();
+	}
+	
 
 
 

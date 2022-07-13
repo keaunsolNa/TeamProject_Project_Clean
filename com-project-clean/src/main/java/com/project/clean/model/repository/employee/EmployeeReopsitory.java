@@ -1,4 +1,4 @@
-package com.project.clean.model.repository.admin;
+package com.project.clean.model.repository.employee;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +31,9 @@ public interface EmployeeReopsitory extends JpaRepository<AdminEmployee, Integer
 	public List<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYn(String string, String string2);
 
 	public Optional<AdminEmployee> findByEmployeeNo(int empNo);
+
+	public List<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeLastConfirmYnAndEmployeeRegistReturnYn(
+			String string, String string2, String string3, String string4);
 
 	
 	
