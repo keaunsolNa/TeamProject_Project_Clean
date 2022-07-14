@@ -16,6 +16,7 @@ public class SupplementServiceDTO implements Serializable {
 	}
 	public SupplementServiceDTO(int serviceReservationNo, String gashoodCleanYn, String moldCleanYn,
 			String filterCleanYn, String warehouseCleanYn, String petYn, String multipleLayerYn) {
+		super();
 		this.serviceReservationNo = serviceReservationNo;
 		this.gashoodCleanYn = gashoodCleanYn;
 		this.moldCleanYn = moldCleanYn;
@@ -24,50 +25,48 @@ public class SupplementServiceDTO implements Serializable {
 		this.petYn = petYn;
 		this.multipleLayerYn = multipleLayerYn;
 	}
-	int getServiceReservationNo() {
+	public int getServiceReservationNo() {
 		return serviceReservationNo;
 	}
-	void setServiceReservationNo(int serviceReservationNo) {
+	public void setServiceReservationNo(int serviceReservationNo) {
 		this.serviceReservationNo = serviceReservationNo;
 	}
-	String getGashoodCleanYn() {
+	public String getGashoodCleanYn() {
 		return gashoodCleanYn;
 	}
-	void setGashoodCleanYn(String gashoodCleanYn) {
+	public void setGashoodCleanYn(String gashoodCleanYn) {
 		this.gashoodCleanYn = gashoodCleanYn;
 	}
-	String getMoldCleanYn() {
+	public String getMoldCleanYn() {
 		return moldCleanYn;
 	}
-	void setMoldCleanYn(String moldCleanYn) {
+	public void setMoldCleanYn(String moldCleanYn) {
 		this.moldCleanYn = moldCleanYn;
 	}
-	String getFilterCleanYn() {
+	public String getFilterCleanYn() {
 		return filterCleanYn;
 	}
-	void setFilterCleanYn(String filterCleanYn) {
+	public void setFilterCleanYn(String filterCleanYn) {
 		this.filterCleanYn = filterCleanYn;
 	}
-	String getWarehouseCleanYn() {
+	public String getWarehouseCleanYn() {
 		return warehouseCleanYn;
 	}
-	void setWarehouseCleanYn(String warehouseCleanYn) {
+	public void setWarehouseCleanYn(String warehouseCleanYn) {
 		this.warehouseCleanYn = warehouseCleanYn;
 	}
-	String getPetYn() {
+	public String getPetYn() {
 		return petYn;
 	}
-	void setPetYn(String petYn) {
+	public void setPetYn(String petYn) {
 		this.petYn = petYn;
 	}
-	String getMultipleLayerYn() {
+	public String getMultipleLayerYn() {
 		return multipleLayerYn;
 	}
-	void setMultipleLayerYn(String multipleLayerYn) {
+	public void setMultipleLayerYn(String multipleLayerYn) {
 		this.multipleLayerYn = multipleLayerYn;
 	}
-	
-	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -78,6 +77,7 @@ public class SupplementServiceDTO implements Serializable {
 				+ ", warehouseCleanYn=" + warehouseCleanYn + ", petYn=" + petYn + ", multipleLayerYn=" + multipleLayerYn
 				+ "]";
 	}
+	
 	
 	
 }

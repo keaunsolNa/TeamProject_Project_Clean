@@ -7,10 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "SUPPLEMENT_SERVICE")
-public class SupplementService implements Serializable{
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
+@Entity(name="SupplementService")
+@Table(name ="TBL_SUPPLEMENT_SERVICE")
+@DynamicInsert
+@DynamicUpdate
+public class SupplementService implements Serializable{
 	private static final long serialVersionUID = -5594428855626340583L;
 	
 	@Id
@@ -36,10 +40,12 @@ public class SupplementService implements Serializable{
 	private String multipleLayerYn;
 
 	public SupplementService() {
+		super();
 	}
 
 	public SupplementService(int serviceReservationNo, String gashoodCleanYn, String moldCleanYn, String filterCleanYn,
 			String warehouseCleanYn, String petYn, String multipleLayerYn) {
+		super();
 		this.serviceReservationNo = serviceReservationNo;
 		this.gashoodCleanYn = gashoodCleanYn;
 		this.moldCleanYn = moldCleanYn;
@@ -115,8 +121,6 @@ public class SupplementService implements Serializable{
 				+ ", moldCleanYn=" + moldCleanYn + ", filterCleanYn=" + filterCleanYn + ", warehouseCleanYn="
 				+ warehouseCleanYn + ", petYn=" + petYn + ", multipleLayerYn=" + multipleLayerYn + "]";
 	}
-	
-	
-	
+
 	
 }

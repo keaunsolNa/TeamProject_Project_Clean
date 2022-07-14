@@ -1,44 +1,87 @@
-package com.project.clean.model.dto.commonDTO;
+package com.project.clean.model.domain.reservation;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Timestamp;
 
-public class ReservationInfoDTO implements Serializable{
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
+@Entity(name="Reservation")
+@Table(name="TBL_RESERVATION_INFO")
+@SequenceGenerator(
+		name="RESERVATION_SEQ_GENERATOR",
+		sequenceName="SEQ_TBL_RESERVATION",
+		initialValue = 1,
+		allocationSize = 1
+)
+@DynamicInsert
+@DynamicUpdate
+public class Reservation implements Serializable {
+
+	private static final long serialVersionUID = 4615417887893850568L;
 	
-	private static final long serialVersionUID = 5574907059587424790L;
-	
+	@Id
+	@GeneratedValue(
+			strategy = GenerationType.SEQUENCE,
+			generator = "RESERVATION_SEQ_GENERATOR"
+	)
+	@Column(name= "RESERVATION_NO")
 	private int reservationNo;
+	@Column(name= "USER_NAME")
 	private String userName;
+	@Column(name= "USER_PHONE_NO")
 	private String userPhoneNo;
-	private int userPostalNo;
+	@Column(name= "USER_POSTAL_NO")
+	private int UserPostalNo;
+	@Column(name= "USER_ADDRESS")
 	private String userAddress;
+	@Column(name= "USER_DETAIL_ADDRESS")
 	private String userDetailAddress;
+	@Column(name= "USER_HOUSE_SIZE")
 	private int userHouseSize;
+	@Column(name= "USER_RESERVATION_DATE")
 	private java.sql.Date userReservationDate;
+	@Column(name= "USER_REQUIREMENTS")
 	private String userRequirements;
+	@Column(name= "BUSINESS_DATE")
 	private java.sql.Date businessDate;
-	private java.sql.Timestamp businessStartTime;
-	private java.sql.Timestamp businessEndTime;
+	@Column(name= "BUSINESS_START_TIME")
+	private java.sql.Date businessStartTime;
+	@Column(name= "BUSINESS_END_TIME")
+	private java.sql.Date businessEndTime;
+	@Column(name= "BUSINESS_FIXED_PEOPLE")
 	private int businessFixedPeople;
+	@Column(name= "BUSINESS_APPLY_PEOPLE")
 	private int businessApplyPeople;
+	@Column(name= "TOTAL_PAYMENT")
 	private int totalPayment;
+	@Column(name= "APPLY_END_YN")
 	private String applyEndYn;
-	private String reservationCancelYn;
+	@Column(name= "RESERVATION_CANCEL_YN")
+	private String ReservationCancelYn;
+	@Column(name= "PAYMENT_YN")
 	private String paymentYn;
-	public ReservationInfoDTO() {
-		super();
+	
+	public Reservation() {
 	}
-	public ReservationInfoDTO(int reservationNo, String userName, String userPhoneNo, int userPostalNo,
-			String userAddress, String userDetailAddress, int userHouseSize, Date userReservationDate,
-			String userRequirements, Date businessDate, Timestamp businessStartTime, Timestamp businessEndTime,
-			int businessFixedPeople, int businessApplyPeople, int totalPayment, String applyEndYn,
-			String reservationCancelYn, String paymentYn) {
-		super();
+
+	public Reservation(int reservationNo, String userName, String userPhoneNo, int userPostalNo, String userAddress,
+			String userDetailAddress, int userHouseSize, Date userReservationDate, String userRequirements,
+			Date businessDate, Date businessStartTime, Date businessEndTime, int businessFixedPeople,
+			int businessApplyPeople, int totalPayment, String applyEndYn, String reservationCancelYn,
+			String paymentYn) {
 		this.reservationNo = reservationNo;
 		this.userName = userName;
 		this.userPhoneNo = userPhoneNo;
-		this.userPostalNo = userPostalNo;
+		UserPostalNo = userPostalNo;
 		this.userAddress = userAddress;
 		this.userDetailAddress = userDetailAddress;
 		this.userHouseSize = userHouseSize;
@@ -51,130 +94,166 @@ public class ReservationInfoDTO implements Serializable{
 		this.businessApplyPeople = businessApplyPeople;
 		this.totalPayment = totalPayment;
 		this.applyEndYn = applyEndYn;
-		this.reservationCancelYn = reservationCancelYn;
+		ReservationCancelYn = reservationCancelYn;
 		this.paymentYn = paymentYn;
 	}
+
+
+
 	public int getReservationNo() {
 		return reservationNo;
 	}
+
 	public void setReservationNo(int reservationNo) {
 		this.reservationNo = reservationNo;
 	}
+
 	public String getUserName() {
 		return userName;
 	}
+
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+
 	public String getUserPhoneNo() {
 		return userPhoneNo;
 	}
+
 	public void setUserPhoneNo(String userPhoneNo) {
 		this.userPhoneNo = userPhoneNo;
 	}
+
 	public int getUserPostalNo() {
-		return userPostalNo;
+		return UserPostalNo;
 	}
+
 	public void setUserPostalNo(int userPostalNo) {
-		this.userPostalNo = userPostalNo;
+		UserPostalNo = userPostalNo;
 	}
+
 	public String getUserAddress() {
 		return userAddress;
 	}
+
 	public void setUserAddress(String userAddress) {
 		this.userAddress = userAddress;
 	}
+
 	public String getUserDetailAddress() {
 		return userDetailAddress;
 	}
+
 	public void setUserDetailAddress(String userDetailAddress) {
 		this.userDetailAddress = userDetailAddress;
 	}
+
 	public int getUserHouseSize() {
 		return userHouseSize;
 	}
+
 	public void setUserHouseSize(int userHouseSize) {
 		this.userHouseSize = userHouseSize;
 	}
+
 	public java.sql.Date getUserReservationDate() {
 		return userReservationDate;
 	}
+
 	public void setUserReservationDate(java.sql.Date userReservationDate) {
 		this.userReservationDate = userReservationDate;
 	}
+
 	public String getUserRequirements() {
 		return userRequirements;
 	}
+
 	public void setUserRequirements(String userRequirements) {
 		this.userRequirements = userRequirements;
 	}
+
 	public java.sql.Date getBusinessDate() {
 		return businessDate;
 	}
+
 	public void setBusinessDate(java.sql.Date businessDate) {
 		this.businessDate = businessDate;
 	}
-	public java.sql.Timestamp getBusinessStartTime() {
+
+	public java.sql.Date getBusinessStartTime() {
 		return businessStartTime;
 	}
-	public void setBusinessStartTime(java.sql.Timestamp businessStartTime) {
+
+	public void setBusinessStartTime(java.sql.Date businessStartTime) {
 		this.businessStartTime = businessStartTime;
 	}
-	public java.sql.Timestamp getBusinessEndTime() {
+
+	public java.sql.Date getBusinessEndTime() {
 		return businessEndTime;
 	}
-	public void setBusinessEndTime(java.sql.Timestamp businessEndTime) {
+
+	public void setBusinessEndTime(java.sql.Date businessEndTime) {
 		this.businessEndTime = businessEndTime;
 	}
+
 	public int getBusinessFixedPeople() {
 		return businessFixedPeople;
 	}
+
 	public void setBusinessFixedPeople(int businessFixedPeople) {
 		this.businessFixedPeople = businessFixedPeople;
 	}
+
 	public int getBusinessApplyPeople() {
 		return businessApplyPeople;
 	}
+
 	public void setBusinessApplyPeople(int businessApplyPeople) {
 		this.businessApplyPeople = businessApplyPeople;
 	}
+
 	public int getTotalPayment() {
 		return totalPayment;
 	}
+
 	public void setTotalPayment(int totalPayment) {
 		this.totalPayment = totalPayment;
 	}
+
 	public String getApplyEndYn() {
 		return applyEndYn;
 	}
+
 	public void setApplyEndYn(String applyEndYn) {
 		this.applyEndYn = applyEndYn;
 	}
+
 	public String getReservationCancelYn() {
-		return reservationCancelYn;
+		return ReservationCancelYn;
 	}
+
 	public void setReservationCancelYn(String reservationCancelYn) {
-		this.reservationCancelYn = reservationCancelYn;
+		ReservationCancelYn = reservationCancelYn;
 	}
+
 	public String getPaymentYn() {
 		return paymentYn;
 	}
+
 	public void setPaymentYn(String paymentYn) {
 		this.paymentYn = paymentYn;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+
 	@Override
 	public String toString() {
-		return "ReservationInfoDTO [reservationNo=" + reservationNo + ", userName=" + userName + ", userPhoneNo="
-				+ userPhoneNo + ", userPostalNo=" + userPostalNo + ", userAddress=" + userAddress
-				+ ", userDetailAddress=" + userDetailAddress + ", userHouseSize=" + userHouseSize
-				+ ", userReservationDate=" + userReservationDate + ", userRequirements=" + userRequirements
-				+ ", businessDate=" + businessDate + ", businessStartTime=" + businessStartTime + ", businessEndTime="
-				+ businessEndTime + ", businessFixedPeople=" + businessFixedPeople + ", businessApplyPeople="
-				+ businessApplyPeople + ", totalPayment=" + totalPayment + ", applyEndYn=" + applyEndYn
-				+ ", reservationCancelYn=" + reservationCancelYn + ", paymentYn=" + paymentYn + "]";
+		return "Reservation [reservationNo=" + reservationNo + ", userName=" + userName + ", userPhoneNo=" + userPhoneNo
+				+ ", UserPostalNo=" + UserPostalNo + ", userAddress=" + userAddress + ", userDetailAddress="
+				+ userDetailAddress + ", userHouseSize=" + userHouseSize + ", userReservationDate="
+				+ userReservationDate + ", userRequirements=" + userRequirements + ", businessDate=" + businessDate
+				+ ", businessStartTime=" + businessStartTime + ", businessEndTime=" + businessEndTime
+				+ ", businessFixedPeople=" + businessFixedPeople + ", businessApplyPeople=" + businessApplyPeople
+				+ ", totalPayment=" + totalPayment + ", applyEndYn=" + applyEndYn + ", ReservationCancelYn="
+				+ ReservationCancelYn + ", paymentYn=" + paymentYn + "]";
 	}
-			
+	
 }

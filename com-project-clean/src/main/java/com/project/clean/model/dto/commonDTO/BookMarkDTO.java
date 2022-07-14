@@ -7,48 +7,49 @@ public class BookMarkDTO implements Serializable{
 	private static final long serialVersionUID = 3576945236851160745L;
 
 	private int bookmarkNo;
-	private String bookmarkCanselYn;
+	private String bookmarkCancelYn;
 	private int bookmarkEmployeeNo;
 	private int bookmarkReservationNo;
 	public BookMarkDTO() {
+		super();
 	}
-	public BookMarkDTO(int bookmarkNo, String bookmarkCanselYn, int bookmarkEmployeeNo, int bookmarkReservationNo) {
+	public BookMarkDTO(int bookmarkNo, String bookmarkCancelYn, int bookmarkEmployeeNo, int bookmarkReservationNo) {
+		super();
 		this.bookmarkNo = bookmarkNo;
-		this.bookmarkCanselYn = bookmarkCanselYn;
+		this.bookmarkCancelYn = bookmarkCancelYn;
 		this.bookmarkEmployeeNo = bookmarkEmployeeNo;
 		this.bookmarkReservationNo = bookmarkReservationNo;
 	}
-	int getBookmarkNo() {
+	public int getBookmarkNo() {
 		return bookmarkNo;
 	}
-	void setBookmarkNo(int bookmarkNo) {
+	public void setBookmarkNo(int bookmarkNo) {
 		this.bookmarkNo = bookmarkNo;
 	}
-	String getBookmarkCanselYn() {
-		return bookmarkCanselYn;
+	public String getBookmarkCancelYn() {
+		return bookmarkCancelYn;
 	}
-	void setBookmarkCanselYn(String bookmarkCanselYn) {
-		this.bookmarkCanselYn = bookmarkCanselYn;
+	public void setBookmarkCancelYn(String bookmarkCancelYn) {
+		this.bookmarkCancelYn = bookmarkCancelYn;
 	}
-	int getBookmarkEmployeeNo() {
+	public int getBookmarkEmployeeNo() {
 		return bookmarkEmployeeNo;
 	}
-	void setBookmarkEmployeeNo(int bookmarkEmployeeNo) {
+	public void setBookmarkEmployeeNo(int bookmarkEmployeeNo) {
 		this.bookmarkEmployeeNo = bookmarkEmployeeNo;
 	}
-	int getBookmarkReservationNo() {
+	public int getBookmarkReservationNo() {
 		return bookmarkReservationNo;
 	}
-	void setBookmarkReservationNo(int bookmarkReservationNo) {
+	public void setBookmarkReservationNo(int bookmarkReservationNo) {
 		this.bookmarkReservationNo = bookmarkReservationNo;
 	}
-	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 	@Override
 	public String toString() {
-		return "BookMarkDTO [bookmarkNo=" + bookmarkNo + ", bookmarkCanselYn=" + bookmarkCanselYn
+		return "BookMarkDTO [bookmarkNo=" + bookmarkNo + ", bookmarkCancelYn=" + bookmarkCancelYn
 				+ ", bookmarkEmployeeNo=" + bookmarkEmployeeNo + ", bookmarkReservationNo=" + bookmarkReservationNo
 				+ "]";
 	}
