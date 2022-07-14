@@ -2,45 +2,54 @@ package com.project.clean.model.domain.commonEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-@Entity
-@Table(name="ADMIN_PICTURE")
+@Entity(name="AdminPicture")
+@Table(name="TBL_ADMIN_PICTURE")
+@SequenceGenerator(
+		name = "ADMIN_PICTURE_SEQ_TBL_GENERATOR",
+		sequenceName = "SEQ_TBL_ADMIN_PICTURE",
+		initialValue = 1,
+		allocationSize = 1
+)
 public class AdminPicture implements java.io.Serializable{
 
 	private static final long serialVersionUID = -2625424420628119196L;
 	
 	@Id
-	@Column(name="ADMIN_PICTURE_NO", nullable = true)
+	@GeneratedValue(
+			strategy = GenerationType.SEQUENCE,
+			generator = "ADMIN_PICTURE_SEQ_TBL_GENERATOR"
+	)
+	@Column(name="ADMIN_PICTURE_NO")
 	private int pictureNo;
 	
-	@Column(name="ADMIN_PICTURE_ORIGIN_NAME", nullable = true)
+	@Column(name="ADMIN_PICTURE_ORIGIN_NAME")
 	private String pictureOriginName;
 	
-	@Column(name="ADMIN_PICTURE_SAVE_NAME", nullable = true)
+	@Column(name="ADMIN_PICTURE_SAVE_NAME")
 	private String pictureSaveName;
 	
-	@Column(name="ADMIN_PICTURE_SAVE_ROOT", nullable = true)
+	@Column(name="ADMIN_PICTURE_SAVE_ROOT")
 	private String pictureSaveRoot;
 	
-	@Column(name="ADMIN_PICTURE_THUMBNAIL_NAME", nullable = true)
-	private String pictureThumbnailName;
-	
-	@Column(name="ADMIN_NO", nullable = true)
-	private int no;
+	@Column(name="ADMIN_NO")
+	private int adminNo;
 
 	public AdminPicture() {
 	}
 
 	public AdminPicture(int pictureNo, String pictureOriginName, String pictureSaveName, String pictureSaveRoot,
-			String pictureThumbnailName, int no) {
+			int adminNo) {
 		this.pictureNo = pictureNo;
 		this.pictureOriginName = pictureOriginName;
 		this.pictureSaveName = pictureSaveName;
 		this.pictureSaveRoot = pictureSaveRoot;
-		this.pictureThumbnailName = pictureThumbnailName;
-		this.no = no;
+		this.adminNo = adminNo;
 	}
 
 	public int getPictureNo() {
@@ -75,20 +84,12 @@ public class AdminPicture implements java.io.Serializable{
 		this.pictureSaveRoot = pictureSaveRoot;
 	}
 
-	public String getPictureThumbnailName() {
-		return pictureThumbnailName;
+	public int getAdminNo() {
+		return adminNo;
 	}
 
-	public void setPictureThumbnailName(String pictureThumbnailName) {
-		this.pictureThumbnailName = pictureThumbnailName;
-	}
-
-	public int getNo() {
-		return no;
-	}
-
-	public void setNo(int no) {
-		this.no = no;
+	public void setAdminNo(int adminNo) {
+		this.adminNo = adminNo;
 	}
 
 	public static long getSerialversionuid() {
@@ -98,9 +99,10 @@ public class AdminPicture implements java.io.Serializable{
 	@Override
 	public String toString() {
 		return "AdminPicture [pictureNo=" + pictureNo + ", pictureOriginName=" + pictureOriginName
-				+ ", pictureSaveName=" + pictureSaveName + ", pictureSaveRoot=" + pictureSaveRoot
-				+ ", pictureThumbnailName=" + pictureThumbnailName + ", no=" + no + "]";
+				+ ", pictureSaveName=" + pictureSaveName + ", pictureSaveRoot=" + pictureSaveRoot + ", adminNo="
+				+ adminNo + "]";
 	}
+
 	
 	
 

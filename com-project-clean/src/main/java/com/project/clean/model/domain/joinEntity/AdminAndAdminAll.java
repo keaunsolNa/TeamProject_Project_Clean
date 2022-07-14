@@ -1,22 +1,22 @@
 package com.project.clean.model.domain.joinEntity;
 
-import java.io.Serializable;
-import java.sql.Blob;
 import java.sql.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.project.clean.model.domain.commonEntity.AdminAddress;
 import com.project.clean.model.domain.commonEntity.AdminEmail;
+import com.project.clean.model.domain.commonEntity.AdminPicture;
 
 @Entity
 @Table(name = "TBL_ADMIN")
@@ -26,9 +26,8 @@ import com.project.clean.model.domain.commonEntity.AdminEmail;
 		initialValue = 1,
 		allocationSize = 1
 )
-public class AdminAndEmail implements Serializable{
-	private static final long serialVersionUID = 9095258321085964989L;
-
+public class AdminAndAdminAll {
+	
 	@Id
 	@GeneratedValue(
 			strategy = GenerationType.SEQUENCE,
@@ -77,21 +76,31 @@ public class AdminAndEmail implements Serializable{
 	@Column(name="ADMIN_USE_ANNUAL_VACATION", nullable = true)
 	private int adminUseAnnualVacation;
 	
-	@OneToMany
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ADMIN_NO")
-	private List<AdminEmail> adminEmail;
+	private AdminEmail adminEmail;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ADMIN_NO")
+	private AdminAddress adminAddress;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ADMIN_NO")
+	private AdminPicture adminPicture;
+	
 	
 	
 
-	public AdminAndEmail() {
+	public AdminAndAdminAll() {
 	}
 
 
 
-	public AdminAndEmail(int adminNo, String adminName, String adminId, String adminPwd, Date adminBirth,
+
+	public AdminAndAdminAll(int adminNo, String adminName, String adminId, String adminPwd, Date adminBirth,
 			String adminGender, String adminPhone, Date adminHireDate, Date adminRetireDate, String adminRetireYn,
 			String adminJob, Date adminLastLoginDate, int adminSalary, int adminUseAnnualVacation,
-			List<AdminEmail> adminEmail) {
+			AdminEmail adminEmail, AdminAddress adminAddress, AdminPicture adminPicture) {
 		this.adminNo = adminNo;
 		this.adminName = adminName;
 		this.adminId = adminId;
@@ -107,7 +116,10 @@ public class AdminAndEmail implements Serializable{
 		this.adminSalary = adminSalary;
 		this.adminUseAnnualVacation = adminUseAnnualVacation;
 		this.adminEmail = adminEmail;
+		this.adminAddress = adminAddress;
+		this.adminPicture = adminPicture;
 	}
+
 
 
 
@@ -117,9 +129,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminNo(int adminNo) {
 		this.adminNo = adminNo;
 	}
+
 
 
 
@@ -129,9 +143,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminName(String adminName) {
 		this.adminName = adminName;
 	}
+
 
 
 
@@ -141,9 +157,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminId(String adminId) {
 		this.adminId = adminId;
 	}
+
 
 
 
@@ -153,9 +171,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminPwd(String adminPwd) {
 		this.adminPwd = adminPwd;
 	}
+
 
 
 
@@ -165,9 +185,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminBirth(java.sql.Date adminBirth) {
 		this.adminBirth = adminBirth;
 	}
+
 
 
 
@@ -177,9 +199,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminGender(String adminGender) {
 		this.adminGender = adminGender;
 	}
+
 
 
 
@@ -189,9 +213,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminPhone(String adminPhone) {
 		this.adminPhone = adminPhone;
 	}
+
 
 
 
@@ -201,9 +227,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminHireDate(java.sql.Date adminHireDate) {
 		this.adminHireDate = adminHireDate;
 	}
+
 
 
 
@@ -213,9 +241,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminRetireDate(java.sql.Date adminRetireDate) {
 		this.adminRetireDate = adminRetireDate;
 	}
+
 
 
 
@@ -225,9 +255,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminRetireYn(String adminRetireYn) {
 		this.adminRetireYn = adminRetireYn;
 	}
+
 
 
 
@@ -237,9 +269,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminJob(String adminJob) {
 		this.adminJob = adminJob;
 	}
+
 
 
 
@@ -249,9 +283,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminLastLoginDate(java.sql.Date adminLastLoginDate) {
 		this.adminLastLoginDate = adminLastLoginDate;
 	}
+
 
 
 
@@ -261,9 +297,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminSalary(int adminSalary) {
 		this.adminSalary = adminSalary;
 	}
+
 
 
 
@@ -273,41 +311,68 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminUseAnnualVacation(int adminUseAnnualVacation) {
 		this.adminUseAnnualVacation = adminUseAnnualVacation;
 	}
 
 
 
-	public List<AdminEmail> getAdminEmail() {
+
+	public AdminEmail getAdminEmail() {
 		return adminEmail;
 	}
 
 
 
-	public void setAdminEmail(List<AdminEmail> adminEmail) {
+
+	public void setAdminEmail(AdminEmail adminEmail) {
 		this.adminEmail = adminEmail;
 	}
 
 
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+
+	public AdminAddress getAdminAddress() {
+		return adminAddress;
 	}
+
+
+
+
+	public void setAdminAddress(AdminAddress adminAddress) {
+		this.adminAddress = adminAddress;
+	}
+
+
+
+
+	public AdminPicture getAdminPicture() {
+		return adminPicture;
+	}
+
+
+
+
+	public void setAdminPicture(AdminPicture adminPicture) {
+		this.adminPicture = adminPicture;
+	}
+
 
 
 
 	@Override
 	public String toString() {
-		return "AdminAndEmail [adminNo=" + adminNo + ", adminName=" + adminName + ", adminId=" + adminId + ", adminPwd="
-				+ adminPwd + ", adminBirth=" + adminBirth + ", adminGender=" + adminGender + ", adminPhone="
-				+ adminPhone + ", adminHireDate=" + adminHireDate + ", adminRetireDate=" + adminRetireDate
-				+ ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob + ", adminLastLoginDate="
-				+ adminLastLoginDate + ", adminSalary=" + adminSalary + ", adminUseAnnualVacation="
-				+ adminUseAnnualVacation + ", adminEmail=" + adminEmail + "]";
+		return "AdminAndAdminAll [adminNo=" + adminNo + ", adminName=" + adminName + ", adminId=" + adminId
+				+ ", adminPwd=" + adminPwd + ", adminBirth=" + adminBirth + ", adminGender=" + adminGender
+				+ ", adminPhone=" + adminPhone + ", adminHireDate=" + adminHireDate + ", adminRetireDate="
+				+ adminRetireDate + ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob
+				+ ", adminLastLoginDate=" + adminLastLoginDate + ", adminSalary=" + adminSalary
+				+ ", adminUseAnnualVacation=" + adminUseAnnualVacation + ", adminEmail=" + adminEmail
+				+ ", adminAddress=" + adminAddress + ", adminPicture=" + adminPicture + "]";
 	}
 
-
-
+	
+	
 
 }

@@ -10,7 +10,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TTBL_RETIRE_ADMIN")
+@Table(name = "TBL_RETIRE_ADMIN")
 @SequenceGenerator(
 		name = "RETIRE_ADMIN_SEQ_TBL_GENERATOR",
 		sequenceName = "SEQ_TBL_RETIRE_ADMIN",
