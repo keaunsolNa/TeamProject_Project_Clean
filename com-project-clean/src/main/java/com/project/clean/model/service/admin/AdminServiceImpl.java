@@ -1,46 +1,40 @@
 package com.project.clean.model.service.admin;
 
-<<<<<<< HEAD
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
-=======
-import java.util.List;
-import java.util.stream.Collectors;
->>>>>>> master
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
 import com.project.clean.model.domain.adminEntity.AdminEmployee;
 import com.project.clean.model.domain.adminEntity.AdminEmployeeAddress;
 import com.project.clean.model.domain.adminEntity.AdminEmployeeEmail;
 import com.project.clean.model.domain.adminEntity.AdminEmployeePicture;
 import com.project.clean.model.domain.adminEntity.AdminReason;
-import com.project.clean.model.dto.commonDTO.EmployeeAddressDTO;
-import com.project.clean.model.dto.commonDTO.EmployeeEmailDTO;
-import com.project.clean.model.dto.commonDTO.EmployeePictureDTO;
-import com.project.clean.model.dto.commonDTO.ReasonDTO;
-import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
-import com.project.clean.model.repository.admin.ReasonRepository;
-import com.project.clean.model.repository.employee.EmployeeAddressRepository;
-import com.project.clean.model.repository.employee.EmployeeEmailRepository;
-import com.project.clean.model.repository.employee.EmployeePictureRepository;
-import com.project.clean.model.repository.employee.EmployeeReopsitory;
-
 import com.project.clean.model.domain.commonEntity.Admin;
 import com.project.clean.model.domain.commonEntity.AdminAddress;
 import com.project.clean.model.domain.commonEntity.AdminEmail;
 import com.project.clean.model.dto.commonDTO.AdminAddressDTO;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.AdminEmailDTO;
+import com.project.clean.model.dto.commonDTO.EmployeeAddressDTO;
+import com.project.clean.model.dto.commonDTO.EmployeeEmailDTO;
+import com.project.clean.model.dto.commonDTO.EmployeePictureDTO;
+import com.project.clean.model.dto.commonDTO.ReasonDTO;
+import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
 import com.project.clean.model.repository.admin.AdminAddressRepository;
 import com.project.clean.model.repository.admin.AdminEmailRepository;
 import com.project.clean.model.repository.admin.AdminRepository;
+import com.project.clean.model.repository.admin.ReasonRepository;
+import com.project.clean.model.repository.employee.EmployeeAddressRepository;
+import com.project.clean.model.repository.employee.EmployeeEmailRepository;
+import com.project.clean.model.repository.employee.EmployeePictureRepository;
+import com.project.clean.model.repository.employee.EmployeeReopsitory;
 
 
 @Service
@@ -50,15 +44,29 @@ public class AdminServiceImpl implements AdminService {
 	private final ModelMapper modelMapper;
 	private final AdminEmailRepository adminEmailRepository;
 	private final AdminAddressRepository adminAddressRepository;
+	private final EmployeeReopsitory employeeRepository;
+	private final EmployeeAddressRepository employeeAddressRepository;
+	private final EmployeeEmailRepository employeeEmailRepository;
+	private final EmployeePictureRepository employeePictureRepository;
+	private final ReasonRepository reasonRepository;
 
 	
 	@Autowired
-	public AdminServiceImpl(AdminRepository adminRepository, ModelMapper modelMapper, AdminEmailRepository adminEmailRepository, AdminAddressRepository adminAddressRepository) {
+	public AdminServiceImpl(AdminRepository adminRepository, ModelMapper modelMapper, AdminEmailRepository adminEmailRepository, AdminAddressRepository adminAddressRepository,
+			EmployeeReopsitory employeeReopsitory, EmployeeAddressRepository employeeAddressRepository
+			   , EmployeeEmailRepository employeeEmailRepository, EmployeePictureRepository employeePictureRepository, ReasonRepository reasonRepository) {
 		this.adminRepository = adminRepository;
 		this.modelMapper = modelMapper;
 		this.adminEmailRepository = adminEmailRepository;
 		this.adminAddressRepository = adminAddressRepository;
-	}
+		this.employeeRepository = employeeReopsitory;
+		this.employeeAddressRepository = employeeAddressRepository;
+		this.employeeEmailRepository = employeeEmailRepository;
+		this.employeePictureRepository = employeePictureRepository;
+		this.reasonRepository = reasonRepository;
+		}
+	
+
 
 
 	@Override
@@ -110,35 +118,10 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 
-	
 
 
 
 
-
-
-	
-
-
-	
-
-	private final ModelMapper modelMapper; // modelMapper 빈을 선언
-	private final EmployeeReopsitory employeeRepository;
-	private final EmployeeAddressRepository employeeAddressRepository;
-	private final EmployeeEmailRepository employeeEmailRepository;
-	private final EmployeePictureRepository employeePictureRepository;
-	private final ReasonRepository reasonRepository;
-
-	@Autowired
-	public AdminServiceImpl(EmployeeReopsitory employeeReopsitory, EmployeeAddressRepository employeeAddressRepository
-			   , ModelMapper modelMapper, EmployeeEmailRepository employeeEmailRepository, EmployeePictureRepository employeePictureRepository, ReasonRepository reasonRepository) {
-		this.employeeRepository = employeeReopsitory;
-		this.employeeAddressRepository = employeeAddressRepository;
-		this.employeeEmailRepository = employeeEmailRepository;
-		this.employeePictureRepository = employeePictureRepository;
-		this.modelMapper = modelMapper;
-		this.reasonRepository = reasonRepository;
-		}
 
 	/* 전체 직원 조회(재직자) */
 	@Transactional
@@ -427,6 +410,4 @@ public class AdminServiceImpl implements AdminService {
 
 
 
-
-
-}
+	}
