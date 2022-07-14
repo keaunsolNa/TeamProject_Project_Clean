@@ -9,8 +9,10 @@ public class CheckListDTO implements Serializable{
 	private String checkHTML;
 	private String checkStatus;
 	private int adminNo;
+	
 	public CheckListDTO() {
 	}
+	
 	public CheckListDTO(int checkReservationNo, String checkHTML, String checkStatus, int adminNo) {
 		this.checkReservationNo = checkReservationNo;
 		this.checkHTML = checkHTML;

@@ -11,7 +11,6 @@
    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <title>Document</title>
-
 </head>
 
 <body>
@@ -21,54 +20,48 @@
 	            <a href="/"><h3 class= "mainlogo">CLEANUP</h3></a>
 	        </div>
 	
-	    	<h3 align="right"><span sec:authentication="principal.username"></span></h3>
-			<div id="current_data" align="right"></div>
-		    	<script>
-		    		document.getElementById("current_data").innerHTML = Date();
-		    		console.log("current_data")
-		    	</script>
 	        <h3 class="title col-xl-3"> 업무 체크리스트 </h3>
 	
 	        <div class="checklist col-xl-3">
 	            <h5 class="title col-sm-3">주방</h5>
-	            <input type="checkbox" name="kitchenCheck1"> 정리정돈<br>
-	            <input type="checkbox" name="kitchenCheck2"> 찌든때<br>
-	            <input type="checkbox" name="kitchenCheck3"> 설거지<br>
-	            <input type="checkbox" name="kitchenCheck4"> 가스레인지<br>
-	            <input type="checkbox" name="kitchenCheck5"> 음식물 쓰레기<br>
-	            <input type="checkbox" name="kitchenCheck6"> 물기 제거<br>
+	            <input type="checkbox" name="kitchenCheck1" class="checkbox 1" > 정리정돈<br>
+	            <input type="checkbox" name="kitchenCheck2" class="checkbox 2"> 찌든때<br>
+	            <input type="checkbox" name="kitchenCheck3" class="checkbox 3"> 설거지<br>
+	            <input type="checkbox" name="kitchenCheck4" class="checkbox 4"> 가스레인지<br>
+	            <input type="checkbox" name="kitchenCheck5" class="checkbox 5"> 음식물 쓰레기<br>
+	            <input type="checkbox" name="kitchenCheck6" class="checkbox 6"> 물기 제거<br>
 	        </div>
 	
 	        <div class="checklist col-xl-3">
 	            <h5 class="title col-sm-3">방 / 거실</h5>
-	            <input type="checkbox" name="roomCheck1"> 정리 정돈<br>
-	            <input type="checkbox" name="roomCheck2"> 침구 정돈<br>
-	            <input type="checkbox" name="roomCheck3"> 먼지털기<br>
-	            <input type="checkbox" name="roomCheck4"> 청소기<br>
-	            <input type="checkbox" name="roomCheck5"> 신발장 / 거울<br>
-	            <input type="checkbox" name="roomCheck6"> 걸레질<br>
+	            <input type="checkbox" name="roomCheck1" class="checkbox 7"> 정리 정돈<br>
+	            <input type="checkbox" name="roomCheck2" class="checkbox 8"> 침구 정돈<br>
+	            <input type="checkbox" name="roomCheck3" class="checkbox 9"> 먼지털기<br>
+	            <input type="checkbox" name="roomCheck4" class="checkbox 10"> 청소기<br>
+	            <input type="checkbox" name="roomCheck5" class="checkbox 11"> 신발장 / 거울<br>
+	            <input type="checkbox" name="roomCheck6" class="checkbox 12"> 걸레질<br>
 	        </div>
 	
 	        <div class="checklist col-xl-3">
 	            <h5 class="title col-sm-3">화장실</h5>
-	            <input type="checkbox" name="restRoomCheck1"> 쓰레기통 정리<br>
-	            <input type="checkbox" name="restRoomCheck2"> 찌든 때, 물 때 정리<br>
-	            <input type="checkbox" name="restRoomCheck3"> 물기 제거<br>
-	            <input type="checkbox" name="resrRoomCheck4"> 세탁<br>
-	            <input type="checkbox" name="resrRoomCheck5"> 건조<br>
+	            <input type="checkbox" name="restRoomCheck1" class="checkbox 13"> 쓰레기통 정리<br>
+	            <input type="checkbox" name="restRoomCheck2" class="checkbox 14"> 찌든 때, 물 때 정리<br>
+	            <input type="checkbox" name="restRoomCheck3" class="checkbox 15"> 물기 제거<br>
+	            <input type="checkbox" name="resrRoomCheck4" class="checkbox 16"> 세탁<br>
+	            <input type="checkbox" name="resrRoomCheck5" class="checkbox 17"> 건조<br>
 	        </div>
 	
 	        <div class="checklist col-xl-3">
 	            <h5 class="title col-sm-3">부가서비스</h5>
-	            <input type="checkbox" name="additionalCheck1"> 레인지 후드<br>
-	            <input type="checkbox" name="additionalCheck2"> 에어컨 필터<br>
-	            <input type="checkbox" name="additionalCheck3"> 곰팡이<br>
-	            <input type="checkbox" name="additionalCheck4"> 창고정리<br>
-	            <input type="checkbox" name="additionalCheck5"> 반려동물<br>
-	            <input type="checkbox" name="additionalCheck5"> 복층<br>
+	            <input type="checkbox" name="additionalCheck1" class="checkbox 18"> 레인지 후드<br>
+	            <input type="checkbox" name="additionalCheck2" class="checkbox 19"> 에어컨 필터<br>
+	            <input type="checkbox" name="additionalCheck3" class="checkbox 20"> 곰팡이<br>
+	            <input type="checkbox" name="additionalCheck4" class="checkbox 21"> 창고정리<br>
+	            <input type="checkbox" name="additionalCheck5" class="checkbox 22"> 반려동물<br>
+	            <input type="checkbox" name="additionalCheck5" class="checkbox 23"> 복층<br>
 	        </div>
 	
-	        <div class="pic col-xl-3">
+	        <div class="pic col-xl-3"> 
 	            <tr class="pic">
 	                <td>
 	                    <div class="content-img-area" id="contentImgArea1">
@@ -86,19 +79,19 @@
 	        </div>
 	        
 	        <br>
-	        <div class="sign col-xl-3">
+	        <div class="sign col-xl-3" style="width:300px; height: 300px">
 	                    
 	            <div>    
 	                <canvas id="canvas" class="canvas"></canvas>  
 	            </div>  
 	            
-	            <div class="canvasbtn">    
+	           <!--  <div class="canvasbtn">    
 	                <button id="save" class="savebtn col-xl-3">저장</button>  
 	                <button id="reset" class="savebtn col-xl-3">취소</button>
-	            </div>
+	            </div> -->
 	
-	                <script>    
-	                (function(obj){      
+ 	                 <script>    
+	                 (function(obj){      
 	                    obj.init();      
 	                    $(obj.onLoad);
 	                })
@@ -148,10 +141,10 @@
 	                                    ctx.closePath();          
 	                                }          break;        
 	                            }      
-	                        }      
+	                        }       
 	
 	                        // mobile    
-	                        function touchdraw(e){        
+	                         function touchdraw(e){        
 	                            function getPosition(){          
 	                                return {            
 	                                    X: e.changedTouches[0].pageX - canvas[0].offsetLeft,             
@@ -225,31 +218,49 @@
 	                        
 	                        onLoad: function(){          
 	                            canvasResize();        
-	                            }}})());  
-	                </script>
-	
+	                            }}})()); 
+	                </script>  
 	        </div>
 			
+					<script type="text/javascript">
+		 				window.onload = function(){
+		 					
+							 if($(".checkbox").val("Yes")){
+								$(".checkbox").prop("checked")
+						 	 } 
+		 				}	 
+						$(".checkbox").change(function() {
+						    if(this.checked) {
+						        $(".checkbox").val("Yes");
+						    } else{
+						    	$(".checkbox").val("Not");
+						    }
+						})
+					</script>
 	        <br>
+	        
 	        <div class="OpnionArea">
-	        <div class="adminOpnionArea">
-	            <label>관리자 의견</label><br>
-	            <textarea class="Opnion" cols="100%" rows="3"></textarea>
-	            <br>
-	            <input type="button" value="등록">
-	        </div>
+	        <th:block sec:authorize="hasRole('ADMIN')">
+		        <div class="adminOpnionArea">
+		            <label>관리자 의견</label><br>
+		            <textarea class="Opnion" cols="100%" rows="3"></textarea>
+		            <br>
+		            <input type="button" value="등록">
+		        </div>
+			</th:block>
 	
 	        <br>
-	
+	        <th:block sec:authorize="hasRole('ADMIN')">
 	        <div class="employeeOpnionArea">
-	            <label>직원 의견</label><br>
+	            <label>직원 답변</label><br>
 	            <textarea class="Opnion" cols="100%" rows="3"></textarea>
 	            <br>
 	            <input type="button" value="등록">
 	        </div>
+			</th:block>
 	    </div>
 	    
-	    <button type="button" class="submit">제출</button>
+	    
 	    </section>
     <script>
     
@@ -258,18 +269,26 @@
 	    window.onload = function(){
 	    	$(document).ready( function() {
 	            const jbHtml = $( 'section' ).html();
+<<<<<<< HEAD:com-project-clean/src/main/resources/templates/employee/checklist/insert/checklist.html
 				console.log("호출됐니");
 				console.log(jbHtml)
+=======
+>>>>>>> master:com-project-clean/src/main/resources/templates/employee/checkList/startChecklist.html
 	        	$.ajax({
-	            	url: "insert",
+	            	url: "start",
 	             	type: "post",
 	             	data: {
 	            	 	jbHtml : jbHtml
 	             	},
 	             	success: function(data){
+<<<<<<< HEAD:com-project-clean/src/main/resources/templates/employee/checklist/insert/checklist.html
 	            	 	if(data=="1"){
 	            		 	url: "/"
 	            	 	}
+=======
+	             		alert("업무 시작. 청소 종료 후 체크리스트를 잊지 마세요!")
+	             		location.href="/employee/task/selectMyTask"
+>>>>>>> master:com-project-clean/src/main/resources/templates/employee/checkList/startChecklist.html
 	             	},
 	             	error: function(request, status){
 	                 	alert("네트워크를 확인해주세요.")
