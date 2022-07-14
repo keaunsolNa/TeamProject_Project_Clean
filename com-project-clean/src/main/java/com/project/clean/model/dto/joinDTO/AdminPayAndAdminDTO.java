@@ -13,17 +13,17 @@ public class AdminPayAndAdminDTO implements Serializable{
 	private int payHistoryAdminNo;
 	private int payAdminNo;
 	private java.sql.Date payAdminDate;
-	private List<AdminDTO> adminList;
+	private AdminDTO admin;
 	
 	public AdminPayAndAdminDTO() {
 	}
 
-	public AdminPayAndAdminDTO(int payHistoryAdminNo, int payAdminNo, Date payAdminDate, List<AdminDTO> adminList) {
+	public AdminPayAndAdminDTO(int payHistoryAdminNo, int payAdminNo, Date payAdminDate, AdminDTO admin) {
 		super();
 		this.payHistoryAdminNo = payHistoryAdminNo;
 		this.payAdminNo = payAdminNo;
 		this.payAdminDate = payAdminDate;
-		this.adminList = adminList;
+		this.admin = admin;
 	}
 
 	public int getPayHistoryAdminNo() {
@@ -50,12 +50,12 @@ public class AdminPayAndAdminDTO implements Serializable{
 		this.payAdminDate = payAdminDate;
 	}
 
-	public List<AdminDTO> getAdminList() {
-		return adminList;
+	public AdminDTO getAdmin() {
+		return admin;
 	}
 
-	public void setAdminList(List<AdminDTO> adminList) {
-		this.adminList = adminList;
+	public void setAdmin(AdminDTO admin) {
+		this.admin = admin;
 	}
 
 	public static long getSerialversionuid() {
@@ -65,8 +65,9 @@ public class AdminPayAndAdminDTO implements Serializable{
 	@Override
 	public String toString() {
 		return "AdminPayAndAdminDTO [payHistoryAdminNo=" + payHistoryAdminNo + ", payAdminNo=" + payAdminNo
-				+ ", payAdminDate=" + payAdminDate + ", adminList=" + adminList + "]";
+				+ ", payAdminDate=" + payAdminDate + ", admin=" + admin + "]";
 	}
+
 	
 	
 	

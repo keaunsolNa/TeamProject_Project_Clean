@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -114,12 +115,17 @@ public class LoginServiceImpl implements LoginService{
 			}
 			
 			AdminDTO adminDTO = modelMapper.map(admin, AdminDTO.class);
+			
 			AdminIpAddressDTO adminIp = new AdminIpAddressDTO();
 			
 			try {
 	            InetAddress inetAddress = InetAddress.getLocalHost();
 	            String strIpAdress = inetAddress.getHostAddress();
 	            String IpAdressNo = admin.getAdminId();
+	            
+	            System.out.println("조회해온 IP 주소 : " + strIpAdress);
+	            System.out.println("관리자 IP : " + adminIp);
+	            System.out.println("관리자 보유 IP 주소 : " + admin.getAdminIpAddress());
 	            
 	            if(null != strIpAdress) {
 	            	if(admin.getAdminIpAddress().isEmpty()) {
@@ -128,7 +134,9 @@ public class LoginServiceImpl implements LoginService{
 	            		
 	            		adminIpRepositroy.save(modelMapper.map(adminIp, AdminIpAddress.class));
 	            	}
+	            	
 	            } else if(admin.getAdminIpAddress().size() < 4) {
+	            	
 	            	if(!(admin.getAdminIpAddress().contains(strIpAdress))) {
 	            		
 	            		adminIp.setAdminNo(adminDTO.getAdminNo());
@@ -136,8 +144,9 @@ public class LoginServiceImpl implements LoginService{
 	            		
 	            		adminIpRepositroy.save(modelMapper.map(adminIp, AdminIpAddress.class));
 	            	}
-	            } else {
-	            	
+	            } else if(admin.getAdminIpAddress().size() >= 4) {
+	            	System.out.println("4개 이상 IP 확인");
+	            	throw new DisabledException("인가 실패");
 	            }
 	            
 	        } catch (java.net.UnknownHostException e) {

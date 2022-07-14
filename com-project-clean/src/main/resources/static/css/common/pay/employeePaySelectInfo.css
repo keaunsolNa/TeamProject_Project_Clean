@@ -1,6 +1,7 @@
 
 table{
-	width:100%;
+	width:90%;
+	margin:0 auto;
 	margin-top: 100px;
     font-family: 'MinSans-Medium';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff') format('woff');
@@ -14,22 +15,14 @@ table{
  }
  
 
- table th{
-    background-size: cover;
-    background-repeat: no-repeat;
-    border: 1px;
- 
-    
+table th, table tr, table td {
+	border: 1px solid black;
+}
 
- }
  
  table tr:first-of-type p{
      font-size: large;
      
- }
- 
- table th,table tr {
- 	 border: 1px solid #9AE8F9;
  }
  
 
