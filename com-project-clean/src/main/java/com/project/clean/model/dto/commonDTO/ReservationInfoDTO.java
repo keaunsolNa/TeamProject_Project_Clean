@@ -15,9 +15,9 @@ public class ReservationInfoDTO implements Serializable{
 	private int userHouseSize;
 	private java.sql.Date userReservationDate;
 	private String userRequirements;
-	private java.util.Date businessDate;
-	private java.util.Date businessStartTime;
-	private java.util.Date businessEndTime;
+	private java.sql.Date businessDate;
+	private java.sql.Date businessStartTime;
+	private java.sql.Date businessEndTime;
 	private int businessFixedPeople;
 	private int businessApplyPeople;
 	private int totalPayment;
@@ -28,9 +28,9 @@ public class ReservationInfoDTO implements Serializable{
 	}
 	public ReservationInfoDTO(int reservationNo, String userName, String userPhoneNo, int userPostalNo,
 			String userAddress, String userDetailAddress, int userHouseSize, Date userReservationDate,
-			String userRequirements, java.util.Date businessDate, java.util.Date businessStartTime,
-			java.util.Date businessEndTime, int businessFixedPeople, int businessApplyPeople, int totalPayment,
-			String applyEndYn, String reservationCancelYn, String paymentYn) {
+			String userRequirements, Date businessDate, Date businessStartTime, Date businessEndTime,
+			int businessFixedPeople, int businessApplyPeople, int totalPayment, String applyEndYn,
+			String reservationCancelYn, String paymentYn) {
 		this.reservationNo = reservationNo;
 		this.userName = userName;
 		this.userPhoneNo = userPhoneNo;
@@ -104,22 +104,22 @@ public class ReservationInfoDTO implements Serializable{
 	public void setUserRequirements(String userRequirements) {
 		this.userRequirements = userRequirements;
 	}
-	public java.util.Date getBusinessDate() {
+	public java.sql.Date getBusinessDate() {
 		return businessDate;
 	}
-	public void setBusinessDate(java.util.Date businessDate) {
+	public void setBusinessDate(java.sql.Date businessDate) {
 		this.businessDate = businessDate;
 	}
-	public java.util.Date getBusinessStartTime() {
+	public java.sql.Date getBusinessStartTime() {
 		return businessStartTime;
 	}
-	public void setBusinessStartTime(java.util.Date businessStartTime) {
+	public void setBusinessStartTime(java.sql.Date businessStartTime) {
 		this.businessStartTime = businessStartTime;
 	}
-	public java.util.Date getBusinessEndTime() {
+	public java.sql.Date getBusinessEndTime() {
 		return businessEndTime;
 	}
-	public void setBusinessEndTime(java.util.Date businessEndTime) {
+	public void setBusinessEndTime(java.sql.Date businessEndTime) {
 		this.businessEndTime = businessEndTime;
 	}
 	public int getBusinessFixedPeople() {
@@ -172,7 +172,6 @@ public class ReservationInfoDTO implements Serializable{
 				+ businessApplyPeople + ", totalPayment=" + totalPayment + ", applyEndYn=" + applyEndYn
 				+ ", ReservationCancelYn=" + ReservationCancelYn + ", paymentYn=" + paymentYn + "]";
 	}
-	
 	
 	
 }

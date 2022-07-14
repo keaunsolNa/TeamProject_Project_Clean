@@ -78,5 +78,4 @@ public class AdminAddress implements java.io.Serializable{
 	
 	
 	
-	
 }

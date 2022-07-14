@@ -18,16 +18,17 @@ public class AdminDTO implements Serializable{
 	private java.sql.Date adminRetireDate;
 	private String adminRetireYn;
 	private String adminJob;
+	private java.sql.Blob adminSign;
 	private java.sql.Date adminLastLoginDate;
 	private int adminSalary;
-	private int adminUseAnnualVacation;
+	private int annualVacationUse;
 	
 	public AdminDTO() {
 	}
 
 	public AdminDTO(int adminNo, String adminName, String adminId, String adminPwd, Date adminBirth, String adminGender,
 			String adminPhone, Date adminHireDate, Date adminRetireDate, String adminRetireYn, String adminJob,
-			Date adminLastLoginDate, int adminSalary, int adminUseAnnualVacation) {
+			Blob adminSign, Date adminLastLoginDate, int adminSalary, int annualVacationUse) {
 		this.adminNo = adminNo;
 		this.adminName = adminName;
 		this.adminId = adminId;
@@ -39,9 +40,10 @@ public class AdminDTO implements Serializable{
 		this.adminRetireDate = adminRetireDate;
 		this.adminRetireYn = adminRetireYn;
 		this.adminJob = adminJob;
+		this.adminSign = adminSign;
 		this.adminLastLoginDate = adminLastLoginDate;
 		this.adminSalary = adminSalary;
-		this.adminUseAnnualVacation = adminUseAnnualVacation;
+		this.annualVacationUse = annualVacationUse;
 	}
 
 	public int getAdminNo() {
@@ -132,6 +134,14 @@ public class AdminDTO implements Serializable{
 		this.adminJob = adminJob;
 	}
 
+	public java.sql.Blob getAdminSign() {
+		return adminSign;
+	}
+
+	public void setAdminSign(java.sql.Blob adminSign) {
+		this.adminSign = adminSign;
+	}
+
 	public java.sql.Date getAdminLastLoginDate() {
 		return adminLastLoginDate;
 	}
@@ -148,12 +158,12 @@ public class AdminDTO implements Serializable{
 		this.adminSalary = adminSalary;
 	}
 
-	public int getAdminUseAnnualVacation() {
-		return adminUseAnnualVacation;
+	public int getAnnualVacationUse() {
+		return annualVacationUse;
 	}
 
-	public void setAdminUseAnnualVacation(int adminUseAnnualVacation) {
-		this.adminUseAnnualVacation = adminUseAnnualVacation;
+	public void setAnnualVacationUse(int annualVacationUse) {
+		this.annualVacationUse = annualVacationUse;
 	}
 
 	public static long getSerialversionuid() {
@@ -165,14 +175,11 @@ public class AdminDTO implements Serializable{
 		return "AdminDTO [adminNo=" + adminNo + ", adminName=" + adminName + ", adminId=" + adminId + ", adminPwd="
 				+ adminPwd + ", adminBirth=" + adminBirth + ", adminGender=" + adminGender + ", adminPhone="
 				+ adminPhone + ", adminHireDate=" + adminHireDate + ", adminRetireDate=" + adminRetireDate
-				+ ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob + ", adminLastLoginDate="
-				+ adminLastLoginDate + ", adminSalary=" + adminSalary + ", adminUseAnnualVacation="
-				+ adminUseAnnualVacation + "]";
+				+ ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob + ", adminSign=" + adminSign
+				+ ", adminLastLoginDate=" + adminLastLoginDate + ", adminSalary=" + adminSalary + ", annualVacationUse="
+				+ annualVacationUse + "]";
 	}
 
-
-	
-	
 	
 	
 }

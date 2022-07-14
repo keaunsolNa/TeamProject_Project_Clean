@@ -43,13 +43,13 @@ public class ReservationInfo implements Serializable {
 	private String userRequirements;
 
 	@Column(name="BUSINESS_DATE")
-	private java.util.Date businessDate;
+	private java.sql.Date businessDate;
 	
 	@Column(name="BUSINESS_START_TIME")
-	private java.util.Date businessStartTime;
+	private java.sql.Date businessStartTime;
 	
 	@Column(name="BUSINESS_END_TIME")
-	private java.util.Date businessEndTime;
+	private java.sql.Date businessEndTime;
 	
 	@Column(name="BUSINESS_FIXED_PEOPLE")
 	private int businessFixedPeople;
@@ -74,9 +74,9 @@ public class ReservationInfo implements Serializable {
 
 	public ReservationInfo(int reservationNo, String userName, String userPhoneNo, int userPostalNo, String userAddress,
 			String userDetailAddress, int userHouseSize, Date userReservationDate, String userRequirements,
-			java.util.Date businessDate, java.util.Date businessStartTime, java.util.Date businessEndTime,
-			int businessFixedPeople, int businessApplyPeople, int totalPayment, String applyEndYn,
-			String reservationCancelYn, String paymentYn) {
+			Date businessDate, Date businessStartTime, Date businessEndTime, int businessFixedPeople,
+			int businessApplyPeople, int totalPayment, String applyEndYn, String reservationCancelYn,
+			String paymentYn) {
 		this.reservationNo = reservationNo;
 		this.userName = userName;
 		this.userPhoneNo = userPhoneNo;
@@ -169,27 +169,27 @@ public class ReservationInfo implements Serializable {
 		this.userRequirements = userRequirements;
 	}
 
-	public java.util.Date getBusinessDate() {
+	public java.sql.Date getBusinessDate() {
 		return businessDate;
 	}
 
-	public void setBusinessDate(java.util.Date businessDate) {
+	public void setBusinessDate(java.sql.Date businessDate) {
 		this.businessDate = businessDate;
 	}
 
-	public java.util.Date getBusinessStartTime() {
+	public java.sql.Date getBusinessStartTime() {
 		return businessStartTime;
 	}
 
-	public void setBusinessStartTime(java.util.Date businessStartTime) {
+	public void setBusinessStartTime(java.sql.Date businessStartTime) {
 		this.businessStartTime = businessStartTime;
 	}
 
-	public java.util.Date getBusinessEndTime() {
+	public java.sql.Date getBusinessEndTime() {
 		return businessEndTime;
 	}
 
-	public void setBusinessEndTime(java.util.Date businessEndTime) {
+	public void setBusinessEndTime(java.sql.Date businessEndTime) {
 		this.businessEndTime = businessEndTime;
 	}
 
@@ -252,7 +252,7 @@ public class ReservationInfo implements Serializable {
 				+ businessApplyPeople + ", totalPayment=" + totalPayment + ", applyEndYn=" + applyEndYn
 				+ ", ReservationCancelYn=" + ReservationCancelYn + ", paymentYn=" + paymentYn + "]";
 	}
-
+	
 	
 	
 }
