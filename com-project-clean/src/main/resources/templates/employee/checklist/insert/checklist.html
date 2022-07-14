@@ -251,6 +251,7 @@
 	    
 	    <button type="button" class="submit">제출</button>
 	    </section>
+	    
     <script>
     
     const jbHtml = ""
@@ -259,7 +260,6 @@
 	    	$(document).ready( function() {
 	            const jbHtml = $( 'section' ).html();
 				console.log("호출됐니");
-				console.log(jbHtml)
 	        	$.ajax({
 	            	url: "insert",
 	             	type: "post",
@@ -267,9 +267,8 @@
 	            	 	jbHtml : jbHtml
 	             	},
 	             	success: function(data){
-	            	 	if(data=="1"){
-	            		 	url: "/"
-	            	 	}
+	             		alert("업무 시작")
+	             		location.href="/employee/task/selectMyTask"
 	             	},
 	             	error: function(request, status){
 	                 	alert("네트워크를 확인해주세요.")

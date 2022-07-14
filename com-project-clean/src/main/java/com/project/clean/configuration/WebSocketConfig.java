@@ -6,6 +6,8 @@
 //import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 //import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 //
+//import com.project.clean.component.interceptor.HttpHandshakeInterceptor;
+//
 //@Configuration
 //@EnableWebSocketMessageBroker
 //public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
@@ -18,7 +20,6 @@
 //	
 //	@Override 
 //	public void registerStompEndpoints(StompEndpointRegistry registry) {
-//		registry.addEndpoint("room1").addInterceptors(new HttpHandshakeInterceptor().withSockJS();
-//		)
+//		registry.addEndpoint("room1").addInterceptors(new HttpHandshakeInterceptor());
 //	}
 //}
