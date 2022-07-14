@@ -12,9 +12,7 @@ import javax.persistence.Table;
 @Entity(name = "ADMIN")
 @Table(name = "TBL_ADMIN")
 public class Admin implements java.io.Serializable{
-
 	private static final long serialVersionUID = 7851783671514083890L;
-
 	
 	@Id
 	@Column(name="ADMIN_NO")
@@ -62,6 +60,9 @@ public class Admin implements java.io.Serializable{
 	
 	@Column(name="ADMIN_USE_ANNUAL_VACATION")
 	private int annualVacationUse;
+	
+	public Admin() {
+	}
 
 	public Admin(int adminNo, String adminName, String adminId, String adminPwd, Date adminBirth, String adminGender,
 			String adminPhone, Date adminHireDate, Date adminRetireDate, String adminRetireYn, String adminJob,
@@ -81,9 +82,6 @@ public class Admin implements java.io.Serializable{
 		this.adminLastLoginDate = adminLastLoginDate;
 		this.adminSalary = adminSalary;
 		this.annualVacationUse = annualVacationUse;
-	}
-
-	public Admin() {
 	}
 
 	public int getAdminNo() {

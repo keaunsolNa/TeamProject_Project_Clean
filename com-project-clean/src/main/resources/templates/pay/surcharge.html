@@ -8,37 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<script>
-	
-		const successMessage = "[[${ modifySuccessMessage }]]";
-		if(successMessage){
-			Swal.fire({
-				  title: '수정 성공!!',
-				  text: '부가요금 수정을 성공했습니다~',
-				})
-		}
-		
-		function checkNull() {
-			
-		    var commission = document.getElementById( 'commission' ).value;
-		    var bonus = document.getElementById( 'monthBonus' ).value;
-		    if ( commission  == '' && bonus  == '' || commission  == 0 && bonus  == 0) {
-		    	Swal.fire({
-					  title: '오류',
-					  text: '둘 다 빈 값을 넣을 수 없습니다!!! ',
-					})
-			      event.preventDefault();
-		    }
-		    if ( commission == '' && bonus != ''){
-		    	document.querySelector('#commission').value= 0;
-		    }
-		    if ( commission != '' && bonus == ''){
-		    	document.querySelector('#monthBonus').value= 0;
-		    }
-		  }
-		
-		
-	</script>
 	<div th:include="common/header.html"></div>
 	<div th:include="common/taskAside.html"></div>
 	<section>

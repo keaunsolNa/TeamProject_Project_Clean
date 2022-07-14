@@ -5,10 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,21 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.project.clean.model.dto.commonDTO.AdminAddressDTO;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
-import com.project.clean.model.dto.commonDTO.AdminEmailDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeAddressDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeEmailDTO;
 import com.project.clean.model.dto.commonDTO.ReasonDTO;
-import com.project.clean.model.dto.commonDTO.RetireAdminDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
 import com.project.clean.model.service.admin.AdminService;
-import com.project.clean.model.service.admin.RetireAdminService;
 
 @Controller
 @RequestMapping("/admin")
@@ -264,12 +252,12 @@ public class AdminController {
 	/* 승인 대기인원 상세 조회 */
 	@GetMapping("/select/waitingDetail/{empNo}")
 	public String waitingDetail(@PathVariable int empNo, Model mv) {
-		List<ReasonDTO> getAdminNameAndRegistDate = adminService.adminSignWaitingEmployee(empNo);
+		List<ReasonDTO> getRegistDate = adminService.getRegistDate(empNo);
+		List<AdminDTO> getAdminName = adminService.getAdminName(empNo);
 		EmployeeAndAllDTO waitingEmployee = adminService.waitingEmployee(empNo);
 		EmployeeAddressDTO employeeAddress = adminService.waitingEmployeeAddress(empNo);
 		EmployeeEmailDTO employeeEmail = adminService.waitingEmployeeEmail(empNo);
-
-
+		
 		/* 핸드폰 번호 출력 시 - 추가 */
 		String firstPhoneNumber = "";
 		String middlePhoneNumber = "";
@@ -286,23 +274,32 @@ public class AdminController {
 		
 		waitingEmployee.setEmployeeAddressDTO(employeeAddress);
 		waitingEmployee.setEmployeeEmailDTO(employeeEmail);
-		waitingEmployee.setEmployeeRestCommitList(getAdminNameAndRegistDate);
-		
-		if(getAdminNameAndRegistDate.size() == 0) {
-			mv.addAttribute("hrReturnReason", "");
-			mv.addAttribute( "bossReturnReason", "");
-		} else if(getAdminNameAndRegistDate.size() == 1) {
-			mv.addAttribute("hrReturnReason", getAdminNameAndRegistDate.get(0).getReason());
-			mv.addAttribute("bossReturnReason", "");
+		waitingEmployee.setEmployeeRestCommitList(getRegistDate);
+		if(getRegistDate.size() == 0) {
+			mv.addAttribute("hrConfirm", "");
+			mv.addAttribute( "bossCrconfirm", "");
+		} else if(getRegistDate.size() == 1) {
+			mv.addAttribute("hrConfirm", getRegistDate.get(0).getEmployeeRegistDate());
+			mv.addAttribute("bossCrconfirm", "");
 			
-		} else if(getAdminNameAndRegistDate.size() == 2) {
-			mv.addAttribute("hrReturnReason", getAdminNameAndRegistDate.get(0).getReason());
-			mv.addAttribute("bossReturnReason", getAdminNameAndRegistDate.get(1).getReason());
+		} else if(getRegistDate.size() == 2) {
+			mv.addAttribute("hrConfirm", getRegistDate.get(0).getEmployeeRegistDate());
+			mv.addAttribute("bossCrconfirm", getRegistDate.get(1).getEmployeeRegistDate());
 		}
 
-
-		if(getAdminNameAndRegistDate.size() == 0) {
+		if(getAdminName.size() == 0) {
 			
+		}
+		if(getAdminName.size() == 0) {
+			mv.addAttribute("hrName", "");
+			mv.addAttribute( "bossName", "");
+		} else if(getAdminName.size() == 1) {
+			mv.addAttribute("hrName", getAdminName.get(0).getAdminName());
+			mv.addAttribute("bossReturnReason", "");
+			
+		} else if(getAdminName.size() == 2) {
+			mv.addAttribute("hrName", getAdminName.get(0).getAdminName());
+			mv.addAttribute("bossName", getAdminName.get(1).getAdminName());
 		}
 		
 		mv.addAttribute("waitingEmployee", waitingEmployee);
@@ -311,10 +308,37 @@ public class AdminController {
 	/* 반려인원 상세 조회 */
 	@GetMapping("/select/returnDetail/{empNo}")
 	public String returnDetail(@PathVariable int empNo, Model mv) {
+		List<ReasonDTO> reason = adminService.getRegistDate(empNo);
+		List<AdminDTO> getAdminName = adminService.getAdminName(empNo);
 		EmployeeAndAllDTO returnEmployee = adminService.returnEmployee(empNo);
 		EmployeeAddressDTO employeeAddress = adminService.returnEmployeeAddress(empNo);
 		EmployeeEmailDTO employeeEmail = adminService.returnEmployeeEmail(empNo);
 //		List<ReasonDTO> employeeRestList = adminService.returnEmployeeRest(empNo);
+		
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
+		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
 		
 		/* 핸드폰 번호 출력 시 - 추가 */
 		String firstPhoneNumber = "";
@@ -328,30 +352,44 @@ public class AdminController {
 			middlePhoneNumber = returnEmployee.getEmployeePhone().substring(3,6);
 			lastPhoneNumber = returnEmployee.getEmployeePhone().substring(6,10);
 		}
+		
 		returnEmployee.setEmployeePhone(firstPhoneNumber+"-"+middlePhoneNumber+"-"+lastPhoneNumber);
 		returnEmployee.setEmployeeAddressDTO(employeeAddress);
 		returnEmployee.setEmployeeEmailDTO(employeeEmail);
 
-		String hrReturnReason = "";
-		String bossReturnReason = "";
-		/* 1차 2차 null 판별 알고리즘 */
-//		if(employeeRestList.size() == 0) {
-//			mv.addAttribute("hrReturnReason", "내용없음");
-//			mv.addAttribute( "bossReturnReason", "내용없음");
-//		} else if(employeeRestList.size() == 1) {
-//			mv.addAttribute("hrReturnReason", employeeRestList.get(0).getReason());
-//			mv.addAttribute("bossReturnReason", "내용없음");
-//			
-//		} else if(employeeRestList.size() == 2) {
-//			mv.addAttribute("hrReturnReason", employeeRestList.get(0).getReason());
-//			mv.addAttribute("bossReturnReason", employeeRestList.get(1).getReason());
-//		}
+		if(reason.size() == 0) {
+			mv.addAttribute("hrConfirm", "");
+			mv.addAttribute("hrReason", "");
+			mv.addAttribute( "bossConfirm", "");
+			mv.addAttribute( "bossReason", "");
+		} else if(reason.size() == 1) {
+			mv.addAttribute("hrConfirm", reason.get(0).getEmployeeRegistDate());
+			mv.addAttribute("hrReason", reason.get(0).getReason());
+
+		} else if(reason.size() == 2) {
+			mv.addAttribute("hrConfirm", reason.get(0).getEmployeeRegistDate());
+			mv.addAttribute("hrReason", reason.get(0).getReason());
+			mv.addAttribute("bossConfirm", reason.get(1).getEmployeeRegistDate());
+			mv.addAttribute( "bossReason", reason.get(1).getReason());
+		}
+
+		if(getAdminName.size() == 0) {
+			mv.addAttribute("hrName", "");
+			mv.addAttribute( "bossName", "");
+		} else if(getAdminName.size() == 1) {
+			mv.addAttribute("hrName", getAdminName.get(0).getAdminName());
+		} else if(getAdminName.size() == 2) {
+			mv.addAttribute("hrName", getAdminName.get(0).getAdminName());
+			mv.addAttribute("bossName", getAdminName.get(1).getAdminName());
+		}
+		
 		
 		
 		mv.addAttribute("returnEmployee", returnEmployee);
 		return "admin/humanResource/registEmployee/returnEmployee";
 	}
 	
+	/* 인사관리자 1차 승인 */
 	@PostMapping("/hr/confirm/restCommit")
 	public String insertRestCommitConfirm(ReasonDTO restCommitDTO, AdminDTO adminDTO) {
 		
@@ -363,6 +401,7 @@ public class AdminController {
 		
 	}
 	
+	/* 인사관리자 1차 반려 */
 	@PostMapping("/hr/return/restCommit")
 	public String insertRestCommitReturn(ReasonDTO restCommitDTO) {
 		adminService.insertRestCommitReturn(restCommitDTO);
@@ -403,82 +442,4 @@ public class AdminController {
 		return "admin/humanResource/vacation/selectAllVacation";
 
 	}
-	
-	/* 관리자 목록 조회(퇴사여부 N) */
-	@GetMapping("hrCard/adminList")
-	public ModelAndView findAdminList(ModelAndView mv) {
-
-		List<AdminDTO> adminList = adminService.findAdminList();
-		
-		mv.addObject("adminList", adminList);
-		mv.setViewName("admin/hrCard/adminList");
-		
-		return mv;
-		
-	}
-	
-	/* 퇴사자 목록 조회 */
-	@GetMapping("hrCard/adminList/retireAdminList")
-	public ModelAndView findRetireAdminList(ModelAndView mv, HttpServletResponse response, RetireAdminService retireAdminService) {
-		
-		
-		List<RetireAdminDTO> retireAdminList = retireAdminService.findRetireAdminList();
-		
-		
-		Gson gson = new GsonBuilder()
-			      .setDateFormat("yyyy-MM-dd hh:mm:ss:SSS")
-			      .setPrettyPrinting()
-			      .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
-			      .serializeNulls()
-			      .disableHtmlEscaping()
-			      .create();
-		
-		mv.addObject("retireAdminList", gson.toJson(retireAdminList));
-		mv.setViewName("admin/hrCard/adminList/retireAdminList");
-		
-		return mv;
-	}
-	
-	/* 관리자 상세조회 */
-	@GetMapping("hrCard/adminDetail/{adminNo}")
-	@Transactional
-	public ModelAndView findRetireAdminDetail(ModelAndView mv, @PathVariable int adminNo, HttpServletRequest request) {
-		
-		/* 관리자 기본 정보 조회 */
-		System.out.println("동작하나용");
-		AdminDTO admin = adminService.findByAdminNo(adminNo);
-		
-		System.out.println(admin);
-		
-		
-		
-		/* 관리자 이메일(리스트) 조회 */
-		AdminEmailDTO adminEmail = adminService.findAdminEmailByAdminNoEqual(adminNo);
-		
-		String email = adminEmail.getEmail() + "@" + adminEmail.getDomain();
-		
-		System.out.println(email);
-		
-		
-		/* 관리자 주소 조회 */
-		AdminAddressDTO adminAddress = adminService.findAdminAddressByAdminNo(adminNo);
-		
-		System.out.println(adminAddress);
-		
-		/* 관리자 사진 조회 */
-		
-		/* 조회값 mv에 담기 */
-		mv.addObject("admin", admin);
-		mv.addObject("email", email);
-		mv.addObject("adminAddress", adminAddress);
-
-		mv.setViewName("admin/hrCard/adminDetail");
-
-		
-		return mv;
-	}
-	
-	
-	
-
 }

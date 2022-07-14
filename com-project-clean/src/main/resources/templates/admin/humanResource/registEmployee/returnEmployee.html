@@ -68,30 +68,23 @@
           <tr>
             <td class="tg-amwm confirmHeight" rowspan="3">결재</td>
             <td class="tg-amwm">인사담당자</td>
-            <!-- 수정 -->
-            <!-- 수정 -->
-            <!-- 수정 -->
-            <!-- 수정 -->
-            <!-- 수정 -->
-            <td style="display: none;"><input name="adminNo" th:value="7"></td>
-            <!-- 수정 -->
-            <!-- 수정 -->
-            <!-- 수정 -->
-            <!-- 수정 -->
-            <!-- 수정 -->
             <td class="tg-amwm">대표</td>
           </tr>
           <tr class="comfirmBox">
             <td class="tg-amwm">
-              <div id="humanResource" name="humanResource"></div>
-            </td>
+            <!-- 인사 담당자 이름 -->
+              <div name="hrName" th:text="${hrName}" style="line-height: 80px;"></div>
+            </td> 
             <td class="tg-amwm">
-              <div id="boss" name="boss"></div>
+            <!-- 대표 이름 -->
+              <div name="bossName" th:text="${bossName}" style="line-height: 80px;"></div>
             </td>
           </tr>
           <tr>
-            <td class="tg-amwm">yyyy-MM-dd</td>
-            <td class="tg-amwm">yyyy-MM-dd</td>
+            <!-- 인사 담당자 날짜 -->
+            <td class="tg-amwm" th:text="${hrConfirm}"></td>
+            <!-- 보스 날짜 -->
+            <td class="tg-amwm" th:text="${bossConfirm}"></td>
           </tr>
         </tbody>
       </table>
@@ -103,7 +96,7 @@
           <col style="width: 158px">
           <col style="width: 147px">
           <col style="width: 155px">
-          <col style="width: 139px">
+          <col style="width: 139px"> 
           <col style="width: 68px">
           <col style="width: 69px">
         </colgroup>
@@ -167,13 +160,13 @@
             <td class="tg2-7btt" style="line-height: 150px;" >
               <div>인사담당자 의견</div>
             </td>
-            <td class="tg2-7btt" style="line-height: 150px;" colspan="5" th:text="${hrReturnReason}"></td>
+            <td class="tg2-7btt" style="line-height: 150px;" colspan="5" th:text="${hrReason}"></td>
           </tr>
           <tr>
             <td class="tg2-7btt" style="line-height: 150px;" >
               <div>대표 의견</div>
             </td>
-            <td class="tg2-7btt" style="line-height: 150px;" colspan="5" th:text="${bossReturnReason}"></td>
+            <td class="tg2-7btt" style="line-height: 150px;" colspan="5" th:text="${bossReason}"></td>
           </tr>
         </tbody>
       </table>

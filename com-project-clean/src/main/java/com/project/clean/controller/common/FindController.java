@@ -65,6 +65,7 @@ public class FindController {
 			if(null != emp.getEmployeeId()) {
 				if(emp.getEmployeeName().equals(userName)) {
 					rttr.addFlashAttribute("resultMessage", emp.getEmployeeId());
+					
 				}
 			} else {rttr.addFlashAttribute("resultMessage", "입력하신 정보를 확인하세요.");}
 		

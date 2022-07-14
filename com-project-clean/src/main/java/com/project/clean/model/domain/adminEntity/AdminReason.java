@@ -1,25 +1,33 @@
 package com.project.clean.model.domain.adminEntity;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table(name = "TBL_REASON")
+@IdClass(AdminReasonPFKId.class)
 @DynamicInsert
 @DynamicUpdate
-public class AdminReason {
+public class AdminReason implements Serializable{
 	
+	private static final long serialVersionUID = 4792075326909462293L;
+
 	@Id
 	@Column(name = "EMPLOYEE_NO")
 	private int employeeNo;
 	
+	@Id
 	@Column(name = "ADMIN_NO")
 	private int adminNo;
 	
@@ -73,11 +81,17 @@ public class AdminReason {
 		this.employeeRegistDate = employeeRegistDate;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public String toString() {
 		return "AdminReason [employeeNo=" + employeeNo + ", adminNo=" + adminNo + ", Reason=" + Reason
 				+ ", employeeRegistDate=" + employeeRegistDate + "]";
 	}
+
+	
 
 	
 	

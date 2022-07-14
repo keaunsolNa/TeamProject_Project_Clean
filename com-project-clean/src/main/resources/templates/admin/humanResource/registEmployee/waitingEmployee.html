@@ -89,15 +89,15 @@
           </tr>
           <tr class="comfirmBox">
             <td class="tg-amwm">
-              <div id="humanResource" name="humanResource"></div>
+              <div name="hrName" th:text="${hrName}" style="line-height: 80px;"></div>
             </td> 
             <td class="tg-amwm">
-              <div id="boss" name="boss"></div>
+              <div name="bossName" th:text="${bossName}" style="line-height: 80px;"></div>
             </td>
           </tr>
           <tr>
-            <td class="tg-amwm" th:text="${waitingEmployee.employeePwd}"></td>
-            <td class="tg-amwm" th:text="${waitingEmployee.employeePwd}"></td>
+            <td class="tg-amwm" th:text="${hrConfirm}"></td>
+            <td class="tg-amwm" th:text="${bossConfirm}"></td>
           </tr>
         </tbody>
       </table>
@@ -188,7 +188,7 @@
 	                  <div style="line-height: 150px;">반려사유</div>
 	                </td>
 	                <td class="tg2-7btt" colspan="5">
-	                  <textarea name="returnReason" id="returnReason" cols="70" rows="10" style="resize: none;"
+	                  <textarea name="Reason" id="returnReason" cols="70" rows="10" style="resize: none;"
 	                    placeholder="사유를 입력해주세요."></textarea>
 	                </td>
 	              </tr>
@@ -211,7 +211,6 @@
     	  const adminNoValue = $("#adminNoValue").text();
       
       $("#hrConfirm").click(function(){
-    	  alert(adminNoValue);
     	  $("input[name=adminNo]").val(adminNoValue);
 		if(confirm("승인 하시겠습니까?")){
 			$("#confirmForm").submit();
@@ -219,7 +218,7 @@
       });
       
       $("#hrReturn").click(function(){
-    	  $("input[name=adminNo]").val(adminNo);
+    	  $("input[name=adminNo]").val(adminNoValue);
   		if(confirm("반려 하시겠습니까?")){
   			$("#confirmForm").attr("action", "/admin/hr/return/restCommit");
   			$("#confirmForm").submit();
@@ -227,7 +226,7 @@
         });
       
       $("#bossConfirm").click(function(){
-    	  $("input[name=adminNo]").val(adminNo);
+    	  $("input[name=adminNo]").val(adminNoValue);
 		if(confirm("승인 하시겠습니까?")){
   			$("#confirmForm").attr("action", "/admin/boss/confirm/restCommit");
 			$("#confirmForm").submit();
@@ -235,7 +234,7 @@
       });
       
       $("#bossReturn").click(function(){
-    	  $("input[name=adminNo]").val(adminNo);
+    	  $("input[name=adminNo]").val(adminNoValue);
   		if(confirm("반려 하시겠습니까?")){
   			$("#confirmForm").attr("action", "/admin/boss/return/restCommit");
   			$("#confirmForm").submit();

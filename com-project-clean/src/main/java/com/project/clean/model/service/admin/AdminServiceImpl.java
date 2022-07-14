@@ -3,13 +3,15 @@ package com.project.clean.model.service.admin;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import com.project.clean.model.domain.adminEntity.AdminEmployee;
 import com.project.clean.model.domain.adminEntity.AdminEmployeeAddress;
@@ -17,18 +19,12 @@ import com.project.clean.model.domain.adminEntity.AdminEmployeeEmail;
 import com.project.clean.model.domain.adminEntity.AdminEmployeePicture;
 import com.project.clean.model.domain.adminEntity.AdminReason;
 import com.project.clean.model.domain.commonEntity.Admin;
-import com.project.clean.model.domain.commonEntity.AdminAddress;
-import com.project.clean.model.domain.commonEntity.AdminEmail;
-import com.project.clean.model.dto.commonDTO.AdminAddressDTO;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
-import com.project.clean.model.dto.commonDTO.AdminEmailDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeAddressDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeEmailDTO;
 import com.project.clean.model.dto.commonDTO.EmployeePictureDTO;
 import com.project.clean.model.dto.commonDTO.ReasonDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
-import com.project.clean.model.repository.admin.AdminAddressRepository;
-import com.project.clean.model.repository.admin.AdminEmailRepository;
 import com.project.clean.model.repository.admin.AdminRepository;
 import com.project.clean.model.repository.admin.ReasonRepository;
 import com.project.clean.model.repository.employee.EmployeeAddressRepository;
@@ -36,92 +32,29 @@ import com.project.clean.model.repository.employee.EmployeeEmailRepository;
 import com.project.clean.model.repository.employee.EmployeePictureRepository;
 import com.project.clean.model.repository.employee.EmployeeReopsitory;
 
-
 @Service
 public class AdminServiceImpl implements AdminService {
-	
-	private final AdminRepository adminRepository;
-	private final ModelMapper modelMapper;
-	private final AdminEmailRepository adminEmailRepository;
-	private final AdminAddressRepository adminAddressRepository;
+
+	private final ModelMapper modelMapper; // modelMapper 빈을 선언
 	private final EmployeeReopsitory employeeRepository;
 	private final EmployeeAddressRepository employeeAddressRepository;
 	private final EmployeeEmailRepository employeeEmailRepository;
 	private final EmployeePictureRepository employeePictureRepository;
 	private final ReasonRepository reasonRepository;
+	private final AdminRepository adminRepository;
 
-	
 	@Autowired
-	public AdminServiceImpl(AdminRepository adminRepository, ModelMapper modelMapper, AdminEmailRepository adminEmailRepository, AdminAddressRepository adminAddressRepository,
-			EmployeeReopsitory employeeReopsitory, EmployeeAddressRepository employeeAddressRepository
-			   , EmployeeEmailRepository employeeEmailRepository, EmployeePictureRepository employeePictureRepository, ReasonRepository reasonRepository) {
-		this.adminRepository = adminRepository;
-		this.adminEmailRepository = adminEmailRepository;
-		this.adminAddressRepository = adminAddressRepository;
+	public AdminServiceImpl(EmployeeReopsitory employeeReopsitory, EmployeeAddressRepository employeeAddressRepository
+			   , ModelMapper modelMapper, EmployeeEmailRepository employeeEmailRepository, EmployeePictureRepository employeePictureRepository, 
+			   ReasonRepository reasonRepository, AdminRepository adminRepository) {
 		this.employeeRepository = employeeReopsitory;
 		this.employeeAddressRepository = employeeAddressRepository;
 		this.employeeEmailRepository = employeeEmailRepository;
 		this.employeePictureRepository = employeePictureRepository;
 		this.modelMapper = modelMapper;
 		this.reasonRepository = reasonRepository;
+		this.adminRepository = adminRepository;
 		}
-	
-
-
-
-	@Override
-	public List<AdminDTO> findAdminList() {
-		
-		/* 퇴사여부가 Y(yes) 가 아닌 관리자 조회 */
-		List<Admin> adminList = adminRepository.findAdminByAdminRetireYnNotLike("Y");
-		
-		return adminList.stream().map(admin -> modelMapper.map(admin, AdminDTO.class)).collect(Collectors.toList());
-	}
-
-
-//	@Override
-//	public List<AdminAndEmailDTO> findByAdminNo(int adminNo) {
-//		
-//		List<Admin> adminEmail = adminRepository.findByAdminNo(adminNo).get();
-//		
-//		return modelMapper.map(adminEmail, AdminAndEmailDTO.class);
-//	}
-
-
-	/* 관리자 기본정보 상세 조회 */
-	@Override
-	public AdminDTO findByAdminNo(int adminNo) {
-		
-		Admin admin = adminRepository.findByAdminNo(adminNo).get();
-		
-		return modelMapper.map(admin, AdminDTO.class);
-	}
-
-
-	@Override
-	public AdminEmailDTO findAdminEmailByAdminNoEqual(int adminNo) {
-		
-		AdminEmail adminEmail = adminEmailRepository.findByAdminNo(adminNo);
-		
-		return modelMapper.map(adminEmail, AdminEmailDTO.class);
-
-	}
-
-
-	@Override
-	public AdminAddressDTO findAdminAddressByAdminNo(int adminNo) {
-		
-		AdminAddress adminAddress = adminAddressRepository.findByAdminNo(adminNo);
-		
-		return modelMapper.map(adminAddress, AdminAddressDTO.class);
-		
-	}
-
-
-
-
-
-
 
 	/* 전체 직원 조회(재직자) */
 	@Transactional
@@ -314,39 +247,31 @@ public class AdminServiceImpl implements AdminService {
 	
 	
 	
-	
-	
 	@Transactional
-	public List<ReasonDTO> adminSignWaitingEmployee(int empNo) {
-		List<AdminReason> employeeCommitList = reasonRepository.findById(empNo);
+	public List<ReasonDTO> getRegistDate(int empNo) {
+		List<AdminReason> employeeCommitList = reasonRepository.findAllByEmployeeNo(empNo, Sort.by("adminNo").descending());
 		if(employeeCommitList == null) {
 			employeeCommitList = new ArrayList<>();
 		}
-		
-		
 		return employeeCommitList.stream().map(commit -> modelMapper.map(commit, ReasonDTO.class)).toList(); 
-				
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	@Transactional
-	public List<ReasonDTO> returnEmployeeRest(int empNo) {
-		List<AdminReason> employeeCommitList = reasonRepository.findByEmployeeNo(empNo);
-		
-		return employeeCommitList.stream().map(commit -> modelMapper.map(commit, ReasonDTO.class)).toList();
+	public List<AdminDTO> getAdminName(int empNo) {
+		List<Admin> employeeCommitList = adminRepository.findByAdminName(empNo);
+		if(employeeCommitList == null) {
+			employeeCommitList = new ArrayList<>();
+		}
+		return employeeCommitList.stream().map(commit -> modelMapper.map(commit, AdminDTO.class)).toList(); 
 	}
+	
+	
+//	@Transactional
+//	public List<ReasonDTO> returnEmployeeRest(int empNo) {
+//		List<AdminReason> employeeCommitList = reasonRepository.findByEmployeeNo(empNo);
+//		
+//		return employeeCommitList.stream().map(commit -> modelMapper.map(commit, ReasonDTO.class)).toList();
+//	}
 
 	@Transactional
 	public void insertRestCommitConfirm(ReasonDTO restCommitDTO) {
@@ -368,11 +293,12 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Transactional
 	public void insertAndupdateRestCommitConfirmBoss(ReasonDTO restCommitDTO) {
-		reasonRepository.save(modelMapper.map(restCommitDTO, AdminReason.class));
-		AdminEmployee employee = employeeRepository.findById(restCommitDTO.getEmployeeNo()).get();
-
 		LocalDate now = LocalDate.now();
 		java.sql.Date today = java.sql.Date.valueOf(now);
+		
+		restCommitDTO.setEmployeeRegistDate(today);
+		reasonRepository.save(modelMapper.map(restCommitDTO, AdminReason.class));
+		AdminEmployee employee = employeeRepository.findById(restCommitDTO.getEmployeeNo()).get();
 		
 		employee.setEmployeeHireDate(today);
 		employee.setEmployeeSecondConfirmYn("Y");
@@ -381,10 +307,16 @@ public class AdminServiceImpl implements AdminService {
 		
 	}
 	
+	/* 사장 2차 반려 */
 	@Transactional
 	public void insertAndupdateRestCommitReturnBoss(ReasonDTO restCommitDTO) {
-		reasonRepository.save(modelMapper.map(restCommitDTO, AdminReason.class));
+		LocalDate now = LocalDate.now();
+		java.sql.Date today = java.sql.Date.valueOf(now);
 		
+		restCommitDTO.setEmployeeRegistDate(today);
+		
+		reasonRepository.save(modelMapper.map(restCommitDTO, AdminReason.class));
+		/* save를 했는데 왜 update? */
 		AdminEmployee employee = employeeRepository.findById(restCommitDTO.getEmployeeNo()).get();
 		employee.setEmployeeRegistReturnYn("Y");
 		
@@ -410,4 +342,6 @@ public class AdminServiceImpl implements AdminService {
 
 
 
-	}
+
+
+}
