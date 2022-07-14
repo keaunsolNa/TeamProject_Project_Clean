@@ -13,4 +13,8 @@ public interface TaskService {
 
 	int registNewCheckList(CheckListDTO checkListDTO);
 
+	CheckListDTO selectScheckList(String userId);
+
+	int updateCheckList(CheckListDTO checkListDTO);
+	 
 }
