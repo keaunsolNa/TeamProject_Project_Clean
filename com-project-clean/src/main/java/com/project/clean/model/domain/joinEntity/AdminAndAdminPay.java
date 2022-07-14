@@ -8,11 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.project.clean.model.domain.commonEntity.AdminIpAddress;
 
 @Entity
 @Table(name = "TBL_ADMIN")
