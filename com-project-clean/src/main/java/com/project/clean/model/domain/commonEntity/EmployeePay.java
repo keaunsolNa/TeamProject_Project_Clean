@@ -18,95 +18,72 @@ public class EmployeePay implements Serializable {
 	@Column(name="PAY_HISTORY_EMPLOYEE_NO")
 	private int payHistoryEmployeeNo;
 	
-	@Column(name="PAY_EMPLOYEE_NO")
-	private int payEmployeeNo;  
-	
-	@Column(name="PAY_CALENDER_PICTURE")
-	private String payCalenderPicture;
-
 	@Column(name="PAY_EMPLOYEE_DATE")
 	private java.sql.Date payEmployeeDate;
 	
 	@Column(name="PAY_APPLY_RESERVATION_NO")
 	private int payApplyReservationNo;
 
+	@Column(name="PAY_APPLY_EMPLOYEE_NO")
+	private int payApplyEmployeeNo;  
 	
 	public EmployeePay() {
 	}
 
-
-	public EmployeePay(int payHistoryEmployeeNo, int payEmployeeNo, String payCalenderPicture, Date payEmployeeDate,
-			int payApplyReservationNo) {
+	public EmployeePay(int payHistoryEmployeeNo, Date payEmployeeDate, int payApplyReservationNo,
+			int payApplyEmployeeNo) {
+		super();
 		this.payHistoryEmployeeNo = payHistoryEmployeeNo;
-		this.payEmployeeNo = payEmployeeNo;
-		this.payCalenderPicture = payCalenderPicture;
 		this.payEmployeeDate = payEmployeeDate;
 		this.payApplyReservationNo = payApplyReservationNo;
+		this.payApplyEmployeeNo = payApplyEmployeeNo;
 	}
-
 
 	public int getPayHistoryEmployeeNo() {
 		return payHistoryEmployeeNo;
 	}
 
-
 	public void setPayHistoryEmployeeNo(int payHistoryEmployeeNo) {
 		this.payHistoryEmployeeNo = payHistoryEmployeeNo;
 	}
-
-
-	public int getPayEmployeeNo() {
-		return payEmployeeNo;
-	}
-
-
-	public void setPayEmployeeNo(int payEmployeeNo) {
-		this.payEmployeeNo = payEmployeeNo;
-	}
-
-
-	public String getPayCalenderPicture() {
-		return payCalenderPicture;
-	}
-
-
-	public void setPayCalenderPicture(String payCalenderPicture) {
-		this.payCalenderPicture = payCalenderPicture;
-	}
-
 
 	public java.sql.Date getPayEmployeeDate() {
 		return payEmployeeDate;
 	}
 
-
 	public void setPayEmployeeDate(java.sql.Date payEmployeeDate) {
 		this.payEmployeeDate = payEmployeeDate;
 	}
-
 
 	public int getPayApplyReservationNo() {
 		return payApplyReservationNo;
 	}
 
-
 	public void setPayApplyReservationNo(int payApplyReservationNo) {
 		this.payApplyReservationNo = payApplyReservationNo;
 	}
 
+	public int getPayApplyEmployeeNo() {
+		return payApplyEmployeeNo;
+	}
+
+	public void setPayApplyEmployeeNo(int payApplyEmployeeNo) {
+		this.payApplyEmployeeNo = payApplyEmployeeNo;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-
 	@Override
 	public String toString() {
-		return "EmployeePay [payHistoryEmployeeNo=" + payHistoryEmployeeNo + ", payEmployeeNo=" + payEmployeeNo
-				+ ", payCalenderPicture=" + payCalenderPicture + ", payEmployeeDate=" + payEmployeeDate
-				+ ", payApplyReservationNo=" + payApplyReservationNo + "]";
+		return "EmployeePay [payHistoryEmployeeNo=" + payHistoryEmployeeNo + ", payEmployeeDate=" + payEmployeeDate
+				+ ", payApplyReservationNo=" + payApplyReservationNo + ", payApplyEmployeeNo=" + payApplyEmployeeNo
+				+ "]";
 	}
 
+
+	
 	
 	
 	
