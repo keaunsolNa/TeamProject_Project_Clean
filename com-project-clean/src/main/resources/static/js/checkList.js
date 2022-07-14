@@ -1,104 +1,5 @@
-<!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org"
-	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head>
-    <meta charset="UTF-8">
-<title>Project Clean</title>    
-    <link rel="stylesheet"
-    	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" >
-    <link rel="stylesheet" type="text/css"
-    	th:href="@{/css/employee/checklist/checkList.css}">
-   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <title>Document</title>
-
-</head>
-
-<body>
-	
-	    <section hidden id="checklist" class="container-fluid" >
-	        <div class="logintopnav col-xl-3">
-	            <a href="/"><h3 class= "mainlogo">CLEANUP</h3></a>
-	        </div>
-	
-	    	<h3 align="right"><span sec:authentication="principal.username"></span></h3>
-			<div id="current_data" align="right"></div>
-		    	<script>
-		    		document.getElementById("current_data").innerHTML = Date();
-		    		console.log("current_data")
-		    	</script>
-	        <h3 class="title col-xl-3"> 업무 체크리스트 </h3>
-	
-	        <div class="checklist col-xl-3">
-	            <h5 class="title col-sm-3">주방</h5>
-	            <input type="checkbox" name="kitchenCheck1"> 정리정돈<br>
-	            <input type="checkbox" name="kitchenCheck2"> 찌든때<br>
-	            <input type="checkbox" name="kitchenCheck3"> 설거지<br>
-	            <input type="checkbox" name="kitchenCheck4"> 가스레인지<br>
-	            <input type="checkbox" name="kitchenCheck5"> 음식물 쓰레기<br>
-	            <input type="checkbox" name="kitchenCheck6"> 물기 제거<br>
-	        </div>
-	
-	        <div class="checklist col-xl-3">
-	            <h5 class="title col-sm-3">방 / 거실</h5>
-	            <input type="checkbox" name="roomCheck1"> 정리 정돈<br>
-	            <input type="checkbox" name="roomCheck2"> 침구 정돈<br>
-	            <input type="checkbox" name="roomCheck3"> 먼지털기<br>
-	            <input type="checkbox" name="roomCheck4"> 청소기<br>
-	            <input type="checkbox" name="roomCheck5"> 신발장 / 거울<br>
-	            <input type="checkbox" name="roomCheck6"> 걸레질<br>
-	        </div>
-	
-	        <div class="checklist col-xl-3">
-	            <h5 class="title col-sm-3">화장실</h5>
-	            <input type="checkbox" name="restRoomCheck1"> 쓰레기통 정리<br>
-	            <input type="checkbox" name="restRoomCheck2"> 찌든 때, 물 때 정리<br>
-	            <input type="checkbox" name="restRoomCheck3"> 물기 제거<br>
-	            <input type="checkbox" name="resrRoomCheck4"> 세탁<br>
-	            <input type="checkbox" name="resrRoomCheck5"> 건조<br>
-	        </div>
-	
-	        <div class="checklist col-xl-3">
-	            <h5 class="title col-sm-3">부가서비스</h5>
-	            <input type="checkbox" name="additionalCheck1"> 레인지 후드<br>
-	            <input type="checkbox" name="additionalCheck2"> 에어컨 필터<br>
-	            <input type="checkbox" name="additionalCheck3"> 곰팡이<br>
-	            <input type="checkbox" name="additionalCheck4"> 창고정리<br>
-	            <input type="checkbox" name="additionalCheck5"> 반려동물<br>
-	            <input type="checkbox" name="additionalCheck5"> 복층<br>
-	        </div>
-	
-	        <div class="pic col-xl-3">
-	            <tr class="pic">
-	                <td>
-	                    <div class="content-img-area" id="contentImgArea1">
-	                        <img id="contentImg1" class="contentImg">
-	                        <span>BEFORE</span>
-	                    </div>
-	                </td>
-	                <td>
-	                    <div class="content-img-area" id="contentImgArea2">
-	                        <img id="contentImg2" class="contentImg">
-	                        <span>AFTER</span>
-	                    </div>
-	                </td>
-	            </tr>
-	        </div>
-	        
-	        <br>
-	        <div class="sign col-xl-3">
-	                    
-	            <div>    
-	                <canvas id="canvas" class="canvas"></canvas>  
-	            </div>  
-	            
-	            <div class="canvasbtn">    
-	                <button id="save" class="savebtn col-xl-3">저장</button>  
-	                <button id="reset" class="savebtn col-xl-3">취소</button>
-	            </div>
-	
-	                <script>    
-	                (function(obj){      
+window.onload = function() {
+	(function(obj){      
 	                    obj.init();      
 	                    $(obj.onLoad);
 	                })
@@ -148,10 +49,10 @@
 	                                    ctx.closePath();          
 	                                }          break;        
 	                            }      
-	                        }      
+	                        }       
 	
 	                        // mobile    
-	                        function touchdraw(e){        
+	                         function touchdraw(e){        
 	                            function getPosition(){          
 	                                return {            
 	                                    X: e.changedTouches[0].pageX - canvas[0].offsetLeft,             
@@ -226,60 +127,4 @@
 	                        onLoad: function(){          
 	                            canvasResize();        
 	                            }}})());  
-	                </script>
-	
-	        </div>
-			
-	        <br>
-	        <div class="OpnionArea">
-	        <div class="adminOpnionArea">
-	            <label>관리자 의견</label><br>
-	            <textarea class="Opnion" cols="100%" rows="3"></textarea>
-	            <br>
-	            <input type="button" value="등록">
-	        </div>
-	
-	        <br>
-	
-	        <div class="employeeOpnionArea">
-	            <label>직원 의견</label><br>
-	            <textarea class="Opnion" cols="100%" rows="3"></textarea>
-	            <br>
-	            <input type="button" value="등록">
-	        </div>
-	    </div>
-	    
-	    <button type="button" class="submit">제출</button>
-	    </section>
-    <script>
-    
-    const jbHtml = ""
-    
-	    window.onload = function(){
-	    	$(document).ready( function() {
-	            const jbHtml = $( 'section' ).html();
-				console.log("호출됐니");
-				console.log(jbHtml)
-	        	$.ajax({
-	            	url: "insert",
-	             	type: "post",
-	             	data: {
-	            	 	jbHtml : jbHtml
-	             	},
-	             	success: function(data){
-	            	 	if(data=="1"){
-	            		 	url: "/"
-	            	 	}
-	             	},
-	             	error: function(request, status){
-	                 	alert("네트워크를 확인해주세요.")
-	             	}
-		        });
-		 	});
-	    };
-
-    </script>
-    
-
-</body>
-</html>
+		}

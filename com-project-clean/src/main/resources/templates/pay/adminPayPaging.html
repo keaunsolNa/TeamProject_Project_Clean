@@ -4,6 +4,18 @@
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <title>Insert title here</title>
+<style>
+	.pagingArea button {
+		width:30px;
+		height:30px;
+		background-color: #9AE8F9;
+		border-color:gray;
+		border-style: none;
+		font-weight:bold;
+		font-family: 'MinSans-Medium';
+    	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff') format('woff');
+	}
+</style>
 </head>
 <body>
 	<div class="pagingArea" align="center">
@@ -44,7 +56,7 @@
 	</div>
 
 	<script>
-		const link = "/menu/search";
+		const link = "/pay/adminPaySelect";
 		let searchText = "";
 		let searchConditionExist = "[[${ selectCriteria.searchCondition }]]";
 		let searchValueExist = "[[${ selectCriteria.searchValue }]]";

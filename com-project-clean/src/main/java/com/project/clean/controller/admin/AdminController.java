@@ -80,6 +80,7 @@ public class AdminController {
 		return mv;
 	}
 	
+	/* 관리자 등록 */
 	@PostMapping("hrCard/adminRegist")
 	@Transactional
 	public ModelAndView registAdminHrCard(@ModelAttribute AdminPictureDTO adminPicture, ModelAndView mv, AdminDTO newAdmin, 

@@ -2,12 +2,12 @@ package com.project.clean.controller.employee.task;
 
 import java.security.Principal;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +24,7 @@ import com.project.clean.model.service.employee.task.TaskService;
 @RequestMapping("employee/task")
 public class TaskController {
 	
-	private final TaskService taskService;
+	private TaskService taskService;
 	
 	@Autowired
 	public TaskController(TaskService taskService) {
@@ -38,12 +38,12 @@ public class TaskController {
   
 	@PostMapping(value = "selectMyTask", produces="application/json; charset=UTF-8")
 	@ResponseBody
-	public String selectMyTask(Principal principal, HttpServletResponse response, 
+	public String selectMyTask(Principal principal, HttpServletResponse response,
 			ModelAndView mv) throws JsonProcessingException {
 
 		ObjectMapper mapper = new ObjectMapper();
 
-		String employeeId = principal.getName();  
+		String employeeId = principal.getName();
 		List<ReservationInfoDTO> reservationList =  taskService.selectReservationListByEmployeeId(employeeId);
 		 
 		System.out.println("Controller에서 가져온 결과값 : " +  reservationList);

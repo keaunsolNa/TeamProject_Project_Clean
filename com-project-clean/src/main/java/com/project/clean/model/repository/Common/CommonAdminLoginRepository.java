@@ -12,3 +12,4 @@ public interface CommonAdminLoginRepository extends CrudRepository<AdminAndAdmin
 	AdminIpAddress findAllByAdminNo(int adminNo);
 
 }
+	
