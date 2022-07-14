@@ -1,5 +1,7 @@
 package com.project.clean.model.domain.commonEntity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,7 +10,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TBL_CHECKLIST")
-public class CheckList {
+public class CheckList implements Serializable{
+
+	private static final long serialVersionUID = -8801043489502988320L;
 
 	@Id
 	@Column(name = "CHECK_RESERVATION_NO")

@@ -2,6 +2,7 @@ package com.project.clean.model.service.employee.task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -25,11 +26,11 @@ import com.project.clean.model.repository.employee.checkList.CheckListRepository
 @Transactional
 public class TaskServiceImpl implements TaskService{
 
-	private final EmpRepository empRepository;
-	private final ApplyRepository applyRepository;
-	private final ModelMapper modelMapper;
-	private final ReservationInfoRepository reservationInfoRepository;
-	private final CheckListRepository checkListRepository;
+	private EmpRepository empRepository;
+	private ApplyRepository applyRepository;
+	private ModelMapper modelMapper;
+	private ReservationInfoRepository reservationInfoRepository;
+	private CheckListRepository checkListRepository;
 	
 	@Autowired
 	public TaskServiceImpl(EmpRepository empRepository,  ApplyRepository applyRepository, ModelMapper modelMapper, ReservationInfoRepository reservationInfoRepository,
@@ -81,7 +82,6 @@ public class TaskServiceImpl implements TaskService{
 		
 		return reservationInfoArrayList;
 		
-		   
 	}
 
 	@Override
@@ -101,5 +101,53 @@ public class TaskServiceImpl implements TaskService{
 		return 0;
 	}
 
-	
+	@Override
+	public CheckListDTO selectScheckList(String employeeId) {
+		
+		Employee empAndApplyEmp = empRepository.findByEmployeeId(employeeId);
+		EmployeeDTO emplist = modelMapper.map(empAndApplyEmp, EmployeeDTO.class);
+		
+		int empNo = emplist.getEmployeeNo();
+		
+		List<ApplyEmployeeEmbedded> applyEmployeeList = applyRepository.findAllEmployeeApply(empNo);
+		
+		List<ReservationInfoDTO> reservationInfoArrayList = new ArrayList<>();
+		
+		for (ApplyEmployeeEmbedded applyEmployeeEmbedded : applyEmployeeList) {
+			
+			Integer reservationNo = applyEmployeeEmbedded.getApplyEmployeeIdAndApplyReservationNo().getApplyReservationNo();
+				System.out.println("예약 번호 : " + reservationNo);
+				System.out.println("예약 번호 : " + reservationNo);
+				System.out.println("예약 번호 : " + reservationNo);
+				try {
+				
+					CheckList checkList = checkListRepository.findBycheckReservationNoAndCheckStatus(reservationNo, "N");
+					System.out.println(checkList);
+					
+					return modelMapper.map(checkList, CheckListDTO.class);
+					
+				} catch(java.util.NoSuchElementException e) {
+				
+					System.out.println("작성 가능한 체크리스트가 없습니다.");
+
+				} catch(java.lang.IllegalArgumentException f) {
+					
+					continue;
+					
+				}
+		}
+		return null;
+		
+	}
+
+	@Override
+	@Transactional
+	public int updateCheckList(CheckListDTO checkListDTO) {
+		
+		CheckList checkList = checkListRepository.findById(checkListDTO.getCheckReservationNo()).get();
+
+		checkList.setCheckHTML(checkListDTO.getCheckHTML());
+		
+		return 0;
+	}
 }
