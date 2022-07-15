@@ -10,7 +10,6 @@ import com.project.clean.model.domain.commonEntity.Admin;
 import com.project.clean.model.domain.commonEntity.Employee;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeDTO;
-import com.project.clean.model.repository.admin.AdminEmailRepository;
 import com.project.clean.model.repository.admin.AdminRepository;
 import com.project.clean.model.repository.employee.EmpRepository;
 
@@ -21,14 +20,12 @@ public class FindServiceImpl implements FindService{
 	private final AdminRepository adminRepositroy;
 	private final ModelMapper modelMapper;
 	private final EmpRepository empRepository;
-	private final AdminEmailRepository adminEmailRepository;
 	
 	@Autowired
-	public FindServiceImpl(AdminRepository adminRepositroy, ModelMapper modelMapper, EmpRepository empRepository, AdminEmailRepository adminEmailRepository) {
+	public FindServiceImpl(AdminRepository adminRepositroy, ModelMapper modelMapper, EmpRepository empRepository ) {
 		this.adminRepositroy = adminRepositroy;
 		this.modelMapper = modelMapper;
 		this.empRepository = empRepository;
-		this.adminEmailRepository = adminEmailRepository;
 	}
 
 	@Override

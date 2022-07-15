@@ -19,21 +19,21 @@ import org.hibernate.annotations.DynamicUpdate;
 @IdClass(AdminReasonPFKId.class)
 @DynamicInsert
 @DynamicUpdate
-public class AdminReason implements Serializable{
-	
+public class AdminReason implements Serializable {
+
 	private static final long serialVersionUID = 4792075326909462293L;
 
 	@Id
 	@Column(name = "EMPLOYEE_NO")
 	private int employeeNo;
-	
+
 	@Id
 	@Column(name = "ADMIN_NO")
 	private int adminNo;
-	
+
 	@Column(name = "REASON", nullable = true)
 	private String Reason;
-	
+
 	@Column(name = "REGIST_REASON_DATE")
 	private java.sql.Date employeeRegistDate;
 
@@ -91,23 +91,4 @@ public class AdminReason implements Serializable{
 				+ ", employeeRegistDate=" + employeeRegistDate + "]";
 	}
 
-	
-
-	
-	
-	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

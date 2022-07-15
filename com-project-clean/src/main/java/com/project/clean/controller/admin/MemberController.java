@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.project.clean.model.dto.commonDTO.EmployeeAddressDTO;
-import com.project.clean.model.dto.commonDTO.EmployeeEmailDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
 import com.project.clean.model.service.member.MemberSerivceImpl;
 
@@ -28,13 +26,9 @@ public class MemberController {
 	@GetMapping("/selectEmployee/{empNo}")
 	public String selectOneEmployee(@PathVariable int empNo, Model mv) {
 		EmployeeAndAllDTO employeeDTO = memberService.selectOneEmployee(empNo);
-		EmployeeAddressDTO employeeAddressDTO = memberService.selectOneEmployeeAddress(empNo);
-		EmployeeEmailDTO EmployeeEmailDTO = memberService.selectOneEmployeeEmail(empNo);
 //		EmployeePictureDTO employeePictureDTO = memberService.selectOneEmployeePicture(empNo);
 		
 		mv.addAttribute("employee", employeeDTO);
-		mv.addAttribute("employeeAddress", employeeAddressDTO);
-		mv.addAttribute("employeeEmail", EmployeeEmailDTO);
 //		mv.addAttribute("employeePicture", employeePictureDTO);
 		mv.addAttribute("employeeNo", empNo);
 		

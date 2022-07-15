@@ -26,13 +26,22 @@ public class EmployeeDTO implements Serializable{
 	private String employeeLastConfirmYn;
 	private java.sql.Date employeeLastConfirmDate;
 	private String employeeRegistReturnYn;
+	private String employeeEmail;
+	private String employeeAddress;
+	private String employeePictureSaveName;
+	private String employeePictureSaveRoot;
+	private String employeePictureThumbnail;
 	public EmployeeDTO() {
+		super();
 	}
 	public EmployeeDTO(int employeeNo, String employeeName, String employeeId, String employeePwd, Date employeeBirth,
 			String employeeGender, String employeePhone, Date employeeHireDate, Date employeeRetireDate,
 			int employeeSumCount, int employeeSumTime, Date employeeLastLoginDate, String employeeBlackListYn,
 			String employeeRetireYn, Date requestDate, String employeeFirstConfirmYn, String employeeSecondConfirmYn,
-			String employeeLastConfirmYn, Date employeeLastConfirmDate, String employeeRegistReturnYn) {
+			String employeeLastConfirmYn, Date employeeLastConfirmDate, String employeeRegistReturnYn,
+			String employeeEmail, String employeeAddress, String employeePictureSaveName,
+			String employeePictureSaveRoot, String employeePictureThumbnail) {
+		super();
 		this.employeeNo = employeeNo;
 		this.employeeName = employeeName;
 		this.employeeId = employeeId;
@@ -47,12 +56,17 @@ public class EmployeeDTO implements Serializable{
 		this.employeeLastLoginDate = employeeLastLoginDate;
 		this.employeeBlackListYn = employeeBlackListYn;
 		this.employeeRetireYn = employeeRetireYn;
-		this.RequestDate = requestDate;
+		RequestDate = requestDate;
 		this.employeeFirstConfirmYn = employeeFirstConfirmYn;
 		this.employeeSecondConfirmYn = employeeSecondConfirmYn;
 		this.employeeLastConfirmYn = employeeLastConfirmYn;
 		this.employeeLastConfirmDate = employeeLastConfirmDate;
 		this.employeeRegistReturnYn = employeeRegistReturnYn;
+		this.employeeEmail = employeeEmail;
+		this.employeeAddress = employeeAddress;
+		this.employeePictureSaveName = employeePictureSaveName;
+		this.employeePictureSaveRoot = employeePictureSaveRoot;
+		this.employeePictureThumbnail = employeePictureThumbnail;
 	}
 	public int getEmployeeNo() {
 		return employeeNo;
@@ -142,7 +156,7 @@ public class EmployeeDTO implements Serializable{
 		return RequestDate;
 	}
 	public void setRequestDate(java.sql.Date requestDate) {
-		this.RequestDate = requestDate;
+		RequestDate = requestDate;
 	}
 	public String getEmployeeFirstConfirmYn() {
 		return employeeFirstConfirmYn;
@@ -174,6 +188,36 @@ public class EmployeeDTO implements Serializable{
 	public void setEmployeeRegistReturnYn(String employeeRegistReturnYn) {
 		this.employeeRegistReturnYn = employeeRegistReturnYn;
 	}
+	public String getEmployeeEmail() {
+		return employeeEmail;
+	}
+	public void setEmployeeEmail(String employeeEmail) {
+		this.employeeEmail = employeeEmail;
+	}
+	public String getEmployeeAddress() {
+		return employeeAddress;
+	}
+	public void setEmployeeAddress(String employeeAddress) {
+		this.employeeAddress = employeeAddress;
+	}
+	public String getEmployeePictureSaveName() {
+		return employeePictureSaveName;
+	}
+	public void setEmployeePictureSaveName(String employeePictureSaveName) {
+		this.employeePictureSaveName = employeePictureSaveName;
+	}
+	public String getEmployeePictureSaveRoot() {
+		return employeePictureSaveRoot;
+	}
+	public void setEmployeePictureSaveRoot(String employeePictureSaveRoot) {
+		this.employeePictureSaveRoot = employeePictureSaveRoot;
+	}
+	public String getEmployeePictureThumbnail() {
+		return employeePictureThumbnail;
+	}
+	public void setEmployeePictureThumbnail(String employeePictureThumbnail) {
+		this.employeePictureThumbnail = employeePictureThumbnail;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -188,8 +232,13 @@ public class EmployeeDTO implements Serializable{
 				+ ", RequestDate=" + RequestDate + ", employeeFirstConfirmYn=" + employeeFirstConfirmYn
 				+ ", employeeSecondConfirmYn=" + employeeSecondConfirmYn + ", employeeLastConfirmYn="
 				+ employeeLastConfirmYn + ", employeeLastConfirmDate=" + employeeLastConfirmDate
-				+ ", employeeRegistReturnYn=" + employeeRegistReturnYn + "]";
+				+ ", employeeRegistReturnYn=" + employeeRegistReturnYn + ", employeeEmail=" + employeeEmail
+				+ ", employeeAddress=" + employeeAddress + ", employeePictureSaveName=" + employeePictureSaveName
+				+ ", employeePictureSaveRoot=" + employeePictureSaveRoot + ", employeePictureThumbnail="
+				+ employeePictureThumbnail + "]";
 	}
+	
+	
 	
 	
 	

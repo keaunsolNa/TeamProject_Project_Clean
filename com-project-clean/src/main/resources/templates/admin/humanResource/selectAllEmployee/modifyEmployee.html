@@ -74,7 +74,7 @@
 	        <tbody>
 	          <tr>
 	          	<td class="tg-7btt">이메일</td>
-	            <td class="tg-7btt" colspan="3"><input th:value="${employeeEmail.employeeEmail}" type="text" id="employeeEmail" class="required" name="employeeEmail" placeholder="이메일을 입력해주세요" required style="width: 200px;"> @ 
+	            <td class="tg-7btt" colspan="3"><input th:value="${employee.employeeEmail}" type="text" id="employeeEmail" class="required" name="employeeEmail" placeholder="이메일을 입력해주세요" required style="width: 200px;"> @ 
 		            <select name="employeeDomain" id="employeeDomain" style="width: 100px; height: 25px;">
 			            <option value="naver.com" selected>naver.com</option>
 			            <option value="google.com">google.com</option>
@@ -85,16 +85,16 @@
 	          </tr>
 	                  <tr>
 	                    <td class="tg-7btt">우편번호</td>
-	                    <td class="tg-7btt"><div id="addressNo" th:text="${employeeAddress.employeeAddressNo}"></div></td>
+	                    <td class="tg-7btt"><div id="addressNo" th:text="modifyEmployee 우편번호"></div></td>
 	                    <td class="tg-7btt"style="display: none;"><input id="employeeAddressNo" type="number" name="employeeAddressNo"/></td>
 	                    <td class="tg-7btt">기본주소</td>
-	                    <td class="tg-7btt"><div id="address" th:text="${employeeAddress.employeeAddress}"></div></td>
+	                    <td class="tg-7btt"><div id="address" th:text="${employee.employeeAddress}"></div></td>
 	                    <td class="tg-7btt"style="display: none;"><input type="text" id="employeeAddress" name="employeeAddress" /></td>
 	                    <td class="tg-7btt" colspan="2"><button type="button" id="findAddress">주소찾기</button></td>
 	                  </tr>
 	                  <tr>
 	                    <td class="tg-7btt">상세주소</td>
-	                    <td class="tg-7btt" colspan="5"><input type=text th:value="${employeeAddress.employeeDetailAddress}" id="addressDetail" class="required" name="employeeDetailAddress" placeholder="상세주소를 입력해주세요" required></td>
+	                    <td class="tg-7btt" colspan="5"><input type=text th:value="${employee.employeeAddress}" id="addressDetail" class="required" name="employeeDetailAddress" placeholder="상세주소를 입력해주세요" required></td>
 	                  </tr>
 	          <tr>
 	            <td class="tg-7btt">입사일</td>

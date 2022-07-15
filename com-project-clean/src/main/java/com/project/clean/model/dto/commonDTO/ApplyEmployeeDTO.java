@@ -2,38 +2,43 @@ package com.project.clean.model.dto.commonDTO;
 
 import java.io.Serializable;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class ApplyEmployeeDTO implements Serializable{
 
 	private static final long serialVersionUID = 3475731161767980832L;
-	private int employeeNo;
-	private int reservationNo;
-	private String canselYn;
+	private int applyEmployeeNo;
+	private int applyReservationNo;
+	private String applyCancelYn;
 	private String checkEmployeeYn;
 	public ApplyEmployeeDTO() {
+		super();
 	}
-	public ApplyEmployeeDTO(int employeeNo, int reservationNo, String canselYn, String checkEmployeeYn) {
-		this.employeeNo = employeeNo;
-		this.reservationNo = reservationNo;
-		this.canselYn = canselYn;
+	public ApplyEmployeeDTO(int applyEmployeeNo, int applyReservationNo, String applyCancelYn, String checkEmployeeYn) {
+		super();
+		this.applyEmployeeNo = applyEmployeeNo;
+		this.applyReservationNo = applyReservationNo;
+		this.applyCancelYn = applyCancelYn;
 		this.checkEmployeeYn = checkEmployeeYn;
 	}
-	public int getEmployeeNo() {
-		return employeeNo;
+	public int getApplyEmployeeNo() {
+		return applyEmployeeNo;
 	}
-	public void setEmployeeNo(int employeeNo) {
-		this.employeeNo = employeeNo;
+	public void setApplyEmployeeNo(int applyEmployeeNo) {
+		this.applyEmployeeNo = applyEmployeeNo;
 	}
-	public int getReservationNo() {
-		return reservationNo;
+	public int getApplyReservationNo() {
+		return applyReservationNo;
 	}
-	public void setReservationNo(int reservationNo) {
-		this.reservationNo = reservationNo;
+	public void setApplyReservationNo(int applyReservationNo) {
+		this.applyReservationNo = applyReservationNo;
 	}
-	public String getCanselYn() {
-		return canselYn;
+	public String getApplyCancelYn() {
+		return applyCancelYn;
 	}
-	public void setCanselYn(String canselYn) {
-		this.canselYn = canselYn;
+	public void setApplyCancelYn(String applyCancelYn) {
+		this.applyCancelYn = applyCancelYn;
 	}
 	public String getCheckEmployeeYn() {
 		return checkEmployeeYn;
@@ -46,10 +51,8 @@ public class ApplyEmployeeDTO implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "ApplyEmployee [employeeNo=" + employeeNo + ", reservationNo=" + reservationNo + ", canselYn=" + canselYn
-				+ ", checkEmployeeYn=" + checkEmployeeYn + "]";
+		return "ApplyEmployeeDTO [applyEmployeeNo=" + applyEmployeeNo + ", applyReservationNo=" + applyReservationNo
+				+ ", applyCancelYn=" + applyCancelYn + ", checkEmployeeYn=" + checkEmployeeYn + "]";
 	}
-	
-	
-	
+		
 }

@@ -94,7 +94,7 @@
 	                    <td th:text="${ index.employeeNo }"></td>
 	                    <td th:text="${ index.employeeName }"></td>
 	                    <td th:text="${ index.employeeBirth }"></td>
-	                    <td th:text="${ index.employeeAddressDTO.employeeAddress }"></td>
+	                    <td th:text="${ index.employeeAddress }"></td>
 	                    <td th:text="${ index.employeePhone }"></td>
 	                    <td th:text="${ index.employeeHireDate }"></td>
                     </tr>
@@ -201,7 +201,7 @@
 						$noTd = $("<td>").text(retireNEmployee[index].employeeNo);
 						$nameTd = $("<td>").text(retireNEmployee[index].employeeName);
 						$birthTd = $("<td>").text(retireNEmployee[index].employeeBirth);
-						$addressTd = $("<td>").text(retireNEmployee[index].employeeAddressDTO.employeeAddress);
+						$addressTd = $("<td>").text(retireNEmployee[index].employeeAddress);
 						$phoneTd = $("<td>").text(retireNEmployee[index].employeePhone);
 						$hireDateTd = $("<td>").text(retireNEmployee[index].employeeHireDate);
 						
@@ -237,7 +237,7 @@
 						$noTd = $("<td>").text(RetireYEmployee[index].employeeNo);
 						$nameTd = $("<td>").text(RetireYEmployee[index].employeeName);
 						$birthTd = $("<td>").text(RetireYEmployee[index].employeeBirth);
-						$addressTd = $("<td>").text(RetireYEmployee[index].employeeAddressDTO.employeeAddress);
+						$addressTd = $("<td>").text(RetireYEmployee[index].employeeAddress);
 						$phoneTd = $("<td>").text(RetireYEmployee[index].employeePhone);
 						$hireDateTd = $("<td>").text(RetireYEmployee[index].employeeHireDate);
 						

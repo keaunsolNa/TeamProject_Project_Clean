@@ -2,39 +2,50 @@ package com.project.clean.model.dto.commonDTO;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class ReservationInfoDTO implements Serializable{
 	
 	private static final long serialVersionUID = 5574907059587424790L;
+	
 	private int reservationNo;
 	private String userName;
 	private String userPhoneNo;
-	private int UserPostalNo;
+	private int userPostalNo;
 	private String userAddress;
 	private String userDetailAddress;
 	private int userHouseSize;
 	private java.sql.Date userReservationDate;
 	private String userRequirements;
 	private java.sql.Date businessDate;
-	private java.sql.Date businessStartTime;
-	private java.sql.Date businessEndTime;
+	private java.sql.Timestamp businessStartTime;
+	private java.sql.Timestamp businessEndTime;
 	private int businessFixedPeople;
 	private int businessApplyPeople;
 	private int totalPayment;
 	private String applyEndYn;
-	private String ReservationCancelYn;
+	private String reservationCancelYn;
 	private String paymentYn;
+	private String gashoodCleanYn;
+	private String moldCleanYn;
+	private String filterCleanYn;
+	private String warehouseCleanYn;
+	private String petYn;
+	private String multipleLayerYn;
 	public ReservationInfoDTO() {
+		super();
 	}
 	public ReservationInfoDTO(int reservationNo, String userName, String userPhoneNo, int userPostalNo,
 			String userAddress, String userDetailAddress, int userHouseSize, Date userReservationDate,
-			String userRequirements, Date businessDate, Date businessStartTime, Date businessEndTime,
+			String userRequirements, Date businessDate, Timestamp businessStartTime, Timestamp businessEndTime,
 			int businessFixedPeople, int businessApplyPeople, int totalPayment, String applyEndYn,
-			String reservationCancelYn, String paymentYn) {
+			String reservationCancelYn, String paymentYn, String gashoodCleanYn, String moldCleanYn,
+			String filterCleanYn, String warehouseCleanYn, String petYn, String multipleLayerYn) {
+		super();
 		this.reservationNo = reservationNo;
 		this.userName = userName;
 		this.userPhoneNo = userPhoneNo;
-		UserPostalNo = userPostalNo;
+		this.userPostalNo = userPostalNo;
 		this.userAddress = userAddress;
 		this.userDetailAddress = userDetailAddress;
 		this.userHouseSize = userHouseSize;
@@ -47,8 +58,14 @@ public class ReservationInfoDTO implements Serializable{
 		this.businessApplyPeople = businessApplyPeople;
 		this.totalPayment = totalPayment;
 		this.applyEndYn = applyEndYn;
-		ReservationCancelYn = reservationCancelYn;
+		this.reservationCancelYn = reservationCancelYn;
 		this.paymentYn = paymentYn;
+		this.gashoodCleanYn = gashoodCleanYn;
+		this.moldCleanYn = moldCleanYn;
+		this.filterCleanYn = filterCleanYn;
+		this.warehouseCleanYn = warehouseCleanYn;
+		this.petYn = petYn;
+		this.multipleLayerYn = multipleLayerYn;
 	}
 	public int getReservationNo() {
 		return reservationNo;
@@ -69,10 +86,10 @@ public class ReservationInfoDTO implements Serializable{
 		this.userPhoneNo = userPhoneNo;
 	}
 	public int getUserPostalNo() {
-		return UserPostalNo;
+		return userPostalNo;
 	}
 	public void setUserPostalNo(int userPostalNo) {
-		UserPostalNo = userPostalNo;
+		this.userPostalNo = userPostalNo;
 	}
 	public String getUserAddress() {
 		return userAddress;
@@ -110,16 +127,16 @@ public class ReservationInfoDTO implements Serializable{
 	public void setBusinessDate(java.sql.Date businessDate) {
 		this.businessDate = businessDate;
 	}
-	public java.sql.Date getBusinessStartTime() {
+	public java.sql.Timestamp getBusinessStartTime() {
 		return businessStartTime;
 	}
-	public void setBusinessStartTime(java.sql.Date businessStartTime) {
+	public void setBusinessStartTime(java.sql.Timestamp businessStartTime) {
 		this.businessStartTime = businessStartTime;
 	}
-	public java.sql.Date getBusinessEndTime() {
+	public java.sql.Timestamp getBusinessEndTime() {
 		return businessEndTime;
 	}
-	public void setBusinessEndTime(java.sql.Date businessEndTime) {
+	public void setBusinessEndTime(java.sql.Timestamp businessEndTime) {
 		this.businessEndTime = businessEndTime;
 	}
 	public int getBusinessFixedPeople() {
@@ -147,10 +164,10 @@ public class ReservationInfoDTO implements Serializable{
 		this.applyEndYn = applyEndYn;
 	}
 	public String getReservationCancelYn() {
-		return ReservationCancelYn;
+		return reservationCancelYn;
 	}
 	public void setReservationCancelYn(String reservationCancelYn) {
-		ReservationCancelYn = reservationCancelYn;
+		this.reservationCancelYn = reservationCancelYn;
 	}
 	public String getPaymentYn() {
 		return paymentYn;
@@ -158,19 +175,58 @@ public class ReservationInfoDTO implements Serializable{
 	public void setPaymentYn(String paymentYn) {
 		this.paymentYn = paymentYn;
 	}
+	public String getGashoodCleanYn() {
+		return gashoodCleanYn;
+	}
+	public void setGashoodCleanYn(String gashoodCleanYn) {
+		this.gashoodCleanYn = gashoodCleanYn;
+	}
+	public String getMoldCleanYn() {
+		return moldCleanYn;
+	}
+	public void setMoldCleanYn(String moldCleanYn) {
+		this.moldCleanYn = moldCleanYn;
+	}
+	public String getFilterCleanYn() {
+		return filterCleanYn;
+	}
+	public void setFilterCleanYn(String filterCleanYn) {
+		this.filterCleanYn = filterCleanYn;
+	}
+	public String getWarehouseCleanYn() {
+		return warehouseCleanYn;
+	}
+	public void setWarehouseCleanYn(String warehouseCleanYn) {
+		this.warehouseCleanYn = warehouseCleanYn;
+	}
+	public String getPetYn() {
+		return petYn;
+	}
+	public void setPetYn(String petYn) {
+		this.petYn = petYn;
+	}
+	public String getMultipleLayerYn() {
+		return multipleLayerYn;
+	}
+	public void setMultipleLayerYn(String multipleLayerYn) {
+		this.multipleLayerYn = multipleLayerYn;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 	@Override
 	public String toString() {
 		return "ReservationInfoDTO [reservationNo=" + reservationNo + ", userName=" + userName + ", userPhoneNo="
-				+ userPhoneNo + ", UserPostalNo=" + UserPostalNo + ", userAddress=" + userAddress
+				+ userPhoneNo + ", userPostalNo=" + userPostalNo + ", userAddress=" + userAddress
 				+ ", userDetailAddress=" + userDetailAddress + ", userHouseSize=" + userHouseSize
 				+ ", userReservationDate=" + userReservationDate + ", userRequirements=" + userRequirements
 				+ ", businessDate=" + businessDate + ", businessStartTime=" + businessStartTime + ", businessEndTime="
 				+ businessEndTime + ", businessFixedPeople=" + businessFixedPeople + ", businessApplyPeople="
 				+ businessApplyPeople + ", totalPayment=" + totalPayment + ", applyEndYn=" + applyEndYn
-				+ ", ReservationCancelYn=" + ReservationCancelYn + ", paymentYn=" + paymentYn + "]";
+				+ ", reservationCancelYn=" + reservationCancelYn + ", paymentYn=" + paymentYn + ", gashoodCleanYn="
+				+ gashoodCleanYn + ", moldCleanYn=" + moldCleanYn + ", filterCleanYn=" + filterCleanYn
+				+ ", warehouseCleanYn=" + warehouseCleanYn + ", petYn=" + petYn + ", multipleLayerYn=" + multipleLayerYn
+				+ "]";
 	}
 	
 	

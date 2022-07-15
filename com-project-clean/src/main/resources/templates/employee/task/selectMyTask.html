@@ -29,6 +29,13 @@
 	</table>
 	<div th:include="common/header.html"></div>
 	<div th:include="common/taskAside.html"></div>
+
+	<script>
+		const resultMessage = "[[${resultMessage}]]";
+		if(resultMessage){
+			alert(resultMessage)
+		}
+	</script>	
 	
 	<table id="taskInfo" border="1">
 		<thead>
@@ -94,6 +101,7 @@
 					const button = buttons[i];
 					button.onclick = function() {
 						const timer = button.parentNode.querySelector('.st').innerText.substring(10, 16);
+						
 						if(timer < nowtime2){
 							
 								const resNo1 = document.querySelectorAll('table#taskInfo tbody tr td1');

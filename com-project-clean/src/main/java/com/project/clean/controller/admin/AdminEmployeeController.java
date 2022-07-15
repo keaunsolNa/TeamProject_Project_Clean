@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.clean.model.dto.commonDTO.AdminDTO;
-import com.project.clean.model.dto.commonDTO.EmployeeAddressDTO;
-import com.project.clean.model.dto.commonDTO.EmployeeEmailDTO;
 import com.project.clean.model.dto.commonDTO.ReasonDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
 import com.project.clean.model.service.admin.AdminEmployeeService;
@@ -36,24 +34,12 @@ public class AdminEmployeeController {
 	public String selectRetireNEmployee(Model mv) {
 		
 		List<EmployeeAndAllDTO> selectRetireNEmployeeList = adminService.selectRetireNEmployee();
-		List<EmployeeAddressDTO> employeeAddress = adminService.selectRetireNEmployeeAddress();
 		
 		/* 직원들 중 퇴직여부가 Y인 직원 */
 		List<EmployeeAndAllDTO> entireNEmployeeList = new ArrayList();
-		if(!selectRetireNEmployeeList.isEmpty() && !employeeAddress.isEmpty()) {
-		for(int i = 0; i < selectRetireNEmployeeList.size(); i ++) {
-			EmployeeAndAllDTO employeeDTO = selectRetireNEmployeeList.get(i);
-			EmployeeAddressDTO employeeAddressDTO = employeeAddress.get(i);
+		if(!selectRetireNEmployeeList.isEmpty() && selectRetireNEmployeeList != null) {
 			
-			/* employeeDTO 안에 Address를 넣는 작업 */
-				employeeDTO.setEmployeeAddressDTO(employeeAddressDTO);
-				entireNEmployeeList.add(employeeDTO);
-			
-			/* 출력으로 중간 확인 */
-//			for(EmployeeDTO d : employeeList) {
-//				System.out.println("dddd= " + d);
-//			}
-		}
+			selectRetireNEmployeeList = new ArrayList<>();
 	}
 		
 		mv.addAttribute("entireNEmployeeList", entireNEmployeeList);
@@ -65,18 +51,11 @@ public class AdminEmployeeController {
 	@ResponseBody
 	public List<EmployeeAndAllDTO> selectRetireNEmployeeAjax(Model mv) {
 		List<EmployeeAndAllDTO> selectRetireNEmployeeList = adminService.selectRetireNEmployee();
-		List<EmployeeAddressDTO> selectRetireNEmployeeAddressList = adminService.selectRetireNEmployeeAddress();
-		if(!selectRetireNEmployeeList.isEmpty() && !selectRetireNEmployeeAddressList.isEmpty()) {
-
-		List<EmployeeAndAllDTO> entireNEmployeeList = new ArrayList<>();
-		for(int i = 0; i < selectRetireNEmployeeList.size(); i ++) {
-			EmployeeAndAllDTO employeeDTO = selectRetireNEmployeeList.get(i);
-			EmployeeAddressDTO employeeAddressDTO = selectRetireNEmployeeAddressList.get(i);
-				employeeDTO.setEmployeeAddressDTO(employeeAddressDTO);
-				entireNEmployeeList.add(employeeDTO);
-		}
+//		List<EmployeeAddressDTO> selectRetireNEmployeeAddressList = adminService.selectRetireNEmployeeAddress();
+		
+		if(!selectRetireNEmployeeList.isEmpty() && selectRetireNEmployeeList != null) {
+			selectRetireNEmployeeList = new ArrayList<>();
 	}
-		System.out.println("entireYEmployeeList: " + selectRetireNEmployeeList);
 		
 		return selectRetireNEmployeeList;
 	}
@@ -86,18 +65,12 @@ public class AdminEmployeeController {
 	@ResponseBody
 	public List<EmployeeAndAllDTO> selectRetireYEmployee(Model mv) {
 		List<EmployeeAndAllDTO> selectRetireYEmployeeList = adminService.selectRetireYEmployee();
-		List<EmployeeAddressDTO> selectRetireYEmployeeAddressList = adminService.selectRetireYEmployeeAddress();
 		
-		List<EmployeeAndAllDTO> entireYEmployeeList = new ArrayList<>();
-		for(int i = 0; i < selectRetireYEmployeeList.size(); i ++) {
-			EmployeeAndAllDTO employeeDTO = selectRetireYEmployeeList.get(i);
-			EmployeeAddressDTO employeeAddressDTO = selectRetireYEmployeeAddressList.get(i);
-				employeeDTO.setEmployeeAddressDTO(employeeAddressDTO);
-				entireYEmployeeList.add(employeeDTO);
-		}
-		System.out.println("entireYEmployeeList: " + entireYEmployeeList);
+		if(!selectRetireYEmployeeList.isEmpty() && selectRetireYEmployeeList != null){
+			selectRetireYEmployeeList = new ArrayList<>();
+	}
 		
-		return entireYEmployeeList;
+		return selectRetireYEmployeeList;
 	}
 
 	/* (관리자가)직원 수정 페이지로 이동 */
@@ -105,12 +78,10 @@ public class AdminEmployeeController {
 	public String adminModifyEmployee(@PathVariable int empNo, Model mv) {
 		
 		EmployeeAndAllDTO employeeDTO = adminService.selectOneEmployee(empNo);
-		EmployeeAddressDTO employeeAddressDTO = adminService.selectOneEmployeeAddress(empNo);
-		EmployeeEmailDTO EmployeeEmailDTO = adminService.selectOneEmployeeEmail(empNo);
-//		EmployeePictureDTO employeePictureDTO = adminService.selectOneEmployeePicture(empNo);
-		System.out.println("employeeDTOemployeeDTOemployeeDTOemployeeDTOemployeeDTO: "+ employeeDTO.getEmployeePhone());
+		
 		String middlePhoneNumber = "";
 		String lastPhoneNumber = "";
+		
 		if(employeeDTO.getEmployeePhone().length() == 11) {
 			middlePhoneNumber = employeeDTO.getEmployeePhone().substring(3,7);
 			lastPhoneNumber = employeeDTO.getEmployeePhone().substring(7,11);
@@ -118,15 +89,12 @@ public class AdminEmployeeController {
 			middlePhoneNumber = employeeDTO.getEmployeePhone().substring(3,6);
 			lastPhoneNumber = employeeDTO.getEmployeePhone().substring(6,10);
 		}
-		System.out.println("employeeDTOemployeeDTOemployeeDTOemployeeDTOemployeeDTO: "+ middlePhoneNumber);
-		System.out.println("employeeDTOemployeeDTOemployeeDTOemployeeDTOemployeeDTO: "+ lastPhoneNumber);
+		
 		Map<String, String> phoneNumber = new HashMap();
 		phoneNumber.put("middlePhoneNumber", middlePhoneNumber);
 		phoneNumber.put("lastPhoneNumber", lastPhoneNumber);
 		
 		mv.addAttribute("employee", employeeDTO);
-		mv.addAttribute("employeeAddress", employeeAddressDTO);
-		mv.addAttribute("employeeEmail", EmployeeEmailDTO);
 //		mv.addAttribute("employeePicture", employeePictureDTO);
 		mv.addAttribute("employeeNo", empNo);
 		mv.addAttribute("phoneNumber", phoneNumber);
@@ -136,15 +104,18 @@ public class AdminEmployeeController {
 	
 	/* (관리자가)직원 정보 수정 */
 	@PostMapping("/modify/employee")
-	public String modifyEmployee(EmployeeAndAllDTO employeeDTO, EmployeeAddressDTO addressDTO, EmployeeEmailDTO emailDTO, 
-								String employeePhone1, String employeePhone2, String employeePhone3, Model mv) {
+	public String modifyEmployee(EmployeeAndAllDTO employeeDTO, String employeePhone1, String employeePhone2, String employeePhone3, Model mv) {
 		
 		String employeePhone = employeePhone1 + employeePhone2 + employeePhone3;
-		employeeDTO.setEmployeePhone(employeePhone);
-		employeeDTO.setEmployeeAddressDTO(addressDTO);
-		employeeDTO.setEmployeeEmailDTO(emailDTO);
 		
-		adminService.modifyEmployee(employeeDTO);
+		/* 이게 있어야 하나? */
+		EmployeeAndAllDTO employee = adminService.selectOneEmployee(employeeDTO.getEmployeeNo());
+		
+		employeeDTO.setEmployeePhone(employeePhone);
+		employee.setEmployeeAddress(employeeDTO.getEmployeeAddress());
+		employee.setEmployeeEmail(employeeDTO.getEmployeeEmail());
+		
+//		adminService.modifyEmployee(employeeDTO);
 		
 		mv.addAttribute("employeeDTO", employeeDTO);
 		return "redirect:/admin/select/retireNEmployee";
@@ -164,57 +135,18 @@ public class AdminEmployeeController {
 		
 		/* HR 대기중인 인원 조회 */
 		List<EmployeeAndAllDTO> selectWaitingEmployeeList = adminService.selectWaitingEmployeeList();
-		List<EmployeeAddressDTO> waitingEmployeeAddress = adminService.selectWaitingEmployeeAddressList();
-		/* 직원들 중 1번째 승인과 최종승인이 N인 직원 */
-		List<EmployeeAndAllDTO> waitingEmployeeList = new ArrayList<>();
-		if(!selectWaitingEmployeeList.isEmpty() && !waitingEmployeeAddress.isEmpty()) {
-			
-		for(int i = 0; i < selectWaitingEmployeeList.size(); i ++) {
-			EmployeeAndAllDTO employeeDTO = selectWaitingEmployeeList.get(i);
-			EmployeeAddressDTO employeeAddressDTO = waitingEmployeeAddress.get(i);
-			
-			/* employeeDTO 안에 Address를 넣는 작업 */
-				employeeDTO.setEmployeeAddressDTO(employeeAddressDTO);
-				waitingEmployeeList.add(employeeDTO);
-			}
-		}
 		
 		/* BOSS 대기중인 인원 조회 */
 		List<EmployeeAndAllDTO> selectWaitingEmployeeListBoss = adminService.selectWaitingEmployeeListBoss();
-		List<EmployeeAddressDTO> waitingEmployeeAddressBoss = adminService.selectWaitingEmployeeAddressListBoss();
 		/* 직원들 중 1번째 승인과 최종승인이 N인 직원 */
-		List<EmployeeAndAllDTO> waitingEmployeeListBoss = new ArrayList<>();
-		if(!(selectWaitingEmployeeListBoss.size() == 0) && !(waitingEmployeeAddressBoss.size() == 0)) {
-			
-			for(int i = 0; i < selectWaitingEmployeeListBoss.size(); i ++) {
-				EmployeeAndAllDTO employeeDTO = selectWaitingEmployeeListBoss.get(i);
-				EmployeeAddressDTO employeeAddressDTO = waitingEmployeeAddressBoss.get(i);
-				
-				/* employeeDTO 안에 Address를 넣는 작업 */
-				employeeDTO.setEmployeeAddressDTO(employeeAddressDTO);
-				waitingEmployeeListBoss.add(employeeDTO);
-			}
-		}
 		
 		/* 반려인원 조회 */
 		List<EmployeeAndAllDTO> selectReturnEmployeeList = adminService.selectReturnEmployeeList();
-		List<EmployeeAddressDTO> selectReturnEmployeeAddressList = adminService.selectReturnEmployeeAddressList();
 		
-		List<EmployeeAndAllDTO> returnEmployeeList = new ArrayList<>();
-		if(!(selectReturnEmployeeList.size() == 0) && !(selectReturnEmployeeAddressList.size() == 0)) {
-		for(int i = 0; i < selectReturnEmployeeList.size(); i ++) {
-			EmployeeAndAllDTO employeeDTO = selectReturnEmployeeList.get(i);
-			EmployeeAddressDTO employeeAddressDTO = selectReturnEmployeeAddressList.get(i);
-			
-			/* employeeDTO 안에 Address를 넣는 작업 */
-			employeeDTO.setEmployeeAddressDTO(employeeAddressDTO);
-			returnEmployeeList.add(employeeDTO);
-			}
-		}
 		
-		mv.addAttribute("waitingEmployeeList", waitingEmployeeList);		//HR authority
-		mv.addAttribute("returnEmployeeList", returnEmployeeList);			
-		mv.addAttribute("waitingEmployeeListBoss", waitingEmployeeListBoss);	//BOSS authority
+		mv.addAttribute("waitingEmployeeList", selectWaitingEmployeeList);		//HR authority
+		mv.addAttribute("waitingEmployeeListBoss", selectWaitingEmployeeListBoss);	//BOSS authority
+		mv.addAttribute("returnEmployeeList", selectReturnEmployeeList);			
 		
 		mv.addAttribute("employeeNo", maxMemberNo + 1);
 		mv.addAttribute("employeeHireDate", sysdate);
@@ -225,8 +157,7 @@ public class AdminEmployeeController {
 	
 	/* 직원등록 */
 	@PostMapping("/hr/regist/employee")
-		public String registEmployee(EmployeeAndAllDTO employeeDTO, EmployeeAddressDTO addressDTO, EmployeeEmailDTO emailDTO,
-										String employeePhone1, String employeePhone2, String employeePhone3) {
+		public String registEmployee(EmployeeAndAllDTO employeeDTO, String employeePhone1, String employeePhone2, String employeePhone3) {
 		
 		String employeePhone = employeePhone1 + employeePhone2 + employeePhone3;
 		employeeDTO.setEmployeePhone(employeePhone);
@@ -241,8 +172,9 @@ public class AdminEmployeeController {
 		  /* 비크립트 */
 		  /* 비크립트 */
 		  /* 비크립트 */
-		  employeeDTO.setEmployeeAddressDTO(addressDTO);
-		  employeeDTO.setEmployeeEmailDTO(emailDTO);
+		  
+		  employeeDTO.setEmployeeAddress(employeeDTO.getEmployeeAddress());
+		  employeeDTO.setEmployeeEmail(employeeDTO.getEmployeeEmail());
 		  adminService.registEmployee(employeeDTO);
 		
 		return "redirect:/main";
@@ -254,9 +186,8 @@ public class AdminEmployeeController {
 	public String waitingDetail(@PathVariable int empNo, Model mv) {
 		List<ReasonDTO> getRegistDate = adminService.getRegistDate(empNo);
 		List<AdminDTO> getAdminName = adminService.getAdminName(empNo);
+		
 		EmployeeAndAllDTO waitingEmployee = adminService.waitingEmployee(empNo);
-		EmployeeAddressDTO employeeAddress = adminService.waitingEmployeeAddress(empNo);
-		EmployeeEmailDTO employeeEmail = adminService.waitingEmployeeEmail(empNo);
 		
 		/* 핸드폰 번호 출력 시 - 추가 */
 		String firstPhoneNumber = "";
@@ -272,9 +203,19 @@ public class AdminEmployeeController {
 		}
 		waitingEmployee.setEmployeePhone(firstPhoneNumber+"-"+middlePhoneNumber+"-"+lastPhoneNumber);
 		
-		waitingEmployee.setEmployeeAddressDTO(employeeAddress);
-		waitingEmployee.setEmployeeEmailDTO(employeeEmail);
-		waitingEmployee.setEmployeeRestCommitList(getRegistDate);
+		waitingEmployee.setEmployeeAddress(waitingEmployee.getEmployeeAddress());
+		waitingEmployee.setEmployeeEmail(waitingEmployee.getEmployeeEmail());
+		
+//		해야댐
+//		해야댐
+//		해야댐
+//		해야댐
+//		waitingEmployee.setEmployeeRestCommitList(getRegistDate);
+//		해야댐
+//		해야댐
+//		해야댐
+//		해야댐
+
 		if(getRegistDate.size() == 0) {
 			mv.addAttribute("hrConfirm", "");
 			mv.addAttribute( "bossCrconfirm", "");
@@ -310,35 +251,10 @@ public class AdminEmployeeController {
 	public String returnDetail(@PathVariable int empNo, Model mv) {
 		List<ReasonDTO> reason = adminService.getRegistDate(empNo);
 		List<AdminDTO> getAdminName = adminService.getAdminName(empNo);
+		
 		EmployeeAndAllDTO returnEmployee = adminService.returnEmployee(empNo);
-		EmployeeAddressDTO employeeAddress = adminService.returnEmployeeAddress(empNo);
-		EmployeeEmailDTO employeeEmail = adminService.returnEmployeeEmail(empNo);
 //		List<ReasonDTO> employeeRestList = adminService.returnEmployeeRest(empNo);
 		
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
-		System.out.println("reasonreasonreasonreasonreasonreasonreasonreasonreason"+reason);
 		
 		/* 핸드폰 번호 출력 시 - 추가 */
 		String firstPhoneNumber = "";
@@ -354,8 +270,6 @@ public class AdminEmployeeController {
 		}
 		
 		returnEmployee.setEmployeePhone(firstPhoneNumber+"-"+middlePhoneNumber+"-"+lastPhoneNumber);
-		returnEmployee.setEmployeeAddressDTO(employeeAddress);
-		returnEmployee.setEmployeeEmailDTO(employeeEmail);
 
 		if(reason.size() == 0) {
 			mv.addAttribute("hrConfirm", "");

@@ -153,17 +153,17 @@
 	            <tbody>
 	              <tr>
 	                <td class="tg2-7btt">이메일</td>
-         		    <td class="tg2-7btt" colspan="5" th:text="${waitingEmployee.EmployeeEmailDTO.employeeEmail}+'@'+${waitingEmployee.EmployeeEmailDTO.employeeDomain}"></td>
+         		    <td class="tg2-7btt" colspan="5" th:text="${waitingEmployee.employeeEmail}"></td>
 	              </tr>
 	              <tr>
 	                <td class="tg2-7btt">우편번호</td>
-	                <td class="tg2-7btt" th:text="${waitingEmployee.EmployeeAddressDTO.employeeAddressNo}"></td>
+	                <td class="tg2-7btt" th:text="waitingEmployee 우편번호"></td>
 	                <td class="tg2-7btt">기본주소</td>
-	                <td class="tg2-7btt" colspan="3" th:text="${waitingEmployee.EmployeeAddressDTO.employeeAddress}"></td>
+	                <td class="tg2-7btt" colspan="3" th:text="${waitingEmployee.employeeAddress}"></td>
 	              </tr>
 	              <tr>
 	                <td class="tg2-7btt">상세주소</td>
-	                <td class="tg2-7btt" colspan="5" th:text="${waitingEmployee.EmployeeAddressDTO.employeeDetailAddress}"></td>
+	                <td class="tg2-7btt" colspan="5" th:text="${waitingEmployee.employeeAddress}"></td>
 	              </tr>
 	              <tr>
 	                <td class="tg2-7btt">입사일</td>

@@ -20,26 +20,12 @@ public interface AdminRepository extends JpaRepository<Admin, Integer>{
 	@Query(value="SELECT * FROM TBL_ADMIN a where a.admin_retire_yn = 'N' ORDER BY a.admin_no", nativeQuery = true)
 	List<Admin> findAdminByAdminRetireN();
 
-	@Query(value = "SELECT\n"
-				 + "       A.ADMIN_NO\n"
-				 + "     , A.ADMIN_NAME\n"
-				 + "     , A.ADMIN_ID\n"
-				 + "     , A.ADMIN_PWD\n"
-				 + "     , A.ADMIN_BIRTH\n"
-				 + "     , A.ADMIN_GENDER\n"
-				 + "     , A.ADMIN_PHONE\n"
-				 + "     , A.ADMIN_HIRE_DATE\n"
-				 + "     , A.ADMIN_RETIRE_DATE\n"
-				 + "     , A.ADMIN_RETIRE_YN\n"
-				 + "     , A.ADMIN_JOB\n"
-				 + "     , A.ADMIN_LAST_LOGIN_DATE\n"
-				 + "     , A.ADMIN_SIGN\n"
-				 + "     , A.ADMIN_SALARY\n"
-				 + "     , A.ADMIN_USE_ANNUAL_VACATION\n"
-				 + "  FROM TBL_ADMIN A\n"
-				 + "  JOIN TBL_REASON B ON (A.ADMIN_NO = B.ADMIN_NO)\n"
-				 + " WHERE EMPLOYEE_NO = ?1\n"
-				 + " ORDER BY ADMIN_NO DESC", nativeQuery = true)
+	@Query(value = "SELECT\r\n"
+				 + "       A.*\r\n"
+				 + "  FROM TBL_ADMIN A\r\n"
+				 + "  JOIN TBL_REASON B ON (A.ADMIN_NO = B.ADMIN_NO)\r\n"
+				 + " WHERE B.EMPLOYEE_NO = ?1\r\n"
+				 + " ORDER BY A.ADMIN_NO DESC", nativeQuery = true)
 		
 	List<Admin> findByAdminName(int empNo);
 	
