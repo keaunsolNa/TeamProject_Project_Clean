@@ -1,21 +1,14 @@
 package com.project.clean.model.service.common;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.project.clean.model.domain.commonEntity.Admin;
-import com.project.clean.model.domain.commonEntity.AdminEmail;
 import com.project.clean.model.domain.commonEntity.Employee;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
-import com.project.clean.model.dto.commonDTO.AdminEmailDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeDTO;
 import com.project.clean.model.repository.admin.AdminEmailRepository;
 import com.project.clean.model.repository.admin.AdminRepository;
@@ -64,16 +57,16 @@ public class FindServiceImpl implements FindService{
 		
 	}
 
-	@Override
-	public AdminEmailDTO findAdminEmailById(String adminId, String password, int adminNo) {
-		
-		AdminEmail adminEmail = adminEmailRepository.findById(adminNo).get();
-		
-		Admin admin = adminRepositroy.findByAdminId(adminId);
-		
-		admin.setAdminPwd(password);
-		
-		return modelMapper.map(adminEmail, AdminEmailDTO.class);
-	}
+//	@Override
+//	public AdminEmailDTO findAdminEmailById(String adminId, String password, int adminNo) {
+//		
+//		AdminEmail adminEmail = adminEmailRepository.findById(adminNo).get();
+//		
+//		Admin admin = adminRepositroy.findByAdminId(adminId);
+//		
+//		admin.setAdminPwd(password);
+//		
+//		return modelMapper.map(adminEmail, AdminEmailDTO.class);
+//	}
 
 }

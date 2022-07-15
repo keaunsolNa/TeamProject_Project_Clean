@@ -48,10 +48,6 @@ public class Admin implements java.io.Serializable{
 	@Column(name="ADMIN_JOB")
 	private String adminJob;
 	
-	@Column(name="ADMIN_SIGN")
-	@Lob
-	private java.sql.Blob adminSign;
-	
 	@Column(name="ADMIN_LAST_LOGIN_DATE")
 	private java.sql.Date adminLastLoginDate;
 	
@@ -61,12 +57,31 @@ public class Admin implements java.io.Serializable{
 	@Column(name="ADMIN_USE_ANNUAL_VACATION")
 	private int annualVacationUse;
 	
+	
+	@Column(name="ADMIN_EMAIL")
+	private String adminEmail;
+
+	@Column(name="ADMIN_ADDRESS")
+	private String adminAddress;
+	
+	@Column(name="ADMIN_PICTURE_SAVE_NAME")
+	private String adminPictureSaveName;
+	
+	@Column(name="ADMIN_PICTURE_SAVE_ROOT")
+	private String adminPictureSaveRoot;
+	
+	@Column(name="ADMIN_PICTURE_THUMBNAIL_NAME")
+	private String adminPictureThumbnailName;
+
 	public Admin() {
+		super();
 	}
 
 	public Admin(int adminNo, String adminName, String adminId, String adminPwd, Date adminBirth, String adminGender,
 			String adminPhone, Date adminHireDate, Date adminRetireDate, String adminRetireYn, String adminJob,
-			Blob adminSign, Date adminLastLoginDate, int adminSalary, int annualVacationUse) {
+			Date adminLastLoginDate, int adminSalary, int annualVacationUse, String adminEmail, String adminAddress,
+			String adminPictureSaveName, String adminPictureSaveRoot, String adminPictureThumbnailName) {
+		super();
 		this.adminNo = adminNo;
 		this.adminName = adminName;
 		this.adminId = adminId;
@@ -78,10 +93,14 @@ public class Admin implements java.io.Serializable{
 		this.adminRetireDate = adminRetireDate;
 		this.adminRetireYn = adminRetireYn;
 		this.adminJob = adminJob;
-		this.adminSign = adminSign;
 		this.adminLastLoginDate = adminLastLoginDate;
 		this.adminSalary = adminSalary;
 		this.annualVacationUse = annualVacationUse;
+		this.adminEmail = adminEmail;
+		this.adminAddress = adminAddress;
+		this.adminPictureSaveName = adminPictureSaveName;
+		this.adminPictureSaveRoot = adminPictureSaveRoot;
+		this.adminPictureThumbnailName = adminPictureThumbnailName;
 	}
 
 	public int getAdminNo() {
@@ -172,14 +191,6 @@ public class Admin implements java.io.Serializable{
 		this.adminJob = adminJob;
 	}
 
-	public java.sql.Blob getAdminSign() {
-		return adminSign;
-	}
-
-	public void setAdminSign(java.sql.Blob adminSign) {
-		this.adminSign = adminSign;
-	}
-
 	public java.sql.Date getAdminLastLoginDate() {
 		return adminLastLoginDate;
 	}
@@ -204,6 +215,46 @@ public class Admin implements java.io.Serializable{
 		this.annualVacationUse = annualVacationUse;
 	}
 
+	public String getAdminEmail() {
+		return adminEmail;
+	}
+
+	public void setAdminEmail(String adminEmail) {
+		this.adminEmail = adminEmail;
+	}
+
+	public String getAdminAddress() {
+		return adminAddress;
+	}
+
+	public void setAdminAddress(String adminAddress) {
+		this.adminAddress = adminAddress;
+	}
+
+	public String getAdminPictureSaveName() {
+		return adminPictureSaveName;
+	}
+
+	public void setAdminPictureSaveName(String adminPictureSaveName) {
+		this.adminPictureSaveName = adminPictureSaveName;
+	}
+
+	public String getAdminPictureSaveRoot() {
+		return adminPictureSaveRoot;
+	}
+
+	public void setAdminPictureSaveRoot(String adminPictureSaveRoot) {
+		this.adminPictureSaveRoot = adminPictureSaveRoot;
+	}
+
+	public String getAdminPictureThumbnailName() {
+		return adminPictureThumbnailName;
+	}
+
+	public void setAdminPictureThumbnailName(String adminPictureThumbnailName) {
+		this.adminPictureThumbnailName = adminPictureThumbnailName;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -213,11 +264,13 @@ public class Admin implements java.io.Serializable{
 		return "Admin [adminNo=" + adminNo + ", adminName=" + adminName + ", adminId=" + adminId + ", adminPwd="
 				+ adminPwd + ", adminBirth=" + adminBirth + ", adminGender=" + adminGender + ", adminPhone="
 				+ adminPhone + ", adminHireDate=" + adminHireDate + ", adminRetireDate=" + adminRetireDate
-				+ ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob + ", adminSign=" + adminSign
-				+ ", adminLastLoginDate=" + adminLastLoginDate + ", adminSalary=" + adminSalary + ", annualVacationUse="
-				+ annualVacationUse + "]";
+				+ ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob + ", adminLastLoginDate="
+				+ adminLastLoginDate + ", adminSalary=" + adminSalary + ", annualVacationUse=" + annualVacationUse
+				+ ", adminEmail=" + adminEmail + ", adminAddress=" + adminAddress + ", adminPictureSaveName="
+				+ adminPictureSaveName + ", adminPictureSaveRoot=" + adminPictureSaveRoot
+				+ ", adminPictureThumbnailName=" + adminPictureThumbnailName + "]";
 	}
-
+	
 	
 
 	
