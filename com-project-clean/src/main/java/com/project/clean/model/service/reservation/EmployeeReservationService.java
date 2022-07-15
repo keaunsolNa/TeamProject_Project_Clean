@@ -9,17 +9,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.clean.model.domain.commonEntity.ApplyEmployee;
+import com.project.clean.model.domain.commonEntity.BookMark;
 import com.project.clean.model.domain.commonEntity.Employee;
-import com.project.clean.model.domain.commonEntity.SupplementService;
 import com.project.clean.model.domain.reservation.Reservation;
 import com.project.clean.model.dto.commonDTO.ApplyEmployeeDTO;
+import com.project.clean.model.dto.commonDTO.BookMarkDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeDTO;
 import com.project.clean.model.dto.commonDTO.ReservationInfoDTO;
-import com.project.clean.model.dto.commonDTO.SupplementServiceDTO;
 import com.project.clean.model.repository.employee.EmpRepository;
 import com.project.clean.model.repository.reservation.ApplyEmployeeRepository;
+import com.project.clean.model.repository.reservation.BookMarkRepository;
 import com.project.clean.model.repository.reservation.ReservationRepository;
-import com.project.clean.model.repository.reservation.SupplementServiceRepository;
 
 
 
@@ -27,21 +27,21 @@ import com.project.clean.model.repository.reservation.SupplementServiceRepositor
 public class EmployeeReservationService {
 
 	private final ReservationRepository reservationRepository;
-	private final SupplementServiceRepository supplementServiceRepository;
 	private final EmpRepository empRepository;
 	private final ApplyEmployeeRepository applyEmployeeRepository;
+	private final BookMarkRepository bookMarkRepository;
 
 	private final ModelMapper modelMapper;
 
 	@Autowired
-	public EmployeeReservationService(ReservationRepository reservationRepository,
-			SupplementServiceRepository supplementServiceRepository, EmpRepository empRepository,
-			ApplyEmployeeRepository applyEmployeeRepository, ModelMapper modelMapper) {
+	public EmployeeReservationService(ReservationRepository reservationRepository, EmpRepository empRepository,
+			ApplyEmployeeRepository applyEmployeeRepository, BookMarkRepository bookMarkRepository,
+			ModelMapper modelMapper) {
 		super();
 		this.reservationRepository = reservationRepository;
-		this.supplementServiceRepository = supplementServiceRepository;
 		this.empRepository = empRepository;
 		this.applyEmployeeRepository = applyEmployeeRepository;
+		this.bookMarkRepository = bookMarkRepository;
 		this.modelMapper = modelMapper;
 	}
 
@@ -51,13 +51,6 @@ public class EmployeeReservationService {
 		reservationRepository.save(modelMapper.map(newReservation, Reservation.class));
 	}
 
-	/* 신규 예약의 부가서비스 */
-	@Transactional
-	public void insertNewSupplementService(SupplementServiceDTO newSupplementService) {
-		int lastSequence = reservationRepository.findLastSequence();
-		newSupplementService.setServiceReservationNo(lastSequence);
-		supplementServiceRepository.save(modelMapper.map(newSupplementService, SupplementService.class));
-	}
 
 	public List<String> findDistinctByBusinessDate() {
 		/* 다음날 00시 이후만 select 가능하게 함 */
@@ -89,13 +82,6 @@ public class EmployeeReservationService {
 		return modelMapper.map(reservation, ReservationInfoDTO.class);
 	}
 
-	/* 예약 상세정보에 관련된 부가서비스 조회 select */
-	public SupplementServiceDTO findSupplementServiceByServiceReservationNo(int serviceReservationNo) {
-		SupplementService service = supplementServiceRepository
-				.findSupplementServiceByServiceReservationNo(serviceReservationNo);
-		return modelMapper.map(service, SupplementServiceDTO.class);
-	}
-
 	/* 직원 예약시 아이디로 직원 번호 조회 */
 	public EmployeeDTO findByEmployeeId(String employeeId) {
 		Employee emp = empRepository.findByEmployeeId(employeeId);
@@ -112,14 +98,14 @@ public class EmployeeReservationService {
 
 	/* 지원시 지원인원 +1 */
 	@Transactional
-	public void modifyReservationApplyPeople(int reservationNo) {
+	public void modifyReservationApplyPeoplePlus(int reservationNo) {
 		Reservation reservation = reservationRepository.findReservationByReservationNo(reservationNo);
 		reservation.setBusinessApplyPeople(reservation.getBusinessApplyPeople() + 1);
 	}
 
 	/* 정원 = 지원인원 시 지원마감 update */
 	@Transactional
-	public void modifyReservationApplyEndYn(int reservationNo) {
+	public void modifyReservationApplyEndYnByY(int reservationNo) {
 		Reservation reservation = reservationRepository.findReservationByReservationNo(reservationNo);
 		reservation.setApplyEndYn("Y");
 	}
@@ -129,9 +115,41 @@ public class EmployeeReservationService {
 		return applyEmployeeList.stream().map(app -> modelMapper.map(app, ApplyEmployeeDTO.class)).toList(); 
 	}
 
-	public void modifyApplyEmployeeApplyCancelYn(int employeeNo) {
-		// TODO Auto-generated method stub
-		
+	/* 예약 지원테이블 지원취소로 update */
+	@Transactional
+	public void modifyApplyEmployeeApplyCancelYn(int reservationNo, int employeeNo) {
+		ApplyEmployee app = applyEmployeeRepository.findByApplyEmployeeNoAndApplyReservationNo(reservationNo, employeeNo);
+		app.setApplyCancelYn("Y");
+	}
+	 
+	 /* 예약테이블 지원인원 -1 */
+	@Transactional
+	public void modifyReservationApplyPeopleMinus(int reservationNo) {
+		Reservation reservation = reservationRepository.findReservationByReservationNo(reservationNo);
+		reservation.setBusinessApplyPeople(reservation.getBusinessApplyPeople() - 1);
+	}
+	
+	/* 지원 테이블 마감 여부 N으로 수정 */
+	@Transactional
+	public void modifyReservationApplyEndYnByN(int reservationNo) {
+		Reservation reservation = reservationRepository.findReservationByReservationNo(reservationNo);
+		reservation.setApplyEndYn("N");
+	}
+
+	/* 예약건를 본인이 즐겨찾기 했는지 select */
+	public BookMarkDTO findByBookmarkEmployeeNoAndBookmarkReservationNo(int employeeNo, int reservationNo) {
+		BookMark book = bookMarkRepository.findByBookmarkEmployeeNoAndBookmarkReservationNo(employeeNo, reservationNo);
+		if(book == null) {
+			BookMark book2 = new BookMark();
+			return modelMapper.map(book2, BookMarkDTO.class);
+		}
+		return modelMapper.map(book, BookMarkDTO.class);
+	}
+
+	/* 즐겨찾기 등록 */
+	@Transactional
+	public void insertNewBookmark(BookMarkDTO newBookmark) {
+		bookMarkRepository.save(modelMapper.map(newBookmark, BookMark.class));
 	}
 	
 }

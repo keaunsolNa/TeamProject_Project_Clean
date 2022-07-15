@@ -5,10 +5,22 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 @Entity
-@Table(name="TBL_BOOK_MARK")
+@Table(name="TBL_BOOKMARK")
+@SequenceGenerator(
+		name="BOOKMARK_SEQ_GENERATOR",
+		sequenceName="SEQ_TBL_BOOKMARK",
+		initialValue = 1,
+		allocationSize = 1
+)
+@DynamicInsert
+@DynamicUpdate
 public class BookMark implements Serializable{
 
 	private static final long serialVersionUID = -3095654268238559940L;

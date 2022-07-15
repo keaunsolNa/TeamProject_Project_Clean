@@ -27,9 +27,9 @@ import com.project.clean.model.dto.joinDTO.AdminAndAdminMemberAuthorityDTO;
 import com.project.clean.model.dto.joinDTO.AdminImpl;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAdminMemberAuthorityDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeImpl;
-import com.project.clean.model.repository.Common.CommonAdminLoginRepository;
-import com.project.clean.model.repository.Common.CommonEmployeeLoginRepository;
 import com.project.clean.model.repository.admin.AdminIpRepository;
+import com.project.clean.model.repository.common.CommonAdminLoginRepository;
+import com.project.clean.model.repository.common.CommonEmployeeLoginRepository;
 
 @Service
 public class LoginServiceImpl implements LoginService{

@@ -26,6 +26,12 @@ public class ReservationInfoDTO implements Serializable{
 	private String applyEndYn;
 	private String reservationCancelYn;
 	private String paymentYn;
+	private String gashoodCleanYn;
+	private String moldCleanYn;
+	private String filterCleanYn;
+	private String warehouseCleanYn;
+	private String petYn;
+	private String multipleLayerYn;
 	public ReservationInfoDTO() {
 		super();
 	}
@@ -33,7 +39,8 @@ public class ReservationInfoDTO implements Serializable{
 			String userAddress, String userDetailAddress, int userHouseSize, Date userReservationDate,
 			String userRequirements, Date businessDate, Timestamp businessStartTime, Timestamp businessEndTime,
 			int businessFixedPeople, int businessApplyPeople, int totalPayment, String applyEndYn,
-			String reservationCancelYn, String paymentYn) {
+			String reservationCancelYn, String paymentYn, String gashoodCleanYn, String moldCleanYn,
+			String filterCleanYn, String warehouseCleanYn, String petYn, String multipleLayerYn) {
 		super();
 		this.reservationNo = reservationNo;
 		this.userName = userName;
@@ -53,6 +60,12 @@ public class ReservationInfoDTO implements Serializable{
 		this.applyEndYn = applyEndYn;
 		this.reservationCancelYn = reservationCancelYn;
 		this.paymentYn = paymentYn;
+		this.gashoodCleanYn = gashoodCleanYn;
+		this.moldCleanYn = moldCleanYn;
+		this.filterCleanYn = filterCleanYn;
+		this.warehouseCleanYn = warehouseCleanYn;
+		this.petYn = petYn;
+		this.multipleLayerYn = multipleLayerYn;
 	}
 	public int getReservationNo() {
 		return reservationNo;
@@ -162,6 +175,42 @@ public class ReservationInfoDTO implements Serializable{
 	public void setPaymentYn(String paymentYn) {
 		this.paymentYn = paymentYn;
 	}
+	public String getGashoodCleanYn() {
+		return gashoodCleanYn;
+	}
+	public void setGashoodCleanYn(String gashoodCleanYn) {
+		this.gashoodCleanYn = gashoodCleanYn;
+	}
+	public String getMoldCleanYn() {
+		return moldCleanYn;
+	}
+	public void setMoldCleanYn(String moldCleanYn) {
+		this.moldCleanYn = moldCleanYn;
+	}
+	public String getFilterCleanYn() {
+		return filterCleanYn;
+	}
+	public void setFilterCleanYn(String filterCleanYn) {
+		this.filterCleanYn = filterCleanYn;
+	}
+	public String getWarehouseCleanYn() {
+		return warehouseCleanYn;
+	}
+	public void setWarehouseCleanYn(String warehouseCleanYn) {
+		this.warehouseCleanYn = warehouseCleanYn;
+	}
+	public String getPetYn() {
+		return petYn;
+	}
+	public void setPetYn(String petYn) {
+		this.petYn = petYn;
+	}
+	public String getMultipleLayerYn() {
+		return multipleLayerYn;
+	}
+	public void setMultipleLayerYn(String multipleLayerYn) {
+		this.multipleLayerYn = multipleLayerYn;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -174,7 +223,11 @@ public class ReservationInfoDTO implements Serializable{
 				+ ", businessDate=" + businessDate + ", businessStartTime=" + businessStartTime + ", businessEndTime="
 				+ businessEndTime + ", businessFixedPeople=" + businessFixedPeople + ", businessApplyPeople="
 				+ businessApplyPeople + ", totalPayment=" + totalPayment + ", applyEndYn=" + applyEndYn
-				+ ", reservationCancelYn=" + reservationCancelYn + ", paymentYn=" + paymentYn + "]";
+				+ ", reservationCancelYn=" + reservationCancelYn + ", paymentYn=" + paymentYn + ", gashoodCleanYn="
+				+ gashoodCleanYn + ", moldCleanYn=" + moldCleanYn + ", filterCleanYn=" + filterCleanYn
+				+ ", warehouseCleanYn=" + warehouseCleanYn + ", petYn=" + petYn + ", multipleLayerYn=" + multipleLayerYn
+				+ "]";
 	}
-			
+	
+	
 }

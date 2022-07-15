@@ -39,12 +39,12 @@
 		</tr>
 		<tr>
 			<td>부가서비스 : </td>
-			<td th:if="${ supplementService.gashoodCleanYn == 'Y'}" th:text="'가스레인지 후드 청소'"></td>
-			<td th:if="${ supplementService.moldCleanYn == 'Y'}" th:text="'곰팡이 제거'"></td>
-			<td th:if="${ supplementService.filterCleanYn == 'Y'}" th:text="'필터 청소'"></td>
-			<td th:if="${ supplementService.warehouseCleanYn == 'Y'}" th:text="'창고 정리'"></td>
-			<td th:if="${ supplementService.petYn == 'Y'}" th:text="'애완동물 여부 (관련청소)'"></td>
-			<td th:if="${ supplementService.multipleLayerYn == 'Y'}" th:text="'복층 여부'"></td>
+			<td th:if="${ reservation.gashoodCleanYn == 'Y'}" th:text="'가스레인지 후드 청소'"></td>
+			<td th:if="${ reservation.moldCleanYn == 'Y'}" th:text="'곰팡이 제거'"></td>
+			<td th:if="${ reservation.filterCleanYn == 'Y'}" th:text="'필터 청소'"></td>
+			<td th:if="${ reservation.warehouseCleanYn == 'Y'}" th:text="'창고 정리'"></td>
+			<td th:if="${ reservation.petYn == 'Y'}" th:text="'애완동물 여부 (관련청소)'"></td>
+			<td th:if="${ reservation.multipleLayerYn == 'Y'}" th:text="'복층 여부'"></td>
 		</tr>
 		
 		<tr>
@@ -70,6 +70,12 @@
 	</div>
 	<div th:if="${ applyButtonText == '지원취소'}">
 		<button th:onclick="'location.href = \'' + @{/reservation/applyCancel/{id}(id=${reservation.reservationNo})} + '\''">지원취소</button>
+	</div>
+	<div th:if="${ applyButtonText == '즐겨찾기'}">
+		<button th:onclick="'location.href = \'' + @{/reservation/bookmark/{id}(id=${reservation.reservationNo})} + '\''">즐겨찾기</button>
+	</div>
+	<div th:if="${ applyButtonText == '즐겨찾기 취소'}">
+		<button th:onclick="'location.href = \'' + @{/reservation/applyCancel/{id}(id=${reservation.reservationNo})} + '\''">즐겨찾기 취소</button>
 	</div>
 	<button>목록</button>
 </body>
