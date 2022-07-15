@@ -3,14 +3,14 @@ package com.project.clean.model.repository.admin;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.project.clean.model.domain.commonEntity.Admin;
 
-@Repository
-public interface AdminRepository extends JpaRepository<Admin, String>{
+public interface AdminRepository extends JpaRepository<Admin, Integer>{
 
 	Admin findByAdminPhone(String userPhone);
 
@@ -20,6 +20,15 @@ public interface AdminRepository extends JpaRepository<Admin, String>{
 	@Query(value="SELECT * FROM TBL_ADMIN a where a.admin_retire_yn = 'N' ORDER BY a.admin_no", nativeQuery = true)
 	List<Admin> findAdminByAdminRetireN();
 
+	@Query(value = "SELECT\r\n"
+				 + "       A.*\r\n"
+				 + "  FROM TBL_ADMIN A\r\n"
+				 + "  JOIN TBL_REASON B ON (A.ADMIN_NO = B.ADMIN_NO)\r\n"
+				 + " WHERE B.EMPLOYEE_NO = ?1\r\n"
+				 + " ORDER BY A.ADMIN_NO DESC", nativeQuery = true)
+		
+	List<Admin> findByAdminName(int empNo);
+	
 	/* 관리자 상세 조회 */
 	Optional<Admin> findByAdminNo(int adminNo);
 

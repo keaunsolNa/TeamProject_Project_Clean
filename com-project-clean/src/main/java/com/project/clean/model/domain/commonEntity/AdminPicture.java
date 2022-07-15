@@ -37,6 +37,9 @@ public class AdminPicture implements java.io.Serializable{
 	@Column(name="ADMIN_PICTURE_SAVE_ROOT")
 	private String pictureSaveRoot;
 	
+	@Column(name="ADMIN_PICTURE_THUMBNAIL_NAME")
+	private String pictureThumbnailName;
+
 	@Column(name="ADMIN_NO")
 	private int adminNo;
 

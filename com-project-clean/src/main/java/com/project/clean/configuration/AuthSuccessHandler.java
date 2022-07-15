@@ -35,9 +35,8 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler{
 		ModelAndView mv = new ModelAndView();
 
 		System.out.println(authentication.getName());
+		Cookie[] myCookie = request.getCookies();
 		if(null != request.getCookies()) {
-			
-			Cookie[] myCookie = request.getCookies();
 			for(Cookie c : myCookie) {
 				System.out.println(c.getName());
 				System.out.println(c.getValue());

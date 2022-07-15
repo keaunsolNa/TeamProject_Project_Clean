@@ -7,13 +7,11 @@ public class VacationDTO implements Serializable{
 	private static final long serialVersionUID = -1541909810077995530L;
 	
 	private int vacationNo;
+	private int categoryNo;
 	private java.sql.Date requestDate;
 	private String drafter;
-	private String requestAdmin;
-	private String vacationName;
 	private String vacationFirstConfirmYn;
 	private String vacationSecondConfirmYn;
-	private String vacationLastConfirmYn;
 	private java.sql.Date vacationStartDate;
 	private java.sql.Date vacationEndDate;
 	private String vacationReason;
@@ -27,17 +25,15 @@ public class VacationDTO implements Serializable{
 
 
 
-	public VacationDTO(int vacationNo, Date requestDate, String drafter, String requestAdmin, String vacationName,
-			String vacationFirstConfirmYn, String vacationSecondConfirmYn, String vacationLastConfirmYn,
-			Date vacationStartDate, Date vacationEndDate, String vacationReason, String vacationReturnYn, int adminNo) {
+	public VacationDTO(int vacationNo, int categoryNo, Date requestDate, String drafter, String vacationFirstConfirmYn,
+			String vacationSecondConfirmYn, Date vacationStartDate, Date vacationEndDate, String vacationReason,
+			String vacationReturnYn, int adminNo) {
 		this.vacationNo = vacationNo;
+		this.categoryNo = categoryNo;
 		this.requestDate = requestDate;
 		this.drafter = drafter;
-		this.requestAdmin = requestAdmin;
-		this.vacationName = vacationName;
 		this.vacationFirstConfirmYn = vacationFirstConfirmYn;
 		this.vacationSecondConfirmYn = vacationSecondConfirmYn;
-		this.vacationLastConfirmYn = vacationLastConfirmYn;
 		this.vacationStartDate = vacationStartDate;
 		this.vacationEndDate = vacationEndDate;
 		this.vacationReason = vacationReason;
@@ -55,6 +51,18 @@ public class VacationDTO implements Serializable{
 
 	public void setVacationNo(int vacationNo) {
 		this.vacationNo = vacationNo;
+	}
+
+
+
+	public int getCategoryNo() {
+		return categoryNo;
+	}
+
+
+
+	public void setCategoryNo(int categoryNo) {
+		this.categoryNo = categoryNo;
 	}
 
 
@@ -83,30 +91,6 @@ public class VacationDTO implements Serializable{
 
 
 
-	public String getRequestAdmin() {
-		return requestAdmin;
-	}
-
-
-
-	public void setRequestAdmin(String requestAdmin) {
-		this.requestAdmin = requestAdmin;
-	}
-
-
-
-	public String getVacationName() {
-		return vacationName;
-	}
-
-
-
-	public void setVacationName(String vacationName) {
-		this.vacationName = vacationName;
-	}
-
-
-
 	public String getVacationFirstConfirmYn() {
 		return vacationFirstConfirmYn;
 	}
@@ -127,18 +111,6 @@ public class VacationDTO implements Serializable{
 
 	public void setVacationSecondConfirmYn(String vacationSecondConfirmYn) {
 		this.vacationSecondConfirmYn = vacationSecondConfirmYn;
-	}
-
-
-
-	public String getVacationLastConfirmYn() {
-		return vacationLastConfirmYn;
-	}
-
-
-
-	public void setVacationLastConfirmYn(String vacationLastConfirmYn) {
-		this.vacationLastConfirmYn = vacationLastConfirmYn;
 	}
 
 
@@ -211,15 +183,15 @@ public class VacationDTO implements Serializable{
 
 	@Override
 	public String toString() {
-		return "VacationDTO [vacationNo=" + vacationNo + ", requestDate=" + requestDate + ", drafter=" + drafter
-				+ ", requestAdmin=" + requestAdmin + ", vacationName=" + vacationName + ", vacationFirstConfirmYn="
-				+ vacationFirstConfirmYn + ", vacationSecondConfirmYn=" + vacationSecondConfirmYn
-				+ ", vacationLastConfirmYn=" + vacationLastConfirmYn + ", vacationStartDate=" + vacationStartDate
+		return "VacationDTO [vacationNo=" + vacationNo + ", categoryNo=" + categoryNo + ", requestDate=" + requestDate
+				+ ", drafter=" + drafter + ", vacationFirstConfirmYn=" + vacationFirstConfirmYn
+				+ ", vacationSecondConfirmYn=" + vacationSecondConfirmYn + ", vacationStartDate=" + vacationStartDate
 				+ ", vacationEndDate=" + vacationEndDate + ", vacationReason=" + vacationReason + ", vacationReturnYn="
 				+ vacationReturnYn + ", adminNo=" + adminNo + "]";
 	}
 
 
-
+	
+	
 
 }

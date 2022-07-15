@@ -77,7 +77,6 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 				 * .antMatchers("/member/**").hasRole("MEMBER")
 				 */
 				.anyRequest().permitAll() 
-				
 			.and()
 				.formLogin()
 				.loginPage("/common/login")

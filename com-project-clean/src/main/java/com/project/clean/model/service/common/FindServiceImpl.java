@@ -22,11 +22,11 @@ public class FindServiceImpl implements FindService{
 	private final EmpRepository empRepository;
 	
 	@Autowired
-	public FindServiceImpl(AdminRepository adminRepositroy, ModelMapper modelMapper, EmpRepository empRepository) {
+	public FindServiceImpl(AdminRepository adminRepositroy, ModelMapper modelMapper, EmpRepository empRepository ) {
 		this.adminRepositroy = adminRepositroy;
 		this.modelMapper = modelMapper;
 		this.empRepository = empRepository;
-	} 
+	}
 
 	@Override
 	public AdminDTO findAdminIdByPhone(String userPhone) {
@@ -53,5 +53,17 @@ public class FindServiceImpl implements FindService{
 		return modelMapper.map(emp, EmployeeDTO.class);
 		
 	}
+
+//	@Override
+//	public AdminEmailDTO findAdminEmailById(String adminId, String password, int adminNo) {
+//		
+//		AdminEmail adminEmail = adminEmailRepository.findById(adminNo).get();
+//		
+//		Admin admin = adminRepositroy.findByAdminId(adminId);
+//		
+//		admin.setAdminPwd(password);
+//		
+//		return modelMapper.map(adminEmail, AdminEmailDTO.class);
+//	}
 
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" th:href="@{/css/common/login/loginPage.css}" />
@@ -50,6 +51,11 @@
 	                <button type="button" onclick="location.href='common/find/id'" class="idFind col-xl-3">아이디 찾기</button>
 	            </div>
             <br>
+<!--  
+	            <div  class="loginbottomnav col-xl-3">
+	                <button type="button" onclick="location.href='common/find/password'" class="pwdFind col-xl-3">비밀번호 찾기</button>
+	            </div>
+	 -->
 	        </div>
 	        
     	</section>
