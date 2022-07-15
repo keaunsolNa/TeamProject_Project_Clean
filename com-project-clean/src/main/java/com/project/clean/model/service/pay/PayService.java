@@ -19,6 +19,12 @@ public interface PayService {
 
 	// 관리자 급여 전체 조회
 	public List<AdminPayAndAdminDTO> searchAdminPayList(SelectCriteria selectCriteria);
+
+	// 관리자 급여 상세 조회
+	public AdminPayAndAdminDTO findAdminPayByPayHistoryNo(int payHistoryAdminNo);
+
+
+
 	
 
 

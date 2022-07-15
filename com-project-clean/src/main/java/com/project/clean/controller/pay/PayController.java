@@ -6,7 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -37,10 +39,6 @@ public class PayController {
 	@GetMapping("/employeePaySelectInfo")
 	public void employeePaySelectInfo() {}
 
-	
-	/* 관리자 급여 상세조회 */
-	@GetMapping("/adminPaySelectInfo")
-	public void adminPaySelectInfo() {}
 	
 	/* 부가요금 페이지(조회) */
 	@GetMapping("/surcharge")
@@ -111,6 +109,24 @@ public class PayController {
 		return mv;
 	}
 	
+	/* 관리자 급여 상세조회 */
+	@GetMapping("/adminPaySelectInfo/{payHistoryAdminNo}")
+	@Transactional
+	public ModelAndView findAdminPayByPayHistoryAdminNo(ModelAndView mv, @PathVariable int payHistoryAdminNo) {
 
+		AdminPayAndAdminDTO pay = payService.findAdminPayByPayHistoryNo(payHistoryAdminNo);
+		List<SurchargeDTO> surchargeList = payService.findSurchargeList();
+		
+		// 첫 번째 겟으로 값이 있는 순서(인덱스번호)
+		// 4대보험료 불러오기 (급여계산에 쓰기 위해)
+		int insurance =surchargeList.get(0).getSurchargeInsurance();
 	
+		
+		mv.addObject("pay", pay);
+		mv.addObject("insurance", insurance);
+		mv.setViewName("pay/adminPaySelectInfo");
+		
+		return mv;
+	}
+
 }

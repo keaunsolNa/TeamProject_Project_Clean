@@ -1,6 +1,5 @@
 package com.project.clean.model.service.pay;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -121,6 +120,10 @@ public class PayServiceImpl implements PayService{
 				adminPayList = adminPayRepository.findByAdminAdminJobContaining(selectCriteria.getSearchValue(), paging);
 			}
 			
+			/* 관리자 전화번호 검색일 경우 */
+			if("adminPhone".equals(selectCriteria.getSearchCondition())) {
+				adminPayList = adminPayRepository.findByAdminAdminPhoneContaining(Integer.valueOf(selectCriteria.getSearchValue()), paging);
+			}
 			
 			/* 지급 날짜 검색일 경우 - 일단 빼자*/
 //			if("payAdminDate".equals(selectCriteria.getSearchCondition())) {
@@ -137,8 +140,16 @@ public class PayServiceImpl implements PayService{
 		/* 자바의 Stream API와 ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
 		return adminPayList.stream().map(pay -> modelMapper.map(pay, AdminPayAndAdminDTO.class)).collect(Collectors.toList());
 	}
+	
+	@Transactional
+	public AdminPayAndAdminDTO findAdminPayByPayHistoryNo(int payHistoryNo) {
 
-
+		/* findById메소드로 Optional 객체 조회후 Optional객체의 get메소드를 통해 조회 */
+		AdminPayAndAdmin pay = adminPayRepository.findById(payHistoryNo).get();
+		
+		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 MenuDTO로 반환 */
+		return modelMapper.map(pay, AdminPayAndAdminDTO.class);
+	}
 
 
 
