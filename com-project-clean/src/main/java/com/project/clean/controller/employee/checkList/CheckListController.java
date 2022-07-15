@@ -75,7 +75,7 @@ public class CheckListController {
 		CheckListDTO checklistDTO = taskService.selectScheckList(userId);
 		
 		if(null == checklistDTO) {
-			mv.addObject("resultMessage", "조회 가능한 리스트가 없습니다.");
+			mv.addObject("resultMessage", "작성 가능한 체크리스트가 없습니다.");
 			mv.setViewName("/employee/task/selectMyTask");
 		} else {
 			checklistDTO.getCheckHTML();
