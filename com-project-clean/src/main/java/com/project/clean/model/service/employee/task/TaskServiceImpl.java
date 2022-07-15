@@ -119,8 +119,6 @@ public class TaskServiceImpl implements TaskService{
 		
 		List<ApplyEmployeeEmbedded> applyEmployeeList = applyRepository.findAllEmployeeApply(empNo);
 		
-		List<ReservationInfoDTO> reservationInfoArrayList = new ArrayList<>();
-		
 		for (ApplyEmployeeEmbedded applyEmployeeEmbedded : applyEmployeeList) {
 			
 			Integer reservationNo = applyEmployeeEmbedded.getApplyEmployeeIdAndApplyReservationNo().getApplyReservationNo();

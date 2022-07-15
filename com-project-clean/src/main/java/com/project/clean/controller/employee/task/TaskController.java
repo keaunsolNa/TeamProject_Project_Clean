@@ -47,9 +47,7 @@ public class TaskController {
 		List<ReservationInfoDTO> reservationList =  taskService.selectReservationListByEmployeeId(employeeId);
 		 
 		System.out.println("Controller에서 가져온 결과값 : " +  reservationList);
-
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		
 		mapper.setDateFormat(dateFormat); 
 		return mapper.writeValueAsString(reservationList);
 	}

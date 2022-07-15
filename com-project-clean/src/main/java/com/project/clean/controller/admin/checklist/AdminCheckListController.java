@@ -15,11 +15,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.clean.model.dto.commonDTO.CheckListDTO;
+import com.project.clean.model.dto.joinDTO.CheckListAndReservationInfoAndEmployeeDTO;
 import com.project.clean.model.service.admin.checkList.AdminCheckListService;
 
 @Controller
-@RequestMapping("admin/checkList")
+@RequestMapping("admin/checklist")
 public class AdminCheckListController {
 	
 	private AdminCheckListService adminCheckListService;
@@ -30,8 +30,9 @@ public class AdminCheckListController {
 	}
 	
 	@GetMapping("select")
-	public void selectStandCheckList() {
-		
+	public String selectStandCheckList() {
+		System.out.println("체크리스트 조회 확인");
+		return "admin/checkList/selectStandCheckList";
 	}
 	
 	@PostMapping(value ="select", produces="application/json; charset=UTF-8")
@@ -43,7 +44,9 @@ public class AdminCheckListController {
 		
 		String adminId = principal.getName();
 		
-		List<CheckListDTO> checkList = adminCheckListService.selectAllStandCheckList();
+		List<CheckListAndReservationInfoAndEmployeeDTO> checkList = adminCheckListService.selectAllStandCheckList();
+		
+		System.out.println("출력 값 확인~~" + checkList);
 		
 		return mapper.writeValueAsString(checkList);
 		

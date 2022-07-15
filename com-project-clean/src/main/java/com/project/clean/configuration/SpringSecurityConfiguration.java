@@ -65,15 +65,17 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 		http.csrf().disable()
 		
 			.authorizeRequests()
-//				.antMatchers("/client/**").hasRole("CLIENT")
-//				.antMatchers("/member/**").hasRole("MEMBER")
-//				.antMatchers("/employee/**").hasRole("EMPLOYEE")
-//				.antMatchers("/admin/**").hasRole("ADMIN")
-//				.antMatchers("/boss/**").hasRole("ADMIN_BOSS")
-//				.antMatchers("/sec/**").hasRole("ADMIN_SEC")
-//				.antMatchers("/hr/**", "/admin/**").hasRole("ADMIN_HR")
-//				.antMatchers("/fnc/**").hasRole("ADMIN_FNC")
-//				.antMatchers("/member/**").hasRole("MEMBER")
+				/*
+				 * .antMatchers("/client/**").hasRole("CLIENT")
+				 * .antMatchers("/member/**").hasRole("MEMBER")
+				 * .antMatchers("/employee/**").hasRole("EMPLOYEE")
+				 * .antMatchers("/admin/**").hasRole("ADMIN")
+				 * .antMatchers("/admin/boss/**").hasRole("ADMIN_BOSS")
+				 * .antMatchers("/admin/sec/**").hasRole("ADMIN_SEC")
+				 * .antMatchers("/admin/hr/**", "/admin/**").hasRole("ADMIN_HR")
+				 * .antMatchers("/admin/fnc/**").hasRole("ADMIN_FNC")
+				 * .antMatchers("/member/**").hasRole("MEMBER")
+				 */
 				.anyRequest().permitAll() 
 				
 			.and()
