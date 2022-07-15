@@ -25,13 +25,13 @@ public class CheckList implements Serializable{
 	@Column(name="CHECK_STATUS")
 	private String checkStatus;
 	
-	@Column(name="CHECK_ADMIN_NO")
-	private int adminNo;
+	@Column(name="CHECK_ADMIN_NO", nullable = true)
+	private Integer adminNo;
 
 	public CheckList() {
 	}
 
-	public CheckList(int checkReservationNo, String checkHTML, String checkStatus, int adminNo) {
+	public CheckList(int checkReservationNo, String checkHTML, String checkStatus, Integer adminNo) {
 		this.checkReservationNo = checkReservationNo;
 		this.checkHTML = checkHTML;
 		this.checkStatus = checkStatus;
@@ -62,12 +62,16 @@ public class CheckList implements Serializable{
 		this.checkStatus = checkStatus;
 	}
 
-	public int getAdminNo() {
+	public Integer getAdminNo() {
 		return adminNo;
 	}
 
-	public void setAdminNo(int adminNo) {
+	public void setAdminNo(Integer adminNo) {
 		this.adminNo = adminNo;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	@Override
@@ -75,6 +79,8 @@ public class CheckList implements Serializable{
 		return "CheckList [checkReservationNo=" + checkReservationNo + ", checkHTML=" + checkHTML + ", checkStatus="
 				+ checkStatus + ", adminNo=" + adminNo + "]";
 	}
+
+	
 	
 	
 }

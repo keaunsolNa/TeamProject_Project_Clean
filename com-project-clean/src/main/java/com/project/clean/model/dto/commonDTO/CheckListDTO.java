@@ -8,12 +8,10 @@ public class CheckListDTO implements Serializable{
 	private int checkReservationNo;
 	private String checkHTML;
 	private String checkStatus;
-	private int adminNo;
-	
+	private Integer adminNo;
 	public CheckListDTO() {
 	}
-	
-	public CheckListDTO(int checkReservationNo, String checkHTML, String checkStatus, int adminNo) {
+	public CheckListDTO(int checkReservationNo, String checkHTML, String checkStatus, Integer adminNo) {
 		this.checkReservationNo = checkReservationNo;
 		this.checkHTML = checkHTML;
 		this.checkStatus = checkStatus;
@@ -37,10 +35,10 @@ public class CheckListDTO implements Serializable{
 	public void setCheckStatus(String checkStatus) {
 		this.checkStatus = checkStatus;
 	}
-	public int getAdminNo() {
+	public Integer getAdminNo() {
 		return adminNo;
 	}
-	public void setAdminNo(int adminNo) {
+	public void setAdminNo(Integer adminNo) {
 		this.adminNo = adminNo;
 	}
 	public static long getSerialversionuid() {
@@ -51,6 +49,7 @@ public class CheckListDTO implements Serializable{
 		return "CheckListDTO [checkReservationNo=" + checkReservationNo + ", checkHTML=" + checkHTML + ", checkStatus="
 				+ checkStatus + ", adminNo=" + adminNo + "]";
 	}
+	
 	
 	
 	

@@ -94,12 +94,21 @@
                             <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             업무관리
                             </a>
-                
+                		<th:block sec:authorize="hasRole('ADMIN')">
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">알림1</a></li>
-                                <li><a class="dropdown-item" href="#">알림2</a></li>
-                                <li><a class="dropdown-item" href="#">알림3</a></li>
+                                <li><a class="dropdown-item" href="/admin/checklist/select">미처리 체크리스트 조회</a></li>
+                                <li><a class="dropdown-item" href="#">완료 체크리스트 조회</a></li>
+                                <li><a class="dropdown-item" href="#">반려 체크리스트 검토</a></li>
                             </ul>
+                		</th:block>
+                		<th:block sec:authorize="hasRole('EMPLOYEE')">
+                			<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/employee/task/selectMyTask">신청 업무 조회</a></li>
+                                <li><a class="dropdown-item" href="/employee/checkList/insert">체크리스트 작성</a></li>
+                                <li><a class="dropdown-item" href="#">보류 체크리스트 조회</a></li>
+                                <li><a class="dropdown-item" href="#">완료 체크리스트 조회</a></li>
+                            </ul>
+                		</th:block>
                         </li>
 
                         <li class="nav-item dropdown">

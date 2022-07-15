@@ -56,7 +56,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	public void configure(WebSecurity web) {
-		web.ignoring().antMatchers("/css/**", "/lib/**", "image");
+		web.ignoring().antMatchers("/css/**", "/lib/**", "/image/**", "/js/**" );
 	}
 	
 	@Override
@@ -74,7 +74,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 //				.antMatchers("/hr/**", "/admin/**").hasRole("ADMIN_HR")
 //				.antMatchers("/fnc/**").hasRole("ADMIN_FNC")
 //				.antMatchers("/member/**").hasRole("MEMBER")
-				.anyRequest().permitAll()
+				.anyRequest().permitAll() 
 				
 			.and()
 				.formLogin()
