@@ -19,16 +19,16 @@ import com.project.clean.model.dto.commonDTO.EmployeeAddressDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeEmailDTO;
 import com.project.clean.model.dto.commonDTO.ReasonDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
-import com.project.clean.model.service.admin.AdminService;
+import com.project.clean.model.service.admin.AdminEmployeeService;
 
 @Controller
 @RequestMapping("/admin")
-public class AdminController {
+public class AdminEmployeeController {
 	
-	private final AdminService adminService;
+	private final AdminEmployeeService adminService;
 	
 	@Autowired
-	public AdminController(AdminService adminService) {
+	public AdminEmployeeController(AdminEmployeeService adminService) {
 		this.adminService = adminService;
 	}
 	/* 직원 전체 조회(재직자 main page) */

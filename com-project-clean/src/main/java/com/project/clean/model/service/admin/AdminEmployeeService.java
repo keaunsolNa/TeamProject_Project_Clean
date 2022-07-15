@@ -33,7 +33,7 @@ import com.project.clean.model.repository.employee.EmployeePictureRepository;
 import com.project.clean.model.repository.employee.EmployeeReopsitory;
 
 @Service
-public class AdminServiceImpl implements AdminService {
+public class AdminEmployeeService {
 
 	private final ModelMapper modelMapper; // modelMapper 빈을 선언
 	private final EmployeeReopsitory employeeRepository;
@@ -44,7 +44,7 @@ public class AdminServiceImpl implements AdminService {
 	private final AdminRepository adminRepository;
 
 	@Autowired
-	public AdminServiceImpl(EmployeeReopsitory employeeReopsitory, EmployeeAddressRepository employeeAddressRepository
+	public AdminEmployeeService(EmployeeReopsitory employeeReopsitory, EmployeeAddressRepository employeeAddressRepository
 			   , ModelMapper modelMapper, EmployeeEmailRepository employeeEmailRepository, EmployeePictureRepository employeePictureRepository, 
 			   ReasonRepository reasonRepository, AdminRepository adminRepository) {
 		this.employeeRepository = employeeReopsitory;

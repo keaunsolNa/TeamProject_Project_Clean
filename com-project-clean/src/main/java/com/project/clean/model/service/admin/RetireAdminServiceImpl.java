@@ -23,12 +23,5 @@ public class RetireAdminServiceImpl implements RetireAdminService{
 		this.retireAdminRepository = retireAdminRepository;
 	}
 	
-	@Override
-	public List<RetireAdminDTO> findRetireAdminList() {
-		
-		List<RetireAdmin> retireAdminList = retireAdminRepository.findRetireAdminByRetireAdminRetireYnNotLike("N");
-		
-		return retireAdminList.stream().map(retireAdmin -> modelMapper.map(retireAdmin, RetireAdminDTO.class)).collect(Collectors.toList());
-	}
 
 }

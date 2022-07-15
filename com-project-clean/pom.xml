@@ -97,6 +97,14 @@
     		<artifactId>commons-email</artifactId>
     		<version>1.5</version>
 		</dependency>
+		
+		<!-- 썸네일 이미지(이미지 축소)를 위한 dependency -->
+		<!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
+		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>0.4.8</version>
+		</dependency>
       	
 	</dependencies>
 

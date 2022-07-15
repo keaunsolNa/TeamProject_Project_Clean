@@ -1,97 +1,44 @@
-package com.project.clean.model.domain.joinEntity;
+package com.project.clean.model.dto.joinDTO;
 
-import java.io.Serializable;
-import java.sql.Blob;
 import java.sql.Date;
-import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import com.project.clean.model.dto.commonDTO.AdminAddressDTO;
+import com.project.clean.model.dto.commonDTO.AdminEmailDTO;
+import com.project.clean.model.dto.commonDTO.AdminPictureDTO;
 
-import com.project.clean.model.domain.commonEntity.AdminEmail;
-
-@Entity
-@Table(name = "TBL_ADMIN")
-@SequenceGenerator(
-		name = "ADMIN_SEQ_TBL_GENERATOR",
-		sequenceName = "SEQ_TBL_ADMIN",
-		initialValue = 1,
-		allocationSize = 1
-)
-public class AdminAndEmail implements Serializable{
-	private static final long serialVersionUID = 9095258321085964989L;
-
-	@Id
-	@GeneratedValue(
-			strategy = GenerationType.SEQUENCE,
-			generator = "ADMIN_SEQ_TBL_GENERATOR"
-	)
-	@Column(name="ADMIN_NO")
+public class AdminAndAdminAllDTO {
+	
 	private int adminNo;
-
-	@Column(name="ADMIN_NAME")
 	private String adminName;
-
-	@Column(name="ADMIN_ID")
 	private String adminId;
-	
-	@Column(name="ADMIN_PWD")
 	private String adminPwd;
-	
-	@Column(name="ADMIN_BIRTH")
 	private java.sql.Date adminBirth;
-	
-	@Column(name="ADMIN_GENDER")
 	private String adminGender;
-	
-	@Column(name="ADMIN_PHONE")
 	private String adminPhone;
-	
-	@Column(name="ADMIN_HIRE_DATE")
 	private java.sql.Date adminHireDate;
-	
-	@Column(name="ADMIN_RETIRE_DATE", nullable = true)
 	private java.sql.Date adminRetireDate;
-	
-	@Column(name="ADMIN_RETIRE_YN")
 	private String adminRetireYn;
-	
-	@Column(name="ADMIN_JOB")
 	private String adminJob;
-	
-	
-	@Column(name="ADMIN_LAST_LOGIN_DATE", nullable = true)
 	private java.sql.Date adminLastLoginDate;
-	
-	@Column(name="ADMIN_SALARY")
 	private int adminSalary;
-	
-	@Column(name="ADMIN_USE_ANNUAL_VACATION", nullable = true)
 	private int adminUseAnnualVacation;
+	private AdminEmailDTO adminEmailDTO;
+	private AdminAddressDTO adminAddressDTO;
+	private AdminPictureDTO adminPictureDTO;
 	
-	@OneToMany
-	@JoinColumn(name = "ADMIN_NO")
-	private List<AdminEmail> adminEmail;
 	
 	
-
-	public AdminAndEmail() {
+	
+	public AdminAndAdminAllDTO() {
 	}
 
 
 
-	public AdminAndEmail(int adminNo, String adminName, String adminId, String adminPwd, Date adminBirth,
+
+	public AdminAndAdminAllDTO(int adminNo, String adminName, String adminId, String adminPwd, Date adminBirth,
 			String adminGender, String adminPhone, Date adminHireDate, Date adminRetireDate, String adminRetireYn,
 			String adminJob, Date adminLastLoginDate, int adminSalary, int adminUseAnnualVacation,
-			List<AdminEmail> adminEmail) {
+			AdminEmailDTO adminEmailDTO, AdminAddressDTO adminAddressDTO, AdminPictureDTO adminPictureDTO) {
 		this.adminNo = adminNo;
 		this.adminName = adminName;
 		this.adminId = adminId;
@@ -106,8 +53,11 @@ public class AdminAndEmail implements Serializable{
 		this.adminLastLoginDate = adminLastLoginDate;
 		this.adminSalary = adminSalary;
 		this.adminUseAnnualVacation = adminUseAnnualVacation;
-		this.adminEmail = adminEmail;
+		this.adminEmailDTO = adminEmailDTO;
+		this.adminAddressDTO = adminAddressDTO;
+		this.adminPictureDTO = adminPictureDTO;
 	}
+
 
 
 
@@ -117,9 +67,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminNo(int adminNo) {
 		this.adminNo = adminNo;
 	}
+
 
 
 
@@ -129,9 +81,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminName(String adminName) {
 		this.adminName = adminName;
 	}
+
 
 
 
@@ -141,9 +95,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminId(String adminId) {
 		this.adminId = adminId;
 	}
+
 
 
 
@@ -153,9 +109,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminPwd(String adminPwd) {
 		this.adminPwd = adminPwd;
 	}
+
 
 
 
@@ -165,9 +123,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminBirth(java.sql.Date adminBirth) {
 		this.adminBirth = adminBirth;
 	}
+
 
 
 
@@ -177,9 +137,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminGender(String adminGender) {
 		this.adminGender = adminGender;
 	}
+
 
 
 
@@ -189,9 +151,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminPhone(String adminPhone) {
 		this.adminPhone = adminPhone;
 	}
+
 
 
 
@@ -201,9 +165,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminHireDate(java.sql.Date adminHireDate) {
 		this.adminHireDate = adminHireDate;
 	}
+
 
 
 
@@ -213,9 +179,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminRetireDate(java.sql.Date adminRetireDate) {
 		this.adminRetireDate = adminRetireDate;
 	}
+
 
 
 
@@ -225,9 +193,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminRetireYn(String adminRetireYn) {
 		this.adminRetireYn = adminRetireYn;
 	}
+
 
 
 
@@ -237,9 +207,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminJob(String adminJob) {
 		this.adminJob = adminJob;
 	}
+
 
 
 
@@ -249,9 +221,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminLastLoginDate(java.sql.Date adminLastLoginDate) {
 		this.adminLastLoginDate = adminLastLoginDate;
 	}
+
 
 
 
@@ -261,9 +235,11 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminSalary(int adminSalary) {
 		this.adminSalary = adminSalary;
 	}
+
 
 
 
@@ -273,41 +249,67 @@ public class AdminAndEmail implements Serializable{
 
 
 
+
 	public void setAdminUseAnnualVacation(int adminUseAnnualVacation) {
 		this.adminUseAnnualVacation = adminUseAnnualVacation;
 	}
 
 
 
-	public List<AdminEmail> getAdminEmail() {
-		return adminEmail;
+
+	public AdminEmailDTO getAdminEmailDTO() {
+		return adminEmailDTO;
 	}
 
 
 
-	public void setAdminEmail(List<AdminEmail> adminEmail) {
-		this.adminEmail = adminEmail;
+
+	public void setAdminEmailDTO(AdminEmailDTO adminEmailDTO) {
+		this.adminEmailDTO = adminEmailDTO;
 	}
 
 
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+
+	public AdminAddressDTO getAdminAddressDTO() {
+		return adminAddressDTO;
 	}
+
+
+
+
+	public void setAdminAddressDTO(AdminAddressDTO adminAddressDTO) {
+		this.adminAddressDTO = adminAddressDTO;
+	}
+
+
+
+
+	public AdminPictureDTO getAdminPictureDTO() {
+		return adminPictureDTO;
+	}
+
+
+
+
+	public void setAdminPictureDTO(AdminPictureDTO adminPictureDTO) {
+		this.adminPictureDTO = adminPictureDTO;
+	}
+
 
 
 
 	@Override
 	public String toString() {
-		return "AdminAndEmail [adminNo=" + adminNo + ", adminName=" + adminName + ", adminId=" + adminId + ", adminPwd="
-				+ adminPwd + ", adminBirth=" + adminBirth + ", adminGender=" + adminGender + ", adminPhone="
-				+ adminPhone + ", adminHireDate=" + adminHireDate + ", adminRetireDate=" + adminRetireDate
-				+ ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob + ", adminLastLoginDate="
-				+ adminLastLoginDate + ", adminSalary=" + adminSalary + ", adminUseAnnualVacation="
-				+ adminUseAnnualVacation + ", adminEmail=" + adminEmail + "]";
+		return "AdminAndAdminAllDTO [adminNo=" + adminNo + ", adminName=" + adminName + ", adminId=" + adminId
+				+ ", adminPwd=" + adminPwd + ", adminBirth=" + adminBirth + ", adminGender=" + adminGender
+				+ ", adminPhone=" + adminPhone + ", adminHireDate=" + adminHireDate + ", adminRetireDate="
+				+ adminRetireDate + ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob
+				+ ", adminLastLoginDate=" + adminLastLoginDate + ", adminSalary=" + adminSalary
+				+ ", adminUseAnnualVacation=" + adminUseAnnualVacation + ", adminEmailDTO=" + adminEmailDTO
+				+ ", adminAddressDTO=" + adminAddressDTO + ", adminPictureDTO=" + adminPictureDTO + "]";
 	}
-
-
-
+	
+	
 
 }

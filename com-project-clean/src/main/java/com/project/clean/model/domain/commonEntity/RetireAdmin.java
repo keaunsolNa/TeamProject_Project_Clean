@@ -6,10 +6,17 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TTBL_RETIRE_ADMIN")
+@Table(name = "TBL_RETIRE_ADMIN")
+@SequenceGenerator(
+		name = "RETIRE_ADMIN_SEQ_TBL_GENERATOR",
+		sequenceName = "SEQ_TBL_RETIRE_ADMIN",
+		initialValue = 1,
+		allocationSize = 1
+)
 public class RetireAdmin implements Serializable{
 
 	@Id

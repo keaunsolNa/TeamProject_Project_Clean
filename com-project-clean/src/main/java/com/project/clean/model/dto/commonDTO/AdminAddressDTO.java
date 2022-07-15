@@ -6,18 +6,18 @@ public class AdminAddressDTO implements Serializable {
 
 	private static final long serialVersionUID = -5497004233970787129L;
 	private int adminNo;
-	private int addressNo;
-	private String address;
-	private String detailAddress;
+	private int adminAddressNo;
+	private String adminAddress;
+	private String adminDetailAddress;
 	
 	public AdminAddressDTO() {
 	}
 
-	public AdminAddressDTO(int adminNo, int addressNo, String address, String detailAddress) {
+	public AdminAddressDTO(int adminNo, int adminAddressNo, String adminAddress, String adminDetailAddress) {
 		this.adminNo = adminNo;
-		this.addressNo = addressNo;
-		this.address = address;
-		this.detailAddress = detailAddress;
+		this.adminAddressNo = adminAddressNo;
+		this.adminAddress = adminAddress;
+		this.adminDetailAddress = adminDetailAddress;
 	}
 
 	public int getAdminNo() {
@@ -28,28 +28,28 @@ public class AdminAddressDTO implements Serializable {
 		this.adminNo = adminNo;
 	}
 
-	public int getAddressNo() {
-		return addressNo;
+	public int getAdminAddressNo() {
+		return adminAddressNo;
 	}
 
-	public void setAddressNo(int addressNo) {
-		this.addressNo = addressNo;
+	public void setAdminAddressNo(int adminAddressNo) {
+		this.adminAddressNo = adminAddressNo;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getAdminAddress() {
+		return adminAddress;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setAdminAddress(String adminAddress) {
+		this.adminAddress = adminAddress;
 	}
 
-	public String getDetailAddress() {
-		return detailAddress;
+	public String getAdminDetailAddress() {
+		return adminDetailAddress;
 	}
 
-	public void setDetailAddress(String detailAddress) {
-		this.detailAddress = detailAddress;
+	public void setAdminDetailAddress(String adminDetailAddress) {
+		this.adminDetailAddress = adminDetailAddress;
 	}
 
 	public static long getSerialversionuid() {
@@ -58,9 +58,11 @@ public class AdminAddressDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "AdminAddressDTO [adminNo=" + adminNo + ", addressNo=" + addressNo + ", address=" + address
-				+ ", detailAddress=" + detailAddress + "]";
+		return "AdminAddressDTO [adminNo=" + adminNo + ", adminAddressNo=" + adminAddressNo + ", adminAddress="
+				+ adminAddress + ", adminDetailAddress=" + adminDetailAddress + "]";
 	}
+
+	
 	
 	
 }

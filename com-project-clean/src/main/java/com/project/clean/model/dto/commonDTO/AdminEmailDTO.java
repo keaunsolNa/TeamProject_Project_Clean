@@ -5,44 +5,54 @@ import java.io.Serializable;
 public class AdminEmailDTO implements Serializable{
 
 	private static final long serialVersionUID = -2240846264327040686L;
-	private int no;
-	private String email;
-	private String domain;
+	private int adminNo;
+	private String adminEmail;
+	private String adminDomain;
 	
 	public AdminEmailDTO() {
 	}
-	
-	public AdminEmailDTO(int no, String email, String domain) {
-		this.no = no;
-		this.email = email;
-		this.domain = domain;
+
+	public AdminEmailDTO(int adminNo, String adminEmail, String adminDomain) {
+		this.adminNo = adminNo;
+		this.adminEmail = adminEmail;
+		this.adminDomain = adminDomain;
 	}
-	public int getNo() {
-		return no;
+
+	public int getAdminNo() {
+		return adminNo;
 	}
-	public void setNo(int no) {
-		this.no = no;
+
+	public void setAdminNo(int adminNo) {
+		this.adminNo = adminNo;
 	}
+
+	public String getAdminEmail() {
+		return adminEmail;
+	}
+
+	public void setAdminEmail(String adminEmail) {
+		this.adminEmail = adminEmail;
+	}
+
+	public String getAdminDomain() {
+		return adminDomain;
+	}
+
+	public void setAdminDomain(String adminDomain) {
+		this.adminDomain = adminDomain;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getDomain() {
-		return domain;
-	}
-	public void setDomain(String domain) {
-		this.domain = domain;
-	}
+
 	@Override
 	public String toString() {
-		return "AdminEmailDTO [no=" + no + ", email=" + email + ", domain=" + domain + "]";
+		return "AdminEmailDTO [adminNo=" + adminNo + ", adminEmail=" + adminEmail + ", adminDomain=" + adminDomain
+				+ "]";
 	}
 	
+
 	
 	
 }
