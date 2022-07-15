@@ -90,7 +90,11 @@
 								const resNo1 = document.querySelectorAll('table#taskInfo tbody tr td1');
 								const resNo2 = resNo1[i];
 								var resNo3 = resNo2.parentNode.querySelector('.rn').innerText;
-							 	location.href="/employee/checkList/start?re="+ resNo3;
+								
+								console.log(resNo1)
+								console.log(resNo2)
+								console.log(resNo3)
+ 							 	location.href="/employee/checkList/start?re="+ resNo3;
 							
 						} else{
 							alert("업무를 시작할 수 없습니다. ")
@@ -99,9 +103,7 @@
 
 				}
 				
-			}, 1000)
-			
-	};
+			}, 1000)};
    	</script>
    	
 </body>

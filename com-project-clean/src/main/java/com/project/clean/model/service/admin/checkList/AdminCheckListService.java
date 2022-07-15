@@ -9,4 +9,6 @@ public interface AdminCheckListService {
 
 	List<CheckListAndReservationInfoAndEmployeeDTO> selectAllStandCheckList();
 
+	CheckListDTO selectStandCheckListDetails(String adminName, int reservationNo);
+
 }

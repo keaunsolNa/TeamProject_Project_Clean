@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.clean.model.domain.commonEntity.Admin;
 import com.project.clean.model.domain.commonEntity.CheckList;
 import com.project.clean.model.domain.commonEntity.Employee;
 import com.project.clean.model.domain.commonEntity.ReservationInfo;
@@ -18,6 +19,7 @@ import com.project.clean.model.dto.commonDTO.CheckListDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeDTO;
 import com.project.clean.model.dto.commonDTO.ReservationInfoDTO;
 import com.project.clean.model.dto.joinDTO.CheckListAndReservationInfoAndEmployeeDTO;
+import com.project.clean.model.repository.admin.AdminRepository;
 import com.project.clean.model.repository.employee.EmpRepository;
 import com.project.clean.model.repository.employee.apply.ApplyRepository;
 import com.project.clean.model.repository.employee.apply.ReservationInfoRepository;
@@ -32,15 +34,18 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 	private EmpRepository empRepository;
 	private ReservationInfoRepository reservationInfoRepository;
 	private ApplyRepository applyRepository;
+	private AdminRepository adminRepository;
 	
 	@Autowired
 	public AdminCheckListServiceImpl(CheckListRepository checkListRepository, ModelMapper modelMapper,
-			EmpRepository empRepository, ReservationInfoRepository reservationInfoRepository, ApplyRepository applyRepository) {
+			EmpRepository empRepository, ReservationInfoRepository reservationInfoRepository, ApplyRepository applyRepository,
+			AdminRepository adminRepository) {
 		this.checkListRepository = checkListRepository;
 		this.modelMapper = modelMapper;
 		this.empRepository = empRepository;
 		this.reservationInfoRepository = reservationInfoRepository;
 		this.applyRepository = applyRepository;
+		this.adminRepository = adminRepository;
 	}
 	
 	/* CheckList 전체 조회 */
@@ -127,6 +132,33 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 			return checkListAndReservationInfoAndEmployeeList;
 		}
 		
+	}
+
+	@Override
+	public CheckListDTO selectStandCheckListDetails(String adminId, int checkReservationNo) {
+		
+		try {
+			
+			CheckList checkList = checkListRepository.findByCheckReservationNo(checkReservationNo);
+			
+			Admin admin = adminRepository.findByAdminId(adminId);
+			
+			int adminNo = admin.getAdminNo();
+			
+			checkList.setAdminNo(adminNo);
+			
+			checkList.setCheckStatus("R");
+			
+			return modelMapper.map(checkList, CheckListDTO.class);
+			
+		} catch (java.util.NoSuchElementException e){
+			
+			CheckListDTO checkListDTO = new CheckListDTO();
+			
+			System.out.println("일치하는 체크리스트 없음.");
+			
+			return checkListDTO;
+		}
 	}
 }
 

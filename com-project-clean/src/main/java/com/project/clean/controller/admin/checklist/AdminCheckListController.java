@@ -10,11 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.clean.model.dto.commonDTO.CheckListDTO;
 import com.project.clean.model.dto.joinDTO.CheckListAndReservationInfoAndEmployeeDTO;
 import com.project.clean.model.service.admin.checkList.AdminCheckListService;
 
@@ -51,22 +53,25 @@ public class AdminCheckListController {
 		return mapper.writeValueAsString(checkList);
 		
 	}
-	/*
-	 * @PostMapping(value = "select", produces="application/json; charset=UTF-8")
-	 * 
-	 * @ResponseBody public String selectStandCheckList(Principal principal) {
-	 * 
-	 * ObjectMapper mapper = new ObjectMapper();
-	 * 
-	 * String employeeId = principal.getName(); List<ReservationInfoDTO>
-	 * reservationList = taskService.selectReservationListByEmployeeId(employeeId);
-	 * 
-	 * System.out.println("Controller에서 가져온 결과값 : " + reservationList);
-	 * 
-	 * SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	 * 
-	 * mapper.setDateFormat(dateFormat); return
-	 * mapper.writeValueAsString(reservationList); }
-	 */
+	
+	@GetMapping("selectDetails")
+	public ModelAndView selectStandCheckListDetails(Principal principal, HttpServletRequest request, @RequestParam int re,
+			ModelAndView mv) {
+		
+		String adminName = principal.getName();
+		System.out.println(adminName);
+		int reservationNo = re;
+
+		CheckListDTO checkList = adminCheckListService.selectStandCheckListDetails(adminName, reservationNo);
+		
+		System.out.println(checkList.getCheckHTML());
+		
+			mv.addObject("checkList", checkList);
+			mv.setViewName("admin/checkList/selectStandCheckListDetails");
+		
+		return mv;
+		
+		
+	}
 	
 } 

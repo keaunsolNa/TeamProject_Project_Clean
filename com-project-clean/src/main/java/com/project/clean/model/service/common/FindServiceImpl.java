@@ -54,16 +54,4 @@ public class FindServiceImpl implements FindService{
 		
 	}
 
-//	@Override
-//	public AdminEmailDTO findAdminEmailById(String adminId, String password, int adminNo) {
-//		
-//		AdminEmail adminEmail = adminEmailRepository.findById(adminNo).get();
-//		
-//		Admin admin = adminRepositroy.findByAdminId(adminId);
-//		
-//		admin.setAdminPwd(password);
-//		
-//		return modelMapper.map(adminEmail, AdminEmailDTO.class);
-//	}
-
 }

@@ -14,7 +14,7 @@
 	<div th:include="common/taskAside.html"></div>
 
 	<script>
-		const resultMessage = "[[${resultMessage}]]";
+		const resultMessage = "[[${Message}]]";
 		if(resultMessage){
 			alert(resultMessage)
 		}
@@ -27,7 +27,7 @@
 				<td width="100">처리 상태</td>
 				<td width="100">고객 이름</td>
 				<td width="100">직원 이름</td>
-				
+				<td width="100">상세 보기</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -36,7 +36,6 @@
 	 
 	 
 	<script>
-		var nowtime = new Date();
 		window.onload = function(){
 			$.ajax({
 				url : "select",
@@ -51,11 +50,13 @@
 						$checkStatusTd = $("<td>").text(data[index].checkStatus);
 						$checkUserNameTd = $("<td>").text(data[index].customerName);
 						$checkEmployeeNameTd = $("<td>").text(data[index].employeeName);
-						 
+						$buttonTd = $("<button></button>").addClass('btn').addClass([index]).append("상세보기");
+						
 						$tr.append($checkReservationNoTd);
 						$tr.append($checkStatusTd);
 						$tr.append($checkUserNameTd);
 						$tr.append($checkEmployeeNameTd);
+						$tr.append($buttonTd);
 						$table.append($tr);
 						
 					};
@@ -70,29 +71,20 @@
 				
 				for(let i = 0; i < buttons.length; i++) {
 					
-					nowtime.setMinutes(nowtime.getMinutes() - 30)
-					const nowtime2 = nowtime.toString().substring(15, 21);
-					
 					const button = buttons[i];
+					
 					button.onclick = function() {
-						const timer = button.parentNode.querySelector('.st').innerText.substring(10, 16);
-						if(timer < nowtime2){
+						
+						const resNo1 = document.querySelectorAll('table#taskInfo tbody tr td1');
+						const resNo2 = resNo1[i];
+						var resNo3 = resNo2.parentNode.querySelector('.rn').innerText;
+						
+ 					 	location.href="/admin/checklist/selectDetails?re="+ resNo3; 
 							
-								const resNo1 = document.querySelectorAll('table#taskInfo tbody tr td1');
-								const resNo2 = resNo1[i];
-								var resNo3 = resNo2.parentNode.querySelector('.rn').innerText;
-							 	location.href="/employee/checkList/start?re="+ resNo3;
-							
-						} else{
-							alert("업무를 시작할 수 없습니다. ")
-						}; 
-					}						
+					}; 
+				};						
 
-				}
-				
-			}, 100) 
-			
-	};
+			}, 1000)};
    	</script>
    	
 </body>
