@@ -12,6 +12,16 @@ public interface ApplyEmployeeRepository extends JpaRepository<ApplyEmployee, Ob
 
 	@Query(value="SELECT * FROM TBL_APPLY_EMPLOYEE A WHERE A.APPLY_RESERVATION_NO = :findByApplyReservationNo AND A.APPLY_CANCEL_YN = 'N'", nativeQuery = true)
 	List<ApplyEmployee> findAllByApplyReservationNo(@Param("findByApplyReservationNo")int findByApplyReservationNo);
+
+	@Query(value = "SELECT\r\n"
+			+ "       A.APPLY_EMPLOYEE_NO\r\n"
+			+ "     , A.APPLY_RESERVATION_NO\r\n"
+			+ "     , A.APPLY_CANCEL_YN\r\n"
+			+ "     , A.CHECK_EMPLOYEE_YN\r\n"
+			+ "  FROM TBL_APPLY_EMPLOYEE A\r\n"
+			+ " WHERE A.APPLY_EMPLOYEE_NO = :employeeNo\r\n"
+			+ "   AND A.APPLY_RESERVATION_NO = :reservationNo", nativeQuery = true)
+	ApplyEmployee findByApplyEmployeeNoAndApplyReservationNo(@Param("reservationNo")int reservationNo, @Param("employeeNo")int employeeNo);
 	
 }
 

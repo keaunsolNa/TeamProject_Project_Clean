@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.clean.model.dto.commonDTO.ApplyEmployeeDTO;
+import com.project.clean.model.dto.commonDTO.BookMarkDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeDTO;
 import com.project.clean.model.dto.commonDTO.ReservationInfoDTO;
-import com.project.clean.model.dto.commonDTO.SupplementServiceDTO;
 import com.project.clean.model.service.reservation.EmployeeReservationService;
 
 
@@ -63,35 +63,33 @@ public class reservationController {
 			e.printStackTrace();
 		}
 
-		SupplementServiceDTO supplementService = new SupplementServiceDTO();
 		int count = 0;
 		/* 부가서비스 배열로 넘어온 값 DTO에 담아줌 */
 		if (gashoodCleanYn != null) {
-			supplementService.setGashoodCleanYn("Y");
+			newReservation.setGashoodCleanYn("Y");
 			count++;
 		}
 		if (moldCleanYn != null) {
-			supplementService.setMoldCleanYn("Y");
+			newReservation.setMoldCleanYn("Y");
 			count++;
 		}
 		if (filterCleanYn != null) {
-			supplementService.setFilterCleanYn("Y");
+			newReservation.setFilterCleanYn("Y");
 			count++;
 
 		}
 		if (warehouseCleanYn != null) {
-			supplementService.setWarehouseCleanYn("Y");
+			newReservation.setWarehouseCleanYn("Y");
 			count++;
 		}
 		if (petYn != null) {
-			supplementService.setPetYn("Y");
+			newReservation.setPetYn("Y");
 			count++;
 		}
 		if (multipleLayerYn != null) {
-			supplementService.setMultipleLayerYn("Y");
+			newReservation.setMultipleLayerYn("Y");
 			count++;
 		}
-		System.out.println("supplementService" + supplementService);
 
 		/* 평수에 따른 정원 계산 */
 		if (newReservation.getUserHouseSize() < 15) { // 15평 미만일 때 1명
@@ -142,7 +140,6 @@ public class reservationController {
 		System.out.println("newReservation" + newReservation);
 
 		employeeReservationService.insertNewReservation(newReservation);
-		employeeReservationService.insertNewSupplementService(supplementService);
 
 		mv.addObject("successCode", "successCode");
 		mv.setViewName("reservation/empMainPage");
@@ -181,14 +178,10 @@ public class reservationController {
 		int start = Integer.valueOf(sdf.format(startTime));
 		int workTime = end - start;
 
-		/* 부가서비스 정보 select */
-		SupplementServiceDTO supplementService = employeeReservationService.findSupplementServiceByServiceReservationNo(reservationNo);
-		System.out.println("supplementService" + supplementService);
-
 		/* 직원 테이블 select */
 		String employeeId = principal.getName();
 		EmployeeDTO employee = employeeReservationService.findByEmployeeId(employeeId);
-		int emplyeeNo = employee.getEmployeeNo();
+		int employeeNo = employee.getEmployeeNo();
 		
 		/* 지원자가 0이 아닌경우 지원 테이블 select */
 		List<ApplyEmployeeDTO> applyEmployeeList = new ArrayList<>();
@@ -197,6 +190,7 @@ public class reservationController {
 			applyEmployeeList = employeeReservationService.findAllByApplyReservationNo(reservationNo);
 		}
 		/* 즐겨찾기 테이블 select */
+		BookMarkDTO bookmark = employeeReservationService.findByBookmarkEmployeeNoAndBookmarkReservationNo(employeeNo, reservationNo);
 		
 		
 		
@@ -206,32 +200,31 @@ public class reservationController {
 			for(int i = 0; i < applyEmployeeList.size(); i++) {		// 지원테이블 list 반복(지원자가 있으면)
 				ApplyEmployeeDTO app = applyEmployeeList.get(i);
 				
-				if(app.getApplyEmployeeNo() == emplyeeNo) {			// 내가 지원한 건이면
+				if(app.getApplyEmployeeNo() == employeeNo) {			// 내가 지원한 건이면
 					mv.addObject("applyButtonText", "지원취소");
 					break;
 				}
 				if(reservation.getBusinessFixedPeople() != reservation.getBusinessApplyPeople()) {	// 마감이 안됐으면
 					mv.addObject("applyButtonText", "지원하기");
 				} else if(reservation.getBusinessFixedPeople() == reservation.getBusinessApplyPeople()) {	// 마감이면
-//					if("즐겨찾기 했으면") {
-//						mv.addObject("applyButtonText", "즐겨찾기 취소");
-//					} else if ("안했으면"){
-//						mv.addObject("applyButtonText", "즐겨찾기");
-//					}
+					if(bookmark.getBookmarkEmployeeNo() == employeeNo) {
+						mv.addObject("applyButtonText", "즐겨찾기 취소");
+						break;
+					} else if (bookmark.getBookmarkEmployeeNo() != employeeNo){
+						mv.addObject("applyButtonText", "즐겨찾기");
+						break;
+					}
 				}
 			}
 			
 		} else if(applyEmployeeList == null) {		// 지원한 사람이 없으면
 			mv.addObject("applyButtonText", "지원하기");
 		}
-		
+		System.out.println("bookmark" + bookmark);
 		mv.addObject("workTime", workTime);
 		mv.addObject("reservation", reservation);
-		System.out.println("reservation: " + reservation);
-		System.out.println("employee: " + employee);
 		mv.addObject("employee", employee);
 		mv.addObject("applyEmployeeList", applyEmployeeList);
-		mv.addObject("supplementService", supplementService);
 		mv.setViewName("reservation/reservationDetail");
 		return mv;
 	}
@@ -242,9 +235,9 @@ public class reservationController {
 	 public ModelAndView reservationApply(ModelAndView mv, @PathVariable int reservationNo
 			 ,Principal principal) {
 	 
-		 String employeeId = principal.getName();
 		 
 		 /* 직원 번호 불러옴 */ 
+		 String employeeId = principal.getName();
 		 EmployeeDTO employee = employeeReservationService.findByEmployeeId(employeeId);
 		 int employeeNo = employee.getEmployeeNo();
 		 
@@ -255,11 +248,11 @@ public class reservationController {
 		 /* 예약 지원 테이블 insert */
 		 employeeReservationService.insertNewApply(newApply);
 		 /* 예약 정보 테이블 지원인원 update */
-		 employeeReservationService.modifyReservationApplyPeople(reservationNo);
+		 employeeReservationService.modifyReservationApplyPeoplePlus(reservationNo);
 		 /* 업데이트된 예약정보 select 후 정원과 지원인원 비교해서 mv에 값을 넣어줌 */
 		 ReservationInfoDTO reservation = employeeReservationService.findReservationByReservationNo(reservationNo);
 		 if(reservation.getBusinessFixedPeople() == reservation.getBusinessApplyPeople()) {		
-			 employeeReservationService.modifyReservationApplyEndYn(reservationNo);
+			 employeeReservationService.modifyReservationApplyEndYnByY(reservationNo);
 		 }
 		 mv.addObject("applyMessage", "지원이 완료되었습니다");
 		 mv.addObject("reservationNo", reservationNo);
@@ -278,7 +271,49 @@ public class reservationController {
 		 int employeeNo = employee.getEmployeeNo();
 		 
 		 /* 예약 지원테이블 지원취소로 update */
-		 employeeReservationService.modifyApplyEmployeeApplyCancelYn(employeeNo);
+		 employeeReservationService.modifyApplyEmployeeApplyCancelYn(reservationNo, employeeNo);
+		 /* 예약테이블 지원인원 -1 */
+		 employeeReservationService.modifyReservationApplyPeopleMinus(reservationNo);
+		 /* 정원 != 지원인원일때 마감여부 n으로 변경 */
+		 ReservationInfoDTO reservation = employeeReservationService.findReservationByReservationNo(reservationNo);
+		 employeeReservationService.modifyReservationApplyEndYnByN(reservationNo);
+		 
+		 mv.addObject("applyMessage", "지원취소가 완료되었습니다");
+		 mv.addObject("reservationNo", reservationNo);
+		 mv.setViewName("reservation/reservationDetail");
+		 
+		 return mv;
+	 }
+	 
+	 /* 즐겨찾기 등록 */
+	 @GetMapping("/bookmark/{reservationNo}") 
+	 public ModelAndView insertbookmark(ModelAndView mv, @PathVariable int reservationNo
+			 ,Principal principal) {
+		 
+		 /* 직원 번호 불러옴 */ 
+		 String employeeId = principal.getName();
+		 EmployeeDTO employee = employeeReservationService.findByEmployeeId(employeeId);
+		 int employeeNo = employee.getEmployeeNo();
+		 
+		 /* 즐겨찾기 테이블 insert */
+		 BookMarkDTO newBookmark = new BookMarkDTO();
+		 newBookmark.setBookmarkEmployeeNo(employeeNo);
+		 newBookmark.setBookmarkReservationNo(reservationNo);
+		 newBookmark.setBookmarkCancelYn("N");
+		 employeeReservationService.insertNewBookmark(newBookmark);
+
+		 mv.addObject("applyMessage", "즐겨찾기 등록이 완료되었습니다. 해당 예약이 지원가능상태로 변경 시 알림메세지를 전송하겠습니다.");
+		 mv.addObject("reservationNo", reservationNo);
+		 mv.setViewName("reservation/reservationDetail");
+		 
+		 return mv;
+	 }
+	 
+	 /* 즐겨찾기 취소 */
+	 @GetMapping("/bookmarkCancel/{reservationNo}") 
+	 public ModelAndView modigyBookmarkCancel(ModelAndView mv, @PathVariable int reservationNo
+			 ,Principal principal) {
+		 
 		 
 		 
 		 return mv;
