@@ -127,4 +127,6 @@ window.onload = function() {
 	                        onLoad: function(){          
 	                            canvasResize();        
 	                            }}})());  
-		}
+		
+						
+};						
