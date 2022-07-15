@@ -89,7 +89,7 @@ public class PayServiceImpl implements PayService{
 			}
 				
 			if("payAdminDate".equals(searchCondition)) {
-				count = adminPayRepository.countByPayAdminDateLessThanEqual(Integer.valueOf(searchValue));
+				count = adminPayRepository.countByPayAdminDateContaining(Integer.valueOf(searchValue));
 			}
 		} else {
 			count = (int)adminPayRepository.count();

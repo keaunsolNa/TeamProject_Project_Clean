@@ -10,12 +10,46 @@
 	table th{
 		border: 1px solid black;
 	}
+	
+	.search-area {
+		width: 90%;
+		margin:0 auto;
+		background: red;
+	}
+	
+	#searchForm {
+		float: right;
+	}
+	
+	.btn-bs {
+		width:70px;
+		height:30px;
+		text-align:center;
+		font-size:10px;
+		padding: 0; 
+	}
+	
+
+	
 </style>
 </head>
 <body>
 	<div th:include="common/header.html"></div>
 	<div th:include="common/taskAside.html"></div>
 	<section>
+		<div class="search-area" align="center">
+			<form id="searchForm" action="/pay/adminPaySelect" method="get" style="display: inline-block">
+					<select th:with="searchCondition = ${selectCriteria.searchCondition}"
+						id="searchCondition" name="searchCondition">
+						<option value="adminName" th:selected="${ searchCondition } == 'adminName'">이름</option>
+						<option value="adminJob" th:selected="${ searchCondition } == 'adminJob'">직급</option>
+						<option value="adminPhone" th:selected="${ searchCondition } == 'adminPhone'">전화번호</option>
+					</select> 
+				<input type="hidden" name="currentPage" value="1">
+				<input type="search" id="name" name="searchValue" th:value="${selectCriteria.searchValue}">
+				<button style="background-color: #9AE8F9" class="btn btn-bs" type="submit">검색하기</button>
+			</form>
+		</div>	
 		<table border="1">
 	        <tr>
 	           <th>이름</th> 
@@ -33,20 +67,7 @@
     	<br>
     	<div th:replace="pay/adminPayPaging.html"></div>
 		<br>
-		<div class="search-area" align="center">
-			<form id="loginForm" action="/pay/adminPaySelect" method="get" style="display: inline-block">
-					<select th:with="searchCondition = ${selectCriteria.searchCondition}"
-						id="searchCondition" name="searchCondition">
-						<option value="adminName" th:selected="${ searchCondition } == 'adminName'">이름</option>
-						<option value="adminJob" th:selected="${ searchCondition } == 'adminJob'">직급</option>
-						<option value="adminPhone" th:selected="${ searchCondition } == 'adminPhone'">전화번호</option>
-						<option value="payAdminDate" th:selected="${ searchCondition } == 'payAdminDate'">지급날짜</option>
-					</select> 
-				<input type="hidden" name="currentPage" value="1">
-				<input type="search" id="name" name="searchValue" th:value="${selectCriteria.searchValue}">
-				<button style="background-color: #9AE8F9" class="btn btn-bs" type="submit">검색하기</button>
-			</form>
-		</div>	 
+ 
     </section>
 </body>
 </html>
