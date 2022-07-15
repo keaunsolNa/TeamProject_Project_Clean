@@ -1,46 +1,112 @@
-package com.project.clean.model.dto.commonDTO;
+package com.project.clean.controller.admin.test;
 
 import java.io.Serializable;
 import java.sql.Date;
 
-public class EmployeeDTO implements Serializable{
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-	private static final long serialVersionUID = 4110080330342858766L;
+@Entity
+@Table(name =  "TBL_EMPLOYEE")
+public class TestEmployeeEntity implements Serializable{
+
+	private static final long serialVersionUID = 5723494024527769099L;
+
+	@Id
+	@Column(name = "EMPLOYEE_NO")
 	private int employeeNo;
+	
+	@Column(name = "EMPLOYEE_NAME")
 	private String employeeName;
+	
+	@Column(name = "EMPLOYEE_ID")
 	private String employeeId;
+	
+	@Column(name = "EMPLOYEE_PWD")
 	private String employeePwd;
+	
+	@Column(name = "EMPLOYEE_BIRTH" )
 	private java.sql.Date employeeBirth;
+	
+	@Column(name = "EMPLOYEE_GENDER")
 	private String employeeGender;
+	
+	@Column(name = "EMPLOYEE_PHONE")
 	private String employeePhone;
+	
+	@Column(name = "EMPLOYEE_HIRE_DATE")
 	private java.sql.Date employeeHireDate;
+	
+	@Column(name ="EMPLOYEE_RETIRE_DATE", nullable=true)
 	private java.sql.Date employeeRetireDate;
+	
+	@Column(name ="EMPLOYEE_SUM_COUNT")
 	private int employeeSumCount;
+	
+	@Column(name ="EMPLOYEE_SUM_TIME", nullable=true)
 	private int employeeSumTime;
+	
+	@Column(name="EMPLOYEE_LAST_LOGIN_DATE", nullable=true)
 	private java.sql.Date employeeLastLoginDate;
+	
+	@Column(name="EMPLOYEE_BLACKLIST_YN")
 	private String employeeBlackListYn;
+	
+	@Column(name="EMPLOYEE_RETIRE_YN")
 	private String employeeRetireYn;
-	private java.sql.Date RequestDate;
+	
+	@Column(name="REQUEST_DATE", nullable=true)
+	private java.sql.Date employeeRequestDate;
+	
+	@Column(name="EMPLOYEE_FIRST_CONFIRM_YN")
 	private String employeeFirstConfirmYn;
+	
+	@Column(name="EMPLOYEE_SECOND_CONFIRM_YN")
 	private String employeeSecondConfirmYn;
+	
+	@Column(name="EMPLOYEE_LAST_CONFIRM_YN")
 	private String employeeLastConfirmYn;
+
+	@Column(name="EMPLOYEE_LAST_CONFIRM_DATE", nullable=true)
 	private java.sql.Date employeeLastConfirmDate;
+	
+	@Column(name="EMPLOYEE_REGIST_RETURN_YN")
 	private String employeeRegistReturnYn;
-	private String employeeEmail;
-	private String employeeAddress;
-	private String employeepictureSaveName;
-	private String employeepictureSaveRoot;
-	private String employeePictureThumbNail;
-	public EmployeeDTO() {
+	
+	@OneToOne
+	@JoinColumn(name = "EMPLOYEE_NO")
+	private TestAddressEntity testAddressDTO;
+//	private TestAddressEntity TestaddressDTO;  됌 대문자 구별 X
+//	private TestAddressEntity TestaddresshhhhhDTO; 됌
+//	private TestAddressEntity TesthhhhaddresshhhhhDTO; 됌 
+//	private TestAddressEntity TestDTO; 됌
+//	private TestAddressEntity Test; 안됌
+//	private TestAddressEntity Address; 안됌 
+//	private TestAddressEntity DTO; 됌
+//	private TestAddressEntity DaTaO; 안됌
+//	private TestAddressEntity TestAddress; 안됌
+//	private TestAddressEntity ddr; 안됌
+//	private TestAddressEntity ddraess; 안됌
+	
+	@OneToOne
+	@JoinColumn(name = "EMPLOYEE_NO")
+	private TestEmailEntity testEmailDTO;
+
+	public TestEmployeeEntity() {
 		super();
 	}
-	public EmployeeDTO(int employeeNo, String employeeName, String employeeId, String employeePwd, Date employeeBirth,
-			String employeeGender, String employeePhone, Date employeeHireDate, Date employeeRetireDate,
-			int employeeSumCount, int employeeSumTime, Date employeeLastLoginDate, String employeeBlackListYn,
-			String employeeRetireYn, Date requestDate, String employeeFirstConfirmYn, String employeeSecondConfirmYn,
-			String employeeLastConfirmYn, Date employeeLastConfirmDate, String employeeRegistReturnYn,
-			String employeeEmail, String employeeAddress, String employeepictureSaveName,
-			String employeepictureSaveRoot, String employeePictureThumbNail) {
+
+	public TestEmployeeEntity(int employeeNo, String employeeName, String employeeId, String employeePwd,
+			Date employeeBirth, String employeeGender, String employeePhone, Date employeeHireDate,
+			Date employeeRetireDate, int employeeSumCount, int employeeSumTime, Date employeeLastLoginDate,
+			String employeeBlackListYn, String employeeRetireYn, Date employeeRequestDate,
+			String employeeFirstConfirmYn, String employeeSecondConfirmYn, String employeeLastConfirmYn,
+			Date employeeLastConfirmDate, String employeeRegistReturnYn, TestAddressEntity testAddressDTO,
+			TestEmailEntity testEmailDTO) {
 		super();
 		this.employeeNo = employeeNo;
 		this.employeeName = employeeName;
@@ -56,190 +122,218 @@ public class EmployeeDTO implements Serializable{
 		this.employeeLastLoginDate = employeeLastLoginDate;
 		this.employeeBlackListYn = employeeBlackListYn;
 		this.employeeRetireYn = employeeRetireYn;
-		RequestDate = requestDate;
+		this.employeeRequestDate = employeeRequestDate;
 		this.employeeFirstConfirmYn = employeeFirstConfirmYn;
 		this.employeeSecondConfirmYn = employeeSecondConfirmYn;
 		this.employeeLastConfirmYn = employeeLastConfirmYn;
 		this.employeeLastConfirmDate = employeeLastConfirmDate;
 		this.employeeRegistReturnYn = employeeRegistReturnYn;
-		this.employeeEmail = employeeEmail;
-		this.employeeAddress = employeeAddress;
-		this.employeepictureSaveName = employeepictureSaveName;
-		this.employeepictureSaveRoot = employeepictureSaveRoot;
-		this.employeePictureThumbNail = employeePictureThumbNail;
+		this.testAddressDTO = testAddressDTO;
+		this.testEmailDTO = testEmailDTO;
 	}
+
 	public int getEmployeeNo() {
 		return employeeNo;
 	}
+
 	public void setEmployeeNo(int employeeNo) {
 		this.employeeNo = employeeNo;
 	}
+
 	public String getEmployeeName() {
 		return employeeName;
 	}
+
 	public void setEmployeeName(String employeeName) {
 		this.employeeName = employeeName;
 	}
+
 	public String getEmployeeId() {
 		return employeeId;
 	}
+
 	public void setEmployeeId(String employeeId) {
 		this.employeeId = employeeId;
 	}
+
 	public String getEmployeePwd() {
 		return employeePwd;
 	}
+
 	public void setEmployeePwd(String employeePwd) {
 		this.employeePwd = employeePwd;
 	}
+
 	public java.sql.Date getEmployeeBirth() {
 		return employeeBirth;
 	}
+
 	public void setEmployeeBirth(java.sql.Date employeeBirth) {
 		this.employeeBirth = employeeBirth;
 	}
+
 	public String getEmployeeGender() {
 		return employeeGender;
 	}
+
 	public void setEmployeeGender(String employeeGender) {
 		this.employeeGender = employeeGender;
 	}
+
 	public String getEmployeePhone() {
 		return employeePhone;
 	}
+
 	public void setEmployeePhone(String employeePhone) {
 		this.employeePhone = employeePhone;
 	}
+
 	public java.sql.Date getEmployeeHireDate() {
 		return employeeHireDate;
 	}
+
 	public void setEmployeeHireDate(java.sql.Date employeeHireDate) {
 		this.employeeHireDate = employeeHireDate;
 	}
+
 	public java.sql.Date getEmployeeRetireDate() {
 		return employeeRetireDate;
 	}
+
 	public void setEmployeeRetireDate(java.sql.Date employeeRetireDate) {
 		this.employeeRetireDate = employeeRetireDate;
 	}
+
 	public int getEmployeeSumCount() {
 		return employeeSumCount;
 	}
+
 	public void setEmployeeSumCount(int employeeSumCount) {
 		this.employeeSumCount = employeeSumCount;
 	}
+
 	public int getEmployeeSumTime() {
 		return employeeSumTime;
 	}
+
 	public void setEmployeeSumTime(int employeeSumTime) {
 		this.employeeSumTime = employeeSumTime;
 	}
+
 	public java.sql.Date getEmployeeLastLoginDate() {
 		return employeeLastLoginDate;
 	}
+
 	public void setEmployeeLastLoginDate(java.sql.Date employeeLastLoginDate) {
 		this.employeeLastLoginDate = employeeLastLoginDate;
 	}
+
 	public String getEmployeeBlackListYn() {
 		return employeeBlackListYn;
 	}
+
 	public void setEmployeeBlackListYn(String employeeBlackListYn) {
 		this.employeeBlackListYn = employeeBlackListYn;
 	}
+
 	public String getEmployeeRetireYn() {
 		return employeeRetireYn;
 	}
+
 	public void setEmployeeRetireYn(String employeeRetireYn) {
 		this.employeeRetireYn = employeeRetireYn;
 	}
-	public java.sql.Date getRequestDate() {
-		return RequestDate;
+
+	public java.sql.Date getEmployeeRequestDate() {
+		return employeeRequestDate;
 	}
-	public void setRequestDate(java.sql.Date requestDate) {
-		RequestDate = requestDate;
+
+	public void setEmployeeRequestDate(java.sql.Date employeeRequestDate) {
+		this.employeeRequestDate = employeeRequestDate;
 	}
+
 	public String getEmployeeFirstConfirmYn() {
 		return employeeFirstConfirmYn;
 	}
+
 	public void setEmployeeFirstConfirmYn(String employeeFirstConfirmYn) {
 		this.employeeFirstConfirmYn = employeeFirstConfirmYn;
 	}
+
 	public String getEmployeeSecondConfirmYn() {
 		return employeeSecondConfirmYn;
 	}
+
 	public void setEmployeeSecondConfirmYn(String employeeSecondConfirmYn) {
 		this.employeeSecondConfirmYn = employeeSecondConfirmYn;
 	}
+
 	public String getEmployeeLastConfirmYn() {
 		return employeeLastConfirmYn;
 	}
+
 	public void setEmployeeLastConfirmYn(String employeeLastConfirmYn) {
 		this.employeeLastConfirmYn = employeeLastConfirmYn;
 	}
+
 	public java.sql.Date getEmployeeLastConfirmDate() {
 		return employeeLastConfirmDate;
 	}
+
 	public void setEmployeeLastConfirmDate(java.sql.Date employeeLastConfirmDate) {
 		this.employeeLastConfirmDate = employeeLastConfirmDate;
 	}
+
 	public String getEmployeeRegistReturnYn() {
 		return employeeRegistReturnYn;
 	}
+
 	public void setEmployeeRegistReturnYn(String employeeRegistReturnYn) {
 		this.employeeRegistReturnYn = employeeRegistReturnYn;
 	}
-	public String getEmployeeEmail() {
-		return employeeEmail;
+
+	public TestAddressEntity getTestAddressDTO() {
+		return testAddressDTO;
 	}
-	public void setEmployeeEmail(String employeeEmail) {
-		this.employeeEmail = employeeEmail;
+
+	public void setTestAddressDTO(TestAddressEntity testAddressDTO) {
+		this.testAddressDTO = testAddressDTO;
 	}
-	public String getEmployeeAddress() {
-		return employeeAddress;
+
+	public TestEmailEntity getTestEmailDTO() {
+		return testEmailDTO;
 	}
-	public void setEmployeeAddress(String employeeAddress) {
-		this.employeeAddress = employeeAddress;
+
+	public void setTestEmailDTO(TestEmailEntity testEmailDTO) {
+		this.testEmailDTO = testEmailDTO;
 	}
-	public String getEmployeepictureSaveName() {
-		return employeepictureSaveName;
-	}
-	public void setEmployeepictureSaveName(String employeepictureSaveName) {
-		this.employeepictureSaveName = employeepictureSaveName;
-	}
-	public String getEmployeepictureSaveRoot() {
-		return employeepictureSaveRoot;
-	}
-	public void setEmployeepictureSaveRoot(String employeepictureSaveRoot) {
-		this.employeepictureSaveRoot = employeepictureSaveRoot;
-	}
-	public String getEmployeePictureThumbNail() {
-		return employeePictureThumbNail;
-	}
-	public void setEmployeePictureThumbNail(String employeePictureThumbNail) {
-		this.employeePictureThumbNail = employeePictureThumbNail;
-	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
 	@Override
 	public String toString() {
-		return "EmployeeDTO [employeeNo=" + employeeNo + ", employeeName=" + employeeName + ", employeeId=" + employeeId
-				+ ", employeePwd=" + employeePwd + ", employeeBirth=" + employeeBirth + ", employeeGender="
+		return "TestEmployeeEntity [employeeNo=" + employeeNo + ", employeeName=" + employeeName + ", employeeId="
+				+ employeeId + ", employeePwd=" + employeePwd + ", employeeBirth=" + employeeBirth + ", employeeGender="
 				+ employeeGender + ", employeePhone=" + employeePhone + ", employeeHireDate=" + employeeHireDate
 				+ ", employeeRetireDate=" + employeeRetireDate + ", employeeSumCount=" + employeeSumCount
 				+ ", employeeSumTime=" + employeeSumTime + ", employeeLastLoginDate=" + employeeLastLoginDate
 				+ ", employeeBlackListYn=" + employeeBlackListYn + ", employeeRetireYn=" + employeeRetireYn
-				+ ", RequestDate=" + RequestDate + ", employeeFirstConfirmYn=" + employeeFirstConfirmYn
+				+ ", employeeRequestDate=" + employeeRequestDate + ", employeeFirstConfirmYn=" + employeeFirstConfirmYn
 				+ ", employeeSecondConfirmYn=" + employeeSecondConfirmYn + ", employeeLastConfirmYn="
 				+ employeeLastConfirmYn + ", employeeLastConfirmDate=" + employeeLastConfirmDate
-				+ ", employeeRegistReturnYn=" + employeeRegistReturnYn + ", employeeEmail=" + employeeEmail
-				+ ", employeeAddress=" + employeeAddress + ", employeepictureSaveName=" + employeepictureSaveName
-				+ ", employeepictureSaveRoot=" + employeepictureSaveRoot + ", employeePictureThumbNail="
-				+ employeePictureThumbNail + "]";
+				+ ", employeeRegistReturnYn=" + employeeRegistReturnYn + ", testAddressDTO=" + testAddressDTO
+				+ ", testEmailDTO=" + testEmailDTO + "]";
 	}
 	
 	
 	
+	
 
+
+	
+
+	
 	
 }

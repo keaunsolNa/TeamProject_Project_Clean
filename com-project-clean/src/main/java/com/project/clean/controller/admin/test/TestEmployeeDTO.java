@@ -1,11 +1,12 @@
-package com.project.clean.model.dto.commonDTO;
+package com.project.clean.controller.admin.test;
 
 import java.io.Serializable;
 import java.sql.Date;
 
-public class EmployeeDTO implements Serializable{
-
-	private static final long serialVersionUID = 4110080330342858766L;
+public class TestEmployeeDTO implements Serializable{
+	
+	private static final long serialVersionUID = -6903518176651150281L;
+	
 	private int employeeNo;
 	private String employeeName;
 	private String employeeId;
@@ -26,21 +27,17 @@ public class EmployeeDTO implements Serializable{
 	private String employeeLastConfirmYn;
 	private java.sql.Date employeeLastConfirmDate;
 	private String employeeRegistReturnYn;
-	private String employeeEmail;
-	private String employeeAddress;
-	private String employeepictureSaveName;
-	private String employeepictureSaveRoot;
-	private String employeePictureThumbNail;
-	public EmployeeDTO() {
+	private TestAddressDTO testAddressDTO;
+	private TestEmailDTO testEmailDTO;
+	public TestEmployeeDTO() {
 		super();
 	}
-	public EmployeeDTO(int employeeNo, String employeeName, String employeeId, String employeePwd, Date employeeBirth,
-			String employeeGender, String employeePhone, Date employeeHireDate, Date employeeRetireDate,
-			int employeeSumCount, int employeeSumTime, Date employeeLastLoginDate, String employeeBlackListYn,
-			String employeeRetireYn, Date requestDate, String employeeFirstConfirmYn, String employeeSecondConfirmYn,
-			String employeeLastConfirmYn, Date employeeLastConfirmDate, String employeeRegistReturnYn,
-			String employeeEmail, String employeeAddress, String employeepictureSaveName,
-			String employeepictureSaveRoot, String employeePictureThumbNail) {
+	public TestEmployeeDTO(int employeeNo, String employeeName, String employeeId, String employeePwd,
+			Date employeeBirth, String employeeGender, String employeePhone, Date employeeHireDate,
+			Date employeeRetireDate, int employeeSumCount, int employeeSumTime, Date employeeLastLoginDate,
+			String employeeBlackListYn, String employeeRetireYn, Date requestDate, String employeeFirstConfirmYn,
+			String employeeSecondConfirmYn, String employeeLastConfirmYn, Date employeeLastConfirmDate,
+			String employeeRegistReturnYn, TestAddressDTO testAddressDTO, TestEmailDTO testEmailDTO) {
 		super();
 		this.employeeNo = employeeNo;
 		this.employeeName = employeeName;
@@ -62,11 +59,8 @@ public class EmployeeDTO implements Serializable{
 		this.employeeLastConfirmYn = employeeLastConfirmYn;
 		this.employeeLastConfirmDate = employeeLastConfirmDate;
 		this.employeeRegistReturnYn = employeeRegistReturnYn;
-		this.employeeEmail = employeeEmail;
-		this.employeeAddress = employeeAddress;
-		this.employeepictureSaveName = employeepictureSaveName;
-		this.employeepictureSaveRoot = employeepictureSaveRoot;
-		this.employeePictureThumbNail = employeePictureThumbNail;
+		this.testAddressDTO = testAddressDTO;
+		this.testEmailDTO = testEmailDTO;
 	}
 	public int getEmployeeNo() {
 		return employeeNo;
@@ -188,43 +182,25 @@ public class EmployeeDTO implements Serializable{
 	public void setEmployeeRegistReturnYn(String employeeRegistReturnYn) {
 		this.employeeRegistReturnYn = employeeRegistReturnYn;
 	}
-	public String getEmployeeEmail() {
-		return employeeEmail;
+	public TestAddressDTO getTestAddressDTO() {
+		return testAddressDTO;
 	}
-	public void setEmployeeEmail(String employeeEmail) {
-		this.employeeEmail = employeeEmail;
+	public void setTestAddressDTO(TestAddressDTO testAddressDTO) {
+		this.testAddressDTO = testAddressDTO;
 	}
-	public String getEmployeeAddress() {
-		return employeeAddress;
+	public TestEmailDTO getTestEmailDTO() {
+		return testEmailDTO;
 	}
-	public void setEmployeeAddress(String employeeAddress) {
-		this.employeeAddress = employeeAddress;
-	}
-	public String getEmployeepictureSaveName() {
-		return employeepictureSaveName;
-	}
-	public void setEmployeepictureSaveName(String employeepictureSaveName) {
-		this.employeepictureSaveName = employeepictureSaveName;
-	}
-	public String getEmployeepictureSaveRoot() {
-		return employeepictureSaveRoot;
-	}
-	public void setEmployeepictureSaveRoot(String employeepictureSaveRoot) {
-		this.employeepictureSaveRoot = employeepictureSaveRoot;
-	}
-	public String getEmployeePictureThumbNail() {
-		return employeePictureThumbNail;
-	}
-	public void setEmployeePictureThumbNail(String employeePictureThumbNail) {
-		this.employeePictureThumbNail = employeePictureThumbNail;
+	public void setTestEmailDTO(TestEmailDTO testEmailDTO) {
+		this.testEmailDTO = testEmailDTO;
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 	@Override
 	public String toString() {
-		return "EmployeeDTO [employeeNo=" + employeeNo + ", employeeName=" + employeeName + ", employeeId=" + employeeId
-				+ ", employeePwd=" + employeePwd + ", employeeBirth=" + employeeBirth + ", employeeGender="
+		return "TestEmployeeDTO [employeeNo=" + employeeNo + ", employeeName=" + employeeName + ", employeeId="
+				+ employeeId + ", employeePwd=" + employeePwd + ", employeeBirth=" + employeeBirth + ", employeeGender="
 				+ employeeGender + ", employeePhone=" + employeePhone + ", employeeHireDate=" + employeeHireDate
 				+ ", employeeRetireDate=" + employeeRetireDate + ", employeeSumCount=" + employeeSumCount
 				+ ", employeeSumTime=" + employeeSumTime + ", employeeLastLoginDate=" + employeeLastLoginDate
@@ -232,14 +208,17 @@ public class EmployeeDTO implements Serializable{
 				+ ", RequestDate=" + RequestDate + ", employeeFirstConfirmYn=" + employeeFirstConfirmYn
 				+ ", employeeSecondConfirmYn=" + employeeSecondConfirmYn + ", employeeLastConfirmYn="
 				+ employeeLastConfirmYn + ", employeeLastConfirmDate=" + employeeLastConfirmDate
-				+ ", employeeRegistReturnYn=" + employeeRegistReturnYn + ", employeeEmail=" + employeeEmail
-				+ ", employeeAddress=" + employeeAddress + ", employeepictureSaveName=" + employeepictureSaveName
-				+ ", employeepictureSaveRoot=" + employeepictureSaveRoot + ", employeePictureThumbNail="
-				+ employeePictureThumbNail + "]";
+				+ ", employeeRegistReturnYn=" + employeeRegistReturnYn + ", testAddressDTO=" + testAddressDTO
+				+ ", testEmailDTO=" + testEmailDTO + "]";
 	}
 	
 	
+
+
 	
 
+	
+
+	
 	
 }
