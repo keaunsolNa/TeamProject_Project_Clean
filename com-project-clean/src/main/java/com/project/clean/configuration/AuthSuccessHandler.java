@@ -36,10 +36,11 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler{
 
 		System.out.println(authentication.getName());
 		Cookie[] myCookie = request.getCookies();
-
-		for(Cookie c : myCookie) {
-			System.out.println(c.getName());
-			System.out.println(c.getValue());
+		if(null != request.getCookies()) {
+			for(Cookie c : myCookie) {
+				System.out.println(c.getName());
+				System.out.println(c.getValue());
+			}
 		}
 		
 		authentication = SecurityContextHolder.getContext().getAuthentication();

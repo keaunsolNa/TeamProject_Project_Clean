@@ -2,6 +2,7 @@ package com.project.clean.model.service.employee.task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -32,11 +33,13 @@ public class TaskServiceImpl implements TaskService{
 	private CheckListRepository checkListRepository;
 	
 	@Autowired
-	public TaskServiceImpl(EmpRepository empRepository,  ApplyRepository applyRepository, ModelMapper modelMapper, ReservationInfoRepository reservationInfoRepository) {
+	public TaskServiceImpl(EmpRepository empRepository,  ApplyRepository applyRepository, ModelMapper modelMapper, ReservationInfoRepository reservationInfoRepository,
+			CheckListRepository checkListRepository) {
 		this.empRepository = empRepository;
 		this.applyRepository = applyRepository;
 		this.modelMapper = modelMapper;
 		this.reservationInfoRepository = reservationInfoRepository;
+		this.checkListRepository = checkListRepository;
 	}
 	
 	@Override
@@ -58,34 +61,30 @@ public class TaskServiceImpl implements TaskService{
 		
 		for (ApplyEmployeeEmbedded applyEmployeeEmbedded : applyEmployeeList) {
 			
-			System.out.println("예약 번호 : " + applyEmployeeEmbedded.getApplyEmployeeIdAndApplyReservationNo().getApplyReservationNo());
-			
 			Integer reservationNo = applyEmployeeEmbedded.getApplyEmployeeIdAndApplyReservationNo().getApplyReservationNo();
 			
-			ReservationInfo reservationInfo = reservationInfoRepository.findByReservationNo(reservationNo);
-			
-			ReservationInfoDTO reservationInfoList = modelMapper.map(reservationInfo, ReservationInfoDTO.class);
-			
-			reservationInfoArrayList.add(reservationInfoList);
-			
+			System.out.println("예약 번호 : " + reservationNo);
+
+				try {
+					
+				CheckList checkList = checkListRepository.findById(reservationNo).get();
+				
+				} catch(java.util.NoSuchElementException e) {
+				
+					System.out.println("실행 확인");
+
+						ReservationInfo reservationInfo = reservationInfoRepository.findByReservationNo(reservationNo);
+						ReservationInfoDTO reservationInfoList = modelMapper.map(reservationInfo, ReservationInfoDTO.class);
+						reservationInfoArrayList.add(reservationInfoList);
+						System.out.println("해당 직원 예약 목록 : " + reservationInfoArrayList);
+						
+				}  
 		}
 		
 		return reservationInfoArrayList;
 		
 	}
 
-//	@Override
-//	public int selectEmployeeNo(String employeeId) {
-//		
-//		Employee empAndApplyEmp = empRepository.findByEmployeeId(employeeId);
-//		EmployeeDTO emplist = modelMapper.map(empAndApplyEmp, EmployeeDTO.class);
-//		
-//		System.out.println("해당 직원 예약 목록 : " + reservationInfoArrayList);
-//		
-//		
-//		return reservationInfoArrayList;  
-//		   
-//	}
 	@Override
 	/* 직원 번호 조회 */
 	public int selectEmployeeNo(String employeeId) {
@@ -119,8 +118,6 @@ public class TaskServiceImpl implements TaskService{
 		int empNo = emplist.getEmployeeNo();
 		
 		List<ApplyEmployeeEmbedded> applyEmployeeList = applyRepository.findAllEmployeeApply(empNo);
-		
-		List<ReservationInfoDTO> reservationInfoArrayList = new ArrayList<>();
 		
 		for (ApplyEmployeeEmbedded applyEmployeeEmbedded : applyEmployeeList) {
 			
@@ -157,6 +154,5 @@ public class TaskServiceImpl implements TaskService{
 		
 		return 0;
 	}
-
-
 }
+

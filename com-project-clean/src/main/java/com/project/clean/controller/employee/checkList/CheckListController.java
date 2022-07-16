@@ -57,9 +57,14 @@ public class CheckListController {
 		checkListDTO.setCheckReservationNo(reservationNo);
 
 		int result = taskService.registNewCheckList(checkListDTO);
-		
+        
 		LocalDate now = LocalDate.now();
-		
+
+		rttr.addFlashAttribute("resultMessage", now + " 시에 업무를 시작하셨습니다. 업무 완료 후 작성 버튼을 눌러주세요.");
+        
+        mv.addObject("resultMessage", rttr);
+        mv.setViewName("/employee/task/selectMyTask");
+        
 		
 		return mv;
 	}
@@ -72,7 +77,7 @@ public class CheckListController {
 		CheckListDTO checklistDTO = taskService.selectScheckList(userId);
 		
 		if(null == checklistDTO) {
-			mv.addObject("resultMessage", "조회 가능한 리스트가 없습니다.");
+			mv.addObject("resultMessage", "작성 가능한 체크리스트가 없습니다.");
 			mv.setViewName("/employee/task/selectMyTask");
 		} else {
 			checklistDTO.getCheckHTML();

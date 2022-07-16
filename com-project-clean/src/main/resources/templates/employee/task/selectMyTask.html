@@ -10,26 +10,9 @@
 <title>ProjectClean</title>
 </head>
 <body>
-
-	<table align="center" border="1">
-		<tr>
-			<th>예약 번호</th>
-			<th>고객 이름</th>
-			<th>시작 시간</th>
-			<th>종료 시간</th>
-			<th>예상 급여</th>
-		</tr>
-		<tr th:each="resList : ${ reservationList }">
-			<td th:text="${ resList.reservationNo }"></td>
-			<td th:text="${ resList.userName }"></td>
-			<td th:text="${ resList.businessStartTime }"></td>
-			<td th:text="${ resList.businessEndTime }"></td>
-			<td th:text="${ resList.totalPayment }"></td>
-		</tr>
-	</table>
 	<div th:include="common/header.html"></div>
 	<div th:include="common/taskAside.html"></div>
-
+	
 	<script>
 		const resultMessage = "[[${resultMessage}]]";
 		if(resultMessage){
@@ -116,7 +99,7 @@
 
 				}
 				
-			}, 100)
+			}, 1000)
 			
 	};
    	</script>

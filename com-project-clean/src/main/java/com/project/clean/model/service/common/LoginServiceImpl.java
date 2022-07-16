@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -58,9 +59,11 @@ public class LoginServiceImpl implements LoginService{
 
 		if(!userId.contains("cleanup")) {
 			
+			System.out.println("EMPLOYEE 조회 시작");
 			/* employee select*/
 			EmployeeAndAdminMemberAuthority employee = commonEmployeeLoginRepository.findByEmployeeIdAndEmployeeRetireYn(userId, "N");
-			 
+			
+			System.out.println("조회 해 온 멤버 객체 : " + employee);
 			/* authorities 빈 객체 생성 */
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			
@@ -91,7 +94,8 @@ public class LoginServiceImpl implements LoginService{
 			
 			/* admin select*/
 			AdminAndAdminMemberAuthority admin = commonAdminLoginRepository.findByAdminIdAndAdminRetireYn(userId, "N");
-
+			System.out.println("조회 해 온 멤버 객체 : " + admin);
+			
 			/* authorities 빈 객체 등록 */
 			List<GrantedAuthority> authorities = new ArrayList<>();
 
@@ -114,12 +118,17 @@ public class LoginServiceImpl implements LoginService{
 			}
 			
 			AdminDTO adminDTO = modelMapper.map(admin, AdminDTO.class);
+			
 			AdminIpAddressDTO adminIp = new AdminIpAddressDTO();
 			
 			try {
 	            InetAddress inetAddress = InetAddress.getLocalHost();
 	            String strIpAdress = inetAddress.getHostAddress();
 	            String IpAdressNo = admin.getAdminId();
+	            
+	            System.out.println("조회해온 IP 주소 : " + strIpAdress);
+	            System.out.println("관리자 IP : " + adminIp);
+	            System.out.println("관리자 보유 IP 주소 : " + admin.getAdminIpAddress());
 	            
 	            if(null != strIpAdress) {
 	            	if(admin.getAdminIpAddress().isEmpty()) {
@@ -128,7 +137,9 @@ public class LoginServiceImpl implements LoginService{
 	            		
 	            		adminIpRepositroy.save(modelMapper.map(adminIp, AdminIpAddress.class));
 	            	}
+	            	
 	            } else if(admin.getAdminIpAddress().size() < 4) {
+	            	
 	            	if(!(admin.getAdminIpAddress().contains(strIpAdress))) {
 	            		
 	            		adminIp.setAdminNo(adminDTO.getAdminNo());
@@ -136,8 +147,9 @@ public class LoginServiceImpl implements LoginService{
 	            		
 	            		adminIpRepositroy.save(modelMapper.map(adminIp, AdminIpAddress.class));
 	            	}
-	            } else {
-	            	
+	            } else if(admin.getAdminIpAddress().size() >= 4) {
+	            	System.out.println("4개 이상 IP 확인");
+	            	throw new DisabledException("인가 실패");
 	            }
 	            
 	        } catch (java.net.UnknownHostException e) {
@@ -148,7 +160,10 @@ public class LoginServiceImpl implements LoginService{
 
 			
 			AdminImpl user = new AdminImpl(admin.getAdminId(), admin.getAdminPwd(), authorities);
+			
+			System.out.println("재정의 전 AdminImpl 객체 :" + user);
 			user.SetDetailsAdmin(modelMapper.map(admin, AdminAndAdminMemberAuthorityDTO.class));
+			System.out.println("재정의 후 AdminImpl 객체 :" + user);
 			return user;
 			
 		}
@@ -156,3 +171,4 @@ public class LoginServiceImpl implements LoginService{
 	}
 
 }
+

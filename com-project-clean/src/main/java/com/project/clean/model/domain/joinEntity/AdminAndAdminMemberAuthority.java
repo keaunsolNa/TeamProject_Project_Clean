@@ -45,7 +45,7 @@ public class AdminAndAdminMemberAuthority implements java.io.Serializable {
 	@Column(name="ADMIN_HIRE_DATE")
 	private java.sql.Date adminHireDate;
 	
-	@Column(name="ADMIN_RETIRE_DATE")
+	@Column(name="ADMIN_RETIRE_DATE", nullable = true)
 	private java.sql.Date adminRetireDate;
 	
 	@Column(name="ADMIN_RETIRE_YN")
@@ -54,13 +54,13 @@ public class AdminAndAdminMemberAuthority implements java.io.Serializable {
 	@Column(name="ADMIN_JOB")
 	private String adminJob;
 	
-	@Column(name="ADMIN_LAST_LOGIN_DATE")
+	@Column(name="ADMIN_LAST_LOGIN_DATE", nullable = true)
 	private java.sql.Date adminLastLoginDate;
 	
 	@Column(name="ADMIN_SALARY")
 	private int adminSalary;
 	
-	@Column(name="ADMIN_USE_ANNUAL_VACATION")
+	@Column(name="ADMIN_USE_ANNUAL_VACATION", nullable = true)
 	private int annualVacationUse;
 	
 	@OneToMany

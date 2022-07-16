@@ -88,8 +88,6 @@
 	    window.onload = function(){
 	    	$(document).ready( function() {
 	            const jbHtml = $( 'section' ).html();
-				console.log("호출됐니");
-				console.log(jbHtml)
 	        	$.ajax({
 	            	url: "start",
 	             	type: "post",
@@ -97,9 +95,6 @@
 	            	 	jbHtml : jbHtml
 	             	},
 	             	success: function(data){
-	            	 	if(data=="1"){
-	            		 	url: "/"
-	            	 	}
 	             		alert("업무 시작. 청소 종료 후 체크리스트를 잊지 마세요!")
 	             		location.href="/employee/task/selectMyTask"
 	             	},

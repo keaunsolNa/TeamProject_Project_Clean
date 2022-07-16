@@ -24,11 +24,10 @@
 		<thead>
 			<tr>
 				<td width="100">예약 번호</td>
+				<td width="100">처리 상태</td>
 				<td width="100">고객 이름</td>
-				<td width="200">시작 시간</td>
-				<td width="200">종료 시간</td>
-				<td width="100">예상 급여</td>
-				<td width="100">업무 시작</td>
+				<td width="100">직원 이름</td>
+				
 			</tr>
 		</thead>
 		<tbody>
@@ -40,7 +39,7 @@
 		var nowtime = new Date();
 		window.onload = function(){
 			$.ajax({
-				url : "selectMyTask",
+				url : "select",
 				method : "post",
 				success:function(data){
 					
@@ -48,24 +47,17 @@
 					$table.html("");
 					for(var index in data){
 						$tr = $("<tr>");
-						$noTd = $("<td1>").addClass('rn').text(data[index].reservationNo);
-						$nameTd = $("<td>").text(data[index].userName);
-						$startTimeTd = $("<td>").addClass('st').text(data[index].businessStartTime);
-						$endTimeTd = $("<td>").text(data[index].businessEndTime);
-						$paymentTd = $("<td>").text(data[index].totalPayment)
-						$buttonTd = $("<button></button>").addClass('btn').addClass([index]).append("테스트");
-						
-						$tr.append($noTd);
-						$tr.append($nameTd);
-						$tr.append($startTimeTd);
-						$tr.append($endTimeTd);
-						$tr.append($paymentTd);
- 						$tr.append($buttonTd); 
+						$checkReservationNoTd = $("<td1>").addClass('rn').text(data[index].checkReservationNo);
+						$checkStatusTd = $("<td>").text(data[index].checkStatus);
+						$checkUserNameTd = $("<td>").text(data[index].customerName);
+						$checkEmployeeNameTd = $("<td>").text(data[index].employeeName);
+						 
+						$tr.append($checkReservationNoTd);
+						$tr.append($checkStatusTd);
+						$tr.append($checkUserNameTd);
+						$tr.append($checkEmployeeNameTd);
 						$table.append($tr);
-						var startTime = new Date();
-						startTime = data[index].businessStartTime;
-						console.log("업무 시작 시간 : " + startTime)
-						console.log(typeof(startTime))
+						
 					};
 				},
 				error:function(error){
@@ -73,7 +65,7 @@
 				}
 			});
 			
-			setTimeout(function() {
+ 			setTimeout(function() {
 				const buttons = document.querySelectorAll('table#taskInfo tbody tr button');
 				
 				for(let i = 0; i < buttons.length; i++) {
@@ -98,7 +90,7 @@
 
 				}
 				
-			}, 100)
+			}, 100) 
 			
 	};
    	</script>
