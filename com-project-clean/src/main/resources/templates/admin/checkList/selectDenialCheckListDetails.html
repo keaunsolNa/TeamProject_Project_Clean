@@ -22,19 +22,6 @@
 		<p th:utext="${checkList.checkHTML}" class="jbHtml"></p>			
 		
 		<br><br>				
-		
-        <div class="OpnionArea">
-	        <th:block sec:authorize="hasRole('ADMIN')">
-		        <div class="adminOpnionArea">
-		            <label>관리자 의견</label><br>
-	            	<textarea class="Opnion" cols="100%" rows="3" required></textarea>
-	            	<br>
-	            	<input type="button" value="승인" id="accpet">
-	            	<input type="button" value="거절" id="denial">
-		        </div>
-			</th:block>
-        </div>
-        
 	</form>
 </section>
 
@@ -45,7 +32,7 @@
     	document.getElementById("denial").onclick = function(){
 			const reservationNo = $('.reservationNo').val();
     			const jbHtml = $( 'section' ).html();
-    		if(confirm("서류를 반려하시겠습니까? 직원에게 알람이 전송됩니다.")){
+    		if(confirm("서류를 재 반려하시겠습니까? 직원에게 알람이 전송됩니다.")){
     			$.ajax({
     				url: "denial",
     				type:"POST",
@@ -92,22 +79,6 @@
     </script>	
 
 <!-- checkbox sciprt -->
-<script>
-
-	const checkboxs = document.querySelectorAll('form .checklist .checkbox');
-		for(let i =0; i < checkboxs.length; i++){
-			const checkbox = checkboxs[i]
-			
-			$(checkbox).each(function(){
-				if(this.checked == true){
-					console.log("트루")
-				}
-			})
-			console.log(checkbox)
-			
-		};
-
-</script>
 
 
 
