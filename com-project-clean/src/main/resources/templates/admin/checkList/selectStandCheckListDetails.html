@@ -97,13 +97,14 @@
 	const checkboxs = document.querySelectorAll('form .checklist .checkbox');
 		for(let i =0; i < checkboxs.length; i++){
 			const checkbox = checkboxs[i]
-			
-			$(checkbox).each(function(){
-				if(this.checked == true){
-					console.log("트루")
-				}
-			})
-			console.log(checkbox)
+			if(checkbox.value == "NOT"){
+				console.log("폴스")
+				$(checkbox).attr("disabled", true)
+			} else if(checkbox.value == "YES") {
+				console.log("트루")
+				$(checkbox).attr("checked",true)
+				$(checkbox).attr("disabled", true)
+			};
 			
 		};
 

@@ -73,7 +73,7 @@ public class AdminCheckListController {
 	
 	@PostMapping(value = "denial", produces="application/json; charset=UTF-8")
 	@ResponseBody
-	public String denialCheckList(ModelAndView mv, HttpServletRequest request) throws JsonProcessingException {
+	public String denialCheckList(HttpServletRequest request) throws JsonProcessingException {
 		int reservationNo = Integer.parseInt(request.getParameter("reservationNo"));
 		String htmlData = request.getParameter("jbHtml");
 		
@@ -96,7 +96,7 @@ public class AdminCheckListController {
 	
 	@PostMapping(value = "denial/select", produces="application/json; charset=UTF-8")
 	@ResponseBody
-	public String denialCheckListSelect(ModelAndView mv, Principal principal) throws JsonProcessingException {
+	public String denialCheckListSelect(Principal principal) throws JsonProcessingException {
 		
 		System.out.println("컨트롤러 도착 확인");
 		ObjectMapper mapper = new ObjectMapper();

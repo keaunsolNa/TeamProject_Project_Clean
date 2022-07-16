@@ -55,10 +55,6 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 
 		List<CheckListDTO> check = new ArrayList<>();
 		List<CheckListAndReservationInfoAndEmployeeDTO> checkListAndReservationInfoAndEmployeeList = new ArrayList<>();
-		System.out.println("확인 : " + parameter);
-		System.out.println("확인 : " + parameter);
-		System.out.println("확인 : " + parameter);
-		System.out.println("확인 : " + parameter);
 		try {
 			List<CheckList> checkList = new ArrayList<>();
 			/* 파라미터 값으로 모든 체크리스트 조회 */
@@ -81,7 +77,7 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 			Integer adminNo = adminDTO.getAdminNo();
 			
 			/* 전달할 AdminName 변수에 담기 */
-			String adminName = "없음";
+			String adminName = "";
 			
 			/* for-each문 시작 */
 			for (CheckListDTO checkLists : checkListDTO) {
@@ -131,6 +127,11 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 						checkListAndReservationInfoAndEmployeeDTO.setEmployeeName(employeeName);
 						checkListAndReservationInfoAndEmployeeDTO.setCustomerName(userName);
 						checkListAndReservationInfoAndEmployeeDTO.setCheckReservationNo(checkReservationNo);
+						if(checkStatus.equals("R")) {
+							checkStatus = "미처리 체크리스트";
+						} else if(checkStatus.equals("D")) {
+							checkStatus = "반려 체크리스트";
+						}
 						checkListAndReservationInfoAndEmployeeDTO.setCheckStatus(checkStatus);
 						checkListAndReservationInfoAndEmployeeDTO.setCheckHTML(checkHTML);
 						

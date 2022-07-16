@@ -14,6 +14,8 @@ public interface CheckListRepository  extends JpaRepository<CheckList, Integer>{
 	List<CheckList> findAllByCheckStatus(String string);
 
 	CheckList findByCheckReservationNo(Integer checkReservationNo);
+
+	List<CheckList> findAllByCheckStatusOrCheckStatus(String string, String string2);
 	
 
 }

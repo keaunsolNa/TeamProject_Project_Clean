@@ -11,7 +11,7 @@
 </head>
 <body>
 	<div th:include="common/header.html"></div>
-	<div th:include="common/taskAside.html"></div>
+	<div th:include="common/checkListAside.html"></div>
 	
 	<script>
 		const resultMessage = "[[${resultMessage}]]";
@@ -40,7 +40,7 @@
 		var nowtime = new Date();
 		window.onload = function(){
 			$.ajax({
-				url : "selectMyTask",
+				url : "selectMyCheckList",
 				method : "post",
 				success:function(data){
 					
