@@ -7,12 +7,11 @@ import com.project.clean.model.dto.joinDTO.CheckListAndReservationInfoAndEmploye
 
 public interface AdminCheckListService {
 
-	List<CheckListAndReservationInfoAndEmployeeDTO> selectAllStandCheckList(String adminId, int parameter);
+	List<CheckListAndReservationInfoAndEmployeeDTO> selectCheckList(String adminId, int parameter);
 
-	CheckListDTO selectStandCheckListDetails(String adminName, int reservationNo);
+	CheckListDTO selectCheckListDetails(String adminName, int reservationNo, int parameter);
 
-	int modifyCheckListDenial(CheckListDTO checkList);
+	int modifyCheckList(CheckListDTO checkList);
 
-	CheckListDTO selectDenialCheckListDetails(int reservationNo);
 
 }

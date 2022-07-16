@@ -107,10 +107,6 @@ public class CheckListServiceImpl implements CheckListService{
 	@Override
 	public int registNewCheckList(CheckListDTO checkListDTO) {
 		
-		System.out.println("TEST");
-		System.out.println("TEST");
-		System.out.println(checkListDTO.getAdminNo());
-		System.out.println(checkListDTO);
 		checkListRepository.save(modelMapper.map(checkListDTO, CheckList.class));
 		
 		return 0;

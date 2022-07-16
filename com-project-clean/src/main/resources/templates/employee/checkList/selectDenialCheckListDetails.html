@@ -21,22 +21,29 @@
 		
 		<p th:utext="${checkList.checkHTML}" class="jbHtml"></p>			
 		
+		  <th:block th:if="${ checkList.checkStatus == 'D' }">	
+		  
 	        <div class="employeeOpnionArea">
 	            <label>직원 답변</label><br>
 	            <textarea class="Opnion" cols="100%" rows="3"></textarea>
 	            <br>
-	            <input type="button" value="등록">
-	        </div>
+	    	</div>
+	    	
+	    </th:block>
 		<br><br>				
 	</form>
 </section>
 
+	<th:block th:if="${ checkList.checkStatus == 'D' }">	
+	    <input type="button" value="등록" id="submit">
+	</th:block>
+	
 <!-- Submit script -->
     <script>
 	    
 	    const jbHtml = "";
     	
-    	document.getElementById("accpet").onclick = function(){
+    	document.getElementById("submit").onclick = function(){
 			const reservationNo = $('.reservationNo').val();
     			const jbHtml = $( 'section' ).html();
     		if(confirm("사유서를 제출하시겠습니까? 담당 관리자에게 알람이 전송됩니다.")){
@@ -49,7 +56,7 @@
     				},
     				
     				success: function(data){
-    					location.href="/admin/checkList/selectStandCheckList"
+    					location.href="/employee/checkList/selectMyCheckList"
 		    			alert("전송 완료");
 						
     				},
@@ -68,10 +75,8 @@
 			for(let i =0; i < checkboxs.length; i++){
 				const checkbox = checkboxs[i]
 				if(checkbox.value == "NOT"){
-					console.log("폴스")
 					$(checkbox).attr("disabled", true)
 				} else if(checkbox.value == "YES") {
-					console.log("트루")
 					$(checkbox).attr("checked",true)
 					$(checkbox).attr("disabled", true)
 				};

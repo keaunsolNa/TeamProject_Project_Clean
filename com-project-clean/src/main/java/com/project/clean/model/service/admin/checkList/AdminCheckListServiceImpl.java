@@ -49,9 +49,9 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 		this.adminRepository = adminRepository;
 	}
 	
-	/* CheckList 전체 조회 */
+	/* KS. CheckList 전체 조회 */
 	@Override
-	public List<CheckListAndReservationInfoAndEmployeeDTO> selectAllStandCheckList(String adminId, int parameter) {
+	public List<CheckListAndReservationInfoAndEmployeeDTO> selectCheckList(String adminId, int parameter) {
 
 		List<CheckListDTO> check = new ArrayList<>();
 		List<CheckListAndReservationInfoAndEmployeeDTO> checkListAndReservationInfoAndEmployeeList = new ArrayList<>();
@@ -62,6 +62,8 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 				checkList = checkListRepository.findAllByCheckStatus("R");
 			} else if(parameter == 2) {
 				checkList = checkListRepository.findAllByCheckStatus("D");
+			} else if(parameter == 3) {
+				checkList = checkListRepository.findAllByCheckStatus("A");
 			}
 			
 			/* 조회한 Entity List<CheckListDTO>로 전환 */
@@ -128,9 +130,11 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 						checkListAndReservationInfoAndEmployeeDTO.setCustomerName(userName);
 						checkListAndReservationInfoAndEmployeeDTO.setCheckReservationNo(checkReservationNo);
 						if(checkStatus.equals("R")) {
-							checkStatus = "미처리 체크리스트";
+							checkStatus = "미처리";
 						} else if(checkStatus.equals("D")) {
-							checkStatus = "반려 체크리스트";
+							checkStatus = "반려";
+						} else if(checkStatus.equals("A")) {
+							checkStatus = "완료";
 						}
 						checkListAndReservationInfoAndEmployeeDTO.setCheckStatus(checkStatus);
 						checkListAndReservationInfoAndEmployeeDTO.setCheckHTML(checkHTML);
@@ -162,64 +166,57 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 		
 	}
 
-	/* CheckList 상세 조회 */
+	/* KS. CheckList 상세 조회 */
 	@Override
-	public CheckListDTO selectStandCheckListDetails(String adminId, int checkReservationNo) {
+	public CheckListDTO selectCheckListDetails(String adminId, int checkReservationNo, int parameter) {
+		
+		CheckList checkList = new CheckList();
 		
 		try {
 			
-			CheckList checkList = checkListRepository.findByCheckReservationNo(checkReservationNo);
+			checkList = checkListRepository.findByCheckReservationNo(checkReservationNo);
 			
-			Admin admin = adminRepository.findByAdminId(adminId);
+			if(parameter == 1) {
+				
+				Admin admin = adminRepository.findByAdminId(adminId);
+				
+				int adminNo = admin.getAdminNo();
+				
+				checkList.setAdminNo(adminNo);
+				
+				checkList.setCheckStatus("R");
+				
+			} 
 			
-			int adminNo = admin.getAdminNo();
-			
-			checkList.setAdminNo(adminNo);
-			
-			checkList.setCheckStatus("R");
-			
-			return modelMapper.map(checkList, CheckListDTO.class);
-			
-		} catch (java.util.NoSuchElementException e){
+		} catch (java.util.NoSuchElementException e) {
 			
 			CheckListDTO checkListDTO = new CheckListDTO();
 			
 			System.out.println("일치하는 체크리스트 없음.");
 			
 			return checkListDTO;
-		} 
+		}
+		
+		return modelMapper.map(checkList, CheckListDTO.class);
 	}
 
-	/* CheckList 거절 */
+	/* KS. CheckList 승인 및 반려 */
 	@Override
-	public int modifyCheckListDenial(CheckListDTO checkList) {
+	public int modifyCheckList(CheckListDTO checkList) {
 		
 		CheckList checkListEntity = checkListRepository.findByCheckReservationNo(checkList.getCheckReservationNo()); 
 		
-		checkListEntity.setCheckHTML(checkList.getCheckHTML());
-		checkListEntity.setCheckStatus("D");
+		if(checkList.getCheckStatus().equals("D")) {
+			checkListEntity.setCheckHTML(checkList.getCheckHTML());
+			checkListEntity.setCheckStatus("D");
+		} else if(checkList.getCheckStatus().equals("A")) {
+			checkListEntity.setCheckHTML(checkList.getCheckHTML());
+			checkListEntity.setCheckStatus("A");
+		}
 		
 		return 0;
 	}
 
-	/* 상세 조회 */
-	@Override
-	public CheckListDTO selectDenialCheckListDetails(int reservationNo) {
-		
-		try{
-			CheckList checkList =  checkListRepository.findByCheckReservationNo(reservationNo);
-			
-			return modelMapper.map(checkList, CheckListDTO.class);
-			
-		} catch(java.util.NoSuchElementException e) {
-			
-			CheckListDTO checkListDTO = new CheckListDTO();
-			
-			System.out.println("일치 항목 없음");
-			
-			return checkListDTO;
-		}
-	}
 }
 
 

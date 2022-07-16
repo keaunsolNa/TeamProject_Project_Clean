@@ -37,11 +37,13 @@ public class CheckListController {
 		this.checkListService = checkListService;
 	}
 	
+	/* KS. 본인 예약 업무 리스트 조회 */
 	@GetMapping("selectMyCheckList")
 	public void selectMyTask() {
 		
 	}
-  
+
+	/* KS. 본인 예약 업무 시작 */
 	@PostMapping(value = "selectMyCheckList", produces="application/json; charset=UTF-8")
 	@ResponseBody
 	public String selectMyTask(Principal principal) throws JsonProcessingException {
@@ -51,19 +53,20 @@ public class CheckListController {
 		String employeeId = principal.getName();
 		List<ReservationInfoDTO> reservationList =  checkListService.selectReservationListByEmployeeId(employeeId);
 		 
-		System.out.println("Controller에서 가져온 결과값 : " +  reservationList);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		mapper.setDateFormat(dateFormat); 
 		return mapper.writeValueAsString(reservationList);
 	}
 	
 	
+	/* KS. 반려 및 대기 체크리스트 목록 조회 */
 	@GetMapping("denial/select")
 	public String selectDenialCheckList() {
 		return "employee/checkList/selectDenialCheckList";
 		
 	}
 	
+	/* KS. 반려 및 대기 체크리스트 목록 조회 */
 	@PostMapping(value = "denial/select", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public String selectDenialCheckList(Principal principal) throws JsonProcessingException {
@@ -79,16 +82,18 @@ public class CheckListController {
 		
 	}
 	
-	
+	/* KS. 예약 번호 조회 */
 	@GetMapping("start")
 	public String checkListInsert(ModelAndView mv, HttpServletRequest request, @RequestParam int re) {
 			
 		System.out.println(re);
 		reservationNo = re;
 		mv.setViewName("main");
+		
 		return "employee/checkList/startChecklist";
 	}
 	
+	/* KS. 업무 시작 후 빈 체크리스트 폼 등록 */
 	@PostMapping(value="start")
 	public ModelAndView checkListInsert(RedirectAttributes rttr, HttpServletRequest request, Principal principal, ModelAndView mv) {
 		
@@ -119,6 +124,7 @@ public class CheckListController {
 		return mv;
 	}
 	
+	/* 업무 종료 후 체크리스트 작성 */
 	@GetMapping("insert")
 	public ModelAndView selectCheckList(Principal principal, @ModelAttribute ModelAndView mv) {
 		
@@ -139,8 +145,9 @@ public class CheckListController {
 		
 	}
 	
+	/* 체크리스트 작성 및 등록 */
 	@PostMapping("update")
-	public String updateCheckList(HttpServletRequest request, ModelAndView mv) {
+	public String updateCheckList(HttpServletRequest request) {
 		
 		int reservationNo = Integer.parseInt(request.getParameter("reservationNo"));
 
@@ -154,7 +161,8 @@ public class CheckListController {
 		return "/employee/checkList/selectMyCheckList";
 	}
 	
-	@GetMapping("denialselectDetails")
+	/* 반려 체크리스트 상세 조회 */
+	@GetMapping("denialSelectDetails")
 	public ModelAndView selectDenialCheckListDetails(Principal principal, ModelAndView mv, @RequestParam int re ) {
 		
 		String adminName = principal.getName();
@@ -165,8 +173,24 @@ public class CheckListController {
 		mv.addObject("checkList", checkList);
 		
 		mv.setViewName("employee/checkList/selectDenialCheckListDetails");
-		System.out.println("반환전");
 		return mv;
 		
+	}
+	
+	/* 반려 체크리스트 사유서 제출 */
+	@PostMapping("accpet")
+	public String updateDenialCheckList(HttpServletRequest request) {
+		
+		int reservationNo = Integer.parseInt(request.getParameter("reservationNo"));
+		
+		CheckListDTO checkListDTO = new CheckListDTO();
+		
+		checkListDTO.setCheckReservationNo(reservationNo);
+		checkListDTO.setCheckHTML(request.getParameter("jbHtml"));
+		checkListDTO.setCheckStatus("D");
+		
+		int result = checkListService.updateCheckList(checkListDTO);
+		
+		return "/employee/checkList/selectMyCheckList";
 	}
 } 

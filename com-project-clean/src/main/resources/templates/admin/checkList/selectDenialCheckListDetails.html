@@ -24,7 +24,8 @@
 		<br><br>				
 	</form>
 </section>
-
+<input type="button" value="승인" id="accept">
+<input type="button" value="거절" id="denial">
 <!-- Submit script -->
     <script>
 	    
@@ -43,7 +44,7 @@
     				
     				success: function(data){
 		    			alert("전송 완료");
-		    			location.href="/admin/checklist/denial/select"
+		    			location.href="/admin/checklist/accept/select"
     				},
     				error : function(request, status){
     					alert("전송 실패")
@@ -52,12 +53,12 @@
     		 } 
     	}
     	
-    	document.getElementById("accpet").onclick = function(){
+    	document.getElementById("accept").onclick = function(){
 			const reservationNo = $('.reservationNo').val();
     			const jbHtml = $( 'section' ).html();
     		if(confirm("서류를 승인하시겠습니까? 직원에게 알람이 전송됩니다.")){
     			$.ajax({
-    				url: "accpet",
+    				url: "accept",
     				type:"POST",
     				data:{	
     					jbHtml : jbHtml,
@@ -65,7 +66,7 @@
     				},
     				
     				success: function(data){
-    					location.href="/admin/checkList/selectStandCheckList"
+    					location.href="/admin/checklist/accept/select"
 		    			alert("전송 완료");
 						
     				},
@@ -78,9 +79,17 @@
 
     </script>	
 
-<!-- checkbox sciprt -->
-
-
-
+	<script>
+		const checkboxs = document.querySelectorAll('form .checklist .checkbox');
+			for(let i =0; i < checkboxs.length; i++){
+				const checkbox = checkboxs[i]
+				if(checkbox.value == "NOT"){
+					$(checkbox).attr("disabled", true)
+				} else if(checkbox.value == "YES") {
+					$(checkbox).attr("checked",true)
+					$(checkbox).attr("disabled", true)
+				};
+		};
+	</script>
 </body>
 </html>
