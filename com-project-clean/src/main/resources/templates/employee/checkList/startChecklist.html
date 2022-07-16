@@ -14,7 +14,6 @@
 </head>
 
 <body>
-	
 	    <section hidden id="checklist" class="container-fluid" >
 	        <div class="logintopnav col-xl-3">
 	            <a href="/"><h3 class= "mainlogo">CLEANUP</h3></a>
@@ -24,222 +23,44 @@
 	
 	        <div class="checklist col-xl-3">
 	            <h5 class="title col-sm-3">주방</h5>
-	            <input type="checkbox" name="kitchenCheck1" class="checkbox 1" > 정리정돈<br>
-	            <input type="checkbox" name="kitchenCheck2" class="checkbox 2"> 찌든때<br>
-	            <input type="checkbox" name="kitchenCheck3" class="checkbox 3"> 설거지<br>
-	            <input type="checkbox" name="kitchenCheck4" class="checkbox 4"> 가스레인지<br>
-	            <input type="checkbox" name="kitchenCheck5" class="checkbox 5"> 음식물 쓰레기<br>
-	            <input type="checkbox" name="kitchenCheck6" class="checkbox 6"> 물기 제거<br>
+	            <input type="checkbox" id="checkbox1" class="checkbox"> 정리정돈<br>
+	            <input type="checkbox" id="checkbox2" class="checkbox"> 찌든때<br>
+	            <input type="checkbox" id="checkbox3" class="checkbox"> 설거지<br>
+	            <input type="checkbox" id="checkbox4" class="checkbox"> 가스레인지<br>
+	            <input type="checkbox" id="checkbox5" class="checkbox"> 음식물 쓰레기<br>
+	            <input type="checkbox" id="checkbox6" class="checkbox"> 물기 제거<br>
 	        </div>
 	
 	        <div class="checklist col-xl-3">
 	            <h5 class="title col-sm-3">방 / 거실</h5>
-	            <input type="checkbox" name="roomCheck1" class="checkbox 7"> 정리 정돈<br>
-	            <input type="checkbox" name="roomCheck2" class="checkbox 8"> 침구 정돈<br>
-	            <input type="checkbox" name="roomCheck3" class="checkbox 9"> 먼지털기<br>
-	            <input type="checkbox" name="roomCheck4" class="checkbox 10"> 청소기<br>
-	            <input type="checkbox" name="roomCheck5" class="checkbox 11"> 신발장 / 거울<br>
-	            <input type="checkbox" name="roomCheck6" class="checkbox 12"> 걸레질<br>
+	            <input type="checkbox" id="checkbox7" class="checkbox"> 정리 정돈<br>
+	            <input type="checkbox" id="checkbox8" class="checkbox"> 침구 정돈<br>
+	            <input type="checkbox" id="checkbox9" class="checkbox"> 먼지털기<br>
+	            <input type="checkbox" id="checkbox10" class="checkbox"> 청소기<br>
+	            <input type="checkbox" id="checkbox11" class="checkbox"> 신발장 / 거울<br>
+	            <input type="checkbox" id="checkbox12" class="checkbox"> 걸레질<br>
 	        </div>
 	
 	        <div class="checklist col-xl-3">
 	            <h5 class="title col-sm-3">화장실</h5>
-	            <input type="checkbox" name="restRoomCheck1" class="checkbox 13"> 쓰레기통 정리<br>
-	            <input type="checkbox" name="restRoomCheck2" class="checkbox 14"> 찌든 때, 물 때 정리<br>
-	            <input type="checkbox" name="restRoomCheck3" class="checkbox 15"> 물기 제거<br>
-	            <input type="checkbox" name="resrRoomCheck4" class="checkbox 16"> 세탁<br>
-	            <input type="checkbox" name="resrRoomCheck5" class="checkbox 17"> 건조<br>
+	            <input type="checkbox" id="checkbox13" class="checkbox"> 쓰레기통 정리<br>
+	            <input type="checkbox" id="checkbox14" class="checkbox"> 찌든 때, 물 때 정리<br>
+	            <input type="checkbox" id="checkbox15" class="checkbox"> 물기 제거<br>
+	            <input type="checkbox" id="checkbox16" class="checkbox"> 세탁<br>
+	            <input type="checkbox" id="checkbox17" class="checkbox"> 건조<br>
 	        </div>
 	
 	        <div class="checklist col-xl-3">
 	            <h5 class="title col-sm-3">부가서비스</h5>
-	            <input type="checkbox" name="additionalCheck1" class="checkbox 18"> 레인지 후드<br>
-	            <input type="checkbox" name="additionalCheck2" class="checkbox 19"> 에어컨 필터<br>
-	            <input type="checkbox" name="additionalCheck3" class="checkbox 20"> 곰팡이<br>
-	            <input type="checkbox" name="additionalCheck4" class="checkbox 21"> 창고정리<br>
-	            <input type="checkbox" name="additionalCheck5" class="checkbox 22"> 반려동물<br>
-	            <input type="checkbox" name="additionalCheck5" class="checkbox 23"> 복층<br>
+	            <input type="checkbox" id="checkbox18" class="checkbox"> 레인지 후드<br>
+	            <input type="checkbox" id="checkbox19" class="checkbox"> 에어컨 필터<br>
+	            <input type="checkbox" id="checkbox20" class="checkbox"> 곰팡이<br>
+	            <input type="checkbox" id="checkbox21" class="checkbox"> 창고정리<br>
+	            <input type="checkbox" id="checkbox22" class="checkbox"> 반려동물<br>
+	            <input type="checkbox" id="checkbox23" class="checkbox"> 복층<br>
 	        </div>
 	
-	        <div class="pic col-xl-3"> 
-	            <tr class="pic">
-	                <td>
-	                    <div class="content-img-area" id="contentImgArea1">
-	                        <img id="contentImg1" class="contentImg">
-	                        <span>BEFORE</span>
-	                    </div>
-	                </td>
-	                <td>
-	                    <div class="content-img-area" id="contentImgArea2">
-	                        <img id="contentImg2" class="contentImg">
-	                        <span>AFTER</span>
-	                    </div>
-	                </td>
-	            </tr>
-	        </div>
-	        
-	        <br>
-	        <div class="sign col-xl-3" style="width:300px; height: 300px">
-	                    
-	            <div>    
-	                <canvas id="canvas" class="canvas"></canvas>  
-	            </div>  
-	            
-	           <!--  <div class="canvasbtn">    
-	                <button id="save" class="savebtn col-xl-3">저장</button>  
-	                <button id="reset" class="savebtn col-xl-3">취소</button>
-	            </div> -->
-	
- 	                 <script>    
-	                 (function(obj){      
-	                    obj.init();      
-	                    $(obj.onLoad);
-	                })
-	                    ((function(){      
-	                        var canvas = $("#canvas");      
-	                        var div = canvas.parent("div");      
-	
-	                        var ctx = canvas[0].getContext("2d");      
-	                        var drawble = false;            
-	
-	                        function canvasResize(){        
-	                            canvas[0].height = div.height();        
-	                            canvas[0].width = div.width();      
-	                        }      
-	
-	                        // PC 
-	                        function draw(e){        
-	                            function getPosition(){          
-	                                return {            
-	                                    X: e.pageX - canvas[0].offsetLeft,             
-	                                    Y: e.pageY - canvas[0].offsetTop          
-	                                }        
-	                            }        
-	                            switch(e.type){          
-	                                case "mousedown":{            
-	                                    drawble = true;            
-	                                    ctx.beginPath();            
-	                                    ctx.moveTo(getPosition().X, 
-	                                    getPosition().Y);          
-	                                }     
-	
-	                                break;          
-	                                
-	                                case "mousemove":{            
-	                                    if(drawble){              
-	                                        ctx.lineTo(getPosition().X, 
-	                                        getPosition().Y);              
-	                                        ctx.stroke();            
-	                                    }          
-	                                }          
-	                                
-	                                break;          
-	                                
-	                                case "mouseup":          
-	                                case "mouseout":{            
-	                                    drawble = false;            
-	                                    ctx.closePath();          
-	                                }          break;        
-	                            }      
-	                        }       
-	
-	                        // mobile    
-	                         function touchdraw(e){        
-	                            function getPosition(){          
-	                                return {            
-	                                    X: e.changedTouches[0].pageX - canvas[0].offsetLeft,             
-	                                    Y: e.changedTouches[0].pageY - canvas[0].offsetTop          
-	                                }        
-	                            }        
-	                            
-	                            switch(e.type){          
-	                                case "touchstart":{            
-	                                    drawble = true;            
-	                                    ctx.beginPath();            
-	                                    ctx.moveTo(getPosition().X, 
-	                                    getPosition().Y);          
-	                                }          
-	                                break;          
-	                                case "touchmove":{            
-	                                    if(drawble){             
-	                                        e.preventDefault();              
-	                                        ctx.lineTo(getPosition().X, 
-	                                        getPosition().Y);              
-	                                        ctx.stroke();            
-	                                    }          
-	                                }          
-	                                
-	                                break;          
-	                                
-	                                case "touchend":          
-	                                case "touchcancel":{            
-	                                    drawble = false;            
-	                                    ctx.closePath();          
-	                                }          
-	                                
-	                                break;        
-	                            }      
-	                        }      
-	                        return {init: function(){          
-	                            $(window).on("resize", canvasResize);                    
-	                            canvas.on("mousedown", draw);          
-	                            canvas.on("mousemove", draw);          
-	                            canvas.on("mouseup", draw);          
-	                            canvas.on("mouseout", draw);  
-	
-	                            canvas.on("touchstart", touchdraw);          
-	                            canvas.on("touchend", touchdraw);          
-	                            canvas.on("touchcancel", touchdraw);          
-	                            canvas.on("touchmove", touchdraw);          
-	
-	                            // save 버튼을 누르면 imageupload.php로 base64코드를 보내서 이미지로 변환합니다.          
-	                            
-	                            $("#save").on("click", function(){            
-	                                // a 태그를 만들어서 다운로드를 만듭니다.            
-	                                var link = document.createElement('a');             
-	                                // base64데이터 링크 달기            
-	                                link.href = canvas[0].toDataURL("image/png");             
-	                                // 다운로드시 파일명 지정            
-	                                link.download = "image.png";             
-	                                // body에 추가            
-	                                document.body.appendChild(link);             
-	                                link.click();             
-	                                document.body.removeChild(link);             
-	                                // 다운로드용 a 태그는 다운로드가 끝나면 삭제합니다.            
-	                                form.remove();          
-	                            });        
-	                            
-	                            $("#reset").on("click", function(){
-	
-	                                ctx.clearRect(0, 0, 800, 600);
-	                            })
-	
-	                        },        
-	                        
-	                        onLoad: function(){          
-	                            canvasResize();        
-	                            }}})()); 
-	                </script>  
-	        </div>
-			
-					<script type="text/javascript">
-		 				window.onload = function(){
-		 					
-							 if($(".checkbox").val("Yes")){
-								$(".checkbox").prop("checked")
-						 	 } 
-		 				}	 
-						$(".checkbox").change(function() {
-						    if(this.checked) {
-						        $(".checkbox").val("Yes");
-						    } else{
-						    	$(".checkbox").val("Not");
-						    }
-						})
-					</script>
-	        <br>
-	        
-	        <div class="OpnionArea">
+<!-- 	        <div class="OpnionArea">
 	        <th:block sec:authorize="hasRole('ADMIN')">
 		        <div class="adminOpnionArea">
 		            <label>관리자 의견</label><br>
@@ -258,13 +79,10 @@
 	            <input type="button" value="등록">
 	        </div>
 			</th:block>
-	    </div>
-	    
+	    </div> -->
 	    
 	    </section>
-	    
     <script>
-    
     const jbHtml = ""
     
 	    window.onload = function(){
@@ -289,6 +107,5 @@
 
     </script>
     
-
 </body>
 </html>

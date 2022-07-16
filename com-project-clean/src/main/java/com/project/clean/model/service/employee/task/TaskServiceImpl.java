@@ -44,6 +44,7 @@ public class TaskServiceImpl implements TaskService{
 	
 	@Override
 	@Transactional
+	/* 본인 예약 업무 조회 */
 	public List<ReservationInfoDTO> selectReservationListByEmployeeId(String employeeId) {
 
 		Employee empAndApplyEmp = empRepository.findByEmployeeId(employeeId);
@@ -85,6 +86,7 @@ public class TaskServiceImpl implements TaskService{
 	}
 
 	@Override
+	/* 직원 번호 조회 */
 	public int selectEmployeeNo(String employeeId) {
 		
 		Employee empAndApplyEmp = empRepository.findByEmployeeId(employeeId);
@@ -94,14 +96,20 @@ public class TaskServiceImpl implements TaskService{
 	}
 
 	@Override
+	/* 업무 시작 시 빈 체크리스트 등록 */
 	public int registNewCheckList(CheckListDTO checkListDTO) {
 		
+		System.out.println("TEST");
+		System.out.println("TEST");
+		System.out.println(checkListDTO.getAdminNo());
+		System.out.println(checkListDTO);
 		checkListRepository.save(modelMapper.map(checkListDTO, CheckList.class));
 		
 		return 0;
 	}
 
 	@Override
+	/* 작성해야 할 체크리스트 작성 */
 	public CheckListDTO selectScheckList(String employeeId) {
 		
 		Employee empAndApplyEmp = empRepository.findByEmployeeId(employeeId);
@@ -111,18 +119,12 @@ public class TaskServiceImpl implements TaskService{
 		
 		List<ApplyEmployeeEmbedded> applyEmployeeList = applyRepository.findAllEmployeeApply(empNo);
 		
-		List<ReservationInfoDTO> reservationInfoArrayList = new ArrayList<>();
-		
 		for (ApplyEmployeeEmbedded applyEmployeeEmbedded : applyEmployeeList) {
 			
 			Integer reservationNo = applyEmployeeEmbedded.getApplyEmployeeIdAndApplyReservationNo().getApplyReservationNo();
-				System.out.println("예약 번호 : " + reservationNo);
-				System.out.println("예약 번호 : " + reservationNo);
-				System.out.println("예약 번호 : " + reservationNo);
 				try {
 				
 					CheckList checkList = checkListRepository.findBycheckReservationNoAndCheckStatus(reservationNo, "N");
-					System.out.println(checkList);
 					
 					return modelMapper.map(checkList, CheckListDTO.class);
 					
@@ -145,9 +147,12 @@ public class TaskServiceImpl implements TaskService{
 	public int updateCheckList(CheckListDTO checkListDTO) {
 		
 		CheckList checkList = checkListRepository.findById(checkListDTO.getCheckReservationNo()).get();
-
+		
+		checkList.setCheckReservationNo(checkListDTO.getCheckReservationNo());
 		checkList.setCheckHTML(checkListDTO.getCheckHTML());
+		checkList.setCheckStatus(checkListDTO.getCheckStatus());	
 		
 		return 0;
 	}
 }
+

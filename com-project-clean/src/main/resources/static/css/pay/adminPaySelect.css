@@ -18,11 +18,14 @@ table th, table tr, table td {
 	border: 1px solid black;
 	cursor:pointer;
 }
-
  
  table tr:first-of-type p{
      font-size: large;
      
+ }
+ 
+ table th,table tr {
+ 	 border: 1px solid #9AE8F9;
  }
  
 

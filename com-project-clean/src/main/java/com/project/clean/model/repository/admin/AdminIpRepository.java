@@ -13,6 +13,4 @@ public interface AdminIpRepository extends CrudRepository<AdminIpAddress, Intege
 	List<AdminIpAddress> findAllByAdminNo(int adminNo);
 	
 
-
-
 }

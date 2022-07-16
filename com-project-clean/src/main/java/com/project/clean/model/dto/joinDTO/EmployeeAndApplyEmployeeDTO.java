@@ -30,17 +30,23 @@ public class EmployeeAndApplyEmployeeDTO implements Serializable{
 	private String employeeLastConfirmYn;
 	private java.sql.Date employeeLastConfirmDate;
 	private String employeeRegistReturnYn;
+	private String employeeEmail;
+	private String employeeAddress;
+	private String employeePictureSaveName;
+	private String employeePictureSaveRoot;
+	private String employeePictureThumbnail;
 	List<ApplyEmployeeDTO> applyEmployeeDTO;
-	
 	public EmployeeAndApplyEmployeeDTO() {
+		super();
 	}
-	
 	public EmployeeAndApplyEmployeeDTO(int employeeNo, String employeeName, String employeeId, String employeePwd,
 			Date employeeBirth, String employeeGender, String employeePhone, Date employeeHireDate,
 			Date employeeRetireDate, int employeeSumCount, int employeeSumTime, Date employeeLastLoginDate,
 			String employeeBlackListYn, String employeeRetireYn, Date requestDate, String employeeFirstConfirmYn,
 			String employeeSecondConfirmYn, String employeeLastConfirmYn, Date employeeLastConfirmDate,
-			String employeeRegistReturnYn, List<ApplyEmployeeDTO> applyEmployeeDTO) {
+			String employeeRegistReturnYn, String employeeEmail, String employeeAddress, String employeePictureSaveName,
+			String employeePictureSaveRoot, String employeePictureThumbnail, List<ApplyEmployeeDTO> applyEmployeeDTO) {
+		super();
 		this.employeeNo = employeeNo;
 		this.employeeName = employeeName;
 		this.employeeId = employeeId;
@@ -61,6 +67,11 @@ public class EmployeeAndApplyEmployeeDTO implements Serializable{
 		this.employeeLastConfirmYn = employeeLastConfirmYn;
 		this.employeeLastConfirmDate = employeeLastConfirmDate;
 		this.employeeRegistReturnYn = employeeRegistReturnYn;
+		this.employeeEmail = employeeEmail;
+		this.employeeAddress = employeeAddress;
+		this.employeePictureSaveName = employeePictureSaveName;
+		this.employeePictureSaveRoot = employeePictureSaveRoot;
+		this.employeePictureThumbnail = employeePictureThumbnail;
 		this.applyEmployeeDTO = applyEmployeeDTO;
 	}
 	public int getEmployeeNo() {
@@ -183,6 +194,36 @@ public class EmployeeAndApplyEmployeeDTO implements Serializable{
 	public void setEmployeeRegistReturnYn(String employeeRegistReturnYn) {
 		this.employeeRegistReturnYn = employeeRegistReturnYn;
 	}
+	public String getEmployeeEmail() {
+		return employeeEmail;
+	}
+	public void setEmployeeEmail(String employeeEmail) {
+		this.employeeEmail = employeeEmail;
+	}
+	public String getEmployeeAddress() {
+		return employeeAddress;
+	}
+	public void setEmployeeAddress(String employeeAddress) {
+		this.employeeAddress = employeeAddress;
+	}
+	public String getEmployeePictureSaveName() {
+		return employeePictureSaveName;
+	}
+	public void setEmployeePictureSaveName(String employeePictureSaveName) {
+		this.employeePictureSaveName = employeePictureSaveName;
+	}
+	public String getEmployeePictureSaveRoot() {
+		return employeePictureSaveRoot;
+	}
+	public void setEmployeePictureSaveRoot(String employeePictureSaveRoot) {
+		this.employeePictureSaveRoot = employeePictureSaveRoot;
+	}
+	public String getEmployeePictureThumbnail() {
+		return employeePictureThumbnail;
+	}
+	public void setEmployeePictureThumbnail(String employeePictureThumbnail) {
+		this.employeePictureThumbnail = employeePictureThumbnail;
+	}
 	public List<ApplyEmployeeDTO> getApplyEmployeeDTO() {
 		return applyEmployeeDTO;
 	}
@@ -203,9 +244,13 @@ public class EmployeeAndApplyEmployeeDTO implements Serializable{
 				+ employeeRetireYn + ", RequestDate=" + RequestDate + ", employeeFirstConfirmYn="
 				+ employeeFirstConfirmYn + ", employeeSecondConfirmYn=" + employeeSecondConfirmYn
 				+ ", employeeLastConfirmYn=" + employeeLastConfirmYn + ", employeeLastConfirmDate="
-				+ employeeLastConfirmDate + ", employeeRegistReturnYn=" + employeeRegistReturnYn + ", applyEmployeeDTO="
-				+ applyEmployeeDTO + "]";
+				+ employeeLastConfirmDate + ", employeeRegistReturnYn=" + employeeRegistReturnYn + ", employeeEmail="
+				+ employeeEmail + ", employeeAddress=" + employeeAddress + ", employeePictureSaveName="
+				+ employeePictureSaveName + ", employeePictureSaveRoot=" + employeePictureSaveRoot
+				+ ", employeePictureThumbnail=" + employeePictureThumbnail + ", applyEmployeeDTO=" + applyEmployeeDTO
+				+ "]";
 	}
+	
 	
 	
 	

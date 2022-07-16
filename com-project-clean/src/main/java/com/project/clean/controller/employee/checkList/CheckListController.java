@@ -52,19 +52,20 @@ public class CheckListController {
 		
 		CheckListDTO checkListDTO = new CheckListDTO();
 
-		checkListDTO.setAdminNo(employeeNo);
 		checkListDTO.setCheckHTML(inputText);
 		checkListDTO.setCheckStatus("N");
 		checkListDTO.setCheckReservationNo(reservationNo);
 
 		int result = taskService.registNewCheckList(checkListDTO);
-		
+        
 		LocalDate now = LocalDate.now();
-		
+
 		rttr.addFlashAttribute("resultMessage", now + " 시에 업무를 시작하셨습니다. 업무 완료 후 작성 버튼을 눌러주세요.");
+        
+        mv.addObject("resultMessage", rttr);
+        mv.setViewName("/employee/task/selectMyTask");
+        
 		
-		mv.addObject("resultMessage", rttr);
-		mv.setViewName("/employee/task/selectMyTask");
 		return mv;
 	}
 	
@@ -74,9 +75,15 @@ public class CheckListController {
 		String userId = principal.getName();
 		
 		CheckListDTO checklistDTO = taskService.selectScheckList(userId);
-		checklistDTO.getCheckHTML();
-		mv.addObject("checkList", checklistDTO);
-		mv.setViewName("/employee/checkList/insertCheckList");
+		
+		if(null == checklistDTO) {
+			mv.addObject("resultMessage", "작성 가능한 체크리스트가 없습니다.");
+			mv.setViewName("/employee/task/selectMyTask");
+		} else {
+			checklistDTO.getCheckHTML();
+			mv.addObject("checkList", checklistDTO);
+			mv.setViewName("/employee/checkList/insertCheckList");
+		}
 		
 		return mv;
 		
@@ -85,19 +92,14 @@ public class CheckListController {
 	@PostMapping("update")
 	public String updateCheckList(HttpServletRequest request, ModelAndView mv) {
 		
-		System.out.println("TEST");
-		System.out.println("TEST");
-		System.out.println("TEST");
-		System.out.println("TEST");
-		System.out.println(request.getParameter("reservationNo"));
 		int reservationNo = Integer.parseInt(request.getParameter("reservationNo"));
-				
-		System.out.println(request.getParameter("jbHtml"));
-		CheckListDTO checkListDTO =new CheckListDTO();
+
+		CheckListDTO checkListDTO = new CheckListDTO();
 		checkListDTO.setCheckReservationNo(reservationNo);
 		checkListDTO.setCheckHTML(request.getParameter("jbHtml"));
-		int result = taskService.updateCheckList(checkListDTO);
+		checkListDTO.setCheckStatus("R");
 		
+		int result = taskService.updateCheckList(checkListDTO);
 		
 		return "/employee/task/selectMyTask";
 	}

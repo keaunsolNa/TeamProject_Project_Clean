@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style>
         body {
             margin-top: 100px;
@@ -125,27 +125,22 @@
                             <th>입사일</th>
                             <th>직급명</th>
                             <th>전화번호</th>
-                     		<th>이동</th>
                         </tr>
                     </thead>
                     <tbody>
-                    	<tr th:each="admin : ${ adminList }">
-							<td th:text="${ admin.adminNo }"></td>
-							<td th:text="${ admin.adminName }"></td>
-							<td th:text="${ admin.adminBirth }"></td>
-							<td th:text="${ admin.adminHireDate }"></td>
-							<td th:text="${ admin.adminJob }"></td>
-							<td th:text="${ admin.adminPhone }"></td>
-							<td>
-							 <a th:href="@{adminDetail/{adminNo}/(adminNo=${admin.adminNo})}">
-							<button>조회</button>	
-							</a>
-							</td>
+                    	<tr th:each="index : ${ adminList }">
+							<td th:text="${ index.adminNo }"></td>
+							<td th:text="${ index.adminName }"></td>
+							<td th:text="${ index.adminBirth }"></td>
+							<td th:text="${ index.adminHireDate }"></td>
+							<td th:text="${ index.adminJob }"></td>
+							<td th:text="${ index.adminPhone }"></td>
 						</tr>
                     </tbody>
                 </table>    
             </div>
         </div>
+        
     <script>
         /* 탭 전환 관련 스크립트 */
         $(document).ready(function () {
@@ -161,30 +156,144 @@
             })
 
         })
+        
+        /* hover event */
+        function hover(){
+            const employee = document.getElementsByTagName("td");
 
+            for(let i = 0; i < employee.length; i++){
+            	employee[i].onmouseenter = function(){
+                    this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+                    this.parentNode.style.cursor = "pointer";
+                }
+            	employee[i].onmouseout = function(){
+                    this.parentNode.style.backgroundColor = "white";
+                }
+
+            	employee[i].onclick = function(){
+                    location.href="/admin/hrCard/adminDetail/" + this.parentNode.children[0].innerText;
+                }
+            }
+        };
+        
+        /* 시작 할 때 hover event */
+        $(function(){
+        	hover();
+        })
+
+	
+         /* 검색기능 list 출력 */
+		$("#search").click(function(){
+			$.ajax({
+				url : "gson1",
+				success:function(data){
+
+					const $table = $("#employeeList tbody");
+					$table.html("");
+					
+					for(var index in data){
+						$tr = $("<tr>");
+						$noTd = $("<td>").text(data[index].no);
+						$nameTd = $("<td>").text(data[index].name);
+						$ageTd = $("<td>").text(data[index].age);
+						$enrollDateTd = $("<td>").text(data[index].enrollDate);
+						$unknown1 = $("<td>").text(data[index].enrollDate);
+						$unknown2 = $("<td>").text(data[index].enrollDate);
+						
+						$tr.append($noTd);
+						$tr.append($nameTd);
+						$tr.append($ageTd);
+						$tr.append($enrollDateTd);
+						$tr.append($unknown1);
+						$tr.append($unknown2);
+						
+						$table.append($tr);
+					}
+				},
+				error:function(error){
+					console.log(error);
+				}
+			});
+		});
+
+        /* 재직자 list ajax */
+		$("#adminRetireN").click(function(){
+			$.ajax({
+				url : "adminList/adminAjax",
+				success:function(adminListAjax){
+
+					const $table = $("#adminList tbody");
+					$table.html("");
+					
+					for(var index in adminListAjax){
+						$tr = $("<tr>");
+						$noTd = $("<td>").text(adminListAjax[index].adminNo);
+						$nameTd = $("<td>").text(adminListAjax[index].adminName);
+						$birthTd = $("<td>").text(adminListAjax[index].adminBirth);
+						$addressTd = $("<td>").text(adminListAjax[index].adminHireDate);
+						$phoneTd = $("<td>").text(adminListAjax[index].adminJob);
+						$hireDateTd = $("<td>").text(adminListAjax[index].adminPhone);
+						
+						$tr.append($noTd);
+						$tr.append($nameTd);
+						$tr.append($birthTd);
+						$tr.append($addressTd);
+						$tr.append($phoneTd);
+						$tr.append($hireDateTd);
+						
+						$table.append($tr);
+						
+						hover();
+					}
+				},
+				error:function(error){
+					console.log(error);
+				}
+			});
+		});
+        
+        /* 퇴사자 list ajax */
+		$("#adminRetireY").click(function(){
+			$.ajax({
+				url : "adminList/retireAdminAjax",
+				success:function(retireAdminList){
+
+					const $table = $("#adminList tbody");
+					$table.html("");
+					
+					for(var index in retireAdminList){
+						$tr = $("<tr>");
+						$noTd = $("<td>").text(retireAdminList[index].retireAdminNo);
+						$nameTd = $("<td>").text(retireAdminList[index].retireAdminName);
+						$birthTd = $("<td>").text(retireAdminList[index].retireAdminBirth);
+						$addressTd = $("<td>").text(retireAdminList[index].retireAdminHireDate);
+						$phoneTd = $("<td>").text(retireAdminList[index].retireAdminJob);
+						$hireDateTd = $("<td>").text(retireAdminList[index].retireAdminPhone);
+						
+						$tr.append($noTd);
+						$tr.append($nameTd);
+						$tr.append($birthTd);
+						$tr.append($addressTd);
+						$tr.append($phoneTd);
+						$tr.append($hireDateTd);
+						
+						$table.append($tr);
+					}
+		            const admin = document.getElementsByTagName("td");
+
+		            hover();
+					
+				},
+				error:function(error){
+					console.log(error);
+				}
+			});
+		});
+
+        
        
         
-       /*  게시글 리스트에서 해당 게시글에 마우스를 올릴 떄에 대한 스타일 처리 
-		if (document.querySelectorAll("#adminList td")) {
-			const $tds = document.querySelectorAll("#adminList td");
-			for (let i = 0; i < $tds.length; i++) {
-
-				$tds[i].onmouseenter = function() {
-					this.parentNode.style.backgroundColor = "white";
-					this.parentNode.style.cursor = "pointer";
-				}
-
-				$tds[i].onmouseout = function() {
-					this.parentNode.style.backgroundColor = "white";
-				}
-
-				$tds[i].onclick = function() {
-					const no = this.parentNode.children[0].innerText;
-					location.href = "adminDetail?adminNo=" + no;
-				}
-			}
-		}
-        */
+       
     </script>
     
 

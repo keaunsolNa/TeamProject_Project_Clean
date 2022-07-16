@@ -7,8 +7,13 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 @Entity
-@Table(name = "TBL_APPLY_EMPLOYEE")
+@Table(name="TBL_APPLY_EMPLOYEE")
+@DynamicUpdate
+@DynamicInsert
 public class ApplyEmployeeEmbedded implements Serializable{
 
 	private static final long serialVersionUID = 3533485221607093796L;
@@ -16,20 +21,22 @@ public class ApplyEmployeeEmbedded implements Serializable{
 	@EmbeddedId
 	private ApplyEmployeeIdAndApplyReservationNo applyEmployeeIdAndApplyReservationNo;
 	
-	@Column(name = "APPLY_CANSEL_YN")
-	private String applyCanselYn;
+	@Column(name = "APPLY_CANCEL_YN")
+	private String applyCancelYn;
 	
 	@Column(name = "CHECK_EMPLOYEE_YN") 
-	private String checkEMployeeYn;
+	private String checkEmployeeYn;
 
 	public ApplyEmployeeEmbedded() {
+		super();
 	}
 
 	public ApplyEmployeeEmbedded(ApplyEmployeeIdAndApplyReservationNo applyEmployeeIdAndApplyReservationNo,
-			String applyCanselYn, String checkEMployeeYn) {
+			String applyCancelYn, String checkEmployeeYn) {
+		super();
 		this.applyEmployeeIdAndApplyReservationNo = applyEmployeeIdAndApplyReservationNo;
-		this.applyCanselYn = applyCanselYn;
-		this.checkEMployeeYn = checkEMployeeYn;
+		this.applyCancelYn = applyCancelYn;
+		this.checkEmployeeYn = checkEmployeeYn;
 	}
 
 	public ApplyEmployeeIdAndApplyReservationNo getApplyEmployeeIdAndApplyReservationNo() {
@@ -41,20 +48,20 @@ public class ApplyEmployeeEmbedded implements Serializable{
 		this.applyEmployeeIdAndApplyReservationNo = applyEmployeeIdAndApplyReservationNo;
 	}
 
-	public String getApplyCanselYn() {
-		return applyCanselYn;
+	public String getApplyCancelYn() {
+		return applyCancelYn;
 	}
 
-	public void setApplyCanselYn(String applyCanselYn) {
-		this.applyCanselYn = applyCanselYn;
+	public void setApplyCancelYn(String applyCancelYn) {
+		this.applyCancelYn = applyCancelYn;
 	}
 
-	public String getCheckEMployeeYn() {
-		return checkEMployeeYn;
+	public String getCheckEmployeeYn() {
+		return checkEmployeeYn;
 	}
 
-	public void setCheckEMployeeYn(String checkEMployeeYn) {
-		this.checkEMployeeYn = checkEMployeeYn;
+	public void setCheckEmployeeYn(String checkEmployeeYn) {
+		this.checkEmployeeYn = checkEmployeeYn;
 	}
 
 	public static long getSerialversionuid() {
@@ -64,10 +71,7 @@ public class ApplyEmployeeEmbedded implements Serializable{
 	@Override
 	public String toString() {
 		return "ApplyEmployeeEmbedded [applyEmployeeIdAndApplyReservationNo=" + applyEmployeeIdAndApplyReservationNo
-				+ ", applyCanselYn=" + applyCanselYn + ", checkEMployeeYn=" + checkEMployeeYn + "]";
+				+ ", applyCancelYn=" + applyCancelYn + ", checkEmployeeYn=" + checkEmployeeYn + "]";
 	}
-	
-	
-	
-	
+
 }

@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity(name="AdminEmail")
+@Entity
 @Table(name="TBL_ADMIN_EMAIL")
 public class AdminEmail implements java.io.Serializable{
 
@@ -16,18 +16,18 @@ public class AdminEmail implements java.io.Serializable{
 	private int adminNo;
 
 	@Column(name="ADMIN_EMAIL")
-	private String email;
+	private String adminEmail;
 	
 	@Column(name="ADMIN_DOMAIN")
-	private String domain;
+	private String adminDomain;
 
 	public AdminEmail() {
 	}
 
-	public AdminEmail(int adminNo, String email, String domain) {
+	public AdminEmail(int adminNo, String adminEmail, String adminDomain) {
 		this.adminNo = adminNo;
-		this.email = email;
-		this.domain = domain;
+		this.adminEmail = adminEmail;
+		this.adminDomain = adminDomain;
 	}
 
 	public int getAdminNo() {
@@ -38,20 +38,20 @@ public class AdminEmail implements java.io.Serializable{
 		this.adminNo = adminNo;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getAdminEmail() {
+		return adminEmail;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setAdminEmail(String adminEmail) {
+		this.adminEmail = adminEmail;
 	}
 
-	public String getDomain() {
-		return domain;
+	public String getAdminDomain() {
+		return adminDomain;
 	}
 
-	public void setDomain(String domain) {
-		this.domain = domain;
+	public void setAdminDomain(String adminDomain) {
+		this.adminDomain = adminDomain;
 	}
 
 	public static long getSerialversionuid() {
@@ -60,7 +60,7 @@ public class AdminEmail implements java.io.Serializable{
 
 	@Override
 	public String toString() {
-		return "AdminEmail [adminNo=" + adminNo + ", email=" + email + ", domain=" + domain + "]";
+		return "AdminEmail [adminNo=" + adminNo + ", adminEmail=" + adminEmail + ", adminDomain=" + adminDomain + "]";
 	}
 
 	

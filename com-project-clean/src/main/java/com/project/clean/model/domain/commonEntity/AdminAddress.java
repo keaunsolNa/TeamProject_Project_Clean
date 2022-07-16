@@ -16,22 +16,22 @@ public class AdminAddress implements java.io.Serializable{
 	private int adminNo;
 
 	@Column(name="ADMIN_ADDRESS_NO")
-	private int addressNo;
+	private int adminAddressNo;
 	
 	@Column(name="ADMIN_ADDRESS")
-	private String address;
+	private String adminAddress;
 	
 	@Column(name="ADMIN_DETAIL_ADDRESS")
-	private String detailAddress;
+	private String adminDetailAddress;
 
 	public AdminAddress() {
 	}
 
-	public AdminAddress(int adminNo, int addressNo, String address, String detailAddress) {
+	public AdminAddress(int adminNo, int adminAddressNo, String adminAddress, String adminDetailAddress) {
 		this.adminNo = adminNo;
-		this.addressNo = addressNo;
-		this.address = address;
-		this.detailAddress = detailAddress;
+		this.adminAddressNo = adminAddressNo;
+		this.adminAddress = adminAddress;
+		this.adminDetailAddress = adminDetailAddress;
 	}
 
 	public int getAdminNo() {
@@ -42,28 +42,28 @@ public class AdminAddress implements java.io.Serializable{
 		this.adminNo = adminNo;
 	}
 
-	public int getAddressNo() {
-		return addressNo;
+	public int getAdminAddressNo() {
+		return adminAddressNo;
 	}
 
-	public void setAddressNo(int addressNo) {
-		this.addressNo = addressNo;
+	public void setAdminAddressNo(int adminAddressNo) {
+		this.adminAddressNo = adminAddressNo;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getAdminAddress() {
+		return adminAddress;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setAdminAddress(String adminAddress) {
+		this.adminAddress = adminAddress;
 	}
 
-	public String getDetailAddress() {
-		return detailAddress;
+	public String getAdminDetailAddress() {
+		return adminDetailAddress;
 	}
 
-	public void setDetailAddress(String detailAddress) {
-		this.detailAddress = detailAddress;
+	public void setAdminDetailAddress(String adminDetailAddress) {
+		this.adminDetailAddress = adminDetailAddress;
 	}
 
 	public static long getSerialversionuid() {
@@ -72,10 +72,10 @@ public class AdminAddress implements java.io.Serializable{
 
 	@Override
 	public String toString() {
-		return "AdminAddress [adminNo=" + adminNo + ", addressNo=" + addressNo + ", address=" + address
-				+ ", detailAddress=" + detailAddress + "]";
+		return "AdminAddress [adminNo=" + adminNo + ", adminAddressNo=" + adminAddressNo + ", adminAddress="
+				+ adminAddress + ", adminDetailAddress=" + adminDetailAddress + "]";
 	}
-	
+
 	
 	
 	

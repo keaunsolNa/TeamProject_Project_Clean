@@ -7,20 +7,33 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.project.clean.model.domain.commonEntity.AdminEmail;
 
 @Entity
 @Table(name = "TBL_ADMIN")
+@SequenceGenerator(
+		name = "ADMIN_SEQ_TBL_GENERATOR",
+		sequenceName = "SEQ_TBL_ADMIN",
+		initialValue = 1,
+		allocationSize = 1
+)
 public class AdminAndEmail implements Serializable{
 	private static final long serialVersionUID = 9095258321085964989L;
 
 	@Id
+	@GeneratedValue(
+			strategy = GenerationType.SEQUENCE,
+			generator = "ADMIN_SEQ_TBL_GENERATOR"
+	)
 	@Column(name="ADMIN_NO")
 	private int adminNo;
 

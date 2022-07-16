@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <style>
+        body {
+            margin-top: 100px;
+            font-family: 'Trebuchet MS', serif;
+            line-height: 1.6
+        }
+
+        /* 전체 크기 */
+        .container {
+            width: 1500px;
+            margin: 0 auto;
+        }
+
+        ul.tabs {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+        }
+
+        /* 선택하지 않은 탭 css */
+        ul.tabs li {
+            background: rgba(219, 243, 249, 1);
+            color: rgb(0, 0, 0);
+            display: inline-block;
+            padding: 10px 15px;
+            /* 좌측은 위아래 사이즈 우측은 좌우 사이즈 */
+            cursor: pointer;
+        }
+
+        /* 선택한 탭 css 설정 */
+        ul.tabs li.current {
+            background: rgba(104, 228, 255, 1);
+            color: rgb(0, 0, 0);
+        }
+
+        /* 선택한 탭의 내용 css 설정 */
+        .tab-content {
+            display: none;
+            background: #e95151;
+            padding: 15px;
+        }
+
+        .tab-content.current {
+            display: inherit;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <ul class="tabs">
+            <li class="tab-link current" data-tab="tab-1">직원</li>
+            <li class="tab-link" data-tab="tab-2">관리자</li>
+        </ul>
+
+        <!-- 직원 내용 -->
+        <div id="tab-1" class="tab-content current">
+            <span>인사관리 카드조회</span>
+
+            <select name="category" id="category">
+                <option value="empNo" selected>사원번호</option>
+                <option value="empName">이름</option>
+                <option value="empBirth">생년월일</option>
+                <option value="empAddress">주소</option>
+                <option value="empPhone">전화번호</option>
+            </select>
+            <input type="text" name="categoryValue">
+            <button type="button" id="search">검색</button>
+            <input type="radio" value="admin" name="retire" id="retireN" checked> 
+            <label for="retireN">재직자</label>
+            <input type="radio" value="admin" name="retire" id="retireY" > 
+            <label for="retireY">퇴사자</label>
+
+            <table id="employeeList" border="1">
+                <thead>
+                    <tr>
+                        <th>사원번호</th>
+                        <th>이름</th>
+                        <th>생년월일</th>
+                        <th>주소</th>
+                        <th>전화번호</th>
+                        <th>입사날짜</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="index : ${entireNEmployeeList}">
+	                    <td th:text="${ index.employeeNo }"></td>
+	                    <td th:text="${ index.employeeName }"></td>
+	                    <td th:text="${ index.employeeBirth }"></td>
+	                    <td th:text="${ index.employeeAddress }"></td>
+	                    <td th:text="${ index.employeePhone }"></td>
+	                    <td th:text="${ index.employeeHireDate }"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 관리자 내용 -->
+        <div id="tab-2" class="tab-content">
+            관리자123
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+        /* 탭 전환 관련 스크립트 */
+        $(document).ready(function () {
+
+            $('ul.tabs li').click(function () {
+                var tab_id = $(this).attr('data-tab');
+
+                $('ul.tabs li').removeClass('current');
+                $('.tab-content').removeClass('current');
+
+                $(this).addClass('current');
+                $("#" + tab_id).addClass('current');
+            });
+
+        });
+        
+        /* hover event */
+        function hover(){
+            const employee = document.getElementsByTagName("td");
+
+            for(let i = 0; i < employee.length; i++){
+            	employee[i].onmouseenter = function(){
+                    this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+                    this.parentNode.style.cursor = "pointer";
+                }
+            	employee[i].onmouseout = function(){
+                    this.parentNode.style.backgroundColor = "white";
+                }
+
+            	employee[i].onclick = function(){
+                    location.href="/member/selectEmployee/" + this.parentNode.children[0].innerText;
+                }
+            }
+        };
+        
+        /* 시작 할 때 hover event */
+        $(function(){
+        	hover();
+        })
+
+        /* 검색기능 list 출력 */
+		$("#search").click(function(){
+			$.ajax({
+				url : "gson1",
+				success:function(data){
+
+					const $table = $("#employeeList tbody");
+					$table.html("");
+					
+					for(var index in data){
+						$tr = $("<tr>");
+						$noTd = $("<td>").text(data[index].no);
+						$nameTd = $("<td>").text(data[index].name);
+						$ageTd = $("<td>").text(data[index].age);
+						$enrollDateTd = $("<td>").text(data[index].enrollDate);
+						$unknown1 = $("<td>").text(data[index].enrollDate);
+						$unknown2 = $("<td>").text(data[index].enrollDate);
+						
+						$tr.append($noTd);
+						$tr.append($nameTd);
+						$tr.append($ageTd);
+						$tr.append($enrollDateTd);
+						$tr.append($unknown1);
+						$tr.append($unknown2);
+						
+						$table.append($tr);
+					}
+				},
+				error:function(error){
+					console.log(error);
+				}
+			});
+		});
+        
+        
+        /* 재직자 list ajax */
+		$("#retireN").click(function(){
+			$.ajax({
+				url : "/admin/select/retireNEmployeeAjax",
+				success:function(retireNEmployee){
+
+					const $table = $("#employeeList tbody");
+					$table.html("");
+					
+					for(var index in retireNEmployee){
+						$tr = $("<tr>");
+						$noTd = $("<td>").text(retireNEmployee[index].employeeNo);
+						$nameTd = $("<td>").text(retireNEmployee[index].employeeName);
+						$birthTd = $("<td>").text(retireNEmployee[index].employeeBirth);
+						$addressTd = $("<td>").text(retireNEmployee[index].employeeAddress);
+						$phoneTd = $("<td>").text(retireNEmployee[index].employeePhone);
+						$hireDateTd = $("<td>").text(retireNEmployee[index].employeeHireDate);
+						
+						$tr.append($noTd);
+						$tr.append($nameTd);
+						$tr.append($birthTd);
+						$tr.append($addressTd);
+						$tr.append($phoneTd);
+						$tr.append($hireDateTd);
+						
+						$table.append($tr);
+						
+						hover();
+					}
+				},
+				error:function(error){
+					console.log(error);
+				}
+			});
+		});
+        
+        /* 퇴사자 list ajax */
+		$("#retireY").click(function(){
+			$.ajax({
+				url : "/admin/select/retireYEmployee",
+				success:function(RetireYEmployee){
+
+					const $table = $("#employeeList tbody");
+					$table.html("");
+					
+					for(var index in RetireYEmployee){
+						$tr = $("<tr>");
+						$noTd = $("<td>").text(RetireYEmployee[index].employeeNo);
+						$nameTd = $("<td>").text(RetireYEmployee[index].employeeName);
+						$birthTd = $("<td>").text(RetireYEmployee[index].employeeBirth);
+						$addressTd = $("<td>").text(RetireYEmployee[index].employeeAddress);
+						$phoneTd = $("<td>").text(RetireYEmployee[index].employeePhone);
+						$hireDateTd = $("<td>").text(RetireYEmployee[index].employeeHireDate);
+						
+						$tr.append($noTd);
+						$tr.append($nameTd);
+						$tr.append($birthTd);
+						$tr.append($addressTd);
+						$tr.append($phoneTd);
+						$tr.append($hireDateTd);
+						
+						$table.append($tr);
+					}
+		            const employee = document.getElementsByTagName("td");
+
+		            hover();
+					
+				},
+				error:function(error){
+					console.log(error);
+				}
+			});
+		});
+        
+
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

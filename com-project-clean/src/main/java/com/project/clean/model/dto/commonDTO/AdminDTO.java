@@ -20,14 +20,21 @@ public class AdminDTO implements Serializable{
 	private String adminJob;
 	private java.sql.Date adminLastLoginDate;
 	private int adminSalary;
-	private int adminUseAnnualVacation;
+	private int annualVacationUse;
+	private String adminEmail;
+	private String adminAddress;
+	private String adminPictureSaveName;
+	private String adminPictureSaveRoot;
+	private String adminPictureThumbnailName;
 	
 	public AdminDTO() {
 	}
 
 	public AdminDTO(int adminNo, String adminName, String adminId, String adminPwd, Date adminBirth, String adminGender,
 			String adminPhone, Date adminHireDate, Date adminRetireDate, String adminRetireYn, String adminJob,
-			Date adminLastLoginDate, int adminSalary, int adminUseAnnualVacation) {
+			Date adminLastLoginDate, int adminSalary, int annualVacationUse, String adminEmail, String adminAddress,
+			String adminPictureSaveName, String adminPictureSaveRoot, String adminPictureThumbnailName) {
+		super();
 		this.adminNo = adminNo;
 		this.adminName = adminName;
 		this.adminId = adminId;
@@ -41,7 +48,12 @@ public class AdminDTO implements Serializable{
 		this.adminJob = adminJob;
 		this.adminLastLoginDate = adminLastLoginDate;
 		this.adminSalary = adminSalary;
-		this.adminUseAnnualVacation = adminUseAnnualVacation;
+		this.annualVacationUse = annualVacationUse;
+		this.adminEmail = adminEmail;
+		this.adminAddress = adminAddress;
+		this.adminPictureSaveName = adminPictureSaveName;
+		this.adminPictureSaveRoot = adminPictureSaveRoot;
+		this.adminPictureThumbnailName = adminPictureThumbnailName;
 	}
 
 	public int getAdminNo() {
@@ -148,12 +160,52 @@ public class AdminDTO implements Serializable{
 		this.adminSalary = adminSalary;
 	}
 
-	public int getAdminUseAnnualVacation() {
-		return adminUseAnnualVacation;
+	public int getAnnualVacationUse() {
+		return annualVacationUse;
 	}
 
-	public void setAdminUseAnnualVacation(int adminUseAnnualVacation) {
-		this.adminUseAnnualVacation = adminUseAnnualVacation;
+	public void setAnnualVacationUse(int annualVacationUse) {
+		this.annualVacationUse = annualVacationUse;
+	}
+
+	public String getAdminEmail() {
+		return adminEmail;
+	}
+
+	public void setAdminEmail(String adminEmail) {
+		this.adminEmail = adminEmail;
+	}
+
+	public String getAdminAddress() {
+		return adminAddress;
+	}
+
+	public void setAdminAddress(String adminAddress) {
+		this.adminAddress = adminAddress;
+	}
+
+	public String getAdminPictureSaveName() {
+		return adminPictureSaveName;
+	}
+
+	public void setAdminPictureSaveName(String adminPictureSaveName) {
+		this.adminPictureSaveName = adminPictureSaveName;
+	}
+
+	public String getAdminPictureSaveRoot() {
+		return adminPictureSaveRoot;
+	}
+
+	public void setAdminPictureSaveRoot(String adminPictureSaveRoot) {
+		this.adminPictureSaveRoot = adminPictureSaveRoot;
+	}
+
+	public String getAdminPictureThumbnailName() {
+		return adminPictureThumbnailName;
+	}
+
+	public void setAdminPictureThumbnailName(String adminPictureThumbnailName) {
+		this.adminPictureThumbnailName = adminPictureThumbnailName;
 	}
 
 	public static long getSerialversionuid() {
@@ -166,13 +218,12 @@ public class AdminDTO implements Serializable{
 				+ adminPwd + ", adminBirth=" + adminBirth + ", adminGender=" + adminGender + ", adminPhone="
 				+ adminPhone + ", adminHireDate=" + adminHireDate + ", adminRetireDate=" + adminRetireDate
 				+ ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob + ", adminLastLoginDate="
-				+ adminLastLoginDate + ", adminSalary=" + adminSalary + ", adminUseAnnualVacation="
-				+ adminUseAnnualVacation + "]";
+				+ adminLastLoginDate + ", adminSalary=" + adminSalary + ", annualVacationUse=" + annualVacationUse
+				+ ", adminEmail=" + adminEmail + ", adminAddress=" + adminAddress + ", adminPictureSaveName="
+				+ adminPictureSaveName + ", adminPictureSaveRoot=" + adminPictureSaveRoot
+				+ ", adminPictureThumbnailName=" + adminPictureThumbnailName + "]";
 	}
 
-
-	
-	
 	
 	
 }

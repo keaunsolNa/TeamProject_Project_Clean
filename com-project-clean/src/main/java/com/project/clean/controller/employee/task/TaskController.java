@@ -7,7 +7,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,9 +46,7 @@ public class TaskController {
 		List<ReservationInfoDTO> reservationList =  taskService.selectReservationListByEmployeeId(employeeId);
 		 
 		System.out.println("Controller에서 가져온 결과값 : " +  reservationList);
-
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		
 		mapper.setDateFormat(dateFormat); 
 		return mapper.writeValueAsString(reservationList);
 	}

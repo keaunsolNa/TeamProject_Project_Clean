@@ -11,24 +11,17 @@ import com.project.clean.model.domain.commonEntity.RetireAdmin;
 import com.project.clean.model.dto.commonDTO.RetireAdminDTO;
 import com.project.clean.model.repository.admin.RetireAdminRepository;
 
-@Service
-public class RetireAdminServiceImpl implements RetireAdminService{
-	
-	private final RetireAdminRepository retireAdminRepository;
-	private final ModelMapper modelMapper;
-	
-	@Autowired
-	public RetireAdminServiceImpl(RetireAdminRepository retireAdminRepository, ModelMapper modelMapper) {
-		this.modelMapper = modelMapper;
-		this.retireAdminRepository = retireAdminRepository;
-	}
-	
-	@Override
-	public List<RetireAdminDTO> findRetireAdminList() {
-		
-		List<RetireAdmin> retireAdminList = retireAdminRepository.findRetireAdminByRetireAdminRetireYnNotLike("N");
-		
-		return retireAdminList.stream().map(retireAdmin -> modelMapper.map(retireAdmin, RetireAdminDTO.class)).collect(Collectors.toList());
-	}
-
-}
+//@Service
+//public class RetireAdminServiceImpl implements RetireAdminService{
+//	
+//	private final RetireAdminRepository retireAdminRepository;
+//	private final ModelMapper modelMapper;
+//	
+//	@Autowired
+//	public RetireAdminServiceImpl(RetireAdminRepository retireAdminRepository, ModelMapper modelMapper) {
+//		this.modelMapper = modelMapper;
+//		this.retireAdminRepository = retireAdminRepository;
+//	}
+//	
+//
+//}

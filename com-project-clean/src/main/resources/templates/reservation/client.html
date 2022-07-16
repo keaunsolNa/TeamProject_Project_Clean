@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<script	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<style type="text/css">
+.checkBoxs > input{
+	width:30px;
+}
+input{
+	width: 400px;
+	border: solid 2px skyblue; 
+}
+#findAddress {
+	background-color: skyblue;
+	margin-left: 5px;
+}
+
+</style>
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:include="common/header.html"></div>
+
+	<form action="/reservation/client" method="post" align="center">
+		<label>고객 이름 </label><br> <input type="text" name="userName"><br>
+		<label>핸드폰 번호 </label><br> <input type="text" name=userPhoneNo><br>
+		<label>우편 번호 </label><button type="button" id="findAddress">주소</button><br><input type="text" id="AddressNo" name="UserPostalNo" readonly="readonly"><br>
+		<label>주소 </label><br> <input type="text" id="Address" name="userAddress" readonly="readonly"><br>
+		<label>상세 주소 </label><br> <input type="text" name="userDetailAddress"><br>
+		<label>평수 </label><br> <input type="number" name="userHouseSize"><br>
+		<label>요청사항 </label><br> <input type="text" name="userRequirements"><br>
+		<label>업무날짜 </label><br> <input type="date" name="businessDate"><br>
+		<label>시작시간 </label><br> <input type="time" name="startTime"><br>
+		<label>종료시간 </label><br> <input type="time" name="endTime"><br>
+		<label>부가서비스</label><br> 
+		<div class="checkBoxs">
+			<label for="gashoodCleanYn">가스레인지 후드 청소</label><input type="checkbox" id="gashoodCleanYn" name="gashoodCleanYn" value="Y">
+			<label for="moldCleanYn">곰팡이 제거</label><input type="checkbox" id="moldCleanYn" name="moldCleanYn" value="Y">
+			<label for="filterCleanYn">필터 청소</label><input type="checkbox" id="filterCleanYn" name="filterCleanYn" value="Y"><br>
+			<label for="warehouseCleanYn">창고 정리</label><input type="checkbox" id="warehouseCleanYn" name="warehouseCleanYn" value="Y">
+			<label for="petYn">애완동물 여부(관련청소)</label><input type="checkbox" id="petYn" name="petYn" value="Y">
+			<label for="multipleLayerYn">복층 여부</label><input type="checkbox" id="multipleLayerYn" name="multipleLayerYn" value="Y"><br>
+		</div>
+		<button type="submit">예약하기</button>
+	</form>
+
+	<script type="text/javascript">
+		$("#findAddress").click(
+
+		function sample4_execDaumPostcode() {
+			new daum.Postcode({
+				oncomplete : function(data) {
+					var roadAddr = data.roadAddress; // 도로명 주소 변수
+
+					// 우편번호와 주소 정보를 해당 필드에 넣는다.
+					$("#Address").val(roadAddr);
+					$("#AddressNo").val(data.zonecode);
+				}
+			}).open();
+		})
+	</script>
+</body>
+</html>
