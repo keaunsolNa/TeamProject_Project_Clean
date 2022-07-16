@@ -130,13 +130,13 @@
           </tr>
           <tr>
             <td class="tg2-7btt">우편번호</td>
-            <td class="tg2-7btt" th:text="returnEmployee우편번호"></td>
+            <td class="tg2-7btt" th:text="${address.addressNo}"></td>
             <td class="tg2-7btt">기본주소</td>
-            <td class="tg2-7btt" colspan="3" th:text="${returnEmployee.employeeAddress}"></td>
+            <td class="tg2-7btt" colspan="3" th:text="${address.address}"></td>
           </tr>
           <tr>
             <td class="tg2-7btt">상세주소</td>
-            <td class="tg2-7btt" colspan="5" th:text="${returnEmployee.employeeAddress}"></td>
+            <td class="tg2-7btt" colspan="5" th:text="${address.addressDetail}"></td>
           </tr>
           <tr>
             <td class="tg2-7btt">입사일</td>

@@ -15,6 +15,7 @@ import com.project.clean.model.domain.adminEntity.AdminEmployee;
 import com.project.clean.model.domain.adminEntity.AdminReason;
 import com.project.clean.model.domain.commonEntity.Admin;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
+import com.project.clean.model.dto.commonDTO.EmployeeDTO;
 import com.project.clean.model.dto.commonDTO.ReasonDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
 import com.project.clean.model.repository.admin.AdminRepository;
@@ -42,7 +43,7 @@ public class AdminEmployeeService {
 	@Transactional
 	public List<EmployeeAndAllDTO> selectRetireNEmployee() {
 		List<AdminEmployee> selectRetireNEmployeeList = employeeRepository
-				.findByEmployeeRetireYnAndEmployeeLastConfirmYn("N", "Y");
+				.findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYn("N", "Y", "N");
 		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
 		return selectRetireNEmployeeList.stream().map(employee -> modelMapper.map(employee, EmployeeAndAllDTO.class))
 				.toList();
@@ -52,7 +53,7 @@ public class AdminEmployeeService {
 	@Transactional
 	public List<EmployeeAndAllDTO> selectRetireYEmployee() {
 		List<AdminEmployee> selectRetireNEmployeeList = employeeRepository
-				.findByEmployeeRetireYnAndEmployeeLastConfirmYn("Y", "Y");
+				.findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYn("Y", "Y", "N");
 
 		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
 		return selectRetireNEmployeeList.stream().map(employee -> modelMapper.map(employee, EmployeeAndAllDTO.class))
@@ -60,11 +61,23 @@ public class AdminEmployeeService {
 	}
 
 	@Transactional
-	public EmployeeAndAllDTO selectOneEmployee(int EmpNo) {
-		AdminEmployee employee = employeeRepository.findById(EmpNo).get();
-
+	public EmployeeAndAllDTO selectOneEmployee(EmployeeAndAllDTO employeeDTO) {
+		AdminEmployee employee = employeeRepository.findById(employeeDTO.getEmployeeNo()).get();
+		
+		employee.setEmployeePhone(employeeDTO.getEmployeePhone());
+		employee.setEmployeeEmail(employeeDTO.getEmployeeEmail());
+		employee.setEmployeeAddress(employeeDTO.getEmployeeAddress());
+		employee.setEmployeeRetireYn(employeeDTO.getEmployeeRetireYn());
+		
 		return modelMapper.map(employee, EmployeeAndAllDTO.class);
 	}
+	
+	public EmployeeAndAllDTO selectOneEmployee(int empNo) {
+		
+		AdminEmployee employee = employeeRepository.findById(empNo).get();
+		return modelMapper.map(employee, EmployeeAndAllDTO.class);
+	}
+	
 //	@Transactional
 //	public EmployeePictureDTO selectOneEmployeePicture(int empNo) {
 //		AdminEmployeePicture employeePicture = employeePictureRepository.findById(empNo).get();
@@ -82,12 +95,6 @@ public class AdminEmployeeService {
 	public int getMaxMemberNo() {
 		int maxMemberNo = employeeRepository.getMaxMemberNo();
 		return maxMemberNo;
-	}
-
-	@Transactional
-	public String getsysdate() {
-		String sysdate = employeeRepository.sysdate();
-		return sysdate;
 	}
 
 	@Transactional
@@ -124,7 +131,7 @@ public class AdminEmployeeService {
 
 	@Transactional
 	public List<EmployeeAndAllDTO> selectReturnEmployeeList() {
-		List<AdminEmployee> selectReturnEmployeeList = employeeRepository.findByEmployeeRegistReturnYn("Y");
+		List<AdminEmployee> selectReturnEmployeeList = employeeRepository.findByEmployeeRegistReturnYnAndEmployeeBlackListYn("Y", "N");
 
 		return selectReturnEmployeeList.stream().map(waiting -> modelMapper.map(waiting, EmployeeAndAllDTO.class))
 				.toList();
@@ -228,6 +235,8 @@ public class AdminEmployeeService {
 		return selectWaitingEmployeeList.stream().map(waiting -> modelMapper.map(waiting, EmployeeAndAllDTO.class))
 				.toList();
 	}
+
+
 
 
 }

@@ -52,17 +52,17 @@
         <tbody>
           <tr>
             <td class="tg-7btt">이메일</td>
-            <td class="tg-7btt" colspan="5" th:text="${employee.employeeEmail} ></td>
+            <td class="tg-7btt" colspan="5" th:text="${employee.employeeEmail}"></td>
           </tr>
           <tr>
             <td class="tg-7btt">우편번호</td>
-            <td class="tg-7btt" th:text="selectEmployee 우편번호"></td>
+            <td class="tg-7btt" th:text="${addressMap.addressNo}"></td>
             <td class="tg-7btt">기본주소</td>
-            <td class="tg-7btt" colspan='3' th:text="${employee.employeeAddress}"></td>
+            <td class="tg-7btt" colspan='3' th:text="${addressMap.address}"></td>
           </tr>
           <tr>
             <td class="tg-7btt">상세주소</td>
-            <td class="tg-7btt" colspan="5" th:text="${employee.employeeAddress}"></td>
+            <td class="tg-7btt" colspan="5" th:text="${addressMap.addressDetail}"></td>
           </tr>
           <tr>
             <td class="tg-7btt">입사일</td>

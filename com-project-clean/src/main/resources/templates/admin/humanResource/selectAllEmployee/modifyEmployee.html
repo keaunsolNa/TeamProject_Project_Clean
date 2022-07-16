@@ -46,16 +46,17 @@
                 <td class="tg-7btt">전화번호</td>
                 <td class="tg-7btt">
 	             	<select id="employeePhone1" name="employeePhone1" class="required">
-	             		<option selected>010</option>
-	             		<option>011</option>
-	             		<option>016</option>
-	             		<option>017</option>
-	             		<option>019</option>
+	             		<option value="010">010</option>
+	             		<option value="011">011</option>
+	             		<option value="017">017</option>
+	             		<option value="018">018</option>
+	             		<option value="019">019</option>
 	             	</select>-
-	             	<input type="text" id="employeePhone2" name="employeePhone2" class="required" maxlength='4' th:value="${phoneNumber.middlePhoneNumber}" required>-
-	             	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' th:value="${phoneNumber.lastPhoneNumber}" required>
+	             	<input type="text" id="employeePhone2" name="employeePhone2" class="required" maxlength='4' th:value="${phone.middlePhoneNumber}" required>-
+	             	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' th:value="${phone.lastPhoneNumber}" required>
+	             	<input style="display: none;" type="text" id="employeePhone" name="employeePhone">
+	             	<td style="display: none;"><input type="text" th:value="${phone.firstPhoneNumber}" id="firstPhoneNumber" name="firstPhoneNumber"></td>
 	             </td>
-                <td class="tg-7btt"><input type="text" th:value="${employee.employeePhone}" id="employeePhone" name="employeePhone" class="required" required placeholder="전화번호를 입력해주세요"></td>
 	          </tr>
 	          <tr>
 	            <td class="tg-7btt">생년월일</td>
@@ -74,27 +75,28 @@
 	        <tbody>
 	          <tr>
 	          	<td class="tg-7btt">이메일</td>
-	            <td class="tg-7btt" colspan="3"><input th:value="${employee.employeeEmail}" type="text" id="employeeEmail" class="required" name="employeeEmail" placeholder="이메일을 입력해주세요" required style="width: 200px;"> @ 
-		            <select name="employeeDomain" id="employeeDomain" style="width: 100px; height: 25px;">
+	            <td class="tg-7btt" colspan="3"><input th:value="${email.email}" type="text" id="email" class="required" placeholder="이메일을 입력해주세요" required style="width: 200px;"> @ 
+		            <select id="domain" name="domain" style="width: 100px; height: 25px;">
 			            <option value="naver.com" selected>naver.com</option>
 			            <option value="google.com">google.com</option>
 			            <option value="hanmail.com">hanmail.com</option>
 		            </select>
+                <td class="tg-7btt"style="display: none;"><input id="employeeEmail" name="employeeEmail" type="text"/></td>
+                <td class="tg-7btt"style="display: none;"><input id="domainValue" type="text" th:value="${email.domain}"/></td>
 	            <td class="tg-7btt"><button type="button" id="registPicture">수정</button></td>
 	            <td class="tg-7btt"><button type="button" id="deletePicture">삭제</button></td>
 	          </tr>
 	                  <tr>
 	                    <td class="tg-7btt">우편번호</td>
-	                    <td class="tg-7btt"><div id="addressNo" th:text="modifyEmployee 우편번호"></div></td>
-	                    <td class="tg-7btt"style="display: none;"><input id="employeeAddressNo" type="number" name="employeeAddressNo"/></td>
+	                    <td class="tg-7btt"><div id="addressNo" th:text="${address.addressNo}"></div></td>
 	                    <td class="tg-7btt">기본주소</td>
-	                    <td class="tg-7btt"><div id="address" th:text="${employee.employeeAddress}"></div></td>
-	                    <td class="tg-7btt"style="display: none;"><input type="text" id="employeeAddress" name="employeeAddress" /></td>
-	                    <td class="tg-7btt" colspan="2"><button type="button" id="findAddress">주소찾기</button></td>
+	                    <td class="tg-7btt"><div id="address" th:text="${address.address}"></div></td>
+	                    <td class="tg-7btt" colspan="2"><button type="button" id="findAddress">주소찾기</button></td> 
 	                  </tr>
 	                  <tr>
 	                    <td class="tg-7btt">상세주소</td>
-	                    <td class="tg-7btt" colspan="5"><input type=text th:value="${employee.employeeAddress}" id="addressDetail" class="required" name="employeeDetailAddress" placeholder="상세주소를 입력해주세요" required></td>
+	                    <td class="tg-7btt" colspan="5"><input type=text th:value="${address.addressDetail}" id="addressDetail" class="required" name="employeeDetailAddress" placeholder="상세주소를 입력해주세요" required></td>
+	                    <td class="tg-7btt"style="display: none;"><input id="employeeAddress" name="employeeAddress" type="text"/></td>
 	                  </tr>
 	          <tr>
 	            <td class="tg-7btt">입사일</td>
@@ -169,9 +171,11 @@
         
     /* 회원 수정 정보 */
   	$("#modify").click(function(){
-  		const employeePhone2 = $("#employeePhone2").val();
-  		const employeePhone3 = $("#employeePhone3").val();
-  		const email = $("#employeeEmail").val();
+  		const phone1 = $("#employeePhone1").val();
+  		const phone2 = $("#employeePhone2").val();
+  		const phone3 = $("#employeePhone3").val();
+  		const email = $("#email").val();
+  		const domain = $("#domain").val();
 		const addressNo = $("#addressNo").text();
 		const address = $("#address").text();
   		const addressDetail = $("#addressDetail").val();
@@ -180,8 +184,9 @@
   				alert("입력되지 않은 항목이 있습니다.");
   			}else{
 			if(confirm("등록하시겠습니까?")){
-				$('#employeeAddressNo').attr('value', addressNo );
-				$('#employeeAddress').attr('value', address );
+				$('#employeePhone').attr('value', phone1 +"-"+ phone2 +"-"+ phone3 );
+				$('#employeeAddress').attr('value', addressNo + "@" + address + "@" + addressDetail);
+				$('#employeeEmail').attr('value', email + "@" + domain);
 				$("#modifyForm").submit();
   			}
   		}
@@ -202,6 +207,13 @@
     		$(":radio[name='employeeRetireYn'][value='" + checkedValue + "']").attr('checked', true);
     	})
     	
+    		const checkedFirstPhone = $("#firstPhoneNumber").val();
+    		const checkedDomain = $("#domainValue").val();
+    	
+    		
+    		$("#employeePhone1").val(checkedFirstPhone).prop("selected", true);
+    		$("#domain").val(checkedDomain).prop("selected", true);
+
     </script>
 </body>
 </html>

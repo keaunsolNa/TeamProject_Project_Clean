@@ -52,7 +52,7 @@ public class AdminEmployee {
 	@Column(name = "EMPLOYEE_PHONE")
 	private String employeePhone;
 
-	@Column(name = "EMPLOYEE_HIRE_DATE")
+	@Column(name = "EMPLOYEE_HIRE_DATE", nullable = true)
 	private java.sql.Date employeeHireDate;
 
 	@Column(name = "EMPLOYEE_RETIRE_DATE", nullable = true)

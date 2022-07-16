@@ -15,17 +15,14 @@ public interface EmployeeReopsitory extends JpaRepository<AdminEmployee, Integer
 	@Query(value = "SELECT MAX(EMPLOYEE_NO) FROM TBL_EMPLOYEE", nativeQuery = true)
 	public java.sql.Date getMamxMemberNo();
 
-	@Query(value = "SELECT SYSDATE FROM DUAL", nativeQuery = true)
-	public String sysdate();
-
 	@Query
 	public List<AdminEmployee> findAllByEmployeeRetireYn(String employeeRetireYn);
 
 	public List<AdminEmployee> findByEmployeeRetireYn(String string);
 
-	public List<AdminEmployee> findByEmployeeRetireYnAndEmployeeLastConfirmYn(String string, String string2);
+	public List<AdminEmployee> findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYn(String retire, String confirm, String black);
 
-	public List<AdminEmployee> findByEmployeeRegistReturnYn(String string);
+	public List<AdminEmployee> findByEmployeeRegistReturnYnAndEmployeeBlackListYn(String returnYn, String blackYn);
 
 	public List<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYn(String string, String string2);
 
