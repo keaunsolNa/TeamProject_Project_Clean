@@ -14,7 +14,18 @@
 <!--     <script src='/js/checklistCheckBox.js'></script> -->
 <!--  <script src='/js/checklistFile.js'></script>   -->
 <!--     <script src='/js/checklistCanvas.js'></script> -->
+
+	<style>
+		.canvasbtn button{
+			background-color: rgba(104, 228, 255, 1);
+		}
+		#submitButton{
+			background-color: rgba(104, 228, 255, 1);
+			border-style: none;
+		}
+	</style>
 </head>
+
 <body>
 	<section>
 		<form method="post" action="/employee/checkList/update"  enctype="multipart/form-data">
@@ -43,18 +54,18 @@
 			
             <div style="width:300px; height:300px; margin-left: 40%" id="contentImgArea3">     
                 <canvas id="canvas" style="border:1px solid black"></canvas>  
-	        	<img id="signImg" width="300px; height:300px; margin-left: 40%">
-	        	<!-- <input type ="file" id="thumbnailImg3" name="signThumbnailImg" onchange="loadImg(this,3)" style="display: none"> -->
+	        	<img id="signImg" width="300px; height:300px; margin-left: 40%" src="">
 	        </div> 	
 
 		</form>
 	</section>
 	
-	<br><br><br><br>
-	
+	<div class="canvasbtn">
 	<button id="save"  type="button">서명 저장</button>
     <button id="reset"  type="button">서명 취소</button>
-	<input type="button" id="submitButton" value="제출" style="margin-left: 50%">	        
+	</div>
+	<br><br><br><br>    	
+	<input type="button" id="submitButton" value="제출" style="margin-left: 48%">	        
 	 	
 	<!-- submit script -->
     <script>
@@ -83,14 +94,12 @@
     	}
 
     </script>	 	
-			</div>	
 			
 			
 	<!-- fileupload script -->
 	<script>
 	const $contentImgArea1 = document.getElementById("contentImgArea1");
 	const $contentImgArea2 = document.getElementById("contentImgArea2");
-	const $contentImgArea3 = document.getElementById("contentImgArea3");
 	
 	$contentImgArea1.onclick = function() {
 				document.getElementById("thumbnailImg1").click();
@@ -113,9 +122,6 @@
 						break;
 					case 2:
 						document.getElementById("afterImg").src = e.target.result;
-						break;
-					case 3:
-						document.getElementById("signImg").src = e.target.result;
 						break;
 				}
 								
@@ -206,25 +212,13 @@
 		                            canvas.on("mouseup", draw);          
 		                            canvas.on("mouseout", draw);  
 		
-		                            // save 버튼을 누르면 imageupload.php로 base64코드를 보내서 이미지로 변환합니다.          
-		                            
 		                            $("#save").on("click", function(){     
-		                            	console.log("작동")
-		                            	var canvas = document.getElementById('canvas')
-		                            	var dataURL = canvas.toDataURL();
+		                            	const canvas = document.getElementById('canvas');
+		                            	const dataURL = canvas.toDataURL();
+		                            	document.getElementById("signImg").src = dataURL;
 		                            	console.log(dataURL)
-		        /*                         // a 태그를 만들어서 다운로드를 만듭니다.            
-		                                var link = document.createElement('a');             
-		                                // base64데이터 링크 달기            
-		                                link.href = canvas[0].toDataURL("image/png");             
-		                                // 다운로드시 파일명 지정            
-		                                link.download = "image.png";             
-		                                // body에 추가            
-		                                document.body.appendChild(link);             
-		                                link.click();             
-		                                document.body.removeChild(link);             
-		                                // 다운로드용 a 태그는 다운로드가 끝나면 삭제합니다.            
-		                                form.remove();      */     
+		                            	document.getElementById("canvas").remove();
+		                            	
 		                            });        
 		                            
 		                            $("#reset").on("click", function(){

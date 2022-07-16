@@ -24,16 +24,35 @@
 		<br><br>				
 	</form>
 </section>
-<input type="button" value="승인" id="accept">
-<input type="button" value="거절" id="denial">
+<input type="button" value="승인" id="accept" class="submittbtn">
+<br>
+<input type="button" value="거절" id="denial" class="submittbtn">
+
+<!-- textarea script -->
+<script>
+
+	$("#employeeOpnion").prop("readonly", true);
+	$("#employeeOpnion2").prop("readonly", true);
+
+	$('textarea').keyup(function(){
+		var letter = $(this).val()
+		$('#adminOpnion').html(letter)
+	})
+	
+</script>
 <!-- Submit script -->
     <script>
 	    
 	    const jbHtml = "";
     	document.getElementById("denial").onclick = function(){
 			const reservationNo = $('.reservationNo').val();
-    			const jbHtml = $( 'section' ).html();
     		if(confirm("서류를 재 반려하시겠습니까? 직원에게 알람이 전송됩니다.")){
+    			
+    			document.getElementById("adminOpnion2").remove();
+    			document.getElementById("adminOpnion").style="";
+    			
+    			const jbHtml = $( 'section' ).html();
+    			
     			$.ajax({
     				url: "denial",
     				type:"POST",
@@ -55,8 +74,12 @@
     	
     	document.getElementById("accept").onclick = function(){
 			const reservationNo = $('.reservationNo').val();
-    			const jbHtml = $( 'section' ).html();
     		if(confirm("서류를 승인하시겠습니까? 직원에게 알람이 전송됩니다.")){
+    			
+    			document.getElementById("adminOpnion2").remove();
+    			document.getElementById("adminOpnion").style="";
+
+    			const jbHtml = $( 'section' ).html();
     			$.ajax({
     				url: "accept",
     				type:"POST",
