@@ -56,61 +56,24 @@
 	<div th:include="common/Header.html"></div>
 	<div th:include="common/hrAside.html"></div>
 	<div class="container">
-	
-
-        <ul class="tabs">
-            <li class="tab-link current" data-tab="tab-1">직원</li>
-            <li class="tab-link" data-tab="tab-2">관리자</li>
-        </ul>
-
-        <!-- 직원 내용 -->
-        <div id="tab-1" class="tab-content current">
-            <span>인사관리 카드 조회</span>
-
-            <select name="category" id="category">
-                <option value="empNo" selected>사원번호</option>
-                <option value="empName">이름</option>
-                <option value="empBirth">생년월일</option>
-                <option value="empAddress">주소</option>
-                <option value="empPhone">전화번호</option>
-            </select>
-            <input type="text" name="categoryValue">
-            <button type="button" id="search">검색</button>
-            <input type="radio" value="admin" name="retire" id="retireN"> 
-            <label for="retireN">재직자</label>
-            <input type="radio" value="admin" name="retire" id="retireY"> 
-            <label for="retireY">퇴사자</label>
-
-			
-            <table id="employeeList" border="1">
-                <thead>
-                    <tr>
-                        <th>사원번호</th>
-                        <th>이름</th>
-                        <th>생년월일</th>
-                        <th>주소</th>
-                        <th>전화번호</th>
-                        <th>입사날짜</th>
-                    </tr>
-                </thead>
-                <tbody>
-                
-                </tbody>
-            </table>
-        </div>
 
         <!-- 관리자 내용 -->
-            <div id="tab-2" class="tab-content">
+           <!--  <div id="tab-2" class="tab-content">
                 <span>인사관리 카드 조회</span>
-                    <select name="category" id="category">
-                        <option value="adminNo" selected>관리자번호</option> 
-                        <option value="adminName">이름</option>
-                        <option value="adminBirth">생년월일</option>
-                        <option value="adminJob">직책명</option>
-                        <!-- <option value="empPhone">전화번호</option> -->
-                    </select>
-                <input type="text" name="categoryValue">
-                <button type="button" id="search">검색</button>
+                <form action="admin/hrCard/adminList" method="get">
+	                    <select th:with="searchCondition = ${selectCriteria.searchCondition}" name="searchCondition">
+	                        <option value="adminName" th:selected="${ searchCondition } == 'adminName'">이름</option>
+	                        <option value="adminJob"  th:selected="${ searchCondition } == 'adminJob'">직책명</option>
+	                    </select>
+	                <input type="hidden" name="currentPage" value="1">
+	                <input type="search" id="name" name="searchValue" th:value="${selectCriteria.searchValue}">
+	                <button type="button" id="search">검색</button>
+                
+                 </form> -->
+                
+                <!--  <div th:replace="hrCard/adminListPaging.html"></div> -->
+                 
+                 
                 <input type="radio" value="admin" name="retire" id="adminRetireN"> 
                 <label for="adminRetireN">재직자</label>
                 <input type="radio" value="admin" name="retire" id="adminRetireY"> 
@@ -139,8 +102,7 @@
                     </tbody>
                 </table>    
             </div>
-        </div>
-        
+       
     <script>
         /* 탭 전환 관련 스크립트 */
         $(document).ready(function () {

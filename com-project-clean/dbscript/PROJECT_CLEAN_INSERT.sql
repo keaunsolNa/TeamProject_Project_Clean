@@ -323,10 +323,10 @@ VALUES
 (
   SEQ_TBL_ADMIN.NEXTVAL,'이시원','cleanup'||TO_CHAR(SYSDATE, 'YYMMDD')
 , '$2a$10$X45Jsk42JefSGVcnYKccweDQ1dz2xRMFTfKMtnOlpB1ZQMMsnhQlK', TO_DATE('98/02/18','RR/MM/DD'),'F'
-, '010111111111', TO_DATE('22/07/05','RR/MM/DD'), NULL
+, '010-1111-1111', TO_DATE('22/07/05','RR/MM/DD'), NULL
 , 'N','총관리자', TO_DATE('22/07/05','RR/MM/DD')
 , 20000000, 3, 'toothcoool@gmail.com'
-, '333$경기도 안양시 만안구 안양로$안양아파트364', '사진', 'ddddd'
+, '333@경기도 안양시 만안구 안양로@안양아파트364', '사진', 'ddddd'
 , '사진 dddd'
 );
 INSERT 
@@ -344,10 +344,10 @@ VALUES
 (
   SEQ_TBL_ADMIN.NEXTVAL, '서보라', 'cleanup210823'
 , '$2a$10$X45Jsk42JefSGVcnYKccweDQ1dz2xRMFTfKMtnOlpB1ZQMMsnhQlK', TO_DATE('94/04/27','RR/MM/DD'), 'F'
-, '01022222222', TO_DATE('21/08/23','RR/MM/DD'), NULL
+, '010-2222-2222', TO_DATE('21/08/23','RR/MM/DD'), NULL
 , 'N', '인사관리자', TO_DATE('22/07/05','RR/MM/DD')
 , 2300000, 1, 'toothcoool@gmail.com'
-, '333$경기도 안양시 만안구 안양로$안양아파트364', '사진', 'ddddd'
+, '333@경기도 안양시 만안구 안양로@안양아파트364', '사진', 'ddddd'
 , '사진 dddd'
 );
 
@@ -366,10 +366,10 @@ VALUES
 (
   SEQ_TBL_ADMIN.NEXTVAL,'이유미', 'cleanup200304'
 , '$2a$10$X45Jsk42JefSGVcnYKccweDQ1dz2xRMFTfKMtnOlpB1ZQMMsnhQlK', TO_DATE('92/08/06','RR/MM/DD'), 'F'
-, '01033333333', TO_DATE('20/03/04','RR/MM/DD'), TO_DATE('22/07/03','RR/MM/DD')
+, '010-3333-3333', TO_DATE('20/03/04','RR/MM/DD'), TO_DATE('22/07/03','RR/MM/DD')
 , 'Y', '인사관리자', TO_DATE('22/07/03','RR/MM/DD')
 , 3400000, 5, 'toothcoool@gmail.com'
-, '333$경기도 안양시 만안구 안양로$안양아파트364', '사진', 'ddddd'
+, '333@경기도 안양시 만안구 안양로@안양아파트364', '사진', 'ddddd'
 , '사진 dddd'
 );
 
@@ -391,7 +391,7 @@ VALUES
 , '01044444444', TO_DATE('22/06/27','RR/MM/DD'), NULL
 , 'N', '일반관리자', TO_DATE('22/07/05','RR/MM/DD')
 , 2500000, 2, 'toothcoool@gmail.com'
-, '333$경기도 안양시 만안구 안양로$안양아파트364', '사진', 'ddddd'
+, '333@경기도 안양시 만안구 안양로@안양아파트364', '사진', 'ddddd'
 , '사진 dddd'
 );
 
@@ -410,10 +410,10 @@ VALUES
 (
   SEQ_TBL_ADMIN.NEXTVAL, '조완', 'cleanup210728'
 , '$2a$10$X45Jsk42JefSGVcnYKccweDQ1dz2xRMFTfKMtnOlpB1ZQMMsnhQlK', TO_DATE('96/04/09','RR/MM/DD'), 'M'
-, '01055555555', TO_DATE('21/07/28','RR/MM/DD'), NULL
+, '010-5555-5555', TO_DATE('21/07/28','RR/MM/DD'), NULL
 , 'N', '재정담당자', TO_DATE('22/07/04','RR/MM/DD')
 , 4300000, 6, 'toothcoool@gmail.com'
-, '333$경기도 안양시 만안구 안양로$안양아파트364', '사진', 'ddddd'
+, '333@경기도 안양시 만안구 안양로@안양아파트364', '사진', 'ddddd'
 , '사진 dddd'
 );
 
@@ -432,10 +432,10 @@ VALUES
 (
   SEQ_TBL_ADMIN.NEXTVAL, '이은조', 'cleanup210607'
 , '$2a$10$X45Jsk42JefSGVcnYKccweDQ1dz2xRMFTfKMtnOlpB1ZQMMsnhQlK', TO_DATE('95/10/18','RR/MM/DD'), 'F'
-, '01066666666', TO_DATE('21/06/07','RR/MM/DD'), TO_DATE('22/07/02','RR/MM/DD')
+, '010-6666-6666', TO_DATE('21/06/07','RR/MM/DD'), TO_DATE('22/07/02','RR/MM/DD')
 , 'Y', '보안담당자', TO_DATE('22/07/01','RR/MM/DD')
 , 3200000, 7, 'toothcoool@gmail.com'
-, '333$경기도 안양시 만안구 안양로$안양아파트364', '사진', 'ddddd'
+, '333@경기도 안양시 만안구 안양로@안양아파트364', '사진', 'ddddd'
 , '사진 dddd'
 );
 
@@ -454,7 +454,7 @@ VALUES
 (
   SEQ_TBL_ADMIN.NEXTVAL, '조아영', 'cleanup220613'
 , '$2a$10$X45Jsk42JefSGVcnYKccweDQ1dz2xRMFTfKMtnOlpB1ZQMMsnhQlK', TO_DATE('97/11/13','RR/MM/DD'), 'F'
-, '01077777777', TO_DATE('22/06/13','RR/MM/DD'), NULL
+, '010-7777-7777', TO_DATE('22/06/13','RR/MM/DD'), NULL
 , 'N', '보안담당자', TO_DATE('22/07/05','RR/MM/DD')
 , 1800000, 0, 'toothcoool@gmail.com'
 , '333$경기도 안양시 만안구 안양로$안양아파트364', '사진', 'ddddd'
@@ -477,10 +477,10 @@ VALUES
 (
   SEQ_TBL_ADMIN.NEXTVAL, '신순록', 'cleanup210628'
 , '$2a$10$X45Jsk42JefSGVcnYKccweDQ1dz2xRMFTfKMtnOlpB1ZQMMsnhQlK', TO_DATE('94/07/06','RR/MM/DD'), 'M'
-, '01088888888', TO_DATE('22/06/27','RR/MM/DD'), NULL
+, '010-8888-8888', TO_DATE('22/06/27','RR/MM/DD'), NULL
 , 'N', '일반관리자', TO_DATE('22/07/05','RR/MM/DD')
 , 2500000, 2, 'toothcoool@gmail.com'
-, '333$경기도 안양시 만안구 안양로$안양아파트364', '사진', 'ddddd'
+, '333@경기도 안양시 만안구 안양로@안양아파트364', '사진', 'ddddd'
 , '사진 dddd'
 );
 
@@ -499,7 +499,7 @@ VALUES
 (
   SEQ_TBL_ADMIN.NEXTVAL, '조완', 'cleanup210729'
 , '$2a$10$X45Jsk42JefSGVcnYKccweDQ1dz2xRMFTfKMtnOlpB1ZQMMsnhQlK', TO_DATE('96/04/09','RR/MM/DD'), 'M'
-, '01099999999', TO_DATE('21/07/28','RR/MM/DD'), NULL
+, '010-9999-9999', TO_DATE('21/07/28','RR/MM/DD'), NULL
 , 'N', '재정담당자', TO_DATE('22/07/04','RR/MM/DD')
 , 4300000, 6, 'toothcoool@gmail.com'
 , '333$경기도 안양시 만안구 안양로$안양아파트364', '사진', 'ddddd'
@@ -524,7 +524,7 @@ VALUES
 , '01011112222', TO_DATE('21/06/07','RR/MM/DD'), TO_DATE('22/07/02','RR/MM/DD')
 , 'Y', '보안담당자', TO_DATE('22/07/01','RR/MM/DD')
 , 3200000, 7, 'toothcoool@gmail.com'
-, '333$경기도 안양시 만안구 안양로$안양아파트364', '사진', 'ddddd'
+, '333@경기도 안양시 만안구 안양로@안양아파트364', '사진', 'ddddd'
 , '사진 dddd'
 );
 
@@ -543,13 +543,12 @@ VALUES
 (
   SEQ_TBL_ADMIN.NEXTVAL, '조아영', 'cleanup220616'
 , '$2a$10$X45Jsk42JefSGVcnYKccweDQ1dz2xRMFTfKMtnOlpB1ZQMMsnhQlK', TO_DATE('97/11/13','RR/MM/DD'), 'F'
-, '01011113333', TO_DATE('22/06/13','RR/MM/DD'), NULL
+, '010-1111-3333', TO_DATE('22/06/13','RR/MM/DD'), NULL
 , 'N', '보안담당자', TO_DATE('22/07/05','RR/MM/DD')
 , 1800000, 0, 'toothcoool@gmail.com'
-, '333$경기도 안양시 만안구 안양로$안양아파트364', '사진', 'ddddd'
+, '333@경기도 안양시 만안구 안양로@안양아파트364', '사진', 'ddddd'
 , '사진 dddd'
 );
-
 
 -- "TBL_RETIRE_EMPLOYEE"; 
 INSERT 
