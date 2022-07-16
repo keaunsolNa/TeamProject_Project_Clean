@@ -48,7 +48,10 @@ public interface AdminRepository extends JpaRepository<Admin, Integer>{
 	@Query(value="SELECT * FROM TBL_ADMIN a where a.admin_retire_yn = 'N' ORDER BY a.admin_no", nativeQuery = true)
 	List<Admin> findAdminList();
 
-	
+	/* 관리자 수정을 위한 조회 */
+	@Query(value="SELECT * FROM tbl_admin a WHERE admin_no = ?", nativeQuery = true)
+	Admin modifyAdmin(int adminNo);
+
 	
 
 }
