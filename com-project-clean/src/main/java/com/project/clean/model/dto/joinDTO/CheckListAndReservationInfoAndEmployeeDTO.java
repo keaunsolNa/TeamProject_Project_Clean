@@ -12,16 +12,19 @@ public class CheckListAndReservationInfoAndEmployeeDTO implements Serializable{
 	private Integer adminNo;
 	private String customerName;
 	private String employeeName;
+	private String adminName;
+	
 	public CheckListAndReservationInfoAndEmployeeDTO() {
 	}
 	public CheckListAndReservationInfoAndEmployeeDTO(Integer checkReservationNo, String checkHTML, String checkStatus,
-			Integer adminNo, String customerName, String employeeName) {
+			Integer adminNo, String customerName, String employeeName, String adminName) {
 		this.checkReservationNo = checkReservationNo;
 		this.checkHTML = checkHTML;
 		this.checkStatus = checkStatus;
 		this.adminNo = adminNo;
 		this.customerName = customerName;
 		this.employeeName = employeeName;
+		this.adminName = adminName;
 	}
 	public Integer getCheckReservationNo() {
 		return checkReservationNo;
@@ -59,6 +62,12 @@ public class CheckListAndReservationInfoAndEmployeeDTO implements Serializable{
 	public void setEmployeeName(String employeeName) {
 		this.employeeName = employeeName;
 	}
+	public String getAdminName() {
+		return adminName;
+	}
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -66,8 +75,10 @@ public class CheckListAndReservationInfoAndEmployeeDTO implements Serializable{
 	public String toString() {
 		return "CheckListAndReservationInfoAndEmployeeDTO [checkReservationNo=" + checkReservationNo + ", checkHTML="
 				+ checkHTML + ", checkStatus=" + checkStatus + ", adminNo=" + adminNo + ", customerName=" + customerName
-				+ ", employeeName=" + employeeName + "]";
+				+ ", employeeName=" + employeeName + ", adminName=" + adminName + "]";
 	}
+	
+	
 	
 	
 	

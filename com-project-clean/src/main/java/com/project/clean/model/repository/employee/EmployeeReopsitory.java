@@ -2,10 +2,14 @@ package com.project.clean.model.repository.employee;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.project.clean.model.domain.adminEntity.AdminEmployee;
+import com.project.clean.model.domain.commonEntity.Vacation;
+import com.project.clean.model.domain.commonEntity.VacationCommit;
 
 public interface EmployeeReopsitory extends JpaRepository<AdminEmployee, Integer>{
 
@@ -15,22 +19,24 @@ public interface EmployeeReopsitory extends JpaRepository<AdminEmployee, Integer
 	@Query(value = "SELECT MAX(EMPLOYEE_NO) FROM TBL_EMPLOYEE", nativeQuery = true)
 	public java.sql.Date getMamxMemberNo();
 
-	@Query(value = "SELECT SYSDATE FROM DUAL", nativeQuery = true)
-	public String sysdate();
-
 	@Query
 	public List<AdminEmployee> findAllByEmployeeRetireYn(String employeeRetireYn);
 
 	public List<AdminEmployee> findByEmployeeRetireYn(String string);
 
-	public List<AdminEmployee> findByEmployeeRetireYnAndEmployeeLastConfirmYn(String string, String string2);
+	public Page<AdminEmployee> findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYn(String retire, String confirm, String black, Pageable page);
 
-	public List<AdminEmployee> findByEmployeeRegistReturnYn(String string);
+//	public List<AdminEmployee> findByEmployeeRegistReturnYnAndEmployeeBlackListYn(String returnYn, String blackYn);
 
 	public List<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYn(String string, String string2);
 
 	public List<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeLastConfirmYnAndEmployeeRegistReturnYn(
 			String string, String string2, String string3, String string4);
+
+	public Page<AdminEmployee> findByEmployeeRegistReturnYnAndEmployeeBlackListYn(String string, String string2,
+			Pageable pageable);
+
+	public Page<AdminEmployee> findByEmployeeBlackListYn(String string, Pageable pageable);
 
 	
 }

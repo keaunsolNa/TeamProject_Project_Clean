@@ -8,18 +8,26 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.project.clean.model.domain.adminEntity.AdminEmployee;
 import com.project.clean.model.domain.adminEntity.AdminReason;
 import com.project.clean.model.domain.commonEntity.Admin;
+import com.project.clean.model.domain.commonEntity.Vacation;
+import com.project.clean.model.domain.commonEntity.VacationCommit;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.ReasonDTO;
+import com.project.clean.model.dto.commonDTO.VacationCommitDTO;
+import com.project.clean.model.dto.commonDTO.VacationDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
 import com.project.clean.model.repository.admin.AdminRepository;
 import com.project.clean.model.repository.admin.ReasonRepository;
 import com.project.clean.model.repository.employee.EmployeeReopsitory;
+import com.project.clean.model.repository.vacation.VacationRepository;
 
 @Service
 public class AdminEmployeeService {
@@ -28,43 +36,51 @@ public class AdminEmployeeService {
 	private final EmployeeReopsitory employeeRepository;
 	private final ReasonRepository reasonRepository;
 	private final AdminRepository adminRepository;
+	private final VacationRepository vacationRepository;
+	private final int selectEmployeeLineCount = 2;
 
 	@Autowired
 	public AdminEmployeeService(EmployeeReopsitory employeeReopsitory, ModelMapper modelMapper,
-			ReasonRepository reasonRepository, AdminRepository adminRepository) {
+			ReasonRepository reasonRepository, AdminRepository adminRepository, VacationRepository vacationRepository) {
 		this.employeeRepository = employeeReopsitory;
 		this.modelMapper = modelMapper;
 		this.reasonRepository = reasonRepository;
 		this.adminRepository = adminRepository;
+		this.vacationRepository =vacationRepository;
 	}
 
-	/* 전체 직원 조회(재직자) */
-	@Transactional
-	public List<EmployeeAndAllDTO> selectRetireNEmployee() {
-		List<AdminEmployee> selectRetireNEmployeeList = employeeRepository
-				.findByEmployeeRetireYnAndEmployeeLastConfirmYn("N", "Y");
-		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
-		return selectRetireNEmployeeList.stream().map(employee -> modelMapper.map(employee, EmployeeAndAllDTO.class))
-				.toList();
-	}
+//	/* 전체 직원 조회(재직자) */
+//	@Transactional
+//	public List<EmployeeAndAllDTO> selectRetireNEmployee(Pageable page) {
+//		
+//		List<AdminEmployee> startPageList = employeeRepository
+//				.findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYn("N", "Y", "N", page);
+//		
+//		return startPageList.stream().map(start -> modelMapper.map(start, EmployeeAndAllDTO.class)).toList();
+//		
+//	}
+//
 
-	/* 전체 직원 조회(퇴사자) */
-	@Transactional
-	public List<EmployeeAndAllDTO> selectRetireYEmployee() {
-		List<AdminEmployee> selectRetireNEmployeeList = employeeRepository
-				.findByEmployeeRetireYnAndEmployeeLastConfirmYn("Y", "Y");
-
-		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
-		return selectRetireNEmployeeList.stream().map(employee -> modelMapper.map(employee, EmployeeAndAllDTO.class))
-				.toList();
-	}
 
 	@Transactional
-	public EmployeeAndAllDTO selectOneEmployee(int EmpNo) {
-		AdminEmployee employee = employeeRepository.findById(EmpNo).get();
-
+	public EmployeeAndAllDTO selectOneEmployee(EmployeeAndAllDTO employeeDTO) {
+		AdminEmployee employee = employeeRepository.findById(employeeDTO.getEmployeeNo()).get();
+		
+		employee.setEmployeePhone(employeeDTO.getEmployeePhone());
+		employee.setEmployeeEmail(employeeDTO.getEmployeeEmail());
+		employee.setEmployeeAddress(employeeDTO.getEmployeeAddress());
+		employee.setEmployeeRetireYn(employeeDTO.getEmployeeRetireYn());
+		
 		return modelMapper.map(employee, EmployeeAndAllDTO.class);
 	}
+	
+	
+	public EmployeeAndAllDTO selectOneEmployee(int empNo) {
+		
+		AdminEmployee employee = employeeRepository.findById(empNo).get();
+		return modelMapper.map(employee, EmployeeAndAllDTO.class);
+	}
+	
 //	@Transactional
 //	public EmployeePictureDTO selectOneEmployeePicture(int empNo) {
 //		AdminEmployeePicture employeePicture = employeePictureRepository.findById(empNo).get();
@@ -85,12 +101,6 @@ public class AdminEmployeeService {
 	}
 
 	@Transactional
-	public String getsysdate() {
-		String sysdate = employeeRepository.sysdate();
-		return sysdate;
-	}
-
-	@Transactional
 	public void registEmployee(EmployeeAndAllDTO employeeDTO) {
 		employeeRepository.save(modelMapper.map(employeeDTO, AdminEmployee.class));
 
@@ -106,6 +116,8 @@ public class AdminEmployeeService {
 	public void modifyEmployee(EmployeeAndAllDTO employeeDTO) {
 		AdminEmployee employee = employeeRepository.findById(employeeDTO.getEmployeeNo()).get();
 
+		employee.setEmployeePictureSaveRoot(employeeDTO.getEmployeePictureSaveRoot());
+		employee.setEmployeePictureSaveName(employeeDTO.getEmployeePictureSaveName());
 		employee.setEmployeePhone(employeeDTO.getEmployeePhone());
 		employee.setEmployeeRetireYn(employeeDTO.getEmployeeRetireYn());
 		employee.setEmployeeEmail(employeeDTO.getEmployeeEmail());
@@ -122,14 +134,24 @@ public class AdminEmployeeService {
 				.toList();
 	}
 
+//	@Transactional
+//	public List<EmployeeAndAllDTO> selectReturnEmployeeList() {
+//		
+//		List<AdminEmployee> selectReturnEmployeeList = employeeRepository.findByEmployeeRegistReturnYnAndEmployeeBlackListYn("Y", "N");
+//
+//		return selectReturnEmployeeList.stream().map(waiting -> modelMapper.map(waiting, EmployeeAndAllDTO.class))
+//				.toList();
+//	}
+
 	@Transactional
-	public List<EmployeeAndAllDTO> selectReturnEmployeeList() {
-		List<AdminEmployee> selectReturnEmployeeList = employeeRepository.findByEmployeeRegistReturnYn("Y");
-
-		return selectReturnEmployeeList.stream().map(waiting -> modelMapper.map(waiting, EmployeeAndAllDTO.class))
-				.toList();
-	}
-
+	public Page<EmployeeAndAllDTO> selectRetireYEmployee(int startAt) {
+		
+	    Pageable pageable = PageRequest.of(startAt, selectEmployeeLineCount);
+		 Page<AdminEmployee> selectRetureYEmployee = employeeRepository.findByEmployeeRegistReturnYnAndEmployeeBlackListYn("Y", "N", pageable);
+		    
+		    return  modelMapper.map(selectRetureYEmployee, Page.class);
+		}
+	
 	@Transactional
 	public EmployeeAndAllDTO waitingEmployee(int empNo) {
 		AdminEmployee employee = employeeRepository.findById(empNo).get();
@@ -213,7 +235,6 @@ public class AdminEmployeeService {
 		restCommitDTO.setEmployeeRegistDate(today);
 
 		reasonRepository.save(modelMapper.map(restCommitDTO, AdminReason.class));
-		/* save를 했는데 왜 update? */
 		AdminEmployee employee = employeeRepository.findById(restCommitDTO.getEmployeeNo()).get();
 		employee.setEmployeeRegistReturnYn("Y");
 
@@ -228,6 +249,52 @@ public class AdminEmployeeService {
 		return selectWaitingEmployeeList.stream().map(waiting -> modelMapper.map(waiting, EmployeeAndAllDTO.class))
 				.toList();
 	}
+
+	@Transactional
+	public Page<EmployeeAndAllDTO> selectRetireNEmployee(int startAt) {
+
+	    Pageable pageable = PageRequest.of(startAt, selectEmployeeLineCount);
+	    Page<AdminEmployee> selectRetureNEmployee = employeeRepository.findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYn("N", "Y", "N", pageable);
+	    
+	    return  modelMapper.map(selectRetureNEmployee, Page.class);
+	}
+	
+	@Transactional
+	public Page<EmployeeAndAllDTO> selectBlackList(int startAt) {
+		
+		Pageable pageable = PageRequest.of(startAt, selectEmployeeLineCount);
+		Page<AdminEmployee> selectRetureNEmployee = employeeRepository.findByEmployeeBlackListYn("Y", pageable);
+		
+		return  modelMapper.map(selectRetureNEmployee, Page.class);
+	}
+	
+	@Transactional
+	public Page<VacationDTO> selectMyVacaionList(int startAt, int adminNo) {
+		
+		Pageable pageable = PageRequest.of(startAt, selectEmployeeLineCount);
+		Page<Vacation> selectMyVacaionList = vacationRepository.findByAdminNo(adminNo, pageable);
+		
+		return  modelMapper.map(selectMyVacaionList, Page.class);
+	}
+
+	public VacationDTO selectMyVacaionList(int vacationNo) {
+		Vacation vacation = vacationRepository.findByVacationNo(vacationNo, Sort.by("adminNo").descending());
+		return modelMapper.map(vacation, VacationDTO.class);
+	}
+
+	public List<AdminDTO> selectAdmin() {
+		List<Admin> admin = adminRepository.findAll(Sort.by("adminNo"));
+		return admin.stream().map(adminInfo -> modelMapper.map(adminInfo, AdminDTO.class)).toList();
+				
+	}
+	
+
+
+	
+	
+	
+	
+
 
 
 }

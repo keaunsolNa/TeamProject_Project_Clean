@@ -1,0 +1,179 @@
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <style>
+
+        .tg  {border-collapse:collapse; border-spacing:0;}
+        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+          overflow:hidden;padding:10px 10px;word-break:normal;}
+        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+          font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;}
+        .tg .tg-7btt{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
+
+        #modify, #entire{
+            margin: 20px;
+        }
+        input{
+          height: 18px;
+          width: 70px;
+        }
+        body {
+            margin-top: 100px;
+            font-family: 'Trebuchet MS', serif;
+            line-height: 1.6
+        }
+
+        /* 전체 크기 */
+        .container {
+            width: 1500px;
+            margin: 0 auto;
+        }
+
+
+        .button{
+            text-align: center;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+		<div th:replace="/admin/humanResource/registEmployee/adminRegistMainHeader.html"></div>
+
+        <!-- 대기중 내용 -->
+        <div id="tab-2" class="tab-content">
+            <span>대기인원 조회</span>
+
+            <select name="waitCategory" id="waitCategory">
+                <option value="waitEmpNo" selected>사원번호</option>
+                <option value="waitEmpName">이름</option>
+                <option value="waitEmpBirth">생년월일</option>
+                <option value="waitEmpAddress">주소</option>
+                <option value="waitEmpPhone">전화번호</option>
+            </select>
+            <input type="text" name="waitCategoryValue">
+            <button type="button" id="waitSearch">검색</button>
+
+            <table id="employeeList" border="1">
+                <thead>
+                    <tr>
+                        <th>사원번호</th>
+                        <th>이름</th>
+                        <th>생년월일</th>
+                        <th>주소</th>
+                        <th>전화번호</th>
+                        <th>성별</th>
+                    </tr>
+                </thead>
+                <tbody sec:authorize="hasRole('ROLE_ADMIN_HR')">
+                	
+                	<!-- HR -->
+                    <tr sec:authorize="!hasRole('ROLE_ADMIN_BOSS')" th:each="index : ${waitingEmployeeList}">	
+	                    <td class="waitingEmployee" th:text="${ index.employeeNo }"></td>
+	                    <td class="waitingEmployee" th:text="${ index.employeeName }"></td>
+	                    <td class="waitingEmployee" th:text="${ index.employeeBirth }"></td>
+	                    <td class="waitingEmployee" th:text="${ index.employeeAddress }"></td>
+	                    <td class="waitingEmployee" th:text="${ index.employeePhone }"></td>
+	                    <td class="waitingEmployee" th:text="${ index.employeeGender }"></td>
+                    </tr>
+                    
+                    <!-- BOSS -->
+                    <tr sec:authorize="hasRole('ROLE_ADMIN_BOSS')" th:each="index : ${waitingEmployeeListBoss}">
+	                    <td class="waitingEmployee" th:text="${ index.employeeNo }"></td>
+	                    <td class="waitingEmployee" th:text="${ index.employeeName }"></td>
+	                    <td class="waitingEmployee" th:text="${ index.employeeBirth }"></td>
+	                    <td class="waitingEmployee" th:text="${ index.employeeAddress }"></td>
+	                    <td class="waitingEmployee" th:text="${ index.employeePhone }"></td>
+	                    <td class="waitingEmployee" th:text="${ index.employeeGender }"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+    <script>
+  
+
+        /* 대기중 검색기능 list 출력 */
+		$("#waitSearch").click(function(){
+			$.ajax({
+				url : "gson1",
+				success:function(data){
+
+					const $table = $("#employeeList tbody");
+					$table.html("");
+					
+					for(var index in data){
+						$tr = $("<tr>");
+						$noTd = $("<td>").text(data[index].no);
+						$nameTd = $("<td>").text(data[index].name);
+						$ageTd = $("<td>").text(data[index].age);
+						$enrollDateTd = $("<td>").text(data[index].enrollDate);
+						$unknown1 = $("<td>").text(data[index].enrollDate);
+						$unknown2 = $("<td>").text(data[index].enrollDate);
+						
+						$tr.append($noTd);
+						$tr.append($nameTd);
+						$tr.append($ageTd);
+						$tr.append($enrollDateTd);
+						$tr.append($unknown1);
+						$tr.append($unknown2);
+						
+						$table.append($tr);
+					}
+				},
+				error:function(error){
+					console.log(error);
+				}
+			});
+		});
+
+    
+        
+        /* hover event */
+        
+        function waitingHover(){
+            const employee = document.getElementsByClassName("waitingEmployee");
+
+            for(let i = 0; i < employee.length; i++){
+            	employee[i].onmouseenter = function(){
+                    this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+                    this.parentNode.style.cursor = "pointer";
+                }
+            	employee[i].onmouseout = function(){
+                    this.parentNode.style.backgroundColor = "white";
+                }
+
+            	employee[i].onclick = function(){
+                    location.href="/admin/select/waitingDetail/" + this.parentNode.children[0].innerText;
+                }
+            }
+        };
+        
+        /* 시작 할 때 hover event */
+        $(function(){
+        	waitingHover();
+        })
+
+        
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,310 @@
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <style>
+
+        .tg  {border-collapse:collapse; border-spacing:0;}
+        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+          overflow:hidden;padding:10px 10px;word-break:normal;}
+        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+          font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;}
+        .tg .tg-7btt{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
+
+        #modify, #entire{
+            margin: 20px;
+        }
+        input{
+          height: 18px;
+          width: 70px;
+        }
+        body {
+            margin-top: 100px;
+            font-family: 'Trebuchet MS', serif;
+            line-height: 1.6
+        }
+
+        /* 전체 크기 */
+        .container {
+            width: 1500px;
+            margin: 0 auto;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+		<div th:replace="/admin/humanResource/registEmployee/adminRegistMainHeader.html"></div>
+
+
+        <!-- 등록 내용 -->
+        <div id="tab-1" class="tab-content current">
+            <div align="left">
+		        <form action="/admin/hr/regist/employee" method="post" id="registForm" encType="multipart/form-data">
+	                <table class="tg" style="table-layout: fixed; width: 736px">
+	                <colgroup>
+	                <col style="width: 158px">
+	                <col style="width: 147px">
+	                <col style="width: 155px">
+	                <col style="width: 139px">
+	                <col style="width: 68px">
+	                <col style="width: 69px">
+	                </colgroup>
+	                <thead>
+	                  <tr>
+	                    <td class="tg-7btt">직원번호</td>
+	                    <td class="tg-7btt" id="employeeNo" th:text="${employeeNo}"></td>
+	                    <!-- 수정수정 -->
+	                    <!-- 수정수정 -->
+	                    <!-- 수정수정 -->
+	                    <!-- 수정수정 -->
+	                    <td class="tg-7btt" style="display: none;"><input id="adminNo" name="adminNo" th:value="7"></input></td>
+   	                    <!-- 수정수정 -->
+   	                    <!-- 수정수정 -->
+	                    <!-- 수정수정 -->
+	                    <!-- 수정수정 -->
+	                    
+	                    <td class="tg-7btt" style="display: none;"><input name="employeeNo" th:value="${employeeNo}"/></td>
+	                    <td class="tg-7btt">이름</td>
+	                    <td class="tg-7btt"><input type="text" id="employeeName" name="employeeName" class="required" maxlength='4' required></td>
+	                    
+	                    <!-- <td class="tg-7btt" colspan="2" rowspan="3"><div id="picture">사진</div></td> -->
+	                    <td class="tg-7btt" colspan="2" rowspan="3">사진 <img id="pictureImg" width="100px" height="100px"></td>
+	                    
+	                    
+	                  </tr>
+	                  <tr>
+	                    <td class="tg-7btt">ID</td>
+	                    <td class="tg-7btt" th:text="${employeeId}"></td>
+	                    <td class="tg-7btt" style="display: none;"><input name="employeeId" th:value="${employeeId}"/></td>
+	                    <td class="tg-7btt">전화번호</td>
+	                    <td class="tg-7btt">
+	                    	<select id="employeePhone1" name="employeePhone1" class="required">
+	                    		<option selected>010</option>
+	                    		<option>011</option>
+	                    		<option>016</option>
+	                    		<option>017</option>
+	                    		<option>019</option>
+	                    	</select>-
+	                    	<input type="text" id="employeePhone2" name="employeePhone2" class="required" maxlength='4' required>-
+	                    	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' required>
+	                    	<input style="display: none;" type="text" id="employeePhone" name="employeePhone">
+	                    
+	                    </td>
+	                  </tr>
+	                  <tr>
+	                    <td class="tg-7btt">생년월일</td>
+	                    <td class="tg-7btt"><input type="date" id="employeeBirth" name="employeeBirth" class="required" required></td>
+	                    <td class="tg-7btt">퇴사여부</td>
+	                    <td class="tg-7btt">N</td>
+	                  </tr>
+	                </thead>
+	                <tbody>
+	                  <tr>
+	                    <td class="tg-7btt">이메일</td>
+	                    <td class="tg-7btt" colspan="3"><input type="text" id="email" class="required" name="email" required style="width: 200px;"> @ 
+	                      <select name="domain" id="domain" style="width: 100px; height: 25px;">
+	                    <option value="naver.com" selected>naver.com</option>
+	                    <option value="google.com">google.com</option>
+	                    <option value="hanmail.com">hanmail.com</option>
+	                      </select>
+	              		<td class="tg-7btt"style="display: none;"><input id="employeeEmail" name="employeeEmail" type="text"/></td>
+	              		
+	                    <td class="tg-7btt"> <button type="button" id="pictureRegist" name="pictureRegist">등록</button> </td>
+	                    <td class="tg-7btt"> <button type="button"id="pictureDelete" name="pictureDelete">삭제</button> </td>
+	                    <td style="display: none;"> <input type="file" id="picture" name="picture" onchange="loadImg(this,1)">
+	                    
+	                  </tr>
+	                  <tr>
+	                    <td class="tg-7btt">우편번호</td>
+	                    <td class="tg-7btt"><div id="addressNo"></div></td>
+	                    <td class="tg-7btt"style="display: none;"><input id="employeeAddressNo" type="number" name="addressNo"/></td>
+	                    <td class="tg-7btt">기본주소</td>
+	                    <td class="tg-7btt"><div id="address"></div></td>
+	                    <td class="tg-7btt"style="display: none;"><input type="text" id="address" name="address" /></td>
+	                    <td class="tg-7btt" colspan="2"><button type="button" id="findAddress">주소찾기</button></td>
+	                  </tr>
+	                  <tr>
+	                    <td class="tg-7btt">상세주소</td>
+	                    <td class="tg-7btt" colspan="5"><input type=text id="addressDetail" class="required" name="addressDetail" required></td>
+	                    <td class="tg-7btt"style="display: none;"><input id="employeeAddress" name="employeeAddress" type="text"/></td>
+	                    
+	                  </tr>
+	                  <tr>
+	                    <td class="tg-7btt">입사일</td>
+	                    <td class="tg-7btt"><div id="employeeHireDate"></div></td>
+	                    <!-- <td class="tg-7btt"style="display: none;"><input name="employeeHireDate" th:value="${employeeHireDate}"/></td> -->
+	                    <td class="tg-7btt">퇴사일</td>
+	                    <td class="tg-7btt" colspan="3">ㅡ</td>
+	                  </tr>
+	                  <tr>
+	                    <td class="tg-7btt">누적경고횟수</td>
+	                    <td class="tg-7btt">0</td>
+	                    <td class="tg-7btt">누적근무시간</td>
+	                    <td class="tg-7btt" colspan="3">0</td>
+	                  </tr>
+	                  <tr>
+	                    <td class="tg-7btt">마지막 로그인 일자</td>
+	                    <td class="tg-7btt"></td>
+	                    <td class="tg-7btt">블랙리스트 여부</td>
+	                    <td class="tg-7btt" colspan="3">N</td>
+	                  </tr>
+	                  <tr>
+	                    <td colspan="6" class="button" style="border-left: none; border-right: none; border-bottom: none;">
+	                        <button type="button" id="regist">등록 확인</button>
+	                        <button type="button" id="resetButton">초기화</button>
+	                    </td>
+	                  </tr>
+	                </tbody>
+	                </table>
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    
+    /* 사진등록 */
+    
+			/* 이미지 미리보기 관련 스크립트 */
+			const pictureRegist = document.getElementById("pictureRegist");
+			
+			pictureRegist.onclick = function() {
+				document.getElementById("picture").click();
+			}
+	
+			/* 이미지 미리보기 관련 함수(File API 활용하기) */
+			function loadImg(value, num) {
+				
+				/* https://developer.mozilla.org/ko/docs/Web/API/FileReader 참고 (MDN 사이트 참고)*/
+				if (value.files && value.files[0]) {			// value.files[0]는 파일 이름
+					const reader = new FileReader();
+				
+					reader.readAsDataURL(value.files[0]);		// Base64방식으로 파일을 FileReader에 전달 (Base64로 인코딩한 것은 브라우저가 원래 데이터로 만들게 됨)
+					
+					/* load 이벤트의 핸들러로 읽기 동작이 성공적으로 완료 되었을 때마다 발생한다. */
+					reader.onload = function(e) {				// load EventListener에 function 등록 (FileReader에서 전달 받은 파일을 다 읽으면 리스너에 등록한 function이 호출 됨)
+							document.getElementById("pictureImg").src = e.target.result;
+							
+						}
+					}
+				}
+    
+    /* 회원 등록 정보 */
+  	$("#regist").click(function(){
+  		const phone1 = $("#employeePhone1").val();
+  		const phone2 = $("#employeePhone2").val();
+  		const phone3 = $("#employeePhone3").val();
+  		const no = $("#employeeNo").text();
+  		const name = $("#employeeName").val();
+  		const birth = $("#employeeBirth").val();
+  		const email = $("#email").val();
+  		const domain = $("#domain").val();
+  		
+		const addressNo = $("#addressNo").text();
+		const address = $("#address").text();
+  		const addressDetail = $("#addressDetail").val();
+  		
+  			if(!(name && phone2 && phone3 && birth && email && addressNo && addressDetail)){
+  				alert("입력되지 않은 항목이 있습니다.");
+  			}else{
+			if(confirm("등록하시겠습니까?")){
+				$('#employeePhone').attr('value', phone1 +"-"+ phone2 +"-"+ phone3 );
+				$('#employeeAddress').attr('value', addressNo + "@" + address + "@" + addressDetail);
+				$('#employeeEmail').attr('value', email + "@" + domain);
+				$("#registForm").submit();
+  				
+  			}
+  		}
+	})   
+
+	$("#resetButton").click(function(){
+		if(confirm("초기화 하시겠습니까?")){
+			document.getElementById("registForm").reset();
+		}
+	})
+	
+	/* 핸드폰 번호 정규표현식 */
+	
+    $("#employeePhone2").focusout(function (event) {
+
+    	var regexp = /^[0-9]{3,4}/gi;
+        phoneCheck = $(this).val();
+        if (!regexp.test(phoneCheck)) {
+            alert("3 ~ 4자리의 숫자만 사용하기로 약속해요");
+            $(this).val('');
+            document.location.reload(true);
+        }
+    });
+    
+    $("#employeePhone3").focusout(function (event) {
+
+    	var regexp = /^[0-9]{4}/gi;
+        phoneCheck = $(this).val();
+        if (!regexp.test(phoneCheck)) {
+        	alert("4자리의 숫자만 사용하기로 약속해요");
+        $("#employeePhone3").focus();
+             $(this).val(''); 
+             document.location.reload(true);
+        }
+    });
+    
+    /* 이름 정규표현식 */
+    $("#employeeName").focusout(function (event) {
+
+    	var regexp =  /^[가-힣]{2,4}$/;
+        phoneCheck = $(this).val();
+        if (!regexp.test(phoneCheck)) {
+            alert("2~4글자의 한글만 사용하기로 약속해요");
+             $(this).val(''); 
+             document.location.reload(true);
+        }
+    });
+    
+    
+    
+    /* 날짜 정규표현식 */
+    	var now_utc = Date.now(); // 현재 날짜를 밀리 초로 반환
+    	var timeOff = new Date().getTimezoneOffset()*60000;	//getTimezoneOffset()은 UTC 시간과 차이를 분단위로 반환
+    	var today = new Date(now_utc-timeOff).toISOString().split("T")[0];	//toISOString은 UTC기준으로 시간을 문자열로 바꿔서 반환
+    																		//"T"를 기준으로 split 하고 그 앞부분은 '2022-05-11
+    	document.getElementById("employeeBirth").setAttribute("max", today);
+    
+    
+    /* 주소 관련 스크립트 */
+    $("#findAddress").click(
+    		
+        function sample4_execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    var roadAddr = data.roadAddress; // 도로명 주소 변수
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    $("#address").text(roadAddr);
+                    $("#addressNo").text(data.zonecode);
+                }
+            }).open();
+        }
+    )
+    
+
+        
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+

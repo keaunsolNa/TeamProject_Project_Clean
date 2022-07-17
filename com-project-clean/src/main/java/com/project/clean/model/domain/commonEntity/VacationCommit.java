@@ -6,10 +6,15 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
+
+import com.project.clean.model.domain.adminEntity.AdminVacationCommitPFKId;
+
 
 @Entity
 @Table(name = "TBL_VACATION_COMMIT")
+@IdClass(AdminVacationCommitPFKId.class)
 public class VacationCommit implements Serializable {
 
 	private static final long serialVersionUID = -8882971212931923117L;
@@ -18,26 +23,25 @@ public class VacationCommit implements Serializable {
 	@Column(name="ADMIN_NO")
 	private int adminNo;
 
+	@Id
 	@Column(name="VACATION_NO")
 	private int vacationNo;
 	
-	@Column(name="CATEGORY_NO")
-	private int categoryNo;
-	
-	@Column(name="RETURN_REASON")
-	private String returnReason;
+	@Column(name="CONFIRM_REASON")
+	private String confirmReason;
 	
 	@Column(name="CONFIRM_DATE")
 	private java.sql.Date confirmDate;
 
 	public VacationCommit() {
+		super();
+
 	}
 
-	public VacationCommit(int adminNo, int vacationNo, int categoryNo, String returnReason, Date confirmDate) {
+	public VacationCommit(int adminNo, int vacationNo, String confirmReason, Date confirmDate) {
 		this.adminNo = adminNo;
 		this.vacationNo = vacationNo;
-		this.categoryNo = categoryNo;
-		this.returnReason = returnReason;
+		this.confirmReason = confirmReason;
 		this.confirmDate = confirmDate;
 	}
 
@@ -57,20 +61,12 @@ public class VacationCommit implements Serializable {
 		this.vacationNo = vacationNo;
 	}
 
-	public int getCategoryNo() {
-		return categoryNo;
+	public String getConfirmReason() {
+		return confirmReason;
 	}
 
-	public void setCategoryNo(int categoryNo) {
-		this.categoryNo = categoryNo;
-	}
-
-	public String getReturnReason() {
-		return returnReason;
-	}
-
-	public void setReturnReason(String returnReason) {
-		this.returnReason = returnReason;
+	public void setConfirmReason(String confirmReason) {
+		this.confirmReason = confirmReason;
 	}
 
 	public java.sql.Date getConfirmDate() {
@@ -87,9 +83,10 @@ public class VacationCommit implements Serializable {
 
 	@Override
 	public String toString() {
-		return "VacationCommit [adminNo=" + adminNo + ", vacationNo=" + vacationNo + ", categoryNo=" + categoryNo
-				+ ", returnReason=" + returnReason + ", confirmDate=" + confirmDate + "]";
+		return "VacationCommit [adminNo=" + adminNo + ", vacationNo=" + vacationNo + ", confirmReason=" + confirmReason
+				+ ", confirmDate=" + confirmDate + "]";
 	}
+
 	
 	
 	
