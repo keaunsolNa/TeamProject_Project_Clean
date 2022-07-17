@@ -1,11 +1,14 @@
 package com.project.clean.controller.common;
 
+import java.security.Principal;
+
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.project.clean.model.dto.commonDTO.ChatMessage;
 
@@ -26,8 +29,12 @@ public class ChatController {
     }
     
     @GetMapping("/member/chatt")
-    public String chattdemo() {
+    public ModelAndView chattdemo(ModelAndView mv, Principal principal) {
     	
-    	return"common/chatt";
+    	String userName = principal.getName();
+    	mv.setViewName("common/chatt");
+    	mv.addObject(userName);
+    	return mv;
+    	
     }
 } 
