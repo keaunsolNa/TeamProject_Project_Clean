@@ -42,7 +42,7 @@ public class FindController {
 			
 			if(null != admin.getAdminId()) {
 				if(admin.getAdminName().equals(userName)) {
-					rttr.addFlashAttribute("resultMessage", admin.getAdminId());
+					rttr.addFlashAttribute("Message", admin.getAdminId());
 					
 				}
 			} else {
@@ -54,9 +54,9 @@ public class FindController {
 			
 			if(null != emp.getEmployeeId()) {
 				if(emp.getEmployeeName().equals(userName)) {
-					rttr.addFlashAttribute("resultMessage", emp.getEmployeeId());
+					rttr.addFlashAttribute("Message", emp.getEmployeeId());
 				}
-			} else {rttr.addFlashAttribute("resultMessage", "입력하신 정보를 확인하세요.");}
+			} else {rttr.addFlashAttribute("Message", "입력하신 정보를 확인하세요.");}
 		
 		System.out.println(rttr);
 		
