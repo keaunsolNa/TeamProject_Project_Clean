@@ -79,3 +79,18 @@ th p {
 }
 
 
+#surchargeUpdateTable tr:nth-of-type(2) th{
+	
+	font-weight: normal;
+}
+
+
+#insurance {
+	width: 15px;
+	text-align:center;
+	height: 100%;
+	border-style:none;
+	cursor:default;
+	pointer-events: none; 
+	font-size:20px;
+}

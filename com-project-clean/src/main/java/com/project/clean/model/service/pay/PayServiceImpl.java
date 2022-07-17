@@ -13,11 +13,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.clean.controller.common.paging.SelectCriteria;
+import com.project.clean.model.domain.commonEntity.Admin;
 import com.project.clean.model.domain.commonEntity.Surcharge;
 import com.project.clean.model.domain.joinEntity.AdminPayAndAdmin;
+import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.SurchargeDTO;
 import com.project.clean.model.dto.joinDTO.AdminPayAndAdminDTO;
 import com.project.clean.model.repository.pay.AdminPayRepository;
+import com.project.clean.model.repository.pay.AdminRepositoryByPay;
 import com.project.clean.model.repository.pay.SurchargeRepository;
 
 @Service
@@ -25,17 +28,20 @@ public class PayServiceImpl implements PayService{
 	
 	private final SurchargeRepository surchargeRepository;
 	private final AdminPayRepository adminPayRepository;
+	private final AdminRepositoryByPay adminRepository;
 	private final ModelMapper modelMapper;			// modelMapper 빈을 선언
 	
 	@Autowired
-	public PayServiceImpl(SurchargeRepository surchargeRepository,AdminPayRepository adminPayRepository,ModelMapper modelMapper) {
+	public PayServiceImpl(SurchargeRepository surchargeRepository,AdminPayRepository adminPayRepository,AdminRepositoryByPay 	adminRepository,ModelMapper modelMapper) {
 		this.surchargeRepository = surchargeRepository;
 		this.adminPayRepository = adminPayRepository;
+		this.adminRepository = adminRepository;
 		this.modelMapper = modelMapper;
 	}
 	
+	// 부가요금 ------------------------------------------------------------------------------------------------
 	
-	// 부가요금 조회
+	/* 부가요금 페이지(조회) */
 	@Override
 	public List<SurchargeDTO> findSurchargeList() {
 		List<Surcharge> surchargeList = surchargeRepository.findAll();				
@@ -46,7 +52,7 @@ public class PayServiceImpl implements PayService{
 		return surchargeList.stream().map(surcharge -> modelMapper.map(surcharge, SurchargeDTO.class)).collect(Collectors.toList());
 	}
 	
-	// 부가요금 수정
+	/* 부가요금 수정 */
 	@Transactional
 	@Override
 	public void modifySurcharge(SurchargeDTO surcharge) {
@@ -72,7 +78,10 @@ public class PayServiceImpl implements PayService{
 	}
 	
 	
-	public int selectTotalCount(String searchCondition, String searchValue) {
+	// 관리자 급여 ---------------------------------------------------------------------------------------------
+	
+	/* 관리자 급여 페이징처리 카운트 */
+	public int selectAdminPayTotalCount(String searchCondition, String searchValue) {
 
 		int count = 0;
 		if(searchValue != null) {
@@ -97,8 +106,9 @@ public class PayServiceImpl implements PayService{
 
 		return count;
 	}
-
-	public List<AdminPayAndAdminDTO> searchAdminPayList(SelectCriteria selectCriteria) {
+	
+	/* 관리자 급여 검색 */
+	public List<AdminPayAndAdminDTO> adminPaySearch(SelectCriteria selectCriteria) {
 
 		int index = selectCriteria.getPageNo() - 1;			// Pageble객체를 사용시 페이지는 0부터 시작(1페이지가 0)
 		int count = selectCriteria.getLimit();
@@ -138,9 +148,10 @@ public class PayServiceImpl implements PayService{
 		}
 
 		/* 자바의 Stream API와 ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
-		return adminPayList.stream().map(pay -> modelMapper.map(pay, AdminPayAndAdminDTO.class)).collect(Collectors.toList());
+		return adminPayList.stream().map(pay -> modelMapper.map(pay, 		AdminPayAndAdminDTO.class)).collect(Collectors.toList());
 	}
 	
+	/* 관리자 급여 상세 조회 */
 	@Transactional
 	public AdminPayAndAdminDTO findAdminPayByPayHistoryNo(int payHistoryNo) {
 
@@ -150,6 +161,18 @@ public class PayServiceImpl implements PayService{
 		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 MenuDTO로 반환 */
 		return modelMapper.map(pay, AdminPayAndAdminDTO.class);
 	}
+
+	
+	/* 모든 관리자 조회  */
+	public List<AdminDTO> findAllAdmin() {
+		
+		List<Admin> adminList = adminRepository.findAll();				
+		
+		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
+		return adminList.stream().map(admin -> modelMapper.map(admin,AdminDTO.class)).collect(Collectors.toList());
+		
+	}
+
 
 
 

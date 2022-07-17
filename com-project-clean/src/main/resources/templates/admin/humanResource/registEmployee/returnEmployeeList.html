@@ -1,0 +1,195 @@
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <style>
+
+        .tg  {border-collapse:collapse; border-spacing:0;}
+        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+          overflow:hidden;padding:10px 10px;word-break:normal;}
+        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+          font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;}
+        .tg .tg-7btt{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
+
+        #modify, #entire{
+            margin: 20px;
+        }
+        input{
+          height: 18px;
+          width: 70px;
+        }
+        body {
+            margin-top: 100px;
+            font-family: 'Trebuchet MS', serif;
+            line-height: 1.6
+        }
+
+        /* 전체 크기 */
+        .container {
+            width: 1500px;
+            margin: 0 auto;
+        }
+
+        ul.tabs {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+        }
+
+        /* 선택하지 않은 탭 css */
+        ul.tabs li {
+            background: rgba(219, 243, 249, 1);
+            color: rgb(0, 0, 0);
+            display: inline-block;
+            padding: 10px 15px;
+            /* 좌측은 위아래 사이즈 우측은 좌우 사이즈 */
+            cursor: pointer;
+        }
+
+        /* 선택한 탭 css 설정 */
+        ul.tabs li.current {
+            background: rgba(104, 228, 255, 1);
+            color: rgb(0, 0, 0);
+        }
+
+        /* 선택한 탭의 내용 css 설정 */
+        .tab-content {
+            display: none;
+            background: #e95151;
+            padding: 15px;
+        }
+
+        .tab-content.current {
+            display: inherit;
+        }
+
+        .button{
+            text-align: center;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+		<div th:replace="/admin/humanResource/registEmployee/adminRegistMainHeader.html"></div>
+
+            <span>반려인원 조회</span>
+
+            <select name="returnCategory" id="returnCategory">
+                <option value="returnEmpNo" selected>사원번호</option>
+                <option value="returnEmpName">이름</option>
+                <option value="returnEmpBirth">생년월일</option>
+                <option value="returnEmpAddress">주소</option>
+                <option value="returnEmpPhone">전화번호</option>
+            </select>
+            <input type="text" name="returnCategoryValue">
+            <button type="button" id="returnSearch">검색</button>
+
+            <table id="returnEmployeeList" border="1">
+                <thead>
+                    <tr>
+                        <th>사원번호</th>
+                        <th>이름</th>
+                        <th>생년월일</th>
+                        <th>1차 반려 여부</th>
+                        <th>2차 반려 여부</th>
+                        <th>최종 반려 여부</th>
+                        <th>전화번호</th>
+                        <th>성별</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="index : ${returnEmployeeList}">
+	                    <td class="returnEmployee" th:text="${ index.employeeNo }"></td>
+	                    <td class="returnEmployee" th:text="${ index.employeeName }"></td>
+	                    <td class="returnEmployee" th:text="${ index.employeeBirth }"></td>
+	                    <td class="returnEmployee" th:text="${ index.employeeFirstConfirmYn }"></td>
+	                    <td class="returnEmployee" th:text="${ index.employeeSecondConfirmYn }"></td>
+	                    <td class="returnEmployee" th:text="${ index.employeeRegistReturnYn }"></td>
+	                    <td class="returnEmployee" th:text="${ index.employeePhone }"></td>
+	                    <td class="returnEmployee" th:text="${ index.employeeGender }"></td>
+                    </tr>
+                </tbody>
+            </table>
+			<div id="waitingPaging"> <div th:replace="/admin/humanResource/registEmployee/returnPaging.html"></div></div>
+
+    </div>
+
+    <script>
+
+        /* 반려 검색기능 list 출력 */
+		$("#returnSearch").click(function(){
+			$.ajax({
+				url : "gson1",
+				success:function(data){
+
+					const $table = $("#employeeList tbody");
+					$table.html("");
+					
+					for(var index in data){
+						$tr = $("<tr>");
+						$noTd = $("<td>").text(data[index].no);
+						$nameTd = $("<td>").text(data[index].name);
+						$ageTd = $("<td>").text(data[index].age);
+						$enrollDateTd = $("<td>").text(data[index].enrollDate);
+						$unknown1 = $("<td>").text(data[index].enrollDate);
+						$unknown2 = $("<td>").text(data[index].enrollDate);
+						
+						$tr.append($noTd);
+						$tr.append($nameTd);
+						$tr.append($ageTd);
+						$tr.append($enrollDateTd);
+						$tr.append($unknown1);
+						$tr.append($unknown2);
+						
+						$table.append($tr);
+					}
+				},
+				error:function(error){
+					console.log(error);
+				}
+			});
+		});
+        
+        /* hover event */
+        function returnHover(){
+            const employee = document.getElementsByClassName("returnEmployee");
+
+            for(let i = 0; i < employee.length; i++){
+            	employee[i].onmouseenter = function(){
+                    this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+                    this.parentNode.style.cursor = "pointer";
+                }
+            	employee[i].onmouseout = function(){
+                    this.parentNode.style.backgroundColor = "white";
+                }
+
+            	employee[i].onclick = function(){
+                    location.href="/admin/select/returnDetail/" + this.parentNode.children[0].innerText;
+                }
+            }
+        };
+        
+        /* 시작 할 때 hover event */
+        $(function(){
+        	returnHover();
+        })
+
+        
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
