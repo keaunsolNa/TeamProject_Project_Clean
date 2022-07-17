@@ -127,14 +127,24 @@ public class AdminEmployeeService {
 				.toList();
 	}
 
+//	@Transactional
+//	public List<EmployeeAndAllDTO> selectReturnEmployeeList() {
+//		
+//		List<AdminEmployee> selectReturnEmployeeList = employeeRepository.findByEmployeeRegistReturnYnAndEmployeeBlackListYn("Y", "N");
+//
+//		return selectReturnEmployeeList.stream().map(waiting -> modelMapper.map(waiting, EmployeeAndAllDTO.class))
+//				.toList();
+//	}
+
 	@Transactional
-	public List<EmployeeAndAllDTO> selectReturnEmployeeList() {
-		List<AdminEmployee> selectReturnEmployeeList = employeeRepository.findByEmployeeRegistReturnYnAndEmployeeBlackListYn("Y", "N");
-
-		return selectReturnEmployeeList.stream().map(waiting -> modelMapper.map(waiting, EmployeeAndAllDTO.class))
-				.toList();
-	}
-
+	public Page<EmployeeAndAllDTO> selectRetireYEmployee(int startAt) {
+		
+	    Pageable pageable = PageRequest.of(startAt, selectEmployeeLineCount);
+		 Page<AdminEmployee> selectRetureYEmployee = employeeRepository.findByEmployeeRegistReturnYnAndEmployeeBlackListYn("Y", "N", pageable);
+		    
+		    return  modelMapper.map(selectRetureYEmployee, Page.class);
+		}
+	
 	@Transactional
 	public EmployeeAndAllDTO waitingEmployee(int empNo) {
 		AdminEmployee employee = employeeRepository.findById(empNo).get();
@@ -233,7 +243,7 @@ public class AdminEmployeeService {
 				.toList();
 	}
 
-	
+	@Transactional
 	public Page<EmployeeAndAllDTO> selectRetireNEmployee(int startAt) {
 
 	    Pageable pageable = PageRequest.of(startAt, selectEmployeeLineCount);
@@ -242,14 +252,17 @@ public class AdminEmployeeService {
 	    return  modelMapper.map(selectRetureNEmployee, Page.class);
 	}
 	
-	public Page<EmployeeAndAllDTO> selectRetireYEmployee(int startAt) {
+	@Transactional
+	public Page<EmployeeAndAllDTO> selectBlackList(int startAt) {
 		
-	    Pageable pageable = PageRequest.of(startAt, selectEmployeeLineCount);
-		 Page<AdminEmployee> selectRetureYEmployee = employeeRepository.findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYn("Y", "Y", "N", pageable);
-		    
-		    return  modelMapper.map(selectRetureYEmployee, Page.class);
-		}
+		Pageable pageable = PageRequest.of(startAt, selectEmployeeLineCount);
+		Page<AdminEmployee> selectRetureNEmployee = employeeRepository.findByEmployeeBlackListYn("Y", pageable);
+		
+		return  modelMapper.map(selectRetureNEmployee, Page.class);
+	}
 	
+
+
 	
 	
 	

@@ -24,12 +24,17 @@ public interface EmployeeReopsitory extends JpaRepository<AdminEmployee, Integer
 
 	public Page<AdminEmployee> findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYn(String retire, String confirm, String black, Pageable page);
 
-	public List<AdminEmployee> findByEmployeeRegistReturnYnAndEmployeeBlackListYn(String returnYn, String blackYn);
+//	public List<AdminEmployee> findByEmployeeRegistReturnYnAndEmployeeBlackListYn(String returnYn, String blackYn);
 
 	public List<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYn(String string, String string2);
 
 	public List<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeLastConfirmYnAndEmployeeRegistReturnYn(
 			String string, String string2, String string3, String string4);
+
+	public Page<AdminEmployee> findByEmployeeRegistReturnYnAndEmployeeBlackListYn(String string, String string2,
+			Pageable pageable);
+
+	public Page<AdminEmployee> findByEmployeeBlackListYn(String string, Pageable pageable);
 
 	
 }

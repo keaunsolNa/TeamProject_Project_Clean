@@ -116,6 +116,7 @@ public class AdminEmployeeController {
 		return "/admin/humanResource/selectAllEmployee/selectAllEmployee";
 	}
 	
+	/* 직원 전체 조회(퇴사자 main page) & 페이징*/
 	@GetMapping("/select/retireY")
 	public String selectRetireYEmployee(@RequestParam(value = "page", defaultValue = "0") int page, Model mv) {
 		Page<EmployeeAndAllDTO> startPage = adminService.selectRetireYEmployee(page);
@@ -129,6 +130,8 @@ public class AdminEmployeeController {
 		mv.addAttribute("mainTain", "Y");
 		return "/admin/humanResource/selectAllEmployee/selectAllEmployee";
 	}
+	
+
 	
 //	/* 직원 전체 조회(퇴사자 main page) & 페이징*/
 //	@GetMapping(value = "/select/retireYAjax", produces = "application/json; charset=UTF-8")
@@ -304,7 +307,7 @@ public class AdminEmployeeController {
 
 	/* 직원 등록 페이지 이동 */
 	@GetMapping("/hr/regist/employee")
-	public String registEmployee(Model mv) {
+	public String registEmployee(@RequestParam(value = "page", defaultValue = "0") int page, Model mv) {
 		int maxMemberNo = adminService.getMaxMemberNo();
 
 		String sysdateTimeStemp = String.valueOf(today());
@@ -315,7 +318,9 @@ public class AdminEmployeeController {
 		int id = Integer.valueOf(frontId + maxMemberNo);
 
 		/* 반려인원 조회 */
-		List<EmployeeAndAllDTO> selectReturnEmployeeList = adminService.selectReturnEmployeeList();
+		Page<EmployeeAndAllDTO> startPage = adminService.selectRetireYEmployee(page);
+		List<EmployeeAndAllDTO> startList = startPage.toList();
+//		List<EmployeeAndAllDTO> selectReturnEmployeeList = adminService.selectReturnEmployeeList();
 
 		/* HR 대기중인 인원 조회 */
 		List<EmployeeAndAllDTO> selectWaitingEmployeeList = adminService.selectWaitingEmployeeList();
@@ -324,9 +329,13 @@ public class AdminEmployeeController {
 		List<EmployeeAndAllDTO> selectWaitingEmployeeListBoss = adminService.selectWaitingEmployeeListBoss();
 		/* 직원들 중 1번째 승인과 최종승인이 N인 직원 */
 
+		mv.addAttribute("pages", startPage );
+		mv.addAttribute("maxPage", 5);
+		mv.addAttribute("employeeAllList", startList);
+
 		mv.addAttribute("waitingEmployeeList", selectWaitingEmployeeList); // HR authority
 		mv.addAttribute("waitingEmployeeListBoss", selectWaitingEmployeeListBoss); // BOSS authority
-		mv.addAttribute("returnEmployeeList", selectReturnEmployeeList);
+		mv.addAttribute("returnEmployeeList", startPage);
 
 		mv.addAttribute("employeeNo", maxMemberNo + 1);
 		mv.addAttribute("employeeHireDate", sysdate);
@@ -334,6 +343,9 @@ public class AdminEmployeeController {
 
 		return "admin/humanResource/registEmployee/registMainEmployee";
 	}
+	
+
+	
 
 	/* 직원등록 */
 	@PostMapping("/hr/regist/employee")
@@ -493,15 +505,64 @@ public class AdminEmployeeController {
 
 	/* 블랙리스트 조회 */
 	@GetMapping("/select/blackList")
-	public String employeeModify() {
+	public String selectBlackList(@RequestParam(value = "page", defaultValue = "0") int page, Model mv) {
+		Page<EmployeeAndAllDTO> startPage = adminService.selectBlackList(page);
+		List<EmployeeAndAllDTO> startList = startPage.toList();
+		
+		/* .getnumber 메서드를 위해 list로 변환 x */
+		mv.addAttribute("pages", startPage );
+		mv.addAttribute("maxPage", 5);
+		mv.addAttribute("mainTain", "N");
+		mv.addAttribute("blackList", startList);
+		
 		return "admin/humanResource/blackList/selectBlackList";
 	}
 
-	/* 휴가 조회 */
-	@GetMapping("/select/selectMyVacationDetail")
-	public String selectMyVacaion() {
-		return "admin/humanResource/vacation/selectMyVacation";
+	/* 블랙리스트 상세 조회 */
+	@GetMapping("/selectBlackListDetail/{empNo}")
+	public String selectBlackListDetail(@PathVariable int empNo, Model mv) {
+		
+		EmployeeAndAllDTO employeeDTO = adminService.selectOneEmployee(empNo);
+
+		String[] seperatephone = employeeDTO.getEmployeePhone().split("-");
+
+		String firstPhoneNumber = seperatephone[0];
+		String middlePhoneNumber = seperatephone[1];
+		String lastPhoneNumber = seperatephone[2];
+
+		Map<String, String> phone = new HashMap<>();
+		phone.put("firstPhoneNumber", firstPhoneNumber);
+		phone.put("middlePhoneNumber", middlePhoneNumber);
+		phone.put("lastPhoneNumber", lastPhoneNumber);
+
+		String[] seperateAddress = employeeDTO.getEmployeeAddress().split("@");
+		String addressNo = seperateAddress[0];
+		String address = seperateAddress[1];
+		String addressDetail = seperateAddress[2];
+
+		Map<String, String> addressMap = new HashMap<>();
+		addressMap.put("addressNo", addressNo);
+		addressMap.put("address", address);
+		addressMap.put("addressDetail", addressDetail);
+
+		String[] seperateEmail = employeeDTO.getEmployeeEmail().split("@");
+		String email = seperateEmail[0];
+		String domain = seperateEmail[1];
+
+		Map<String, String> emailMap = new HashMap<>();
+		emailMap.put("email", email);
+		emailMap.put("domain", domain);
+
+		employeeDTO.setEmployeePhone(firstPhoneNumber + "-" + middlePhoneNumber + "-" + lastPhoneNumber);
+
+		mv.addAttribute("phone", phone);
+		mv.addAttribute("address", addressMap);
+		mv.addAttribute("email", emailMap);
+		mv.addAttribute("employee", employeeDTO);
+
+		return "admin/humanResource/blackList/selectBlackListDetail";
 	}
+
 
 	/* 휴가 전체 조회 */
 	@GetMapping("/hr/select/Allvacation")

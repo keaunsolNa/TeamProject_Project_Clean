@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http:www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
@@ -31,55 +31,49 @@
             </tr>
         </thead>
         <tbody>
-        <c:forEach varStatus="index" items="${requestScope.data}">
-            <tr>
-                <td>${ index.waitEmpNo }</td>
-                <td>${ index.waitEmpName }</td>
-                <td>${ index.waitEmpBirth }</td>
-                <td>${ index.waitEmpAddress }</td>
-                <td>${ index.waitEmpPhone }</td>
-                <td>${ index.waitEmpHiredDate }</td>
-                <td>${ index.sumCount }</td>
-            </tr>
-        </c:forEach>
+				<tbody>
+					<tr th:each="index : ${blackList}">
+						<td th:text="${ index.employeeNo }"></td>
+						<td th:text="${ index.employeeName }"></td>
+						<td th:text="${ index.employeeBirth }"></td>
+						<td th:text="${ index.employeeAddress }"></td>
+						<td th:text="${ index.employeePhone }"></td>
+						<td th:text="${ index.employeeHireDate }"></td>
+						<td th:text="${ index.employeeSumCount }"></td>
+					</tr>
+				</tbody>
         </tbody>
     </table>
+			<div id="blackListPaging"> <div th:replace="/admin/humanResource/blackList/blackListPaging.html"></div></div>
 
-<script>
-            /* 검색기능 list 출력 */
-		$("#returnSearch").click(function(){
-			$.ajax({
-				url : "gson1",
-				success:function(data){
 
-					const $table = $("#employeeList tbody");
-					$table.html("");
-					
-					for(var index in data){
-						$tr = $("<tr>");
-						$noTd = $("<td>").text(data[index].no);
-						$nameTd = $("<td>").text(data[index].name);
-						$ageTd = $("<td>").text(data[index].age);
-						$enrollDateTd = $("<td>").text(data[index].enrollDate);
-						$unknown1 = $("<td>").text(data[index].enrollDate);
-						$unknown2 = $("<td>").text(data[index].enrollDate);
-						
-						$tr.append($noTd);
-						$tr.append($nameTd);
-						$tr.append($ageTd);
-						$tr.append($enrollDateTd);
-						$tr.append($unknown1);
-						$tr.append($unknown2);
-						
-						$table.append($tr);
+	<script>
+	
+	$(function(){
+		hover();
+	})
+	
+			/* hover event */
+			function hover() {
+				const blackList = document.getElementsByTagName("td");
+			
+				for (let i = 0; i < blackList.length; i++) {
+					blackList[i].onmouseenter = function() {
+						this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+						this.parentNode.style.cursor = "pointer";
 					}
-				},
-				error:function(error){
-					console.log(error);
+					blackList[i].onmouseout = function() {
+						this.parentNode.style.backgroundColor = "white";
+					}
+			
+					blackList[i].onclick = function() {
+						location.href = "/admin/selectBlackListDetail/"
+								+ this.parentNode.children[0].innerText;
+					}
 				}
-			});
-		});
-</script>
+			};
+	 		
+	</script>
 
 </body>
 </html>
