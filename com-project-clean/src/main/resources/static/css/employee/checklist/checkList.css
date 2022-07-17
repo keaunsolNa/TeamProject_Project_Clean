@@ -71,9 +71,21 @@ input{
     background-color: rgba(104, 228, 255, 1);
     width: 50%;
     text-align: center;
+    background-color: rgba(104, 228, 255, 1);
+    width: 50%;
+    text-align: center;
+    background-color: rgba(104, 228, 255, 1);
+    width: 50%;
+    text-align: center;
 }
 
 .employeeOpnionArea{
+    background-color: rgba(104, 228, 255, 1);
+    width: 50%;
+    text-align: center;
+    background-color: rgba(104, 228, 255, 1);
+    width: 50%;
+    text-align: center;
     background-color: rgba(104, 228, 255, 1);
     width: 50%;
     text-align: center;
@@ -90,24 +102,15 @@ input{
     text-align: center;
 }
 
-.OpnionArea textarea{
-    width: 500px;
-    height: max-content;
-    border: 0px;
-    resize: none;
-    margin-top: 30px;
-}
 
 .adminOpnionArea input{
     transform: none;
     border: 0px;
-    background-color:  gainsboro;
 }
 
 .employeeOpnionArea input{
     transform: none;
     border: 0px;
-    background-color:  gainsboro;
 }
 
 .Opnion{
@@ -118,4 +121,18 @@ input{
 
 .canvasbtn{
     text-align: center;
+}
+
+.Opnion{
+	width: 80%; 
+	height: 60%; 
+	background-color: white;
+	font-size: large;
+	
+}
+
+.submittbtn{
+	background-color: rgba(104, 228, 255, 1);
+	margin-left: 45%;
+	border: 0px;
 }

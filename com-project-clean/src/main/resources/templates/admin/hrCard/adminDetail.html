@@ -5,6 +5,7 @@
 
 <meta charset="UTF-8">
 <title>Insert title here</title>
+ <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style>
 .tg  {border-collapse:collapse;border-spacing:0;}
     .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
@@ -15,6 +16,7 @@
       border-radius: 3px;
       border : 0;
       outline: 0;
+      cursor: pointer;
     }
     .btn_regist:hover {
       box-shadow: 1px 1px 1px #ddd;
@@ -33,7 +35,7 @@
 </head>
 <body>
 
-	<div th:include="common/Header.html"></div>
+	<div th:include="common/header.html"></div>
 	<div th:include="common/hrAside.html"></div>
 	
 	<button onclick="history.back()">Back</button>
@@ -54,9 +56,11 @@
 		        <td th:text="${ admin.adminNo }"></td>
 		        <td>이름</td>
 		        <td th:text="${ admin.adminName }"></td>
-		        <td colspan="2" rowspan="3"><img width="100" height="120" 
-		        th:src="@{static/adminPicture/thumbnail/} + ${adminPicture.pictureSaveName}"/>
-		        </td>
+		        <th:block th:if="${admin.adminPictureSaveName}">
+				    <td colspan="2" rowspan="3"><img width="100" height="120" 
+			        	th:src="@{static/adminPicture/thumbnail/} + ${admin.adminPictureSaveName}"/>
+			        </td>
+				</th:block>
 		      </tr>
 		      <tr>
 		        <td>ID</td>
@@ -75,19 +79,19 @@
 		    <tbody>
 		     <tr>
 		        <td class="tg-wman">이메일</td>
-		        <td class="tg-wman" colspan="3" th:text="${email}"></td>
+		        <td class="tg-wman" colspan="3" th:text="${admin.adminEmail}"></td>
 		        <td>퇴사여부</td>
 		        <td th:text="${ admin.adminRetireYn }"></td>
 		     </tr>
 		     <tr>
 		        <td class="tg-wman">우편번호</td>
-		        <td class="tg-wman" th:text="${adminAddress.adminAddressNo}"></td>
+		        <td class="tg-wman" th:text="${address.addressNo}"></td>
 		        <td class="tg-wman">기본주소</td>
-		        <td class="tg-wman" colspan="3" th:text="${adminAddress.adminAddress}"></td>
+		        <td class="tg-wman" colspan="3" th:text="${address.address}"></td>
 		      </tr>
 		      <tr>
 		        <td class="tg-wman">상세주소</td>
-		        <td class="tg-wman" colspan="5" th:text="${adminAddress.adminDetailAddress}"></td>
+		        <td class="tg-wman" colspan="5" th:text="${address.addressDetail}"></td>
 		      </tr>
 		      <tr>
 		        <td>입사일</td>
@@ -103,23 +107,47 @@
 		      </tr>
 		      <tr>
 		        <td class="tg-wman">연차 사용 횟수</td>
-		        <td class="tg-wman" colspan="2" th:text="${ admin.adminUseAnnualVacation}"></td>
+		        <td class="tg-wman" colspan="2" th:text="${ admin.annualVacationUse }"></td>
 		      </tr>
 		    </tbody>      
    		 </table>
 	   	 <table>
 	   	 	<tr>
-	   	 		<td><button type="button" id="update">승인</button> </td>
+	   	 		<!-- <th:block sec:authorize="hasRole('MEMBER')"> -->
 	   	 		
-	   	 		<td><button type="button" id="retireY">퇴사처리</button> </td>
+	   	 		<td><input type="button" id="updateMy" value="내수정"> </td>
+	   	 		<!-- </th:block> -->
+	   	 		 
+	   	 		<!-- <th:block sec:authorize="hasRole('MEMBER')"> -->
+	   	 		<!-- 인사관리자가 사용할 수 있는 것 -->
+	   	 		<td><input type="button" id="updateNotMe" value="수정"> </td>
+	   	 		<!-- </th:block> -->
+	   	 		 
+	   	 		 
+	   	 		<!-- <th:block sec:authorize="hasRole('MEMBER')"> -->
+	   	 		<td><input type="button" id="retireY" value="퇴사처리"> </td>
+	   	 		<!-- </th:block> -->
 	   	 		
 	   	 		<td id="value" th:text="${admin.adminNo}" style="display: none"></td>
 	   	 	</tr>
 	     </table>
-     <!-- <button type="button" id="retireY" onclick="href='/admin/hrCard/Delete'">퇴사처리</button> -->
-	
+		<input th:value="${ admin.adminNo }" >
     </form>
     
+ 
+    <script>
+      
+    const value = $("#value").text();
+    
+      $("#updateMy").click(function(){
+    	  location.href="/admin/hrCard/adminModifySelf/"+value
+        });
+      
+      $("#retireY").click(function(){
+    	  location.href="admin/hrCard/adminDetail/Delete/"+value
+        });
+
+      </script>
 
     
 </body>

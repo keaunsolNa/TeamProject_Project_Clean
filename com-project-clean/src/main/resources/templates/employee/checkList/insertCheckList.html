@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
 >
 <head>
 <meta charset="UTF-8">
@@ -13,20 +14,37 @@
 <!--     <script src='/js/checklistCheckBox.js'></script> -->
 <!--  <script src='/js/checklistFile.js'></script>   -->
 <!--     <script src='/js/checklistCanvas.js'></script> -->
+
+	<style>
+		.canvasbtn button{
+			background-color: rgba(104, 228, 255, 1);
+		}
+		#submitButton{
+			background-color: rgba(104, 228, 255, 1);
+			border-style: none;
+		}
+	</style>
 </head>
+
 <body>
 	<section>
 		<form method="post" action="/employee/checkList/update"  enctype="multipart/form-data">
 			<input type="hidden" th:value="${ checkList.checkReservationNo }" class="reservationNo" name="reservationNo">
 			
-			<p th:utext="${ checkList.checkHTML }" class="jbHtml"></p>			
-			
-			<div class="content-img-area1" id="contentImgArea1">
-				<img id="beforeImg" width="100" height="120">
-			</div>
-			<div class="content-img-area2" id="contentImgArea2">
- 	        	<img id="afterImg" width="100" height="120">
-			</div>
+			<p th:utext="${ checkList.checkHTML }" class="jbHtml"></p>	
+					
+			<table style ="margin-left: 35%">
+				<tr >
+					<td class="content-img-area1" id="contentImgArea1">
+						<h5 align="center"> Before</h5>
+						<img id="beforeImg" width="200" height="180" >
+					</td>
+					<td class="content-img-area2" id="contentImgArea2">
+						<h5 align="center"> After</h5>
+ 	        			<img id="afterImg" width="200" height="180">
+ 	        		</td>
+				</tr>
+			</table>
 			
 			<div class="thumbnail-file-area">
 		        <input type="file" id="thumbnailImg1" name="beforeThumbnailImg" onchange="loadImg(this,1)" style="display: none">
@@ -34,17 +52,20 @@
 			</div>
 			<br><br>				
 			
-            <div style="width:300px; height:300px;">    
+            <div style="width:300px; height:300px; margin-left: 40%" id="contentImgArea3">     
                 <canvas id="canvas" style="border:1px solid black"></canvas>  
-            </div> 
-            <div class="canvasbtn">    
-	        	<button id="reset" class="savebtn col-xl-3">취소</button>
-	        </div> 
-	       
-			<input type="button" id="submitButton" value="test">	        
+	        	<img id="signImg" width="300px; height:300px; margin-left: 40%" src="">
+	        </div> 	
 
 		</form>
 	</section>
+	
+	<div class="canvasbtn">
+	<button id="save"  type="button">서명 저장</button>
+    <button id="reset"  type="button">서명 취소</button>
+	</div>
+	<br><br><br><br>    	
+	<input type="button" id="submitButton" value="제출" style="margin-left: 48%">	        
 	 	
 	<!-- submit script -->
     <script>
@@ -53,7 +74,6 @@
     	document.getElementById("submitButton").onclick = function(){
 			const reservationNo = $('.reservationNo').val();
     			const jbHtml = $( 'section' ).html();
-    			console.log(jbHtml)
     		if(confirm("체크리스트를 전송하시겠습니까?")){
     			$.ajax({
     				url: "/employee/checkList/update",
@@ -64,7 +84,7 @@
     				},
     				success: function(data){
 		    			alert("전송 완료");
-						location.href="/employee/task/selectMyTask"
+						location.href="/employee/checkList/selectMyCheckList"
     				},
     				error : function(request, status){
     					alert("전송 실패")
@@ -74,7 +94,8 @@
     	}
 
     </script>	 	
-
+			
+			
 	<!-- fileupload script -->
 	<script>
 	const $contentImgArea1 = document.getElementById("contentImgArea1");
@@ -169,7 +190,7 @@
 		                                case "mousemove":{            
 		                                    if(drawble){              
 		                                        ctx.lineTo(getPosition().X, 
-		                                        getPosition().Y);              
+		                                        getPosition().Y);              	
 		                                        ctx.stroke();            
 		                                    }          
 		                                }          
@@ -191,21 +212,13 @@
 		                            canvas.on("mouseup", draw);          
 		                            canvas.on("mouseout", draw);  
 		
-		                            // save 버튼을 누르면 imageupload.php로 base64코드를 보내서 이미지로 변환합니다.          
-		                            
-		                            $("#save").on("click", function(){            
-		                                // a 태그를 만들어서 다운로드를 만듭니다.            
-		                                var link = document.createElement('a');             
-		                                // base64데이터 링크 달기            
-		                                link.href = canvas[0].toDataURL("image/png");             
-		                                // 다운로드시 파일명 지정            
-		                                link.download = "image.png";             
-		                                // body에 추가            
-		                                document.body.appendChild(link);             
-		                                link.click();             
-		                                document.body.removeChild(link);             
-		                                // 다운로드용 a 태그는 다운로드가 끝나면 삭제합니다.            
-		                                form.remove();          
+		                            $("#save").on("click", function(){     
+		                            	const canvas = document.getElementById('canvas');
+		                            	const dataURL = canvas.toDataURL();
+		                            	document.getElementById("signImg").src = dataURL;
+		                            	console.log(dataURL)
+		                            	document.getElementById("canvas").remove();
+		                            	
 		                            });        
 		                            
 		                            $("#reset").on("click", function(){

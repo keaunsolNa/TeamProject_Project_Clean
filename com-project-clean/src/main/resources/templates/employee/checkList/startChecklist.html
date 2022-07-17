@@ -60,27 +60,6 @@
 	            <input type="checkbox" id="checkbox23" class="checkbox"> 복층<br>
 	        </div>
 	
-<!-- 	        <div class="OpnionArea">
-	        <th:block sec:authorize="hasRole('ADMIN')">
-		        <div class="adminOpnionArea">
-		            <label>관리자 의견</label><br>
-		            <textarea class="Opnion" cols="100%" rows="3"></textarea>
-		            <br>
-		            <input type="button" value="등록">
-		        </div>
-			</th:block>
-	
-	        <br>
-	        <th:block sec:authorize="hasRole('ADMIN')">
-	        <div class="employeeOpnionArea">
-	            <label>직원 답변</label><br>
-	            <textarea class="Opnion" cols="100%" rows="3"></textarea>
-	            <br>
-	            <input type="button" value="등록">
-	        </div>
-			</th:block>
-	    </div> -->
-	    
 	    </section>
     <script>
     const jbHtml = ""
@@ -96,7 +75,7 @@
 	             	},
 	             	success: function(data){
 	             		alert("업무 시작. 청소 종료 후 체크리스트를 잊지 마세요!")
-	             		location.href="/employee/task/selectMyTask"
+	             		location.href="/employee/checkList/selectMyCheckList"
 	             	},
 	             	error: function(request, status){
 	                 	alert("네트워크를 확인해주세요.")

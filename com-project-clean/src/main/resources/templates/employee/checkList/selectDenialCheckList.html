@@ -12,13 +12,13 @@
 <body>
 	<div th:include="common/header.html"></div>
 	<div th:include="common/checkListAside.html"></div>
+
 	<script>
 		const resultMessage = "[[${Message}]]";
 		if(resultMessage){
 			alert(resultMessage)
 		}
 	</script>	
-	
 	<table id="taskInfo" border="1" style="margin-left: 25%; margin-top: 10%; text-align: center;" >
 		<thead>
 			<tr>
@@ -81,7 +81,7 @@
 						const resNo2 = resNo1[i];
 						var resNo3 = resNo2.parentNode.querySelector('.rn').innerText;
 						
- 					 	location.href="/admin/checklist/selectDetails?re="+ resNo3; 
+ 					 	location.href="/employee/checkList/denialSelectDetails?re="+ resNo3; 
 							
 					}; 
 				};						
