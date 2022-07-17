@@ -218,8 +218,7 @@
       phoneCheck = $(this).val();
       if (!regexp.test(phoneCheck)) {
           alert("3 ~ 4자리의 숫자만 사용하기로 약속해요");
-          $(this).val('');
-          document.location.reload(true);
+        
       }
   });
   
@@ -229,9 +228,7 @@
       phoneCheck = $(this).val();
       if (!regexp.test(phoneCheck)) {
       	alert("4자리의 숫자만 사용하기로 약속해요");
-      $("#employeePhone3").focus();
-           $(this).val(''); 
-           document.location.reload(true);
+          
       }
   });
   

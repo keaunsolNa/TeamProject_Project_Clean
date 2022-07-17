@@ -18,11 +18,14 @@ public class Vacation implements Serializable{
 	@Column(name="VACATION_NO")
 	private int vacationNo;
 	
-	@Column(name="CATEGORY_NO")
-	private int categoryNo;
-	
 	@Column(name="REQUEST_DATE")
 	private java.sql.Date requestDate;
+	
+	@Column(name="REQUEST_ADMIN")
+	private String requestAdmin;
+	
+	@Column(name="VACATION_NAME")
+	private String vacationName;
 	
 	@Column(name="DRAFTER")
 	private String drafter;
@@ -32,6 +35,9 @@ public class Vacation implements Serializable{
 	
 	@Column(name="VACATION_SECOND_CONFIRM_YN")
 	private String vacationSecondConfirmYn;
+	
+	@Column(name="VACATION_LAST_CONFIRM_YN")
+	private String vacationLastConfirmYn;
 	
 	@Column(name="VACATION_START_DATE")
 	private java.sql.Date vacationStartDate;
@@ -51,12 +57,15 @@ public class Vacation implements Serializable{
 	public Vacation() {
 	}
 
-	public Vacation(int vacationNo, int categoryNo, Date requestDate, String drafter, String vacationFirstConfirmYn,
-			String vacationSecondConfirmYn, Date vacationStartDate, Date vacationEndDate, String vacationReason,
-			String vacationReturnYn, int adminNo) {
+	public Vacation(int vacationNo, Date requestDate, String requestAdmin, String vacationName,
+			String vacationLastConfirmYn, String drafter, String vacationFirstConfirmYn, String vacationSecondConfirmYn,
+			Date vacationStartDate, Date vacationEndDate, String vacationReason, String vacationReturnYn, int adminNo) {
+		super();
 		this.vacationNo = vacationNo;
-		this.categoryNo = categoryNo;
 		this.requestDate = requestDate;
+		this.requestAdmin = requestAdmin;
+		this.vacationName = vacationName;
+		this.vacationLastConfirmYn = vacationLastConfirmYn;
 		this.drafter = drafter;
 		this.vacationFirstConfirmYn = vacationFirstConfirmYn;
 		this.vacationSecondConfirmYn = vacationSecondConfirmYn;
@@ -75,20 +84,36 @@ public class Vacation implements Serializable{
 		this.vacationNo = vacationNo;
 	}
 
-	public int getCategoryNo() {
-		return categoryNo;
-	}
-
-	public void setCategoryNo(int categoryNo) {
-		this.categoryNo = categoryNo;
-	}
-
 	public java.sql.Date getRequestDate() {
 		return requestDate;
 	}
 
 	public void setRequestDate(java.sql.Date requestDate) {
 		this.requestDate = requestDate;
+	}
+
+	public String getRequestAdmin() {
+		return requestAdmin;
+	}
+
+	public void setRequestAdmin(String requestAdmin) {
+		this.requestAdmin = requestAdmin;
+	}
+
+	public String getVacationName() {
+		return vacationName;
+	}
+
+	public void setVacationName(String vacationName) {
+		this.vacationName = vacationName;
+	}
+
+	public String getVacationLastConfirmYn() {
+		return vacationLastConfirmYn;
+	}
+
+	public void setVacationLastConfirmYn(String vacationLastConfirmYn) {
+		this.vacationLastConfirmYn = vacationLastConfirmYn;
 	}
 
 	public String getDrafter() {
@@ -161,13 +186,14 @@ public class Vacation implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Vacation [vacationNo=" + vacationNo + ", categoryNo=" + categoryNo + ", requestDate=" + requestDate
-				+ ", drafter=" + drafter + ", vacationFirstConfirmYn=" + vacationFirstConfirmYn
-				+ ", vacationSecondConfirmYn=" + vacationSecondConfirmYn + ", vacationStartDate=" + vacationStartDate
-				+ ", vacationEndDate=" + vacationEndDate + ", vacationReason=" + vacationReason + ", vacationReturnYn="
-				+ vacationReturnYn + ", adminNo=" + adminNo + "]";
+		return "Vacation [vacationNo=" + vacationNo + ", requestDate=" + requestDate + ", requestAdmin=" + requestAdmin
+				+ ", vacationName=" + vacationName + ", vacationLastConfirmYn=" + vacationLastConfirmYn + ", drafter="
+				+ drafter + ", vacationFirstConfirmYn=" + vacationFirstConfirmYn + ", vacationSecondConfirmYn="
+				+ vacationSecondConfirmYn + ", vacationStartDate=" + vacationStartDate + ", vacationEndDate="
+				+ vacationEndDate + ", vacationReason=" + vacationReason + ", vacationReturnYn=" + vacationReturnYn
+				+ ", adminNo=" + adminNo + "]";
 	}
-	
+
 	
 	
 }

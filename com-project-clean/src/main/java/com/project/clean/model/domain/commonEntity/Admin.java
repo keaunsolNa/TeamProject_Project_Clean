@@ -1,20 +1,34 @@
 package com.project.clean.model.domain.commonEntity;
 
-import java.sql.Blob;
+
 import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity(name = "ADMIN")
 @Table(name = "TBL_ADMIN")
+@SequenceGenerator(
+		name = "ADMIN_SEQ_TBL_GENERATOR",
+		sequenceName = "SEQ_TBL_ADMIN",
+		initialValue = 1,
+		allocationSize = 1
+)
 public class Admin implements java.io.Serializable{
 	private static final long serialVersionUID = 7851783671514083890L;
 	
 	@Id
+	@GeneratedValue(
+			strategy = GenerationType.SEQUENCE,
+			generator = "ADMIN_SEQ_TBL_GENERATOR"
+	)
 	@Column(name="ADMIN_NO")
 	private int adminNo;
 
@@ -36,10 +50,12 @@ public class Admin implements java.io.Serializable{
 	@Column(name="ADMIN_PHONE")
 	private String adminPhone;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name="ADMIN_HIRE_DATE")
 	private java.sql.Date adminHireDate;
 	
-	@Column(name="ADMIN_RETIRE_DATE")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name="ADMIN_RETIRE_DATE", nullable=true)
 	private java.sql.Date adminRetireDate;
 	
 	@Column(name="ADMIN_RETIRE_YN")
@@ -48,13 +64,13 @@ public class Admin implements java.io.Serializable{
 	@Column(name="ADMIN_JOB")
 	private String adminJob;
 	
-	@Column(name="ADMIN_LAST_LOGIN_DATE")
+	@Column(name="ADMIN_LAST_LOGIN_DATE", nullable=true)
 	private java.sql.Date adminLastLoginDate;
 	
 	@Column(name="ADMIN_SALARY")
 	private int adminSalary;
 	
-	@Column(name="ADMIN_USE_ANNUAL_VACATION")
+	@Column(name="ADMIN_USE_ANNUAL_VACATION", nullable=true)
 	private int annualVacationUse;
 	
 	
@@ -64,13 +80,13 @@ public class Admin implements java.io.Serializable{
 	@Column(name="ADMIN_ADDRESS")
 	private String adminAddress;
 	
-	@Column(name="ADMIN_PICTURE_SAVE_NAME")
+	@Column(name="ADMIN_PICTURE_SAVE_NAME", nullable=true)
 	private String adminPictureSaveName;
 	
-	@Column(name="ADMIN_PICTURE_SAVE_ROOT")
+	@Column(name="ADMIN_PICTURE_SAVE_ROOT", nullable=true)
 	private String adminPictureSaveRoot;
 	
-	@Column(name="ADMIN_PICTURE_THUMBNAIL_NAME")
+	@Column(name="ADMIN_PICTURE_THUMBNAIL_NAME", nullable=true)
 	private String adminPictureThumbnailName;
 
 	public Admin() {

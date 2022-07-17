@@ -13,5 +13,4 @@ public interface RetireAdminRepository extends JpaRepository<RetireAdmin, Intege
 
 	@Query(value="SELECT * FROM TBL_RETIRE_ADMIN a ORDER BY retire_admin_no", nativeQuery = true)
 	List<RetireAdmin> findRetireAdminList();
-	
 }

@@ -93,10 +93,20 @@ public class AdminAdminService{
 		return adminListAjax.stream().map(admin -> modelMapper.map(admin, AdminDTO.class)).collect(Collectors.toList());
 	}
 
-	/* 관리자 퇴사처리 */
-	public void modifyAdminRetire(AdminDTO admin) {
+	/* 관리자 퇴사처리 1 - 퇴사여부 수정 */
+	@Transactional
+	public void modifyAdminRetireY(int adminNo) {
 		
-//		Admin admin = adminRepository.findByAdminNo();
+		Integer admin = adminRepository.findByAdminRetire(adminNo);
+//		admin.setAdminRetireDate(adminDTO.getAdminRetireDate());
+		
+	}
+	
+	/* 관리자 퇴사처리 2 - 퇴사일 수정 */
+	@Transactional
+	public void modifyAdminRetireDate(int adminNo) {
+		
+		Integer admin = adminRepository.findByAdminRetireDate(adminNo);
 		
 	}
 
@@ -134,6 +144,16 @@ public class AdminAdminService{
 
 
 	}
+
+	/* 퇴사자 정보 퇴사자 테이블에 삽입 */
+	public void registRetireAdmin(RetireAdminDTO retireAdmin) {
+		
+		retireAdminRepository.save(modelMapper.map(retireAdmin, RetireAdmin.class));
+		
+	}
+
+
+	
 
 	
 }
