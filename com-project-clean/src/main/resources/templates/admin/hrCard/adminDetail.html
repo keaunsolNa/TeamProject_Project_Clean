@@ -40,7 +40,7 @@
 	
 	<button onclick="history.back()">Back</button>
 	
-    <form action="admin/hrCard/adminUpdate" method="post">
+    <form id="retireForm" action="Delete" method="post" enctype="multipart/form-data">
 	    <table class="tg">
 	    <colgroup>
 	    <col style="width: 100px">
@@ -49,7 +49,6 @@
 	    <col style="width: 200px">
 	    <col style="width: 60px">
 	    <col style="width: 60px">
-	    
 		    <thead>
 		      <tr>
 		        <td class="tg-wman">관리자번호</td>
@@ -79,9 +78,8 @@
 		    <tbody>
 		     <tr>
 		        <td class="tg-wman">이메일</td>
-		        <td class="tg-wman" colspan="3" th:text="${admin.adminEmail}"></td>
-		        <td>퇴사여부</td>
-		        <td th:text="${ admin.adminRetireYn }"></td>
+		        <td class="tg-wman" colspan="5" th:text="${admin.adminEmail}"></td>
+		        
 		     </tr>
 		     <tr>
 		        <td class="tg-wman">우편번호</td>
@@ -108,30 +106,41 @@
 		      <tr>
 		        <td class="tg-wman">연차 사용 횟수</td>
 		        <td class="tg-wman" colspan="2" th:text="${ admin.annualVacationUse }"></td>
+		        <td>퇴사여부</td>
+		        <td colspan="2" th:text="${ admin.adminRetireYn }"></td>
 		      </tr>
 		    </tbody>      
    		 </table>
+   		 <div style="display:none">
+		         		<input name="adminNo" th:value="${ admin.adminNo }">
+					    <input name="adminName" th:value="${ admin.adminName }">
+					    <input name="adminId" th:value="${ admin.adminId }">
+					    <input name="adminId" th:value="${ admin.adminPwd }">
+					    <input name="adminPhone" th:value="${ admin.adminPhone }">
+					    <input name="adminBirth" th:value="${ admin.adminBirth }">
+					    <input name="adminGender" th:value="${admin.adminGender}">
+					    <input name="adminHireDate" th:value="${ admin.adminHireDate }">
+					    <input name="adminJob" th:value="${ admin.adminJob }">
+					    <input name="annualVacationUse" th:value="${ admin.annualVacationUse }">
+					    <input name="adminRetireYn" th:value="${ admin.adminRetireYn }">
+					    <input name="adminSalary" th:value="${ admin.adminSalary }">
+	     </div>
 	   	 <table>
 	   	 	<tr>
-	   	 		<!-- <th:block sec:authorize="hasRole('MEMBER')"> -->
 	   	 		
 	   	 		<td><input type="button" id="updateMy" value="내수정"> </td>
-	   	 		<!-- </th:block> -->
+
 	   	 		 
 	   	 		<!-- <th:block sec:authorize="hasRole('MEMBER')"> -->
 	   	 		<!-- 인사관리자가 사용할 수 있는 것 -->
-	   	 		<td><input type="button" id="updateNotMe" value="수정"> </td>
-	   	 		<!-- </th:block> -->
-	   	 		 
-	   	 		 
-	   	 		<!-- <th:block sec:authorize="hasRole('MEMBER')"> -->
-	   	 		<td><input type="button" id="retireY" value="퇴사처리"> </td>
+	   	 		
+	   	 		<td><input type="submit" id="retireY" value="퇴사처리"> </td>
 	   	 		<!-- </th:block> -->
 	   	 		
-	   	 		<td id="value" th:text="${admin.adminNo}" style="display: none"></td>
+	   	 		<td style="display: none" id="value" th:text="${admin.adminNo}" ></td>
 	   	 	</tr>
 	     </table>
-		<input th:value="${ admin.adminNo }" >
+	     <a href="" th:href="@{/admin/hrCard/adminModifySelf/Delete/${admin.adminNo}}">퇴사</a>
     </form>
     
  
@@ -144,8 +153,14 @@
         });
       
       $("#retireY").click(function(){
-    	  location.href="admin/hrCard/adminDetail/Delete/"+value
+  		if(confirm("퇴사 처리 하시겠습니까?")){
+  			$("#retireForm").submit();
+			}
         });
+      
+      /* $("#retireY").click(function(){
+    	  location.href="/admin/hrCard/adminModifySelf/Delete/"+value
+        }); */
 
       </script>
 
