@@ -64,6 +64,8 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 				checkList = checkListRepository.findAllByCheckStatus("D");
 			} else if(parameter == 3) {
 				checkList = checkListRepository.findAllByCheckStatus("A");
+			} else if(parameter == 4) {
+				checkList = checkListRepository.findAllByCheckStatus("B");
 			}
 			
 			/* 조회한 Entity List<CheckListDTO>로 전환 */
@@ -135,6 +137,8 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 							checkStatus = "반려";
 						} else if(checkStatus.equals("A")) {
 							checkStatus = "완료";
+						} else if(checkStatus.equals("B")) {
+							checkStatus = "경고";
 						}
 						checkListAndReservationInfoAndEmployeeDTO.setCheckStatus(checkStatus);
 						checkListAndReservationInfoAndEmployeeDTO.setCheckHTML(checkHTML);
@@ -212,6 +216,28 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 		} else if(checkList.getCheckStatus().equals("A")) {
 			checkListEntity.setCheckHTML(checkList.getCheckHTML());
 			checkListEntity.setCheckStatus("A");
+		} else if(checkList.getCheckStatus().equals("B")) {
+			checkListEntity.setCheckStatus("B");
+			checkListEntity.setCheckHTML(checkList.getCheckHTML());
+			
+			int reservationNo = checkListEntity.getCheckReservationNo();
+			ReservationInfo reservationInfo = reservationInfoRepository.findByReservationNo(reservationNo);
+			
+			ReservationInfoDTO reservationInfoDTO = modelMapper.map(reservationInfo, ReservationInfoDTO.class);
+			
+			List<ApplyEmployeeEmbedded> applyEmployeeList = applyRepository.findAllEmployeeApply2(reservationNo);
+			
+			List<EmployeeDTO> employeeArrayList = new ArrayList<>();
+			
+			for (ApplyEmployeeEmbedded applyEmployeeEmbedded : applyEmployeeList) {
+				Integer employeeNo = applyEmployeeEmbedded.getApplyEmployeeIdAndApplyReservationNo().getApplyEmployeeNo();
+				
+				Employee employee = empRepository.findByEmployeeNo(employeeNo);
+				
+				int sumCount = employee.getEmployeeSumCount()+1;
+				
+				employee.setEmployeeSumCount(sumCount);
+			}
 		}
 		
 		return 0;

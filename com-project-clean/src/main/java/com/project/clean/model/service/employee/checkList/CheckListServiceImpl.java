@@ -160,9 +160,9 @@ public class CheckListServiceImpl implements CheckListService{
 		return 0;
 	}
 
-	/* 반려 체크리스트 조회 */
+	/* 체크리스트 조회 */
 	@Override
-	public List<CheckListAndReservationInfoAndEmployeeDTO> selectDenialCheckList(String employeeId, int parameter) {
+	public List<CheckListAndReservationInfoAndEmployeeDTO> selectCheckList(String employeeId, int parameter) {
 		
 		List<CheckListDTO> check = new ArrayList<>();
 		List<CheckListAndReservationInfoAndEmployeeDTO> checkListAndReservationInfoAndEmployeeList = new ArrayList<>();
@@ -174,6 +174,8 @@ public class CheckListServiceImpl implements CheckListService{
 				checkList = checkListRepository.findAllByCheckStatusOrCheckStatus("D", "R");
 			} else if(parameter == 2) {
 				checkList = checkListRepository.findAllByCheckStatus("A");
+			} else if(parameter == 3) {
+				checkList = checkListRepository.findAllByCheckStatus("B");
 			}
 			
 			List<CheckListDTO> checkListDTO = checkList.stream().map(returnCheckList -> modelMapper.map(returnCheckList, CheckListDTO.class)).collect(Collectors.toList());
@@ -229,6 +231,10 @@ public class CheckListServiceImpl implements CheckListService{
 							checkStatus = "확인중";
 						} else if(checkStatus.equals("D")) {
 							checkStatus = "반려";
+						} else if(checkStatus.equals("A")) {
+							checkStatus = "통과";
+						} else if(checkStatus.equals("B")) {
+							checkStatus = "경고";
 						}
 						
 						checkListAndReservationInfoAndEmployeeDTO.setCheckStatus(checkStatus);
@@ -268,9 +274,9 @@ public class CheckListServiceImpl implements CheckListService{
 		
 	}
 
-	/* 반려 체크리스트 상세 조회 */
+	/* 체크리스트 상세 조회 */
 	@Override
-	public CheckListDTO selectDenialCheckListDetails(int reservationNo) {
+	public CheckListDTO selectCheckListDetails(int reservationNo) {
 		try{
 			CheckList checkList =  checkListRepository.findByCheckReservationNo(reservationNo);
 			

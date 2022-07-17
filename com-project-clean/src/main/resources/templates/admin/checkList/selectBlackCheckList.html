@@ -8,7 +8,7 @@
    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <link rel="stylesheet" type="text/css"
-	th:href="@{/css/employee/checklist/checkListTable.css}">
+		th:href="@{/css/employee/checklist/checkListTable.css}">
 <title>ProjectClean</title>
 </head>
 <body>
@@ -21,7 +21,7 @@
 			alert(resultMessage)
 		}
 	</script>	
-	<table id="taskInfo" >
+	<table id="taskInfo">
 		<thead>
 			<tr>
 				<td width="100">예약 번호</td>
@@ -83,7 +83,7 @@
 						const resNo2 = resNo1[i];
 						var resNo3 = resNo2.parentNode.querySelector('.rn').innerText;
 						
- 					 	location.href="/employee/checkList/denialSelectDetails?re="+ resNo3; 
+ 					 	location.href="/admin/checklist/blackselectDetails?re="+ resNo3; 
 							
 					}; 
 				};						

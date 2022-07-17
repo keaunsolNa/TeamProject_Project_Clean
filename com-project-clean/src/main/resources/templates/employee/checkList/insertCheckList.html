@@ -15,15 +15,6 @@
 <!--  <script src='/js/checklistFile.js'></script>   -->
 <!--     <script src='/js/checklistCanvas.js'></script> -->
 
-	<style>
-		.canvasbtn button{
-			background-color: rgba(104, 228, 255, 1);
-		}
-		#submitButton{
-			background-color: rgba(104, 228, 255, 1);
-			border-style: none;
-		}
-	</style>
 </head>
 
 <body>
@@ -60,12 +51,13 @@
 		</form>
 	</section>
 	
-	<div class="canvasbtn">
+	<br>
+	<div class="canvasbtnarea" style="text-align: center;">
 	<button id="save"  type="button">서명 저장</button>
     <button id="reset"  type="button">서명 취소</button>
 	</div>
 	<br><br><br><br>    	
-	<input type="button" id="submitButton" value="제출" style="margin-left: 48%">	        
+	<input type="button" id="submitButton" value="제출" class="submittbtn" >	        
 	 	
 	<!-- submit script -->
     <script>

@@ -36,9 +36,11 @@
         
 	</form>
 </section>
-
-<input type="button" value="승인" id="accept">
-<input type="button" value="거절" id="denial">
+<br>
+<div class="submitarea">
+	<input type="button" value="승인" id="accept">
+	<input type="button" value="거절" id="denial">
+</div>
 
 <!-- OpnionArea script -->
 <script>
@@ -62,13 +64,14 @@
     			document.getElementById("adminOpnion2").style="";
     			
     			const jbHtml = $( 'section' ).html();
-    			
+    			const blackYn = 1;
     			$.ajax({
     				url: "denial",
     				type:"POST",
     				data:{	
     					jbHtml : jbHtml,
-    					reservationNo : reservationNo
+    					reservationNo : reservationNo,
+    					blackYn : blackYn
     				},
     				
     				success: function(data){

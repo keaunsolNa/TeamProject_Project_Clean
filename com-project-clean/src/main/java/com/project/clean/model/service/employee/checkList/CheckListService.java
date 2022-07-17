@@ -18,8 +18,8 @@ public interface CheckListService {
 
 	int updateCheckList(CheckListDTO checkListDTO);
 
-	List<CheckListAndReservationInfoAndEmployeeDTO> selectDenialCheckList(String employeeId, int parameter);
+	List<CheckListAndReservationInfoAndEmployeeDTO> selectCheckList(String employeeId, int parameter);
 
-	CheckListDTO selectDenialCheckListDetails(int reservationNo);
+	CheckListDTO selectCheckListDetails(int reservationNo);
 	 
 }

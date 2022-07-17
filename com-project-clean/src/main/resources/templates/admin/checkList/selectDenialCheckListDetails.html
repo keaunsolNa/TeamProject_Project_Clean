@@ -24,10 +24,10 @@
 		<br><br>				
 	</form>
 </section>
-<input type="button" value="승인" id="accept" class="submittbtn">
-<br>
-<input type="button" value="거절" id="denial" class="submittbtn">
-
+<div class="submitarea">
+	<input type="button" value="승인" id="accept">
+	<input type="button" value="블랙리스트 경고 횟수 추가" id="denial">
+</div>
 <!-- textarea script -->
 <script>
 
@@ -46,19 +46,21 @@
 	    const jbHtml = "";
     	document.getElementById("denial").onclick = function(){
 			const reservationNo = $('.reservationNo').val();
-    		if(confirm("서류를 재 반려하시겠습니까? 직원에게 알람이 전송됩니다.")){
+    		if(confirm("해당 직원에게 블랙리스트 경고 횟수를 추가하시겠습니까?")){
     			
     			document.getElementById("adminOpnion2").remove();
     			document.getElementById("adminOpnion").style="";
     			
     			const jbHtml = $( 'section' ).html();
+    			const blackYn = 2;
     			
     			$.ajax({
     				url: "denial",
     				type:"POST",
     				data:{	
     					jbHtml : jbHtml,
-    					reservationNo : reservationNo
+    					reservationNo : reservationNo,
+    					blackYn : blackYn
     				},
     				
     				success: function(data){
