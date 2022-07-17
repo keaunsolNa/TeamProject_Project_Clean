@@ -1,9 +1,11 @@
-window.onload = function(){
+const $contentImgArea1 = document.getElementById("contentImgArea1");
+	const $contentImgArea2 = document.getElementById("contentImgArea2");
 	
-const $beforeImg = document.getElementById("beforeImg");
-			
-	$beforeImg.onclick = function() {
-				document.getElementById("thumbnailImg").click();
+	$contentImgArea1.onclick = function() {
+				document.getElementById("thumbnailImg1").click();
+			}
+	$contentImgArea2.onclick = function() {
+				document.getElementById("thumbnailImg2").click();
 			}
 	
 	function loadImg(value, num) {
@@ -13,10 +15,16 @@ const $beforeImg = document.getElementById("beforeImg");
 					
 			reader.readAsDataURL(value.files[0]);		
 						
-			reader.onload = function(e) {				
-				document.getElementById("beforeImg").src = e.target.result;
+			reader.onload = function(e) {	
+				switch(num){
+					case 1:
+						document.getElementById("beforeImg").src = e.target.result;
+						break;
+					case 2:
+						document.getElementById("afterImg").src = e.target.result;
+						break;
+				}
 								
 			}
 		}
 	}
-}

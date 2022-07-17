@@ -85,7 +85,7 @@
         <!-- 등록 내용 -->
         <div id="tab-1" class="tab-content current">
             <div align="left">
-		        <form action="/admin/hr/regist/employee" method="post" id="registForm">
+		        <form action="/admin/hr/regist/employee" method="post" id="registForm" encType="multipart/form-data">
 	                <table class="tg" style="table-layout: fixed; width: 736px">
 	                <colgroup>
 	                <col style="width: 158px">
@@ -112,7 +112,41 @@
 	                    <td class="tg-7btt" style="display: none;"><input name="employeeNo" th:value="${employeeNo}"/></td>
 	                    <td class="tg-7btt">이름</td>
 	                    <td class="tg-7btt"><input type="text" id="employeeName" name="employeeName" class="required" maxlength='4' required></td>
-	                    <td class="tg-7btt" colspan="2" rowspan="3"><div id="picture">사진</div></td>
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    <!-- <td class="tg-7btt" colspan="2" rowspan="3"><div id="picture">사진</div></td> -->
+	                    <td class="tg-7btt" colspan="2" rowspan="3">사진 <img id="pictureImg" width="100px" height="100px"></td>
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    
 	                  </tr>
 	                  <tr>
 	                    <td class="tg-7btt">ID</td>
@@ -129,6 +163,8 @@
 	                    	</select>-
 	                    	<input type="text" id="employeePhone2" name="employeePhone2" class="required" maxlength='4' required>-
 	                    	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' required>
+	                    	<input style="display: none;" type="text" id="employeePhone" name="employeePhone">
+	                    
 	                    </td>
 	                  </tr>
 	                  <tr>
@@ -141,28 +177,33 @@
 	                <tbody>
 	                  <tr>
 	                    <td class="tg-7btt">이메일</td>
-	                    <td class="tg-7btt" colspan="3"><input type="text" id="employeeEmail" class="required" name="employeeEmail" required style="width: 200px;"> @ 
-	                      <select name="employeeDomain" id="employeeDomain" style="width: 100px; height: 25px;">
+	                    <td class="tg-7btt" colspan="3"><input type="text" id="email" class="required" name="email" required style="width: 200px;"> @ 
+	                      <select name="domain" id="domain" style="width: 100px; height: 25px;">
 	                    <option value="naver.com" selected>naver.com</option>
 	                    <option value="google.com">google.com</option>
 	                    <option value="hanmail.com">hanmail.com</option>
 	                      </select>
-	                  </td>
+	              		<td class="tg-7btt"style="display: none;"><input id="employeeEmail" name="employeeEmail" type="text"/></td>
+	              		
 	                    <td class="tg-7btt"> <button type="button" id="pictureRegist" name="pictureRegist">등록</button> </td>
 	                    <td class="tg-7btt"> <button type="button"id="pictureDelete" name="pictureDelete">삭제</button> </td>
+	                    <td style="display: none;"> <input type="file" id="picture" name="picture" onchange="loadImg(this,1)">
+	                    
 	                  </tr>
 	                  <tr>
 	                    <td class="tg-7btt">우편번호</td>
-	                    <td class="tg-7btt"><div id="AddressNo"></div></td>
-	                    <td class="tg-7btt"style="display: none;"><input id="employeeAddressNo" type="number" name="employeeAddressNo"/></td>
+	                    <td class="tg-7btt"><div id="addressNo"></div></td>
+	                    <td class="tg-7btt"style="display: none;"><input id="employeeAddressNo" type="number" name="addressNo"/></td>
 	                    <td class="tg-7btt">기본주소</td>
-	                    <td class="tg-7btt"><div id="Address"></div></td>
-	                    <td class="tg-7btt"style="display: none;"><input type="text" id="employeeAddress" name="employeeAddress" /></td>
+	                    <td class="tg-7btt"><div id="address"></div></td>
+	                    <td class="tg-7btt"style="display: none;"><input type="text" id="address" name="address" /></td>
 	                    <td class="tg-7btt" colspan="2"><button type="button" id="findAddress">주소찾기</button></td>
 	                  </tr>
 	                  <tr>
 	                    <td class="tg-7btt">상세주소</td>
-	                    <td class="tg-7btt" colspan="5"><input type=text id="addressDetail" class="required" name="employeeDetailAddress" required></td>
+	                    <td class="tg-7btt" colspan="5"><input type=text id="addressDetail" class="required" name="addressDetail" required></td>
+	                    <td class="tg-7btt"style="display: none;"><input id="employeeAddress" name="employeeAddress" type="text"/></td>
+	                    
 	                  </tr>
 	                  <tr>
 	                    <td class="tg-7btt">입사일</td>
@@ -186,7 +227,7 @@
 	                  <tr>
 	                    <td colspan="6" class="button" style="border-left: none; border-right: none; border-bottom: none;">
 	                        <button type="button" id="regist">등록 확인</button>
-	                        <button type="reset" id="reset">초기화</button>
+	                        <button type="button" id="resetButton">초기화</button>
 	                    </td>
 	                  </tr>
 	                </tbody>
@@ -195,7 +236,6 @@
                 <br>
             </div>
         </div>
-
 
 
         <!-- 대기중 내용 -->
@@ -294,34 +334,67 @@
 
     </div>
 
-
-
-
-
     <script>
+    
+    /* 사진등록 */
+    
+			/* 이미지 미리보기 관련 스크립트 */
+			const pictureRegist = document.getElementById("pictureRegist");
+			
+			pictureRegist.onclick = function() {
+				document.getElementById("picture").click();
+			}
+	
+			/* 이미지 미리보기 관련 함수(File API 활용하기) */
+			function loadImg(value, num) {
+				
+				/* https://developer.mozilla.org/ko/docs/Web/API/FileReader 참고 (MDN 사이트 참고)*/
+				if (value.files && value.files[0]) {			// value.files[0]는 파일 이름
+					const reader = new FileReader();
+				
+					reader.readAsDataURL(value.files[0]);		// Base64방식으로 파일을 FileReader에 전달 (Base64로 인코딩한 것은 브라우저가 원래 데이터로 만들게 됨)
+					
+					/* load 이벤트의 핸들러로 읽기 동작이 성공적으로 완료 되었을 때마다 발생한다. */
+					reader.onload = function(e) {				// load EventListener에 function 등록 (FileReader에서 전달 받은 파일을 다 읽으면 리스너에 등록한 function이 호출 됨)
+							document.getElementById("pictureImg").src = e.target.result;
+							
+						}
+					}
+				}
+    
     /* 회원 수정 정보 */
   	$("#regist").click(function(){
-  		const no = $("#employeeNo").text();
-  		const name = $("#employeeName").val();
+  		const phone1 = $("#employeePhone1").val();
   		const phone2 = $("#employeePhone2").val();
   		const phone3 = $("#employeePhone3").val();
+  		const no = $("#employeeNo").text();
+  		const name = $("#employeeName").val();
   		const birth = $("#employeeBirth").val();
-  		const email = $("#employeeEmail").val();
-		const addressNo = $("#AddressNo").text();
-		const address = $("#Address").text();
+  		const email = $("#email").val();
+  		const domain = $("#domain").val();
+  		
+		const addressNo = $("#addressNo").text();
+		const address = $("#address").text();
   		const addressDetail = $("#addressDetail").val();
   		
   			if(!(name && phone2 && phone3 && birth && email && addressNo && addressDetail)){
   				alert("입력되지 않은 항목이 있습니다.");
   			}else{
 			if(confirm("등록하시겠습니까?")){
-				$('#employeeAddressNo').attr('value', addressNo );
-				$('#employeeAddress').attr('value', address );
+				$('#employeePhone').attr('value', phone1 +"-"+ phone2 +"-"+ phone3 );
+				$('#employeeAddress').attr('value', addressNo + "@" + address + "@" + addressDetail);
+				$('#employeeEmail').attr('value', email + "@" + domain);
 				$("#registForm").submit();
   				
   			}
   		}
-	})  
+	})   
+
+	$("#resetButton").click(function(){
+		if(confirm("초기화 하시겠습니까?")){
+			document.getElementById("registForm").reset();
+		}
+	})
 	
 	/* 핸드폰 번호 정규표현식 */
 	
@@ -379,8 +452,8 @@
                     var roadAddr = data.roadAddress; // 도로명 주소 변수
 
                     // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                    $("#Address").text(roadAddr);
-                    $("#AddressNo").text(data.zonecode);
+                    $("#address").text(roadAddr);
+                    $("#addressNo").text(data.zonecode);
                 }
             }).open();
         }

@@ -1,6 +1,9 @@
 package com.project.clean.controller.admin;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,14 +29,21 @@ public class MemberController {
 	@GetMapping("/selectEmployee/{empNo}")
 	public String selectOneEmployee(@PathVariable int empNo, Model mv) {
 		EmployeeAndAllDTO employeeDTO = memberService.selectOneEmployee(empNo);
-//		EmployeePictureDTO employeePictureDTO = memberService.selectOneEmployeePicture(empNo);
+
+		String[] seperateAddress = employeeDTO.getEmployeeAddress().split("@");
+		
+		String addressNo = seperateAddress[0];
+		String address = seperateAddress[1];
+		String addressDetail = seperateAddress[2];
+		
+		Map<String, String> addressMap = new HashMap<>();
+		addressMap.put("addressNo", addressNo);
+		addressMap.put("address", address);
+		addressMap.put("addressDetail", addressDetail);
+		
 		
 		mv.addAttribute("employee", employeeDTO);
-//		mv.addAttribute("employeePicture", employeePictureDTO);
-		mv.addAttribute("employeeNo", empNo);
-		
-//		System.out.println("employeeDTO? "+ employeeDTO);
-//		System.out.println("employeeDTO.getEmployeePictureDTO(): " + employeeDTO);
+		mv.addAttribute("addressMap", addressMap);
 		
 		return "/admin/humanResource/selectAllEmployee/selectEmployee";
 	}

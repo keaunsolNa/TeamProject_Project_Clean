@@ -27,31 +27,51 @@
 	        <th:block sec:authorize="hasRole('ADMIN')">
 		        <div class="adminOpnionArea">
 		            <label>관리자 의견</label><br>
-	            	<textarea class="Opnion" cols="100%" rows="3" required></textarea>
+		            <textarea id="adminOpnion" class="Opnion" maxlength="300"></textarea>
+		            <textarea id="adminOpnion2" class="Opnion" maxlength="300" style="display: none"></textarea>
 	            	<br>
-	            	<input type="button" value="승인" id="accpet">
-	            	<input type="button" value="거절" id="denial">
 		        </div>
 			</th:block>
         </div>
         
 	</form>
 </section>
+<br>
+<div class="submitarea">
+	<input type="button" value="승인" id="accept">
+	<input type="button" value="거절" id="denial">
+</div>
 
+<!-- OpnionArea script -->
+<script>
+	
+	$('textarea').keyup(function(){
+		var letter = $(this).val()
+		$('#adminOpnion2').html(letter)
+	})
+
+</script>
 <!-- Submit script -->
     <script>
 	    
 	    const jbHtml = "";
     	document.getElementById("denial").onclick = function(){
 			const reservationNo = $('.reservationNo').val();
-    			const jbHtml = $( 'section' ).html();
+			
     		if(confirm("서류를 반려하시겠습니까? 직원에게 알람이 전송됩니다.")){
+    			
+    			document.getElementById("adminOpnion").remove();
+    			document.getElementById("adminOpnion2").style="";
+    			
+    			const jbHtml = $( 'section' ).html();
+    			const blackYn = 1;
     			$.ajax({
     				url: "denial",
     				type:"POST",
     				data:{	
     					jbHtml : jbHtml,
-    					reservationNo : reservationNo
+    					reservationNo : reservationNo,
+    					blackYn : blackYn
     				},
     				
     				success: function(data){
@@ -65,12 +85,19 @@
     		 } 
     	}
     	
-    	document.getElementById("accpet").onclick = function(){
+    	document.getElementById("accept").onclick = function(){
+    		
 			const reservationNo = $('.reservationNo').val();
-    			const jbHtml = $( 'section' ).html();
+			
     		if(confirm("서류를 승인하시겠습니까? 직원에게 알람이 전송됩니다.")){
+    			
+    			document.getElementById("adminOpnion").remove();
+    			document.getElementById("adminOpnion2").style="";
+    			const jbHtml = $( 'section' ).html();
+    			
+    			
     			$.ajax({
-    				url: "accpet",
+    				url: "accept",
     				type:"POST",
     				data:{	
     					jbHtml : jbHtml,
@@ -78,7 +105,7 @@
     				},
     				
     				success: function(data){
-    					location.href="/admin/checkList/selectStandCheckList"
+    					location.href="/admin/checklist/accept/select"
 		    			alert("전송 완료");
 						
     				},
@@ -97,19 +124,16 @@
 	const checkboxs = document.querySelectorAll('form .checklist .checkbox');
 		for(let i =0; i < checkboxs.length; i++){
 			const checkbox = checkboxs[i]
-			
-			$(checkbox).each(function(){
-				if(this.checked == true){
-					console.log("트루")
-				}
-			})
-			console.log(checkbox)
+			if(checkbox.value == "NOT"){
+				$(checkbox).attr("disabled", true)
+			} else if(checkbox.value == "YES") {
+				$(checkbox).attr("checked",true)
+				$(checkbox).attr("disabled", true)
+			};
 			
 		};
 
 </script>
-
-
 
 </body>
 </html>

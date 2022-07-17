@@ -7,11 +7,13 @@
     	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" >
    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+	th:href="@{/css/employee/checklist/checkListTable.css}">
 <title>ProjectClean</title>
 </head>
 <body>
 	<div th:include="common/header.html"></div>
-	<div th:include="common/taskAside.html"></div>
+	<div th:include="common/checkListAside.html"></div>
 	
 	<script>
 		const resultMessage = "[[${resultMessage}]]";
@@ -20,7 +22,7 @@
 		}
 	</script>	
 	
-	<table id="taskInfo" border="1">
+	<table id="taskInfo">
 		<thead>
 			<tr>
 				<td width="100">예약 번호</td>
@@ -40,7 +42,7 @@
 		var nowtime = new Date();
 		window.onload = function(){
 			$.ajax({
-				url : "selectMyTask",
+				url : "selectMyCheckList",
 				method : "post",
 				success:function(data){
 					
@@ -62,10 +64,6 @@
 						$tr.append($paymentTd);
  						$tr.append($buttonTd); 
 						$table.append($tr);
-						var startTime = new Date();
-						startTime = data[index].businessStartTime;
-						console.log("업무 시작 시간 : " + startTime)
-						console.log(typeof(startTime))
 					};
 				},
 				error:function(error){
@@ -78,14 +76,26 @@
 				
 				for(let i = 0; i < buttons.length; i++) {
 					
+					const nowDay = nowtime.toString().substring(8, 10);
 					nowtime.setMinutes(nowtime.getMinutes() - 30)
-					const nowtime2 = nowtime.toString().substring(15, 21);
+					const nowHours = nowtime.toString().substring(15, 21);
+					nowtime.setMinutes(nowtime.getMinutes() + 60)
+					const maxHours = nowtime.toString().substring(15, 21);
+					
+					console.log(nowDay)
+					console.log(nowHours)
+					console.log(maxHours)
 					
 					const button = buttons[i];
+					
 					button.onclick = function() {
-						const timer = button.parentNode.querySelector('.st').innerText.substring(10, 16);
 						
-						if(timer < nowtime2){
+						const businessStartDay = button.parentNode.querySelector('.st').innerText.substring(8, 10)
+						const businessStartHours = button.parentNode.querySelector('.st').innerText.substring(10, 16);
+						
+						/* if(nowDay == businessStartDay){ */
+							console.log(businessStartHours)
+							/* if(businessStartHours > nowHours && businessStartHours < maxHours){ */
 							
 								const resNo1 = document.querySelectorAll('table#taskInfo tbody tr td1');
 								const resNo2 = resNo1[i];
@@ -95,10 +105,15 @@
 								console.log(resNo2)
 								console.log(resNo3)
  							 	location.href="/employee/checkList/start?re="+ resNo3;
+/* 						} else{
 							
-						} else{
 							alert("업무를 시작할 수 없습니다. ")
-						}; 
+						};
+ */							
+						/* } else{
+							
+							alert("업무를 시작할 수 없습니다. ")
+						};  */
 					}						
 
 				}

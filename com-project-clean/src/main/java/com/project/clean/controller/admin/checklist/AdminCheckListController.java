@@ -31,12 +31,14 @@ public class AdminCheckListController {
 		this.adminCheckListService = adminCheckListService;
 	}
 	
+	/* KS. 미처리 체크리스트 목록 조회 */
 	@GetMapping("select")
 	public String selectStandCheckList() {
 		System.out.println("체크리스트 조회 확인");
 		return "admin/checkList/selectStandCheckList";
 	}
 	
+	/* KS.미처리 체크리스트 목록 조회 */
 	@PostMapping(value ="select", produces="application/json; charset=UTF-8")
 	@ResponseBody
 	public String selectStandCheckList(Principal principal) throws JsonProcessingException {
@@ -46,21 +48,22 @@ public class AdminCheckListController {
 		String adminId = principal.getName();
 		
 		int parameter = 1;
-		List<CheckListAndReservationInfoAndEmployeeDTO> checkList = adminCheckListService.selectAllStandCheckList(adminId, parameter);
+		List<CheckListAndReservationInfoAndEmployeeDTO> checkList = adminCheckListService.selectCheckList(adminId, parameter);
 		
 		return mapper.writeValueAsString(checkList);
 		
 	}
 	
+	/* KS.미처리 체크리스트 상세 조회 */
 	@GetMapping("selectDetails")
 	public ModelAndView selectStandCheckListDetails(Principal principal, @RequestParam int re,
 			ModelAndView mv) {
 		
 		String adminName = principal.getName();
-		System.out.println(adminName);
 		int reservationNo = re;
+		int parameter = 1;
 
-		CheckListDTO checkList = adminCheckListService.selectStandCheckListDetails(adminName, reservationNo);
+		CheckListDTO checkList = adminCheckListService.selectCheckListDetails(adminName, reservationNo, parameter);
 		
 		System.out.println(checkList.getCheckHTML());
 		
@@ -71,9 +74,108 @@ public class AdminCheckListController {
 		
 	}
 	
+	/* KS.체크리스트 반려 */
 	@PostMapping(value = "denial", produces="application/json; charset=UTF-8")
 	@ResponseBody
-	public String denialCheckList(ModelAndView mv, HttpServletRequest request) throws JsonProcessingException {
+	public String denialCheckList(HttpServletRequest request) throws JsonProcessingException {
+		int reservationNo = Integer.parseInt(request.getParameter("reservationNo"));
+		String htmlData = request.getParameter("jbHtml");
+		int BlackListYn = Integer.parseInt(request.getParameter("blackYn"));
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		CheckListDTO checkList = new CheckListDTO();
+		checkList.setCheckHTML(htmlData);
+		checkList.setCheckReservationNo(reservationNo);
+		
+		if(BlackListYn == 1) {
+			checkList.setCheckStatus("D");
+		} else if(BlackListYn == 2) {
+			checkList.setCheckStatus("B");
+		}
+		
+		int result = adminCheckListService.modifyCheckList(checkList);
+		
+		return mapper.writeValueAsString(result);
+	}
+	
+	/* KS. 반려 체크리스트 목록 조회 */
+	@GetMapping("denial/select")
+	public String denialCheckListSelect() {
+		
+		return "admin/checkList/selectDenialCheckList";
+	}
+	
+	/* KS. 반려 체크리스트 목록 조회 */
+	@PostMapping(value = "denial/select", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public String denialCheckListSelect(Principal principal) throws JsonProcessingException {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		String adminId = principal.getName();
+		int parameter = 2;
+		List<CheckListAndReservationInfoAndEmployeeDTO> checkList = adminCheckListService.selectCheckList(adminId, parameter);
+
+		return mapper.writeValueAsString(checkList);
+		
+	}
+	
+	/* KS. 반려 체크리스트 상세 조회 */
+	@GetMapping("denialselectDetails")
+	public ModelAndView selectDenialCheckListDetails(Principal principal, ModelAndView mv, @RequestParam int re ) {
+		String adminName = principal.getName();
+		int reservationNo = re;
+		int parameter = 2;
+		
+		CheckListDTO checkList = adminCheckListService.selectCheckListDetails(adminName, reservationNo, parameter);
+
+		mv.addObject("checkList", checkList);
+		mv.setViewName("admin/checkList/selectDenialCheckListDetails");
+		
+		return mv;
+		
+	}
+	
+	/* KS. 승인 체크리스트 목록 조회 */
+	@GetMapping("accept/select")
+	public String acceptCheckListSelect() {
+		return "admin/checkList/selectAcceptCheckList";
+	}
+	
+	/* KS. 승인 체크리스트 목록 조회 */
+	@PostMapping(value = "accept/select", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public String acceptCheckListSelect(Principal principal) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		String adminId = principal.getName();
+		int parameter = 3;
+		List<CheckListAndReservationInfoAndEmployeeDTO> checkList = adminCheckListService.selectCheckList(adminId, parameter);
+		
+		return mapper.writeValueAsString(checkList);
+	}
+	
+	/* KS. 승인 체크리스트 상세 조회 */
+	@GetMapping("acceptSelectDetails")
+	public ModelAndView selectAcceptCheckListDetails(Principal principal, ModelAndView mv, @RequestParam int re ) {
+		
+		String adminName = principal.getName();
+		int reservationNo = re;
+		int parameter = 2;
+		
+		CheckListDTO checkList = adminCheckListService.selectCheckListDetails(adminName, reservationNo, parameter);
+
+		mv.addObject("checkList", checkList);
+		mv.setViewName("admin/checkList/selectAcceptCheckListDetails");
+		
+		return mv;
+		
+	}
+	
+	/* KS. 체크리스트 승인 */
+	@PostMapping(value = "accept", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public String acceptCheckList(HttpServletRequest request) throws JsonProcessingException {
 		int reservationNo = Integer.parseInt(request.getParameter("reservationNo"));
 		String htmlData = request.getParameter("jbHtml");
 		
@@ -82,45 +184,45 @@ public class AdminCheckListController {
 		CheckListDTO checkList = new CheckListDTO();
 		checkList.setCheckHTML(htmlData);
 		checkList.setCheckReservationNo(reservationNo);
+		checkList.setCheckStatus("A");
 		
-		int result = adminCheckListService.modifyCheckListDenial(checkList);
-		
+		int result = adminCheckListService.modifyCheckList(checkList);
 		return mapper.writeValueAsString(result);
 	}
 	
-	@GetMapping("denial/select")
-	public String denialCheckListSelect() {
-		
-		return "admin/checkList/selectDenialCheckList";
+	/* KS. 블랙된 체크리스트 조회 */
+	@GetMapping(value="black/select")
+	public String blackCheckListSelect() {
+		return "admin/checkList/selectBlackCheckList";
 	}
 	
-	@PostMapping(value = "denial/select", produces="application/json; charset=UTF-8")
+	/* KS. 블랙된 체크리스트 조회 */
+	@PostMapping(value = "black/select", produces="application/json; charset=UTF-8")
 	@ResponseBody
-	public String denialCheckListSelect(ModelAndView mv, Principal principal) throws JsonProcessingException {
-		
-		System.out.println("컨트롤러 도착 확인");
+	public String blackCheckListSelect(Principal principal) throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
-		
 		String adminId = principal.getName();
-		int parameter = 2;
-		List<CheckListAndReservationInfoAndEmployeeDTO> checkList = adminCheckListService.selectAllStandCheckList(adminId, parameter);
-
-		return mapper.writeValueAsString(checkList);
+		int parameter = 4;
+		List<CheckListAndReservationInfoAndEmployeeDTO> checkList = adminCheckListService.selectCheckList(adminId, parameter);
 		
+		return mapper.writeValueAsString(checkList);
 	}
 	
-	@GetMapping("denialselectDetails")
-	public ModelAndView selectDenialCheckListDetails(Principal principal, ModelAndView mv, @RequestParam int re ) {
+	/* KS. 블랙된 체크리스트 상세 조회 */
+	@GetMapping("blackselectDetails")
+	public ModelAndView selectBlackCheckListDetails(Principal principal, ModelAndView mv, @RequestParam int re ) {
 		
 		String adminName = principal.getName();
 		int reservationNo = re;
+		int parameter = 3;
 		
-		CheckListDTO checkList = adminCheckListService.selectDenialCheckListDetails(reservationNo);
+		CheckListDTO checkList = adminCheckListService.selectCheckListDetails(adminName, reservationNo, parameter);
 
 		mv.addObject("checkList", checkList);
-		mv.setViewName("admin/checkList/selectDenialCheckListDetails");
+		mv.setViewName("admin/checkList/selectBlackCheckListDetails");
 		
 		return mv;
 		
 	}
+	
 }	

@@ -1,0 +1,19 @@
+#taskInfo{
+	margin-left: 25%; 
+	margin-top: 10%; 
+	text-align: center;
+	
+}
+
+#taskInfo tr{
+	border: 1px solid black;
+
+}
+
+#taskInfo td{
+	border: 1px solid black;
+}
+
+#taskInfo thead{
+	background-color: rgba(104, 228, 255, 1);	
+}
