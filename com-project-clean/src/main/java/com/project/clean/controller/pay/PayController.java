@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.clean.controller.common.paging.Pagenation;
 import com.project.clean.controller.common.paging.SelectCriteria;
+import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.SurchargeDTO;
 import com.project.clean.model.dto.joinDTO.AdminPayAndAdminDTO;
 import com.project.clean.model.service.pay.PayService;
@@ -31,6 +33,8 @@ public class PayController {
 		this.payService = payService;
 	}
 	
+	// 직원 급여 -----------------------------------------------------------------------------------------------
+	
 	/* 직원 급여 전체조회 */
 	@GetMapping("/employeePaySelect")
 	public void employeePaySelect() {}
@@ -39,35 +43,11 @@ public class PayController {
 	@GetMapping("/employeePaySelectInfo")
 	public void employeePaySelectInfo() {}
 
-	
-	/* 부가요금 페이지(조회) */
-	@GetMapping("/surcharge")
-	public ModelAndView findSurchargeList(ModelAndView mv) {
-
-		List<SurchargeDTO> surchargeList = payService.findSurchargeList();
-		
-		mv.addObject("surchargeList", surchargeList);
-		mv.setViewName("pay/surcharge");
-		
-		return mv;
-	}
-	
-	/* 부가요금 수정 */
-	@PostMapping("/surcharge")
-	public String modify(RedirectAttributes rttr, SurchargeDTO surcharge) {
-
-		payService.modifySurcharge(surcharge);
-		 
-		rttr.addFlashAttribute("modifySuccessMessage", "부가요금 수정에 성공하셨습니다");
-		  
-		return "redirect:/pay/surcharge";
-		 
-
-	}
+	// 관리자 급여 ---------------------------------------------------------------------------------------------
 	
 	/* 관리자 급여 전체조회 */
 	@GetMapping("/adminPaySelect")
-	public ModelAndView searchPage(HttpServletRequest request, ModelAndView mv) {
+	public ModelAndView adminPaySearch(HttpServletRequest request, ModelAndView mv) {
 
 		String currentPage = request.getParameter("currentPage");
 		int pageNo = 1;
@@ -79,7 +59,7 @@ public class PayController {
 		String searchCondition = request.getParameter("searchCondition");
 		String searchValue = request.getParameter("searchValue");
 
-		int totalCount = payService.selectTotalCount(searchCondition, searchValue);
+		int totalCount = payService.selectAdminPayTotalCount(searchCondition, searchValue);
 
 		/* 한 페이지에 보여 줄 게시물 수 */
 		int limit = 10;		//얘도 파라미터로 전달받아도 된다.
@@ -96,7 +76,7 @@ public class PayController {
 		}
 		System.out.println(selectCriteria);
 
-		List<AdminPayAndAdminDTO> adminPayList = payService.searchAdminPayList(selectCriteria);
+		List<AdminPayAndAdminDTO> adminPayList = payService.adminPaySearch(selectCriteria);
 
 		for(AdminPayAndAdminDTO pay : adminPayList) {
 			System.out.println(pay);
@@ -118,7 +98,7 @@ public class PayController {
 		List<SurchargeDTO> surchargeList = payService.findSurchargeList();
 		
 		// 첫 번째 겟으로 값이 있는 순서(인덱스번호)
-		// 4대보험료 불러오기 (급여계산에 쓰기 위해)
+		// 4대보험료 불러오기 (급여계산에 쓰기 위해) 
 		int insurance =surchargeList.get(0).getSurchargeInsurance();
 	
 		
@@ -128,5 +108,57 @@ public class PayController {
 		
 		return mv;
 	}
+	
+	/* 관리자 급여 대기목록 */
+	@GetMapping("/adminPayWaiting")
+	public ModelAndView findAdminList(ModelAndView mv) {
+		List<AdminDTO> adminList = payService.findAllAdmin();
+		
+		mv.addObject("adminList", adminList);
+		mv.setViewName("pay/adminPayWaiting");
+		
+		return mv;
+		
+	}
+	
+
+	/* 관리자 급여 대기목록 - 모든 관리자 조회 */
+	@GetMapping(value="/admin", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<AdminDTO> findAdminSelect(){
+		
+		return payService.findAllAdmin();
+	
+	}
+	
+
+	// 부가요금 ------------------------------------------------------------------------------------------------
+	
+	/* 부가요금 페이지(조회) */
+	@GetMapping("/surcharge")
+	public ModelAndView findSurchargeList(ModelAndView mv) {
+
+		List<SurchargeDTO> surchargeList = payService.findSurchargeList();
+		
+		mv.addObject("surchargeList", surchargeList);
+		mv.setViewName("pay/surcharge/");
+		
+		return mv;
+	}
+	
+	/* 부가요금 수정 */
+	@PostMapping("/surcharge")
+	public String modify(RedirectAttributes rttr, SurchargeDTO surcharge) {
+
+		payService.modifySurcharge(surcharge);
+		 
+		rttr.addFlashAttribute("modifySuccessMessage", "부가요금 수정에 성공하셨습니다");
+		  
+		return "redirect:/pay/surcharge";
+		 
+
+	}
+	
+
 
 }

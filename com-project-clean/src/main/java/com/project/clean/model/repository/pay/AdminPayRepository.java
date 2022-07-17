@@ -6,10 +6,9 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.util.Streamable;
 
+import com.project.clean.model.domain.commonEntity.Admin;
 import com.project.clean.model.domain.joinEntity.AdminPayAndAdmin;
 
 public interface AdminPayRepository extends JpaRepository<AdminPayAndAdmin, Integer>{
@@ -34,8 +33,13 @@ public interface AdminPayRepository extends JpaRepository<AdminPayAndAdmin, Inte
 	
 	// 급여번호(pk)로 급여 상세 내역 조회(one)
 	Streamable<Order> findAdminPayByPayHistoryAdminNo(int payHistoryNo);
+	
 
+	
+	
+	
 
+	
 
 
 
