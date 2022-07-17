@@ -148,7 +148,6 @@ public class AdminEmployeeService {
 		
 	    Pageable pageable = PageRequest.of(startAt, selectEmployeeLineCount);
 		 Page<AdminEmployee> selectRetureYEmployee = employeeRepository.findByEmployeeRegistReturnYnAndEmployeeBlackListYn("Y", "N", pageable);
-		    
 		    return  modelMapper.map(selectRetureYEmployee, Page.class);
 		}
 	
@@ -286,6 +285,14 @@ public class AdminEmployeeService {
 		List<Admin> admin = adminRepository.findAll(Sort.by("adminNo"));
 		return admin.stream().map(adminInfo -> modelMapper.map(adminInfo, AdminDTO.class)).toList();
 				
+	}
+
+	public Page<VacationDTO> selectVacationAllPage(int page) {
+		
+	    Pageable pageable = PageRequest.of(page, selectEmployeeLineCount);
+		 Page<Vacation> vacationAllPage = vacationRepository.findAll(pageable);
+		 
+		return modelMapper.map(vacationAllPage, Page.class);
 	}
 	
 

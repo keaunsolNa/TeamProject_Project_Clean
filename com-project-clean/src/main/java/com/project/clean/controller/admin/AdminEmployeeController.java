@@ -284,7 +284,7 @@ public class AdminEmployeeController {
 //		new File(oldSaveRoot + "/" + oldSaveName).delete();
 
 		mv.addAttribute("employeeDTO", employeeDTO);
-		return "redirect:/admin/select/retireNEmployee";
+		return "redirect:/admin/select/retireN";
 	}
 
 	/* 직원 등록 페이지 이동 */
@@ -497,7 +497,7 @@ public class AdminEmployeeController {
 
 		adminService.insertRestCommitConfirm(restCommitDTO);
 
-		return "redirect:/admin/hr/regist/employeePage";
+		return "redirect:/admin/hr/regist/EmployeePage";
 
 	}
 
@@ -619,28 +619,6 @@ public class AdminEmployeeController {
 	public String selectMyVacaionDetail(@PathVariable int vacationNo, Model mv) {
 		/* 휴가와 관련된 정보 */
 		VacationDTO selectVacation = adminService.selectMyVacaionList(vacationNo);
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
-		System.out.println(selectVacation.getVacationCommitList());
 		/*
 		 * 휴가신청한 사람의 adminDTO(admin Table) 휴가 승인한 사람의 name(admin Table)이 필요하다. 휴가신청한 사람의
 		 * 정보를 얻기 위해선 vacation Table에서 관리자 번호를 알아낸 후 그 관리자 번호에 해당하는 데이터를 admin Table로부터
@@ -708,10 +686,36 @@ public class AdminEmployeeController {
 	}
 
 	/* 휴가 전체 조회 */
-	@GetMapping("/hr/select/Allvacation")
-	public String selectAllVacation() {
-		return "admin/humanResource/vacation/selectAllVacation";
+	@GetMapping("/hr/select/selectAllVacation")
+	public String selectAllVacationConfirmList(@RequestParam(value = "page", defaultValue = "0") int page,
+			Model mv) {
+		
+		Page<VacationDTO> vacationAllPage = adminService.selectVacationAllPage(page);
+		List<VacationDTO> vacationAllList = vacationAllPage.toList();
+		List<AdminDTO> adminList = adminService.selectAdmin();
+		
+		mv.addAttribute("pages", vacationAllPage);
+		mv.addAttribute("maxPage", 5);
+		mv.addAttribute("mainTain", "N");
+		mv.addAttribute("vacation", vacationAllList);
+		return "/admin/humanResource/vacation/selectAllVacation";
 
+	} 
+	
+	
+	/* 휴가 승인 전체 조회 */
+	@GetMapping("/hr/select/selectAllVacationConfirmList")
+	public String selectAllVacationConfirmList() {
+		return "admin/humanResource/vacation/selectAllVacationConfirmList";
+		
 	}
+	
+	/* 휴가 반려 전체 조회 */
+	@GetMapping("/hr/select/selectAllVacationReturnList")
+	public String selectAllVacationReturnList() {
+		return "admin/humanResource/vacation/selectAllVacationReturnList";
+		
+	}
+	
 
 }
