@@ -199,9 +199,6 @@
 	            setTel(e.target.value);
 	        }
 	    };
-	</script>
-	
-	<script>
 			
 			/* 이미지 미리보기 관련 스크립트 */
 			const $adminImg = document.getElementById("adminImg");
@@ -217,14 +214,6 @@
 				if (value.files && value.files[0]) {			// value.files[0]는 파일 이름
 					const reader = new FileReader();
 				
-					/*
-						FileReader 객체는 웹 애플리케이션이 비동기적으로 데이터를 읽기 위하여 읽을 파일을 가리키는 File 혹은 Blob 객체를
-						이용해 파일의 내용을(혹은 raw data버퍼로) 읽고 사용자의 컴퓨터에 저장하는 것을 가능하게 하는 것	
-						Blob(Binary large object) : 파일류의 불변하는 미가공 데이터로 텍스트와 이진 데이터의 형태로 읽을 수 있음
-					*/
-//					reader.readAsText(value.files[0]);			// 텍스트 파일을 읽을 때 사용 (이미지 파일을 텍스트로 읽어서 글자가 깨짐)			
-//					reader.readAsArrayBuffer(value.files[0]);	// 데이터를 일정한 크기로 조금씩(파일을 표현하는 ArrayBuffer) 서버로 보낼 때
-//					reader.readAsBinaryString(value.files[0]);	// 이진 데이터를 서버로 보낼 때 사용
 					reader.readAsDataURL(value.files[0]);		// Base64방식으로 파일을 FileReader에 전달 (Base64로 인코딩한 것은 브라우저가 원래 데이터로 만들게 됨)
 					
 					/* load 이벤트의 핸들러로 읽기 동작이 성공적으로 완료 되었을 때마다 발생한다. */

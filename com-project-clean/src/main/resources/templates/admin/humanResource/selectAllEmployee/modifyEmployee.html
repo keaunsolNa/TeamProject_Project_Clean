@@ -20,7 +20,7 @@
 </head>
 <body>
     <div align="center">
-    	<form action="/admin/modify/employee" method="post" id="modifyForm">
+    	<form action="/admin/modify/employee" method="post" id="modifyForm" enctype="multipart/form-data">
 	        <table class="tg" style="table-layout: fixed; width: 736px">
 	        <colgroup>
 	        <col style="width: 158px">
@@ -37,8 +37,10 @@
 	            <td style="display: none;"><input name="employeeNo" th:value="${employee.employeeNo}"></td>
 	            <td class="tg-7btt">이름</td>
 	            <td class="tg-7btt" th:text="${employee.employeeName}"></td>
-	            <td class="tg-7btt" colspan="2" rowspan="3" th:text="사진"></td>
-	            <!-- <td class="tg-7btt" colspan="2" rowspan="3" th:text="${employeePicture.employeePictureSaveName}"></td> -->
+	            <td class="tg-7btt" colspan="2" rowspan="3"> <img id="pictureImg" th:src="@{/adminEmployeePicture/} + ${employee.employeePictureSaveName}" width="100px" height="100px"></td>
+	            <td style="display: none;"><input type="text" id="oldSaveRoot" name="oldSaveRoot" th:value="${employee.employeePictureSaveRoot}"></td>
+	            <td style="display: none;"><input type="text" id="oldSaveName" name="oldSaveName" th:value="${employee.employeePictureSaveName}"></td>
+	            
 	          </tr>
 	          <tr>
 	            <td class="tg-7btt">ID</td>
@@ -83,8 +85,9 @@
 		            </select>
                 <td class="tg-7btt"style="display: none;"><input id="employeeEmail" name="employeeEmail" type="text"/></td>
                 <td class="tg-7btt"style="display: none;"><input id="domainValue" type="text" th:value="${email.domain}"/></td>
-	            <td class="tg-7btt"><button type="button" id="registPicture">수정</button></td>
-	            <td class="tg-7btt"><button type="button" id="deletePicture">삭제</button></td>
+	                    <td class="tg-7btt"> <button type="button" id="pictureModify" name="pictureModify">수정</button> </td>
+	                    <td class="tg-7btt"> <button type="button"id="pictureDelete" name="pictureDelete">삭제</button> </td>
+	                    <td style="display: none;"> <input type="file" id="picture" name="picture" onchange="loadImg(this,1)">
 	          </tr>
 	                  <tr>
 	                    <td class="tg-7btt">우편번호</td>
@@ -131,8 +134,9 @@
     
     <script>
     
+
+		
 	/* 핸드폰 번호 정규표현식 */
-	
     $("#employeePhone2").focusout(function (event) {
 
     	var regexp = /^[0-9]{3,4}/gi;
@@ -213,6 +217,34 @@
     		
     		$("#employeePhone1").val(checkedFirstPhone).prop("selected", true);
     		$("#domain").val(checkedDomain).prop("selected", true);
+    		
+	
+		    /* 사진등록 */
+		    
+			/* 이미지 미리보기 관련 스크립트 */
+			const pictureModify = document.getElementById("pictureModify");
+			
+			pictureModify.onclick = function() {
+				document.getElementById("picture").click();
+			}
+	
+			/* 이미지 미리보기 관련 함수(File API 활용하기) */
+			function loadImg(value, num) {
+				
+				/* https://developer.mozilla.org/ko/docs/Web/API/FileReader 참고 (MDN 사이트 참고)*/
+				if (value.files && value.files[0]) {			// value.files[0]는 파일 이름
+					const reader = new FileReader();
+				
+					reader.readAsDataURL(value.files[0]);		// Base64방식으로 파일을 FileReader에 전달 (Base64로 인코딩한 것은 브라우저가 원래 데이터로 만들게 됨)
+					
+					/* load 이벤트의 핸들러로 읽기 동작이 성공적으로 완료 되었을 때마다 발생한다. */
+					reader.onload = function(e) {				// load EventListener에 function 등록 (FileReader에서 전달 받은 파일을 다 읽으면 리스너에 등록한 function이 호출 됨)
+							document.getElementById("pictureImg").src = e.target.result;
+							
+						}
+					}
+				}
+			
 
     </script>
 </body>

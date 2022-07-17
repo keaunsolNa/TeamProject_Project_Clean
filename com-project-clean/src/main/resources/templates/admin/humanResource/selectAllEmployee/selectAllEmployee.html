@@ -70,9 +70,10 @@ ul.tabs li.current {
 				<option value="empPhone">전화번호</option>
 			</select> <input type="text" name="categoryValue">
 			<button type="button" id="search">검색</button>
-			<input type="radio" value="admin" name="retire" id="retireN" checked>
-			<label for="retireN">재직자</label> <input type="radio" value="admin"
-				name="retire" id="retireY"> <label for="retireY">퇴사자</label>
+			
+			<input type="radio" value="admin" name="retire" id="retireNEmployee">
+			<label for="retireNEmployee">재직자</label> 
+			<input type="radio" value="admin" name="retire" id="retireYEmployee"> <label for="retireYEmployee">퇴사자</label>
 
 			<table id="employeeList" border="1">
 				<thead>
@@ -86,7 +87,7 @@ ul.tabs li.current {
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="index : ${entireNEmployeeList}">
+					<tr th:each="index : ${employeeAllList}">
 						<td th:text="${ index.employeeNo }"></td>
 						<td th:text="${ index.employeeName }"></td>
 						<td th:text="${ index.employeeBirth }"></td>
@@ -97,12 +98,41 @@ ul.tabs li.current {
 				</tbody>
 			</table>
 		</div>
-
+		
+			<div id="entireN"> <div th:replace="/admin/humanResource/selectAllEmployee/retireNPaging.html"></div></div>
+			<div id="entireY"> <div th:replace="/admin/humanResource/selectAllEmployee/retireYPaging.html"></div></div>
+			
+						<!-- <div> <input id="inputMainTain" th:value="${mainTain}"></div> -->
+		</div>
+		
+		
 		<!-- 관리자 내용 -->
 		<div id="tab-2" class="tab-content">관리자123</div>
 
-	</div>
+		<!-- 			
+				if(mainTain=='Y'){
+				$('#inputMainTain').attr('value','Ypaging');
+				$("#retireY").attr("checked", "true");
+				} -->
 
+		<!-- 시작 할 때 hover event -->
+		<script th:inline="javascript">
+		    /*<![CDATA[*/
+			$(function(){
+				const mainTain = /*[[${mainTain}]]*/;			
+			if(mainTain == 'N'){
+				$("#retireNEmployee").attr("checked","true")
+				$('#entireN').show();
+				$('#entireY').hide();
+			}else if(mainTain == 'Y'){
+				$("#retireYEmployee").attr("checked","true")
+				$('#entireN').hide();
+				$('#entireY').show();
+			}
+			hover();
+			})
+		    /*]]>*/
+		</script>
 
 
 	<script>
@@ -141,10 +171,7 @@ ul.tabs li.current {
 			}
 		};
 
-		/* 시작 할 때 hover event */
-		$(function() {
-			hover();
-		})
+		
 
 		/* 검색기능 list 출력 */
 		$("#search").click(function() {
@@ -181,9 +208,14 @@ ul.tabs li.current {
 		});
 
 		/* 재직자 list ajax */
-		$("#retireN").click(function() {
+		
+		$("#retireNEmployee").click(function() {
+			location.href = "/admin/select/retireN"
+		})
+		
+/* 		$("#retireN").click(function() {
 							$.ajax({
-									url : "/admin/select/retireNEmployeeAjax",
+									url : "/admin/select/retireNEmployeeAjax",S
 									success : function(retireNEmployee) {
 
 									const $table = $("#employeeList tbody");
@@ -214,60 +246,60 @@ ul.tabs li.current {
 										}
 									});
 						});
+		 */
+		
 
 		/* 퇴사자 list ajax */
-		$("#retireY")
-				.click(
-						function() {
-							$
-									.ajax({
-										url : "/admin/select/retireYEmployee",
-										success : function(RetireYEmployee) {
+/		$("#retireYEmployee").click(function() {
+			location.href = "/admin/select/retireY";
+		}) 
+		
+		/* 
+ 		$("#retireYEmployee").click(function() {
+							$.ajax({
+							url : "/admin/select/retireYAjax",
+							success : function(RetireYEmployee) {
+								$('#inputMainTain').attr('value','Yajax');
+								alert("f")
+								$('#clickFirst2').click();
+								alert("g")
+								console.log("Y");
+								$('#entireN').hide();
+								$('#entireY').show();
 
-											const $table = $("#employeeList tbody");
-											$table.html("");
 
-											for ( var index in RetireYEmployee) {
-												$tr = $("<tr>");
-												$noTd = $("<td>")
-														.text(
-																RetireYEmployee[index].employeeNo);
-												$nameTd = $("<td>")
-														.text(
-																RetireYEmployee[index].employeeName);
-												$birthTd = $("<td>")
-														.text(
-																RetireYEmployee[index].employeeBirth);
-												$addressTd = $("<td>")
-														.text(
-																RetireYEmployee[index].employeeAddress);
-												$phoneTd = $("<td>")
-														.text(
-																RetireYEmployee[index].employeePhone);
-												$hireDateTd = $("<td>")
-														.text(
-																RetireYEmployee[index].employeeHireDate);
+								const $table = $("#employeeList tbody");
+								$table.html("");
 
-												$tr.append($noTd);
-												$tr.append($nameTd);
-												$tr.append($birthTd);
-												$tr.append($addressTd);
-												$tr.append($phoneTd);
-												$tr.append($hireDateTd);
+								for ( var index in RetireYEmployee) {
+									$tr = $("<tr>");
+									$noTd = $("<td>").text(RetireYEmployee[index].employeeNo);
+									$nameTd = $("<td>").text(RetireYEmployee[index].employeeName);
+									$birthTd = $("<td>").text(RetireYEmployee[index].employeeBirth);
+									$addressTd = $("<td>").text(RetireYEmployee[index].employeeAddress);
+									$phoneTd = $("<td>").text(RetireYEmployee[index].employeePhone);
+									$hireDateTd = $("<td>").text(RetireYEmployee[index].employeeHireDate);
 
-												$table.append($tr);
-											}
-											const employee = document
-													.getElementsByTagName("td");
+									$tr.append($noTd);
+									$tr.append($nameTd);
+									$tr.append($birthTd);
+									$tr.append($addressTd);
+									$tr.append($phoneTd);
+									$tr.append($hireDateTd);
 
-											hover();
+									$table.append($tr);
+								}
+								const employee = document
+										.getElementsByTagName("td");
 
-										},
-										error : function(error) {
-											console.log(error);
-										}
-									});
+								hover();
+								},
+							error : function(error) {
+								console.log(error);
+							}
 						});
+						}); 
+		  */
 	</script>
 </body>
 

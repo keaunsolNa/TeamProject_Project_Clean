@@ -30,10 +30,15 @@
         <thead>
           <tr>
             <td class="tg-7btt">직원번호</td>
+            <!-- @{/adminEmployeePicture/} + ${employee.employeePictureSaveName} -->
             <td class="tg-7btt" th:text="${employee.employeeNo}"></td>
             <td class="tg-7btt">이름</td>
             <td class="tg-7btt" th:text="${employee.employeeName}"></td>
-            <td class="tg-7btt" colspan="2" rowspan="3" th:text="사진"></td>
+            <td class="tg-7btt" colspan="2" rowspan="3">
+            
+             <img id="pictureImg" th:src="@{/adminEmployeePicture/} + ${employee.employeePictureSaveName}" 
+             	  alt="사진을 등록해주세요" width="100px" height="100px">
+            </td>
             <!-- <td class="tg-7btt" colspan="2" rowspan="3" th:text="${employeePicture.employeePictureSaveName}"></td> -->
           </tr>
           <tr>

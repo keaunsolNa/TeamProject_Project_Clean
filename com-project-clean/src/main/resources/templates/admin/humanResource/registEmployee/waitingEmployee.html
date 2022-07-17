@@ -133,9 +133,7 @@
 	                <td style="display: none;"><input name="employeeNo" th:value="${waitingEmployee.employeeNo}"></td>
 	                <td class="tg2-7btt">이름</td>
 	                <td class="tg2-7btt" th:text="${waitingEmployee.employeeName}"></td>
-	                <td class="tg2-7btt" colspan="2" rowspan="3">
-	                  <div id="picture" >사진</div>
-	                </td>
+	                <td class="tg2-7btt" colspan="2" rowspan="3"> <img id="pictureImg" th:src="@{/adminEmployeePicture/} + ${waitingEmployee.employeePictureSaveName}" alt="사진을 등록해주세요" width="100px" height="100px"></td>
 	              </tr>
 	              <tr>
 	                <td class="tg2-7btt">ID</td>

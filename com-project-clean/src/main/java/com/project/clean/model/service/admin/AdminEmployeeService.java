@@ -8,6 +8,9 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +18,6 @@ import com.project.clean.model.domain.adminEntity.AdminEmployee;
 import com.project.clean.model.domain.adminEntity.AdminReason;
 import com.project.clean.model.domain.commonEntity.Admin;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
-import com.project.clean.model.dto.commonDTO.EmployeeDTO;
 import com.project.clean.model.dto.commonDTO.ReasonDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
 import com.project.clean.model.repository.admin.AdminRepository;
@@ -29,6 +31,7 @@ public class AdminEmployeeService {
 	private final EmployeeReopsitory employeeRepository;
 	private final ReasonRepository reasonRepository;
 	private final AdminRepository adminRepository;
+	private final int selectEmployeeLineCount = 2;
 
 	@Autowired
 	public AdminEmployeeService(EmployeeReopsitory employeeReopsitory, ModelMapper modelMapper,
@@ -39,26 +42,18 @@ public class AdminEmployeeService {
 		this.adminRepository = adminRepository;
 	}
 
-	/* 전체 직원 조회(재직자) */
-	@Transactional
-	public List<EmployeeAndAllDTO> selectRetireNEmployee() {
-		List<AdminEmployee> selectRetireNEmployeeList = employeeRepository
-				.findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYn("N", "Y", "N");
-		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
-		return selectRetireNEmployeeList.stream().map(employee -> modelMapper.map(employee, EmployeeAndAllDTO.class))
-				.toList();
-	}
+//	/* 전체 직원 조회(재직자) */
+//	@Transactional
+//	public List<EmployeeAndAllDTO> selectRetireNEmployee(Pageable page) {
+//		
+//		List<AdminEmployee> startPageList = employeeRepository
+//				.findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYn("N", "Y", "N", page);
+//		
+//		return startPageList.stream().map(start -> modelMapper.map(start, EmployeeAndAllDTO.class)).toList();
+//		
+//	}
+//
 
-	/* 전체 직원 조회(퇴사자) */
-	@Transactional
-	public List<EmployeeAndAllDTO> selectRetireYEmployee() {
-		List<AdminEmployee> selectRetireNEmployeeList = employeeRepository
-				.findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYn("Y", "Y", "N");
-
-		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
-		return selectRetireNEmployeeList.stream().map(employee -> modelMapper.map(employee, EmployeeAndAllDTO.class))
-				.toList();
-	}
 
 	@Transactional
 	public EmployeeAndAllDTO selectOneEmployee(EmployeeAndAllDTO employeeDTO) {
@@ -71,6 +66,7 @@ public class AdminEmployeeService {
 		
 		return modelMapper.map(employee, EmployeeAndAllDTO.class);
 	}
+	
 	
 	public EmployeeAndAllDTO selectOneEmployee(int empNo) {
 		
@@ -113,6 +109,8 @@ public class AdminEmployeeService {
 	public void modifyEmployee(EmployeeAndAllDTO employeeDTO) {
 		AdminEmployee employee = employeeRepository.findById(employeeDTO.getEmployeeNo()).get();
 
+		employee.setEmployeePictureSaveRoot(employeeDTO.getEmployeePictureSaveRoot());
+		employee.setEmployeePictureSaveName(employeeDTO.getEmployeePictureSaveName());
 		employee.setEmployeePhone(employeeDTO.getEmployeePhone());
 		employee.setEmployeeRetireYn(employeeDTO.getEmployeeRetireYn());
 		employee.setEmployeeEmail(employeeDTO.getEmployeeEmail());
@@ -220,7 +218,6 @@ public class AdminEmployeeService {
 		restCommitDTO.setEmployeeRegistDate(today);
 
 		reasonRepository.save(modelMapper.map(restCommitDTO, AdminReason.class));
-		/* save를 했는데 왜 update? */
 		AdminEmployee employee = employeeRepository.findById(restCommitDTO.getEmployeeNo()).get();
 		employee.setEmployeeRegistReturnYn("Y");
 
@@ -236,6 +233,27 @@ public class AdminEmployeeService {
 				.toList();
 	}
 
+	
+	public Page<EmployeeAndAllDTO> selectRetireNEmployee(int startAt) {
+
+	    Pageable pageable = PageRequest.of(startAt, selectEmployeeLineCount);
+	    Page<AdminEmployee> selectRetureNEmployee = employeeRepository.findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYn("N", "Y", "N", pageable);
+	    
+	    return  modelMapper.map(selectRetureNEmployee, Page.class);
+	}
+	
+	public Page<EmployeeAndAllDTO> selectRetireYEmployee(int startAt) {
+		
+	    Pageable pageable = PageRequest.of(startAt, selectEmployeeLineCount);
+		 Page<AdminEmployee> selectRetureYEmployee = employeeRepository.findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYn("Y", "Y", "N", pageable);
+		    
+		    return  modelMapper.map(selectRetureYEmployee, Page.class);
+		}
+	
+	
+	
+	
+	
 
 
 
