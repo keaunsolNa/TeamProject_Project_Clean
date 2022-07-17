@@ -8,8 +8,7 @@ public class VacationCommitDTO implements Serializable{
 	
 	private int adminNo;
 	private int vacationNo;
-	private int categoryNo;
-	private String returnReason;
+	private String confirmReason;
 	private java.sql.Date confirmDate;
 	
 	
@@ -19,11 +18,10 @@ public class VacationCommitDTO implements Serializable{
 
 
 
-	public VacationCommitDTO(int adminNo, int vacationNo, int categoryNo, String returnReason, Date confirmDate) {
+	public VacationCommitDTO(int adminNo, int vacationNo, String confirmReason, Date confirmDate) {
 		this.adminNo = adminNo;
 		this.vacationNo = vacationNo;
-		this.categoryNo = categoryNo;
-		this.returnReason = returnReason;
+		this.confirmReason = confirmReason;
 		this.confirmDate = confirmDate;
 	}
 
@@ -53,26 +51,14 @@ public class VacationCommitDTO implements Serializable{
 
 
 
-	public int getCategoryNo() {
-		return categoryNo;
+	public String getConfirmReason() {
+		return confirmReason;
 	}
 
 
 
-	public void setCategoryNo(int categoryNo) {
-		this.categoryNo = categoryNo;
-	}
-
-
-
-	public String getReturnReason() {
-		return returnReason;
-	}
-
-
-
-	public void setReturnReason(String returnReason) {
-		this.returnReason = returnReason;
+	public void setConfirmReason(String confirmReason) {
+		this.confirmReason = confirmReason;
 	}
 
 
@@ -89,11 +75,19 @@ public class VacationCommitDTO implements Serializable{
 
 
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
+
 	@Override
 	public String toString() {
-		return "vacationCommit [adminNo=" + adminNo + ", vacationNo=" + vacationNo + ", categoryNo=" + categoryNo
-				+ ", returnReason=" + returnReason + ", confirmDate=" + confirmDate + "]";
+		return "VacationCommitDTO [adminNo=" + adminNo + ", vacationNo=" + vacationNo + ", confirmReason="
+				+ confirmReason + ", confirmDate=" + confirmDate + "]";
 	}
+
+
 	
 	
 	

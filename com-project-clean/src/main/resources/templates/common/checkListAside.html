@@ -23,12 +23,14 @@
                     	<li><a class="dropdown-item" href="/admin/checklist/select">미처리 체크리스트 조회</a></li>
                      	<li><a class="dropdown-item" href="/admin/checklist/accept/select">완료 체크리스트 조회</a></li>
                      	<li><a class="dropdown-item" href="/admin/checklist/denial/select">반려 체크리스트 검토</a></li>
+                     	<li><a class="dropdown-item" href="/admin/checklist/black/select">경고 체크리스트 조회</a></li>
                      </th:block>
                      <th:block sec:authorize="hasRole('EMPLOYEE')">
                      	<li><a class="dropdown-item" href="/employee/checkList/selectMyCheckList">신청 업무 조회</a></li>
                         <li><a class="dropdown-item" href="/employee/checkList/insert">체크리스트 작성</a></li>
                         <li><a class="dropdown-item" href="/employee/checkList/denial/select">보류 체크리스트 조회</a></li>
-                        <li><a class="dropdown-item" href="#">완료 체크리스트 조회</a></li>
+                        <li><a class="dropdown-item" href="/employee/checkList/accept/select">완료 체크리스트 조회</a></li>
+                        <li><a class="dropdown-item" href="/employee/checkList/black/select">경고 체크리스트 조회</a></li>
                      </th:block>
                   </ul>
             </div>

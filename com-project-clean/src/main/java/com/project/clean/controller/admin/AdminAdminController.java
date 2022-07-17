@@ -3,6 +3,7 @@ package com.project.clean.controller.admin;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -244,14 +245,58 @@ private final AdminAdminService adminService;
 	}
 	
 	/* 관리자 퇴사처리 */
+	@Transactional
 	@PostMapping("hrCard/adminDetail/Delete")
-	public String modisfyAdminRetire(RedirectAttributes rttr, @ModelAttribute AdminDTO admin) {
+	public String modisfyAdminRetire(RedirectAttributes rttr, @ModelAttribute AdminDTO admin, RetireAdminDTO retireAdmin, HttpServletRequest request) {
 		
-		adminService.modifyAdminRetire(admin);
+		/* 퇴사할 관리자의 번호 가져오기 */
+		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
+		
+		/* 퇴사 여부 수정 */
+		adminService.modifyAdminRetireY(adminNo);
+		
+		/* 퇴사일 수정 */
+		adminService.modifyAdminRetireDate(adminNo);
+		
+		/* 수정한 정보 읽어오기 */
+		admin = adminService.findByAdminNo(adminNo);
+		
+		int retireAdminNo =  adminNo;
+		String retireAdminName = admin.getAdminName();
+		String retireAdminId = admin.getAdminId();
+		String retireAdminPwd = admin.getAdminPwd();
+		Date retireAdminBrith = admin.getAdminBirth();
+		String retireAdminGender = admin.getAdminGender();
+		String retireAdminPhone = admin.getAdminPhone();
+		Date retireAdminHireDate = admin.getAdminHireDate();
+		Date retireAdminRetireDate = admin.getAdminRetireDate();
+		String retireAdminRetireYn = admin.getAdminRetireYn();
+		String retireAdminJob = admin.getAdminJob();
+		Date retireAdminLastLoginDate = admin.getAdminLastLoginDate();
+		int retireAdminSalary = admin.getAdminSalary();
+		int retireAnnualVacationUse = admin.getAnnualVacationUse();
+		
+		retireAdmin.setRetireAdminNo(retireAdminNo);
+		retireAdmin.setRetireAdminName(retireAdminName);
+		retireAdmin.setRetireAdminId(retireAdminId);
+		retireAdmin.setRetireAdminPwd(retireAdminPwd);
+		retireAdmin.setRetireAdminBrith(retireAdminBrith);
+		retireAdmin.setRetireAdminGender(retireAdminGender);
+		retireAdmin.setRetireAdminPhone(retireAdminPhone);
+		retireAdmin.setRetireAdminHireDate(retireAdminHireDate);
+		retireAdmin.setRetireAdminRetireDate(retireAdminRetireDate);
+		retireAdmin.setRetireAdminRetireYn(retireAdminRetireYn);
+		retireAdmin.setRetireAdminJob(retireAdminJob);
+		retireAdmin.setRetireAdminLastLoginDate(retireAdminLastLoginDate);
+		retireAdmin.setRetireAdminSalary(retireAdminSalary);
+		retireAdmin.setRetireAnnualVacationUse(retireAnnualVacationUse);
+		
+		/* 읽어온 정보 퇴사자 테이블에 인서트 */
+		adminService.registRetireAdmin(retireAdmin);
 		
 //		rttr.addFlashAttribute("modifySuccessMessage", "퇴사 처리에 성공하였습니다.");
 		
-		return "redirect:/admin/hrCard/adminDetail" + admin.getAdminNo();
+		return "redirect:/admin/hrCard/adminList";
 	}
 	
 	

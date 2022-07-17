@@ -121,6 +121,7 @@ input{
 
 .canvasbtn{
     text-align: center;
+    background-color: rgba(104, 228, 255, 1);
 }
 
 .Opnion{
@@ -133,6 +134,19 @@ input{
 
 .submittbtn{
 	background-color: rgba(104, 228, 255, 1);
-	margin-left: 45%;
+	margin-left: 47%;
 	border: 0px;
+	text-align: center;
+}
+
+.submitarea{
+	
+	margin-left:40%	
+}
+
+.submitarea input{
+	
+	background-color: rgba(104, 228, 255, 1);
+	border: 0px;
+	text-align: center;
 }

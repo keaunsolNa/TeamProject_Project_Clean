@@ -76,7 +76,7 @@ public class CheckListController {
 		String employeeId = principal.getName();
 		int parameter = 1;
 		
-		List<CheckListAndReservationInfoAndEmployeeDTO> checkList = checkListService.selectDenialCheckList(employeeId, parameter);
+		List<CheckListAndReservationInfoAndEmployeeDTO> checkList = checkListService.selectCheckList(employeeId, parameter);
 		
 		return mapper.writeValueAsString(checkList);
 		
@@ -102,9 +102,6 @@ public class CheckListController {
 		
 		int employeeNo = checkListService.selectEmployeeNo(userId);
 		
-		System.out.println("로그인 한 직원 번호 : " + employeeNo);
-		System.out.println("예약 번호 : " + reservationNo);
-		
 		CheckListDTO checkListDTO = new CheckListDTO();
 
 		checkListDTO.setCheckHTML(inputText);
@@ -124,7 +121,7 @@ public class CheckListController {
 		return mv;
 	}
 	
-	/* 업무 종료 후 체크리스트 작성 */
+	/* KS. 업무 종료 후 체크리스트 작성 */
 	@GetMapping("insert")
 	public ModelAndView selectCheckList(Principal principal, @ModelAttribute ModelAndView mv) {
 		
@@ -145,7 +142,7 @@ public class CheckListController {
 		
 	}
 	
-	/* 체크리스트 작성 및 등록 */
+	/* KS. 체크리스트 작성 및 등록 */
 	@PostMapping("update")
 	public String updateCheckList(HttpServletRequest request) {
 		
@@ -161,14 +158,14 @@ public class CheckListController {
 		return "/employee/checkList/selectMyCheckList";
 	}
 	
-	/* 반려 체크리스트 상세 조회 */
+	/* KS. 반려 체크리스트 상세 조회 */
 	@GetMapping("denialSelectDetails")
 	public ModelAndView selectDenialCheckListDetails(Principal principal, ModelAndView mv, @RequestParam int re ) {
 		
 		String adminName = principal.getName();
 		int reservationNo = re;
 		
-		CheckListDTO checkList = checkListService.selectDenialCheckListDetails(reservationNo);
+		CheckListDTO checkList = checkListService.selectCheckListDetails(reservationNo);
 
 		mv.addObject("checkList", checkList);
 		
@@ -177,8 +174,8 @@ public class CheckListController {
 		
 	}
 	
-	/* 반려 체크리스트 사유서 제출 */
-	@PostMapping("accpet")
+	/* KS. 반려 체크리스트 사유서 제출 */
+	@PostMapping("submmit")
 	public String updateDenialCheckList(HttpServletRequest request) {
 		
 		int reservationNo = Integer.parseInt(request.getParameter("reservationNo"));
@@ -193,4 +190,85 @@ public class CheckListController {
 		
 		return "/employee/checkList/selectMyCheckList";
 	}
+	
+	/* KS. 승낙 체크리스트 조회 */
+	@GetMapping("accept/select")
+	public String selectAcceptCheckList() {
+		
+		return "/employee/checkList/selectAcceptCheckList";
+	}
+	
+	/* KS. 승낙 체크리스트 조회 */
+	@PostMapping(value = "accept/select", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public String selectAcceptCheckList(Principal principal) throws JsonProcessingException {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		String employeeId = principal.getName();
+		int parameter = 2;
+		
+		List<CheckListAndReservationInfoAndEmployeeDTO> checkList = checkListService.selectCheckList(employeeId, parameter);
+		
+		return mapper.writeValueAsString(checkList);
+		
+	}
+	
+	/* KS. 승낙 체크리스트 상세 조회 */
+	@GetMapping("slectacceptDetails")
+	public ModelAndView selectAcceptCheckListDetails(Principal principal, ModelAndView mv, @RequestParam int re ) {
+		
+		String adminName = principal.getName();
+		int reservationNo = re;
+		
+		CheckListDTO checkList = checkListService.selectCheckListDetails(reservationNo);
+
+		mv.addObject("checkList", checkList);
+		
+		mv.setViewName("employee/checkList/selectAcceptlCheckListDetails");
+		
+		return mv;
+		
+	}
+	
+	/* KS. 블랙된 체크리스트 조회 */
+	@GetMapping("black/select")
+	public String selectBlackCheckList() {
+		
+		return "/employee/checkList/selectBlackCheckList";
+	}
+	
+	/* KS. 블랙된 체크리스트 조회 */
+	@PostMapping(value = "black/select", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public String selectBlackCheckList(Principal principal) throws JsonProcessingException {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		String employeeId = principal.getName();
+		int parameter = 3;
+		
+		List<CheckListAndReservationInfoAndEmployeeDTO> checkList = checkListService.selectCheckList(employeeId, parameter);
+		
+		return mapper.writeValueAsString(checkList);
+		
+	}
+	
+	/* KS. 블랙된 체크리스트 상세 조회 */
+	@GetMapping("slectBlackDetails")
+	public ModelAndView selectBlackCheckListDetails(Principal principal, ModelAndView mv, @RequestParam int re ) {
+		
+		String adminName = principal.getName();
+		int reservationNo = re;
+		
+		CheckListDTO checkList = checkListService.selectCheckListDetails(reservationNo);
+
+		mv.addObject("checkList", checkList);
+		
+		mv.setViewName("employee/checkList/selectBlackCheckListDetails");
+		
+		return mv;
+		
+	}
+	
 } 
