@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thyme.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
@@ -72,7 +72,7 @@
         <input type="text" name="categoryValue">
         <button type="button" id="search">검색</button>
 
-        <table id="employeeList" border="1">
+        <table id="vacationList" border="1">
             <thead>
                 <tr>
                     <th>신청번호</th>
@@ -80,25 +80,53 @@
                     <th>휴가시작일</th>
                     <th>휴가종료일</th>
                     <th>휴가구분</th>
-                    <th>진행상태</th>
+                    <th>반려여부</th>
                 </tr>
             </thead>
             <tbody>
 				<tbody>
 					<tr th:each="index : ${vacation}">
-						<td th:text="${ index.employeeNo }"></td>
-						<td th:text="${ index.employeeName }"></td>
-						<td th:text="${ index.employeeBirth }"></td>
-						<td th:text="${ index.employeeAddress }"></td>
-						<td th:text="${ index.employeePhone }"></td>
-						<td th:text="${ index.employeeHireDate }"></td>
+						<td th:text="${ index.vacationNo }"></td>
+						<td th:text="${ index.requestDate }"></td>
+						<td th:text="${ index.vacationStartDate }"></td>
+						<td th:text="${ index.vacationEndDate }"></td>
+						<td th:text="${ index.vacationName }"></td>
+						<td th:text="${ vacationStatus }"></td>
 					</tr>
 				</tbody>
             </tbody>
         </table>
-        <div id="blackListPaging"> <div th:replace="/admin/humanResource/vacation/vacationPaging.html"></div></div>
+         <div id="vacationPaging"> <div th:replace="/admin/humanResource/vacation/vacationPaging.html"></div></div>
         
     </div>
     </div>
+    
+    <script>
+
+	/* hover event */
+	function hover() {
+		const vacationList = document.getElementsByTagName("td");
+
+		for (let i = 0; i < vacationList.length; i++) {
+			vacationList[i].onmouseenter = function() {
+				this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+				this.parentNode.style.cursor = "pointer";
+			}
+			vacationList[i].onmouseout = function() {
+				this.parentNode.style.backgroundColor = "white";
+			}
+
+			vacationList[i].onclick = function() {
+				location.href = "/admin/select/selectMyVacation/Detail/"
+						+ this.parentNode.children[0].innerText;
+			}
+		}
+	};
+	
+	$(function(){
+	hover();
+	})
+</script>
+
 </body>
 </html>

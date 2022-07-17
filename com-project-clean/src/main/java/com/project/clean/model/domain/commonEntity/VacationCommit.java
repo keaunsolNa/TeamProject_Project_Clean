@@ -27,7 +27,7 @@ public class VacationCommit implements Serializable {
 	@Column(name="VACATION_NO")
 	private int vacationNo;
 	
-	@Column(name="RETURN_REASON")
+	@Column(name="CONFIRM_REASON")
 	private String confirmReason;
 	
 	@Column(name="CONFIRM_DATE")

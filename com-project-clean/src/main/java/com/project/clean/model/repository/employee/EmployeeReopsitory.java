@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.project.clean.model.domain.adminEntity.AdminEmployee;
+import com.project.clean.model.domain.commonEntity.Vacation;
+import com.project.clean.model.domain.commonEntity.VacationCommit;
 
 public interface EmployeeReopsitory extends JpaRepository<AdminEmployee, Integer>{
 

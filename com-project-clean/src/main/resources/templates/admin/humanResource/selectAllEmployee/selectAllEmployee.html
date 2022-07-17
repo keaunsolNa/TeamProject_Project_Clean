@@ -17,48 +17,12 @@ body {
 	margin: 0 auto;
 }
 
-ul.tabs {
-	margin: 0px;
-	padding: 0px;
-	list-style: none;
-}
-
-/* 선택하지 않은 탭 css */
-ul.tabs li {
-	background: rgba(219, 243, 249, 1);
-	color: rgb(0, 0, 0);
-	display: inline-block;
-	padding: 10px 15px;
-	/* 좌측은 위아래 사이즈 우측은 좌우 사이즈 */
-	cursor: pointer;
-}
-
-/* 선택한 탭 css 설정 */
-ul.tabs li.current {
-	background: rgba(104, 228, 255, 1);
-	color: rgb(0, 0, 0);
-}
-
-/* 선택한 탭의 내용 css 설정 */
-.tab-content {
-	display: none;
-	background: #e95151;
-	padding: 15px;
-}
-
-.tab-content.current {
-	display: inherit;
-}
 </style>
 </head>
 
 <body>
+	<div th:replace="/admin/humanResource/selectAllEmployee/selectEmployeeListHeader.html"></div>
 	<div class="container">
-
-		<ul class="tabs">
-			<li class="tab-link current" data-tab="tab-1">직원</li>
-			<li class="tab-link" data-tab="tab-2">관리자</li>
-		</ul>
 
 		<!-- 직원 내용 -->
 		<div id="tab-1" class="tab-content current">
@@ -105,17 +69,6 @@ ul.tabs li.current {
 						<!-- <div> <input id="inputMainTain" th:value="${mainTain}"></div> -->
 		</div>
 		
-		
-		<!-- 관리자 내용 -->
-		<div id="tab-2" class="tab-content">관리자123</div>
-
-		<!-- 			
-				if(mainTain=='Y'){
-				$('#inputMainTain').attr('value','Ypaging');
-				$("#retireY").attr("checked", "true");
-				} -->
-
-		<!-- 시작 할 때 hover event -->
 		<script th:inline="javascript">
 		    /*<![CDATA[*/
 			$(function(){
@@ -136,20 +89,6 @@ ul.tabs li.current {
 
 
 	<script>
-		/* 탭 전환 관련 스크립트 */
-		$(document).ready(function() {
-
-			$('ul.tabs li').click(function() {
-				var tab_id = $(this).attr('data-tab');
-
-				$('ul.tabs li').removeClass('current');
-				$('.tab-content').removeClass('current');
-
-				$(this).addClass('current');
-				$("#" + tab_id).addClass('current');
-			});
-
-		});
 
 		/* hover event */
 		function hover() {

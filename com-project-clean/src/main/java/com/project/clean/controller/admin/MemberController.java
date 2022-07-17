@@ -52,20 +52,6 @@ public class MemberController {
 		return "/admin/humanResource/selectAllEmployee/selectEmployee";
 	}
 	
-	
-	/* 휴가 조회 */
-	@GetMapping("/select/selectMyVacation")
-	public String selectMyVacaion(@RequestParam(value = "page", defaultValue = "0") int page, Model mv) {
-		Page<EmployeeAndAllDTO> startPage = memberService.selectMyVacaion(page);
-		List<EmployeeAndAllDTO> startList = startPage.toList();
-		
-		/* .getnumber 메서드를 위해 list로 변환 x */
-		mv.addAttribute("pages", startPage );
-		mv.addAttribute("maxPage", 5);
-		mv.addAttribute("mainTain", "N");
-		mv.addAttribute("vacation", startList);
-		
-		return "admin/humanResource/vacation/selectMyVacation";
-	}
+
 
 }
