@@ -4,13 +4,10 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.project.clean.model.domain.adminEntity.AdminEmployee;
-import com.project.clean.model.domain.commonEntity.Vacation;
-import com.project.clean.model.domain.commonEntity.VacationCommit;
 
 public interface EmployeeReopsitory extends JpaRepository<AdminEmployee, Integer>{
 
@@ -29,15 +26,52 @@ public interface EmployeeReopsitory extends JpaRepository<AdminEmployee, Integer
 
 //	public List<AdminEmployee> findByEmployeeRegistReturnYnAndEmployeeBlackListYn(String returnYn, String blackYn);
 
-	public List<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYn(String string, String string2);
+	public Page<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYn(String string, String string2, Pageable pageable);
 
 	public List<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeLastConfirmYnAndEmployeeRegistReturnYn(
 			String string, String string2, String string3, String string4);
 
-	public Page<AdminEmployee> findByEmployeeRegistReturnYnAndEmployeeBlackListYn(String string, String string2,
-			Pageable pageable);
+	public Page<AdminEmployee> findByEmployeeRegistReturnYnAndEmployeeBlackListYn(String string, String string2, Pageable pageable);
 
 	public Page<AdminEmployee> findByEmployeeBlackListYn(String string, Pageable pageable);
+
+	public Page<AdminEmployee> findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYnAndEmployeeNo(
+			String string, String string2, String string3, String categoryValue, Pageable pageable);
+
+	public Page<AdminEmployee> findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYnAndEmployeeNameContaining(
+			String string, String string2, String string3, String categoryValue, Pageable pageable);
+
+	public Page<AdminEmployee> findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYnAndEmployeePhoneContaining(
+			String string, String string2, String string3, String categoryValue, Pageable pageable);
+
+	public Page<AdminEmployee> findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYnAndEmployeeAddressContaining(
+			String string, String string2, String string3, String categoryValue, Pageable pageable);
+
+	public Page<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYnAndEmployeeNoContaining(
+			String string, String string2, String categoryValue, Pageable pageable);
+
+	public Page<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYnAndEmployeeAddressContaining(
+			String string, String string2, String categoryValue, Pageable pageable);
+
+	public Page<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYnAndEmployeePhoneContaining(
+			String string, String string2, String categoryValue, Pageable pageable);
+
+	public Page<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYnAndEmployeeNameContaining(
+			String string, String string2, String categoryValue, Pageable pageable);
+
+	public Page<AdminEmployee> findByEmployeeRetireYn(String string, Pageable pageable);
+
+	public Page<AdminEmployee> findByEmployeeRetireYnAndEmployeeNoContaining(String string, String categoryValue,
+			Pageable pageable);
+
+	public Page<AdminEmployee> findByEmployeeRetireYnAndEmployeeNameContaining(String string, String categoryValue,
+			Pageable pageable);
+
+	public Page<AdminEmployee> findByEmployeeRetireYnAndEmployeeAddressContaining(String string, String categoryValue,
+			Pageable pageable);
+
+	public Page<AdminEmployee> findByEmployeeRetireYnAndEmployeePhoneContaining(String string, String categoryValue,
+			Pageable pageable);
 
 	
 }

@@ -4,17 +4,17 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,13 +22,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.project.clean.model.dto.SearchDTO.AdminSearchDTO;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.PageDTO;
 import com.project.clean.model.dto.commonDTO.ReasonDTO;
-import com.project.clean.model.dto.commonDTO.VacationCommitDTO;
 import com.project.clean.model.dto.commonDTO.VacationDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
 import com.project.clean.model.service.admin.AdminEmployeeService;
@@ -98,70 +97,42 @@ public class AdminEmployeeController {
 
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
 	/* 직원 전체 조회(재직자 main page) & 페이징 */
+	@GetMapping("/select/AllEmployee/move")
+	public String selectAllEmployeeMove() {
+		return "/admin/humanResource/selectAllEmployee/selectAllEmployee";
+	}
+	
+	/* 직원 전체 조회(재직자 main) */
 	@GetMapping("/select/retireN")
-	public String selectRetireNEmployee(@RequestParam(value = "page", defaultValue = "0") int page, Model mv, AdminSearchDTO searchDTO) {
-
-		Page<EmployeeAndAllDTO> startPage = adminService.selectRetireNEmployee(page);
-		List<EmployeeAndAllDTO> startList = startPage.toList();
-System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
-System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
-System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
-System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
-System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
-System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
-System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
-System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
-System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
-System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
-System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
-System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
-System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
-System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
-System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
-System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
-		if(searchDTO.getCategoryValue() == "") {
-			System.out.println("3333333333333333333333");
-		} else if("333".equals(searchDTO.getCategoryValue())) {
-			System.out.println("55555555555555555555555");
-			System.out.println("55555555555555555555555");
-			System.out.println("55555555555555555555555");
-			System.out.println("55555555555555555555555");
-			System.out.println("55555555555555555555555");
-			System.out.println("55555555555555555555555");
-			System.out.println("55555555555555555555555");
-			System.out.println("55555555555555555555555");
-			System.out.println("55555555555555555555555");
-			System.out.println("55555555555555555555555");
-			System.out.println("55555555555555555555555");
-			System.out.println("55555555555555555555555");
-		} else if (searchDTO.getCategoryValue() == null){
-		}else {
-		}
-
-		/* .getnumber 메서드를 위해 list로 변환 x */
-		mv.addAttribute("pages", startPage);
-		mv.addAttribute("maxPage", maxPage);
-		mv.addAttribute("employeeAllList", startList);
-		mv.addAttribute("mainTain", "N");
-		mv.addAttribute("entireYn", startList);
-		return "/admin/humanResource/selectAllEmployee/selectAllEmployee";
-	}
-
-	/* 직원 전체 조회(퇴사자 main page) & 페이징 */
+	@ResponseBody
+		   public Map<String, Object> selectRetireNEmployee(String category, String categoryValue, @PageableDefault(sort="employeeNo", size = 3) Pageable pageable) {
+		      
+		      Map<String,Object> map = new HashMap<>();
+		      map = adminService.selectRetireNEmployee(category, categoryValue, pageable);
+		      
+		      return map;
+		   }
+	
+	/* 직원 전체 조회(퇴사자 main) */
 	@GetMapping("/select/retireY")
-	public String selectRetireYEmployee(@RequestParam(value = "page", defaultValue = "0") int page, Model mv) {
-		Page<EmployeeAndAllDTO> startPage = adminService.selectRetireYEmployee(page);
-		List<EmployeeAndAllDTO> startList = startPage.toList();
-
-		/* .getnumber 메서드를 위해 list로 변환 x */
-		mv.addAttribute("pages", startPage);
-		mv.addAttribute("maxPage", maxPage);
-		mv.addAttribute("employeeAllList", startList);
-		mv.addAttribute("entireYn", startList);
-		mv.addAttribute("mainTain", "Y");
-		return "/admin/humanResource/selectAllEmployee/selectAllEmployee";
+	@ResponseBody
+	public Map<String, Object> selectRetireYEmployee(String category, String categoryValue, @PageableDefault(sort="employeeNo", size = 5) Pageable pageable) {
+		
+		Map<String,Object> map = new HashMap<>();
+		map = adminService.selectRetireYEmployee(category, categoryValue, pageable);
+		
+		return map;
 	}
+
 
 //	/* 직원 전체 조회(퇴사자 main page) & 페이징*/
 //	@GetMapping(value = "/select/retireYAjax", produces = "application/json; charset=UTF-8")
@@ -321,7 +292,7 @@ System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue())
 //		new File(oldSaveRoot + "/" + oldSaveName).delete();
 
 		mv.addAttribute("employeeDTO", employeeDTO);
-		return "redirect:/admin/select/retireN";
+		return "redirect:/admin/select/AllEmployee/move";
 	}
 
 	/* 직원 등록 페이지 이동 */
@@ -339,68 +310,90 @@ System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue())
 		mv.addAttribute("employeeNo", maxMemberNo + 1);
 		mv.addAttribute("employeeHireDate", sysdate);
 		mv.addAttribute("employeeId", id + 1);
+		mv.addAttribute("mainTain", "N");
 
 		return "admin/humanResource/registEmployee/registEmployeeList";
 	}
 
-	/* 직원 대기중 페이지 이동 */
-	@GetMapping("/hr/waiting/employee")
-	public String waitingEmployeeList(Model mv) {
-		int maxMemberNo = adminService.getMaxMemberNo();
-
-		String sysdateTimeStemp = String.valueOf(today());
-		String sysdate = sysdateTimeStemp.substring(0, 10);
-
-		String frontId = sysdate.replaceAll("-", "").substring(2);
-
-		int id = Integer.valueOf(frontId + maxMemberNo);
-
-		/* HR 대기중인 인원 조회 */
-		List<EmployeeAndAllDTO> selectWaitingEmployeeList = adminService.selectWaitingEmployeeList();
-
-		/* BOSS 대기중인 인원 조회 */
-		List<EmployeeAndAllDTO> selectWaitingEmployeeListBoss = adminService.selectWaitingEmployeeListBoss();
-		/* 직원들 중 1번째 승인과 최종승인이 N인 직원 */
-
-		mv.addAttribute("waitingEmployeeList", selectWaitingEmployeeList); // HR authority
-		mv.addAttribute("waitingEmployeeListBoss", selectWaitingEmployeeListBoss); // BOSS authority
-
-		mv.addAttribute("employeeNo", maxMemberNo + 1);
-		mv.addAttribute("employeeHireDate", sysdate);
-		mv.addAttribute("employeeId", id + 1);
-
-		return "admin/humanResource/registEmployee/waitingEmployeeList";
+	@GetMapping("/hr/waiting/employeeHR/move")
+	public String waitingEmployeeHrMove() {
+		return "/admin/humanResource/registEmployee/waitingEmployeeListHR";
+	}
+	
+	/* 대기중 직원 페이지 이동(HR) */
+	@GetMapping("/hr/waiting/employeeHR")
+	@ResponseBody
+	public Map<String, Object> waitingEmployeeListHr(String category, String categoryValue, @PageableDefault(sort="employeeNo", size = 3) Pageable pageable) {
+		
+	      Map<String,Object> map = new HashMap<>();
+	      map = adminService.selectWaitingEmployeeListHr(category, categoryValue, pageable);
+	      return map;
+	}
+	
+	@GetMapping("/hr/waiting/employeeBoss/move")
+	public String waitingEmployeeBossMove() {
+		return "/admin/humanResource/registEmployee/waitingEmployeeListBoss";
+	}
+	
+	/* 대기중 직원 페이지 이동(Boss) */
+	@GetMapping("/hr/waiting/employeeBoss")
+	@ResponseBody
+	public Map<String, Object> waitingEmployeeListBoss(String category, String categoryValue, @PageableDefault(sort="employeeNo", size = 3) Pageable pageable) {
+		
+		Map<String,Object> map = new HashMap<>();
+		map = adminService.selectWaitingEmployeeListBoss(category, categoryValue, pageable);
+		
+		return map;
 	}
 
-	/* 직원 반려 페이지 이동 */
+	
+//	/* 직원 대기중 페이지 이동(HR) */
+//	@GetMapping("/hr/waiting/employeeBoss")
+//	public String waitingEmployeeListBoss(Model mv) {
+//		int maxMemberNo = adminService.getMaxMemberNo();
+//		
+//		String sysdateTimeStemp = String.valueOf(today());
+//		String sysdate = sysdateTimeStemp.substring(0, 10);
+//		
+//		String frontId = sysdate.replaceAll("-", "").substring(2);
+//		
+//		int id = Integer.valueOf(frontId + maxMemberNo);
+//		
+//		/* HR 대기중인 인원 조회 */
+//		List<EmployeeAndAllDTO> selectWaitingEmployeeList = adminService.selectWaitingEmployeeList();
+//		
+//		/* BOSS 대기중인 인원 조회 */
+//		List<EmployeeAndAllDTO> selectWaitingEmployeeListBoss = adminService.selectWaitingEmployeeListBoss();
+//		/* 직원들 중 1번째 승인과 최종승인이 N인 직원 */
+//		
+//		mv.addAttribute("waitingEmployeeList", selectWaitingEmployeeList); // HR authority
+//		mv.addAttribute("waitingEmployeeListBoss", selectWaitingEmployeeListBoss); // BOSS authority
+//		
+//		mv.addAttribute("employeeNo", maxMemberNo + 1);
+//		mv.addAttribute("employeeHireDate", sysdate);
+//		mv.addAttribute("employeeId", id + 1);
+//		
+//		return "admin/humanResource/registEmployee/waitingEmployeeListBoss";
+//	}
+
+	
+	/* 반려 직원 페이지 이동 */
+	@GetMapping("/hr/return/employee/move")
+	public String returnEmployeeListMove() {
+		return "/admin/humanResource/registEmployee/returnEmployeeList";
+	}
+	
+	/* 반려 직원 리스트 조회*/
 	@GetMapping("/hr/return/employee")
-	public String returnEmployeeList(@RequestParam(value = "page", defaultValue = "0") int page, Model mv) {
-		int maxMemberNo = adminService.getMaxMemberNo();
-
-		String sysdateTimeStemp = String.valueOf(today());
-		String sysdate = sysdateTimeStemp.substring(0, 10);
-
-		String frontId = sysdate.replaceAll("-", "").substring(2);
-
-		int id = Integer.valueOf(frontId + maxMemberNo);
-
-		/* 반려인원 조회 */
-		Page<EmployeeAndAllDTO> startPage = adminService.selectRetireYEmployee(page);
-		List<EmployeeAndAllDTO> startList = startPage.toList();
-//		List<EmployeeAndAllDTO> selectReturnEmployeeList = adminService.selectReturnEmployeeList();
-
-		mv.addAttribute("pages", startPage);
-		mv.addAttribute("maxPage", maxPage);
-		mv.addAttribute("employeeAllList", startList);
-
-		mv.addAttribute("returnEmployeeList", startPage);
-
-		mv.addAttribute("employeeNo", maxMemberNo + 1);
-		mv.addAttribute("employeeHireDate", sysdate);
-		mv.addAttribute("employeeId", id + 1);
-
-		return "admin/humanResource/registEmployee/returnEmployeeList";
+	@ResponseBody
+	public Map<String, Object> returnEmployeeList(String category, String categoryValue, @PageableDefault(sort="employeeNo", size = 3) Pageable pageable) {
+		
+		Map<String,Object> map = new HashMap<>();
+		map = adminService.selectReturnYEmployee(category, categoryValue, pageable);
+		
+		return map;
 	}
+	
 
 	/* 직원등록 */
 	@PostMapping("/hr/regist/employee")
@@ -752,5 +745,16 @@ System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue())
 		return "admin/humanResource/vacation/selectAllVacationReturnList";
 
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
