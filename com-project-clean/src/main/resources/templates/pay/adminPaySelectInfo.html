@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div th:include="common/header.html"></div>
-	<div th:include="common/taskAside.html"></div>
+	<div th:include="common/payAside.html"></div>
 	<section>
 		<table border="1">
 	        <tr>
@@ -35,11 +35,8 @@
 		var beforePay = [[${ pay.admin.adminSalary }]];
 		var insurance = [[${ insurance }]];
 		
-		if (insurance > 10) {
-			var cal = beforePay - (beforePay * insurance * 0.1) ;
-		} else {
-			var cal = beforePay - (beforePay * insurance * 0.01) ;
-		}
+		var cal = beforePay - (beforePay * insurance / 100) ;
+
 		console.log(insurance);
 		document.getElementById("salary").innerHTML= "최종 급여 <br> <p>" + cal + "원" + "</p>";
 		

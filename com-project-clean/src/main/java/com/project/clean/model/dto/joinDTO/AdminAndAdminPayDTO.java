@@ -1,76 +1,44 @@
-package com.project.clean.model.domain.joinEntity;
+package com.project.clean.model.dto.joinDTO;
 
-import java.sql.Blob;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import com.project.clean.model.dto.commonDTO.AdminPayDTO;
 
-import com.project.clean.model.domain.commonEntity.AdminPay;
+public class AdminAndAdminPayDTO implements Serializable{
 
-@Entity
-@Table(name = "TBL_ADMIN")
-public class AdminAndAdminPay implements java.io.Serializable {
-	private static final long serialVersionUID = -120378979388393643L;
-	
-	@Id
-	@Column(name="ADMIN_NO")
+	private static final long serialVersionUID = 3979662040826135988L;
 	private int adminNo;
-
-	@Column(name="ADMIN_NAME")
 	private String adminName;
-
-	@Column(name="ADMIN_ID")
 	private String adminId;
-	
-	@Column(name="ADMIN_PWD")
 	private String adminPwd;
-	
-	@Column(name="ADMIN_BIRTH")
 	private java.sql.Date adminBirth;
-	
-	@Column(name="ADMIN_GENDER")
 	private String adminGender;
-	
-	@Column(name="ADMIN_PHONE")
 	private String adminPhone;
-	
-	@Column(name="ADMIN_HIRE_DATE")
 	private java.sql.Date adminHireDate;
-	
-	@Column(name="ADMIN_RETIRE_DATE")
 	private java.sql.Date adminRetireDate;
-	
-	@Column(name="ADMIN_RETIRE_YN")
 	private String adminRetireYn;
-	
-	@Column(name="ADMIN_JOB")
 	private String adminJob;
-	
-	@Column(name="ADMIN_LAST_LOGIN_DATE")
 	private java.sql.Date adminLastLoginDate;
-	
-	@Column(name="ADMIN_SALARY")
 	private int adminSalary;
-	
-	@Column(name="ADMIN_USE_ANNUAL_VACATION")
 	private int annualVacationUse;
+	private String adminEmail;
+	private String adminAddress;
+	private String adminPictureSaveName;
+	private String adminPictureSaveRoot;
+	private String adminPictureThumbnailName;
+	private List<AdminPayDTO> adminPay;
 	
-	@OneToMany
-	@JoinColumn(name = "PAY_ADMIN_NO")
-	private List<AdminPay> adminPay;
-
-	public AdminAndAdminPay() {
+	public AdminAndAdminPayDTO() {
+		// TODO Auto-generated constructor stub
 	}
 
-	public AdminAndAdminPay(int adminNo, String adminName, String adminId, String adminPwd, Date adminBirth,
+	public AdminAndAdminPayDTO(int adminNo, String adminName, String adminId, String adminPwd, Date adminBirth,
 			String adminGender, String adminPhone, Date adminHireDate, Date adminRetireDate, String adminRetireYn,
-			String adminJob, Date adminLastLoginDate, int adminSalary, int annualVacationUse, List<AdminPay> adminPay) {
+			String adminJob, Date adminLastLoginDate, int adminSalary, int annualVacationUse, String adminEmail,
+			String adminAddress, String adminPictureSaveName, String adminPictureSaveRoot,
+			String adminPictureThumbnailName, List<AdminPayDTO> adminPay) {
 		super();
 		this.adminNo = adminNo;
 		this.adminName = adminName;
@@ -86,6 +54,11 @@ public class AdminAndAdminPay implements java.io.Serializable {
 		this.adminLastLoginDate = adminLastLoginDate;
 		this.adminSalary = adminSalary;
 		this.annualVacationUse = annualVacationUse;
+		this.adminEmail = adminEmail;
+		this.adminAddress = adminAddress;
+		this.adminPictureSaveName = adminPictureSaveName;
+		this.adminPictureSaveRoot = adminPictureSaveRoot;
+		this.adminPictureThumbnailName = adminPictureThumbnailName;
 		this.adminPay = adminPay;
 	}
 
@@ -201,11 +174,51 @@ public class AdminAndAdminPay implements java.io.Serializable {
 		this.annualVacationUse = annualVacationUse;
 	}
 
-	public List<AdminPay> getAdminPay() {
+	public String getAdminEmail() {
+		return adminEmail;
+	}
+
+	public void setAdminEmail(String adminEmail) {
+		this.adminEmail = adminEmail;
+	}
+
+	public String getAdminAddress() {
+		return adminAddress;
+	}
+
+	public void setAdminAddress(String adminAddress) {
+		this.adminAddress = adminAddress;
+	}
+
+	public String getAdminPictureSaveName() {
+		return adminPictureSaveName;
+	}
+
+	public void setAdminPictureSaveName(String adminPictureSaveName) {
+		this.adminPictureSaveName = adminPictureSaveName;
+	}
+
+	public String getAdminPictureSaveRoot() {
+		return adminPictureSaveRoot;
+	}
+
+	public void setAdminPictureSaveRoot(String adminPictureSaveRoot) {
+		this.adminPictureSaveRoot = adminPictureSaveRoot;
+	}
+
+	public String getAdminPictureThumbnailName() {
+		return adminPictureThumbnailName;
+	}
+
+	public void setAdminPictureThumbnailName(String adminPictureThumbnailName) {
+		this.adminPictureThumbnailName = adminPictureThumbnailName;
+	}
+
+	public List<AdminPayDTO> getAdminPay() {
 		return adminPay;
 	}
 
-	public void setAdminPay(List<AdminPay> adminPay) {
+	public void setAdminPay(List<AdminPayDTO> adminPay) {
 		this.adminPay = adminPay;
 	}
 
@@ -215,14 +228,18 @@ public class AdminAndAdminPay implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "AdminAndAdminPay [adminNo=" + adminNo + ", adminName=" + adminName + ", adminId=" + adminId
+		return "AdminAndAdminPayDTO [adminNo=" + adminNo + ", adminName=" + adminName + ", adminId=" + adminId
 				+ ", adminPwd=" + adminPwd + ", adminBirth=" + adminBirth + ", adminGender=" + adminGender
 				+ ", adminPhone=" + adminPhone + ", adminHireDate=" + adminHireDate + ", adminRetireDate="
 				+ adminRetireDate + ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob
 				+ ", adminLastLoginDate=" + adminLastLoginDate + ", adminSalary=" + adminSalary + ", annualVacationUse="
-				+ annualVacationUse + ", adminPay=" + adminPay + "]";
+				+ annualVacationUse + ", adminEmail=" + adminEmail + ", adminAddress=" + adminAddress
+				+ ", adminPictureSaveName=" + adminPictureSaveName + ", adminPictureSaveRoot=" + adminPictureSaveRoot
+				+ ", adminPictureThumbnailName=" + adminPictureThumbnailName + ", adminPay=" + adminPay + "]";
 	}
 
+	
+	
 	
 	
 }
