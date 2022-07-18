@@ -25,7 +25,7 @@ public class LoginController {
 		
 		System.out.println("로그인 실패");
 
-		rttr.addFlashAttribute("resultMessage", request.getAttribute("errorMessage"));
+		rttr.addFlashAttribute("Message", request.getAttribute("errorMessage"));
 		
 		return "redirect:/main";
 	}

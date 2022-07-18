@@ -1,11 +1,13 @@
 package com.project.clean.model.repository.vacation;
 
+
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
-import com.project.clean.model.domain.adminEntity.AdminVacationCommit;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import com.project.clean.model.domain.commonEntity.Vacation;
 
 public interface VacationRepository extends JpaRepository<Vacation, Integer>{
@@ -21,15 +23,10 @@ public interface VacationRepository extends JpaRepository<Vacation, Integer>{
 			+ "   AND v.vacation_return_yn = 'N'", nativeQuery = true)
 	List<Vacation> findVacationBySecondConfirmN();
 
-	/* 휴가 정보 상세 조회 */
-//	Vacation findByVacationNo(int vacationNo);
 
-	/* 휴가 번호에 따른 승인자 리스트 조회 */
-//	@Query(value="SELECT a.admin_no FROM tbl_vacation_commit a WHERE a.vacation_no = ?", nativeQuery = true)
-//	List<Vacation> findVacationCommitAdminList(int vacationNo);
+	public Page<Vacation> findByAdminNo(int adminNo, Pageable pageable);
 
-	/* 휴가 상세 조회 */
-//	Vacation findByVacationNo(int vacationNo);
+	public Vacation findByVacationNo(int vacationNo, Sort sort);
 	
 }
 

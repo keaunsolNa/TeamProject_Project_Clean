@@ -112,9 +112,9 @@ public class CheckListController {
         
 		LocalDate now = LocalDate.now();
 
-		rttr.addFlashAttribute("resultMessage", now + " 시에 업무를 시작하셨습니다. 업무 완료 후 작성 버튼을 눌러주세요.");
+		rttr.addFlashAttribute("Message", now + " 시에 업무를 시작하셨습니다. 업무 완료 후 작성 버튼을 눌러주세요.");
         
-        mv.addObject("resultMessage", rttr);
+        mv.addObject("Message", rttr);
         mv.setViewName("/employee/checkList/selectMyCheckList");
         
 		
@@ -130,7 +130,7 @@ public class CheckListController {
 		CheckListDTO checklistDTO = checkListService.selectCheckList(userId);
 		
 		if(null == checklistDTO) {
-			mv.addObject("resultMessage", "작성 가능한 체크리스트가 없습니다.");
+			mv.addObject("Message", "작성 가능한 체크리스트가 없습니다.");
 			mv.setViewName("/employee/checkList/selectMyCheckList");
 		} else {
 			checklistDTO.getCheckHTML();

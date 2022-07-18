@@ -32,6 +32,7 @@ public class AdminPayDTO implements Serializable{
 		this.payAdminNo = payAdminNo;
 	}
 	public java.sql.Date getPayAdminDate() {
+		System.out.println("날짜 출력 확인");
 		return payAdminDate;
 	}
 	public void setPayAdminDate(java.sql.Date payAdminDate) {
