@@ -26,10 +26,10 @@
             	CLEANUP ERP
         	</div>
 		
-	        <form action="/common/login" method="post" id="loginForm">
+	        <form action="/common/login" method="post" id="loginForm" name="loginForm">
 	            <div class="loginbottomnav col-xl-3">
 	                <label class="personalcolordiv col-xl-3">아이디 : </label>
-	                <input type="text" name="username"><br>
+	                <input type="text" id="username" name="username"><br>
 	            </div>
 				<br>
 	            <div class="loginbottomnav col-xl-3">
@@ -40,7 +40,7 @@
 	            </div>
 	
 	            <div  class="loginbottomnav col-xl-3">
-	                <button type="submit" class="login col-xl-3">로그인</button>
+	                <button type="submit" class="login col-xl-3 accent username-submit">로그인</button>
 	            </div>
 	            
 	            	
@@ -57,7 +57,7 @@
 	        
     	</section>
 	</th:block>	
-	
+
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>

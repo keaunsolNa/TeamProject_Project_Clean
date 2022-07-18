@@ -13,10 +13,16 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script 
 		src="https://code.jquery.com/jquery-3.4.1.min.js"></script>	
-
+    <script 
+    	src="/js/socket.js"></script>
+    <script 
+    	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script
+		src="http://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script 
+    	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 </head>
 <body>
-
 <section>
 	<form method="post" action="admin/checklist/denial"  enctype="multipart/form-data">
 	
@@ -45,6 +51,14 @@
 	<input type="button" value="거절" id="denial">
 </div>
 
+<form class="form-inline">
+    <div class="form-group">
+        <label for="name">What is your name?</label>
+        <input type="text" id="name" class="form-control" value="체크리스트가 반려되었습니다.">
+    </div>
+    <button id="send" class="btn btn-default" type="submit">Send</button>
+</form>
+
 <!-- OpnionArea script -->
 <script>
 	
@@ -62,6 +76,10 @@
 			const reservationNo = $('.reservationNo').val();
 			
     		if(confirm("서류를 반려하시겠습니까? 직원에게 알람이 전송됩니다.")){
+    			$("#send").bind("click", function(){
+    			});
+    			
+    			$("#send").trigger("click");
     			
     			document.getElementById("adminOpnion").remove();
     			document.getElementById("adminOpnion2").style="";

@@ -12,10 +12,29 @@
     	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script
 		src="http://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+	<script 
+		src="https://code.jquery.com/jquery-3.4.1.min.js"></script>	
+    <script 
+    	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script 
+    	src="/js/socket.js"></script>
+    	
 </head>
 
 <body>
-
+    <div class="row">
+        <div class="col-md-12">
+            <table id="conversation" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>메세지 : </th>
+                </tr>
+                </thead>
+                <tbody id="greetings">
+                </tbody>
+            </table>
+        </div>
+    </div>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light ">
             <div class="container-fluid upnavvar">
@@ -42,9 +61,11 @@
                     </ul>
 
                     <th:block sec:authorize="hasRole('ADMIN')">			
+						<span id="name" hidden sec:authentication="principal.adminId"></span>
 						<h3><span sec:authentication="principal.adminName"></span></h3>
 					</th:block>
                     <th:block sec:authorize="hasRole('EMPLOYEE')">			
+						<span id="name" hidden sec:authentication="principal.employeeId"></span>
 						<h3><span sec:authentication="principal.employeeName"></span></h3>
 					</th:block>
 
@@ -140,9 +161,9 @@
                 </div>
             </div>
         </nav>
-
+        
+		
     </header>
+		
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 </html>

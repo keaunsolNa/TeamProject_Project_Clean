@@ -100,7 +100,6 @@ private final AdminAdminService adminService;
 		newAdmin.setAdminSalary(adminSalary);
 		newAdmin.setAdminAddress(adminAddress);
 		
-		
 		/* 이미지 저장 */
 		
 		String rootLocation = System.getProperty("user.dir");
@@ -149,7 +148,7 @@ private final AdminAdminService adminService;
 					newAdmin.setAdminPictureSaveName(adminPictureSaveName);
 					newAdmin.setAdminPictureSaveRoot(adminPictureSaveRoot);
 
-					adminService.registNewAdmin(newAdmin);
+//					adminService.registNewAdmin(newAdmin);
 					
 						
 								
