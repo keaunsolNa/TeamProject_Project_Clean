@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.clean.model.dto.SearchDTO.AdminSearchDTO;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.PageDTO;
 import com.project.clean.model.dto.commonDTO.ReasonDTO;
@@ -38,6 +39,7 @@ public class AdminEmployeeController {
 
 	private final AdminEmployeeService adminService;
 	private final PageDTO pageDTO;
+	private final int maxPage = 5;
 
 	@Autowired
 	public AdminEmployeeController(AdminEmployeeService adminService, PageDTO pageDTO) {
@@ -98,13 +100,48 @@ public class AdminEmployeeController {
 
 	/* 직원 전체 조회(재직자 main page) & 페이징 */
 	@GetMapping("/select/retireN")
-	public String selectRetireNEmployee(@RequestParam(value = "page", defaultValue = "0") int page, Model mv) {
+	public String selectRetireNEmployee(@RequestParam(value = "page", defaultValue = "0") int page, Model mv, AdminSearchDTO searchDTO) {
+
 		Page<EmployeeAndAllDTO> startPage = adminService.selectRetireNEmployee(page);
 		List<EmployeeAndAllDTO> startList = startPage.toList();
+System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
+System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
+System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
+System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
+System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
+System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
+System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
+System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
+System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
+System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
+System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
+System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
+System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
+System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
+System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
+System.out.println("(searchDTO.getCategoryValue()"+searchDTO.getCategoryValue());
+		if(searchDTO.getCategoryValue() == "") {
+			System.out.println("3333333333333333333333");
+		} else if("333".equals(searchDTO.getCategoryValue())) {
+			System.out.println("55555555555555555555555");
+			System.out.println("55555555555555555555555");
+			System.out.println("55555555555555555555555");
+			System.out.println("55555555555555555555555");
+			System.out.println("55555555555555555555555");
+			System.out.println("55555555555555555555555");
+			System.out.println("55555555555555555555555");
+			System.out.println("55555555555555555555555");
+			System.out.println("55555555555555555555555");
+			System.out.println("55555555555555555555555");
+			System.out.println("55555555555555555555555");
+			System.out.println("55555555555555555555555");
+		} else if (searchDTO.getCategoryValue() == null){
+		}else {
+		}
 
 		/* .getnumber 메서드를 위해 list로 변환 x */
 		mv.addAttribute("pages", startPage);
-		mv.addAttribute("maxPage", 5);
+		mv.addAttribute("maxPage", maxPage);
 		mv.addAttribute("employeeAllList", startList);
 		mv.addAttribute("mainTain", "N");
 		mv.addAttribute("entireYn", startList);
@@ -119,7 +156,7 @@ public class AdminEmployeeController {
 
 		/* .getnumber 메서드를 위해 list로 변환 x */
 		mv.addAttribute("pages", startPage);
-		mv.addAttribute("maxPage", 5);
+		mv.addAttribute("maxPage", maxPage);
 		mv.addAttribute("employeeAllList", startList);
 		mv.addAttribute("entireYn", startList);
 		mv.addAttribute("mainTain", "Y");
@@ -353,7 +390,7 @@ public class AdminEmployeeController {
 //		List<EmployeeAndAllDTO> selectReturnEmployeeList = adminService.selectReturnEmployeeList();
 
 		mv.addAttribute("pages", startPage);
-		mv.addAttribute("maxPage", 5);
+		mv.addAttribute("maxPage", maxPage);
 		mv.addAttribute("employeeAllList", startList);
 
 		mv.addAttribute("returnEmployeeList", startPage);
@@ -532,7 +569,7 @@ public class AdminEmployeeController {
 
 		/* .getnumber 메서드를 위해 list로 변환 x */
 		mv.addAttribute("pages", startPage);
-		mv.addAttribute("maxPage", 5);
+		mv.addAttribute("maxPage", maxPage);
 		mv.addAttribute("mainTain", "N");
 		mv.addAttribute("blackList", startList);
 
@@ -584,33 +621,18 @@ public class AdminEmployeeController {
 		return "admin/humanResource/blackList/selectBlackListDetail";
 	}
 
-	/* 휴가 조회 */
+	/* 나의 휴가 조회 */
 	@GetMapping("/select/selectMyVacation")
 	public String selectMyVacaionList(@RequestParam(value = "page", defaultValue = "0") int page, String adminNo,
 			Model mv) {
 		int adminNoVal = Integer.valueOf(adminNo);
 		Page<VacationDTO> startPage = adminService.selectMyVacaionList(page, adminNoVal);
 		List<VacationDTO> myVacationList = startPage.toList();
-		String vacationStatus = "";
-//		if (myVacationList.size() > 0) {
-//			
-//			for (int i = 0; i < myVacationList.size(); i++) {
-//				VacationDTO vacation = new VacationDTO();
-//				vacation = myVacationList.get(i);
-//				if (vacation.getVacationFirstConfirmYn() == "Y" && vacation.getVacationSecondConfirmYn() == "Y"
-//						&& vacation.getVacationReturnYn() == "N") {
-//					vacationStatus = "승인";
-//				} else {
-//					vacationStatus = "승인 대기중";
-//				}
-//			}
-//		}
-
+		
 		mv.addAttribute("pages", startPage);
-		mv.addAttribute("maxPage", 5);
+		mv.addAttribute("maxPage", maxPage);
 		mv.addAttribute("mainTain", "N");
 		mv.addAttribute("vacation", myVacationList);
-		mv.addAttribute("vacationStatus", vacationStatus);
 		return "admin/humanResource/vacation/selectMyVacation";
 	}
 
@@ -687,35 +709,48 @@ public class AdminEmployeeController {
 
 	/* 휴가 전체 조회 */
 	@GetMapping("/hr/select/selectAllVacation")
-	public String selectAllVacationConfirmList(@RequestParam(value = "page", defaultValue = "0") int page,
-			Model mv) {
-		
+	public String selectAllVacationList(@RequestParam(value = "page", defaultValue = "0") int page, Model mv) {
+
 		Page<VacationDTO> vacationAllPage = adminService.selectVacationAllPage(page);
 		List<VacationDTO> vacationAllList = vacationAllPage.toList();
 		List<AdminDTO> adminList = adminService.selectAdmin();
-		
+
 		mv.addAttribute("pages", vacationAllPage);
-		mv.addAttribute("maxPage", 5);
+		mv.addAttribute("maxPage", maxPage);
 		mv.addAttribute("mainTain", "N");
 		mv.addAttribute("vacation", vacationAllList);
 		return "/admin/humanResource/vacation/selectAllVacation";
 
-	} 
-	
-	
+	}
+
 	/* 휴가 승인 전체 조회 */
 	@GetMapping("/hr/select/selectAllVacationConfirmList")
-	public String selectAllVacationConfirmList() {
-		return "admin/humanResource/vacation/selectAllVacationConfirmList";
-		
+	public String selectAllVacationConfirmList(@RequestParam(value = "page", defaultValue = "0") int page, Model mv) {
+		Page<VacationDTO> vacationAllPage = adminService.selectVacationConfirmPage(page);
+		List<VacationDTO> vacationAllList = vacationAllPage.toList();
+		List<AdminDTO> adminList = adminService.selectAdmin();
+
+		mv.addAttribute("pages", vacationAllPage);
+		mv.addAttribute("maxPage", maxPage);
+		mv.addAttribute("mainTain", "N");
+		mv.addAttribute("vacation", vacationAllList);
+		return "/admin/humanResource/vacation/selectAllVacationConfirmList";
+
 	}
-	
+
 	/* 휴가 반려 전체 조회 */
 	@GetMapping("/hr/select/selectAllVacationReturnList")
-	public String selectAllVacationReturnList() {
+	public String selectAllVacationReturnList(@RequestParam(value = "page", defaultValue = "0") int page, Model mv) {		
+		Page<VacationDTO> vacationAllPage = adminService.selectVacationReturnPage(page);
+	List<VacationDTO> vacationAllList = vacationAllPage.toList();
+	List<AdminDTO> adminList = adminService.selectAdmin();
+
+	mv.addAttribute("pages", vacationAllPage);
+	mv.addAttribute("maxPage", maxPage);
+	mv.addAttribute("mainTain", "N");
+	mv.addAttribute("vacation", vacationAllList);
 		return "admin/humanResource/vacation/selectAllVacationReturnList";
-		
+
 	}
-	
 
 }

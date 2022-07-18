@@ -37,7 +37,7 @@ public class AdminEmployeeService {
 	private final ReasonRepository reasonRepository;
 	private final AdminRepository adminRepository;
 	private final VacationRepository vacationRepository;
-	private final int selectEmployeeLineCount = 2;
+	private final int selectEmployeeLineCount = 1;
 
 	@Autowired
 	public AdminEmployeeService(EmployeeReopsitory employeeReopsitory, ModelMapper modelMapper,
@@ -292,6 +292,24 @@ public class AdminEmployeeService {
 	    Pageable pageable = PageRequest.of(page, selectEmployeeLineCount);
 		 Page<Vacation> vacationAllPage = vacationRepository.findAll(pageable);
 		 
+		return modelMapper.map(vacationAllPage, Page.class);
+	}
+	
+	public Page<VacationDTO> selectVacationConfirmPage(int page) {
+		
+		Pageable pageable = PageRequest.of(page, selectEmployeeLineCount);
+		Page<Vacation> vacationAllPage = vacationRepository
+										.findByVacationFirstConfirmYnAndVacationSecondConfirmYnAndVacationLastConfirmYnAndVacationReturnYn("Y","Y","Y","N",pageable);
+	
+		return modelMapper.map(vacationAllPage, Page.class);
+	}
+	
+	public Page<VacationDTO> selectVacationReturnPage(int page) {
+		
+		Pageable pageable = PageRequest.of(page, selectEmployeeLineCount);
+		Page<Vacation> vacationAllPage = vacationRepository
+				.findByVacationFirstConfirmYnAndVacationSecondConfirmYnAndVacationLastConfirmYnAndVacationReturnYn("N","N","N","Y",pageable);
+		
 		return modelMapper.map(vacationAllPage, Page.class);
 	}
 	

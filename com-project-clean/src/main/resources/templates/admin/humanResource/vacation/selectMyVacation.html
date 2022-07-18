@@ -80,7 +80,7 @@
                     <th>휴가시작일</th>
                     <th>휴가종료일</th>
                     <th>휴가구분</th>
-                    <th>반려여부</th>
+                    <th>승인 여부</th>
                 </tr>
             </thead>
             <tbody>
@@ -91,12 +91,12 @@
 						<td th:text="${ index.vacationStartDate }"></td>
 						<td th:text="${ index.vacationEndDate }"></td>
 						<td th:text="${ index.vacationName }"></td>
-						<td th:text="${ vacationStatus }"></td>
+						<td th:text="${ (index.vacationLastConfirmYn) == 'Y'? '승인 완료' : (index.vacationReturnYn) == 'Y' ? '반려' : '승인대기중' }"></td>
 					</tr>
 				</tbody>
             </tbody>
         </table>
-         <div id="vacationPaging"> <div th:replace="/admin/humanResource/vacation/vacationPaging.html"></div></div>
+         <div id="vacationPaging"> <div th:replace="/admin/humanResource/vacation/selectMyvacationPaging.html"></div></div>
         
     </div>
     </div>

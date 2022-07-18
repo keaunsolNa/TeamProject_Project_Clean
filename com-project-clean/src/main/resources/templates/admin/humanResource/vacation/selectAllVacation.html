@@ -46,7 +46,11 @@
                     <th>휴가시작일</th>
                     <th>휴가종료일</th>
                     <th>휴가구분</th>
-                    <th>반려여부</th>
+                    <th>1차 승인여부</th>
+                    <th>2차 승인여부</th>
+                    <th>반려 여부</th>
+                    <th>최종승인여부</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -57,12 +61,14 @@
 						<td th:text="${ index.vacationStartDate }"></td>
 						<td th:text="${ index.vacationEndDate }"></td>
 						<td th:text="${ index.vacationName }"></td>
-						<td th:text="${ vacationStatus }"></td>
-					</tr>
+						<td th:text="${ index.vacationFirstConfirmYn }"></td>
+						<td th:text="${ index.vacationSecondConfirmYn }"></td>
+						<td th:text="${ index.vacationReturnYn }"></td>
+						<td th:text="${ (index.vacationLastConfirmYn) == 'Y'? '승인 완료' : (index.vacationReturnYn) == 'Y' ? '반려' : '승인대기중' }"></td>
 				</tbody>
             </tbody>
         </table>
-         <!-- <div id="vacationPaging"> <div th:replace="/admin/humanResource/vacation/vacationPaging.html"></div></div> -->
+        <div id="vacationPaging"> <div th:replace="/admin/humanResource/vacation/selectAllVacationPaging.html"></div></div> 
         
     </div>
     </div>

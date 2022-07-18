@@ -18,219 +18,89 @@
             margin: 0 auto;
         }
 
-        ul.tabs {
-            margin: 0px;
-            padding: 0px;
-            list-style: none;
-        }
-
-        /* 선택하지 않은 탭 css */
-        ul.tabs li {
-            background: rgba(219, 243, 249, 1);
-            color: rgb(0, 0, 0);
-            display: inline-block;
-            padding: 10px 15px;
-            /* 좌측은 위아래 사이즈 우측은 좌우 사이즈 */
-            cursor: pointer;
-        }
-
-        /* 선택한 탭 css 설정 */
-        ul.tabs li.current {
-            background: rgba(104, 228, 255, 1);
-            color: rgb(0, 0, 0);
-        }
-
-        /* 선택한 탭의 내용 css 설정 */
-        .tab-content {
-            display: none;
-            background: #e95151;
-            padding: 15px;
-        }
-
-        .tab-content.current {
-            display: inherit;
-        }
     </style>
 </head>
+
 
 <body>
     <div class="container">
       <div th:replace="admin/humanResource/vacation/selectAllVacationHeader"></div>
+      <div id="tab-1" class="tab-content current">
+        <span>휴가 승인 전체 조회</span>
 
-        <!-- 반려 내용 -->
-            <span>휴가 반려 전체 조회</span>
+        <select name="category" id="category">
+            <option value="empNo" selected>사원번호</option>
+            <option value="empName">이름</option>
+            <option value="empBirth">생년월일</option>
+            <option value="empAddress">주소</option>
+            <option value="empPhone">전화번호</option>
+        </select>
+        <input type="text" name="categoryValue">
+        <button type="button" id="search">검색</button>
 
-            <select name="category" id="category">
-                <option value="empNo" selected>사원번호</option>
-                <option value="empName">이름</option>
-                <option value="empBirth">생년월일</option>
-                <option value="empAddress">주소</option>
-                <option value="empPhone">전화번호</option>
-            </select>
-            <input type="text" name="categoryValue">
-            <button type="button" id="search">검색</button>
-
-            <table id="employeeList" border="1">
-                <thead>
-                    <tr>
-                        <th>신청번호</th>
-                        <th>신청자</th>
-                        <th>휴가시작일</th>
-                        <th>휴가종료일</th>
-                        <th>휴가구분</th>
-                        <th>진행상태</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <c:forEach varStatus="index" items="${requestScope.data}">
-                    <tr>
-	                    <td>${ index.vacationNo }</td>
-	                    <td>${ index.vacationName }</td>
-	                    <td>${ index.vacationStart }</td>
-	                    <td>${ index.vacationEnd }</td>
-	                    <td>${ index.vacationDivision }</td>
-	                    <td>${ index.vacationStatus }</td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-
-
+        <table id="vacationReturnList" border="1">
+            <thead>
+                <tr>
+                    <th>신청번호</th>
+                    <th>신청날짜</th>
+                    <th>휴가시작일</th>
+                    <th>휴가종료일</th>
+                    <th>휴가구분</th>
+                    <th>1차 승인여부</th>
+                    <th>2차 승인여부</th>
+                    <th>반려 여부</th>
+                    <th>최종승인여부</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+				<tbody>
+					<tr th:each="index : ${vacation}">
+						<td th:text="${ index.vacationNo }"></td>
+						<td th:text="${ index.requestDate }"></td>
+						<td th:text="${ index.vacationStartDate }"></td>
+						<td th:text="${ index.vacationEndDate }"></td>
+						<td th:text="${ index.vacationName }"></td>
+						<td th:text="${ index.vacationFirstConfirmYn }"></td>
+						<td th:text="${ index.vacationSecondConfirmYn }"></td>
+						<td th:text="${ index.vacationReturnYn }"></td>
+						<td th:text="${ (index.vacationLastConfirmYn) == 'Y'? '승인 완료' : (index.vacationReturnYn) == 'Y' ? '반려' : '승인대기중' }"></td>
+				</tbody>
+            </tbody>
+            </tbody>
+        </table>
+        <div id="vacationPaging"> <div th:replace="/admin/humanResource/vacation/selectReturnVacationPaging.html"></div></div> 
+        
     </div>
-
-
-
-
-
+    </div>
+    
     <script>
-        /* 탭 전환 관련 스크립트 */
-        $(document).ready(function () {
 
-            $('ul.tabs li').click(function () {
-                var tab_id = $(this).attr('data-tab');
+	/* hover event */
+	function hover() {
+		const vacationReturnList = document.getElementsByTagName("td");
 
-                $('ul.tabs li').removeClass('current');
-                $('.tab-content').removeClass('current');
+		for (let i = 0; i < vacationReturnList.length; i++) {
+			vacationReturnList[i].onmouseenter = function() {
+				this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+				this.parentNode.style.cursor = "pointer";
+			}
+			vacationReturnList[i].onmouseout = function() {
+				this.parentNode.style.backgroundColor = "white";
+			}
 
-                $(this).addClass('current');
-                $("#" + tab_id).addClass('current');
-            })
+			vacationReturnList[i].onclick = function() {
+				location.href = "/admin/select/selectMyVacation/Detail/"
+						+ this.parentNode.children[0].innerText;
+			}
+		}
+	};
+	
+	$(function(){
+	hover();
+	})
+</script>
 
-        })
-
-        /* 검색기능 list 출력 */
-		$("#search").click(function(){
-			$.ajax({
-				url : "gson1",
-				success:function(data){
-
-					const $table = $("#employeeList tbody");
-					$table.html("");
-					
-					for(var index in data){
-						$tr = $("<tr>");
-						$noTd = $("<td>").text(data[index].no);
-						$nameTd = $("<td>").text(data[index].name);
-						$ageTd = $("<td>").text(data[index].age);
-						$enrollDateTd = $("<td>").text(data[index].enrollDate);
-						$unknown1 = $("<td>").text(data[index].enrollDate);
-						$unknown2 = $("<td>").text(data[index].enrollDate);
-						
-						$tr.append($noTd);
-						$tr.append($nameTd);
-						$tr.append($ageTd);
-						$tr.append($enrollDateTd);
-						$tr.append($unknown1);
-						$tr.append($unknown2);
-						
-						$table.append($tr);
-					}
-				},
-				error:function(error){
-					console.log(error);
-				}
-			});
-		});
-        
-        /* 재직자 list 불러오기 */
-		$("#retireN").click(function(){
-			$.ajax({
-				url : "gson1",
-				success:function(data){
-
-					const $table = $("#employeeList tbody");
-					$table.html("");
-					
-					for(var index in data){
-						$tr = $("<tr>");
-						$noTd = $("<td>").text(data[index].no);
-						$nameTd = $("<td>").text(data[index].name);
-						$ageTd = $("<td>").text(data[index].age);
-						$enrollDateTd = $("<td>").text(data[index].enrollDate);
-						$unknown1 = $("<td>").text(data[index].enrollDate);
-						$unknown2 = $("<td>").text(data[index].enrollDate);
-						
-						$tr.append($noTd);
-						$tr.append($nameTd);
-						$tr.append($ageTd);
-						$tr.append($enrollDateTd);
-						$tr.append($unknown1);
-						$tr.append($unknown2);
-						
-						$table.append($tr);
-					}
-				},
-				error:function(error){
-					console.log(error);
-				}
-			});
-		});
-        
-        window.onload = function(){
-        	
-        }
-
-        
-        /* 퇴사자 list 불러오기 */
-		$("#retireY").click(function(){
-			$.ajax({
-				url : "gson1",
-				success:function(data){
-
-					const $table = $("#employeeList tbody");
-					$table.html("");
-					
-					for(var index in data){
-						$tr = $("<tr>");
-						$noTd = $("<td>").text(data[index].no);
-						$nameTd = $("<td>").text(data[index].name);
-						$ageTd = $("<td>").text(data[index].age);
-						$enrollDateTd = $("<td>").text(data[index].enrollDate);
-						$unknown1 = $("<td>").text(data[index].enrollDate);
-						$unknown2 = $("<td>").text(data[index].enrollDate);
-						
-						$tr.append($noTd);
-						$tr.append($nameTd);
-						$tr.append($ageTd);
-						$tr.append($enrollDateTd);
-						$tr.append($unknown1);
-						$tr.append($unknown2);
-						
-						$table.append($tr);
-					}
-				},
-				error:function(error){
-					console.log(error);
-				}
-			});
-		});
-        
-        window.onload = function(){
-        	
-        }
-
-
-    </script>
 </body>
 
 </html>

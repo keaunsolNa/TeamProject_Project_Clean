@@ -12,6 +12,13 @@ public interface VacationRepository extends JpaRepository<Vacation, Integer>{
 	public Page<Vacation> findByAdminNo(int adminNo, Pageable pageable);
 
 	public Vacation findByVacationNo(int vacationNo, Sort sort);
+
+	public Page<Vacation> findByVacationFirstConfirmYnAndVacationSecondConfirmYnAndVacationLastConfirmYnAndVacationReturnYn(
+			String firstConfirm, String secondConfirm, String lastConfirm, String returnUn, Pageable pageable);
+	
+	public Page<Vacation> findByVacationFirstConfirmYnOrVacationSecondConfirmYnOrVacationLastConfirmYnOrVacationReturnYn(
+			String firstConfirm, String secondConfirm, String lastConfirm, String returnUn, Pageable pageable);
+	
 	
 }
 
