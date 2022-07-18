@@ -17,8 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.clean.controller.common.paging.Pagenation;
 import com.project.clean.controller.common.paging.SelectCriteria;
-import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.SurchargeDTO;
+import com.project.clean.model.dto.joinDTO.AdminAndAdminPayDTO;
 import com.project.clean.model.dto.joinDTO.AdminPayAndAdminDTO;
 import com.project.clean.model.service.pay.PayService;
 
@@ -112,9 +112,18 @@ public class PayController {
 	/* 관리자 급여 대기목록 */
 	@GetMapping("/adminPayWaiting")
 	public ModelAndView findAdminList(ModelAndView mv) {
-		List<AdminDTO> adminList = payService.findAllAdmin();
+		List<AdminAndAdminPayDTO> adminList = payService.findNullAdmin();
+		List<AdminAndAdminPayDTO> adminList2 = payService.findPaidAdmin();
+		List<AdminAndAdminPayDTO> adminList3 = payService.findAllAdmin();
+		List<SurchargeDTO> surchargeList = payService.findSurchargeList();
+		
+		// 4대보험료 불러오기 (급여계산에 쓰기 위해) 
+		int insurance =surchargeList.get(0).getSurchargeInsurance();
 		
 		mv.addObject("adminList", adminList);
+		mv.addObject("adminList2", adminList2);
+		mv.addObject("adminList3", adminList3);
+		mv.addObject("insurance", insurance);
 		mv.setViewName("pay/adminPayWaiting");
 		
 		return mv;
@@ -125,12 +134,13 @@ public class PayController {
 	/* 관리자 급여 대기목록 - 모든 관리자 조회 */
 	@GetMapping(value="/admin", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public List<AdminDTO> findAdminSelect(){
+	public List<AdminAndAdminPayDTO> findAdminSelect(){
 		
 		return payService.findAllAdmin();
 	
 	}
 	
+	@PostMapping
 
 	// 부가요금 ------------------------------------------------------------------------------------------------
 	
@@ -141,7 +151,7 @@ public class PayController {
 		List<SurchargeDTO> surchargeList = payService.findSurchargeList();
 		
 		mv.addObject("surchargeList", surchargeList);
-		mv.setViewName("pay/surcharge/");
+		mv.setViewName("pay/surcharge");
 		
 		return mv;
 	}

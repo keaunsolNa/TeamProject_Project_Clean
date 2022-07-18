@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,14 +14,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.clean.controller.common.paging.SelectCriteria;
-import com.project.clean.model.domain.commonEntity.Admin;
 import com.project.clean.model.domain.commonEntity.Surcharge;
+import com.project.clean.model.domain.joinEntity.AdminAndAdminPay;
 import com.project.clean.model.domain.joinEntity.AdminPayAndAdmin;
-import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.SurchargeDTO;
+import com.project.clean.model.dto.joinDTO.AdminAndAdminPayDTO;
 import com.project.clean.model.dto.joinDTO.AdminPayAndAdminDTO;
+import com.project.clean.model.repository.pay.AdminAndAdminPayRepository;
 import com.project.clean.model.repository.pay.AdminPayRepository;
-import com.project.clean.model.repository.pay.AdminRepositoryByPay;
 import com.project.clean.model.repository.pay.SurchargeRepository;
 
 @Service
@@ -28,16 +29,18 @@ public class PayServiceImpl implements PayService{
 	
 	private final SurchargeRepository surchargeRepository;
 	private final AdminPayRepository adminPayRepository;
-	private final AdminRepositoryByPay adminRepository;
+	private final AdminAndAdminPayRepository adminAndAdminPayRepository;
 	private final ModelMapper modelMapper;			// modelMapper 빈을 선언
 	
+	
 	@Autowired
-	public PayServiceImpl(SurchargeRepository surchargeRepository,AdminPayRepository adminPayRepository,AdminRepositoryByPay 	adminRepository,ModelMapper modelMapper) {
+	public PayServiceImpl(SurchargeRepository surchargeRepository,AdminPayRepository adminPayRepository,AdminAndAdminPayRepository adminAndAdminPayRepository,ModelMapper modelMapper) {
 		this.surchargeRepository = surchargeRepository;
 		this.adminPayRepository = adminPayRepository;
-		this.adminRepository = adminRepository;
+		this.adminAndAdminPayRepository = adminAndAdminPayRepository;
 		this.modelMapper = modelMapper;
 	}
+	
 	
 	// 부가요금 ------------------------------------------------------------------------------------------------
 	
@@ -45,7 +48,6 @@ public class PayServiceImpl implements PayService{
 	@Override
 	public List<SurchargeDTO> findSurchargeList() {
 		List<Surcharge> surchargeList = surchargeRepository.findAll();				
-		
 		System.out.println("잘 되지?" + surchargeList );
 
 		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
@@ -148,7 +150,7 @@ public class PayServiceImpl implements PayService{
 		}
 
 		/* 자바의 Stream API와 ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
-		return adminPayList.stream().map(pay -> modelMapper.map(pay, 		AdminPayAndAdminDTO.class)).collect(Collectors.toList());
+		return adminPayList.stream().map(pay -> modelMapper.map(pay,AdminPayAndAdminDTO.class)).collect(Collectors.toList());
 	}
 	
 	/* 관리자 급여 상세 조회 */
@@ -163,16 +165,39 @@ public class PayServiceImpl implements PayService{
 	}
 
 	
-	/* 모든 관리자 조회  */
-	public List<AdminDTO> findAllAdmin() {
+	/* 급여를 한번도 받지 않은 신입 관리자 조회  */
+	public List<AdminAndAdminPayDTO> findNullAdmin() {
 		
-		List<Admin> adminList = adminRepository.findAll();				
-		
+		List<AdminAndAdminPay> adminList = adminAndAdminPayRepository.findNullAdminNativeQuery();				
+		System.out.println("--------- DTO에서 adminPay 여부 확인 ----------");
+		for (AdminAndAdminPay adminAndAdminPay : adminList) {
+			System.out.println(adminAndAdminPay.getAdminPay());
+		}
 		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
-		return adminList.stream().map(admin -> modelMapper.map(admin,AdminDTO.class)).collect(Collectors.toList());
+		return adminList.stream().map(admin -> modelMapper.map(admin,AdminAndAdminPayDTO.class)).collect(Collectors.toList());
+		
+	}
+	
+	/* 이번달 급여를 받은 관리자 조회  */
+	public List<AdminAndAdminPayDTO> findPaidAdmin() {
+		
+		List<AdminAndAdminPay> adminList2 = adminAndAdminPayRepository.findPaidAdminNativeQuery();				
+
+		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
+		return adminList2.stream().map(admin -> modelMapper.map(admin,AdminAndAdminPayDTO.class)).collect(Collectors.toList());
 		
 	}
 
+	/* 모든 관리자 조회 */
+	@Override
+	public List<AdminAndAdminPayDTO> findAllAdmin() {
+		
+		List<AdminAndAdminPay> adminList3 = adminAndAdminPayRepository.findAll(Sort.by("adminName"));				
+
+		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
+		return adminList3.stream().map(admin -> modelMapper.map(admin,AdminAndAdminPayDTO.class)).collect(Collectors.toList());
+	}
+	
 
 
 

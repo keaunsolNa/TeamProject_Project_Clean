@@ -1,10 +1,11 @@
 
+
 table{
 	width:100%;
 	margin:0 auto;
     font-family: 'MinSans-Medium';
     font-weight: normal;
-    font-size:16px;
+    font-size:14px;
     border:1px solid #9AE8F9;
     text-align: center;
     border-collapse: collapse;
@@ -15,6 +16,8 @@ table{
 table th, table tr, table td {
 	border: 1px solid black;
 }
+
+
  
  table tr:first-of-type p{
      font-size: large;
@@ -35,12 +38,12 @@ table th, table tr, table td {
 }
 
 .payButton {
-    width: 60px;
-    height: 28px;
+    width: 63px;
+    height: 35px;
    	font-size:12px;
    	cursor: pointer;
-    border-style: none;
-    border-radius: 20px;
+	border:1px solid gray;
+    border-radius: 5px;
     background-color: rgb(207, 207, 207);
 }
 
@@ -49,7 +52,31 @@ table th, table tr, table td {
     background-color: #9AE8F9;
 }
 
-#phone {
-	width:100%;
-	height: 100%;
+tr:nth-of-type(1){background: #9AE8F9;}
+
+table th{
+	border: 1px solid black;
+}
+select{
+	width:120px;
+	height:34px;
+	border:1px solid black;
+	padding-left:31px;
+	margin-left: 78% !important;
+	font-size:14px !important;
+}
+
+#allAdminTable, #paidAdminTable {
+    float:left;
+    
+	margin-right:1%;
+}
+
+#allAdminTable {
+	width:54%;
+	
+}
+
+#paidAdminTable {
+	width:43%;
 }
