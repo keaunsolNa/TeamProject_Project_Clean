@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+ <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style>
+.tg  {border-collapse:collapse;border-spacing:0;}
+    .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+      overflow:hidden;padding:10px 5px;word-break:normal; border-color:#c0c0c0;text-align:center;vertical-align:middle}
+    .btn_regist {
+      background: #9AE8F9;
+      padding: 6px;
+      border-radius: 3px;
+      border : 0;
+      outline: 0;
+      cursor: pointer;
+    }
+    .btn_regist:hover {
+      box-shadow: 1px 1px 1px #ddd;
+    }
+    .btn_cascade {
+      background: #9AE8F9;
+      padding: 6px;
+      border-radius: 3px;
+      border : 0;
+      outline: 0;
+    }
+    .btn_cascade:hover {
+      box-shadow: 1px 1px 1px #ddd;
+    }
+</style>
+</head>
+<body>
+
+	<div th:include="common/header.html"></div>
+	<div th:include="common/hrAside.html"></div>
+	
+	<button onclick="history.back()">Back</button>
+	
+    <form id="retireForm" action="Delete" method="post" enctype="multipart/form-data">
+	    <table class="tg">
+	    <colgroup>
+	    <col style="width: 100px">
+	    <col style="width: 120px">
+	    <col style="width: 100px">
+	    <col style="width: 200px">
+	    <col style="width: 60px">
+	    <col style="width: 60px">
+		    <thead>
+		      <tr>
+		        <td class="tg-wman">관리자번호</td>
+		        <td th:text="${ retireAdmin.retireAdminNo }"></td>
+		        <td>이름</td>
+		        <td th:text="${ retireAdmin.retireAdminName }"></td>
+		      </tr>
+		      <tr>
+		        <td>ID</td>
+		        <td th:text="${ retireAdmin.retireAdminId }"></td>
+		        <td>전화번호</td>
+		        <td th:text="${ retireAdmin.retireAdminPhone }"></td>
+		      </tr>
+		      <tr>
+		        <td>생년월일</td>
+		        <td th:text="${ retireAdmin.retireAdminBrith }"></td>
+		        <td>성별</td>
+		        <td th:text="${retireAdmin.retireAdminGender}"></td>
+		        
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr>
+		        <td>입사일</td>
+		        <td colspan="2" th:text="${ retireAdmin.retireAdminHireDate }"></td>
+		        <td>퇴사일</td>
+		        <td colspan="2" th:text="${ retireAdmin.retireAdminRetireDate }">-</td>
+		      </tr>
+		      <tr>
+		        <td>직급명</td>
+		        <td colspan="2" th:text="${ retireAdmin.retireAdminJob }"></td>
+		        <td>마지막 로그인 일자</td>
+		        <td colspan="2" th:text="${ retireAdmin.retireAdminLastLoginDate }"></td>
+		      </tr>
+		      <tr>
+		        <td class="tg-wman">연차 사용 횟수</td>
+		        <td class="tg-wman" colspan="2" th:text="${ retireAdmin.retireAnnualVacationUse }"></td>
+		        <td>퇴사여부</td>
+		        <td colspan="2" th:text="${ retireAdmin.retireAdminRetireYn }"></td>
+		      </tr>
+		    </tbody>      
+   		 </table>
+    </form>
+    
+</body>
+</html>

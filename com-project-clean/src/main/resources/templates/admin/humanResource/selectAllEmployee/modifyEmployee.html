@@ -88,13 +88,13 @@
 	                    <td class="tg-7btt"> <button type="button" id="pictureModify" name="pictureModify">수정</button> </td>
 	                    <td class="tg-7btt"> <button type="button"id="pictureDelete" name="pictureDelete">삭제</button> </td>
 	                    <td style="display: none;"> <input type="file" id="picture" name="picture" onchange="loadImg(this,1)">
-	          </tr>
+	          		</tr>
 	                  <tr>
 	                    <td class="tg-7btt">우편번호</td>
 	                    <td class="tg-7btt"><div id="addressNo" th:text="${address.addressNo}"></div></td>
 	                    <td class="tg-7btt">기본주소</td>
 	                    <td class="tg-7btt"><div id="address" th:text="${address.address}"></div></td>
-	                    <td class="tg-7btt" colspan="2"><button type="button" id="findAddress">주소찾기</button></td> 
+	                    <td class="tg-7btt" colspan="3"><button type="button" id="findAddress">주소찾기</button></td> 
 	                  </tr>
 	                  <tr>
 	                    <td class="tg-7btt">상세주소</td>

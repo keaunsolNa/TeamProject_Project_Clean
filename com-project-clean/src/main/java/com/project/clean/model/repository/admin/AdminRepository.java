@@ -64,4 +64,13 @@ public interface AdminRepository extends JpaRepository<Admin, Integer>{
 	@Query(value="UPDATE TBL_ADMIN a SET admin_retire_date = sysdate WHERE admin_no = ?", nativeQuery = true)
 	Integer findByAdminRetireDate(int adminNo);
 
+	/* 퇴사자 조회 */
+	@Query(value="SELECT * FROM TBL_ADMIN a WHERE a.admin_retire_yn = 'Y' ORDER BY a.admin_no", nativeQuery = true)
+	List<Admin> findAdminByAdminRetireY();
+
+
+	/* 휴가 승인한 최종 관리자의 정보 불러오기 */
+//	@Query(value="SELECT * FROM tbl_admin a WHERE a.admin_no = ?", nativeQuery = true)
+//	Admin findByCommitAdmin(int bossNo);
+
 }

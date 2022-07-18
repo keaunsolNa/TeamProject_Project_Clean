@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style>
         body {
             margin-top: 100px;
@@ -72,13 +72,11 @@
                  </form> -->
                 
                 <!--  <div th:replace="hrCard/adminListPaging.html"></div> -->
-                 
-                 
-         
-                <a href="/admin/hrCard/retireAdminList">퇴사자 목록</a>
-
-    
-                <table id="adminList" border="1">
+               
+               <a href="/admin/hrCard/adminList">재직자 목록</a>
+               
+               
+                <table id="retireAdminList" border="1">
                     <thead>
                         <tr>
                             <th>관리자번호</th>
@@ -90,7 +88,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    	<tr th:each="index : ${ adminList }">
+                    	<tr th:each="index : ${ retireAdminList }">
 							<td th:text="${ index.adminNo }"></td>
 							<td th:text="${ index.adminName }"></td>
 							<td th:text="${ index.adminBirth }"></td>
@@ -127,41 +125,6 @@
         $(function(){
         	hover();
         })
-
-	
-         /* 검색기능 list 출력 */
-		$("#search").click(function(){
-			$.ajax({
-				url : "gson1",
-				success:function(data){
-
-					const $table = $("#employeeList tbody");
-					$table.html("");
-					
-					for(var index in data){
-						$tr = $("<tr>");
-						$noTd = $("<td>").text(data[index].no);
-						$nameTd = $("<td>").text(data[index].name);
-						$ageTd = $("<td>").text(data[index].age);
-						$enrollDateTd = $("<td>").text(data[index].enrollDate);
-						$unknown1 = $("<td>").text(data[index].enrollDate);
-						$unknown2 = $("<td>").text(data[index].enrollDate);
-						
-						$tr.append($noTd);
-						$tr.append($nameTd);
-						$tr.append($ageTd);
-						$tr.append($enrollDateTd);
-						$tr.append($unknown1);
-						$tr.append($unknown2);
-						
-						$table.append($tr);
-					}
-				},
-				error:function(error){
-					console.log(error);
-				}
-			});
-		});
        
     </script>
     

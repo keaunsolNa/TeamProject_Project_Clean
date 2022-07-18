@@ -17,77 +17,77 @@ import com.project.clean.model.domain.adminEntity.AdminVacationCommitPFKId;
 @IdClass(AdminVacationCommitPFKId.class)
 public class VacationCommit implements Serializable {
 
-	private static final long serialVersionUID = -8882971212931923117L;
-	
-	@Id
-	@Column(name="ADMIN_NO")
-	private int adminNo;
+   private static final long serialVersionUID = -8882971212931923117L;
+   
+   @Id
+   @Column(name="ADMIN_NO")
+   private int adminNo;
 
-	@Id
-	@Column(name="VACATION_NO")
-	private int vacationNo;
-	
-	@Column(name="RETURN_REASON")
-	private String confirmReason;
-	
-	@Column(name="CONFIRM_DATE")
-	private java.sql.Date confirmDate;
+   @Id
+   @Column(name="VACATION_NO")
+   private int vacationNo;
+   
+   @Column(name="CONFIRM_REASON")
+   private String confirmReason;
+   
+   @Column(name="CONFIRM_DATE")
+   private java.sql.Date confirmDate;
 
-	public VacationCommit() {
-		super();
+   public VacationCommit() {
+      super();
 
-	}
+   }
 
-	public VacationCommit(int adminNo, int vacationNo, String confirmReason, Date confirmDate) {
-		this.adminNo = adminNo;
-		this.vacationNo = vacationNo;
-		this.confirmReason = confirmReason;
-		this.confirmDate = confirmDate;
-	}
+   public VacationCommit(int adminNo, int vacationNo, String confirmReason, Date confirmDate) {
+      this.adminNo = adminNo;
+      this.vacationNo = vacationNo;
+      this.confirmReason = confirmReason;
+      this.confirmDate = confirmDate;
+   }
 
-	public int getAdminNo() {
-		return adminNo;
-	}
+   public int getAdminNo() {
+      return adminNo;
+   }
 
-	public void setAdminNo(int adminNo) {
-		this.adminNo = adminNo;
-	}
+   public void setAdminNo(int adminNo) {
+      this.adminNo = adminNo;
+   }
 
-	public int getVacationNo() {
-		return vacationNo;
-	}
+   public int getVacationNo() {
+      return vacationNo;
+   }
 
-	public void setVacationNo(int vacationNo) {
-		this.vacationNo = vacationNo;
-	}
+   public void setVacationNo(int vacationNo) {
+      this.vacationNo = vacationNo;
+   }
 
-	public String getConfirmReason() {
-		return confirmReason;
-	}
+   public String getConfirmReason() {
+      return confirmReason;
+   }
 
-	public void setConfirmReason(String confirmReason) {
-		this.confirmReason = confirmReason;
-	}
+   public void setConfirmReason(String confirmReason) {
+      this.confirmReason = confirmReason;
+   }
 
-	public java.sql.Date getConfirmDate() {
-		return confirmDate;
-	}
+   public java.sql.Date getConfirmDate() {
+      return confirmDate;
+   }
 
-	public void setConfirmDate(java.sql.Date confirmDate) {
-		this.confirmDate = confirmDate;
-	}
+   public void setConfirmDate(java.sql.Date confirmDate) {
+      this.confirmDate = confirmDate;
+   }
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+   public static long getSerialversionuid() {
+      return serialVersionUID;
+   }
 
-	@Override
-	public String toString() {
-		return "VacationCommit [adminNo=" + adminNo + ", vacationNo=" + vacationNo + ", confirmReason=" + confirmReason
-				+ ", confirmDate=" + confirmDate + "]";
-	}
+   @Override
+   public String toString() {
+      return "VacationCommit [adminNo=" + adminNo + ", vacationNo=" + vacationNo + ", confirmReason=" + confirmReason
+            + ", confirmDate=" + confirmDate + "]";
+   }
 
-	
-	
-	
+   
+   
+   
 }
