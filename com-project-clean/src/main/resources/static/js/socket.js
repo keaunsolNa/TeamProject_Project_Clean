@@ -41,7 +41,6 @@ function sendName() {
 function showGreeting(message) {
     jq("#ReceiveMessage").show();
     jq("#ReceiveMessage").append("<tr><td>" + message + "</td></tr>");
-    
 }
 
 jq(function () {
@@ -56,5 +55,6 @@ jq(function () {
 
 $(function(){
 	connect();
-
 });	
+
+
