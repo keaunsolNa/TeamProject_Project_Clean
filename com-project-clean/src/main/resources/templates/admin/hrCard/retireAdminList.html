@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style>
+        body {
+            margin-top: 100px;
+            font-family: 'Trebuchet MS', serif;
+            line-height: 1.6
+        }
+
+        /* 전체 크기 */
+        .container {
+            width: 1500px;
+            margin: 0 auto;
+        }
+
+        ul.tabs {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+        }
+
+        /* 선택하지 않은 탭 css */
+        ul.tabs li {
+            background: rgba(219, 243, 249, 1);
+            color: rgb(0, 0, 0);
+            display: inline-block;
+            padding: 10px 15px;
+            /* 좌측은 위아래 사이즈 우측은 좌우 사이즈 */
+            cursor: pointer;
+        }
+
+        /* 선택한 탭 css 설정 */
+        ul.tabs li.current {
+            background: rgba(104, 228, 255, 1);
+            color: rgb(0, 0, 0);
+        }
+
+        /* 선택한 탭의 내용 css 설정 */
+        .tab-content {
+            display: none;
+            background: #e95151;
+            padding: 15px;
+        }
+
+        .tab-content.current {
+            display: inherit;
+        }
+    </style>
+</head>
+<body>
+	<div th:include="common/header.html"></div>
+	<div th:include="common/hrAside.html"></div>
+	<div class="container">
+
+        <!-- 관리자 내용 -->
+           <!--  <div id="tab-2" class="tab-content">
+                <span>인사관리 카드 조회</span>
+                <form action="admin/hrCard/adminList" method="get">
+	                    <select th:with="searchCondition = ${selectCriteria.searchCondition}" name="searchCondition">
+	                        <option value="adminName" th:selected="${ searchCondition } == 'adminName'">이름</option>
+	                        <option value="adminJob"  th:selected="${ searchCondition } == 'adminJob'">직책명</option>
+	                    </select>
+	                <input type="hidden" name="currentPage" value="1">
+	                <input type="search" id="name" name="searchValue" th:value="${selectCriteria.searchValue}">
+	                <button type="button" id="search">검색</button>
+                
+                 </form> -->
+                
+                <!--  <div th:replace="hrCard/adminListPaging.html"></div> -->
+               
+               <a href="/admin/hrCard/adminList">재직자 목록</a>
+               
+               
+                <table id="retireAdminList" border="1">
+                    <thead>
+                        <tr>
+                            <th>관리자번호</th>
+                            <th>이름</th>
+                            <th>생년월일</th>
+                            <th>입사일</th>
+                            <th>직급명</th>
+                            <th>전화번호</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    	<tr th:each="index : ${ retireAdminList }">
+							<td th:text="${ index.adminNo }"></td>
+							<td th:text="${ index.adminName }"></td>
+							<td th:text="${ index.adminBirth }"></td>
+							<td th:text="${ index.adminHireDate }"></td>
+							<td th:text="${ index.adminJob }"></td>
+							<td th:text="${ index.adminPhone }"></td>
+						</tr>
+                    </tbody>
+                </table>    
+            </div>
+       
+    <script>
+        
+        /* hover event */
+        function hover(){
+            const employee = document.getElementsByTagName("td");
+
+            for(let i = 0; i < employee.length; i++){
+            	employee[i].onmouseenter = function(){
+                    this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+                    this.parentNode.style.cursor = "pointer";
+                }
+            	employee[i].onmouseout = function(){
+                    this.parentNode.style.backgroundColor = "white";
+                }
+
+            	employee[i].onclick = function(){
+                    location.href="/admin/hrCard/adminDetail/" + this.parentNode.children[0].innerText;
+                }
+            }
+        };
+        
+        /* 시작 할 때 hover event */
+        $(function(){
+        	hover();
+        })
+       
+    </script>
+    
+
+</body>
+</html>

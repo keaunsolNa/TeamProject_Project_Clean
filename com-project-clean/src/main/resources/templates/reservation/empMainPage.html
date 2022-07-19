@@ -16,39 +16,37 @@
 <!-- 해당 날짜 클릭 이벤트 -->
 <script th:inline="javascript">
 
-$(function(){
-	var calendarEl = document.getElementById('calendar');
-	let reservation = new Object();
-	
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: ''
-      },
-      locale: "ko",
-      events: [			/* 여기에 날짜랑 지원가능 / 마감 수 가져와서 뿌려주면 됨 */
-			/*[# th:each = "reservation, i : ${reservationDateList}"]*/
-			{
-	            title: "지원 마감 : " + /*[[${unableCountList[i.index]}]]*/,	            
-	            url: '/reservation/' + /*[[${dateList[i.index]}]]*/,
-	            start: /*[[${dateList[i.index]}]]*/
-	          },
-          	{
-	            title: "지원 가능 : " + /*[[${ableCountList[i.index]}]]*/,
-	            url: '/reservation/' + /*[[${dateList[i.index]}]]*/,
-	            start: /*[[${dateList[i.index]}]]*/
-	          },
-			/*[/]*/
-    	  	
-        ]
-      , eventClick: function(info) {
-    	    alert('여기에 이벤트 걸어주고 확인 누르면 url로 이동됨~');
-    	  }
-	});
-	calendar.render();
-});
+	window.onload = function(){
+		var calendarEl = document.getElementById('calendar');
+		let reservation = new Object();
+		
+	    var calendar = new FullCalendar.Calendar(calendarEl, {
+	      initialView: 'dayGridMonth',
+	      headerToolbar: {
+	        left: 'prev,next today',
+	        center: 'title',
+	        right: ''
+	      },
+	      locale: "ko",
+	      events: [			/* 여기에 날짜랑 지원가능 / 마감 수 가져와서 뿌려주면 됨 */
+				/*[# th:each = "reservation, i : ${reservationDateList}"]*/
+				{
+		            title: "지원 마감 : " + /*[[${unableCountList[i.index]}]]*/,	            
+		            url: '/reservation/date/' + /*[[${dateList[i.index]}]]*/,
+		            start: /*[[${dateList[i.index]}]]*/
+		          },
+	          	{
+		            title: "지원 가능 : " + /*[[${ableCountList[i.index]}]]*/,
+		            url: '/reservation/date/' + /*[[${dateList[i.index]}]]*/,
+		            start: /*[[${dateList[i.index]}]]*/
+		          },
+				/*[/]*/
+	    	  	
+	        ]
+	      , eventClick: function(info) {}
+		});
+    	calendar.render();
+	};
 
 
 </script>
@@ -56,6 +54,7 @@ $(function(){
 </head>
 <body>
 	<div th:include="common/header.html"></div>
+	<div th:include="common/reservationAside.html"></div>
 	<div style="margin:30px auto 30px auto; width: 1000px; height: 700px;">
 	    <div id='calendar'></div>  
 	</div>

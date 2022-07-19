@@ -29,10 +29,9 @@ table th, table tr, table td {
  }
  
 
- h2 {
+ .borderText {
 	font-family: 'MinSans-Medium';
     font-weight: normal;
-    font-size:16px;
     border-top:5px solid #9AE8F9;
     border-bottom:5px solid #9AE8F9;
 }

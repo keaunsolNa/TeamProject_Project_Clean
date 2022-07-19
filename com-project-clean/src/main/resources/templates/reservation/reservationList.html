@@ -8,7 +8,8 @@
 </head>
 <body>
 	<div th:include="common/header.html"></div>
-	
+	<div th:include="common/reservationAside.html"></div>
+	<h1 align="center" th:text="${#dates.format(date, 'yyyy-MM-dd')}"></h1>
 	<table align="center" border="1">
 		<tr>
 			<th style="display: none;"></th>
@@ -35,6 +36,8 @@
 			<td style="color:blue;" th:if="${ reservation.applyEndYn =='N'}" th:text="가능"></td>
 		</tr>
 	</table>
+
+    <div th:replace="reservation/reservationPaging.html"></div>
 	<script>
 		window.onload = function(){
 	        const employee = document.getElementsByTagName("td");

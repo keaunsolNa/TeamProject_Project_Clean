@@ -70,9 +70,9 @@ body {
 		</div>
 		
 		<script th:inline="javascript">
-		    /*<![CDATA[*/
+		    /*<![CDATA[
 			$(function(){
-				const mainTain = /*[[${mainTain}]]*/;			
+				const mainTain = [[${mainTain}]]	
 			if(mainTain == 'N'){
 				$("#retireNEmployee").attr("checked","true")
 				$('#entireN').show();
@@ -189,7 +189,7 @@ body {
 		
 
 		/* 퇴사자 list ajax */
-/		$("#retireYEmployee").click(function() {
+		$("#retireYEmployee").click(function() {
 			location.href = "/admin/select/retireY";
 		}) 
 		

@@ -25,18 +25,22 @@ public class EmployeePay implements Serializable {
 	private int payApplyReservationNo;
 
 	@Column(name="PAY_APPLY_EMPLOYEE_NO")
-	private int payApplyEmployeeNo;  
+	private int payApplyEmployeeNo;
+	
+	@Column(name="PAY_FINAL_SALARY")
+	private int payEmployeeFinalSalary;
 	
 	public EmployeePay() {
 	}
 
 	public EmployeePay(int payHistoryEmployeeNo, Date payEmployeeDate, int payApplyReservationNo,
-			int payApplyEmployeeNo) {
+			int payApplyEmployeeNo, int payEmployeeFinalSalary) {
 		super();
 		this.payHistoryEmployeeNo = payHistoryEmployeeNo;
 		this.payEmployeeDate = payEmployeeDate;
 		this.payApplyReservationNo = payApplyReservationNo;
 		this.payApplyEmployeeNo = payApplyEmployeeNo;
+		this.payEmployeeFinalSalary = payEmployeeFinalSalary;
 	}
 
 	public int getPayHistoryEmployeeNo() {
@@ -71,6 +75,14 @@ public class EmployeePay implements Serializable {
 		this.payApplyEmployeeNo = payApplyEmployeeNo;
 	}
 
+	public int getPayEmployeeFinalSalary() {
+		return payEmployeeFinalSalary;
+	}
+
+	public void setPayEmployeeFinalSalary(int payEmployeeFinalSalary) {
+		this.payEmployeeFinalSalary = payEmployeeFinalSalary;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -79,9 +91,8 @@ public class EmployeePay implements Serializable {
 	public String toString() {
 		return "EmployeePay [payHistoryEmployeeNo=" + payHistoryEmployeeNo + ", payEmployeeDate=" + payEmployeeDate
 				+ ", payApplyReservationNo=" + payApplyReservationNo + ", payApplyEmployeeNo=" + payApplyEmployeeNo
-				+ "]";
+				+ ", payEmployeeFinalSalary=" + payEmployeeFinalSalary + "]";
 	}
-
 
 	
 	

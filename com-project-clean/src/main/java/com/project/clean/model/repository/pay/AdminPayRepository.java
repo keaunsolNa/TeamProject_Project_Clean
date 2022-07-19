@@ -1,61 +1,17 @@
 package com.project.clean.model.repository.pay;
 
-
-import java.util.List;
-
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import com.project.clean.model.domain.joinEntity.AdminAndAdminPay;
-import com.project.clean.model.domain.joinEntity.AdminPayAndAdmin;
+import com.project.clean.model.domain.commonEntity.AdminPay;
 
-public interface AdminPayRepository extends JpaRepository<AdminPayAndAdmin, Integer>{
+public interface AdminPayRepository extends JpaRepository<AdminPay, Integer>{
 	
-	// 페이징처리(갯수 새기)
-	int countByAdminAdminNameContaining(String searchValue);
-	
-	int countByAdminAdminJobContaining(String searchValue);
-
-	int countByAdminAdminPhoneContaining(String searchValue);
-	
-	int countByPayAdminDateContaining(Integer valueOf);
-	
-	// 관리자이름으로 검색
-	List<AdminPayAndAdmin> findByAdminAdminNameContaining(String searchValue, Pageable paging);
-	
-	// 관리자직급으로 검색
-	List<AdminPayAndAdmin> findByAdminAdminJobContaining(String searchValue, Pageable paging);
-	
-	// 관리자전화번호로 검색
-	List<AdminPayAndAdmin> findByAdminAdminPhoneContaining(Integer valueOf, Pageable paging);
-	
-	
-	
-
-
-	
-
-	
-
-	
-	
-	
-
-	
-
-
-
-//	List<AdminPayAndAdmin> findByPayAdminDateContaining(String strDate, Pageable paging);
-
-
-
-
-
-
-
-	
-
+	// 관리자 급여 계산(insert)
+	@Modifying
+	@Query(value="INSERT INTO TBL_ADMIN_PAY( PAY_HISTORY_ADMIN_NO, PAY_ADMIN_NO, PAY_ADMIN_DATE, PAY_ADMIN_FINAL_SALARY) VALUES (SEQ_TBL_ADMIN_PAY.NEXTVAL, :payAdminNo, TO_DATE(SYSDATE,'YY-MM-DD'), :payAdminFinalSalary)", nativeQuery=true)
+	void modifyAdminPay(int payAdminNo, int payAdminFinalSalary);
 
 	
 }
