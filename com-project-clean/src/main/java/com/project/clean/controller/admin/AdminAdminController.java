@@ -83,6 +83,10 @@ private final AdminAdminService adminService;
 	public ModelAndView registAdminHrCard(@ModelAttribute AdminDTO newAdmin, ModelAndView mv, HttpServletRequest request,
 											@RequestParam("thumbnailImg") MultipartFile thumbnailImg) throws UnsupportedEncodingException, ThumbnailRegistException {
 		
+		System.out.println("xptmxm");
+		System.out.println("xptmxm");
+		System.out.println("xptmxm");
+		System.out.println("xptmxm");
 		/* 기본값 셋팅 */
 		String pwd = "000000";
 		String adminRetireYn = "N";
@@ -99,24 +103,19 @@ private final AdminAdminService adminService;
 		newAdmin.setAdminRetireYn(adminRetireYn);
 		newAdmin.setAdminSalary(adminSalary);
 		newAdmin.setAdminAddress(adminAddress);
-		
-		
-		/* 이미지 저장 */
-		
-		String rootLocation = System.getProperty("user.dir");
-	
+
 		/* 저장경로 설정 */
-		String adminPictureSaveRoot = rootLocation + "/src/main/resources/static/adminPicture/thumbnail";
-//		String adminPictureThumbNamilName = rootLocation + "/adminThumbnail";
+		String adminPictureSaveRoot = "/adminPicture";
+
+		/* 이미지 저장 */
+		String saveRoot = System.getProperty("user.dir") + "/src/main/resources/static" + adminPictureSaveRoot;
 		
 		/* 파일 저장경로가 존재하지 않을 경우를 대비해 생성하는 코드 */
 		File directory = new File(adminPictureSaveRoot);
-		
 		if(!directory.exists()) {
 			System.out.println("폴더 생성 : " + directory.mkdir());
 		}
 
-		
 		List<MultipartFile> fileList = new ArrayList<>();
 		fileList.add(thumbnailImg);
 		
@@ -132,6 +131,7 @@ private final AdminAdminService adminService;
 				String ext = adminPictureOriginName.substring(adminPictureOriginName.lastIndexOf("."));
 				String adminPictureSaveName = UUID.randomUUID().toString().replace("-", "") + ext;
 				
+				
 				/* 이미지 확장자 검사 */
 //				String[] supportFormat = { "bmp", "jpg", "jpeg", "png" };
 //                if (!Arrays.asList(supportFormat).contains(formatName)) {
@@ -143,7 +143,7 @@ private final AdminAdminService adminService;
 				
 				try {
 							
-					thumbnailImg.transferTo(new File(adminPictureSaveRoot + "/" + adminPictureSaveName));
+					thumbnailImg.transferTo(new File(saveRoot + "/" + adminPictureSaveName));
 
 					/* DB에 업로드할 파일의 정보를 DTO에 set */
 					newAdmin.setAdminPictureSaveName(adminPictureSaveName);
@@ -186,14 +186,16 @@ private final AdminAdminService adminService;
 	}
 	
 	
-	/* 퇴사한 관리자 목록 조회(Ajax) */
-	@GetMapping(value = "hrCard/adminList/retireAdminAjax", produces = "application/json; charset=UTF-8;")
-	@ResponseBody
-	public List<RetireAdminDTO> findRetireAdminListAjax(Model mv) {
+	/* 퇴사한 관리자 목록 조회 */
+	@GetMapping(value = "hrCard/retireAdminList")
+	public ModelAndView findRetireAdminListAjax(ModelAndView mv) {
 		
-		List<RetireAdminDTO> retireAdminList = adminService.findRetireAdminList();
+		List<AdminDTO> retireAdminList = adminService.findRetireAdminList();
 		
-		return retireAdminList;
+		mv.addObject("retireAdminList", retireAdminList);
+		mv.setViewName("admin/hrCard/retireAdminList");
+		
+		return mv;
 	}
 	
 	
@@ -214,7 +216,6 @@ private final AdminAdminService adminService;
 	public ModelAndView findAdminDetail(ModelAndView mv, @PathVariable int adminNo, HttpServletRequest request) {
 		
 		/* 관리자 기본 정보 조회 */
-		System.out.println("동작하나용");
 		AdminDTO admin = adminService.findByAdminNo(adminNo);
 		
 		/* DB에 저장된 주소 @로 분리 */
@@ -233,13 +234,33 @@ private final AdminAdminService adminService;
 		addressMap.put("address", address);
 		addressMap.put("addressDetail", addressDetail);
 
-
+		String save = admin.getAdminPictureSaveName();
+		String name = admin.getAdminPictureSaveRoot();
+		
 		/* 화면에 보여줄 정보를 담아준다. */
 		mv.addObject("address", addressMap);
 		mv.addObject("admin", admin);
 		
 		/* 경로 설정 */
 		mv.setViewName("admin/hrCard/adminDetail");
+		
+		return mv;
+	}
+	
+	
+	/* 퇴사자 상세 조회 */
+	@GetMapping("hrCard/retireAdminDetail/{retireAdminNo}")
+	public ModelAndView findRetireAdminDetail(ModelAndView mv, @PathVariable int retireAdminNo, HttpServletRequest request) {
+		
+		/* 관리자 기본 정보 조회 */
+		System.out.println("동작하나");
+		RetireAdminDTO retireAdmin = adminService.findByRetireAdminNo(retireAdminNo);
+		
+		/* 화면에 보여줄 정보를 담아준다. */
+		mv.addObject("retireAdmin", retireAdmin);
+		
+		/* 경로 설정 */
+		mv.setViewName("admin/hrCard/retireAdminDetail");
 		
 		return mv;
 	}
@@ -261,6 +282,7 @@ private final AdminAdminService adminService;
 		/* 수정한 정보 읽어오기 */
 		admin = adminService.findByAdminNo(adminNo);
 		
+		/* 퇴사자 테이블에 입력할 정보 선언 */
 		int retireAdminNo =  adminNo;
 		String retireAdminName = admin.getAdminName();
 		String retireAdminId = admin.getAdminId();
@@ -276,6 +298,7 @@ private final AdminAdminService adminService;
 		int retireAdminSalary = admin.getAdminSalary();
 		int retireAnnualVacationUse = admin.getAnnualVacationUse();
 		
+		/* 퇴사자 DTO에 담기 */
 		retireAdmin.setRetireAdminNo(retireAdminNo);
 		retireAdmin.setRetireAdminName(retireAdminName);
 		retireAdmin.setRetireAdminId(retireAdminId);
@@ -376,49 +399,95 @@ private final AdminAdminService adminService;
 	
 	
 	/* 관리자 본인 정보 수정 */
+	@Transactional
 	@PostMapping("hrCard/adminModifySelf/run")
-	public String adminModify(RedirectAttributes rttr,@ModelAttribute AdminDTO admin, HttpServletRequest request) {
+	public String adminModify(RedirectAttributes rttr,@ModelAttribute AdminDTO admin, @RequestParam("picture") MultipartFile thumbnailImg, HttpServletRequest request) {
 		
 		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
 		
-		String adminAddressNo = request.getParameter("addressNo");
-		String adminAddress1 = request.getParameter("address");
-		String adminAddress2 = request.getParameter("addressDetail");
+		/* 화면으로부터 전달받은 파일 수정(기존 파일로 업데이트) */
 		
-		System.out.println(adminAddressNo);
-		System.out.println(adminAddress1);
-		System.out.println(adminAddress1);
-		System.out.println(adminAddress1);
-		System.out.println(adminAddress1);
-		System.out.println(adminAddress1);
+		/* 저장경로 설정 */
+		String adminPictureSaveRoot = "/adminPicture";
 		
-		String adminAddress = adminAddressNo + "@" + adminAddress1 + "@" + adminAddress2;
- 	
-		String adminPhone = request.getParameter("adminPhone");
+		/* 이미지 저장 */
+		String saveRoot = System.getProperty("user.dir") + "/src/main/resources/static" + adminPictureSaveRoot;
 		
-		String adminEmail = request.getParameter("adminEmail");
-		
-		admin.setAdminAddress(adminAddress);
-		admin.setAdminEmail(adminEmail);
-		admin.setAdminPhone(adminPhone);
-		
-		System.out.println(adminAddress);
-		System.out.println(adminAddress);
-		System.out.println(adminAddress);
-		System.out.println(adminAddress);
-		System.out.println(adminAddress);
-		
-		System.out.println(adminEmail);
-		System.out.println(adminEmail);
-		System.out.println(adminEmail);
-		System.out.println(adminPhone);
-		
-		adminService.modifyAdminSelfCard(admin);
+		/* 파일 저장경로가 존재하지 않을 경우를 대비해 생성하는 코드 */
+		File directory = new File(adminPictureSaveRoot);
+		if(!directory.exists()) {
+			System.out.println("폴더 생성 : " + directory.mkdir());
+		}
 
-		rttr.addFlashAttribute("adminModifySuccessMessage", "수정에 성공하셨습니다");
+		List<MultipartFile> fileList = new ArrayList<>();
+		fileList.add(thumbnailImg);
+		for(MultipartFile file : fileList) {
+			if(file.getSize() > 0) {
+				
+				/* 파일명 전달받기 */
+				String adminPictureOriginName = thumbnailImg.getOriginalFilename();
+				
+				System.out.println("원본 파일명은 ? : " + adminPictureOriginName);
+				
+				/* 파일명 변경 */
+				String ext = adminPictureOriginName.substring(adminPictureOriginName.lastIndexOf("."));
+				String adminPictureSaveName = UUID.randomUUID().toString().replace("-", "") + ext;
+				
+				
+				/* 이미지 확장자 검사 */
+//				String[] supportFormat = { "bmp", "jpg", "jpeg", "png" };
+//                if (!Arrays.asList(supportFormat).contains(formatName)) {
+//                    throw new IllegalArgumentException("지원하지 않는 format 입니다.");
+//                }
+				
+				System.out.println("변경할 이름 확인 : " + adminPictureSaveName);
+				
+				
+				try {
+							
+					thumbnailImg.transferTo(new File(saveRoot + "/" + adminPictureSaveName));
+
+					/* DB에 업로드할 파일의 정보를 DTO에 set */
+					admin.setAdminPictureSaveName(adminPictureSaveName);
+					admin.setAdminPictureSaveRoot(adminPictureSaveRoot);
+					
+
+				} catch (IllegalStateException | IOException e) {
+					
+					e.printStackTrace();
+					
+					/* 실패시 파일 삭제 */
+					new File(adminPictureSaveRoot + "/" + adminPictureSaveName).delete();
+					
+				}
+			}
+			
+			/* api를 통해 받아온 주소 합치기 */
+			String adminAddressNo = request.getParameter("addressNo");
+			String adminAddress1 = request.getParameter("address");
+			String adminAddress2 = request.getParameter("addressDetail");
+			
+			
+			String adminAddress = adminAddressNo + "@" + adminAddress1 + "@" + adminAddress2;
+	 	
+			String adminPhone = request.getParameter("adminPhone");
+			
+			String adminEmail = request.getParameter("adminEmail");
+			
+			
+			/* 받아온 수정할 정보 담아주기 */
+			admin.setAdminAddress(adminAddress);
+			admin.setAdminEmail(adminEmail);
+			admin.setAdminPhone(adminPhone);
+			
+			
+			adminService.modifyAdminSelfCard(admin);
+
+			rttr.addFlashAttribute("adminModifySuccessMessage", "수정에 성공하셨습니다");
+		
+		
+		}
 		
 		return "redirect:/admin/hrCard/adminList";
 	}
-
-
 }

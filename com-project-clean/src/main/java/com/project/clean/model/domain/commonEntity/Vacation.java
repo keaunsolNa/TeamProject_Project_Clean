@@ -14,16 +14,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+
 @Entity
 @Table(name = "TBL_VACATION")
 @SequenceGenerator(
-		name = "VACATION_SEQ_TBL_GENERATOR",
-		sequenceName = "SEQ_TBL_VACATION",
-		initialValue = 1,
-		allocationSize = 1
+      name = "VACATION_SEQ_TBL_GENERATOR",
+      sequenceName = "SEQ_TBL_VACATION",
+      initialValue = 1,
+      allocationSize = 1
 )
+@DynamicInsert 
 public class Vacation implements Serializable{
-
 	private static final long serialVersionUID = 530219979947287867L;
 	
 	@Id

@@ -14,13 +14,13 @@ public class NotificationDTO implements Serializable{
 	private int notificationEmployeeNo;
 	private int notificationReservationNo;
 	private int notificationAdminNo;
-	
 	public NotificationDTO() {
+		super();
 	}
-	
 	public NotificationDTO(int notificationNo, String notificationText, Date notificationCreateTime,
 			String notificationReadYn, String notificationAdminYn, int notificationEmployeeNo,
 			int notificationReservationNo, int notificationAdminNo) {
+		super();
 		this.notificationNo = notificationNo;
 		this.notificationText = notificationText;
 		this.notificationCreateTime = notificationCreateTime;
@@ -30,55 +30,54 @@ public class NotificationDTO implements Serializable{
 		this.notificationReservationNo = notificationReservationNo;
 		this.notificationAdminNo = notificationAdminNo;
 	}
-	int getNotificationNo() {
+	public int getNotificationNo() {
 		return notificationNo;
 	}
-	void setNotificationNo(int notificationNo) {
+	public void setNotificationNo(int notificationNo) {
 		this.notificationNo = notificationNo;
 	}
-	String getNotificationText() {
+	public String getNotificationText() {
 		return notificationText;
 	}
-	void setNotificationText(String notificationText) {
+	public void setNotificationText(String notificationText) {
 		this.notificationText = notificationText;
 	}
-	java.sql.Date getNotificationCreateTime() {
+	public java.sql.Date getNotificationCreateTime() {
 		return notificationCreateTime;
 	}
-	void setNotificationCreateTime(java.sql.Date notificationCreateTime) {
+	public void setNotificationCreateTime(java.sql.Date notificationCreateTime) {
 		this.notificationCreateTime = notificationCreateTime;
 	}
-	String getNotificationReadYn() {
+	public String getNotificationReadYn() {
 		return notificationReadYn;
 	}
-	void setNotificationReadYn(String notificationReadYn) {
+	public void setNotificationReadYn(String notificationReadYn) {
 		this.notificationReadYn = notificationReadYn;
 	}
-	String getNotificationAdminYn() {
+	public String getNotificationAdminYn() {
 		return notificationAdminYn;
 	}
-	void setNotificationAdminYn(String notificationAdminYn) {
+	public void setNotificationAdminYn(String notificationAdminYn) {
 		this.notificationAdminYn = notificationAdminYn;
 	}
-	int getNotificationEmployeeNo() {
+	public int getNotificationEmployeeNo() {
 		return notificationEmployeeNo;
 	}
-	void setNotificationEmployeeNo(int notificationEmployeeNo) {
+	public void setNotificationEmployeeNo(int notificationEmployeeNo) {
 		this.notificationEmployeeNo = notificationEmployeeNo;
 	}
-	int getNotificationReservationNo() {
+	public int getNotificationReservationNo() {
 		return notificationReservationNo;
 	}
-	void setNotificationReservationNo(int notificationReservationNo) {
+	public void setNotificationReservationNo(int notificationReservationNo) {
 		this.notificationReservationNo = notificationReservationNo;
 	}
-	int getNotificationAdminNo() {
+	public int getNotificationAdminNo() {
 		return notificationAdminNo;
 	}
-	void setNotificationAdminNo(int notificationAdminNo) {
+	public void setNotificationAdminNo(int notificationAdminNo) {
 		this.notificationAdminNo = notificationAdminNo;
 	}
-	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -90,6 +89,8 @@ public class NotificationDTO implements Serializable{
 				+ ", notificationReservationNo=" + notificationReservationNo + ", notificationAdminNo="
 				+ notificationAdminNo + "]";
 	}
+	
+
 	
 }
 

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<title>Insert title here</title>
+</head>
+<body>
+<script th:inline="javascript">
+		/*[# th:if = ${notificationMessage} != null]*/
+			alert([[${notificationMessage}]]);
+			location.href = '/';
+		/*[/]*/
+</script>
+	<div th:include="common/header.html"></div>
+	<div th:include="common/reservationAside.html"></div>
+	<h1 align="center" th:text="${#dates.format(date, 'yyyy-MM-dd')}"></h1>
+	<table align="center" border="1">
+		<tr>
+			<th style="display: none;"></th>
+			<th>알림내용</th>
+			<th>날짜</th>
+			<th>읽음여부</th>
+		</tr>
+		<tr th:each="notification : ${ notificationList }">
+			<td style="display: none;" th:text="${ notification.notificationNo }"></td>
+			<td th:text="${ notification.notificationText }"></td>
+			<td th:text="${#dates.format(notification.notificationCreateTime, 'yyyy-MM-dd HH:mm')}"></td>
+			<td style="color:blue;" th:if="${ notification.notificationReadYn =='Y'}" th:text="확인"></td>
+			<td style="color:red;" th:if="${ notification.notificationReadYn =='N'}" th:text="미확인"></td>
+		</tr>
+	</table>
+
+    <div th:replace="reservation/notificationPaging.html"></div>
+	<script>
+		window.onload = function(){
+	        const employee = document.getElementsByTagName("td");
+	        
+	        for(let i = 0; i < employee.length; i++){
+	           employee[i].onmouseenter = function(){
+	                this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+	                this.parentNode.style.cursor = "pointer";
+	            }
+	           employee[i].onmouseout = function(){
+	                this.parentNode.style.backgroundColor = "white";
+	            }
+	           employee[i].onclick = function(){
+	                location.href="/notification/detail/" + this.parentNode.children[0].innerText;
+	            }
+	        }
+	    };
+	</script>
+	
+</body>
+</html>

@@ -35,6 +35,8 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler{
 		ModelAndView mv = new ModelAndView();
 
 		System.out.println(authentication.getName());
+		System.out.println(request.getSession());
+		
 		Cookie[] myCookie = request.getCookies();
 		if(null != request.getCookies()) {
 			for(Cookie c : myCookie) {
@@ -51,20 +53,11 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler{
         
         boolean isEmployee = authorities.stream().filter(o -> o.getAuthority().equals("RLOE_EMPLOYEE")).findAny().isPresent();
         
-        System.out.println("테스트1");
-        System.out.println("테스트2");
-        System.out.println("테스트3");
-        System.out.println("테스트4");
-
         if(isAdmin == true) {
         	
         	mv.setViewName("admin/adminMainPage");
         	
         } else if(isEmployee == true) {
-        	System.out.println("테스트1");
-        	System.out.println("테스트2");
-        	System.out.println("테스트3");
-        	System.out.println("테스트4");
         	mv.setViewName("employee/empMainPage");
         }  
 

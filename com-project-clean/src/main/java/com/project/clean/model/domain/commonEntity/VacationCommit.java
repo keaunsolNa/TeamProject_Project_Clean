@@ -16,7 +16,6 @@ import com.project.clean.model.domain.adminEntity.AdminVacationCommitPFKId;
 @Table(name = "TBL_VACATION_COMMIT")
 @IdClass(AdminVacationCommitPFKId.class)
 public class VacationCommit implements Serializable {
-
 	private static final long serialVersionUID = -8882971212931923117L;
 	
 	@Id

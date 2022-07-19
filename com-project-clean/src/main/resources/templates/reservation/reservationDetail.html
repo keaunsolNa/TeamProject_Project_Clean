@@ -14,7 +14,9 @@
 	/*[/]*/
 	</script>
 	<div th:include="common/header.html"></div>
+	<div th:include="common/reservationAside.html"></div>
 	
+	<h1 align="center" th:text="${#dates.format(date, 'yyyy-MM-dd')}"></h1>
 	<table align="center" border="1">
 		<tr>
 			<td>주소 : </td>
@@ -66,16 +68,19 @@
 	</table>
 	
 	<div th:if="${ applyButtonText == '지원하기'}">
-		<button th:onclick="'location.href = \'' + @{/reservation/apply/{id}(id=${reservation.reservationNo})} + '\''">지원하기</button>
+		<button th:onclick="'location.href = \'' + @{/reservation/apply/{id}(id=${reservation.reservationNo})} + '\''">지원</button>
 	</div>
 	<div th:if="${ applyButtonText == '지원취소'}">
-		<button th:onclick="'location.href = \'' + @{/reservation/applyCancel/{id}(id=${reservation.reservationNo})} + '\''">지원취소</button>
+		<button th:onclick="'location.href = \'' + @{/reservation/applyCancel/{id}(id=${reservation.reservationNo})} + '\''">지원 취소</button>
 	</div>
 	<div th:if="${ applyButtonText == '즐겨찾기'}">
-		<button th:onclick="'location.href = \'' + @{/reservation/bookmark/{id}(id=${reservation.reservationNo})} + '\''">즐겨찾기</button>
+		<button th:onclick="'location.href = \'' + @{/reservation/bookmark/{id}(id=${reservation.reservationNo})} + '\''">즐겨찾기 등록</button>
+	</div>
+	<div th:if="${ applyButtonText == '즐겨찾기 재등록'}">
+		<button th:onclick="'location.href = \'' + @{/reservation/bookmarkAgain/{id}(id=${reservation.reservationNo})} + '\''">즐겨찾기 등록</button>
 	</div>
 	<div th:if="${ applyButtonText == '즐겨찾기 취소'}">
-		<button th:onclick="'location.href = \'' + @{/reservation/applyCancel/{id}(id=${reservation.reservationNo})} + '\''">즐겨찾기 취소</button>
+		<button th:onclick="'location.href = \'' + @{/reservation/bookmarkCancel/{id}(id=${reservation.reservationNo})} + '\''">즐겨찾기 취소</button>
 	</div>
 	<button>목록</button>
 </body>
