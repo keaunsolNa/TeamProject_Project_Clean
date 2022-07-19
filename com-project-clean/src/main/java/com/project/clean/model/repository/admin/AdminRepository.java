@@ -41,7 +41,7 @@ public interface AdminRepository extends JpaRepository<Admin, Integer>{
 	int findNewAdminNo();
 
 	/* 관리자 퇴사 처리(RetireYN N -> Y) */
-	@Query(value="UPDATE tbl_admin a SET  a.admin_retire_yn = 'Y' WHERE admin_no = 3", nativeQuery = true)
+	@Query(value="UPDATE tbl_admin a SET  a.admin_retire_yn = 'Y' WHERE admin_no = ?", nativeQuery = true)
 	void modifyAdminRetire(Admin map);
 
 	/* 재직자 Ajax 조회 */
