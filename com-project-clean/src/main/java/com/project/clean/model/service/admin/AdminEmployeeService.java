@@ -1,5 +1,6 @@
 package com.project.clean.model.service.admin;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.cfg.annotations.MapKeyColumnDelegator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,12 +21,9 @@ import org.springframework.stereotype.Service;
 import com.project.clean.model.domain.adminEntity.AdminEmployee;
 import com.project.clean.model.domain.adminEntity.AdminReason;
 import com.project.clean.model.domain.commonEntity.Admin;
-import com.project.clean.model.domain.commonEntity.Employee;
 import com.project.clean.model.domain.commonEntity.Vacation;
-import com.project.clean.model.domain.commonEntity.VacationCommit;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.ReasonDTO;
-import com.project.clean.model.dto.commonDTO.VacationCommitDTO;
 import com.project.clean.model.dto.commonDTO.VacationDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
 import com.project.clean.model.repository.admin.AdminRepository;
@@ -401,23 +400,6 @@ public class AdminEmployeeService {
 		return map;
 	}
 
-	@Transactional
-	public Page<EmployeeAndAllDTO> selectBlackList(int startAt) {
-
-		Pageable pageable = PageRequest.of(startAt, selectEmployeeLineCount);
-		Page<AdminEmployee> selectRetureNEmployee = employeeRepository.findByEmployeeBlackListYn("Y", pageable);
-
-		return modelMapper.map(selectRetureNEmployee, Page.class);
-	}
-
-	@Transactional
-	public Page<VacationDTO> selectMyVacaionList(int startAt, int adminNo) {
-
-		Pageable pageable = PageRequest.of(startAt, selectEmployeeLineCount);
-		Page<Vacation> selectMyVacaionList = vacationRepository.findByAdminNo(adminNo, pageable);
-
-		return modelMapper.map(selectMyVacaionList, Page.class);
-	}
 
 	public VacationDTO selectMyVacaionList(int vacationNo) {
 		Vacation vacation = vacationRepository.findByVacationNo(vacationNo, Sort.by("adminNo").descending());
@@ -428,14 +410,6 @@ public class AdminEmployeeService {
 		List<Admin> admin = adminRepository.findAll(Sort.by("adminNo"));
 		return admin.stream().map(adminInfo -> modelMapper.map(adminInfo, AdminDTO.class)).toList();
 
-	}
-
-	public Page<VacationDTO> selectVacationAllPage(int page) {
-
-		Pageable pageable = PageRequest.of(page, selectEmployeeLineCount);
-		Page<Vacation> vacationAllPage = vacationRepository.findAll(pageable);
-
-		return modelMapper.map(vacationAllPage, Page.class);
 	}
 
 	public Page<VacationDTO> selectVacationConfirmPage(int page) {
@@ -498,4 +472,137 @@ public class AdminEmployeeService {
 		return map;
 	}
 
+	public Map<String, Object> selectBlackList(String category, String categoryValue, Pageable pageable) {
+		
+		Page<AdminEmployee> paging;
+		List<EmployeeAndAllDTO> empDTOList = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>();
+		if ("all".equals(category)) {
+			paging = employeeRepository.findByEmployeeBlackListYn("Y", pageable);
+		} else if ("no".equals(category)) {
+			paging = employeeRepository.findByEmployeeBlackListYnAndEmployeeNoContaining("Y", categoryValue, pageable);
+		} else if ("name".equals(category)) {
+			paging = employeeRepository.findByEmployeeBlackListYnAndEmployeeNameContaining("Y", categoryValue, pageable);
+		} else if ("phone".equals(category)) {
+			paging = employeeRepository.findByEmployeeBlackListYnAndEmployeePhoneContaining("Y", categoryValue, pageable);
+		} else {
+			paging = employeeRepository.findByEmployeeBlackListYn("Y", pageable);
+		}
+		
+		List<AdminEmployee> employeeList = paging.getContent();
+
+		empDTOList = employeeList.stream().map(name -> modelMapper.map(name, EmployeeAndAllDTO.class)).toList();
+
+		int currentPage = paging.getNumber();
+		int maxPage = paging.getTotalPages();
+		int startPage = (int) (currentPage / 5) * 5;
+		int endPage = (int) (currentPage / 5) * 5 + 5;
+
+		while (endPage > maxPage) {
+			endPage -= 1;
+		}
+
+		map.put("employeeList", empDTOList);
+		map.put("maxPage", maxPage);
+		map.put("startPage", startPage);
+		map.put("endPage", endPage);
+		map.put("currentPage", currentPage);
+		map.put("category", category);
+		map.put("categoryValue", categoryValue);
+
+		return map;
+	}
+
+	public Map<String, Object> selectMyVacaionList(int adminNo, Pageable pageable) {
+		Page<Vacation> paging;
+		List<VacationDTO> vacationList = new ArrayList<>();
+		
+		Map<String, Object> map = new HashMap<>();
+		paging = vacationRepository.findByAdminNo(adminNo, pageable);
+		
+//		if ("all".equals(category)) {
+//		} else if ("request".equals(category)) {
+//			paging = vacationRepository.findByAdminNoAndRequestDateBetweeen(adminNo, startDate, endDate, pageable);
+//		} else if ("start".equals(category)) {
+//			paging = vacationRepository.findByAdminNoAndVacationStartDateBetweeen(adminNo, startDate, endDate, pageable);
+//		} else if ("end".equals(category)) {
+//			paging = vacationRepository.findByAdminNoAndVacationEndDateBetweeen(adminNo, startDate, endDate, pageable);
+//		} else {
+//			paging = vacationRepository.findByAdminNo(adminNo, pageable);
+//		}
+		
+		List<Vacation> employeeList = paging.getContent();
+
+		vacationList = employeeList.stream().map(name -> modelMapper.map(name, VacationDTO.class)).toList();
+
+		int currentPage = paging.getNumber();
+		int maxPage = paging.getTotalPages();
+		int startPage = (int) (currentPage / 5) * 5;
+		int endPage = (int) (currentPage / 5) * 5 + 5;
+
+		while (endPage > maxPage) {
+			endPage -= 1;
+		}
+
+		map.put("vacationList", vacationList);
+		map.put("maxPage", maxPage);
+		map.put("startPage", startPage);
+		map.put("endPage", endPage);
+		map.put("currentPage", currentPage);
+//		map.put("category", category);
+//		map.put("categoryValue", categoryValue);
+
+		return map;
+	}
+
+	@Transactional
+	public Map<String, Object> selectMyVacaionList(String category, String categoryValue, String StartDate, String endDate, Pageable pageable) {
+		
+		Page<Vacation> paging;
+		List<VacationDTO> vacationList = new ArrayList<>();
+		List<Admin> admin = adminRepository.findAll();
+		List<AdminDTO> adminList = admin.stream().map(adminName -> modelMapper.map(adminName, AdminDTO.class)).toList();
+		Map<String, Object> map = new HashMap<>();
+		if ("all".equals(category)) {
+			paging = vacationRepository.findAll(pageable);
+		} else if ("name".equals(category)) {
+			paging = vacationRepository.findByNameContaining(categoryValue, pageable);
+		} else if ("start".equals(category)) {
+			paging = vacationRepository.selectBetweenStartDate(StartDate, endDate, pageable);
+		} else if ("end".equals(category)) {
+			paging = vacationRepository.selectBetweenEndDate(StartDate, endDate, pageable);
+		} else {
+			paging = vacationRepository.findAll(pageable);
+		}
+		
+		List<Vacation> vacationInfoList = paging.getContent();
+
+		vacationList = vacationInfoList.stream().map(name -> modelMapper.map(name, VacationDTO.class)).toList();
+		
+		for(int i = 0; i < vacationList.size(); i++) {
+			 vacationList.get(i).setAdminDTO(adminList.get(i)); 
+		}
+		int currentPage = paging.getNumber();
+		int maxPage = paging.getTotalPages();
+		int startPage = (int) (currentPage / 5) * 5;
+		int endPage = (int) (currentPage / 5) * 5 + 5;
+
+		while (endPage > maxPage) {
+			endPage -= 1;
+		}
+		for(VacationDTO v : vacationList) {
+			System.out.println(vacationList);
+			System.out.println("======================================");
+		}
+		
+		map.put("vacationList", vacationList);
+		map.put("maxPage", maxPage);
+		map.put("startPage", startPage);
+		map.put("endPage", endPage);
+		map.put("currentPage", currentPage);
+		map.put("category", category);
+		map.put("categoryValue", categoryValue);
+
+		return map;
+	}
 }

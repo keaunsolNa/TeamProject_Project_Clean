@@ -38,7 +38,7 @@ public class AdminEmployeeController {
 
 	private final AdminEmployeeService adminService;
 	private final PageDTO pageDTO;
-	private final int maxPage = 5;
+	private final int maxLine = 5;
 
 	@Autowired
 	public AdminEmployeeController(AdminEmployeeService adminService, PageDTO pageDTO) {
@@ -114,7 +114,7 @@ public class AdminEmployeeController {
 	/* 직원 전체 조회(재직자 main) */
 	@GetMapping("/select/retireN")
 	@ResponseBody
-		   public Map<String, Object> selectRetireNEmployee(String category, String categoryValue, @PageableDefault(sort="employeeNo", size = 3) Pageable pageable) {
+		   public Map<String, Object> selectRetireNEmployee(String category, String categoryValue, @PageableDefault(sort="employeeNo", size = maxLine) Pageable pageable) {
 		      
 		      Map<String,Object> map = new HashMap<>();
 		      map = adminService.selectRetireNEmployee(category, categoryValue, pageable);
@@ -125,7 +125,7 @@ public class AdminEmployeeController {
 	/* 직원 전체 조회(퇴사자 main) */
 	@GetMapping("/select/retireY")
 	@ResponseBody
-	public Map<String, Object> selectRetireYEmployee(String category, String categoryValue, @PageableDefault(sort="employeeNo", size = 5) Pageable pageable) {
+	public Map<String, Object> selectRetireYEmployee(String category, String categoryValue, @PageableDefault(sort="employeeNo", size = maxLine) Pageable pageable) {
 		
 		Map<String,Object> map = new HashMap<>();
 		map = adminService.selectRetireYEmployee(category, categoryValue, pageable);
@@ -323,7 +323,7 @@ public class AdminEmployeeController {
 	/* 대기중 직원 페이지 이동(HR) */
 	@GetMapping("/hr/waiting/employeeHR")
 	@ResponseBody
-	public Map<String, Object> waitingEmployeeListHr(String category, String categoryValue, @PageableDefault(sort="employeeNo", size = 3) Pageable pageable) {
+	public Map<String, Object> waitingEmployeeListHr(String category, String categoryValue, @PageableDefault(sort="employeeNo", size = maxLine) Pageable pageable) {
 		
 	      Map<String,Object> map = new HashMap<>();
 	      map = adminService.selectWaitingEmployeeListHr(category, categoryValue, pageable);
@@ -338,7 +338,7 @@ public class AdminEmployeeController {
 	/* 대기중 직원 페이지 이동(Boss) */
 	@GetMapping("/hr/waiting/employeeBoss")
 	@ResponseBody
-	public Map<String, Object> waitingEmployeeListBoss(String category, String categoryValue, @PageableDefault(sort="employeeNo", size = 3) Pageable pageable) {
+	public Map<String, Object> waitingEmployeeListBoss(String category, String categoryValue, @PageableDefault(sort="employeeNo", size = maxLine) Pageable pageable) {
 		
 		Map<String,Object> map = new HashMap<>();
 		map = adminService.selectWaitingEmployeeListBoss(category, categoryValue, pageable);
@@ -386,7 +386,7 @@ public class AdminEmployeeController {
 	/* 반려 직원 리스트 조회*/
 	@GetMapping("/hr/return/employee")
 	@ResponseBody
-	public Map<String, Object> returnEmployeeList(String category, String categoryValue, @PageableDefault(sort="employeeNo", size = 3) Pageable pageable) {
+	public Map<String, Object> returnEmployeeList(String category, String categoryValue, @PageableDefault(sort="employeeNo", size = maxLine) Pageable pageable) {
 		
 		Map<String,Object> map = new HashMap<>();
 		map = adminService.selectReturnYEmployee(category, categoryValue, pageable);
@@ -554,20 +554,24 @@ public class AdminEmployeeController {
 		return "redirect:/admin/hr/regist/EmployeePage";
 	}
 
+	/* 블랙리스트 조회페이지 이동 */
+	@GetMapping("/select/blackList/move")
+	public String selectBlackListMove() {
+		return "/admin/humanResource/blackList/selectBlackList";
+	}
+	
 	/* 블랙리스트 조회 */
 	@GetMapping("/select/blackList")
-	public String selectBlackList(@RequestParam(value = "page", defaultValue = "0") int page, Model mv) {
-		Page<EmployeeAndAllDTO> startPage = adminService.selectBlackList(page);
-		List<EmployeeAndAllDTO> startList = startPage.toList();
-
-		/* .getnumber 메서드를 위해 list로 변환 x */
-		mv.addAttribute("pages", startPage);
-		mv.addAttribute("maxPage", maxPage);
-		mv.addAttribute("mainTain", "N");
-		mv.addAttribute("blackList", startList);
-
-		return "admin/humanResource/blackList/selectBlackList";
+	@ResponseBody
+	public Map<String, Object> selectBlackList(String category, String categoryValue, @PageableDefault(sort="employeeNo", size = maxLine) Pageable pageable) {
+		
+	      Map<String,Object> map = new HashMap<>();
+	      map = adminService.selectBlackList(category, categoryValue, pageable);
+	      
+	      return map;
+		
 	}
+	
 
 	/* 블랙리스트 상세 조회 */
 	@GetMapping("/selectBlackListDetail/{empNo}")
@@ -614,21 +618,52 @@ public class AdminEmployeeController {
 		return "admin/humanResource/blackList/selectBlackListDetail";
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/* 나의 휴가조회 페이지 이동 */
+	@GetMapping("/select/selectMyVacation/move")
+	public String selectMyvacationListMove() {
+		return "/admin/humanResource/vacation/selectMyVacation";
+	}
+	
 	/* 나의 휴가 조회 */
 	@GetMapping("/select/selectMyVacation")
-	public String selectMyVacaionList(@RequestParam(value = "page", defaultValue = "0") int page, String adminNo,
-			Model mv) {
-		int adminNoVal = Integer.valueOf(adminNo);
-		Page<VacationDTO> startPage = adminService.selectMyVacaionList(page, adminNoVal);
-		List<VacationDTO> myVacationList = startPage.toList();
+	@ResponseBody
+	public Map<String, Object> selectMyVacaionList(int adminNo, Date startDate, Date endDate, String category, String categoryValue, @PageableDefault(sort="vacationNo", size = maxLine) Pageable pageable) {
+	      Map<String,Object> map = new HashMap<>();
+	      map = adminService.selectMyVacaionList(adminNo, pageable);
+	      
+	      return map;
 		
-		mv.addAttribute("pages", startPage);
-		mv.addAttribute("maxPage", maxPage);
-		mv.addAttribute("mainTain", "N");
-		mv.addAttribute("vacation", myVacationList);
-		return "admin/humanResource/vacation/selectMyVacation";
 	}
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/* 휴가 상세 조회 */
 	@GetMapping("/select/selectMyVacation/Detail/{vacationNo}")
 	public String selectMyVacaionDetail(@PathVariable int vacationNo, Model mv) {
@@ -700,21 +735,55 @@ public class AdminEmployeeController {
 		return "admin/humanResource/vacation/selectMyVacationDetail";
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/* 휴가 전체 조회 페이지 이동 */
+	@GetMapping("/hr/humanResource/selectAllVacation/move")
+	public String selectAllVacationListMove() {
+		return "/admin/humanResource/vacation/selectAllVacation";
+	}
+	
 	/* 휴가 전체 조회 */
 	@GetMapping("/hr/select/selectAllVacation")
-	public String selectAllVacationList(@RequestParam(value = "page", defaultValue = "0") int page, Model mv) {
-
-		Page<VacationDTO> vacationAllPage = adminService.selectVacationAllPage(page);
-		List<VacationDTO> vacationAllList = vacationAllPage.toList();
-		List<AdminDTO> adminList = adminService.selectAdmin();
-
-		mv.addAttribute("pages", vacationAllPage);
-		mv.addAttribute("maxPage", maxPage);
-		mv.addAttribute("mainTain", "N");
-		mv.addAttribute("vacation", vacationAllList);
-		return "/admin/humanResource/vacation/selectAllVacation";
-
+	@ResponseBody
+	public Map<String, Object> selectAllVacationList(String category, String categoryValue,String startDate, String endDate,  @PageableDefault(sort="vacationNo", size = maxLine) Pageable pageable) {
+	      Map<String,Object> map = new HashMap<>();
+	      map = adminService.selectMyVacaionList(category, categoryValue, startDate, endDate, pageable);
+	      
+	      return map;
+		
 	}
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/* 휴가 승인 전체 조회 */
 	@GetMapping("/hr/select/selectAllVacationConfirmList")
@@ -724,7 +793,6 @@ public class AdminEmployeeController {
 		List<AdminDTO> adminList = adminService.selectAdmin();
 
 		mv.addAttribute("pages", vacationAllPage);
-		mv.addAttribute("maxPage", maxPage);
 		mv.addAttribute("mainTain", "N");
 		mv.addAttribute("vacation", vacationAllList);
 		return "/admin/humanResource/vacation/selectAllVacationConfirmList";
@@ -739,7 +807,6 @@ public class AdminEmployeeController {
 	List<AdminDTO> adminList = adminService.selectAdmin();
 
 	mv.addAttribute("pages", vacationAllPage);
-	mv.addAttribute("maxPage", maxPage);
 	mv.addAttribute("mainTain", "N");
 	mv.addAttribute("vacation", vacationAllList);
 		return "admin/humanResource/vacation/selectAllVacationReturnList";

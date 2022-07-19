@@ -1,12 +1,11 @@
-package com.project.clean.model.dto.commonDTO;
+package com.project.clean.model.dto.joinDTO;
 
-import java.io.Serializable;
 import java.sql.Date;
-import java.util.List;
 
-public class VacationDTO implements Serializable{
-	private static final long serialVersionUID = -1541909810077995530L;
+public class AdminAndVacationDTO {
 	
+	private int adminNo;
+	private String adminName;
 	private int vacationNo;
 	private java.sql.Date requestDate;
 	private String requestAdmin;
@@ -19,18 +18,16 @@ public class VacationDTO implements Serializable{
 	private java.sql.Date vacationEndDate;
 	private String vacationReason;
 	private String vacationReturnYn;
-	private int adminNo;
-	private List<VacationCommitDTO> vacationCommitList;
-	private AdminDTO adminDTO;
-	
-	public VacationDTO() {
+	public AdminAndVacationDTO() {
 		super();
 	}
-	public VacationDTO(int vacationNo, Date requestDate, String requestAdmin, String vacationName, String drafter,
-			String vacationFirstConfirmYn, String vacationSecondConfirmYn, String vacationLastConfirmYn,
-			Date vacationStartDate, Date vacationEndDate, String vacationReason, String vacationReturnYn, int adminNo,
-			List<VacationCommitDTO> vacationCommitList, AdminDTO adminDTO) {
+	public AdminAndVacationDTO(int adminNo, String adminName, int vacationNo, Date requestDate, String requestAdmin,
+			String vacationName, String drafter, String vacationFirstConfirmYn, String vacationSecondConfirmYn,
+			String vacationLastConfirmYn, Date vacationStartDate, Date vacationEndDate, String vacationReason,
+			String vacationReturnYn) {
 		super();
+		this.adminNo = adminNo;
+		this.adminName = adminName;
 		this.vacationNo = vacationNo;
 		this.requestDate = requestDate;
 		this.requestAdmin = requestAdmin;
@@ -43,9 +40,18 @@ public class VacationDTO implements Serializable{
 		this.vacationEndDate = vacationEndDate;
 		this.vacationReason = vacationReason;
 		this.vacationReturnYn = vacationReturnYn;
+	}
+	public int getAdminNo() {
+		return adminNo;
+	}
+	public void setAdminNo(int adminNo) {
 		this.adminNo = adminNo;
-		this.vacationCommitList = vacationCommitList;
-		this.adminDTO = adminDTO;
+	}
+	public String getAdminName() {
+		return adminName;
+	}
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
 	}
 	public int getVacationNo() {
 		return vacationNo;
@@ -119,41 +125,15 @@ public class VacationDTO implements Serializable{
 	public void setVacationReturnYn(String vacationReturnYn) {
 		this.vacationReturnYn = vacationReturnYn;
 	}
-	public int getAdminNo() {
-		return adminNo;
-	}
-	public void setAdminNo(int adminNo) {
-		this.adminNo = adminNo;
-	}
-	public List<VacationCommitDTO> getVacationCommitList() {
-		return vacationCommitList;
-	}
-	public void setVacationCommitList(List<VacationCommitDTO> vacationCommitList) {
-		this.vacationCommitList = vacationCommitList;
-	}
-	public AdminDTO getAdminDTO() {
-		return adminDTO;
-	}
-	public void setAdminDTO(AdminDTO adminDTO) {
-		this.adminDTO = adminDTO;
-	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 	@Override
 	public String toString() {
-		return "VacationDTO [vacationNo=" + vacationNo + ", requestDate=" + requestDate + ", requestAdmin="
-				+ requestAdmin + ", vacationName=" + vacationName + ", drafter=" + drafter + ", vacationFirstConfirmYn="
-				+ vacationFirstConfirmYn + ", vacationSecondConfirmYn=" + vacationSecondConfirmYn
-				+ ", vacationLastConfirmYn=" + vacationLastConfirmYn + ", vacationStartDate=" + vacationStartDate
-				+ ", vacationEndDate=" + vacationEndDate + ", vacationReason=" + vacationReason + ", vacationReturnYn="
-				+ vacationReturnYn + ", adminNo=" + adminNo + ", vacationCommitList=" + vacationCommitList
-				+ ", adminDTO=" + adminDTO + "]";
+		return "AdminAndVacationDTO [adminNo=" + adminNo + ", adminName=" + adminName + ", vacationNo=" + vacationNo
+				+ ", requestDate=" + requestDate + ", requestAdmin=" + requestAdmin + ", vacationName=" + vacationName
+				+ ", drafter=" + drafter + ", vacationFirstConfirmYn=" + vacationFirstConfirmYn
+				+ ", vacationSecondConfirmYn=" + vacationSecondConfirmYn + ", vacationLastConfirmYn="
+				+ vacationLastConfirmYn + ", vacationStartDate=" + vacationStartDate + ", vacationEndDate="
+				+ vacationEndDate + ", vacationReason=" + vacationReason + ", vacationReturnYn=" + vacationReturnYn
+				+ "]";
 	}
 	
-	
-	
-	
-	
-
 }

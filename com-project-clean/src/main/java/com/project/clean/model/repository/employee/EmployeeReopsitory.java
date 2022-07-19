@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.project.clean.model.domain.adminEntity.AdminEmployee;
+import com.project.clean.model.domain.commonEntity.Vacation;
 
 public interface EmployeeReopsitory extends JpaRepository<AdminEmployee, Integer>{
 
@@ -72,6 +73,22 @@ public interface EmployeeReopsitory extends JpaRepository<AdminEmployee, Integer
 
 	public Page<AdminEmployee> findByEmployeeRetireYnAndEmployeePhoneContaining(String string, String categoryValue,
 			Pageable pageable);
+
+	public Page<AdminEmployee> findByEmployeeBlackListYnAndEmployeeNoContaining(String string, String categoryValue,
+			Pageable pageable);
+
+	public Page<AdminEmployee> findByEmployeeBlackListYnAndEmployeeNameContaining(String string, String categoryValue,
+			Pageable pageable);
+
+	public Page<AdminEmployee> findByEmployeeBlackListYnAndEmployeePhoneContaining(String string, String categoryValue,
+			Pageable pageable);
+
+//	public Page<Vacation> findByNameContaining(String categoryValue, Pageable pageable);
+//
+//	public Page<Vacation> selectBetweenStartDate(String startDate, String endDate);
+//
+//	public Page<Vacation> selectBetweenEndDate(String startDate, String endDate);
+
 
 	
 }
