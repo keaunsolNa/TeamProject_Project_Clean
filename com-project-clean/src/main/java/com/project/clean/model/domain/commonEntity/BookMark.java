@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -26,6 +28,10 @@ public class BookMark implements Serializable{
 	private static final long serialVersionUID = -3095654268238559940L;
 	
 	@Id
+	@GeneratedValue(
+			strategy = GenerationType.SEQUENCE,
+			generator = "BOOKMARK_SEQ_GENERATOR"
+	)
 	@Column(name = "BOOKMARK_NO")
 	private int bookmarkNo;
 	

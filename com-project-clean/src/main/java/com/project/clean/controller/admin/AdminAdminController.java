@@ -83,6 +83,10 @@ private final AdminAdminService adminService;
 	public ModelAndView registAdminHrCard(@ModelAttribute AdminDTO newAdmin, ModelAndView mv, HttpServletRequest request,
 											@RequestParam("thumbnailImg") MultipartFile thumbnailImg) throws UnsupportedEncodingException, ThumbnailRegistException {
 		
+		System.out.println("xptmxm");
+		System.out.println("xptmxm");
+		System.out.println("xptmxm");
+		System.out.println("xptmxm");
 		/* 기본값 셋팅 */
 		String pwd = "000000";
 		String adminRetireYn = "N";
@@ -100,11 +104,9 @@ private final AdminAdminService adminService;
 		newAdmin.setAdminSalary(adminSalary);
 		newAdmin.setAdminAddress(adminAddress);
 
-
-		
 		/* 저장경로 설정 */
 		String adminPictureSaveRoot = "/adminPicture";
-		
+
 		/* 이미지 저장 */
 		String saveRoot = System.getProperty("user.dir") + "/src/main/resources/static" + adminPictureSaveRoot;
 		

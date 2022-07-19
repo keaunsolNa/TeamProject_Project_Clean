@@ -22,6 +22,8 @@ public interface ApplyEmployeeRepository extends JpaRepository<ApplyEmployee, Ob
 			+ " WHERE A.APPLY_EMPLOYEE_NO = :employeeNo\r\n"
 			+ "   AND A.APPLY_RESERVATION_NO = :reservationNo", nativeQuery = true)
 	ApplyEmployee findByApplyEmployeeNoAndApplyReservationNo(@Param("reservationNo")int reservationNo, @Param("employeeNo")int employeeNo);
+
+	int countByApplyEmployeeNoAndApplyCancelYn(int employeeNo, String n);
 	
 }
 
