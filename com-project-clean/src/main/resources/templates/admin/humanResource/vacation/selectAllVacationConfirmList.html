@@ -1,104 +1,268 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <style>
-        body {
-            margin-top: 100px;
-            font-family: 'Trebuchet MS', serif;
-            line-height: 1.6
-        }
+<meta charset="UTF-8">
+<title>Document</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style>
+body {
+	margin-top: 100px;
+	font-family: 'Trebuchet MS', serif;
+	line-height: 1.6
+}
 
-        /* 전체 크기 */
-        .container {
-            width: 1500px;
-            margin: 0 auto;
-        }
-
-    </style>
+/* 전체 크기 */
+.container {
+	width: 1500px;
+	margin: 0 auto;
+}
+</style>
 </head>
 
 
 <body>
-    <div class="container">
-      <div th:replace="admin/humanResource/vacation/selectAllVacationHeader"></div>
-      <div id="tab-1" class="tab-content current">
-        <span>휴가 승인 전체 조회</span>
 
-        <select name="category" id="category">
-            <option value="empNo" selected>사원번호</option>
-            <option value="empName">이름</option>
-            <option value="empBirth">생년월일</option>
-            <option value="empAddress">주소</option>
-            <option value="empPhone">전화번호</option>
-        </select>
-        <input type="text" name="categoryValue">
-        <button type="button" id="search">검색</button>
+	<div class="container">
 
-        <table id="vacationList" border="1">
-            <thead>
-                <tr>
-                    <th>신청번호</th>
-                    <th>신청날짜</th>
-                    <th>휴가시작일</th>
-                    <th>휴가종료일</th>
-                    <th>휴가구분</th>
-                    <th>1차 승인여부</th>
-                    <th>2차 승인여부</th>
-                    <th>반려 여부</th>
-                    <th>최종승인여부</th>
-                    
-                </tr>
-            </thead>
-            <tbody>
-				<tbody>
-					<tr th:each="index : ${vacation}">
-						<td th:text="${ index.vacationNo }"></td>
-						<td th:text="${ index.requestDate }"></td>
-						<td th:text="${ index.vacationStartDate }"></td>
-						<td th:text="${ index.vacationEndDate }"></td>
-						<td th:text="${ index.vacationName }"></td>
-						<td th:text="${ index.vacationFirstConfirmYn }"></td>
-						<td th:text="${ index.vacationSecondConfirmYn }"></td>
-						<td th:text="${ index.vacationReturnYn }"></td>
-						<td th:text="${ (index.vacationLastConfirmYn) == 'Y'? '승인 완료' : (index.vacationReturnYn) == 'Y' ? '반려' : '승인대기중' }"></td>
-				</tbody>
-            </tbody>
-            </tbody>
-        </table>
-        
-    </div>
-    </div>
-    
-    <script>
+		<div th:replace="admin/humanResource/vacation/selectAllVacationHeader"></div>
 
-	/* hover event */
-	function hover() {
-		const vacationList = document.getElementsByTagName("td");
+		<form name="myVacationForm" action="/admin/select/selectMyVacation"
+			id="myVacationForm">
+			<span>휴가 승인 전체 조회</span> <select name="category" id="category">
+				<option value="all" selected>전체</option>
+				<option value="name">신청자</option>
+				<option id="startDate" value="startDate">휴가 시작일</option>
+				<option id="endDate" value="endDate">휴가 종료일</option>
+			</select> <input type="text" id="categoryValue" name="categoryValue"
+				placeholder="휴가 내역 검색"> <input type="date"
+				id="startCalendar" name="startDate" style="display: none"> <input
+				type="date" id="endCalendar" name="endDate" style="display: none">
+			<input type="text" style="display: none;">
+			<!-- enter - submit 방지 -->
+			<input type="hidden" id="adminNo" name="adminNo"
+				th:value="${#authentication.principal.adminNo}">
 
-		for (let i = 0; i < vacationList.length; i++) {
-			vacationList[i].onmouseenter = function() {
-				this.parentNode.style.backgroundColor = "rgb(50,150,250)";
-				this.parentNode.style.cursor = "pointer";
-			}
-			vacationList[i].onmouseout = function() {
-				this.parentNode.style.backgroundColor = "white";
-			}
+			<button type="button" onclick="vacationConformAjax();">검색</button>
+			<input type="hidden" value="0" name=page>
+		</form>
 
-			vacationList[i].onclick = function() {
-				location.href = "/admin/select/selectMyVacation/Detail/"
-						+ this.parentNode.children[0].innerText;
-			}
+		<table id="vacationTable" border="1">
+			<thead>
+				<tr>
+					<th>신청번호</th>
+					<th>신청자</th>
+					<th>신청날짜</th>
+					<th>휴가시작일</th>
+					<th>휴가종료일</th>
+					<th>휴가구분</th>
+					<th>1차 승인여부</th>
+					<th>2차 승인여부</th>
+					<th>반려 여부</th>
+					<th>최종승인여부</th>
+				</tr>
+			</thead>
+			<tbody>
+
+			</tbody>
+		</table>
+		<div id="paging" style="display: flex; justify-content: center;">
+			<!-- /* 페이징 버튼들어올 공간 */ -->
+		</div>
+
+	</div>
+
+	<script>
+		$(document).ready(function() {
+			hover();
+			vacationConformAjax();
+
+		});
+
+		/* 페이징 버튼을 통한 요청 함수 */
+		function confirmpage(category, categoryValue, page) {
+			console.log("ajax page이동 실행 시도");
+			var queryString = {
+				"category" : category,
+				"categoryValue" : categoryValue,
+				"page" : page
+			};
+			vacationConformAjaxFunction(queryString);
 		}
-	};
-	
-	$(function(){
-	hover();
-	})
-</script>
+
+		/* 유저가 조건 선택해 검색하는 요청 함수 */
+		function vacationConformAjax() {
+			console.log("ajax 기본함수 실행 시도");
+
+			var queryString = $("form[name=myVacationForm]").serialize();
+			vacationConformAjaxFunction(queryString);
+		}
+
+		/* 휴가 전체 조회 ajax */
+		function vacationConformAjaxFunction(queryString) {
+			$
+					.ajax({
+						url : "/admin/hr/select/selectAllVacationConfirmList",
+						data : queryString,
+						success : function(data) {
+							const $table = $("#vacationTable tbody");
+							const $div = $("#paging");
+
+							/* 데이터 필드, 페이징버튼 필드 초기화 */
+							$table.html("");
+							$div.html("");
+							/* search criteria (페이징 버튼으로 ajax요청보낼 때 사용함) */
+							category = data.category;
+							categoryValue = data.categoryValue;
+
+							for ( var index in data.vacationList) {
+								$tr = $("<tr>");
+								$noTd = $("<td>").text(
+										data.vacationList[index].vacationNo);
+								$nameTd = $("<td>").text(
+										data.vacationList[index].requestAdmin);
+								$requestTd = $("<td>").text(
+										data.vacationList[index].requestDate);
+								$startTd = $("<td>")
+										.text(
+												data.vacationList[index].vacationStartDate);
+								$endTd = $("<td>")
+										.text(
+												data.vacationList[index].vacationEndDate);
+								$vNameTd = $("<td>").text(
+										data.vacationList[index].vacationName);
+								$firstTd = $("<td>")
+										.text(
+												data.vacationList[index].vacationFirstConfirmYn);
+								$secondTd = $("<td>")
+										.text(
+												data.vacationList[index].vacationSecondConfirmYn);
+								$returnTd = $("<td>")
+										.text(
+												data.vacationList[index].vacationReturnYn);
+								$lastTd = $("<td>")
+										.text(
+												data.vacationList[index].vacationLastConfirmYn);
+								$tr.append($noTd);
+								$tr.append($nameTd);
+								$tr.append($requestTd);
+								$tr.append($startTd);
+								$tr.append($endTd);
+								$tr.append($vNameTd);
+								$tr.append($firstTd);
+								$tr.append($secondTd);
+								$tr.append($returnTd);
+								$tr.append($lastTd);
+
+								$table.append($tr);
+
+								hover();
+
+							}
+
+							var $startPage = data.startPage;
+							var $endPage = data.endPage;
+							var $currentPage = data.currentPage;
+							var $maxPage = data.maxPage;
+
+							var $beforeStartPage = data.startPage - 1;
+							var $afterEndPage = data.endPage;
+
+							if ($startPage == 0) {
+								$button = $("<button class='page' disabled><<</button>");
+								$div.append($button);
+							} else {
+								$button = $("<button class='page' id='goBackPage' onclick='confirmpage(category,categoryValue,"
+										+ $beforeStartPage + ")'><<</button>");
+								$div.append($button);
+							}
+
+							for (i = $startPage; i < $endPage; i++) {
+								if (i != $currentPage) {
+									$button = $("<button class='page' onclick='confirmpage(category,categoryValue,"
+											+ (i)
+											+ ")'>"
+											+ (i + 1)
+											+ "</button>");
+								} else {
+									$button = $("<button disabled class='page'>"
+											+ (i + 1) + "</button>");
+								}
+
+								$div.append($button);
+							}
+
+							if ($maxPage == $endPage) {
+								$button = $("<button class='page' disabled>>></button>");
+								$div.append($button);
+							} else {
+								$button = $("<button class='page' id='goForwardPage' onclick='confirmpage(category,categoryValue,"
+										+ $afterEndPage + ")'>>></button>");
+								$div.append($button);
+							}
+
+						},
+						error : function(error) {
+							console.log(error);
+						}
+					});
+		};
+
+		//이메일 입력방식 선택
+		$('#category').change(
+				function() {
+					$("#category option:selected").each(
+							function() {
+
+								if ($(this).val() == ('startDate')
+										|| $(this).val() == ('endDate')) { // 날짜 선택의 경우
+									$("#categoryValue").val(''); //기존 값 초기화
+									$("#categoryValue").attr("style",
+											"display:none"); //비활성화
+									$("#startCalendar").attr("style",
+											"display:inline"); //활성화
+									$("#endCalendar").attr("style",
+											"display:inline"); //활성화
+								} else if ($(this).val() == ('all')) {
+									$("#categoryValue").val(''); //기존 값 초기화
+									vacationConformAjax();
+									$("#startCalendar").attr("style",
+											"display:none"); //비활성화
+									$("#endCalendar").attr("style",
+											"display:none"); //비활성화
+									$("#categoryValue").attr("style",
+											"display:inline"); //활성화
+								} else { // 날짜가 아닌 경우
+									$("#startCalendar").attr("style",
+											"display:none"); //비활성화
+									$("#endCalendar").attr("style",
+											"display:none"); //비활성화
+									$("#categoryValue").attr("style",
+											"display:inline"); //활성화
+								}
+							});
+				});
+
+		/* hover event */
+		function hover() {
+			const vacationList = document.getElementsByTagName("td");
+
+			for (let i = 0; i < vacationList.length; i++) {
+				vacationList[i].onmouseenter = function() {
+					this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+					this.parentNode.style.cursor = "pointer";
+				}
+				vacationList[i].onmouseout = function() {
+					this.parentNode.style.backgroundColor = "white";
+				}
+
+				vacationList[i].onclick = function() {
+					location.href = "/admin/select/selectMyVacation/Detail/"
+							+ this.parentNode.children[0].innerText;
+				}
+			}
+		};
+	</script>
 
 </body>
 

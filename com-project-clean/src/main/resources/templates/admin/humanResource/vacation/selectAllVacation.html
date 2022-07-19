@@ -17,7 +17,7 @@
             width: 1500px;
             margin: 0 auto;
         }
-
+        
     </style>
 </head>
 
@@ -34,14 +34,17 @@
         <select name="category" id="category">
             <option value="all" selected>전체</option>
             <option value="name">신청자</option>
-            <option value="startDate">휴가 시작일</option>
-            <option value="endDate">휴가 종료일</option>
+            <option id="startDate" value="startDate">휴가 시작일</option>
+            <option id="endDate" value="endDate">휴가 종료일</option>
         </select>
         
-		<input type="text" name="categoryValue" placeholder="블랙리스트 검색">
+		<input type="text" id="categoryValue" name="categoryValue" placeholder="휴가 내역 검색">
+		<input type="date" id="startCalendar" name="startDate" style="display: none">
+		<input type="date" id="endCalendar" name="endDate" style="display: none">
 		<input type="text" style="display: none;"> <!-- enter - submit 방지 -->
+		<input type="hidden" id="adminNo" name="adminNo" th:value="${#authentication.principal.adminNo}">
 		
-		<button type="button" id="searchN" onclick="balckListAjax();">검색</button>
+		<button type="button" id="search" onclick="vacationListAjax();">검색</button>
 		<input type="hidden" value="0" name=page>
 	  </form>
 	
@@ -64,6 +67,13 @@
 						
 				</tbody>
         </table>
+        
+        <!-- 검색 시 검색 결과 리셋 2-1 -->
+        <form name="mainPage">
+		<input type="hidden" value="0" name=page>
+        </form>
+        
+        
         	<div id="paging" style="display: flex; justify-content: center;">
                <!-- /* 페이징 버튼들어올 공간 */ -->
 			</div>
@@ -74,31 +84,32 @@
 
 
     $(document).ready(function(){
-  	  balckListAjax();
+    		
+      hover();
+  	  vacationListAjax();
   	  
     });
-    
     /* 페이징 버튼을 통한 요청 함수 */
-    function blackListPage(category, categoryValue, page){
+    function AllvacationListPage(category, categoryValue, page){
        console.log("ajax page이동 실행 시도");
        var queryString = {"category" : category
                     , "categoryValue" : categoryValue
                     , "page" : page};
-       balckListAjaxFunction(queryString);
+       vacationListAjaxFunction(queryString);
     }
     
     
     /* 유저가 조건 선택해 검색하는 요청 함수 */
-    function balckListAjax(){
+    function vacationListAjax(){
        console.log("ajax 기본함수 실행 시도");
 			
        var queryString = $("form[name=myVacationForm]").serialize();
-       balckListAjaxFunction(queryString);
+       vacationListAjaxFunction(queryString);
     }
     
     
 	  /* 휴가 전체 조회 ajax */
-    function balckListAjaxFunction(queryString){
+    function vacationListAjaxFunction(queryString){
        $.ajax({
           url : "/admin/hr/select/selectAllVacation",
           data : queryString,
@@ -116,7 +127,7 @@
 				for ( var index in data.vacationList) {
 	                $tr = $("<tr>");   
 					$noTd = $("<td>").text(data.vacationList[index].vacationNo);
-					$nameTd = $("<td>").text(data.vacationList[index].adminDTO.adminName);
+					$nameTd = $("<td>").text(data.vacationList[index].requestAdmin);
 					$requestTd = $("<td>").text(data.vacationList[index].requestDate);
 					$startTd = $("<td>").text(data.vacationList[index].vacationStartDate);
 					$endTd = $("<td>").text(data.vacationList[index].vacationEndDate);
@@ -154,13 +165,13 @@
                 $button = $("<button class='page' disabled><<</button>");
                 $div.append($button);
              } else {
-                $button = $("<button class='page' id='goBackPage' onclick='blackListPage(category,categoryValue,"+$beforeStartPage+")'><<</button>");
+                $button = $("<button class='page' id='goBackPage' onclick='AllvacationListPage(category,categoryValue,"+$beforeStartPage+")'><<</button>");
                 $div.append($button);
              }
              
              for(i=$startPage;i<$endPage;i++){
                 if(i!=$currentPage){
-                   $button = $("<button class='page' onclick='blackListPage(category,categoryValue,"+(i)+")'>"+(i+1)+"</button>");   
+                   $button = $("<button class='page' onclick='AllvacationListPage(category,categoryValue,"+(i)+")'>"+(i+1)+"</button>");   
                 } else {
                    $button = $("<button disabled class='page'>"+(i+1)+"</button>");
                 }
@@ -172,7 +183,7 @@
                 $button = $("<button class='page' disabled>>></button>");
                 $div.append($button);
              } else {
-                $button = $("<button class='page' id='goForwardPage' onclick='blackListPage(category,categoryValue,"+$afterEndPage+")'>>></button>");
+                $button = $("<button class='page' id='goForwardPage' onclick='AllvacationListPage(category,categoryValue,"+$afterEndPage+")'>>></button>");
                 $div.append($button);
              }
              
@@ -183,28 +194,68 @@
        });
     };
 
-	
-			/* hover event */
-			function hover() {
-				const blackList = document.getElementsByTagName("td");
+  //이메일 입력방식 선택
+    $('#category').change(function(){
+       $("#category option:selected").each(function () {
+    		
+    		if($(this).val()== ('startDate')){ // 시작 날짜 선택의 경우
+    			 mainList();
+    			 $("#categoryValue").val('');                       //기존 값 초기화
+	   			 $("#startCalendar").val('');                       //기존 값 초기화
+	   			 $("#endCalendar").val('');                       //기존 값 초기화
+
+    			 $("#categoryValue").attr("style","display:none"); //비활성화
+    			 $("#categoryValue").attr("style","display:none"); //비활성화
+    			 $("#startCalendar").attr("style","display:inline"); //활성화
+    			 $("#endCalendar").attr("style","display:inline"); //활성화
+    			 
+    		} else if($(this).val()== ('endDate')){	// 종료 날짜 선택 경우
+    			 mainList();
+	   			 $("#categoryValue").val('');                       //기존 값 초기화
+	   			 $("#startCalendar").val('');                       //기존 값 초기화
+	   			 $("#endCalendar").val('');                       //기존 값 초기화
+
+    			 $("#categoryValue").attr("style","display:none"); //비활성화
+    			 $("#startCalendar").attr("style","display:inline"); //활성화
+    			 $("#endCalendar").attr("style","display:inline"); //활성화
+    			
+    		} else if($(this).val()== ('all')){	// 전체 조회 클릭 시
+    		     mainList();
+	   			 $("#categoryValue").val('');                       //기존 값 초기화
+	   			 $("#startCalendar").val('');                       //기존 값 초기화
+	   			 $("#endCalendar").val('');                       //기존 값 초기화
+
+    			 $("#startCalendar").attr("style","display:none"); //비활성화
+    			 $("#startCalendar").attr("style","display:none"); //비활성화
+    			 $("#endCalendar").attr("style","display:none"); //비활성화
+    			 $("#categoryValue").attr("style","display:inline"); //활성화
+    			 
+    		} else if($(this).val()== ('name')){ // 이름(신청자) 클릭시
+     			 mainList();
+    			 $("#categoryValue").val('');                       //기존 값 초기화
+	   			 $("#startCalendar").val('');                       //기존 값 초기화
+	   			 $("#endCalendar").val('');                       //기존 값 초기화
+
+    			 $("#startCalendar").attr("style","display:none"); //비활성화
+    			 $("#endCalendar").attr("style","display:none"); //비활성화
+    			 $("#categoryValue").attr("style","display:inline"); //활성화
+    		}
+       });
+    });
+  
+  
+  
+  
+	    
+	  /* 검색 시 검색 결과 리셋 2-2 */
+    function mainList(){
+       console.log("ajax 기본함수 실행 시도");
 			
-				for (let i = 0; i < blackList.length; i++) {
-					blackList[i].onmouseenter = function() {
-						this.parentNode.style.backgroundColor = "rgb(50,150,250)";
-						this.parentNode.style.cursor = "pointer";
-					}
-					blackList[i].onmouseout = function() {
-						this.parentNode.style.backgroundColor = "white";
-					}
-			
-					blackList[i].onclick = function() {
-						location.href = "/admin/selectBlackListDetail/"
-								+ this.parentNode.children[0].innerText;
-					}
-				}
-			};
-    
-    
+       var queryString = $("form[name=mainPage]").serialize();
+       vacationListAjaxFunction(queryString);
+    }
+
+	  
     
     
 	/* hover event */
@@ -227,9 +278,7 @@
 		}
 	};
 	
-	$(function(){
-	hover();
-	})
+
 </script>
 
 </body>
