@@ -31,20 +31,18 @@
 				/*[# th:each = "reservation, i : ${reservationDateList}"]*/
 				{
 		            title: "지원 마감 : " + /*[[${unableCountList[i.index]}]]*/,	            
-		            url: '/reservation/' + /*[[${dateList[i.index]}]]*/,
+		            url: '/reservation/date/' + /*[[${dateList[i.index]}]]*/,
 		            start: /*[[${dateList[i.index]}]]*/
 		          },
 	          	{
 		            title: "지원 가능 : " + /*[[${ableCountList[i.index]}]]*/,
-		            url: '/reservation/' + /*[[${dateList[i.index]}]]*/,
+		            url: '/reservation/date/' + /*[[${dateList[i.index]}]]*/,
 		            start: /*[[${dateList[i.index]}]]*/
 		          },
 				/*[/]*/
 	    	  	
 	        ]
-	      , eventClick: function(info) {
-	    	    alert('여기에 이벤트 걸어주고 확인 누르면 url로 이동됨~');
-	    	  }
+	      , eventClick: function(info) {}
 		});
     	calendar.render();
 	};
@@ -54,6 +52,7 @@
 </head>
 <body>
 	<div th:include="common/header.html"></div>
+	<div th:include="common/reservationAside.html"></div>
 	<div style="margin:30px auto 30px auto; width: 1000px; height: 700px;">
 	    <div id='calendar'></div>  
 	</div>

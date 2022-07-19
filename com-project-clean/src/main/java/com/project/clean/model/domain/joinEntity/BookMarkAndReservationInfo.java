@@ -1,17 +1,24 @@
-package com.project.clean.model.domain.commonEntity;
+package com.project.clean.model.domain.joinEntity;
 
 import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Fetch;
+
+import com.project.clean.model.domain.reservation.Reservation;
+import com.project.clean.model.dto.commonDTO.ReservationInfoDTO;
 
 @Entity
 @Table(name="TBL_BOOKMARK")
@@ -23,7 +30,7 @@ import org.hibernate.annotations.DynamicUpdate;
 )
 @DynamicInsert
 @DynamicUpdate
-public class BookMark implements Serializable{
+public class BookMarkAndReservationInfo implements Serializable{
 
 	private static final long serialVersionUID = -3095654268238559940L;
 	
@@ -41,19 +48,21 @@ public class BookMark implements Serializable{
 	@Column(name="BOOKMARK_EMPLOYEE_NO")
 	private int bookmarkEmployeeNo;
 	
-	@Column(name="BOOKMARK_RESERVATION_NO")
-	private int bookmarkReservationNo;
+	@ManyToOne
+	@JoinColumn(name="BOOKMARK_RESERVATION_NO")
+	private Reservation reservationInfoDTO;
 
-	public BookMark() {
+	public BookMarkAndReservationInfo() {
 		super();
 	}
 
-	public BookMark(int bookmarkNo, String bookmarkCancelYn, int bookmarkEmployeeNo, int bookmarkReservationNo) {
+	public BookMarkAndReservationInfo(int bookmarkNo, String bookmarkCancelYn, int bookmarkEmployeeNo,
+			Reservation reservationInfoDTO) {
 		super();
 		this.bookmarkNo = bookmarkNo;
 		this.bookmarkCancelYn = bookmarkCancelYn;
 		this.bookmarkEmployeeNo = bookmarkEmployeeNo;
-		this.bookmarkReservationNo = bookmarkReservationNo;
+		this.reservationInfoDTO = reservationInfoDTO;
 	}
 
 	public int getBookmarkNo() {
@@ -80,12 +89,12 @@ public class BookMark implements Serializable{
 		this.bookmarkEmployeeNo = bookmarkEmployeeNo;
 	}
 
-	public int getBookmarkReservationNo() {
-		return bookmarkReservationNo;
+	public Reservation getReservationInfoDTO() {
+		return reservationInfoDTO;
 	}
 
-	public void setBookmarkReservationNo(int bookmarkReservationNo) {
-		this.bookmarkReservationNo = bookmarkReservationNo;
+	public void setReservationInfoDTO(Reservation reservationInfoDTO) {
+		this.reservationInfoDTO = reservationInfoDTO;
 	}
 
 	public static long getSerialversionuid() {
@@ -94,8 +103,11 @@ public class BookMark implements Serializable{
 
 	@Override
 	public String toString() {
-		return "BookMark [bookmarkNo=" + bookmarkNo + ", bookmarkCancelYn=" + bookmarkCancelYn + ", bookmarkEmployeeNo="
-				+ bookmarkEmployeeNo + ", bookmarkReservationNo=" + bookmarkReservationNo + "]";
+		return "BookMarkAndReservationInfo [bookmarkNo=" + bookmarkNo + ", bookmarkCancelYn=" + bookmarkCancelYn
+				+ ", bookmarkEmployeeNo=" + bookmarkEmployeeNo + ", reservationInfoDTO=" + reservationInfoDTO + "]";
 	}
 	
+	
+
+		
 }

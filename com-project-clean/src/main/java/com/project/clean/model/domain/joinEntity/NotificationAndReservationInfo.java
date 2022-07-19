@@ -1,4 +1,4 @@
-package com.project.clean.model.domain.commonEntity;
+package com.project.clean.model.domain.joinEntity;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -8,11 +8,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import com.project.clean.model.domain.reservation.Reservation;
 
 @Entity
 @Table(name = "TBL_NOTIFICATION")
@@ -24,7 +28,7 @@ import org.hibernate.annotations.DynamicUpdate;
 )
 @DynamicInsert
 @DynamicUpdate
-public class Notification implements Serializable{
+public class NotificationAndReservationInfo implements Serializable{
 
 	private static final long serialVersionUID = -5571635687854580599L;
 
@@ -51,25 +55,28 @@ public class Notification implements Serializable{
 	@Column(name="NOTIFIVATION_EMPLOYEE_NO")
 	private int notificationEmployeeNo;
 	
-	@Column(name="NOTIFIVATION_RESERVATION_NO")
-	private int notificationReservationNo;
+	@ManyToOne
+	@JoinColumn(name="NOTIFIVATION_RESERVATION_NO")
+	private Reservation reservationInfoDTO;
 
 	@Column(name="NOTIFIVATION_ADMIN_NO")
 	private int notificationAdminNo;
 
-	public Notification() {
+	public NotificationAndReservationInfo() {
+		super();
 	}
 
-	public Notification(int notificationNo, String notificationText, Date notificationCreateTime,
+	public NotificationAndReservationInfo(int notificationNo, String notificationText, Date notificationCreateTime,
 			String notificationReadYn, String notificationAdminYn, int notificationEmployeeNo,
-			int notificationReservationNo, int notificationAdminNo) {
+			Reservation reservationInfoDTO, int notificationAdminNo) {
+		super();
 		this.notificationNo = notificationNo;
 		this.notificationText = notificationText;
 		this.notificationCreateTime = notificationCreateTime;
 		this.notificationReadYn = notificationReadYn;
 		this.notificationAdminYn = notificationAdminYn;
 		this.notificationEmployeeNo = notificationEmployeeNo;
-		this.notificationReservationNo = notificationReservationNo;
+		this.reservationInfoDTO = reservationInfoDTO;
 		this.notificationAdminNo = notificationAdminNo;
 	}
 
@@ -121,12 +128,12 @@ public class Notification implements Serializable{
 		this.notificationEmployeeNo = notificationEmployeeNo;
 	}
 
-	public int getNotificationReservationNo() {
-		return notificationReservationNo;
+	public Reservation getReservationInfoDTO() {
+		return reservationInfoDTO;
 	}
 
-	public void setNotificationReservationNo(int notificationReservationNo) {
-		this.notificationReservationNo = notificationReservationNo;
+	public void setReservationInfoDTO(Reservation reservationInfoDTO) {
+		this.reservationInfoDTO = reservationInfoDTO;
 	}
 
 	public int getNotificationAdminNo() {
@@ -143,13 +150,12 @@ public class Notification implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Notification [notificationNo=" + notificationNo + ", notificationText=" + notificationText
-				+ ", notificationCreateTime=" + notificationCreateTime + ", notificationReadYn=" + notificationReadYn
-				+ ", notificationAdminYn=" + notificationAdminYn + ", notificationEmployeeNo=" + notificationEmployeeNo
-				+ ", notificationReservationNo=" + notificationReservationNo + ", notificationAdminNo="
+		return "NotificationAndReservationInfo [notificationNo=" + notificationNo + ", notificationText="
+				+ notificationText + ", notificationCreateTime=" + notificationCreateTime + ", notificationReadYn="
+				+ notificationReadYn + ", notificationAdminYn=" + notificationAdminYn + ", notificationEmployeeNo="
+				+ notificationEmployeeNo + ", reservationInfoDTO=" + reservationInfoDTO + ", notificationAdminNo="
 				+ notificationAdminNo + "]";
 	}
-	
-	
-	
+
+		
 }

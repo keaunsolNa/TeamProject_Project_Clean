@@ -7,17 +7,18 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<script th:inline="javascript">
-	/*[# th:if = ${applyMessage} != null]*/
-		alert([[${applyMessage}]]);
-		location.href = '/reservation/detail/' + '[[${reservationNo}]]';
-	/*[/]*/
-	</script>
 	<div th:include="common/header.html"></div>
 	<div th:include="common/reservationAside.html"></div>
-	
-	<h1 align="center" th:text="${#dates.format(date, 'yyyy-MM-dd')}"></h1>
+	<h1>알림 상세 내용</h1>
 	<table align="center" border="1">
+		<tr>
+			<td>알림내용 : </td>
+			<td th:text="${ notification.notificationText }"></td>
+		</tr>
+		<tr>
+			<td>날짜 : </td>
+			<td th:text="${#dates.format(notification.notificationCreateTime, 'yyyy-MM-dd HH:mm')}"></td>
+		</tr>
 		<tr>
 			<td>주소 : </td>
 			<td th:text="${ reservation.userAddress }"></td>
@@ -64,24 +65,12 @@
 			<td style="color:red;" th:if="${ reservation.applyEndYn =='Y'}" th:text="불가능"></td>
 			<td style="color:blue;" th:if="${ reservation.applyEndYn =='N'}" th:text="가능"></td>
 		</tr>
-		
+		<tr>
+			<td>
+				<button th:onclick="'location.href = \'' + @{/reservation/detail/{id}(id=${notification.notificationReservationNo})} + '\''">예약하러 가기</button>
+			</td>
+		</tr>
 	</table>
-	
-	<div th:if="${ applyButtonText == '지원하기'}">
-		<button th:onclick="'location.href = \'' + @{/reservation/apply/{id}(id=${reservation.reservationNo})} + '\''">지원</button>
-	</div>
-	<div th:if="${ applyButtonText == '지원취소'}">
-		<button th:onclick="'location.href = \'' + @{/reservation/applyCancel/{id}(id=${reservation.reservationNo})} + '\''">지원 취소</button>
-	</div>
-	<div th:if="${ applyButtonText == '즐겨찾기'}">
-		<button th:onclick="'location.href = \'' + @{/reservation/bookmark/{id}(id=${reservation.reservationNo})} + '\''">즐겨찾기 등록</button>
-	</div>
-	<div th:if="${ applyButtonText == '즐겨찾기 재등록'}">
-		<button th:onclick="'location.href = \'' + @{/reservation/bookmarkAgain/{id}(id=${reservation.reservationNo})} + '\''">즐겨찾기 등록</button>
-	</div>
-	<div th:if="${ applyButtonText == '즐겨찾기 취소'}">
-		<button th:onclick="'location.href = \'' + @{/reservation/bookmarkCancel/{id}(id=${reservation.reservationNo})} + '\''">즐겨찾기 취소</button>
-	</div>
 	<button>목록</button>
 </body>
 </html>
