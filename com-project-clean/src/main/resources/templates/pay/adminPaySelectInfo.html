@@ -15,7 +15,7 @@
 	            <th width="200px" height="200px"></th>
 	            <th width="210px" th:utext="|급여 지급 날짜 <br> <p>${ pay.payAdminDate }</p>|"><br></th>
 	            <th width="250px" colspan="2" th:utext="|4대보험 미적용 급여 <br> <p>${ pay.admin.adminSalary }원</p>|"></th>
-	            <th id="salary" width="250px"> <br></th>
+	            <th width="250px" th:utext="|최종 급여 <br> <p>${ pay.payAdminFinalSalary }원</p>|"></th>
 	        </tr>
 	        <tr>
 	            <th height="30px">직원이름</th>
@@ -30,15 +30,5 @@
     	</table>
     </section>
 </body>
-	<script th:inline="javascript">
-		
-		var beforePay = [[${ pay.admin.adminSalary }]];
-		var insurance = [[${ insurance }]];
-		
-		var cal = beforePay - (beforePay * insurance / 100) ;
 
-		console.log(insurance);
-		document.getElementById("salary").innerHTML= "최종 급여 <br> <p>" + cal + "원" + "</p>";
-		
-	</script>
 </html>

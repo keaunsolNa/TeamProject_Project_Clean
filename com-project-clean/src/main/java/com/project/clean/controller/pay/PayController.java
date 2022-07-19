@@ -1,5 +1,6 @@
 package com.project.clean.controller.pay;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.clean.controller.common.paging.Pagenation;
 import com.project.clean.controller.common.paging.SelectCriteria;
+import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.SurchargeDTO;
 import com.project.clean.model.dto.joinDTO.AdminAndAdminPayDTO;
 import com.project.clean.model.dto.joinDTO.AdminPayAndAdminDTO;
@@ -140,7 +142,60 @@ public class PayController {
 	
 	}
 	
-	@PostMapping
+	
+	
+	
+	
+	
+	
+	
+	
+	/* 관리자 급여 지급 */
+	@PostMapping("/adminPayWaiting")
+	public String regist(RedirectAttributes rttr, int adminNo) {
+		
+		// 급여를 계산하기 위해 4대보험료를 가져옴
+		List<SurchargeDTO> surchargeList = payService.findSurchargeList();
+		int insurance = surchargeList.get(0).getSurchargeInsurance();
+		System.out.println("부가요금 확인" + insurance);
+		System.out.println("부가요금 확인" + insurance);
+		System.out.println("부가요금 확인" + insurance);
+		System.out.println("부가요금 확인" + insurance);
+		
+		
+		// adminNo로 해당 관리자의 모든 정보를 가져옴
+		AdminDTO admin = payService.findAdminByPayAdminNo(adminNo);
+		System.out.println("관리자 확인" + admin);
+		System.out.println("adminNo 확인" + adminNo);
+		System.out.println("adminNo 확인" + adminNo);
+		System.out.println("adminNo 확인" + adminNo);
+		System.out.println("adminNo 확인" + adminNo);
+		
+		
+//		LocalDate localDate = LocalDate.now();
+//		java.sql.Date today = java.sql.Date.valueOf(localDate);
+		
+		
+		// 급여만 빼옴
+		int salary = admin.getAdminSalary();
+		// 관리자번호, 그 관리자의 급여, 4대보험료 service로 보냄
+		payService.registAdminPay(adminNo, salary, insurance);
+		 
+		rttr.addFlashAttribute("modifySuccessMessage", "급여 지급에 성공하였습니다");
+		  
+		return "redirect:/pay/adminPayWaiting";
+		 
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	// 부가요금 ------------------------------------------------------------------------------------------------
 	
