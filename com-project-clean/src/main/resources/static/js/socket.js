@@ -1,15 +1,16 @@
+var jq = jQuery.noConflict();
 var stompClient = null;
 
 function setConnected(connected) {
-    $("#connect").prop("disabled", connected);
-    $("#disconnect").prop("disabled", !connected);
+    jq("#connect").prop("disabled", connected);
+    jq("#disconnect").prop("disabled", !connected);
     if (connected) {
-        $("#conversation").show();
+        jq("#conversation").show();
     }
     else {
-        $("#conversation").hide();
+        jq("#conversation").hide();
     }
-    $("#greetings").html("");
+    jq("#ReceiveMessage").html("");
 }
 
 function connect() {
@@ -33,21 +34,21 @@ function disconnect() {
 }
 
 function sendName() {
-    stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val()}));
+    stompClient.send("/app/hello", {}, JSON.stringify({'name': jq("#sendingMessage").val()}));
 }
 
 function showGreeting(message) {
-    $("#greetings").append("<tr><td>" + message + "</td></tr>");
+    jq("#ReceiveMessage").append("<tr><td>" + message + "</td></tr>");
 }
 
-$(function () {
-    $("form").on('submit', function (e) {
+jq(function () {
+    jq("form").on('submit', function (e) {
         e.preventDefault();
     });
 
-    $( "#connect" ).click(function() { connect(); });
-    $( "#disconnect" ).click(function() { disconnect(); });
-    $( "#send" ).click(function() { sendName(); });
+    jq( "#connect" ).click(function() { connect(); });
+    jq( "#disconnect" ).click(function() { disconnect(); });
+    jq( "#send" ).click(function() { sendName(); });
 });
 
 window.onload = function(){

@@ -15,8 +15,8 @@ public class ReceiveController {
 	@MessageMapping("/hello")
 	@SendTo("/topic/greetings")
 	public ReceiveMessage greeting(SendMessage message) throws Exception {
-		Thread.sleep(1000); // simulated delay
-		return new ReceiveMessage("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
+		Thread.sleep(1000); 
+		return new ReceiveMessage(HtmlUtils.htmlEscape(message.getName()));
 	}
 
 }

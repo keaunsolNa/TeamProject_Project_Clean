@@ -5,7 +5,8 @@
 <meta charset="UTF-8">
 <link href='/css/calendar.css' rel='stylesheet' />
 <script src='/js/calendar.js'></script>
-
+   	<script 
+   		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script th:inline="javascript">
 	/*[# th:if = ${successCode} != null]*/
 		location.href = '/';
@@ -15,39 +16,40 @@
 <!-- 해당 날짜 클릭 이벤트 -->
 <script th:inline="javascript">
 
-	window.onload = function(){
-		var calendarEl = document.getElementById('calendar');
-		let reservation = new Object();
-		
-	    var calendar = new FullCalendar.Calendar(calendarEl, {
-	      initialView: 'dayGridMonth',
-	      headerToolbar: {
-	        left: 'prev,next today',
-	        center: 'title',
-	        right: ''
-	      },
-	      locale: "ko",
-	      events: [			/* 여기에 날짜랑 지원가능 / 마감 수 가져와서 뿌려주면 됨 */
-				/*[# th:each = "reservation, i : ${reservationDateList}"]*/
-				{
-		            title: "지원 마감 : " + /*[[${unableCountList[i.index]}]]*/,	            
-		            url: '/reservation/' + /*[[${dateList[i.index]}]]*/,
-		            start: /*[[${dateList[i.index]}]]*/
-		          },
-	          	{
-		            title: "지원 가능 : " + /*[[${ableCountList[i.index]}]]*/,
-		            url: '/reservation/' + /*[[${dateList[i.index]}]]*/,
-		            start: /*[[${dateList[i.index]}]]*/
-		          },
-				/*[/]*/
-	    	  	
-	        ]
-	      , eventClick: function(info) {
-	    	    alert('여기에 이벤트 걸어주고 확인 누르면 url로 이동됨~');
-	    	  }
-		});
-    	calendar.render();
-	};
+$(function(){
+	var calendarEl = document.getElementById('calendar');
+	let reservation = new Object();
+	
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: ''
+      },
+      locale: "ko",
+      events: [			/* 여기에 날짜랑 지원가능 / 마감 수 가져와서 뿌려주면 됨 */
+			/*[# th:each = "reservation, i : ${reservationDateList}"]*/
+			{
+	            title: "지원 마감 : " + /*[[${unableCountList[i.index]}]]*/,	            
+	            url: '/reservation/' + /*[[${dateList[i.index]}]]*/,
+	            start: /*[[${dateList[i.index]}]]*/
+	          },
+          	{
+	            title: "지원 가능 : " + /*[[${ableCountList[i.index]}]]*/,
+	            url: '/reservation/' + /*[[${dateList[i.index]}]]*/,
+	            start: /*[[${dateList[i.index]}]]*/
+	          },
+			/*[/]*/
+    	  	
+        ]
+      , eventClick: function(info) {
+    	    alert('여기에 이벤트 걸어주고 확인 누르면 url로 이동됨~');
+    	  }
+	});
+	calendar.render();
+});
+
 
 </script>
 <title>Insert title here</title>
@@ -59,4 +61,5 @@
 	</div>
 	<button type="button" onclick="location.href='/reservation/client'">고객 예약</button>
 </body>
+
 </html>
