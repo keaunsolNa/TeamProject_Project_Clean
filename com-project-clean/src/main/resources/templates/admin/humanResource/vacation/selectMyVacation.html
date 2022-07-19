@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+<style type="text/css">
+  
+    .tg  {border-collapse:collapse;border-spacing:0;}
+      .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
+        overflow:hidden;padding:5px;word-break:normal;}
+      .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
+        font-weight:normal;overflow:hidden;padding:5px;word-break:normal;}
+      .tg .tg-amwm{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
+
+      .comfirmBox td{
+        height: 75px;
+      }
+
+      .confirmTable{
+        margin: 20px;
+      }
+
+      .confirmHeight{
+        margin: auto;
+        line-height: center;
+        line-height: 100px;
+      }
+    /* 결재 승인 */
+
+
+    /* 휴가신청서 */
+    .tg2  {border-collapse:collapse;border-spacing:0;}
+    .tg2 td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    overflow:hidden;padding:10px 10px;word-break:normal;}
+    .tg2 th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;}
+    .tg2 .tg2-7btt{border-color:inherit; font-weight:bold;text-align:center;vertical-align:top}
+
+    .confirmDateContainer{
+        margin: 25px;
+    }
+    .container{
+        width: 1500px;
+    }
+
+    .reason{
+        height: 100px;
+        line-height: 100px;
+    }
+
+    .confirmLine{
+        line-height: 75px;
+    }
+
+
+    </style>
+
+</head>
+<body>
+    <div class="container">
+      <div id="tab-1" class="tab-content current">
+        <span>나의 휴가 조회</span>
+
+        <select name="category" id="category">
+            <option value="empNo" selected>사원번호</option>
+            <option value="empName">이름</option>
+            <option value="empBirth">생년월일</option>
+            <option value="empAddress">주소</option>
+            <option value="empPhone">전화번호</option>
+        </select>
+        <input type="text" name="categoryValue">
+        <button type="button" id="search">검색</button>
+
+        <table id="vacationList" border="1">
+            <thead>
+                <tr>
+                    <th>신청번호</th>
+                    <th>신청날짜</th>
+                    <th>휴가시작일</th>
+                    <th>휴가종료일</th>
+                    <th>휴가구분</th>
+                    <th>반려여부</th>
+                </tr>
+            </thead>
+            <tbody>
+				<tbody>
+					<tr th:each="index : ${vacation}">
+						<td th:text="${ index.vacationNo }"></td>
+						<td th:text="${ index.requestDate }"></td>
+						<td th:text="${ index.vacationStartDate }"></td>
+						<td th:text="${ index.vacationEndDate }"></td>
+						<td th:text="${ index.vacationName }"></td>
+						<td th:text="${ vacationStatus }"></td>
+					</tr>
+				</tbody>
+            </tbody>
+        </table>
+         <div id="vacationPaging"> <div th:replace="/admin/humanResource/vacation/vacationPaging.html"></div></div>
+        
+    </div>
+    </div>
+    
+    <script>
+
+	/* hover event */
+	function hover() {
+		const vacationList = document.getElementsByTagName("td");
+
+		for (let i = 0; i < vacationList.length; i++) {
+			vacationList[i].onmouseenter = function() {
+				this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+				this.parentNode.style.cursor = "pointer";
+			}
+			vacationList[i].onmouseout = function() {
+				this.parentNode.style.backgroundColor = "white";
+			}
+
+			vacationList[i].onclick = function() {
+				location.href = "/admin/select/selectMyVacation/Detail/"
+						+ this.parentNode.children[0].innerText;
+			}
+		}
+	};
+	
+	$(function(){
+	hover();
+	})
+</script>
+
+</body>
+</html>

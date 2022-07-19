@@ -22,11 +22,11 @@ public class FindServiceImpl implements FindService{
 	private final EmpRepository empRepository;
 	
 	@Autowired
-	public FindServiceImpl(AdminRepository adminRepositroy, ModelMapper modelMapper, EmpRepository empRepository) {
+	public FindServiceImpl(AdminRepository adminRepositroy, ModelMapper modelMapper, EmpRepository empRepository ) {
 		this.adminRepositroy = adminRepositroy;
 		this.modelMapper = modelMapper;
 		this.empRepository = empRepository;
-	} 
+	}
 
 	@Override
 	public AdminDTO findAdminIdByPhone(String userPhone) {

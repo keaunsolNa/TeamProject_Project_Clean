@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http:www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <span>블랙리스트 조회</span>
+
+    <select name="blackListCategory" id="blackListCategory">
+        <option value="blackListEmpNo" selected>사원번호</option>
+        <option value="blackListEmpName">이름</option>
+        <option value="blackListEmpBirth">생년월일</option>
+        <option value="blackListEmpAddress">주소</option>
+        <option value="blackListEmpPhone">전화번호</option>
+        <option value="blackSumCount">누적경고횟수</option>
+    </select>
+    <input type="text" name="blackListCategoryValue">
+    <button type="button" id="blackListSearch">검색</button>
+
+    <table id="employeeList" border="1">
+        <thead>
+            <tr>
+                <th>사원번호</th>
+                <th>이름</th>
+                <th>생년월일</th>
+                <th>주소</th>
+                <th>전화번호</th>
+                <th>입사날짜</th>
+                <th>누적경고횟수</th>
+            </tr>
+        </thead>
+        <tbody>
+				<tbody>
+					<tr th:each="index : ${blackList}">
+						<td th:text="${ index.employeeNo }"></td>
+						<td th:text="${ index.employeeName }"></td>
+						<td th:text="${ index.employeeBirth }"></td>
+						<td th:text="${ index.employeeAddress }"></td>
+						<td th:text="${ index.employeePhone }"></td>
+						<td th:text="${ index.employeeHireDate }"></td>
+						<td th:text="${ index.employeeSumCount }"></td>
+					</tr>
+				</tbody>
+        </tbody>
+    </table>
+			<div id="blackListPaging"> <div th:replace="/admin/humanResource/blackList/blackListPaging.html"></div></div>
+
+
+	<script>
+	
+	$(function(){
+		hover();
+	})
+	
+			/* hover event */
+			function hover() {
+				const blackList = document.getElementsByTagName("td");
+			
+				for (let i = 0; i < blackList.length; i++) {
+					blackList[i].onmouseenter = function() {
+						this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+						this.parentNode.style.cursor = "pointer";
+					}
+					blackList[i].onmouseout = function() {
+						this.parentNode.style.backgroundColor = "white";
+					}
+			
+					blackList[i].onclick = function() {
+						location.href = "/admin/selectBlackListDetail/"
+								+ this.parentNode.children[0].innerText;
+					}
+				}
+			};
+	 		
+	</script>
+
+</body>
+</html>

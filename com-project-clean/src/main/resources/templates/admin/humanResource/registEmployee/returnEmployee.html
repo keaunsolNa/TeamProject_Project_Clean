@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<title>Document</title>
+<style type="text/css">
+
+/* 결재 테이블 */
+.tg {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.tg td {
+	border-color: black;
+	border-style: solid;
+	border-width: 1px;
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	overflow: hidden;
+	padding: 5px;
+	word-break: normal;
+}
+
+.tg th {
+	border-color: black;
+	border-style: solid;
+	border-width: 1px;
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	overflow: hidden;
+	padding: 5px;
+	word-break: normal;
+}
+
+.tg .tg-amwm {
+	border-color: inherit;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: top
+}
+
+/* 인사 테이블 */
+.tg2 {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.tg2 td {
+	border-color: black;
+	border-style: solid;
+	border-width: 1px;
+	font-family: Arial, sans-serif;
+	font-size: 14px;
+	overflow: hidden;
+	padding: 10px 10px;
+	word-break: normal;
+}
+
+.tg2 th {
+	border-color: black;
+	border-style: solid;
+	border-width: 1px;
+	font-family: Arial, sans-serif;
+	font-size: 14px;
+	font-weight: normal;
+	overflow: hidden;
+	padding: 10px 10px;
+	word-break: normal;
+}
+
+.tg2 .tg2-7btt {
+	border-color: inherit;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: top
+}
+
+.comfirmBox td {
+	height: 75px;
+}
+
+.confirmTable {
+	margin: 20px;
+}
+
+.confirmHeight {
+	margin: auto;
+	line-height: center;
+	line-height: 100px;
+}
+
+.container {
+	width: 1500px;
+	margin: 0 auto;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<div>
+			<table class="tg confirmTable"
+				style="table-layout: fixed; width: 588px">
+				<colgroup>
+					<col style="width: 186px">
+					<col style="width: 201px">
+					<col style="width: 201px">
+				</colgroup>
+				<thead>
+					<tr>
+						<td class="tg-amwm">결재 신청 날짜</td>
+						<td class="tg-amwm" colspan="2">
+							<div name="confirmDate" th:text="${returnEmployee.RequestDate}"></div>
+						</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="tg-amwm confirmHeight" rowspan="3">결재</td>
+						<td class="tg-amwm">인사담당자</td>
+						<td class="tg-amwm">대표</td>
+					</tr>
+					<tr class="comfirmBox">
+						<td class="tg-amwm">
+							<!-- 인사 담당자 이름 -->
+							<div name="hrName" th:text="${hrName}" style="line-height: 80px;"></div>
+						</td>
+						<td class="tg-amwm">
+							<!-- 대표 이름 -->
+							<div name="bossName" th:text="${bossName}"
+								style="line-height: 80px;"></div>
+						</td>
+					</tr>
+					<tr>
+						<!-- 인사 담당자 날짜 -->
+						<td class="tg-amwm" th:text="${hrConfirm}"></td>
+						<!-- 보스 날짜 -->
+						<td class="tg-amwm" th:text="${bossConfirm}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div>
+			<table class="tg2" style="table-layout: fixed; width: 736px">
+				<colgroup>
+					<col style="width: 158px">
+					<col style="width: 147px">
+					<col style="width: 155px">
+					<col style="width: 139px">
+					<col style="width: 68px">
+					<col style="width: 69px">
+				</colgroup>
+				<thead>
+					<tr>
+						<td class="tg2-7btt">직원번호</td>
+						<td class="tg2-7btt" th:text="${returnEmployee.employeeNo}"></td>
+						<td class="tg2-7btt">이름</td>
+						<td class="tg2-7btt" th:text="${returnEmployee.employeeName}"></td>
+						<td class="tg2-7btt" colspan="2" rowspan="3"><img
+							id="pictureImg"
+							th:src="@{/adminEmployeePicture/} + ${returnEmployee.employeePictureSaveName}"
+							alt="사진을 등록해주세요"
+							width="100px" height="100px"></td>
+					</tr>
+					<tr>
+						<td class="tg2-7btt">ID</td>
+						<td class="tg2-7btt" th:text="${returnEmployee.employeeId}"></td>
+						<td class="tg2-7btt">전화번호</td>
+						<td class="tg2-7btt" th:text="${returnEmployee.employeePhone}"></td>
+					</tr>
+					<tr>
+						<td class="tg2-7btt">생년월일</td>
+						<td class="tg2-7btt" th:text="${returnEmployee.employeeBirth}"></td>
+						<td class="tg2-7btt">퇴사여부</td>
+						<td class="tg2-7btt" th:text="${returnEmployee.employeeRetireYn}"></td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="tg2-7btt">이메일</td>
+						<td class="tg2-7btt" colspan="5"
+							th:text="${returnEmployee.employeeEmail}"></td>
+					</tr>
+					<tr>
+						<td class="tg2-7btt">우편번호</td>
+						<td class="tg2-7btt" th:text="${address.addressNo}"></td>
+						<td class="tg2-7btt">기본주소</td>
+						<td class="tg2-7btt" colspan="3" th:text="${address.address}"></td>
+					</tr>
+					<tr>
+						<td class="tg2-7btt">상세주소</td>
+						<td class="tg2-7btt" colspan="5"
+							th:text="${address.addressDetail}"></td>
+					</tr>
+					<tr>
+						<td class="tg2-7btt">입사일</td>
+						<td class="tg2-7btt" th:text="${returnEmployee.employeeHireDate}"></td>
+						<td class="tg2-7btt">퇴사일</td>
+						<td class="tg2-7btt" colspan="3"
+							th:text="${returnEmployee.employeeRetireDate}"></td>
+					</tr>
+					<tr>
+						<td class="tg2-7btt">누적경고횟수</td>
+						<td class="tg2-7btt" th:text="${returnEmployee.employeeSumCount}"></td>
+						<td class="tg2-7btt">누적근무시간</td>
+						<td class="tg2-7btt" colspan="3"
+							th:text="${returnEmployee.employeeSumTime}"></td>
+					</tr>
+					<tr>
+						<td class="tg2-7btt">마지막 로그인 일자</td>
+						<td class="tg2-7btt"
+							th:text="${returnEmployee.employeeLastLoginDate}"></td>
+						<td class="tg2-7btt">블랙리스트 여부</td>
+						<td class="tg2-7btt" colspan="3"
+							th:text="${returnEmployee.employeeBlackListYn}"></td>
+					</tr>
+					<tr>
+						<td class="tg2-7btt" style="line-height: 150px;">
+							<div>인사담당자 의견</div>
+						</td>
+						<td class="tg2-7btt" style="line-height: 150px;" colspan="5"
+							th:text="${hrReason}"></td>
+					</tr>
+					<tr>
+						<td class="tg2-7btt" style="line-height: 150px;">
+							<div>대표 의견</div>
+						</td>
+						<td class="tg2-7btt" style="line-height: 150px;" colspan="5"
+							th:text="${bossReason}"></td>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+		</div>
+	</div>
+</body>
+</html>

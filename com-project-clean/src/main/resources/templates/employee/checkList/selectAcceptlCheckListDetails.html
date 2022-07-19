@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Project Clean</title>
+
+	<link 
+		rel="stylesheet" type="text/css"
+		th:href="@{/css/employee/checklist/checkList.css}">
+	<script 
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script 
+		src="https://code.jquery.com/jquery-3.4.1.min.js"></script>	
+</head>
+<body>
+
+<section>
+	
+		<input type="hidden" th:value="${checkList.checkReservationNo}" class="reservationNo" name="reservationNo"> 
+		
+		<p th:utext="${checkList.checkHTML}" class="jbHtml"></p>			
+		
+</section>
+
+
+</body>
+
+	<script 
+		src="/js/socket.js"></script>
+	<script
+		src="http://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+   	<script 
+		src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+</html>

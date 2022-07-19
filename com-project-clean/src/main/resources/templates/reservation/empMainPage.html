@@ -5,7 +5,8 @@
 <meta charset="UTF-8">
 <link href='/css/calendar.css' rel='stylesheet' />
 <script src='/js/calendar.js'></script>
-
+   	<script 
+   		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script th:inline="javascript">
 	/*[# th:if = ${successCode} != null]*/
 		location.href = '/';
@@ -47,6 +48,7 @@
     	calendar.render();
 	};
 
+
 </script>
 <title>Insert title here</title>
 </head>
@@ -58,4 +60,5 @@
 	</div>
 	<button type="button" onclick="location.href='/reservation/client'">고객 예약</button>
 </body>
+
 </html>

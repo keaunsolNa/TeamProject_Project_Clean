@@ -6,7 +6,6 @@ import java.sql.Date;
 public class VacationCommitDTO implements Serializable{
 	private static final long serialVersionUID = 6113234511936178630L;
 	
-	private int confirmNo;
 	private int adminNo;
 	private int vacationNo;
 	private String confirmReason;
@@ -19,24 +18,11 @@ public class VacationCommitDTO implements Serializable{
 
 
 
-	public VacationCommitDTO(int confirmNo, int adminNo, int vacationNo, String confirmReason, Date confirmDate) {
-		this.confirmNo = confirmNo;
+	public VacationCommitDTO(int adminNo, int vacationNo, String confirmReason, Date confirmDate) {
 		this.adminNo = adminNo;
 		this.vacationNo = vacationNo;
 		this.confirmReason = confirmReason;
 		this.confirmDate = confirmDate;
-	}
-
-
-
-	public int getConfirmNo() {
-		return confirmNo;
-	}
-
-
-
-	public void setConfirmNo(int confirmNo) {
-		this.confirmNo = confirmNo;
 	}
 
 
@@ -97,10 +83,12 @@ public class VacationCommitDTO implements Serializable{
 
 	@Override
 	public String toString() {
-		return "VacationCommitDTO [confirmNo=" + confirmNo + ", adminNo=" + adminNo + ", vacationNo=" + vacationNo
-				+ ", confirmReason=" + confirmReason + ", confirmDate=" + confirmDate + "]";
+		return "VacationCommitDTO [adminNo=" + adminNo + ", vacationNo=" + vacationNo + ", confirmReason="
+				+ confirmReason + ", confirmDate=" + confirmDate + "]";
 	}
 
 
+	
+	
 	
 }

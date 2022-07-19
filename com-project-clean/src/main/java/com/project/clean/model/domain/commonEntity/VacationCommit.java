@@ -6,21 +6,24 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
+
+import com.project.clean.model.domain.adminEntity.AdminVacationCommitPFKId;
+
 
 @Entity
 @Table(name = "TBL_VACATION_COMMIT")
+@IdClass(AdminVacationCommitPFKId.class)
 public class VacationCommit implements Serializable {
 
 	private static final long serialVersionUID = -8882971212931923117L;
 	
 	@Id
-	@Column(name="CONFIRM_NO")
-	private int confirmNo;
-	
 	@Column(name="ADMIN_NO")
 	private int adminNo;
 
+	@Id
 	@Column(name="VACATION_NO")
 	private int vacationNo;
 	
@@ -31,22 +34,15 @@ public class VacationCommit implements Serializable {
 	private java.sql.Date confirmDate;
 
 	public VacationCommit() {
+		super();
+
 	}
 
-	public VacationCommit(int confirmNo, int adminNo, int vacationNo, String confirmReason, Date confirmDate) {
-		this.confirmNo = confirmNo;
+	public VacationCommit(int adminNo, int vacationNo, String confirmReason, Date confirmDate) {
 		this.adminNo = adminNo;
 		this.vacationNo = vacationNo;
 		this.confirmReason = confirmReason;
 		this.confirmDate = confirmDate;
-	}
-
-	public int getConfirmNo() {
-		return confirmNo;
-	}
-
-	public void setConfirmNo(int confirmNo) {
-		this.confirmNo = confirmNo;
 	}
 
 	public int getAdminNo() {
@@ -87,10 +83,11 @@ public class VacationCommit implements Serializable {
 
 	@Override
 	public String toString() {
-		return "VacationCommit [confirmNo=" + confirmNo + ", adminNo=" + adminNo + ", vacationNo=" + vacationNo
-				+ ", confirmReason=" + confirmReason + ", confirmDate=" + confirmDate + "]";
+		return "VacationCommit [adminNo=" + adminNo + ", vacationNo=" + vacationNo + ", confirmReason=" + confirmReason
+				+ ", confirmDate=" + confirmDate + "]";
 	}
 
+	
 	
 	
 }

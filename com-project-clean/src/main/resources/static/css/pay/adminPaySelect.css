@@ -1,0 +1,25 @@
+
+table{
+	width:90%;
+	margin:0 auto;
+    font-family: 'MinSans-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff') format('woff');
+    font-weight: normal;
+    font-size:16px;
+    text-align: center;
+    border-collapse: collapse;
+  
+ }
+ 
+
+table th, table tr, table td {
+	border: 1px solid black;
+	cursor:pointer;
+}
+ 
+ table tr:first-of-type p{
+     font-size: large;
+     
+ }
+ 
+ 

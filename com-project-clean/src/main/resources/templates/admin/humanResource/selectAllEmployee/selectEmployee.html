@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <style type="text/css">
+        .tg  {border-collapse:collapse; border-spacing:0;}
+        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+          overflow:hidden;padding:10px 10px;word-break:normal;}
+        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+          font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;}
+        .tg .tg-7btt{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
+        #modify, #entire{
+            margin: 20px;
+        }
+        </style>
+</head>
+<body>
+    <div align="center">
+        <table class="tg" style="table-layout: fixed; width: 736px">
+        <colgroup>
+        <col style="width: 158px">
+        <col style="width: 147px">
+        <col style="width: 155px">
+        <col style="width: 139px">
+        <col style="width: 68px">
+        <col style="width: 69px">
+        </colgroup>
+        <thead>
+          <tr>
+            <td class="tg-7btt">직원번호</td>
+            <!-- @{/adminEmployeePicture/} + ${employee.employeePictureSaveName} -->
+            <td class="tg-7btt" th:text="${employee.employeeNo}"></td>
+            <td class="tg-7btt">이름</td>
+            <td class="tg-7btt" th:text="${employee.employeeName}"></td>
+            <td class="tg-7btt" colspan="2" rowspan="3">
+            
+             <img id="pictureImg" th:src="@{/adminEmployeePicture/} + ${employee.employeePictureSaveName}" 
+             	  alt="사진을 등록해주세요" width="100px" height="100px">
+            </td>
+            <!-- <td class="tg-7btt" colspan="2" rowspan="3" th:text="${employeePicture.employeePictureSaveName}"></td> -->
+          </tr>
+          <tr>
+            <td class="tg-7btt">ID</td>
+            <td class="tg-7btt" th:text="${employee.employeeId}"></td>
+            <td class="tg-7btt">전화번호</td>
+            <td class="tg-7btt" th:text="${employee.employeePhone}"></td>
+          </tr>
+          <tr>
+            <td class="tg-7btt">생년월일</td>
+            <td class="tg-7btt" th:text="${employee.employeeBirth}"></td>
+            <td class="tg-7btt">퇴사여부</td>
+            <td class="tg-7btt" th:text="${employee.employeeRetireYn}"></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tg-7btt">이메일</td>
+            <td class="tg-7btt" colspan="5" th:text="${employee.employeeEmail}"></td>
+          </tr>
+          <tr>
+            <td class="tg-7btt">우편번호</td>
+            <td class="tg-7btt" th:text="${addressMap.addressNo}"></td>
+            <td class="tg-7btt">기본주소</td>
+            <td class="tg-7btt" colspan='3' th:text="${addressMap.address}"></td>
+          </tr>
+          <tr>
+            <td class="tg-7btt">상세주소</td>
+            <td class="tg-7btt" colspan="5" th:text="${addressMap.addressDetail}"></td>
+          </tr>
+          <tr>
+            <td class="tg-7btt">입사일</td>
+            <td class="tg-7btt" th:text="${employee.employeeHireDate}"></td>
+            <td class="tg-7btt">퇴사일</td>
+            <td class="tg-7btt" colspan="3" th:text="${employee.employeeRetireDate}"></td>
+          </tr>
+          <tr>
+            <td class="tg-7btt">누적경고횟수</td>
+            <td class="tg-7btt" th:text="${employee.employeeSumCount}"></td>
+            <td class="tg-7btt">누적근무시간</td>
+            <td class="tg-7btt" colspan="3" th:text="${employee.employeeSumTime}"></td>
+          </tr>
+          <tr>
+            <td class="tg-7btt">마지막 로그인 일자</td>
+            <td class="tg-7btt" th:text="${employee.employeeLastLoginDate}"></td>
+            <td class="tg-7btt">블랙리스트 여부</td>
+            <td class="tg-7btt" colspan="3" th:text="${employee.employeeBlackListYn}"></td>
+          </tr>
+        </tbody>
+        </table>
+        <br>
+        <table class="button">
+            <tr>
+            	<!-- 관리자거나 직원에 따라 2개로 나눠야 댐 -->
+            	<!-- <th:block sec:authorize="hasRole('MEMBER')"> -->
+                <td><button id="adminModify">수정</button></td>
+                 <!-- </th:block> -->
+                 
+                 <!-- <th:block sec:authorize="hasRole('HR')"> -->
+                <td><button id="entire">탈퇴 처리</button></td>
+                 <!-- </th:block> -->
+                 
+                <td id="value" th:text="${employee.employeeNo}" style="display: none"></td>
+            </tr>
+        </table>
+    </div>
+    
+    <script>
+    const value = $("#value").text();
+	$("#adminModify").click(function(){
+		location.href="/admin/modify/employee/"+value
+	});
+	
+	$("#employeeModify").click(function(){
+		location.href="/admin/modify/employee"
+	})
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

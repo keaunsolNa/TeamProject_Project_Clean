@@ -14,7 +14,7 @@ spring:
 
   jpa:
     generate-ddl: false
-    show-sql: true
+    show-sql: true 
     database: oracle
     properties:
       hibernate:
@@ -28,4 +28,5 @@ spring:
     multipart:
       max-file-size: 50MB
       max-request-size: 50MB
+      
     

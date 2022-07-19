@@ -9,5 +9,4 @@ public interface FindService {
 
 	AdminDTO findAdminIdByPhone(String userPhone);
 
-
 }

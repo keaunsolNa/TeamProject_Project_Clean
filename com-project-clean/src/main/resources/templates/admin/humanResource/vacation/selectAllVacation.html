@@ -1,0 +1,291 @@
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <style>
+        body {
+            margin-top: 100px;
+            font-family: 'Trebuchet MS', serif;
+            line-height: 1.6
+        }
+
+        /* 전체 크기 */
+        .container {
+            width: 1500px;
+            margin: 0 auto;
+        }
+
+        ul.tabs {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+        }
+
+        /* 선택하지 않은 탭 css */
+        ul.tabs li {
+            background: rgba(219, 243, 249, 1);
+            color: rgb(0, 0, 0);
+            display: inline-block;
+            padding: 10px 15px;
+            /* 좌측은 위아래 사이즈 우측은 좌우 사이즈 */
+            cursor: pointer;
+        }
+
+        /* 선택한 탭 css 설정 */
+        ul.tabs li.current {
+            background: rgba(104, 228, 255, 1);
+            color: rgb(0, 0, 0);
+        }
+
+        /* 선택한 탭의 내용 css 설정 */
+        .tab-content {
+            display: none;
+            background: #e95151;
+            padding: 15px;
+        }
+
+        .tab-content.current {
+            display: inherit;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <ul class="tabs">
+            <li class="tab-link current" data-tab="tab-1">승인</li>
+            <li class="tab-link" data-tab="tab-2">반려</li>
+        </ul>
+
+        <!-- 승인 내용 -->
+        <div id="tab-1" class="tab-content current">
+            <span>휴가 전체 조회</span>
+
+            <select name="category" id="category">
+                <option value="empNo" selected>사원번호</option>
+                <option value="empName">이름</option>
+                <option value="empBirth">생년월일</option>
+                <option value="empAddress">주소</option>
+                <option value="empPhone">전화번호</option>
+            </select>
+            <input type="text" name="categoryValue">
+            <button type="button" id="search">검색</button>
+
+            <table id="employeeList" border="1">
+                <thead>
+                    <tr>
+                        <th>신청번호</th>
+                        <th>신청자</th>
+                        <th>휴가시작일</th>
+                        <th>휴가종료일</th>
+                        <th>휴가구분</th>
+                        <th>진행상태</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <c:forEach varStatus="index" items="${requestScope.data}">
+                    <tr>
+	                    <td>${ index.vacationNo }</td>
+	                    <td>${ index.vacationName }</td>
+	                    <td>${ index.vacationStart }</td>
+	                    <td>${ index.vacationEnd }</td>
+	                    <td>${ index.vacationDivision }</td>
+	                    <td>${ index.vacationStatus }</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 반려 내용 -->
+        <div id="tab-2" class="tab-content">
+            <span>휴가 전체 조회</span>
+
+            <select name="category" id="category">
+                <option value="empNo" selected>사원번호</option>
+                <option value="empName">이름</option>
+                <option value="empBirth">생년월일</option>
+                <option value="empAddress">주소</option>
+                <option value="empPhone">전화번호</option>
+            </select>
+            <input type="text" name="categoryValue">
+            <button type="button" id="search">검색</button>
+
+            <table id="employeeList" border="1">
+                <thead>
+                    <tr>
+                        <th>신청번호</th>
+                        <th>신청자</th>
+                        <th>휴가시작일</th>
+                        <th>휴가종료일</th>
+                        <th>휴가구분</th>
+                        <th>진행상태</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <c:forEach varStatus="index" items="${requestScope.data}">
+                    <tr>
+	                    <td>${ index.vacationNo }</td>
+	                    <td>${ index.vacationName }</td>
+	                    <td>${ index.vacationStart }</td>
+	                    <td>${ index.vacationEnd }</td>
+	                    <td>${ index.vacationDivision }</td>
+	                    <td>${ index.vacationStatus }</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+
+
+    <script>
+        /* 탭 전환 관련 스크립트 */
+        $(document).ready(function () {
+
+            $('ul.tabs li').click(function () {
+                var tab_id = $(this).attr('data-tab');
+
+                $('ul.tabs li').removeClass('current');
+                $('.tab-content').removeClass('current');
+
+                $(this).addClass('current');
+                $("#" + tab_id).addClass('current');
+            })
+
+        })
+
+        /* 검색기능 list 출력 */
+		$("#search").click(function(){
+			$.ajax({
+				url : "gson1",
+				success:function(data){
+
+					const $table = $("#employeeList tbody");
+					$table.html("");
+					
+					for(var index in data){
+						$tr = $("<tr>");
+						$noTd = $("<td>").text(data[index].no);
+						$nameTd = $("<td>").text(data[index].name);
+						$ageTd = $("<td>").text(data[index].age);
+						$enrollDateTd = $("<td>").text(data[index].enrollDate);
+						$unknown1 = $("<td>").text(data[index].enrollDate);
+						$unknown2 = $("<td>").text(data[index].enrollDate);
+						
+						$tr.append($noTd);
+						$tr.append($nameTd);
+						$tr.append($ageTd);
+						$tr.append($enrollDateTd);
+						$tr.append($unknown1);
+						$tr.append($unknown2);
+						
+						$table.append($tr);
+					}
+				},
+				error:function(error){
+					console.log(error);
+				}
+			});
+		});
+        
+        /* 재직자 list 불러오기 */
+		$("#retireN").click(function(){
+			$.ajax({
+				url : "gson1",
+				success:function(data){
+
+					const $table = $("#employeeList tbody");
+					$table.html("");
+					
+					for(var index in data){
+						$tr = $("<tr>");
+						$noTd = $("<td>").text(data[index].no);
+						$nameTd = $("<td>").text(data[index].name);
+						$ageTd = $("<td>").text(data[index].age);
+						$enrollDateTd = $("<td>").text(data[index].enrollDate);
+						$unknown1 = $("<td>").text(data[index].enrollDate);
+						$unknown2 = $("<td>").text(data[index].enrollDate);
+						
+						$tr.append($noTd);
+						$tr.append($nameTd);
+						$tr.append($ageTd);
+						$tr.append($enrollDateTd);
+						$tr.append($unknown1);
+						$tr.append($unknown2);
+						
+						$table.append($tr);
+					}
+				},
+				error:function(error){
+					console.log(error);
+				}
+			});
+		});
+        
+        window.onload = function(){
+        	
+        }
+
+        
+        /* 퇴사자 list 불러오기 */
+		$("#retireY").click(function(){
+			$.ajax({
+				url : "gson1",
+				success:function(data){
+
+					const $table = $("#employeeList tbody");
+					$table.html("");
+					
+					for(var index in data){
+						$tr = $("<tr>");
+						$noTd = $("<td>").text(data[index].no);
+						$nameTd = $("<td>").text(data[index].name);
+						$ageTd = $("<td>").text(data[index].age);
+						$enrollDateTd = $("<td>").text(data[index].enrollDate);
+						$unknown1 = $("<td>").text(data[index].enrollDate);
+						$unknown2 = $("<td>").text(data[index].enrollDate);
+						
+						$tr.append($noTd);
+						$tr.append($nameTd);
+						$tr.append($ageTd);
+						$tr.append($enrollDateTd);
+						$tr.append($unknown1);
+						$tr.append($unknown2);
+						
+						$table.append($tr);
+					}
+				},
+				error:function(error){
+					console.log(error);
+				}
+			});
+		});
+        
+        window.onload = function(){
+        	
+        }
+
+
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
