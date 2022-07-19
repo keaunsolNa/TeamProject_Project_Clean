@@ -1,17 +1,25 @@
 package com.project.clean.controller.vacation;
 
 import java.security.Principal;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.VacationDTO;
@@ -92,8 +100,12 @@ public class VacationStandbyController {
 		}
 		
 		/* 기본 정보 중 휴가관리 테이블에 존재하지 않는 정보를 불러온다. */
-		mv.addObject("adminJob", vacation.getAdminList().get(0).getAdminJob());
-		mv.addObject("adminPhone", vacation.getAdminList().get(0).getAdminPhone());
+		int adminNo = vacation.getAdminNo();
+		AdminDTO requestAdmin = adminService.findByAdminNo(adminNo);
+		
+		mv.addObject("adminNo", adminNo);
+		mv.addObject("adminJob", requestAdmin.getAdminJob());
+		mv.addObject("adminPhone", requestAdmin.getAdminPhone());
 
 		/* 휴가 신청서 정보를 담는다 */
 		mv.addObject("vacation", vacation);
@@ -107,7 +119,7 @@ public class VacationStandbyController {
 	/* 휴가 신청폼 조회 */
 	@GetMapping("vacation/registVacation")
 	@ResponseBody
-	public ModelAndView registVacation(ModelAndView mv, Principal principal) {
+	public ModelAndView registVacationSelect(ModelAndView mv, Principal principal) {
 		
 		/* 접속한 회원의 아이디를 불러온다. */
 		String adminId = principal.getName(); 
@@ -125,6 +137,30 @@ public class VacationStandbyController {
 		mv.setViewName("admin/vacation/registVacation");
 		
 		return mv;
+	}
+	
+	/* 휴가 신청 */
+	@PostMapping("vacation/registVacation/run")
+	public String registVacation(@ModelAttribute VacationDTO vacation, 
+			RedirectAttributes rttr, HttpServletRequest request) {
+		
+		/* 
+		 * 관리자 정보는 테이블에 저장할 필요 없이,
+		 * vacation 테이블에만 insert 되면 된다.
+		 */
+		
+		/* 설정값 변수 선언 */
+		
+		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
+		String drafter = "이시원";
+	 
+//		/* 입력값 DTO에 담기 */
+		vacation.setAdminNo(adminNo);
+		vacation.setDrafter(drafter);
+		
+		vacationService.registNewVacationApply(vacation);
+		
+		return "redirect:/admin/vacation/standbyFirstVacationList";
 	}
 
 }

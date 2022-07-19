@@ -66,13 +66,15 @@ public class VacationService {
 
 		AdminVacationCommit vacationList = adminVacationCommitRepository.findByVacationNo(vacationNo);
 		
-		System.out.println(vacationList);
-		System.out.println(vacationList);
-		System.out.println(vacationList);
-		System.out.println(vacationList);
-		System.out.println(vacationList);
-		
 		return modelMapper.map(vacationList, AdminVacationCommitDTO.class);
+	}
+
+	/* 휴가 신청 */
+	public void registNewVacationApply(VacationDTO vacation) {
+		
+		vacationRepository.save(modelMapper.map(vacation, Vacation.class));
+		
+		
 	}
 
 	
