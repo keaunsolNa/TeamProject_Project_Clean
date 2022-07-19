@@ -5,16 +5,34 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table(name = "TBL_NOTIFICATION")
+@SequenceGenerator(
+		name="NOTIFICATION_SEQ_GENERATOR",
+		sequenceName="SEQ_TBL_NOTIFICATION",
+		initialValue = 1,
+		allocationSize = 1
+)
+@DynamicInsert
+@DynamicUpdate
 public class Notification implements Serializable{
 
 	private static final long serialVersionUID = -5571635687854580599L;
 
 	@Id
+	@GeneratedValue(
+			strategy = GenerationType.SEQUENCE,
+			generator = "NOTIFICATION_SEQ_GENERATOR"
+	)
 	@Column(name="NOTIFICATION_NO")
 	private int notificationNo;
 

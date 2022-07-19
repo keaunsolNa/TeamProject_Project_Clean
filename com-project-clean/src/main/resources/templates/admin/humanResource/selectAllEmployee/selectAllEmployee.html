@@ -86,6 +86,31 @@ body {
 				</div>
 		</div>
 		
+			<div id="entireN"> <div th:replace="/admin/humanResource/selectAllEmployee/retireNPaging.html"></div></div>
+			<div id="entireY"> <div th:replace="/admin/humanResource/selectAllEmployee/retireYPaging.html"></div></div>
+			
+						<!-- <div> <input id="inputMainTain" th:value="${mainTain}"></div> -->
+		</div>
+		
+		<script th:inline="javascript">
+		    /*<![CDATA[
+			$(function(){
+				const mainTain = [[${mainTain}]]	
+			if(mainTain == 'N'){
+				$("#retireNEmployee").attr("checked","true")
+				$('#entireN').show();
+				$('#entireY').hide();
+			}else if(mainTain == 'Y'){
+				$("#retireYEmployee").attr("checked","true")
+				$('#entireN').hide();
+				$('#entireY').show();
+			}
+			hover();
+			})
+		    /*]]>*/
+		</script>
+
+
 	<script>
 	
 		 /* 라디오 버튼 */
@@ -344,27 +369,6 @@ body {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-		 
-		
-		
 
 	</script>
 	

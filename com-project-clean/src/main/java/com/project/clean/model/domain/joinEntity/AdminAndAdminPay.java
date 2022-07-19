@@ -11,12 +11,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.project.clean.model.domain.commonEntity.AdminPay;
+
 @Entity
 @Table(name = "TBL_ADMIN")
 public class AdminAndAdminPay implements java.io.Serializable {
-
 	private static final long serialVersionUID = -120378979388393643L;
-
+	
 	@Id
 	@Column(name="ADMIN_NO")
 	private int adminNo;
@@ -61,16 +62,15 @@ public class AdminAndAdminPay implements java.io.Serializable {
 	private int annualVacationUse;
 	
 	@OneToMany
-	@JoinColumn(name = "ADMIN_NO")
-	private List<AdminPayAndAdmin> adminPayAndAdmin;
+	@JoinColumn(name = "PAY_ADMIN_NO")
+	private List<AdminPay> adminPay;
 
 	public AdminAndAdminPay() {
 	}
 
 	public AdminAndAdminPay(int adminNo, String adminName, String adminId, String adminPwd, Date adminBirth,
 			String adminGender, String adminPhone, Date adminHireDate, Date adminRetireDate, String adminRetireYn,
-			String adminJob, Blob adminSign, Date adminLastLoginDate, int adminSalary, int annualVacationUse,
-			List<AdminPayAndAdmin> adminPayAndAdmin) {
+			String adminJob, Date adminLastLoginDate, int adminSalary, int annualVacationUse, List<AdminPay> adminPay) {
 		super();
 		this.adminNo = adminNo;
 		this.adminName = adminName;
@@ -86,7 +86,7 @@ public class AdminAndAdminPay implements java.io.Serializable {
 		this.adminLastLoginDate = adminLastLoginDate;
 		this.adminSalary = adminSalary;
 		this.annualVacationUse = annualVacationUse;
-		this.adminPayAndAdmin = adminPayAndAdmin;
+		this.adminPay = adminPay;
 	}
 
 	public int getAdminNo() {
@@ -201,12 +201,12 @@ public class AdminAndAdminPay implements java.io.Serializable {
 		this.annualVacationUse = annualVacationUse;
 	}
 
-	public List<AdminPayAndAdmin> getAdminPayAndAdmin() {
-		return adminPayAndAdmin;
+	public List<AdminPay> getAdminPay() {
+		return adminPay;
 	}
 
-	public void setAdminPayAndAdmin(List<AdminPayAndAdmin> adminPayAndAdmin) {
-		this.adminPayAndAdmin = adminPayAndAdmin;
+	public void setAdminPay(List<AdminPay> adminPay) {
+		this.adminPay = adminPay;
 	}
 
 	public static long getSerialversionuid() {
@@ -220,9 +220,9 @@ public class AdminAndAdminPay implements java.io.Serializable {
 				+ ", adminPhone=" + adminPhone + ", adminHireDate=" + adminHireDate + ", adminRetireDate="
 				+ adminRetireDate + ", adminRetireYn=" + adminRetireYn + ", adminJob=" + adminJob
 				+ ", adminLastLoginDate=" + adminLastLoginDate + ", adminSalary=" + adminSalary + ", annualVacationUse="
-				+ annualVacationUse + ", adminPayAndAdmin=" + adminPayAndAdmin + "]";
+				+ annualVacationUse + ", adminPay=" + adminPay + "]";
 	}
 
-
+	
 	
 }

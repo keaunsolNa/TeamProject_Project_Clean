@@ -1,24 +1,35 @@
 package com.project.clean.model.service.reservation;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.project.clean.controller.common.paging.SelectCriteria;
 import com.project.clean.model.domain.commonEntity.ApplyEmployee;
 import com.project.clean.model.domain.commonEntity.BookMark;
 import com.project.clean.model.domain.commonEntity.Employee;
+import com.project.clean.model.domain.commonEntity.Notification;
+import com.project.clean.model.domain.joinEntity.ApplyEmployeeAndReservationInfo;
 import com.project.clean.model.domain.reservation.Reservation;
 import com.project.clean.model.dto.commonDTO.ApplyEmployeeDTO;
 import com.project.clean.model.dto.commonDTO.BookMarkDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeDTO;
+import com.project.clean.model.dto.commonDTO.NotificationDTO;
 import com.project.clean.model.dto.commonDTO.ReservationInfoDTO;
+import com.project.clean.model.dto.joinDTO.ApplyEmployeeAndReservationInfoDTO;
 import com.project.clean.model.repository.employee.EmpRepository;
+import com.project.clean.model.repository.reservation.ApplyEmployeeAndReservationInfoRepository;
 import com.project.clean.model.repository.reservation.ApplyEmployeeRepository;
 import com.project.clean.model.repository.reservation.BookMarkRepository;
+import com.project.clean.model.repository.reservation.NotificationRepository;
 import com.project.clean.model.repository.reservation.ReservationRepository;
 
 
@@ -29,28 +40,34 @@ public class EmployeeReservationService {
 	private final ReservationRepository reservationRepository;
 	private final EmpRepository empRepository;
 	private final ApplyEmployeeRepository applyEmployeeRepository;
+	private final ApplyEmployeeAndReservationInfoRepository applyEmployeeAndReservationInfoRepository;
 	private final BookMarkRepository bookMarkRepository;
+	private final NotificationRepository notificationRepository;
 
 	private final ModelMapper modelMapper;
 
 	@Autowired
 	public EmployeeReservationService(ReservationRepository reservationRepository, EmpRepository empRepository,
-			ApplyEmployeeRepository applyEmployeeRepository, BookMarkRepository bookMarkRepository,
+			ApplyEmployeeRepository applyEmployeeRepository,
+			ApplyEmployeeAndReservationInfoRepository applyEmployeeAndReservationInfoRepository,
+			BookMarkRepository bookMarkRepository, NotificationRepository notificationRepository,
 			ModelMapper modelMapper) {
 		super();
 		this.reservationRepository = reservationRepository;
 		this.empRepository = empRepository;
 		this.applyEmployeeRepository = applyEmployeeRepository;
+		this.applyEmployeeAndReservationInfoRepository = applyEmployeeAndReservationInfoRepository;
 		this.bookMarkRepository = bookMarkRepository;
+		this.notificationRepository = notificationRepository;
 		this.modelMapper = modelMapper;
 	}
+	
 
 	/* 고객 신규 예약 */
 	@Transactional
 	public void insertNewReservation(ReservationInfoDTO newReservation) {
 		reservationRepository.save(modelMapper.map(newReservation, Reservation.class));
 	}
-
 
 	public List<String> findDistinctByBusinessDate() {
 		/* 다음날 00시 이후만 select 가능하게 함 */
@@ -69,11 +86,13 @@ public class EmployeeReservationService {
 	}
 
 	/* 날짜이벤트 클릭 시 해당 날짜 예약건 리스트 요청 */
-	public List<ReservationInfoDTO> findReservationByBusinessDate(Date businessDate) {
-		List<Reservation> reservationList = reservationRepository
-				.findByBusinessDateOrderByBusinessStartTime(businessDate);
-		return reservationList.stream().map(reservation -> modelMapper.map(reservation, ReservationInfoDTO.class))
-				.toList();
+	public List<ReservationInfoDTO> findReservationByBusinessDate(Date businessDate, SelectCriteria selectCriteria) {
+		
+		int index = selectCriteria.getPageNo() - 1;			// Pageble객체를 사용시 페이지는 0부터 시작(1페이지가 0)
+		int count = selectCriteria.getLimit();
+		Pageable paging = PageRequest.of(index, count, Sort.by("businessDate"));	
+		List<Reservation> reservationList = reservationRepository.findByBusinessDate(businessDate, paging);
+		return reservationList.stream().map(reservation -> modelMapper.map(reservation, ReservationInfoDTO.class)).toList();
 	}
 
 	/* 예약 상세 정보 select */
@@ -150,6 +169,55 @@ public class EmployeeReservationService {
 	@Transactional
 	public void insertNewBookmark(BookMarkDTO newBookmark) {
 		bookMarkRepository.save(modelMapper.map(newBookmark, BookMark.class));
+	}
+
+	/* 즐겨찾기 취소 */
+	@Transactional
+	public void modifyBookmarkCancelByY(int employeeNo, int reservationNo) {
+		BookMark book = bookMarkRepository.findByBookmarkEmployeeNoAndBookmarkReservationNo(employeeNo, reservationNo);
+		book.setBookmarkCancelYn("Y");
+	}
+	/* 즐겨찾기 재등록 */
+	@Transactional
+	public void modifyBookmarkCancelByN(int employeeNo, int reservationNo) {
+		BookMark book = bookMarkRepository.findByBookmarkEmployeeNoAndBookmarkReservationNo(employeeNo, reservationNo);
+		book.setBookmarkCancelYn("N");
+	}
+
+	/* 지원취소된 건에 있어서 즐겨찾기한 직원에게 알림 전송 */
+	@Transactional
+	public void insertNewNotificationMessage(NotificationDTO newNotification) {
+		notificationRepository.save(modelMapper.map(newNotification, Notification.class));
+	}
+
+	public int selectTotalCount(Date businessDate) {
+		int count = (int)reservationRepository.countByBusinessDate(businessDate);
+		return count;
+	}
+
+	public int selectTotalCount(int employeeNo) {
+		String n = "N";
+		int count = (int)applyEmployeeRepository.countByApplyEmployeeNoAndApplyCancelYn(employeeNo, n);
+		return count;
+	}
+
+	public List<ApplyEmployeeAndReservationInfoDTO> findByApplyEmployeeNo(int employeeNo,
+			SelectCriteria selectCriteria) {
+		
+		int index = selectCriteria.getPageNo() - 1;			
+		int count = selectCriteria.getLimit();
+		
+		Sort.Order Order = Sort.Order.desc("applyReservationNo");
+		Sort sort = Sort.by(Order);
+		Pageable paging = PageRequest.of(index, count, sort);
+		
+		List<ApplyEmployeeAndReservationInfo> reservationList = applyEmployeeAndReservationInfoRepository.findAllByApplyEmployeeNoAndApplyCancelYn(employeeNo, "N", paging);
+		System.out.println("reservationList" + reservationList);
+		System.out.println("reservationList" + reservationList);
+		System.out.println("reservationList" + reservationList);
+		System.out.println("reservationList" + reservationList);
+		
+		return reservationList.stream().map(reservation -> modelMapper.map(reservation, ApplyEmployeeAndReservationInfoDTO.class)).toList();
 	}
 	
 }

@@ -4,7 +4,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
 	 <div th:include="common/header.html"></div>
@@ -41,6 +40,12 @@
 	</th:block>
 	</div>
 	
+	<button type="button" id="myVacationList">나의 휴가 조회(직원)</button>
+	      <div style="display: none;" id="myVacation" sec:authentication="principal.adminNo"></div>
+	
+	<button onclick="location.href='/admin/hr/select/Allvacation'">휴가 전체 조회</button>
+	
+	 <br>
 	 <br>
 	 <hr>
 	 <br>
@@ -53,7 +58,10 @@
 		
 		<input value="관리자 조회" type="button" onclick="location.href='/admin/hrCard/adminList'">
 		<input value="관리자 등록" type="button" onclick="location.href='/admin/hrCard/adminRegist'">
-		<input value="휴가 대기 목록" type="button" onclick="location.href='/admin/vacation/standbyVacationList'">
+		<input value="1차 휴가 대기 목록" type="button" onclick="location.href='/admin/vacation/standbyFirstVacationList'">
+		<input value="2차 휴가 대기 목록" type="button" onclick="location.href='/admin/vacation/standbySecondVacationList'">
+		<input value="휴가 신청" type="button" onclick="location.href='/admin/vacation/registVacation'">
+	
 	 <!-- <div th:include="admin/adminAside.html"></div> -->
 	 
 </body>

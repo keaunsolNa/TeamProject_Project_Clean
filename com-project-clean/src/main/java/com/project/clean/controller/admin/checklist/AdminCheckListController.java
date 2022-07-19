@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,11 +59,11 @@ public class AdminCheckListController {
 	@GetMapping("selectDetails")
 	public ModelAndView selectStandCheckListDetails(Principal principal, @RequestParam int re,
 			ModelAndView mv) {
-		
+		 
 		String adminName = principal.getName();
 		int reservationNo = re;
 		int parameter = 1;
-
+		
 		CheckListDTO checkList = adminCheckListService.selectCheckListDetails(adminName, reservationNo, parameter);
 		
 		System.out.println(checkList.getCheckHTML());

@@ -32,7 +32,7 @@
 				<td width="100">예약 번호</td>
 				<td width="100">처리 상태</td>
 				<td width="100">고객 이름</td>
-				<td width="100">직원 이름</td>
+				<td width="100">직원 아이디</td>
 				<td width="100">담당자</td>
 				<td width="100">상세 보기</td>
 			</tr>
@@ -56,7 +56,7 @@
 						$checkReservationNoTd = $("<td1>").addClass('rn').text(data[index].checkReservationNo);
 						$checkStatusTd = $("<td>").text(data[index].checkStatus);
 						$checkUserNameTd = $("<td>").text(data[index].customerName);
-						$checkEmployeeNameTd = $("<td>").text(data[index].employeeName);
+						$checkEmployeeNameTd = $("<td2>").addClass('en').text(data[index].employeeName);
 						$checkAdminNameTd = $("<td>").text(data[index].adminName);
 						$buttonTd = $("<button></button>").addClass('btn').addClass([index]).append("상세보기");
 						
@@ -88,7 +88,12 @@
 						const resNo2 = resNo1[i];
 						var resNo3 = resNo2.parentNode.querySelector('.rn').innerText;
 						
- 					 	location.href="/admin/checklist/selectDetails?re="+ resNo3; 
+						const enNo1 = document.querySelectorAll('table#taskInfo tbody tr td2');
+						const enNo2 = resNo1[i];
+						var enNo3 = resNo2.parentNode.querySelector('.en').innerText;
+						
+ 					 	location.href="/admin/checklist/selectDetails?re="+resNo3;
+ 					 			/* +"&eId=" + enNo3;  */
 							
 					}; 
 				};						
