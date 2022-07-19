@@ -10,7 +10,8 @@ function setConnected(connected) {
     else {
         jq("#conversation").hide();
     }
-    jq("#ReceiveMessage").html("");
+    
+    jq("#ReceiveMessage").html("").hide();
 }
 
 function connect() {
@@ -38,7 +39,9 @@ function sendName() {
 }
 
 function showGreeting(message) {
+    jq("#ReceiveMessage").show();
     jq("#ReceiveMessage").append("<tr><td>" + message + "</td></tr>");
+    
 }
 
 jq(function () {

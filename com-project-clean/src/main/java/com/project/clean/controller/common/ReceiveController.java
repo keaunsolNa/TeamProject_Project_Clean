@@ -18,13 +18,7 @@ public class ReceiveController {
 	@SendTo("/topic/greetings")
 	public ReceiveMessage greeting(SendMessage message, Principal principal) throws Exception {
 		Thread.sleep(1000); 
-		System.out.println("TEST");
-		System.out.println("TEST");
-		System.out.println(principal.getName());
-		System.out.println(message.getName());
-		System.out.println("TEST");
-		System.out.println("TEST");
-			return new ReceiveMessage(HtmlUtils.htmlEscape(principal.getName() + "님, " + message.getMessage()));
+			return new ReceiveMessage(HtmlUtils.htmlEscape(message.getMessage()));
 			
 			
 	}

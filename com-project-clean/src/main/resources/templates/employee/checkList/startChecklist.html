@@ -70,27 +70,27 @@
 	
 	    </section>
     <script>
-    const jbHtml = ""
-    
-	    window.onload = function(){
-	    	$(document).ready( function() {
+	    const resNo = "[[${resNo}]]";
+	    console.log(resNo)
+    	const jbHtml = ""
+	    	 $(document).ready( function() {
 	            const jbHtml = $( 'section' ).html();
 	        	$.ajax({
 	            	url: "start",
 	             	type: "post",
 	             	data: {
-	            	 	jbHtml : jbHtml
+	            	 	jbHtml : jbHtml,
+	            	 	resNo : resNo
 	             	},
 	             	success: function(data){
 	             		alert("업무 시작. 청소 종료 후 체크리스트를 잊지 마세요!")
-	             		location.href="/employee/checkList/selectMyCheckList"
+	             		location.href="/employee/checkList/selectMyCheckList" 
 	             	},
 	             	error: function(request, status){
 	                 	alert("네트워크를 확인해주세요.")
 	             	}
 		        });
-		 	});
-	    };
+		 	}); 
 
     </script>
     
