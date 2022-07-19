@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<title>직원 관리</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/commonStyle.css}" />
+    <style type="text/css">
+       .page {
+          width: 30px;
+          height: 20px;
+          margin: 5px;
+       }
+    </style>
+</head>
+<body>
+   <header>
+        <div th:replace="common/header.html" class="header"></div>
+    </header>
+    <div class="content">
+        <div th:replace="common/nav.html" class="nav"></div>
+        <section class="section">
+            <article>
+                <div class="categoryButtons">
+                    <h2 class="title">직원관리</h2>
+                    <hr class="titleLine">
+                    <div class="contentsButtonDiv">
+                       <button class="chooseButton" onclick="location.href='/employee/list'">직원 조회</button>
+                       <button sec:authorize="hasRole('PEOPLE')" class="contentsButton" onclick="location.href='/employee/regist'">직원 등록</button>
+                       <button sec:authorize="hasRole('DIRECTOR')" class="contentsButton">급여 지급 내역</button>
+                     </div>
+                <br><br>
+                </div>
+            </article>
+         <article style="margin-right: 30px; margin-left: 30px;">
+            <form name="criteriaForm" action="/employee/list/criteria">
+               <label>부서 : </label>
+               <select name="deptCode">
+                  <option selected value="0">전체</option>
+                  <option value="4">임원</option>
+                  <option value="3">교무부</option>
+                  <option value="2">행정부</option>
+                  <option value="1">인사부</option>
+               </select> &nbsp;
+               <label>직급 : </label>
+               <select name="jobGradeCode">
+                  <option selected value="0">전체</option>
+                  <option value="5">사원</option>
+                  <option value="4">실장</option>
+                  <option value="3">팀장</option>
+                  <option value="2">부원장</option>
+                  <option value="1">원장</option>
+               </select>
+               <input type="hidden" value="0" name=page>
+               &nbsp;
+               <button id="ajaxButton" type="button" onclick="firstAjax();">검색</button>
+               <!-- <button style="float: right;" class="insertButton" type="button" onclick="">직원 등록</button> -->
+            </form>
+            
+         </article>
+         <article>
+            <table id="employeeList" class="selectTable">   
+               <thead>
+                   <tr>
+                      <th>사번</th>
+                      <th>이름</th>
+                      <th>전화번호</th>
+                      <th>메일주소</th>
+                      <th>생년월일</th>
+                      <th>직급</th>
+                      <th>부서명</th>
+                   </tr>
+               </thead>
+               <tbody>
+                  <!-- /* ajax data 삽입 공간 */ -->
+               </tbody>
+            </table>
+            <div id="paging" style="display: flex; justify-content: center;">
+               <!-- /* 페이징 버튼들어올 공간 */ -->
+            </div>
+         </article>
+        </section>
+    </div>
+   <script>
+      $(document).ready(function(){
+         firstAjax();
+      });
+      /* 페이징 버튼을 통한 요청 함수 */
+      function page(deptCode,jobGradeCode,page){
+         console.log("ajax page이동 실행 시도");
+         var queryString = {"deptCode" : deptCode
+                      , "jobGradeCode" : jobGradeCode
+                      , "page" : page};
+         ajaxFunction(queryString);
+      }
+      
+      /* 유저가 조건 선택해 검색하는 요청 함수 */
+      function firstAjax(){
+         console.log("ajax 기본함수 실행 시도");
+         var queryString = $("form[name=criteriaForm]").serialize();
+         ajaxFunction(queryString);
+      }
+      
+      /* 상세 조회로 요청 보내는 함수 */
+      function detail(empId){
+         location.href="/employee/detail/"+empId;
+      }
+      
+      /* ajax 함수 */
+      function ajaxFunction(queryString){
+         $.ajax({
+            url : "/employee/list/criteria",
+            data : queryString,
+            success : function(data){
+               const $table = $("#employeeList tbody");
+               const $div = $("#paging");
+               /* 데이터 필드, 페이징버튼 필드 초기화 */
+               $table.html("");
+               $div.html("");
+               /* search criteria (페이징 버튼으로 ajax요청보낼 때 사용함) */
+               deptCode=data.deptCode;
+               jobGradeCode=data.jobGradeCode;
+               
+               for(var index in data.empList){
+                  $tr = $("<tr onclick='detail("+data.empList[index].empId+")'>");   
+                  $empIdTd = $("<td>").text(data.empList[index].empId); 
+                  $empNameTd = $("<td>").text(data.empList[index].empName);
+                  $empPhoneTd = $("<td>").text(data.empList[index].empPhone);
+                  $empEmailTd = $("<td>").text(data.empList[index].empEmail);
+                  $empBirthTd = $("<td>").text(data.empList[index].empBirth);
+                  $jobGradeNameTd = $("<td>").text(data.empList[index].jobGrade.jobGradeName);
+                  $deptNameTd = $("<td>").text(data.empList[index].dept.deptName);
+                  
+                  $tr.append($empIdTd);
+                  $tr.append($empNameTd);
+                  $tr.append($empPhoneTd);
+                  $tr.append($empEmailTd);
+                  $tr.append($empBirthTd);
+                  $tr.append($jobGradeNameTd);
+                  $tr.append($deptNameTd);
+                  
+                  $table.append($tr);
+               }
+               
+               var $startPage = data.startPage;
+               var $endPage = data.endPage;
+               var $currentPage = data.currentPage;
+               var $maxPage = data.maxPage;
+               
+               var $beforeStartPage = data.startPage-1;
+               var $afterEndPage = data.endPage;
+               
+               if($startPage==0){
+                  $button = $("<button class='page' disabled><<</button>");
+                  $div.append($button);
+               } else {
+                  $button = $("<button class='page' id='goBackPage' onclick='page(deptCode,jobGradeCode,"+$beforeStartPage+")'><<</button>");
+                  $div.append($button);
+               }
+               
+               for(i=$startPage;i<$endPage;i++){
+                  if(i!=$currentPage){
+                     $button = $("<button class='page' onclick='page(deptCode,jobGradeCode,"+(i)+")'>"+(i+1)+"</button>");   
+                  } else {
+                     $button = $("<button disabled class='page'>"+(i+1)+"</button>");
+                  }
+                  
+                  $div.append($button);
+               }
+               
+               if($maxPage==$endPage){
+                  $button = $("<button class='page' disabled>>></button>");
+                  $div.append($button);
+               } else {
+                  $button = $("<button class='page' id='goForwardPage' onclick='page(deptCode,jobGradeCode,"+$afterEndPage+")'>>></button>");
+                  $div.append($button);
+               }
+               
+            },
+            error : function(error){
+               console.log(error);
+            }
+         });
+      };
+      
+      
+   </script>
+</body>
+</html>

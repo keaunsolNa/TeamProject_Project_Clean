@@ -12,25 +12,25 @@
                   end=(${(pages.totalPages == 0) ? 1 : (start + (maxPage - 1) < pages.totalPages ? start + (maxPage - 1) : pages.totalPages)})">
 			<ul>
 				<li th:if="${start > 1}"><a
-					th:href="@{/admin/hr/regist/employee?(page=0)}" th:text="'<<'"></a></li>
+					th:href="@{/admin/hr/return/employee?(page=0)}" th:text="'<<'"></a></li>
 				</li>
 
 				<li th:if="${start > 1}"><a
-					th:href="@{/admin/hr/regist/employee?(page=${start - maxPage})}"
+					th:href="@{/admin/hr/return/employee?(page=${start - maxPage}-1)}"
 					th:text="'<'"></a></li>
 
 
 				<li th:each="page: ${#numbers.sequence(start, end)}"><a
-					th:href="@{/admin/hr/regist/employee?(page=${page-1})}"
+					th:href="@{/admin/hr/return/employee?(page=${page-1})}"
 					th:text="${page}"></a></li>
 				</li>
 
 				<li th:if="${end < pages.totalPages}"><a
-					th:href="@{/admin/hr/regist/employee?(page=${start + maxPage})}"
+					th:href="@{/admin/hr/return/employee?(page=${start + maxPage}-1)}"
 					th:text="'>'"></a></li>
 
 				<li th:if="${end < pages.totalPages}"><a
-					th:href="@{/admin/hr/regist/employee?(page=${pages.totalPages-1})}"
+					th:href="@{/admin/hr/return/employee?(page=${pages.totalPages-1})}"
 					th:text="'>>'"></a></li>
 				</li>
 			</ul>

@@ -1,38 +1,25 @@
-package com.project.clean.model.domain.commonEntity;
+package com.project.clean.model.domain.joinEntity;
 
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
-import org.hibernate.annotations.DynamicInsert;
+import com.project.clean.model.domain.commonEntity.VacationCommit;
 
-@Entity
-@Table(name = "TBL_VACATION")
-@SequenceGenerator(
-      name = "VACATION_SEQ_TBL_GENERATOR",
-      sequenceName = "SEQ_TBL_VACATION",
-      initialValue = 1,
-      allocationSize = 1
-)
-@DynamicInsert 
-public class Vacation implements Serializable{
-	private static final long serialVersionUID = 530219979947287867L;
+public class AdminAndVacation implements Serializable{
+
+	private static final long serialVersionUID = -8852175082903184330L;
 	
-	@Id
-	@GeneratedValue(
-			strategy = GenerationType.SEQUENCE,
-			generator = "VACATION_SEQ_TBL_GENERATOR"
-	)
+	@Column(name="ADMIN_NO")
+	private int adminNo;
+
+	@Column(name="ADMIN_NAME")
+	private String adminName;
+	
 	@Column(name="VACATION_NO")
 	private int vacationNo;
 	
@@ -68,23 +55,18 @@ public class Vacation implements Serializable{
 	
 	@Column(name="VACATION_RETURN_YN")
 	private String vacationReturnYn;
-	
-	@Column(name="ADMIN_NO")
-	private int adminNo;
-	
-	@OneToMany
-	@JoinColumn(name = "VACATION_NO")
-	private List<VacationCommit> vacationCommitList;
 
-	public Vacation() {
+	public AdminAndVacation() {
 		super();
 	}
 
-	public Vacation(int vacationNo, Date requestDate, String requestAdmin, String vacationName, String drafter,
-			String vacationFirstConfirmYn, String vacationSecondConfirmYn, String vacationLastConfirmYn,
-			Date vacationStartDate, Date vacationEndDate, String vacationReason, String vacationReturnYn, int adminNo,
-			List<VacationCommit> vacationCommitList) {
+	public AdminAndVacation(int adminNo, String adminName, int vacationNo, Date requestDate, String requestAdmin,
+			String vacationName, String drafter, String vacationFirstConfirmYn, String vacationSecondConfirmYn,
+			String vacationLastConfirmYn, Date vacationStartDate, Date vacationEndDate, String vacationReason,
+			String vacationReturnYn) {
 		super();
+		this.adminNo = adminNo;
+		this.adminName = adminName;
 		this.vacationNo = vacationNo;
 		this.requestDate = requestDate;
 		this.requestAdmin = requestAdmin;
@@ -97,8 +79,22 @@ public class Vacation implements Serializable{
 		this.vacationEndDate = vacationEndDate;
 		this.vacationReason = vacationReason;
 		this.vacationReturnYn = vacationReturnYn;
+	}
+
+	public int getAdminNo() {
+		return adminNo;
+	}
+
+	public void setAdminNo(int adminNo) {
 		this.adminNo = adminNo;
-		this.vacationCommitList = vacationCommitList;
+	}
+
+	public String getAdminName() {
+		return adminName;
+	}
+
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
 	}
 
 	public int getVacationNo() {
@@ -197,38 +193,24 @@ public class Vacation implements Serializable{
 		this.vacationReturnYn = vacationReturnYn;
 	}
 
-	public int getAdminNo() {
-		return adminNo;
-	}
-
-	public void setAdminNo(int adminNo) {
-		this.adminNo = adminNo;
-	}
-
-	public List<VacationCommit> getVacationCommitList() {
-		return vacationCommitList;
-	}
-
-	public void setVacationCommitList(List<VacationCommit> vacationCommitList) {
-		this.vacationCommitList = vacationCommitList;
-	}
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
 	@Override
 	public String toString() {
-		return "Vacation [vacationNo=" + vacationNo + ", requestDate=" + requestDate + ", requestAdmin=" + requestAdmin
-				+ ", vacationName=" + vacationName + ", drafter=" + drafter + ", vacationFirstConfirmYn="
-				+ vacationFirstConfirmYn + ", vacationSecondConfirmYn=" + vacationSecondConfirmYn
-				+ ", vacationLastConfirmYn=" + vacationLastConfirmYn + ", vacationStartDate=" + vacationStartDate
-				+ ", vacationEndDate=" + vacationEndDate + ", vacationReason=" + vacationReason + ", vacationReturnYn="
-				+ vacationReturnYn + ", adminNo=" + adminNo + ", vacationCommitList=" + vacationCommitList + "]";
+		return "AdminAndVacation [adminNo=" + adminNo + ", adminName=" + adminName + ", vacationNo=" + vacationNo
+				+ ", requestDate=" + requestDate + ", requestAdmin=" + requestAdmin + ", vacationName=" + vacationName
+				+ ", drafter=" + drafter + ", vacationFirstConfirmYn=" + vacationFirstConfirmYn
+				+ ", vacationSecondConfirmYn=" + vacationSecondConfirmYn + ", vacationLastConfirmYn="
+				+ vacationLastConfirmYn + ", vacationStartDate=" + vacationStartDate + ", vacationEndDate="
+				+ vacationEndDate + ", vacationReason=" + vacationReason + ", vacationReturnYn=" + vacationReturnYn
+				+ "]";
 	}
-	
+
 	
 
+	
 	
 	
 

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <style>
+        body {
+            margin-top: 100px;
+            font-family: 'Trebuchet MS', serif;
+            line-height: 1.6
+        }
+
+        /* 전체 크기 */
+        .container {
+            width: 1500px;
+            margin: 0 auto;
+        }
+
+    </style>
+</head>
+
+
+<body>
+    <div class="container">
+      <div th:replace="admin/humanResource/vacation/selectAllVacationHeader"></div>
+      <div id="tab-1" class="tab-content current">
+        <span>휴가 승인 전체 조회</span>
+
+        <select name="category" id="category">
+            <option value="empNo" selected>사원번호</option>
+            <option value="empName">이름</option>
+            <option value="empBirth">생년월일</option>
+            <option value="empAddress">주소</option>
+            <option value="empPhone">전화번호</option>
+        </select>
+        <input type="text" name="categoryValue">
+        <button type="button" id="search">검색</button>
+
+        <table id="vacationList" border="1">
+            <thead>
+                <tr>
+                    <th>신청번호</th>
+                    <th>신청날짜</th>
+                    <th>휴가시작일</th>
+                    <th>휴가종료일</th>
+                    <th>휴가구분</th>
+                    <th>1차 승인여부</th>
+                    <th>2차 승인여부</th>
+                    <th>반려 여부</th>
+                    <th>최종승인여부</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+				<tbody>
+					<tr th:each="index : ${vacation}">
+						<td th:text="${ index.vacationNo }"></td>
+						<td th:text="${ index.requestDate }"></td>
+						<td th:text="${ index.vacationStartDate }"></td>
+						<td th:text="${ index.vacationEndDate }"></td>
+						<td th:text="${ index.vacationName }"></td>
+						<td th:text="${ index.vacationFirstConfirmYn }"></td>
+						<td th:text="${ index.vacationSecondConfirmYn }"></td>
+						<td th:text="${ index.vacationReturnYn }"></td>
+						<td th:text="${ (index.vacationLastConfirmYn) == 'Y'? '승인 완료' : (index.vacationReturnYn) == 'Y' ? '반려' : '승인대기중' }"></td>
+				</tbody>
+            </tbody>
+            </tbody>
+        </table>
+        
+    </div>
+    </div>
+    
+    <script>
+
+	/* hover event */
+	function hover() {
+		const vacationList = document.getElementsByTagName("td");
+
+		for (let i = 0; i < vacationList.length; i++) {
+			vacationList[i].onmouseenter = function() {
+				this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+				this.parentNode.style.cursor = "pointer";
+			}
+			vacationList[i].onmouseout = function() {
+				this.parentNode.style.backgroundColor = "white";
+			}
+
+			vacationList[i].onclick = function() {
+				location.href = "/admin/select/selectMyVacation/Detail/"
+						+ this.parentNode.children[0].innerText;
+			}
+		}
+	};
+	
+	$(function(){
+	hover();
+	})
+</script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
