@@ -13,7 +13,6 @@ public class CheckListAndReservationInfoAndEmployeeDTO implements Serializable{
 	private String customerName;
 	private String employeeName;
 	private String adminName;
-	
 	public CheckListAndReservationInfoAndEmployeeDTO() {
 	}
 	public CheckListAndReservationInfoAndEmployeeDTO(Integer checkReservationNo, String checkHTML, String checkStatus,
@@ -77,6 +76,7 @@ public class CheckListAndReservationInfoAndEmployeeDTO implements Serializable{
 				+ checkHTML + ", checkStatus=" + checkStatus + ", adminNo=" + adminNo + ", customerName=" + customerName
 				+ ", employeeName=" + employeeName + ", adminName=" + adminName + "]";
 	}
+	
 	
 	
 	

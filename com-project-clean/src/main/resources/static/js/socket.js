@@ -34,7 +34,7 @@ function disconnect() {
 }
 
 function sendName() {
-    stompClient.send("/app/hello", {}, JSON.stringify({'name': jq("#sendingMessage").val()}));
+    stompClient.send("/app/hello", {}, JSON.stringify({'message': jq("#sendingMessage").val(), 'name': jq("#sendingName").val()}));
 }
 
 function showGreeting(message) {
@@ -51,6 +51,7 @@ jq(function () {
     jq( "#send" ).click(function() { sendName(); });
 });
 
-window.onload = function(){
+$(function(){
 	connect();
-}
+
+});	
