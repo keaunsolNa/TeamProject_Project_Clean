@@ -42,7 +42,7 @@ public class CheckListController {
 		
 	}
 
-	/* KS. 본인 예약 업무 시작 */
+	/* KS. 본인 예약 리스트 조회 */
 	@PostMapping(value = "selectMyCheckList", produces="application/json; charset=UTF-8")
 	@ResponseBody
 	public String selectMyTask(Principal principal) throws JsonProcessingException {
@@ -51,7 +51,8 @@ public class CheckListController {
 
 		String employeeId = principal.getName();
 		List<ReservationInfoDTO> reservationList =  checkListService.selectReservationListByEmployeeId(employeeId);
-		 
+		System.out.println("TESTTTTTTTTTT" + reservationList);
+		System.out.println("TESTTTTTTTTTTTTTTTTTT");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		mapper.setDateFormat(dateFormat); 
 		return mapper.writeValueAsString(reservationList);
@@ -74,18 +75,20 @@ public class CheckListController {
 		
 		String employeeId = principal.getName();
 		int parameter = 1;
-		
+		System.out.println("TEST");
 		List<CheckListAndReservationInfoAndEmployeeDTO> checkList = checkListService.selectCheckList(employeeId, parameter);
+		System.out.println("TEST");
 		
 		return mapper.writeValueAsString(checkList);
 		
 	}
 	
-	/* KS. 업무 시작 GetMapping 및 작성 중*/
+	/* KS. 업무 시작 GetMapping 및 작성 중 체크리스트 유무 확인*/
 	@GetMapping("start")
 	public ModelAndView checkListInsert(ModelAndView mv, HttpServletRequest request, @RequestParam int re) {
 			
 		int reservationNo = re;
+		
 		int result = checkListService.selectCheckListIsNotNull();
 		
 		if(result > 0) {
@@ -98,6 +101,7 @@ public class CheckListController {
 			
 			mv.setViewName("employee/checkList/startChecklist");
 			mv.addObject("resNo", reservationNo);
+			
 			return mv;
 		}
 		
@@ -136,19 +140,24 @@ public class CheckListController {
 	
 	/* KS. 업무 종료 후 체크리스트 작성 */
 	@GetMapping("insert")
-	public ModelAndView selectCheckList(Principal principal, @ModelAttribute ModelAndView mv) {
+	public ModelAndView InsertCheckList(Principal principal, @ModelAttribute ModelAndView mv) {
 		
 		String userId = principal.getName();
 		
-		CheckListDTO checklistDTO = checkListService.selectCheckList(userId);
+		CheckListDTO checklistDTO = checkListService.InsertCheckList(userId);
 		
 		if(null == checklistDTO) {
+			
 			mv.addObject("Message", "작성 가능한 체크리스트가 없습니다.");
 			mv.setViewName("/employee/checkList/selectMyCheckList");
+
 		} else {
+		
 			checklistDTO.getCheckHTML();
 			mv.addObject("checkList", checklistDTO);
+			mv.addObject("userId", userId);
 			mv.setViewName("/employee/checkList/insertCheckList");
+		
 		}
 		
 		return mv;
@@ -181,7 +190,7 @@ public class CheckListController {
 		CheckListDTO checkList = checkListService.selectCheckListDetails(reservationNo);
 
 		mv.addObject("checkList", checkList);
-		
+		mv.addObject("userId", adminName);
 		mv.setViewName("employee/checkList/selectDenialCheckListDetails");
 		return mv;
 		

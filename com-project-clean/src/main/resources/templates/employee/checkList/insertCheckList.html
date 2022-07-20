@@ -14,7 +14,7 @@
 </head>
 
 <body>
-	<input hidden type="text" th:value="${employeeName}" class="employeeName" id="employeeName">
+	<input hidden type="text" th:value="${userId}" class="employeeName" id="employeeName">
 	
 	<form hidden>
     	<div>
@@ -78,7 +78,7 @@
     		
     		if(confirm("체크리스트를 전송하시겠습니까?")){
     			
-    			$("#sendingMessage").val("체크리스트가 재반려되었습니다. 블랙리스트 경고 횟수가 증가합니다.")
+    			$("#sendingMessage").val("체크리스트가 제출되었습니다.")
     			$("#sendingName").val(userName)
     			
     			$("#send").bind("click", function(){

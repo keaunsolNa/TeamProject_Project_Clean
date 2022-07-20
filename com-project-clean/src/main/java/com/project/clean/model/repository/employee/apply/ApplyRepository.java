@@ -15,5 +15,8 @@ public interface ApplyRepository extends JpaRepository<ApplyEmployeeEmbedded, Ap
 
 	@Query(value = "SELECT A.APPLY_EMPLOYEE_NO, A.APPLY_RESERVATION_NO, A.APPLY_CANCEL_YN, A.CHECK_EMPLOYEE_YN FROM TBL_APPLY_EMPLOYEE A WHERE A.APPLY_RESERVATION_NO = ? AND A.APPLY_CANCEL_YN = 'N' AND A.CHECK_EMPLOYEE_YN = 'Y'", nativeQuery = true)
 	public List<ApplyEmployeeEmbedded> findAllEmployeeApply2(Integer reservationNo);
+
+	@Query(value = "SELECT A.APPLY_EMPLOYEE_NO, A.APPLY_RESERVATION_NO, A.APPLY_CANCEL_YN, A.CHECK_EMPLOYEE_YN FROM TBL_APPLY_EMPLOYEE A WHERE A.APPLY_RESERVATION_NO = ? AND A.APPLY_CANCEL_YN = 'N' AND A.CHECK_EMPLOYEE_YN = 'Y' AND A.APPLY_EMPLOYEE_NO = ?", nativeQuery = true)
+	public List<ApplyEmployeeEmbedded> findAllEmployeeApply3(Integer reservationNo, Integer employeeNo);
 }
 	

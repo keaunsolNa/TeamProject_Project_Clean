@@ -14,7 +14,7 @@ public interface CheckListService {
 
 	int registNewCheckList(CheckListDTO checkListDTO);
 
-	CheckListDTO selectCheckList(String userId);
+	CheckListDTO InsertCheckList(String userId);
 
 	int updateCheckList(CheckListDTO checkListDTO);
 
