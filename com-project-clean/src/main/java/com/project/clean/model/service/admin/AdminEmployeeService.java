@@ -1,6 +1,5 @@
 package com.project.clean.model.service.admin;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,11 +8,9 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
-import org.hibernate.cfg.annotations.MapKeyColumnDelegator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -131,17 +128,56 @@ public class AdminEmployeeService {
 		List<EmployeeAndAllDTO> empDTOList = new ArrayList<>();
 		Map<String, Object> map = new HashMap<>();
 		if ("all".equals(category)) {
-			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYn("N", "N", pageable);
-		} else if ("no".equals(category)) {
-			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYnAndEmployeeNoContaining("N", "N", categoryValue, pageable);
+			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeRegistReturnYn("N", "N", "N", pageable);
 		} else if ("name".equals(category)) {
-			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYnAndEmployeeNameContaining("N", "N", categoryValue, pageable);
+			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeRegistReturnYnAndEmployeeNameContaining("N", "N", "N", categoryValue, pageable);
 		} else if ("address".equals(category)) {
-			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYnAndEmployeeAddressContaining("N", "N", categoryValue, pageable);
+			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeRegistReturnYnAndEmployeeAddressContaining("N", "N", "N", categoryValue, pageable);
 		} else if ("phone".equals(category)) {
-			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYnAndEmployeePhoneContaining("N", "N", categoryValue, pageable);
+			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeRegistReturnYnAndEmployeePhoneContaining("N", "N", "N", categoryValue, pageable);
 		} else {
-			paging = employeeRepository.findAll(pageable);
+			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeRegistReturnYn("N", "N", "N", pageable);
+		}
+		List<AdminEmployee> employeeList = paging.getContent();
+
+		empDTOList = employeeList.stream().map(name -> modelMapper.map(name, EmployeeAndAllDTO.class)).toList();
+
+		int currentPage = paging.getNumber();
+		int maxPage = paging.getTotalPages();
+		int startPage = (int) (currentPage / 5) * 5;
+		int endPage = (int) (currentPage / 5) * 5 + 5;
+
+		while (endPage > maxPage) {
+			endPage -= 1;
+		}
+
+		map.put("waitingList", empDTOList);
+		map.put("maxPage", maxPage);
+		map.put("startPage", startPage);
+		map.put("endPage", endPage);
+		map.put("currentPage", currentPage);
+		map.put("category", category);
+		map.put("categoryValue", categoryValue);
+
+		return map;
+	}
+	
+
+	@Transactional
+	public Map<String, Object> selectWaitingEmployeeListBoss(String category, String categoryValue, Pageable pageable) {
+		Page<AdminEmployee> paging;
+		List<EmployeeAndAllDTO> empDTOList = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>();
+		if ("all".equals(category)) {
+			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeRegistReturnYn("Y", "N", "N", pageable);
+		} else if ("name".equals(category)) {
+			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeRegistReturnYnAndEmployeeNameContaining("Y", "N", "N", categoryValue, pageable);
+		} else if ("address".equals(category)) {
+			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeRegistReturnYnAndEmployeeAddressContaining("Y", "N", "N", categoryValue, pageable);
+		} else if ("phone".equals(category)) {
+			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeRegistReturnYnAndEmployeePhoneContaining("Y", "N", "N", categoryValue, pageable);
+		} else {
+			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeRegistReturnYn("Y", "N", "N", pageable);
 		}
 		List<AdminEmployee> employeeList = paging.getContent();
 
@@ -202,7 +238,7 @@ public class AdminEmployeeService {
 		} else if ("phone".equals(category)) {
 			paging = employeeRepository.findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYnAndEmployeePhoneContaining("N", "Y", "N", categoryValue, pageable);
 		} else {
-			paging = employeeRepository.findAll(pageable);
+			paging = employeeRepository.findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYn("N", "Y", "N", pageable);
 		}
 		List<AdminEmployee> employeeList = paging.getContent();
 
@@ -315,7 +351,6 @@ public class AdminEmployeeService {
 	public void insertRestCommitConfirm(ReasonDTO restCommitDTO) {
 		reasonRepository.save(modelMapper.map(restCommitDTO, AdminReason.class));
 		AdminEmployee employee = employeeRepository.findById(restCommitDTO.getEmployeeNo()).get();
-
 		employee.setEmployeeFirstConfirmYn("Y");
 
 	}
@@ -324,7 +359,6 @@ public class AdminEmployeeService {
 	public void insertRestCommitReturn(ReasonDTO restCommitDTO) {
 		reasonRepository.save(modelMapper.map(restCommitDTO, AdminReason.class));
 		AdminEmployee employee = employeeRepository.findById(restCommitDTO.getEmployeeNo()).get();
-		employee.setEmployeeFirstConfirmYn("Y");
 		employee.setEmployeeRegistReturnYn("Y");
 	}
 
@@ -358,47 +392,6 @@ public class AdminEmployeeService {
 
 	}
 
-	@Transactional
-	public Map<String, Object> selectWaitingEmployeeListBoss(String category, String categoryValue, Pageable pageable) {
-		Page<AdminEmployee> paging;
-		List<EmployeeAndAllDTO> empDTOList = new ArrayList<>();
-		Map<String, Object> map = new HashMap<>();
-		if ("all".equals(category)) {
-			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYn("Y", "N", pageable);
-		} else if ("no".equals(category)) {
-			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYnAndEmployeeNoContaining("Y", "N", categoryValue, pageable);
-		} else if ("name".equals(category)) {
-			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYnAndEmployeeNameContaining("Y", "N", categoryValue, pageable);
-		} else if ("address".equals(category)) {
-			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYnAndEmployeeAddressContaining("Y", "N", categoryValue, pageable);
-		} else if ("phone".equals(category)) {
-			paging = employeeRepository.findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYnAndEmployeePhoneContaining("Y", "N", categoryValue, pageable);
-		} else {
-			paging = employeeRepository.findAll(pageable);
-		}
-		List<AdminEmployee> employeeList = paging.getContent();
-
-		empDTOList = employeeList.stream().map(name -> modelMapper.map(name, EmployeeAndAllDTO.class)).toList();
-
-		int currentPage = paging.getNumber();
-		int maxPage = paging.getTotalPages();
-		int startPage = (int) (currentPage / 5) * 5;
-		int endPage = (int) (currentPage / 5) * 5 + 5;
-
-		while (endPage > maxPage) {
-			endPage -= 1;
-		}
-
-		map.put("waitingList", empDTOList);
-		map.put("maxPage", maxPage);
-		map.put("startPage", startPage);
-		map.put("endPage", endPage);
-		map.put("currentPage", currentPage);
-		map.put("category", category);
-		map.put("categoryValue", categoryValue);
-
-		return map;
-	}
 
 
 	public VacationDTO selectMyVacaionList(int vacationNo) {
@@ -419,15 +412,15 @@ public class AdminEmployeeService {
 		List<EmployeeAndAllDTO> empDTOList = new ArrayList<>();
 		Map<String, Object> map = new HashMap<>();
 		if ("all".equals(category)) {
-			paging = employeeRepository.findByEmployeeRetireYn("Y", pageable);
+			paging = employeeRepository.findByEmployeeRegistReturnYn("Y", pageable);
 		} else if ("no".equals(category)) {
-			paging = employeeRepository.findByEmployeeRetireYnAndEmployeeNoContaining("Y", categoryValue, pageable);
+			paging = employeeRepository.findByEmployeeRegistReturnYnAndEmployeeNoContaining("Y", categoryValue, pageable);
 		} else if ("name".equals(category)) {
-			paging = employeeRepository.findByEmployeeRetireYnAndEmployeeNameContaining("Y", categoryValue, pageable);
+			paging = employeeRepository.findByEmployeeRegistReturnYnAndEmployeeNameContaining("Y", categoryValue, pageable);
 		} else if ("phone".equals(category)) {
-			paging = employeeRepository.findByEmployeeRetireYnAndEmployeePhoneContaining("Y", categoryValue, pageable);
+			paging = employeeRepository.findByEmployeeRegistReturnYnAndEmployeePhoneContaining("Y", categoryValue, pageable);
 		} else {
-			paging = employeeRepository.findAll(pageable);
+			paging = employeeRepository.findByEmployeeRegistReturnYn("Y", pageable);
 		}
 		List<AdminEmployee> employeeList = paging.getContent();
 
@@ -460,8 +453,8 @@ public class AdminEmployeeService {
 		Map<String, Object> map = new HashMap<>();
 		if ("all".equals(category)) {
 			paging = employeeRepository.findByEmployeeBlackListYn("Y", pageable);
-		} else if ("no".equals(category)) {
-			paging = employeeRepository.findByEmployeeBlackListYnAndEmployeeNoContaining("Y", categoryValue, pageable);
+		} else if ("address".equals(category)) {
+			paging = employeeRepository.findByEmployeeBlackListYnAndEmployeeAddressContaining("Y", categoryValue, pageable);
 		} else if ("name".equals(category)) {
 			paging = employeeRepository.findByEmployeeBlackListYnAndEmployeeNameContaining("Y", categoryValue, pageable);
 		} else if ("phone".equals(category)) {
@@ -689,7 +682,7 @@ public class AdminEmployeeService {
 		} else if ("endDate".equals(category)) {
 			paging = vacationRepository.selectReturnBetweenEndDate(StartDate, endDate, pageable);
 		} else {
-			paging = vacationRepository.findAll(pageable);
+			paging = vacationRepository.findByVacationReturnYn("Y",pageable);
 		}
 		
 		List<Vacation> vacationInfoList = paging.getContent();

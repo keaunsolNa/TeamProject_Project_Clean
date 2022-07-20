@@ -29,7 +29,7 @@
       <div th:replace="admin/humanResource/vacation/selectAllVacationHeader"></div>
       
       	<form name="myVacationForm" action="/admin/select/selectMyVacation" id="myVacationForm">
-        <span>휴가 승인 전체 조회</span>
+        <span>휴가 승인 반려 전체 조회</span>
 
         <select name="category" id="category">
             <option value="all" selected>전체</option>
@@ -194,7 +194,7 @@
        });
     };
 
-  //이메일 입력방식 선택
+  //검색 후 리스트리셋
     $('#category').change(function(){
        $("#category option:selected").each(function () {
     		

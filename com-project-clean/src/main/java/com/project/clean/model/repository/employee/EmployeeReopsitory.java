@@ -27,7 +27,7 @@ public interface EmployeeReopsitory extends JpaRepository<AdminEmployee, Integer
 
 //	public List<AdminEmployee> findByEmployeeRegistReturnYnAndEmployeeBlackListYn(String returnYn, String blackYn);
 
-	public Page<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYn(String string, String string2, Pageable pageable);
+	public Page<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeRegistReturnYn(String string, String string1, String string2, Pageable pageable);
 
 	public List<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeLastConfirmYnAndEmployeeRegistReturnYn(
 			String string, String string2, String string3, String string4);
@@ -48,30 +48,30 @@ public interface EmployeeReopsitory extends JpaRepository<AdminEmployee, Integer
 	public Page<AdminEmployee> findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYnAndEmployeeAddressContaining(
 			String string, String string2, String string3, String categoryValue, Pageable pageable);
 
-	public Page<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYnAndEmployeeNoContaining(
-			String string, String string2, String categoryValue, Pageable pageable);
+	public Page<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeRegistReturnYnAndEmployeeNoContaining(
+			String string, String string1, String string2, String categoryValue, Pageable pageable);
 
-	public Page<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYnAndEmployeeAddressContaining(
-			String string, String string2, String categoryValue, Pageable pageable);
+	public Page<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeRegistReturnYnAndEmployeeAddressContaining(
+			String string, String string1, String string2, String categoryValue, Pageable pageable);
 
-	public Page<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYnAndEmployeePhoneContaining(
-			String string, String string2, String categoryValue, Pageable pageable);
+	public Page<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeRegistReturnYnAndEmployeePhoneContaining(
+			String string, String string1, String string2, String categoryValue, Pageable pageable);
 
-	public Page<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeLastConfirmYnAndEmployeeNameContaining(
-			String string, String string2, String categoryValue, Pageable pageable);
+	public Page<AdminEmployee> findByEmployeeFirstConfirmYnAndEmployeeSecondConfirmYnAndEmployeeRegistReturnYnAndEmployeeNameContaining(
+			String string, String string1, String string2, String categoryValue, Pageable pageable);
 
-	public Page<AdminEmployee> findByEmployeeRetireYn(String string, Pageable pageable);
+	public Page<AdminEmployee> findByEmployeeRegistReturnYn(String string, Pageable pageable);
 
-	public Page<AdminEmployee> findByEmployeeRetireYnAndEmployeeNoContaining(String string, String categoryValue,
+	public Page<AdminEmployee> findByEmployeeRegistReturnYnAndEmployeeNoContaining(String string, String categoryValue,
 			Pageable pageable);
 
-	public Page<AdminEmployee> findByEmployeeRetireYnAndEmployeeNameContaining(String string, String categoryValue,
+	public Page<AdminEmployee> findByEmployeeRegistReturnYnAndEmployeeNameContaining(String string, String categoryValue,
 			Pageable pageable);
 
-	public Page<AdminEmployee> findByEmployeeRetireYnAndEmployeeAddressContaining(String string, String categoryValue,
+	public Page<AdminEmployee> findByEmployeeRegistReturnYnAndEmployeeAddressContaining(String string, String categoryValue,
 			Pageable pageable);
 
-	public Page<AdminEmployee> findByEmployeeRetireYnAndEmployeePhoneContaining(String string, String categoryValue,
+	public Page<AdminEmployee> findByEmployeeRegistReturnYnAndEmployeePhoneContaining(String string, String categoryValue,
 			Pageable pageable);
 
 	public Page<AdminEmployee> findByEmployeeBlackListYnAndEmployeeNoContaining(String string, String categoryValue,
@@ -82,6 +82,9 @@ public interface EmployeeReopsitory extends JpaRepository<AdminEmployee, Integer
 
 	public Page<AdminEmployee> findByEmployeeBlackListYnAndEmployeePhoneContaining(String string, String categoryValue,
 			Pageable pageable);
+
+	public Page<AdminEmployee> findByEmployeeBlackListYnAndEmployeeAddressContaining(String string,
+			String categoryValue, Pageable pageable);
 
 //	public Page<Vacation> findByNameContaining(String categoryValue, Pageable pageable);
 //
