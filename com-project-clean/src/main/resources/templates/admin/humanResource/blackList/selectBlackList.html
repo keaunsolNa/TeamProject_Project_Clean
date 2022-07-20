@@ -11,16 +11,15 @@
     <span>블랙리스트 조회</span>
 	<select name="category" id="category">
 		<option value="all" selected>전체</option>
-		<option value="no">사원번호</option>
 		<option value="name">이름</option>
 		<option value="address">주소</option>
 		<option value="phone">전화번호</option>
 	</select> 
 	
-		<input type="text" name="categoryValue" placeholder="블랙리스트 검색">
+		<input type="text" id="categoryValue" name="categoryValue" placeholder="블랙리스트 검색">
 		<input type="text" style="display: none;"> <!-- enter - submit 방지 -->
 		
-		<button type="button" id="searchN" onclick="balckListAjax();">검색</button>
+		<button type="button" id="searchN" onclick="blackListAjax();">검색</button>
 		<input type="hidden" value="0" name=page>
 	</form>
 	
@@ -41,7 +40,10 @@
                   <!-- /* ajax data 삽입 공간 */ -->				
  			</tbody>
 	</table>
-			<div id="paging" style="display: flex; justify-content: center;">
+	<form name="mainPage">
+		<input type="hidden" value="0" name=page>
+	</form>
+	<div id="paging" style="display: flex; justify-content: center;">
                <!-- /* 페이징 버튼들어올 공간 */ -->
 			</div>
 
@@ -49,7 +51,7 @@
 	
 
     $(document).ready(function(){
-  	  balckListAjax();
+  	  blackListAjax();
   	  
     });
     
@@ -59,21 +61,21 @@
        var queryString = {"category" : category
                     , "categoryValue" : categoryValue
                     , "page" : page};
-       balckListAjaxFunction(queryString);
+       blackListAjaxFunction(queryString);
     }
     
     
     /* 유저가 조건 선택해 검색하는 요청 함수 */
-    function balckListAjax(){
+    function blackListAjax(){
        console.log("ajax 기본함수 실행 시도");
 			
        var queryString = $("form[name=blackListForm]").serialize();
-       balckListAjaxFunction(queryString);
+       blackListAjaxFunction(queryString);
     }
     
     
 	  /* 블랙리스트 ajax */
-    function balckListAjaxFunction(queryString){
+    function blackListAjaxFunction(queryString){
        $.ajax({
           url : "/admin/select/blackList",
           data : queryString,
@@ -93,11 +95,10 @@
 					$noTd = $("<td>").text(data.employeeList[index].employeeNo);
 					$nameTd = $("<td>").text(data.employeeList[index].employeeName);
 					$birthTd = $("<td>").text(data.employeeList[index].employeeBirth);
-					$phoneTd = $("<td>").text(data.employeeList[index].employeePhone);
-					$firstTd = $("<td>").text(data.employeeList[index].employeeFirstConfirmYn);
-					$secondTd = $("<td>").text(data.employeeList[index].employeeSecondConfirmYn);
-					$lastTd = $("<td>").text(data.employeeList[index].employeeLastConfirmYn);
-					
+					$phoneTd = $("<td>").text(data.employeeList[index].employeeAddress);
+					$firstTd = $("<td>").text(data.employeeList[index].employeePhone);
+					$secondTd = $("<td>").text(data.employeeList[index].employeeHireDate);
+					$lastTd = $("<td>").text(data.employeeList[index].employeeSumCount);
 							$tr.append($noTd);
 							$tr.append($nameTd);
 							$tr.append($birthTd);
@@ -152,7 +153,24 @@
           }
        });
     };
+    
+    //검색 후 리스트 리셋
+    $('#category').change(function(){
+       $("#category option:selected").each(function () {
+    		
+    			 $("#categoryValue").val('');         //기존 값 초기화
+    			 mainList();
 
+       });
+    });
+  
+	  /* 검색 시 검색 결과 리셋 2-2 */
+    function mainList(){
+       console.log("ajax 기본함수 실행 시도");
+			
+       var queryString = $("form[name=mainPage]").serialize();
+       blackListAjaxFunction(queryString);
+    }
 	
 			/* hover event */
 			function hover() {

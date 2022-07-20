@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +12,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -116,10 +113,10 @@ public class AdminEmployeeController {
 	/* 직원 전체 조회(재직자 main) */
 	@GetMapping("/select/retireN")
 	@ResponseBody
-		   public Map<String, Object> selectRetireNEmployee(String category, String categoryValue, @PageableDefault(sort="employeeNo", size = maxLine) Pageable pageable) {
+		   public Map<String, Object> selectRetireNEmployee(String categoryN, String categoryValue, @PageableDefault(sort="employeeNo", size = maxLine) Pageable pageable) {
 		      
 		      Map<String,Object> map = new HashMap<>();
-		      map = adminService.selectRetireNEmployee(category, categoryValue, pageable);
+		      map = adminService.selectRetireNEmployee(categoryN, categoryValue, pageable);
 		      
 		      return map;
 		   }
@@ -127,10 +124,10 @@ public class AdminEmployeeController {
 	/* 직원 전체 조회(퇴사자 main) */
 	@GetMapping("/select/retireY")
 	@ResponseBody
-	public Map<String, Object> selectRetireYEmployee(String category, String categoryValue, @PageableDefault(sort="employeeNo", size = maxLine) Pageable pageable) {
+	public Map<String, Object> selectRetireYEmployee(String categoryY, String categoryValue, @PageableDefault(sort="employeeNo", size = maxLine) Pageable pageable) {
 		
 		Map<String,Object> map = new HashMap<>();
-		map = adminService.selectRetireYEmployee(category, categoryValue, pageable);
+		map = adminService.selectRetireYEmployee(categoryY, categoryValue, pageable);
 		
 		return map;
 	}
@@ -440,14 +437,14 @@ public class AdminEmployeeController {
 
 		if (getRegistDate.size() == 0) {
 			mv.addAttribute("hrConfirm", "");
-			mv.addAttribute("bossCrconfirm", "");
+			mv.addAttribute("bossconfirm", "");
 		} else if (getRegistDate.size() == 1) {
 			mv.addAttribute("hrConfirm", getRegistDate.get(0).getEmployeeRegistDate());
-			mv.addAttribute("bossCrconfirm", "");
+			mv.addAttribute("bossConfirm", "");
 
 		} else if (getRegistDate.size() == 2) {
 			mv.addAttribute("hrConfirm", getRegistDate.get(0).getEmployeeRegistDate());
-			mv.addAttribute("bossCrconfirm", getRegistDate.get(1).getEmployeeRegistDate());
+			mv.addAttribute("bossConfirm", getRegistDate.get(1).getEmployeeRegistDate());
 		}
 
 		if (getAdminName.size() == 0) {
@@ -521,10 +518,10 @@ public class AdminEmployeeController {
 	/* 인사관리자 1차 승인 */
 	@PostMapping("/hr/confirm/restCommit")
 	public String insertRestCommitConfirm(ReasonDTO restCommitDTO, AdminDTO adminDTO) {
-		LocalDate now = LocalDate.now();
-		java.sql.Date today = java.sql.Date.valueOf(now);
-
-		restCommitDTO.setEmployeeRegistDate(today);
+//		LocalDate now = LocalDate.now();
+//		java.sql.Date today = java.sql.Date.valueOf(now);
+//
+//		restCommitDTO.setEmployeeRegistDate(today);
 		restCommitDTO.setAdminDTO(adminDTO);
 
 		adminService.insertRestCommitConfirm(restCommitDTO);
@@ -825,7 +822,7 @@ public class AdminEmployeeController {
 	/* 휴가 반려 조회 페이지 이동 */
 	@GetMapping("/hr/select/selectAllVacationReturnList/move")
 	public String selectAllVacationReturnListMove() {
-		return "/admin/humanResource/vacation/selectAllVacationReturnList.html";
+		return "/admin/humanResource/vacation/selectAllVacationReturnList";
 	}
 	
 	/* 휴가 반려 조회 */

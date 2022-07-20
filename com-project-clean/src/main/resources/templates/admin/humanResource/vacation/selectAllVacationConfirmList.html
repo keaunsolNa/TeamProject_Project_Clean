@@ -66,6 +66,12 @@ body {
 
 			</tbody>
 		</table>
+		
+		        <!-- 검색 시 검색 결과 리셋 2-1 -->
+        <form name="mainPage">
+		<input type="hidden" value="0" name=page>
+        </form>
+		
 		<div id="paging" style="display: flex; justify-content: center;">
 			<!-- /* 페이징 버튼들어올 공간 */ -->
 		</div>
@@ -208,40 +214,62 @@ body {
 					});
 		};
 
-		//이메일 입력방식 선택
-		$('#category').change(
-				function() {
-					$("#category option:selected").each(
-							function() {
+		  //이메일 입력방식 선택
+	    $('#category').change(function(){
+	       $("#category option:selected").each(function () {
+	    		
+	    		if($(this).val()== ('startDate')){ // 시작 날짜 선택의 경우
+	    			 mainList();
+	    			 $("#categoryValue").val('');                       //기존 값 초기화
+		   			 $("#startCalendar").val('');                       //기존 값 초기화
+		   			 $("#endCalendar").val('');                       //기존 값 초기화
 
-								if ($(this).val() == ('startDate')
-										|| $(this).val() == ('endDate')) { // 날짜 선택의 경우
-									$("#categoryValue").val(''); //기존 값 초기화
-									$("#categoryValue").attr("style",
-											"display:none"); //비활성화
-									$("#startCalendar").attr("style",
-											"display:inline"); //활성화
-									$("#endCalendar").attr("style",
-											"display:inline"); //활성화
-								} else if ($(this).val() == ('all')) {
-									$("#categoryValue").val(''); //기존 값 초기화
-									vacationConformAjax();
-									$("#startCalendar").attr("style",
-											"display:none"); //비활성화
-									$("#endCalendar").attr("style",
-											"display:none"); //비활성화
-									$("#categoryValue").attr("style",
-											"display:inline"); //활성화
-								} else { // 날짜가 아닌 경우
-									$("#startCalendar").attr("style",
-											"display:none"); //비활성화
-									$("#endCalendar").attr("style",
-											"display:none"); //비활성화
-									$("#categoryValue").attr("style",
-											"display:inline"); //활성화
-								}
-							});
-				});
+	    			 $("#categoryValue").attr("style","display:none"); //비활성화
+	    			 $("#categoryValue").attr("style","display:none"); //비활성화
+	    			 $("#startCalendar").attr("style","display:inline"); //활성화
+	    			 $("#endCalendar").attr("style","display:inline"); //활성화
+	    			 
+	    		} else if($(this).val()== ('endDate')){	// 종료 날짜 선택 경우
+	    			 mainList();
+		   			 $("#categoryValue").val('');                       //기존 값 초기화
+		   			 $("#startCalendar").val('');                       //기존 값 초기화
+		   			 $("#endCalendar").val('');                       //기존 값 초기화
+
+	    			 $("#categoryValue").attr("style","display:none"); //비활성화
+	    			 $("#startCalendar").attr("style","display:inline"); //활성화
+	    			 $("#endCalendar").attr("style","display:inline"); //활성화
+	    			
+	    		} else if($(this).val()== ('all')){	// 전체 조회 클릭 시
+	    		     mainList();
+		   			 $("#categoryValue").val('');                       //기존 값 초기화
+		   			 $("#startCalendar").val('');                       //기존 값 초기화
+		   			 $("#endCalendar").val('');                       //기존 값 초기화
+
+	    			 $("#startCalendar").attr("style","display:none"); //비활성화
+	    			 $("#startCalendar").attr("style","display:none"); //비활성화
+	    			 $("#endCalendar").attr("style","display:none"); //비활성화
+	    			 $("#categoryValue").attr("style","display:inline"); //활성화
+	    			 
+	    		} else if($(this).val()== ('name')){ // 이름(신청자) 클릭시
+	     			 mainList();
+	    			 $("#categoryValue").val('');                       //기존 값 초기화
+		   			 $("#startCalendar").val('');                       //기존 값 초기화
+		   			 $("#endCalendar").val('');                       //기존 값 초기화
+
+	    			 $("#startCalendar").attr("style","display:none"); //비활성화
+	    			 $("#endCalendar").attr("style","display:none"); //비활성화
+	    			 $("#categoryValue").attr("style","display:inline"); //활성화
+	    		}
+	       });
+	    });
+	  
+		  /* 검색 시 검색 결과 리셋 2-2 */
+	    function mainList(){
+	       console.log("ajax 기본함수 실행 시도");
+				
+	       var queryString = $("form[name=mainPage]").serialize();
+	       vacationConformAjaxFunction(queryString);
+	    }
 
 		/* hover event */
 		function hover() {
