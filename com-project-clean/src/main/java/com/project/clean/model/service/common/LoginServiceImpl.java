@@ -31,6 +31,7 @@ import com.project.clean.model.repository.admin.AdminIpRepository;
 import com.project.clean.model.repository.common.CommonAdminLoginRepository;
 import com.project.clean.model.repository.common.CommonEmployeeLoginRepository;
 
+
 @Service
 public class LoginServiceImpl implements LoginService{
 
@@ -55,22 +56,14 @@ public class LoginServiceImpl implements LoginService{
 	@Transactional
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 		
-		System.out.println(userId);
-
 		if(!userId.contains("cleanup")) {
 			
 			System.out.println("EMPLOYEE 조회 시작");
 			/* employee select*/
 			EmployeeAndAdminMemberAuthority employee = commonEmployeeLoginRepository.findByEmployeeIdAndEmployeeRetireYn(userId, "N");
 			
-			System.out.println("조회 해 온 멤버 객체 : " + employee);
 			/* authorities 빈 객체 생성 */
 			List<GrantedAuthority> authorities = new ArrayList<>();
-			
-			/* 조회 실패 시 */
-			if(employee == null) {
-				employee = new EmployeeAndAdminMemberAuthority();
-			}
 			
 			Date lastLoginTime = new java.sql.Date(System.currentTimeMillis());
 			
@@ -88,6 +81,14 @@ public class LoginServiceImpl implements LoginService{
 			
 			EmployeeImpl user = new EmployeeImpl(employee.getEmployeeId(), employee.getEmployeePwd(), authorities);
 			user.SetDetailEmployee(modelMapper.map(employee, EmployeeAndAdminMemberAuthorityDTO.class));
+			
+			System.out.println("TEST1");
+			if(user.getEmployeeBlackListYn().equals("Y")) {
+				System.out.println("블랙리스트");
+				throw new DisabledException(user.getEmployeeId());
+			}
+			
+			System.out.println("블랙리스트 아님");
 			return user;
 			
 		} else {

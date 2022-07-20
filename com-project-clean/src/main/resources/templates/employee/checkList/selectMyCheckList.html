@@ -88,10 +88,6 @@
 					nowtime.setMinutes(nowtime.getMinutes() + 60)
 					const maxHours = nowtime.toString().substring(15, 21);
 					
-					console.log(nowDay)
-					console.log(nowHours)
-					console.log(maxHours)
-					
 					const button = buttons[i];
 					
 					button.onclick = function() {
@@ -107,9 +103,6 @@
 								const resNo2 = resNo1[i];
 								var resNo3 = resNo2.parentNode.querySelector('.rn').innerText;
 								
-								console.log(resNo1)
-								console.log(resNo2)
-								console.log(resNo3)
  							 	location.href="/employee/checkList/start?re="+ resNo3;
 /* 						} else{
 							

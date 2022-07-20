@@ -13,20 +13,58 @@
 
 }
 
-.checklist{
-    background-color: rgba(104, 228, 255, 1);
-    width: 15%;
-    height: 35%;
-    border: 1px solid black;
+.canvasArea{
+	width:300px; 
+	height:300px; 
+	margin-left: 40%
+}
+
+.canvasArea{
+	width: 300;
+    height: 300;
     margin: auto;
     margin-top: 3%;
     margin-bottom: 2%;
+}
+
+.customerSign{
+	font-size: xx-large;
+	text-align: center;
+}
+	
+.mainlogo {
+	font-size: xx-large;
+}
+.checkTitle{
+	font-size: xx-large;
+}
+.checklist{
+    background-color: #CCF5FF;
+    width: 13%;
+    height: 35%;
+    border: 1px solid #8B8B8B;
+    margin: auto;
+    margin-top: 3%;
+    margin-bottom: 2%;
+}
+
+.checkbox {
+	margin-left : 10%;
+	margin-bottom: 15px;
+}
+
+.title {
+	margin-top: 7%;
+	margin-bottom: 3%;	
+	font-size: x-large;
+	
 }
 
 input{
     margin-left: 5%;
     margin-bottom: 5%;
     transform: scale(2);
+    margin-right: 10px;
 }
 
 .pic{
@@ -91,6 +129,14 @@ input{
     text-align: center;
 }
 
+.beforeAfterImgArea{
+    width: 13%;
+    height: 35%;
+    margin: auto;
+    margin-top: 3%;
+    margin-bottom: 2%;
+}
+
 .OpnionArea{
     text-align: center;
     margin-left: 30%;
@@ -101,7 +147,6 @@ input{
     margin-top: 0px;
     text-align: center;
 }
-
 
 .adminOpnionArea input{
     transform: none;
@@ -124,6 +169,18 @@ input{
     background-color: rgba(104, 228, 255, 1);
 }
 
+.canvasbtnarea button{
+	text-align: center;
+    background-color: rgba(104, 228, 255, 1);
+    border: 0;
+    width: 100px;
+    height: 50px;
+    
+}
+.imgText{
+	font-size: xx-large;
+}
+
 .Opnion{
 	width: 80%; 
 	height: 60%; 
@@ -137,6 +194,8 @@ input{
 	margin-left: 47%;
 	border: 0px;
 	text-align: center;
+	width: 100px;
+    height: 40px;
 }
 
 .submitarea{
