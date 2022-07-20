@@ -21,5 +21,7 @@ public interface CheckListService {
 	List<CheckListAndReservationInfoAndEmployeeDTO> selectCheckList(String employeeId, int parameter);
 
 	CheckListDTO selectCheckListDetails(int reservationNo);
+
+	int selectCheckListIsNotNull();
 	 
 }
