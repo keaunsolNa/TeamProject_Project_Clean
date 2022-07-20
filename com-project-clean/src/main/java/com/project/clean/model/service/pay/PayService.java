@@ -39,6 +39,8 @@ public interface PayService {
 	
 	public void registAdminPay(int adminNo, int salary, int insurance);
 
+//	public List<EmployeePayAndApplyEmployeeDTO> findEmployeePayList();
+
 
 
 

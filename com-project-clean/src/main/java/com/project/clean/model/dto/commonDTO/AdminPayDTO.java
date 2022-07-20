@@ -3,8 +3,6 @@ package com.project.clean.model.dto.commonDTO;
 import java.io.Serializable;
 import java.sql.Date;
 
-import javax.persistence.Column;
-
 public class AdminPayDTO implements Serializable{
 
 	private static final long serialVersionUID = 823740744663538992L;
