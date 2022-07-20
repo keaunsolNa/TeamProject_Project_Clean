@@ -3,6 +3,7 @@ package com.project.clean.controller.admin;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.Principal;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -247,6 +248,22 @@ private final AdminAdminService adminService;
 		return mv;
 	}
 	
+	/* 관리자 마이페이지 조회 */
+	@GetMapping("hrCard/adminDetail/myPage")
+	public ModelAndView AdminMyPage(ModelAndView mv, Principal principal) {
+		
+		/* principal 을 이용해 로그인한 사용자의 정보를 불러온다. */
+		String adminId = principal.getName(); 
+		
+		AdminDTO admin = adminService.findByAdminId(adminId);
+		
+		int adminNo = admin.getAdminNo();
+		
+		mv.setViewName("admin/hrCard/adminDetail/" + adminNo);
+		
+		return mv;
+	}
+	
 	
 	/* 퇴사자 상세 조회 */
 	@GetMapping("hrCard/retireAdminDetail/{retireAdminNo}")
@@ -283,6 +300,7 @@ private final AdminAdminService adminService;
 		admin = adminService.findByAdminNo(adminNo);
 		
 		/* 퇴사자 테이블에 입력할 정보 선언 */
+		
 		int retireAdminNo =  adminNo;
 		String retireAdminName = admin.getAdminName();
 		String retireAdminId = admin.getAdminId();
@@ -490,4 +508,6 @@ private final AdminAdminService adminService;
 		
 		return "redirect:/admin/hrCard/adminList";
 	}
+	
+	
 }

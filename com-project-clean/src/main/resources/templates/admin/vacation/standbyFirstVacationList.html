@@ -55,7 +55,6 @@
 <body>
 
 	<div th:include="common/header.html"></div>
-	<div th:include="common/hrAside.html"></div>
 	
 	
 	 <div class="container">
@@ -83,7 +82,9 @@
                         <th>휴가시작일</th>
                         <th>휴가종료일</th>
                         <th>휴가구분</th>
+<!--                         <th>연차 사용 횟수</th> -->
                         <th>1차 승인 여부</th>
+                 		
                     </tr>
                 </thead>
                 <tbody>
@@ -93,6 +94,7 @@
 						<td th:text="${ index.vacationStartDate }"></td>
 						<td th:text="${ index.vacationEndDate }"></td>
 						<td th:text="${ index.vacationName }"></td>
+<!-- 						<td th:text="${ index.adminList.annualVacationUse }"></td> -->
 						<td th:text="${ index.vacationFirstConfirmYn }"></td>
 					</tr>
                 </tbody>

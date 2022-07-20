@@ -10,13 +10,11 @@ body {
 
 /* Fixed sidenav, full height */
 .sidenav {
-  height: 100%;
+  float: left;
+  height: 800px;
   width: 200px;
-  position: fixed;
   z-index: 1;
-  top: 0;
-  left: 0;
-  overflow-x: hidden;
+/*   overflow-x: hidden; */
   padding-top: 20px;
   background-color: #ffffff;
 }
@@ -41,13 +39,6 @@ body {
   -webkit-text-stroke: 1px;
 }
 
-/* Main content */
-.main {
-  margin-left: 200px; /* Same as the width of the sidenav */
-  font-size: 20px; /* Increased text to enable scrolling */
-  padding: 0px 10px;
-}
-
 /* Add an active class to the active dropdown button */
 .active {
     background-color : #f1f1f1;
@@ -56,7 +47,7 @@ body {
 
 /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
 .dropdown-container {
-  display: none;
+/*   display: none; */
   background-color: #ffffff;
   padding-left: 8px;
 }
@@ -68,10 +59,10 @@ body {
 }
 
 /* Some media queries for responsiveness */
-@media screen and (max-height: 450px) {
+/* @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
-}
+} */
 </style>
 </head>
 <body>
@@ -98,12 +89,6 @@ body {
     </div>
 </div>
 
-<!-- <div class="main">
-  <h2>Sidebar Dropdown</h2>
-  <p>Click on the dropdown button to open the dropdown menu inside the side navigation.</p>
-  <p>This sidebar is of full height (100%) and always shown.</p>
-  <p>Some random text..</p>
-</div> -->
 
 <script>
 /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
