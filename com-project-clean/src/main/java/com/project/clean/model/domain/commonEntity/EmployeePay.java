@@ -27,7 +27,7 @@ public class EmployeePay implements Serializable {
 	@Column(name="APPLY_EMPLOYEE_NO")
 	private int applyEmployeeNo;
 	
-	@Column(name="PAY_FINAL_SALARY")
+	@Column(name="PAY_EMPLOYEE_FINAL_SALARY")
 	private int payEmployeeFinalSalary;
 	
 	public EmployeePay() {

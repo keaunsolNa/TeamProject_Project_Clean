@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.project.clean.controller.common.paging.SelectCriteria;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
-import com.project.clean.model.dto.commonDTO.AdminPayDTO;
 import com.project.clean.model.dto.commonDTO.SurchargeDTO;
 import com.project.clean.model.dto.joinDTO.AdminAndAdminPayDTO;
 import com.project.clean.model.dto.joinDTO.AdminPayAndAdminDTO;
+import com.project.clean.model.dto.joinDTO.EmployeePayAndApplyEmployeeDTO;
 
 public interface PayService {
 	
@@ -37,9 +37,15 @@ public interface PayService {
 	// 관리자 번호로 관리자 한명 조회
 	public AdminDTO findAdminByPayAdminNo(int adminNo);
 	
+	// 관리자 급여 등록
 	public void registAdminPay(int adminNo, int salary, int insurance);
 
-//	public List<EmployeePayAndApplyEmployeeDTO> findEmployeePayList();
+	
+	// 직원
+	public int selectEmployeePayTotalCount(String searchCondition, String searchValue);
+
+	public List<EmployeePayAndApplyEmployeeDTO> employeePaySearch(SelectCriteria selectCriteria);
+
 
 
 
