@@ -81,15 +81,28 @@ public class CheckListController {
 		
 	}
 	
-	/* KS. 예약 번호 조회 */
+	/* KS. 업무 시작 GetMapping 및 작성 중*/
 	@GetMapping("start")
 	public ModelAndView checkListInsert(ModelAndView mv, HttpServletRequest request, @RequestParam int re) {
 			
-		System.out.println(re);
 		int reservationNo = re;
-		mv.setViewName("employee/checkList/startChecklist");
-		mv.addObject("resNo", reservationNo);
-		return mv;
+		int result = checkListService.selectCheckListIsNotNull();
+		
+		if(result > 0) {
+
+			mv.addObject("Message", "작성 중인 체크리스트가 있습니다.");
+			mv.setViewName("employee/checkList/selectMyCheckList");
+			return mv;
+			
+		} else {  
+			
+			mv.setViewName("employee/checkList/startChecklist");
+			mv.addObject("resNo", reservationNo);
+			return mv;
+		}
+		
+		
+		
 	}
 	
 	/* KS. 업무 시작 후 빈 체크리스트 폼 등록 */
@@ -117,9 +130,9 @@ public class CheckListController {
         mv.addObject("Message", rttr);
         mv.setViewName("/employee/checkList/selectMyCheckList");
         
-		
 		return mv;
 	}
+
 	
 	/* KS. 업무 종료 후 체크리스트 작성 */
 	@GetMapping("insert")

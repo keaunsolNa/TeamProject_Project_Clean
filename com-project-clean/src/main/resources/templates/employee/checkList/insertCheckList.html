@@ -9,13 +9,21 @@
     <link 
     	rel="stylesheet" type="text/css"
     	th:href="@{/css/employee/checklist/checkList.css}">
- 	<script 
-    	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
    	<script 
    		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
+	<input hidden type="text" th:value="${employeeName}" class="employeeName" id="employeeName">
+	
+	<form hidden>
+    	<div>
+     	 	<input type="text" id="sendingMessage">
+        	<input type="text" id="sendingName" >
+    	</div>
+    	<button id="send" type="submit">Send</button>
+	</form>
+
 	<section>
 		<form method="post" action="/employee/checkList/update"  enctype="multipart/form-data">
 			<input type="hidden" th:value="${ checkList.checkReservationNo }" class="reservationNo" name="reservationNo">
@@ -62,10 +70,23 @@
     <script>
 	    
 	    const jbHtml = "";
+	    const userName = document.getElementById("employeeName").value
+	    
     	document.getElementById("submitButton").onclick = function(){
 			const reservationNo = $('.reservationNo').val();
-    			const jbHtml = $( 'section' ).html();
+    		const jbHtml = $( 'section' ).html();
+    		
     		if(confirm("체크리스트를 전송하시겠습니까?")){
+    			
+    			$("#sendingMessage").val("체크리스트가 재반려되었습니다. 블랙리스트 경고 횟수가 증가합니다.")
+    			$("#sendingName").val(userName)
+    			
+    			$("#send").bind("click", function(){
+	    			});
+	    			
+	    		$("#send").trigger("click");
+	    			
+    			
     			$.ajax({
     				url: "/employee/checkList/update",
     				type:"POST",
@@ -228,4 +249,12 @@
 	};			
 	</script>
 </body>
+
+	<script 
+		src="/js/socket.js"></script>
+	<script
+		src="http://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+   	<script 
+		src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
 </html>
