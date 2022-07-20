@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -738,12 +740,16 @@ public class AdminEmployeeController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
+	/* 휴가 전체 조회 리셋 */
+	@GetMapping("/vacation/main")
+	@ResponseBody
+	public Map<String, Object> selectAllVacationReset(String category, String categoryValue,String startDate, String endDate,  @PageableDefault( size = maxLine) Pageable pageable) {
+		Map<String,Object> map = new HashMap<>();
+		map = adminService.selectAllVacaionList(category, categoryValue, startDate, endDate, pageable);
+		
+		return map;
+		
+	}
 	
 	/* 휴가 전체 조회 페이지 이동 */
 	@GetMapping("/hr/humanResource/selectAllVacation/move")
@@ -754,9 +760,9 @@ public class AdminEmployeeController {
 	/* 휴가 전체 조회 */
 	@GetMapping("/hr/select/selectAllVacation")
 	@ResponseBody
-	public Map<String, Object> selectAllVacationList(String category, String categoryValue,String startDate, String endDate,  @PageableDefault(sort="vacationNo", size = maxLine) Pageable pageable) {
+	public Map<String, Object> selectAllVacationList(String category, String categoryValue,String startDate, String endDate,  @PageableDefault( size = maxLine) Pageable pageable) {
 	      Map<String,Object> map = new HashMap<>();
-	      map = adminService.selectMyVacaionList(category, categoryValue, startDate, endDate, pageable);
+	      map = adminService.selectAllVacaionList(category, categoryValue, startDate, endDate, pageable);
 	      
 	      return map;
 		
@@ -783,35 +789,80 @@ public class AdminEmployeeController {
 	
 	
 	
+
+	
+	/* 휴가 승인 조회 페이지 이동 */
+	@GetMapping("/hr/select/selectAllVacationConfirmList/move")
+	public String selectAllVacationConfirmListMove() {
+		return "/admin/humanResource/vacation/selectAllVacationConfirmList";
+	}
+	
+	/* 휴가 승인 조회 */
+	@GetMapping("/hr/select/selectAllVacationConfirmList")
+	@ResponseBody
+	public Map<String, Object> selectAllVacationConfirmList(String category, String categoryValue,String startDate, String endDate,  @PageableDefault( size = maxLine) Pageable pageable) {
+		Map<String,Object> map = new HashMap<>();
+		System.out.println("1categorycategorycategory"+category);
+		System.out.println("1categorycategorycategory"+category);
+		System.out.println("1categorycategorycategory"+category);
+		System.out.println("1categorycategorycategory"+category);
+		map = adminService.selectAllVacationConfirmList(category, categoryValue, startDate, endDate, pageable);
+		System.out.println("categorycategorycategory"+category);
+		System.out.println("categorycategorycategory"+category);
+		System.out.println("categorycategorycategory"+category);
+		System.out.println("categorycategorycategory"+category);
+		System.out.println("categorycategorycategory"+category);
+		System.out.println("categorycategorycategory"+category);
+		System.out.println("categorycategorycategory"+category);
+		
+		return map;
+		
+		
+		
+		
+		
+	}
+	/* 휴가 반려 조회 페이지 이동 */
+	@GetMapping("/hr/select/selectAllVacationReturnList/move")
+	public String selectAllVacationReturnListMove() {
+		return "/admin/humanResource/vacation/selectAllVacationReturnList.html";
+	}
+	
+	/* 휴가 반려 조회 */
+	@GetMapping("/hr/select/selectAllVacationReturnList")
+	@ResponseBody
+	public Map<String, Object> selectAllVacationReturnList(String category, String categoryValue,String startDate, String endDate,  @PageableDefault( size = maxLine) Pageable pageable) {
+		Map<String,Object> map = new HashMap<>();
+		map = adminService.selectAllVacaionReturnList(category, categoryValue, startDate, endDate, pageable);
+		
+		return map;
+	}
+	
 	
 
-	/* 휴가 승인 전체 조회 */
-	@GetMapping("/hr/select/selectAllVacationConfirmList")
-	public String selectAllVacationConfirmList(@RequestParam(value = "page", defaultValue = "0") int page, Model mv) {
-		Page<VacationDTO> vacationAllPage = adminService.selectVacationConfirmPage(page);
-		List<VacationDTO> vacationAllList = vacationAllPage.toList();
-		List<AdminDTO> adminList = adminService.selectAdmin();
+	
 
-		mv.addAttribute("pages", vacationAllPage);
-		mv.addAttribute("mainTain", "N");
-		mv.addAttribute("vacation", vacationAllList);
-		return "/admin/humanResource/vacation/selectAllVacationConfirmList";
-
-	}
-
-	/* 휴가 반려 전체 조회 */
-	@GetMapping("/hr/select/selectAllVacationReturnList")
-	public String selectAllVacationReturnList(@RequestParam(value = "page", defaultValue = "0") int page, Model mv) {		
-		Page<VacationDTO> vacationAllPage = adminService.selectVacationReturnPage(page);
-	List<VacationDTO> vacationAllList = vacationAllPage.toList();
-	List<AdminDTO> adminList = adminService.selectAdmin();
-
-	mv.addAttribute("pages", vacationAllPage);
-	mv.addAttribute("mainTain", "N");
-	mv.addAttribute("vacation", vacationAllList);
-		return "admin/humanResource/vacation/selectAllVacationReturnList";
-
-	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
