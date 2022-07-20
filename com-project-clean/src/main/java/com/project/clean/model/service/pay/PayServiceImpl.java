@@ -17,6 +17,7 @@ import com.project.clean.model.domain.commonEntity.Admin;
 import com.project.clean.model.domain.commonEntity.Surcharge;
 import com.project.clean.model.domain.joinEntity.AdminAndAdminPay;
 import com.project.clean.model.domain.joinEntity.AdminPayAndAdmin;
+//import com.project.clean.model.domain.joinEntity.EmployeePayAndApplyEmployee;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.SurchargeDTO;
 import com.project.clean.model.dto.joinDTO.AdminAndAdminPayDTO;
@@ -42,7 +43,9 @@ public class PayServiceImpl implements PayService{
 	public PayServiceImpl(SurchargeRepository surchargeRepository,
 			AdminPayAndAdminRepository adminPayAndAdminRepository,
 			AdminAndAdminPayRepository adminAndAdminPayRepository, AdminRepositoryByPay adminRepository,
-			AdminPayRepository adminPayRepository, ModelMapper modelMapper) {
+			AdminPayRepository adminPayRepository,
+			 ModelMapper modelMapper) {
+		super();
 		this.surchargeRepository = surchargeRepository;
 		this.adminPayAndAdminRepository = adminPayAndAdminRepository;
 		this.adminAndAdminPayRepository = adminAndAdminPayRepository;
@@ -50,7 +53,6 @@ public class PayServiceImpl implements PayService{
 		this.adminPayRepository = adminPayRepository;
 		this.modelMapper = modelMapper;
 	}
-
 
 
 
@@ -65,6 +67,7 @@ public class PayServiceImpl implements PayService{
 		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
 		return surchargeList.stream().map(surcharge -> modelMapper.map(surcharge, SurchargeDTO.class)).collect(Collectors.toList());
 	}
+	
 	
 	/* 부가요금 수정 */
 	@Transactional
@@ -237,6 +240,17 @@ public class PayServiceImpl implements PayService{
 		
 		
 	}
+
+
+
+
+//	@Override
+//	public List<EmployeePayAndApplyEmployeeDTO> findEmployeePayList() {
+//		List<EmployeePayAndApplyEmployee> employeePayList = employeePayAndApplyEmployeeRepository.findAll();				
+//
+//		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
+//		return employeePayList.stream().map(employeePay -> modelMapper.map(employeePay,EmployeePayAndApplyEmployeeDTO.class)).collect(Collectors.toList());
+//	}
 
 
 	

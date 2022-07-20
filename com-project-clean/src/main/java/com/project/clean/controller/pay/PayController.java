@@ -38,8 +38,16 @@ public class PayController {
 	// 직원 급여 -----------------------------------------------------------------------------------------------
 	
 	/* 직원 급여 전체조회 */
-	@GetMapping("/employeePaySelect")
-	public void employeePaySelect() {}
+//	@GetMapping("/employeePaySelect")
+//	public ModelAndView employeePaySelect(ModelAndView mv) {
+//
+//		List<EmployeePayAndApplyEmployeeDTO> employeePayList = payService.findEmployeePayList();
+//		
+//		mv.addObject("employeePayList", employeePayList);
+//		mv.setViewName("pay/employeePaySelect");
+//		
+//		return mv;
+//	}
 	
 	/* 직원 급여 상세조회 */
 	@GetMapping("/employeePaySelectInfo")
