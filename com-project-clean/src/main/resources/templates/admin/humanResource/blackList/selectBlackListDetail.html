@@ -5,21 +5,30 @@
     <meta charset="UTF-8">
     <title>Document</title>
     <style type="text/css">
-        .tg  {border-collapse:collapse; border-spacing:0;}
-        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-          overflow:hidden;padding:10px 10px;word-break:normal;}
-        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-          font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;}
-        .tg .tg-7btt{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
-        #modify, #entire{
-            margin: 20px;
-        }
-        </style>
+.tg td {
+	border-style: solid;
+	border-width: 1px;
+	font-size: 14px;
+	padding: 10px 10px;
+}
+
+.tg th {
+	border-style: solid;
+	font-size: 14px;
+}
+
+.tg .tg-7btt {
+	font-weight: bold;
+	text-align: center;
+}
+
+
+</style>
 </head>
 <body>
 	<div th:replace="/common/Header.html"></div>
 	<div th:replace="/admin/adminAside.html"></div>
-    <div align="center">
+    <div>
         <table class="tg" style="table-layout: fixed; width: 736px">
         <colgroup>
         <col style="width: 158px">
@@ -39,7 +48,7 @@
             <td class="tg-7btt" colspan="2" rowspan="3">
             
              <img id="pictureImg" th:src="@{/adminEmployeePicture/} + ${employee.employeePictureSaveName}" 
-             	  alt="사진을 등록해주세요" width="100px" height="100px">
+             	  alt="사진을 등록해주세요" width="100px" height="100px" onerror="this.style.display='none'" >
             </td>
             <!-- <td class="tg-7btt" colspan="2" rowspan="3" th:text="${employeePicture.employeePictureSaveName}"></td> -->
           </tr>

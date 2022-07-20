@@ -6,42 +6,31 @@
 <title>Document</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style>
-body {
-	margin-top: 100px;
-	font-family: 'Trebuchet MS', serif;
-	line-height: 1.6
-}
 
-/* 전체 크기 */
-.container {
-	width: 1500px;
-	margin: 0 auto;
-}
 </style>
 </head>
 
 
 <body>
 
-	<div class="container">
-
+	<div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div>
 		<div th:replace="admin/humanResource/vacation/selectAllVacationHeader"></div>
 
 		<form name="myVacationForm" action="/admin/select/selectMyVacation"
 			id="myVacationForm">
-			<span>휴가 승인 전체 조회</span> <select name="category" id="category">
+			<span>휴가 승인 전체 조회</span> 
+			
+			<select name="category" id="category">
 				<option value="all" selected>전체</option>
 				<option value="name">신청자</option>
 				<option id="startDate" value="startDate">휴가 시작일</option>
 				<option id="endDate" value="endDate">휴가 종료일</option>
-			</select> <input type="text" id="categoryValue" name="categoryValue"
-				placeholder="휴가 내역 검색"> <input type="date"
-				id="startCalendar" name="startDate" style="display: none"> <input
-				type="date" id="endCalendar" name="endDate" style="display: none">
-			<input type="text" style="display: none;">
-			<!-- enter - submit 방지 -->
-			<input type="hidden" id="adminNo" name="adminNo"
-				th:value="${#authentication.principal.adminNo}">
+			</select> 
+			
+			<input type="text" id="categoryValue" name="categoryValue" placeholder="휴가 내역 검색"> 
+			<input type="date" id="startCalendar" name="startDate" style="display: none"> 
+			<input type="date" id="endCalendar" name="endDate" style="display: none">
 
 			<button type="button" onclick="vacationConformAjax();">검색</button>
 			<input type="hidden" value="0" name=page>
@@ -76,7 +65,6 @@ body {
 			<!-- /* 페이징 버튼들어올 공간 */ -->
 		</div>
 
-	</div>
 
 	<script>
 		$(document).ready(function() {

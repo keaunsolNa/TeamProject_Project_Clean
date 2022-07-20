@@ -732,6 +732,12 @@ public class AdminEmployeeService {
 		
 		return employeeDTO;
 	}
+
+	public List<EmployeeAndAllDTO> findMiddlePhoneNum() {
+		List<AdminEmployee> employeePhoneNum = employeeRepository.findByEmployeeBlackListYnNot("Y");
+		
+		return employeePhoneNum.stream().map(phone -> modelMapper.map(phone, EmployeeAndAllDTO.class)).toList();
+	}
 }
 
 

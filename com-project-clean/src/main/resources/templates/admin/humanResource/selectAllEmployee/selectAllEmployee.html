@@ -5,17 +5,6 @@
 <title>Document</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style>
-body {
-	margin-top: 100px;
-	font-family: 'Trebuchet MS', serif;
-	line-height: 1.6
-}
-
-/* 전체 크기 */
-.container {
-	width: 1500px;
-	margin: 0 auto;
-}
 
 </style>
 </head>
@@ -23,13 +12,8 @@ body {
 <body>
 	<div th:replace="/common/Header.html"></div>
 	<div th:replace="/admin/adminAside.html"></div>
-	<div class="container">
 	<div th:replace="/admin/humanResource/selectAllEmployee/selectEmployeeListHeader.html"></div>
 	<br>
-		
-
-
-		
 		<!-- 재직자 검색 -->
 		<form name="retireNForm" id="retireNSearch">
 			<span>인사관리 카드조회</span> 
@@ -90,7 +74,6 @@ body {
 				<div id="paging" style="display: flex; justify-content: center;">
                <!-- /* 페이징 버튼들어올 공간 */ -->
 				</div>
-		</div>
 		
 
 

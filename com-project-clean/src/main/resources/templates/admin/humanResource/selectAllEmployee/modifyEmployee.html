@@ -19,7 +19,9 @@
         </style>
 </head>
 <body>
-    <div align="center">
+	<div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div>
+    <div>
     	<form action="/admin/modify/employee" method="post" id="modifyForm" enctype="multipart/form-data">
 	        <table class="tg" style="table-layout: fixed; width: 736px">
 	        <colgroup>

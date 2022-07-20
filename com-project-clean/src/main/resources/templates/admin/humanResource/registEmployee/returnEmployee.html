@@ -1,80 +1,46 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
 <title>Document</title>
 <style type="text/css">
 
 /* 결재 테이블 */
-.tg {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
 .tg td {
-	border-color: black;
 	border-style: solid;
 	border-width: 1px;
-	font-family: Arial, sans-serif;
-	font-size: 12px;
-	overflow: hidden;
-	padding: 5px;
-	word-break: normal;
+	font-size: 14px;
 }
 
 .tg th {
-	border-color: black;
 	border-style: solid;
 	border-width: 1px;
-	font-family: Arial, sans-serif;
-	font-size: 12px;
-	font-weight: normal;
-	overflow: hidden;
-	padding: 5px;
-	word-break: normal;
+	font-size: 14px;
 }
 
 .tg .tg-amwm {
-	border-color: inherit;
 	font-weight: bold;
 	text-align: center;
-	vertical-align: top
 }
 
 /* 인사 테이블 */
-.tg2 {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
 .tg2 td {
-	border-color: black;
 	border-style: solid;
 	border-width: 1px;
-	font-family: Arial, sans-serif;
 	font-size: 14px;
-	overflow: hidden;
 	padding: 10px 10px;
-	word-break: normal;
 }
 
 .tg2 th {
-	border-color: black;
 	border-style: solid;
 	border-width: 1px;
-	font-family: Arial, sans-serif;
 	font-size: 14px;
-	font-weight: normal;
-	overflow: hidden;
-	padding: 10px 10px;
-	word-break: normal;
 }
 
 .tg2 .tg2-7btt {
-	border-color: inherit;
 	font-weight: bold;
 	text-align: center;
-	vertical-align: top
 }
 
 .comfirmBox td {
@@ -88,7 +54,6 @@
 .confirmHeight {
 	margin: auto;
 	line-height: center;
-	line-height: 100px;
 }
 
 .container {
@@ -98,7 +63,8 @@
 </style>
 </head>
 <body>
-	<div class="container">
+	<div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div> 
 		<div>
 			<table class="tg confirmTable"
 				style="table-layout: fixed; width: 588px">
@@ -234,6 +200,5 @@
 			</table>
 			<br>
 		</div>
-	</div>
 </body>
 </html>

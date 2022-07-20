@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.project.clean.model.domain.adminEntity.AdminEmployee;
+import com.project.clean.model.domain.commonEntity.Employee;
 import com.project.clean.model.domain.commonEntity.Vacation;
 
 public interface EmployeeReopsitory extends JpaRepository<AdminEmployee, Integer>{
@@ -85,6 +86,8 @@ public interface EmployeeReopsitory extends JpaRepository<AdminEmployee, Integer
 
 	public Page<AdminEmployee> findByEmployeeBlackListYnAndEmployeeAddressContaining(String string,
 			String categoryValue, Pageable pageable);
+
+	public List<AdminEmployee> findByEmployeeBlackListYnNot(String string);
 
 //	public Page<Vacation> findByNameContaining(String categoryValue, Pageable pageable);
 //

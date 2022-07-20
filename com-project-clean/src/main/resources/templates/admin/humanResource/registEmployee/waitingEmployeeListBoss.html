@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html xmlns:th="https://www.thymeleaf.org"
 	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
@@ -7,47 +9,18 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <style>
 
-        .tg  {border-collapse:collapse; border-spacing:0;}
-        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-          overflow:hidden;padding:10px 10px;word-break:normal;}
-        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-          font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;}
-        .tg .tg-7btt{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
-
-        #modify, #entire{
-            margin: 20px;
-        }
-        input{
-          height: 18px;
-          width: 70px;
-        }
-        body {
-            margin-top: 100px;
-            font-family: 'Trebuchet MS', serif;
-            line-height: 1.6
-        }
-
-        /* 전체 크기 */
-        .container {
-            width: 1500px;
-            margin: 0 auto;
-        }
-
-
-        .button{
-            text-align: center;
-        }
 
     </style>
 </head>
 
 <body>
 
-    <div class="container">
+    	<div th:replace="/common/Header.html"></div>
+		<div th:replace="/admin/adminAside.html"></div> 
 		<div th:replace="/admin/humanResource/registEmployee/adminRegistMainHeader.html"></div>
 
         <!-- 대기중 내용 -->
-        <div id="tab-2" class="tab-content">
+        <div>
 		<form name="waitingForm" action="" id="waitForm">
 			<span>대기인원 조회</span> 
 			<select name="category" id="category">
@@ -87,7 +60,6 @@
         </div>
 
 
-    </div>
 
     <script>
   

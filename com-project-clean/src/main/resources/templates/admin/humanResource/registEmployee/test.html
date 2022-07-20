@@ -29,17 +29,27 @@ table th {
 }
 
 </style>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 
 <body>
     
-	<div th:replace="/common/Header.html"></div>
-	<div th:replace="/admin/adminAside.html"></div>        <!-- 등록 내용 -->
-	
+	<!-- <div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div>        등록 내용 -->
 	<div th:replace="/admin/humanResource/registEmployee/adminRegistMainHeader.html"></div>
 	
 		        <form action="/admin/hr/regist/employee" method="post" id="registForm" encType="multipart/form-data">
-	                <table class="tg" style="table-layout: fixed; width: 736px">
+	                <table class="tg" style="table-layout: fixed; width: 1536px">
 	                <colgroup>
 	                <col style="width: 158px">
 	                <col style="width: 147px">
@@ -52,22 +62,14 @@ table th {
 	                  <tr>
 	                    <td class="tg-7btt">직원번호</td>
 	                    <td class="tg-7btt" id="employeeNo" th:text="${employeeNo}"></td>
-	                    <!-- 수정수정 -->
-	                    <!-- 수정수정 -->
-	                    <!-- 수정수정 -->
-	                    <!-- 수정수정 -->
-	                    <td class="tg-7btt" style="display: none;"><input id="adminNo" name="adminNo" th:value="7"></input></td>
-   	                    <!-- 수정수정 -->
-   	                    <!-- 수정수정 -->
-	                    <!-- 수정수정 -->
-	                    <!-- 수정수정 -->
 	                    
 	                    <td class="tg-7btt" style="display: none;"><input name="employeeNo" th:value="${employeeNo}"/></td>
 	                    <td class="tg-7btt">이름</td>
-	                    <td class="tg-7btt"><input type="text" id="employeeName" name="employeeName" class="required" maxlength='4' required></td>
+	                    <td class="tg-7btt"><input type="text" id="employeeName" name="employeeName" class="required" maxlength='4' required>
+	                    <div id="nameCheckMessage">2~4글자 한글을 입력하기로 해요</div></td>
 	                    
 	                    <!-- <td class="tg-7btt" colspan="2" rowspan="3"><div id="picture">사진</div></td> -->
-	                    <td class="tg-7btt" colspan="2" rowspan="3">사진 <img id="pictureImg" width="100px" height="100px"></td>
+	                    <td class="tg-7btt" colspan="2" rowspan="3"><img id="pictureImg" width="100px" height="100px"></td>
 	                    
 	                    
 	                  </tr>
@@ -76,7 +78,7 @@ table th {
 	                    <td class="tg-7btt" th:text="${employeeId}"></td>
 	                    <td class="tg-7btt" style="display: none;"><input name="employeeId" th:value="${employeeId}"/></td>
 	                    <td class="tg-7btt">전화번호</td>
-	                    <td class="tg-7btt">
+	                    <td class="tg-7btt" style="width: 200px">
 	                    	<select id="employeePhone1" name="employeePhone1" class="required">
 	                    		<option selected>010</option>
 	                    		<option>011</option>
@@ -84,9 +86,12 @@ table th {
 	                    		<option>017</option>
 	                    		<option>019</option>
 	                    	</select>-
-	                    	<input type="text" id="employeePhone2" name="employeePhone2" class="required" maxlength='4' required>-
-	                    	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' required>
+	                    	<input type="text" id="employeePhone2" name="employeePhone2" class="required" maxlength='4' required style="width: 50px">-
+	                    	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' required style="width: 50px">
 	                    	<input style="display: none;" type="text" id="employeePhone" name="employeePhone">
+	                    	<div id="middleNumCheckMessage" >중간번호는 3~4자리 숫자를 입력하기로 약속해요</div>
+	                    	<div id="endNumCheckMessage" >끝번호는 4자리 숫자를 입력하기로 약속해요</div>
+	                    	<div id="duplicateCheckMessage" >중복된 핸드폰번호는 사용하지 않기로 약속해요</div>
 	                    
 	                    </td>
 	                  </tr>
@@ -106,6 +111,7 @@ table th {
 	                    <option value="google.com">google.com</option>
 	                    <option value="hanmail.com">hanmail.com</option>
 	                      </select>
+	                      <div id="emailCheckMessage">5~12자리 대소문자 + 영어로 입력하기로 약속해요</div>
 	                      </td>
 	              		<td class="tg-7btt"style="display: none;"><input id="employeeEmail" name="employeeEmail" type="text"/></td>
 	              		
@@ -161,31 +167,15 @@ table th {
 
     <script>
     
-    /* 사진등록 */
-    
-			/* 이미지 미리보기 관련 스크립트 */
-			const pictureRegist = document.getElementById("pictureRegist");
-			
-			pictureRegist.onclick = function() {
-				document.getElementById("picture").click();
-			}
-	
-			/* 이미지 미리보기 관련 함수(File API 활용하기) */
-			function loadImg(value, num) {
-				
-				/* https://developer.mozilla.org/ko/docs/Web/API/FileReader 참고 (MDN 사이트 참고)*/
-				if (value.files && value.files[0]) {			// value.files[0]는 파일 이름
-					const reader = new FileReader();
-				
-					reader.readAsDataURL(value.files[0]);		// Base64방식으로 파일을 FileReader에 전달 (Base64로 인코딩한 것은 브라우저가 원래 데이터로 만들게 됨)
-					
-					/* load 이벤트의 핸들러로 읽기 동작이 성공적으로 완료 되었을 때마다 발생한다. */
-					reader.onload = function(e) {				// load EventListener에 function 등록 (FileReader에서 전달 받은 파일을 다 읽으면 리스너에 등록한 function이 호출 됨)
-							document.getElementById("pictureImg").src = e.target.result;
-							
-						}
-					}
-				}
+
+    $(function(){
+    	$("#nameCheckMessage").hide();
+    	$("#emailCheckMessage").hide();
+    	$("#middleNumCheckMessage").hide();
+    	$("#endNumCheckMessage").hide();
+    	$("#duplicateCheckMessage").hide();
+    	
+    })
     
     /* 회원 등록 정보 */
   	$("#regist").click(function(){
@@ -210,7 +200,6 @@ table th {
 				$('#employeeAddress').attr('value', addressNo + "@" + address + "@" + addressDetail);
 				$('#employeeEmail').attr('value', email + "@" + domain);
 				$("#registForm").submit();
-  				
   			}
   		}
 	})   
@@ -222,39 +211,143 @@ table th {
 	})
 	
 	/* 핸드폰 번호 정규표현식 */
-	
-    $("#employeePhone2").focusout(function (event) {
+/* 	
+    $("#employeePhone2").focusout(function () {
 
-    	var regexp = /^[0-9]{3,4}/gi;
+    	var regexp = /^[0-9]{3,4}/g;
         phoneCheck = $(this).val();
         if (!regexp.test(phoneCheck)) {
-            alert("3 ~ 4자리의 숫자만 사용하기로 약속해요");
+        	$("#middleNumCheckMessage").show();
+        $(this).focus();
             $(this).val('');
-            document.location.reload(true);
+        }else{
+        	$("#middleNumCheckMessage").hide();
         }
     });
     
-    $("#employeePhone3").focusout(function (event) {
+    $("#employeePhone3").focusout(function () {
 
-    	var regexp = /^[0-9]{4}/gi;
+    	var regexp = /^[0-9]{4}/g;
         phoneCheck = $(this).val();
         if (!regexp.test(phoneCheck)) {
-        	alert("4자리의 숫자만 사용하기로 약속해요");
-        $("#employeePhone3").focus();
+        	$("#endNumCheckMessage").show();
+        $(this).focus();
              $(this).val(''); 
-             document.location.reload(true);
+        }else{
+        	$("#endNumCheckMessage").hide();
         }
     });
     
-    /* 이름 정규표현식 */
-    $("#employeeName").focusout(function (event) {
+ */ 
+ 		/* 이거 왜 안되냐
+	    phoneCheck2 = $("#employeePhone2").val();
+	    phoneCheck3 = $("#employeePhone3").val();
+	    const phoneCheck = phoneCheck2 + phoneCheck3; */
+	    
+	 $("#employeePhone2").focusout(function () {
+	 	var regexp = /^[0-9]{3,4}/g;
+	     if (!regexp.test($("#employeePhone2").val())) {
+	    	 	$("#duplicateCheckMessage").hide();
+		     	$("#middleNumCheckMessage").show();
+		     	$("#endNumCheckMessage").hide();
+	     $(this).focus();
+	         $(this).val('');
+	     }else{
+	     	$("#middleNumCheckMessage").hide();
+	     	$.ajax({
+	     		url: "/admin/hr/regist/employee/findMiddlePhone",
+	     		success: function(data){
+	     			for(var i = 0; i < data.length; i++){
+	     				if(data[i] == $("#employeePhone2").val() + $("#employeePhone3").val()){
+	     					$("#duplicateCheckMessage").show();
+	     			     	$("#middleNumCheckMessage").hide();
+	     			     	$("#endNumCheckMessage").hide();
+	     				    $(this).focus();
+	     				    $(this).val('');
+	     					break;
+	     				}else{
+	     					$("#duplicateCheckMessage").hide();
+	     			     	$("#middleNumCheckMessage").hide();
+	     			     	$("#endNumCheckMessage").hide();
+	     				}
+	     			}
+	     		},
+	     		error: function(){
+	     			alert("fail");
+	     		}
+	     	})
+	     }
+	 });
+	    
+	 $("#employeePhone3").focusout(function () {
+	     var regexp = /^[0-9]{4}/g;
+	     if (!regexp.test($("#employeePhone3").val())) {
+    	 	$("#duplicateCheckMessage").hide();
+	     	$("#middleNumCheckMessage").hide();
+	     	$("#endNumCheckMessage").show();
+	     $(this).focus();
+	     $(this).val('');
+	     }else{
+	     	$("#endNumCheckMessage").hide();
+	     	$.ajax({
+	     		url: "/admin/hr/regist/employee/findMiddlePhone",
+	     		success: function(data){
+	     			for(var i = 0; i < data.length; i++){
+	     				if(data[i] == $("#employeePhone2").val() + $("#employeePhone3").val()){
+	     					$("#duplicateCheckMessage").show();
+	     			     	$("#middleNumCheckMessage").hide();
+	     			     	$("#endNumCheckMessage").hide();
+	     					break;
+	     				}else{
+	     					$("#duplicateCheckMessage").hide();
+	     			     	$("#middleNumCheckMessage").hide();
+	     			     	$("#endNumCheckMessage").hide();
+	     				}
+	     			}
+	     			if(data[i] == $("#employeePhone2").val() + $("#employeePhone3").val()){
+	     				    $(this).focus();
+	     				    $(this).val('');
+	     			}
+	     		},
+	     		error: function(){
+	     			alert("fail");
+	     		}
+	     	})
+	     }
+	 });
+ 	
+ 
+ 
+ 
+ 
+ 
+ 	/* 이름 정규표현식 */
+    $("#employeeName").focusout(function () {
 
     	var regexp =  /^[가-힣]{2,4}$/;
+
         phoneCheck = $(this).val();
         if (!regexp.test(phoneCheck)) {
-            alert("2~4글자의 한글만 사용하기로 약속해요");
+        	$("#nameCheckMessage").show();
+        $(this).focus();
              $(this).val(''); 
-             document.location.reload(true);
+        }else{
+        	$("#nameCheckMessage").hide();
+        }
+    });
+    
+    /* 이메일 정규표현식 */
+    $("#email").focusout(function () {
+
+    	var regexp = /^[a-z0-9]{5,12}$/gi;
+
+        emailCheck = $(this).val();
+        if (!regexp.test(emailCheck)) {
+        	$("#emailCheckMessage").show();
+        $(this).focus();
+             $(this).val(''); 
+        }else{
+        	$("#emailCheckMessage").hide();
         }
     });
     
@@ -284,7 +377,31 @@ table th {
         }
     )
     
-
+    /* 사진등록 */
+    
+			/* 이미지 미리보기 관련 스크립트 */
+			const pictureRegist = document.getElementById("pictureRegist");
+			
+			pictureRegist.onclick = function() {
+				document.getElementById("picture").click();
+			}
+	
+			/* 이미지 미리보기 관련 함수(File API 활용하기) */
+			function loadImg(value, num) {
+				
+				/* https://developer.mozilla.org/ko/docs/Web/API/FileReader 참고 (MDN 사이트 참고)*/
+				if (value.files && value.files[0]) {			// value.files[0]는 파일 이름
+					const reader = new FileReader();
+				
+					reader.readAsDataURL(value.files[0]);		// Base64방식으로 파일을 FileReader에 전달 (Base64로 인코딩한 것은 브라우저가 원래 데이터로 만들게 됨)
+					
+					/* load 이벤트의 핸들러로 읽기 동작이 성공적으로 완료 되었을 때마다 발생한다. */
+					reader.onload = function(e) {				// load EventListener에 function 등록 (FileReader에서 전달 받은 파일을 다 읽으면 리스너에 등록한 function이 호출 됨)
+							document.getElementById("pictureImg").src = e.target.result;
+							
+						}
+					}
+				}
         
     </script>
 </body>

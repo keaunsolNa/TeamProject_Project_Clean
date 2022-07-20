@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
 	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
@@ -6,9 +7,7 @@
 </head>
 
 <body>
-	<div th:replace="/common/Header.html"></div>
-	<div th:replace="/admin/adminAside.html"></div>
-	<button onclick="location.href='/admin/hr/regist/EmployeePage'">직원등록</button>
+	<button onclick="location.href='/admin/hr/regist/employeePage'">직원등록</button>
 	
 	                <span sec:authorize="hasRole('ROLE_ADMIN_HR')">
                 	<!-- HR -->
