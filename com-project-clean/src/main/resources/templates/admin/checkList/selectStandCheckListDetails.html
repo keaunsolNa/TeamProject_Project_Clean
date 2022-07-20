@@ -4,7 +4,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Project Clean</title>
-
     <script 
     	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	<link 
@@ -20,6 +19,7 @@
 </head>
 <body>
 <section>
+	
 	<form method="post" action="admin/checklist/denial"  enctype="multipart/form-data">
 	
 		<input type="hidden" th:value="${checkList.checkReservationNo}" class="reservationNo" name="reservationNo"> 
@@ -49,9 +49,11 @@
 	<input type="button" value="거절" id="denial">
 </div>
 
+<input hidden type="text" th:value="${employeeName}" class="employeeName" id="employeeName">
 <form hidden class="form-inline">
     <div class="form-group">
         <input type="text" id="sendingMessage" class="form-control">
+        <input type="text" id="sendingName" class="form-control">
     </div>
     <button id="send" class="btn btn-default" type="submit">Send</button>
 </form>
@@ -68,12 +70,15 @@
 <!-- Submit script -->
     <script>
 	    const jbHtml = "";
+	    const userName = document.getElementById("employeeName").value
+	    
     	document.getElementById("denial").onclick = function(){
 			const reservationNo = $('.reservationNo').val();
 			
     		if(confirm("서류를 반려하시겠습니까? 직원에게 알림이 전송됩니다.")){
-    			
     			$("#sendingMessage").val("체크리스트가 반려되었습니다.")
+    			$("#sendingName").val(userName)
+    			
     			$("#send").bind("click", function(){
     			});
     			
@@ -111,6 +116,7 @@
     		if(confirm("서류를 승인하시겠습니까? 직원에게 알림이 전송됩니다.")){
     			
     			$("#sendingMessage").val("체크리스트가 승인되었습니다.")
+    			$("#sendingName").val(userName)
     			
     			$("#send").bind("click", function(){
     			});

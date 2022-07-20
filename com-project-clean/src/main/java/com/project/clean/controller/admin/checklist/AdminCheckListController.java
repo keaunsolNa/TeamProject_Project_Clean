@@ -57,18 +57,18 @@ public class AdminCheckListController {
 	
 	/* KS.미처리 체크리스트 상세 조회 */
 	@GetMapping("selectDetails")
-	public ModelAndView selectStandCheckListDetails(Principal principal, @RequestParam int re,
+	public ModelAndView selectStandCheckListDetails(Principal principal, @RequestParam int re, @RequestParam String en,
 			ModelAndView mv) {
 		 
 		String adminName = principal.getName();
 		int reservationNo = re;
 		int parameter = 1;
-		
 		CheckListDTO checkList = adminCheckListService.selectCheckListDetails(adminName, reservationNo, parameter);
 		
 		System.out.println(checkList.getCheckHTML());
 		
 			mv.addObject("checkList", checkList);
+			mv.addObject("employeeName", en);
 			mv.setViewName("admin/checkList/selectStandCheckListDetails");
 		
 		return mv;
@@ -124,7 +124,8 @@ public class AdminCheckListController {
 	
 	/* KS. 반려 체크리스트 상세 조회 */
 	@GetMapping("denialselectDetails")
-	public ModelAndView selectDenialCheckListDetails(Principal principal, ModelAndView mv, @RequestParam int re ) {
+	public ModelAndView selectDenialCheckListDetails(Principal principal, ModelAndView mv, @RequestParam int re, @RequestParam String en) {
+		
 		String adminName = principal.getName();
 		int reservationNo = re;
 		int parameter = 2;
@@ -132,6 +133,7 @@ public class AdminCheckListController {
 		CheckListDTO checkList = adminCheckListService.selectCheckListDetails(adminName, reservationNo, parameter);
 
 		mv.addObject("checkList", checkList);
+		mv.addObject("employeeName", en);
 		mv.setViewName("admin/checkList/selectDenialCheckListDetails");
 		
 		return mv;

@@ -20,7 +20,6 @@
 
 </head>
 <body>
-
 <section>
 	<form method="post" action="admin/checklist/denial"  enctype="multipart/form-data">
 	
@@ -38,9 +37,11 @@
 	<input type="button" value="블랙+" id="denial">
 </div>
 
+<input hidden type="text" th:value="${employeeName}" class="employeeName" id="employeeName">
 <form hidden class="form-inline">
     <div class="form-group">
         <input type="text" id="sendingMessage" class="form-control">
+        <input type="text" id="sendingName" class="form-control">
     </div>
     <button id="send" class="btn btn-default" type="submit">Send</button>
 </form>
@@ -61,12 +62,15 @@
     <script>
     	
 		    const jbHtml = "";
+		    const userName = document.getElementById("employeeName").value
+		    
 	    	document.getElementById("denial").onclick = function(){
 				const reservationNo = $('.reservationNo').val();
 	    		
 				if(confirm("해당 직원에게 블랙리스트 경고 횟수를 추가하시겠습니까? /n 직원에게 알림이 전송됩니다.")){
 	    			
 	    			$("#sendingMessage").val("체크리스트가 재반려되었습니다. 블랙리스트 경고 횟수가 증가합니다.")
+	    			$("#sendingName").val(userName)
 	    			
 	    			$("#send").bind("click", function(){
 	    			});
@@ -101,6 +105,7 @@
 	    		if(confirm("서류를 승인하시겠습니까? 직원에게 알람이 전송됩니다.")){
 	
 	    			$("#sendingMessage").val("체크리스트가 승인되었습니다.")
+	    			$("#sendingName").val(userName)
 	    			
 	    			$("#send").bind("click", function(){
 	    			});

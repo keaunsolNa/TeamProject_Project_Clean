@@ -30,7 +30,6 @@ import com.project.clean.model.service.employee.checkList.CheckListService;
 public class CheckListController {
 
 	private CheckListService checkListService;
-	private int reservationNo;
 	
 	@Autowired
 	public CheckListController(CheckListService checkListService) {
@@ -84,18 +83,19 @@ public class CheckListController {
 	
 	/* KS. 예약 번호 조회 */
 	@GetMapping("start")
-	public String checkListInsert(ModelAndView mv, HttpServletRequest request, @RequestParam int re) {
+	public ModelAndView checkListInsert(ModelAndView mv, HttpServletRequest request, @RequestParam int re) {
 			
 		System.out.println(re);
-		reservationNo = re;
-		mv.setViewName("main");
-		
-		return "employee/checkList/startChecklist";
+		int reservationNo = re;
+		mv.setViewName("employee/checkList/startChecklist");
+		mv.addObject("resNo", reservationNo);
+		return mv;
 	}
 	
 	/* KS. 업무 시작 후 빈 체크리스트 폼 등록 */
 	@PostMapping(value="start")
-	public ModelAndView checkListInsert(RedirectAttributes rttr, HttpServletRequest request, Principal principal, ModelAndView mv) {
+	public ModelAndView checkListInsert(RedirectAttributes rttr, HttpServletRequest request, Principal principal
+			, ModelAndView mv, @RequestParam int resNo) {
 		
 		String inputText = request.getParameter("jbHtml");
 		String userId = principal.getName();
@@ -106,7 +106,7 @@ public class CheckListController {
 
 		checkListDTO.setCheckHTML(inputText);
 		checkListDTO.setCheckStatus("N");
-		checkListDTO.setCheckReservationNo(reservationNo);
+		checkListDTO.setCheckReservationNo(resNo);
 
 		int result = checkListService.registNewCheckList(checkListDTO);
         
@@ -179,6 +179,13 @@ public class CheckListController {
 	public String updateDenialCheckList(HttpServletRequest request) {
 		
 		int reservationNo = Integer.parseInt(request.getParameter("reservationNo"));
+		System.out.println("TEST");
+		System.out.println("TEST");
+		System.out.println("TEST");
+		System.out.println(reservationNo);
+		System.out.println("TEST");
+		System.out.println("TEST");
+		System.out.println("TEST");
 		
 		CheckListDTO checkListDTO = new CheckListDTO();
 		
