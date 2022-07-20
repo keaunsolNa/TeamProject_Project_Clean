@@ -7,12 +7,16 @@
 </head>
 <body>
 	 <div th:include="common/header.html"></div>
+
 	<!-- <p th:text="${#authentication.name}"></p> -->
 	해당 사용자 권한: <span th:text="${#authentication.authorities}"></span>
 	<!-- <p th:text="${#authentication.authenticated}"></p> -->
 	 <br>
 	  <button onclick="location.href='/admin/select/AllEmployee/move'">전체 인원 조회</button>
 	<!-- <button onclick="location.href='/admin/select/retireN'">전체 인원 조회</button> -->
+
+	 <div th:include="admin/adminAside.html"></div>
+
 	<button onclick="location.href='/admin/hr/regist/EmployeePage'">직원 등록(hr)</button>
 	
 	
@@ -61,8 +65,6 @@
 		<input value="1차 휴가 대기 목록" type="button" onclick="location.href='/admin/vacation/standbyFirstVacationList'">
 		<input value="2차 휴가 대기 목록" type="button" onclick="location.href='/admin/vacation/standbySecondVacationList'">
 		<input value="휴가 신청" type="button" onclick="location.href='/admin/vacation/registVacation'">
-	
-	 <!-- <div th:include="admin/adminAside.html"></div> -->
 	 
 </body>
 </html>
