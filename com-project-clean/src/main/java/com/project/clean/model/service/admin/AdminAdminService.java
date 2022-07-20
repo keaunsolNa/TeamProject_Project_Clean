@@ -162,6 +162,12 @@ public class AdminAdminService{
 		return modelMapper.map(admin, AdminDTO.class);
 	}
 
+	/* 휴가 2차 승인시 휴가명이 연차일 경우 관리자의 연차 사용 횟수 증가 */
+	public void modifyAnnualVacationUse(int adminNo) {
+		
+		adminRepository.modifyAnnualVacationUse(adminNo);
+	}
+
 //	public AdminDTO findAllByBossNo(int bossNo) {
 //		
 //		Admin admin = adminRepository.findByCommitAdmin(bossNo);
