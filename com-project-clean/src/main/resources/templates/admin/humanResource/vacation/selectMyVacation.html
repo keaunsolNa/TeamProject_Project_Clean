@@ -161,8 +161,13 @@
 					$startTd = $("<td>").text(data.vacationList[index].vacationStartDate);
 					$endTd = $("<td>").text(data.vacationList[index].vacationEndDate);
 					$nameTd = $("<td>").text(data.vacationList[index].vacationName);
-					/* <td th:text="${ (index.) == 'Y'? '승인 완료' : (index.vacationReturnYn) == 'Y' ? '반려' : '승인대기중' }"></td> */
-					$lastTd = $("<td>").text(data.vacationList[index].vacationLastConfirmYn);
+					
+					if(data.vacationList[index].vacationLastConfirmYn == "Y"){
+						$lastTd = $("<td>").text("승인완료");	
+					}else{
+						$lastTd = $("<td>").text("승인반려");	
+					}
+					
 					
 							$tr.append($noTd);
 							$tr.append($requestTd);

@@ -6,7 +6,8 @@
 </head>
 
 <body>
-
+	<div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div>
 	<button onclick="location.href='/admin/hr/regist/EmployeePage'">직원등록</button>
 	
 	                <span sec:authorize="hasRole('ROLE_ADMIN_HR')">

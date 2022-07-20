@@ -117,6 +117,11 @@
              const $table = $("#vacationTable tbody");
              const $div = $("#paging");
              
+             const confirmY = "승인";
+             const confirmN = "반려";
+             const returnY = "반려";
+             const returnN = "승인";
+             
              /* 데이터 필드, 페이징버튼 필드 초기화 */
              $table.html("");
              $div.html("");
@@ -132,24 +137,45 @@
 					$startTd = $("<td>").text(data.vacationList[index].vacationStartDate);
 					$endTd = $("<td>").text(data.vacationList[index].vacationEndDate);
 					$vNameTd = $("<td>").text(data.vacationList[index].vacationName);
-					$firstTd = $("<td>").text(data.vacationList[index].vacationFirstConfirmYn);
-					$secondTd = $("<td>").text(data.vacationList[index].vacationSecondConfirmYn);
-					$returnTd = $("<td>").text(data.vacationList[index].vacationReturnYn);
-					$lastTd = $("<td>").text(data.vacationList[index].vacationLastConfirmYn);
-							$tr.append($noTd);
-							$tr.append($nameTd);
-							$tr.append($requestTd);
-							$tr.append($startTd);
-							$tr.append($endTd);
-							$tr.append($vNameTd);
-							$tr.append($firstTd);
-							$tr.append($secondTd);
-							$tr.append($returnTd);
-							$tr.append($lastTd);
+					
+					if(data.vacationList[index].vacationFirstConfirmYn == "Y"){
+						$firstTd = $("<td>").html(confirmY);
+					}else{
+						$firstTd = $("<td>").html(confirmN);
+					}
+					
+					if(data.vacationList[index].vacationSecondConfirmYn == "Y"){
+						$secondTd = $("<td>").html(confirmY);
+					}else{
+						$secondTd = $("<td>").html(confirmN);
+					}
+					
+					if(data.vacationList[index].vacationReturnYn == "Y"){
+						$returnTd = $("<td>").html(returnY);
+					}else{
+						$returnTd = $("<td>").html(returnN);
+					}
+					
+					if(data.vacationList[index].vacationLastConfirmYn == "Y"){
+						$lastTd = $("<td>").html(confirmY);
+					}else{
+						$lastTd = $("<td>").html(confirmN);
+					}
+					
+					$tr.append($noTd);
+					$tr.append($nameTd);
+					$tr.append($requestTd);
+					$tr.append($startTd);
+					$tr.append($endTd);
+					$tr.append($vNameTd);
+					$tr.append($firstTd);
+					$tr.append($secondTd);
+					$tr.append($returnTd);
+					$tr.append($lastTd);
 
-							$table.append($tr);
+					$table.append($tr);
 
-							hover();
+					hover();
 
 						}
              

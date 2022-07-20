@@ -7,6 +7,8 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
+	<div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div>
 	<form name="blackListForm" action="/admin/select/blackList" id="blackListForm">
     <span>블랙리스트 조회</span>
 	<select name="category" id="category">
@@ -95,7 +97,7 @@
 					$noTd = $("<td>").text(data.employeeList[index].employeeNo);
 					$nameTd = $("<td>").text(data.employeeList[index].employeeName);
 					$birthTd = $("<td>").text(data.employeeList[index].employeeBirth);
-					$phoneTd = $("<td>").text(data.employeeList[index].employeeAddress);
+					$phoneTd = $("<td>").text(data.employeeList[index].employeeAddress.replace(/@/g, " "));
 					$firstTd = $("<td>").text(data.employeeList[index].employeePhone);
 					$secondTd = $("<td>").text(data.employeeList[index].employeeHireDate);
 					$lastTd = $("<td>").text(data.employeeList[index].employeeSumCount);

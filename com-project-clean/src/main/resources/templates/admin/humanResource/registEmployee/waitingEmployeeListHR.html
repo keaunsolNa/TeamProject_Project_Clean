@@ -140,16 +140,20 @@
 					$noTd = $("<td>").text(data.waitingList[index].employeeNo);
 					$nameTd = $("<td>").text(data.waitingList[index].employeeName);
 					$birthTd = $("<td>").text(data.waitingList[index].employeeBirth);
-					$addressTd = $("<td>").text(data.waitingList[index].employeeAddress);
+					$addressTd = $("<td>").text(data.waitingList[index].employeeAddress.replace(/@/g, " "));
 					$phoneTd = $("<td>").text(data.waitingList[index].employeePhone);
-					$hireDateTd = $("<td>").text(data.waitingList[index].employeeGender);
-
+					if(data.waitingList[index].employeeGender == "F"){
+						$genderTd = $("<td>").text("여");
+					}else{
+						$genderTd = $("<td>").text("남");
+						
+					}
 							$tr.append($noTd);
 							$tr.append($nameTd);
 							$tr.append($birthTd);
 							$tr.append($addressTd);
 							$tr.append($phoneTd);
-							$tr.append($hireDateTd);
+							$tr.append($genderTd);
 
 							$table.append($tr);
 

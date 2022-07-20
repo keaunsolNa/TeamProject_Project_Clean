@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.project.clean.model.domain.adminEntity.AdminEmployee;
 import com.project.clean.model.domain.adminEntity.AdminReason;
 import com.project.clean.model.domain.commonEntity.Admin;
+import com.project.clean.model.domain.commonEntity.Employee;
 import com.project.clean.model.domain.commonEntity.Vacation;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.ReasonDTO;
@@ -25,6 +26,7 @@ import com.project.clean.model.dto.commonDTO.VacationDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
 import com.project.clean.model.repository.admin.AdminRepository;
 import com.project.clean.model.repository.admin.ReasonRepository;
+import com.project.clean.model.repository.employee.EmpRepository;
 import com.project.clean.model.repository.employee.EmployeeReopsitory;
 import com.project.clean.model.repository.vacation.VacationRepository;
 
@@ -708,4 +710,57 @@ public class AdminEmployeeService {
 		
 		return map;
 	}
+
+	@Transactional
+	public void retireEmployee(int empNo) {
+		AdminEmployee employeeDTO = employeeRepository.findById(empNo).get();
+		employeeDTO.setEmployeeRetireYn("Y");
+	}
+
+	@Transactional
+	public EmployeeAndAllDTO deletePicture(int employeeNo) {
+		AdminEmployee empDTO = employeeRepository.findById(employeeNo).get(); 
+		EmployeeAndAllDTO employeeDTO = modelMapper.map(empDTO, EmployeeAndAllDTO.class);
+		
+		/* 2. 사진 삭제를 위한 saveName 구하고 */
+		String saveName = employeeDTO.getEmployeePictureSaveName();
+		employeeDTO.setEmployeePictureSaveName(saveName);
+		
+		/*3. 해당 직원 사진 관련 DB null로 변경하고 */
+		empDTO.setEmployeePictureSaveName(null);
+		empDTO.setEmployeePictureSaveRoot(null);
+		
+		return employeeDTO;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

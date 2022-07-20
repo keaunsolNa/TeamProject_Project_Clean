@@ -39,11 +39,12 @@
 
 <body>
     <div class="container">
-		<div th:replace="/admin/humanResource/registEmployee/adminRegistMainHeader.html"></div>
+    
+			<div th:replace="/common/Header.html"></div>
+			<div th:replace="/admin/adminAside.html"></div>
 
 
         <!-- 등록 내용 -->
-        <div id="tab-1" class="tab-content current">
             <div align="left">
 		        <form action="/admin/hr/regist/employee" method="post" id="registForm" encType="multipart/form-data">
 	                <table class="tg" style="table-layout: fixed; width: 736px">
@@ -165,7 +166,6 @@
                 </form>
                 <br>
             </div>
-        </div>
     </div>
 
     <script>

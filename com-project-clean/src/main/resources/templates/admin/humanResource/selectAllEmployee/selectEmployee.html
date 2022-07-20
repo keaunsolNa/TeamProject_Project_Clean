@@ -17,7 +17,7 @@
         </style>
 </head>
 <body>
-    <div align="center">
+    <div>
         <table class="tg" style="table-layout: fixed; width: 736px">
         <colgroup>
         <col style="width: 158px">
@@ -98,7 +98,7 @@
                  <!-- </th:block> -->
                  
                  <!-- <th:block sec:authorize="hasRole('HR')"> -->
-                <td><button id="entire">탈퇴 처리</button></td>
+                <td><button id="entire" th:if="${employee.employeeRetireYn == 'N'}">탈퇴 처리</button></td>
                  <!-- </th:block> -->
                  
                 <td id="value" th:text="${employee.employeeNo}" style="display: none"></td>
@@ -114,6 +114,13 @@
 	
 	$("#employeeModify").click(function(){
 		location.href="/admin/modify/employee"
+	})
+	
+	$("#entire").click(function(){
+		
+		if(confirm("탈퇴처리 하시겠습니까?")){
+			location.href="/admin/reitre/employee/"+value;
+		}
 	})
     </script>
 </body>

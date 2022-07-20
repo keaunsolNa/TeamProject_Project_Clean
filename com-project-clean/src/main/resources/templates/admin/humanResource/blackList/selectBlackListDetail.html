@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
@@ -16,6 +17,8 @@
         </style>
 </head>
 <body>
+	<div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div>
     <div align="center">
         <table class="tg" style="table-layout: fixed; width: 736px">
         <colgroup>

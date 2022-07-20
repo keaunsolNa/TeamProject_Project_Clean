@@ -6,7 +6,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	 <div th:include="common/header.html"></div>
+	<div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div>
+	<!-- <div th:replace="admin/adminAside.html"></div> -->
 	<!-- <p th:text="${#authentication.name}"></p> -->
 	해당 사용자 권한: <span th:text="${#authentication.authorities}"></span>
 	<!-- <p th:text="${#authentication.authenticated}"></p> -->

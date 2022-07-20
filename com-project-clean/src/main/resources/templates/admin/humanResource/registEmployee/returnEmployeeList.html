@@ -129,6 +129,10 @@
               const $table = $("#returnEmployeeList tbody");
               const $div = $("#paging");
               
+              const confirmY = "승인";
+              const confirmN = "반려";
+              const returnY = "반려";
+              const returnN = "승인";
               /* 데이터 필드, 페이징버튼 필드 초기화 */
               $table.html("");
               $div.html("");
@@ -142,9 +146,23 @@
 					$nameTd = $("<td>").text(data.returnEmployeeList[index].employeeName);
 					$birthTd = $("<td>").text(data.returnEmployeeList[index].employeeBirth);
 					$phoneTd = $("<td>").text(data.returnEmployeeList[index].employeePhone);
-					$firstTd = $("<td>").text(data.returnEmployeeList[index].employeeFirstConfirmYn);
-					$secondTd = $("<td>").text(data.returnEmployeeList[index].employeeSecondConfirmYn);
-					$lastTd = $("<td>").text(data.returnEmployeeList[index].employeeLastConfirmYn);
+					if(data.returnEmployeeList[index].employeeFirstConfirmYn == "Y"){
+						$firstTd = $("<td>").text(confirmY);
+					}else{
+						$firstTd = $("<td>").text(confirmN);
+					}
+					
+					if(data.returnEmployeeList[index].employeeSecondConfirmYn == "Y"){
+						$secondTd = $("<td>").text(confirmY);
+					}else{
+						$secondTd = $("<td>").text(confirmN);
+					}
+					
+					if(data.returnEmployeeList[index].employeeLastConfirmYn == "Y"){
+						$lastTd = $("<td>").text(confirmY);
+					}else{
+						$lastTd = $("<td>").text(confirmN);
+					}
 
 							$tr.append($noTd);
 							$tr.append($nameTd);
