@@ -14,7 +14,7 @@
 </head>
 
 <body>
-	<input hidden type="text" th:value="${employeeName}" class="employeeName" id="employeeName">
+	<input hidden type="text" th:value="${userId}" class="employeeName" id="employeeName">
 	
 	<form hidden>
     	<div>
@@ -30,15 +30,17 @@
 			
 			<p th:utext="${ checkList.checkHTML }" class="jbHtml"></p>	
 					
-			<table style ="margin-left: 35%">
-				<tr >
+			<table class="beforeAfterImgArea">
+				<tr>
 					<td class="content-img-area1" id="contentImgArea1">
-						<h5 align="center"> Before</h5>
-						<img id="beforeImg" width="200" height="180" >
+						<h5 align="center" class="imgText"> Before</h5>
+						<img id="beforeImg" width="300" height="300" >
 					</td>
+				</tr>
+				<tr>	
 					<td class="content-img-area2" id="contentImgArea2">
-						<h5 align="center"> After</h5>
- 	        			<img id="afterImg" width="200" height="180">
+						<h5 align="center" class="imgText"> After</h5>
+ 	        			<img id="afterImg" width="300" height="300">
  	        		</td>
 				</tr>
 			</table>
@@ -47,20 +49,20 @@
 		        <input type="file" id="thumbnailImg1" name="beforeThumbnailImg" onchange="loadImg(this,1)" style="display: none">
            		<input type="file" id="thumbnailImg2" name="afterThumbnailImg" onchange="loadImg(this,2)" style="display: none">
 			</div>
-			<br><br>				
 			
-            <div style="width:300px; height:300px; margin-left: 40%" id="contentImgArea3">     
+            <div id="contentImgArea3" class="canvasArea">     
+            	<h3 class="customerSign"> 고객 서명란 </h3>
                 <canvas id="canvas" style="border:1px solid black"></canvas>  
-	        	<img id="signImg" width="300px; height:300px; margin-left: 40%" src="">
+	        	<img id="signImg" src="">
 	        </div> 	
 
 		</form>
 	</section>
 	
-	<br>
+	<br><br><br>
 	<div class="canvasbtnarea" style="text-align: center;">
-	<button id="save"  type="button">서명 저장</button>
-    <button id="reset"  type="button">서명 취소</button>
+		<button id="save"  type="button">서명 저장</button>
+    	<button id="reset"  type="button">서명 취소</button>
 	</div>
 	<br><br><br><br>    	
 	<input type="button" id="submitButton" value="제출" class="submittbtn" >	  
@@ -71,14 +73,19 @@
 	    
 	    const jbHtml = "";
 	    const userName = document.getElementById("employeeName").value
-	    
+	    var dataURL = "";
     	document.getElementById("submitButton").onclick = function(){
+	    	
+	    	if(dataURL == ""){
+	    		alert("고객 서명이 저장되지 않았습니다. 확인 해 주세요~")
+	    	}
+	    	
 			const reservationNo = $('.reservationNo').val();
     		const jbHtml = $( 'section' ).html();
     		
     		if(confirm("체크리스트를 전송하시겠습니까?")){
     			
-    			$("#sendingMessage").val("체크리스트가 재반려되었습니다. 블랙리스트 경고 횟수가 증가합니다.")
+    			$("#sendingMessage").val("체크리스트가 제출되었습니다.")
     			$("#sendingName").val(userName)
     			
     			$("#send").bind("click", function(){
@@ -228,7 +235,7 @@
 		
 		                            $("#save").on("click", function(){     
 		                            	const canvas = document.getElementById('canvas');
-		                            	const dataURL = canvas.toDataURL();
+		                            	dataURL = canvas.toDataURL();
 		                            	document.getElementById("signImg").src = dataURL;
 		                            	document.getElementById("canvas").remove();
 		                            	

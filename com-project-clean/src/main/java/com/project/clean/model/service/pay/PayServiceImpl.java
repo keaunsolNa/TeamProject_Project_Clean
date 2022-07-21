@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -17,15 +16,20 @@ import com.project.clean.model.domain.commonEntity.Admin;
 import com.project.clean.model.domain.commonEntity.Surcharge;
 import com.project.clean.model.domain.joinEntity.AdminAndAdminPay;
 import com.project.clean.model.domain.joinEntity.AdminPayAndAdmin;
+import com.project.clean.model.domain.joinEntity.EmployeePayAndApplyEmployee;
+//import com.project.clean.model.domain.joinEntity.EmployeePayAndApplyEmployee;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.SurchargeDTO;
 import com.project.clean.model.dto.joinDTO.AdminAndAdminPayDTO;
 import com.project.clean.model.dto.joinDTO.AdminPayAndAdminDTO;
+import com.project.clean.model.dto.joinDTO.EmployeePayAndApplyEmployeeDTO;
 import com.project.clean.model.repository.pay.AdminAndAdminPayRepository;
 import com.project.clean.model.repository.pay.AdminPayAndAdminRepository;
 import com.project.clean.model.repository.pay.AdminPayRepository;
 import com.project.clean.model.repository.pay.AdminRepositoryByPay;
+import com.project.clean.model.repository.pay.EmployeePayRepository;
 import com.project.clean.model.repository.pay.SurchargeRepository;
+import com.project.clean.model.repository.reservation.ApplyEmployeeAndReservationInfoRepository;
 
 @Service
 public class PayServiceImpl implements PayService{
@@ -35,22 +39,24 @@ public class PayServiceImpl implements PayService{
 	private final AdminAndAdminPayRepository adminAndAdminPayRepository;
 	private final AdminRepositoryByPay adminRepository;
 	private final AdminPayRepository adminPayRepository;
+	private final EmployeePayRepository employeePayRepository;
 	private final ModelMapper modelMapper;			// modelMapper 빈을 선언
 	
-	
-	@Autowired
+
 	public PayServiceImpl(SurchargeRepository surchargeRepository,
 			AdminPayAndAdminRepository adminPayAndAdminRepository,
 			AdminAndAdminPayRepository adminAndAdminPayRepository, AdminRepositoryByPay adminRepository,
-			AdminPayRepository adminPayRepository, ModelMapper modelMapper) {
+			AdminPayRepository adminPayRepository, EmployeePayRepository employeePayRepository,
+			ModelMapper modelMapper) {
+		super();
 		this.surchargeRepository = surchargeRepository;
 		this.adminPayAndAdminRepository = adminPayAndAdminRepository;
 		this.adminAndAdminPayRepository = adminAndAdminPayRepository;
 		this.adminRepository = adminRepository;
 		this.adminPayRepository = adminPayRepository;
+		this.employeePayRepository = employeePayRepository;
 		this.modelMapper = modelMapper;
 	}
-
 
 
 
@@ -66,6 +72,16 @@ public class PayServiceImpl implements PayService{
 		return surchargeList.stream().map(surcharge -> modelMapper.map(surcharge, SurchargeDTO.class)).collect(Collectors.toList());
 	}
 	
+	
+
+
+
+	
+
+
+
+
+
 	/* 부가요금 수정 */
 	@Transactional
 	@Override
@@ -111,9 +127,6 @@ public class PayServiceImpl implements PayService{
 				count = adminPayAndAdminRepository.countByAdminAdminPhoneContaining(searchValue);
 			}
 				
-			if("payAdminDate".equals(searchCondition)) {
-				count = adminPayAndAdminRepository.countByPayAdminDateContaining(Integer.valueOf(searchValue));
-			}
 		} else {
 			count = (int)adminPayRepository.count();
 		}
@@ -149,13 +162,6 @@ public class PayServiceImpl implements PayService{
 				adminPayList = adminPayAndAdminRepository.findByAdminAdminPhoneContaining(Integer.valueOf(selectCriteria.getSearchValue()), paging);
 			}
 			
-			/* 지급 날짜 검색일 경우 - 일단 빼자*/
-//			if("payAdminDate".equals(selectCriteria.getSearchCondition())) {
-//				/* 날짜를 string으로 변환하기 위함 */
-//				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//				String strDate = simpleDateFormat.format(selectCriteria.getSearchValue());
-//				adminPayList = adminPayRepository.findByPayAdminDateContaining(strDate, paging);
-//			}
 			
 		} else {
 			adminPayList = adminPayAndAdminRepository.findAll(paging).toList();
@@ -236,6 +242,63 @@ public class PayServiceImpl implements PayService{
 		adminPayRepository.modifyAdminPay(payAdminNo,payAdminFinalSalary);
 		
 		
+	}
+
+
+
+
+	@Override
+	public int selectEmployeePayTotalCount(String searchCondition, String searchValue) {
+		int count = 0;
+		if(searchValue != null) {
+			if("employeeName".equals(searchCondition)) {
+				count = employeePayRepository.countByEmployeeNameContaining(searchValue);
+			}
+			
+			if("employeePhone".equals(searchCondition)) {
+				count = employeePayRepository.countByEmployeePhoneContaining(searchValue);
+			}
+				
+		} else {
+			count = (int)employeePayRepository.count();
+		}
+
+		return count;
+	}
+
+
+
+	@Override
+	public List<EmployeePayAndApplyEmployeeDTO> employeePaySearch(SelectCriteria selectCriteria) {
+		int index = selectCriteria.getPageNo() - 1;			// Pageble객체를 사용시 페이지는 0부터 시작(1페이지가 0)
+		int count = selectCriteria.getLimit();
+		String searchValue = selectCriteria.getSearchValue();
+
+		/* 페이징 처리와 정렬을 위한 객체 생성 */
+		Pageable paging = PageRequest.of(index, count);	// Pageable은 org.springframework.data.domain패키지로 import
+
+		List<EmployeePayAndApplyEmployee> employeePayList = new ArrayList<EmployeePayAndApplyEmployee>();
+		if(searchValue != null) {
+
+			/* 직원 이름 검색일 경우 */
+			if("employeeName".equals(selectCriteria.getSearchCondition())) {
+				employeePayList = employeePayRepository.findByEmployeeNameContaining(selectCriteria.getSearchValue(), paging);
+			}
+			
+			
+			/* 직원 전화번호 검색일 경우 */
+			if("employeePhone".equals(selectCriteria.getSearchCondition())) {
+				employeePayList = employeePayRepository.findByEmployeePhoneContaining(Integer.valueOf(selectCriteria.getSearchValue()), paging);
+			}
+			
+
+			
+		} else {
+//			employeePayList = employeePayRepository.findEmployeePayForNative(paging).toList();
+		}
+
+		/* 자바의 Stream API와 ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
+		return employeePayList.stream().map(pay -> modelMapper.map(pay,EmployeePayAndApplyEmployeeDTO.class)).collect(Collectors.toList());
 	}
 
 

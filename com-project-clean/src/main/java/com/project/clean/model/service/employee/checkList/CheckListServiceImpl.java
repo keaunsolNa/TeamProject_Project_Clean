@@ -82,6 +82,9 @@ public class CheckListServiceImpl implements CheckListService{
 				CheckList checkList = checkListRepository.findById(reservationNo).get();
 				
 				System.out.println("TEST : " + checkList);
+				
+				continue;
+				
 				} catch(java.util.NoSuchElementException e) {
 
 						/* reservationNo로 ReservationInfo Entity 조회 */
@@ -92,6 +95,8 @@ public class CheckListServiceImpl implements CheckListService{
 						
 						/* 기존에 생성한 reservationInfoArrayList에 값 추가 */
 						reservationInfoArrayList.add(reservationInfoList);
+						
+						continue;
 				}  
 		}
 		
@@ -127,7 +132,7 @@ public class CheckListServiceImpl implements CheckListService{
 
 	/* 체크리스트 작성 */
 	@Override
-	public CheckListDTO selectCheckList(String employeeId) {
+	public CheckListDTO InsertCheckList(String employeeId) {
 		
 		/*  employeeId로 Employee Entity 조회 */
 		Employee empAndApplyEmp = empRepository.findByEmployeeId(employeeId);
@@ -200,6 +205,7 @@ public class CheckListServiceImpl implements CheckListService{
 		
 		/* 빈 CheckListAndReservationInfoAndEmployeeDTO ArrayList 객체 생성(반환할 값 담기 위한 인조 DTO) */
 		List<CheckListAndReservationInfoAndEmployeeDTO> checkListAndReservationInfoAndEmployeeList = new ArrayList<>();
+		
 		/* 예외 처리 */
 		try {
 			
@@ -249,9 +255,9 @@ public class CheckListServiceImpl implements CheckListService{
 					
 					/* ReservationInfoDTO 에서 고객 이름 뽑아오기 */
 					String userName = reservationInfoDTO.getUserName();
-					
+
 					/* DTO의 reservationNo로 List<ApplyEmployeeEmbedded> 조회 */
-					List<ApplyEmployeeEmbedded> applyEmployeeList = applyRepository.findAllEmployeeApply2(reservationNo);
+					List<ApplyEmployeeEmbedded> applyEmployeeList = applyRepository.findAllEmployeeApply3(reservationNo, employeeNo);
 					
 					/* 빈 List<EmployeeDTO> 객체 생성 */
 					List<EmployeeDTO> employeeArrayList = new ArrayList<>();
@@ -262,7 +268,7 @@ public class CheckListServiceImpl implements CheckListService{
 						/* EmployeeDTO에서 employeeName 변수 꺼내오기 */
 						employeeName = employeeDTO.getEmployeeName();
 						
-						/* 전달용 DTO 객체 생성 */
+						/* List 처리를 위한  DTO 객체 생성 */
 						CheckListAndReservationInfoAndEmployeeDTO checkListAndReservationInfoAndEmployeeDTO = new CheckListAndReservationInfoAndEmployeeDTO();
 						
 						/* 값 주입 */
@@ -308,6 +314,10 @@ public class CheckListServiceImpl implements CheckListService{
 								/* 값 주입 */
 								checkListAndReservationInfoAndEmployeeDTO.setAdminName(adminName);
 								
+								checkListAndReservationInfoAndEmployeeList.add(checkListAndReservationInfoAndEmployeeDTO);
+								
+								continue;
+//								return checkListAndReservationInfoAndEmployeeList;
 								/* 아직 담당자 없을 때를 위한 예외처리 */
 							} catch(NullPointerException e) {
 								
@@ -319,19 +329,21 @@ public class CheckListServiceImpl implements CheckListService{
 								
 								/* List<CheckListAndReservationAndEmployee> 객체에 값 주입 */
 								checkListAndReservationInfoAndEmployeeList.add(checkListAndReservationInfoAndEmployeeDTO);
+								
+								continue;
+//								return checkListAndReservationInfoAndEmployeeList;
 							}
+							
 						}
 				}
-				
-				/* 값 반환 */
-				return checkListAndReservationInfoAndEmployeeList;
 			
 				/* 체크리스트가 없을 때 */
 		} catch(java.util.NoSuchElementException e) {
 			
 			/* 값 반환 */
 			return checkListAndReservationInfoAndEmployeeList;
-		} 
+		}
+		return checkListAndReservationInfoAndEmployeeList; 
 		
 	}
 

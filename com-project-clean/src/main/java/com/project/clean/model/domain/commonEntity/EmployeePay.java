@@ -21,25 +21,25 @@ public class EmployeePay implements Serializable {
 	@Column(name="PAY_EMPLOYEE_DATE")
 	private java.sql.Date payEmployeeDate;
 	
-	@Column(name="PAY_APPLY_RESERVATION_NO")
-	private int payApplyReservationNo;
+	@Column(name="APPLY_RESERVATION_NO")
+	private int applyReservationNo;
 
-	@Column(name="PAY_APPLY_EMPLOYEE_NO")
-	private int payApplyEmployeeNo;
+	@Column(name="APPLY_EMPLOYEE_NO")
+	private int applyEmployeeNo;
 	
-	@Column(name="PAY_FINAL_SALARY")
+	@Column(name="PAY_EMPLOYEE_FINAL_SALARY")
 	private int payEmployeeFinalSalary;
 	
 	public EmployeePay() {
 	}
 
-	public EmployeePay(int payHistoryEmployeeNo, Date payEmployeeDate, int payApplyReservationNo,
-			int payApplyEmployeeNo, int payEmployeeFinalSalary) {
+	public EmployeePay(int payHistoryEmployeeNo, Date payEmployeeDate, int applyReservationNo, int applyEmployeeNo,
+			int payEmployeeFinalSalary) {
 		super();
 		this.payHistoryEmployeeNo = payHistoryEmployeeNo;
 		this.payEmployeeDate = payEmployeeDate;
-		this.payApplyReservationNo = payApplyReservationNo;
-		this.payApplyEmployeeNo = payApplyEmployeeNo;
+		this.applyReservationNo = applyReservationNo;
+		this.applyEmployeeNo = applyEmployeeNo;
 		this.payEmployeeFinalSalary = payEmployeeFinalSalary;
 	}
 
@@ -59,20 +59,20 @@ public class EmployeePay implements Serializable {
 		this.payEmployeeDate = payEmployeeDate;
 	}
 
-	public int getPayApplyReservationNo() {
-		return payApplyReservationNo;
+	public int getApplyReservationNo() {
+		return applyReservationNo;
 	}
 
-	public void setPayApplyReservationNo(int payApplyReservationNo) {
-		this.payApplyReservationNo = payApplyReservationNo;
+	public void setApplyReservationNo(int applyReservationNo) {
+		this.applyReservationNo = applyReservationNo;
 	}
 
-	public int getPayApplyEmployeeNo() {
-		return payApplyEmployeeNo;
+	public int getApplyEmployeeNo() {
+		return applyEmployeeNo;
 	}
 
-	public void setPayApplyEmployeeNo(int payApplyEmployeeNo) {
-		this.payApplyEmployeeNo = payApplyEmployeeNo;
+	public void setApplyEmployeeNo(int applyEmployeeNo) {
+		this.applyEmployeeNo = applyEmployeeNo;
 	}
 
 	public int getPayEmployeeFinalSalary() {
@@ -90,7 +90,7 @@ public class EmployeePay implements Serializable {
 	@Override
 	public String toString() {
 		return "EmployeePay [payHistoryEmployeeNo=" + payHistoryEmployeeNo + ", payEmployeeDate=" + payEmployeeDate
-				+ ", payApplyReservationNo=" + payApplyReservationNo + ", payApplyEmployeeNo=" + payApplyEmployeeNo
+				+ ", applyReservationNo=" + applyReservationNo + ", applyEmployeeNo=" + applyEmployeeNo
 				+ ", payEmployeeFinalSalary=" + payEmployeeFinalSalary + "]";
 	}
 

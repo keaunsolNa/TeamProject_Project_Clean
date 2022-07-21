@@ -61,194 +61,193 @@ public class EmployeeImpl extends User{
       this.employeeMemberRoleeeAndAuthority = employee.getEmployeeMemberRoleeeAndAuthority();   
    }
 
-   public static long getSerialversionuid() {
-      return serialVersionUID;
-   }
+public int getEmployeeNo() {
+	return employeeNo;
+}
 
-   public int getEmployeeNo() {
-      return employeeNo;
-   }
+public void setEmployeeNo(int employeeNo) {
+	this.employeeNo = employeeNo;
+}
 
-   public String getEmployeeName() {
-      return employeeName;
-   }
+public String getEmployeeName() {
+	return employeeName;
+}
 
-   public String getEmployeeId() {
-      return employeeId;
-   }
+public void setEmployeeName(String employeeName) {
+	this.employeeName = employeeName;
+}
 
-   public String getEmployeePwd() {
-      return employeePwd;
-   }
+public String getEmployeeId() {
+	return employeeId;
+}
 
-   public java.sql.Date getEmployeeBirth() {
-      return employeeBirth;
-   }
+public void setEmployeeId(String employeeId) {
+	this.employeeId = employeeId;
+}
 
-   public String getEmployeeGender() {
-      return employeeGender;
-   }
+public String getEmployeePwd() {
+	return employeePwd;
+}
 
-   public String getEmployeePhone() {
-      return employeePhone;
-   }
+public void setEmployeePwd(String employeePwd) {
+	this.employeePwd = employeePwd;
+}
 
-   public java.sql.Date getEmployeeHireDate() {
-      return employeeHireDate;
-   }
+public java.sql.Date getEmployeeBirth() {
+	return employeeBirth;
+}
 
-   public java.sql.Date getEmployeeRetireDate() {
-      return employeeRetireDate;
-   }
+public void setEmployeeBirth(java.sql.Date employeeBirth) {
+	this.employeeBirth = employeeBirth;
+}
 
-   public int getEmployeeSumCount() {
-      return employeeSumCount;
-   }
+public String getEmployeeGender() {
+	return employeeGender;
+}
 
-   public int getEmployeeSumTime() {
-      return employeeSumTime;
-   }
+public void setEmployeeGender(String employeeGender) {
+	this.employeeGender = employeeGender;
+}
 
-   public java.sql.Date getEmployeeLastLoginDate() {
-      return employeeLastLoginDate;
-   }
+public String getEmployeePhone() {
+	return employeePhone;
+}
 
-   public String getEmployeeBlackListYn() {
-      return employeeBlackListYn;
-   }
+public void setEmployeePhone(String employeePhone) {
+	this.employeePhone = employeePhone;
+}
 
-   public String getEmployeeRetireYn() {
-      return employeeRetireYn;
-   }
+public java.sql.Date getEmployeeHireDate() {
+	return employeeHireDate;
+}
 
-   public java.sql.Date getRequestDate() {
-      return RequestDate;
-   }
+public void setEmployeeHireDate(java.sql.Date employeeHireDate) {
+	this.employeeHireDate = employeeHireDate;
+}
 
-   public String getEmployeeFirstConfirmYn() {
-      return employeeFirstConfirmYn;
-   }
+public java.sql.Date getEmployeeRetireDate() {
+	return employeeRetireDate;
+}
 
-   public String getEmployeeSecondConfirmYn() {
-      return employeeSecondConfirmYn;
-   }
+public void setEmployeeRetireDate(java.sql.Date employeeRetireDate) {
+	this.employeeRetireDate = employeeRetireDate;
+}
 
-   public String getEmployeeLastConfirmYn() {
-      return employeeLastConfirmYn;
-   }
+public int getEmployeeSumCount() {
+	return employeeSumCount;
+}
 
-   public java.sql.Date getEmployeeLastConfirmDate() {
-      return employeeLastConfirmDate;
-   }
+public void setEmployeeSumCount(int employeeSumCount) {
+	this.employeeSumCount = employeeSumCount;
+}
 
-   public String getEmployeeRegistReturnYn() {
-      return employeeRegistReturnYn;
-   }
+public int getEmployeeSumTime() {
+	return employeeSumTime;
+}
 
-   public List<AdminMemberRoleAndAuthority> getEmployeeMemberRoleeeAndAuthority() {
-      return employeeMemberRoleeeAndAuthority;
-   }
+public void setEmployeeSumTime(int employeeSumTime) {
+	this.employeeSumTime = employeeSumTime;
+}
+
+public java.sql.Date getEmployeeLastLoginDate() {
+	return employeeLastLoginDate;
+}
+
+public void setEmployeeLastLoginDate(java.sql.Date employeeLastLoginDate) {
+	this.employeeLastLoginDate = employeeLastLoginDate;
+}
+
+public String getEmployeeBlackListYn() {
+	return employeeBlackListYn;
+}
+
+public void setEmployeeBlackListYn(String employeeBlackListYn) {
+	this.employeeBlackListYn = employeeBlackListYn;
+}
+
+public String getEmployeeRetireYn() {
+	return employeeRetireYn;
+}
+
+public void setEmployeeRetireYn(String employeeRetireYn) {
+	this.employeeRetireYn = employeeRetireYn;
+}
+
+public java.sql.Date getRequestDate() {
+	return RequestDate;
+}
+
+public void setRequestDate(java.sql.Date requestDate) {
+	RequestDate = requestDate;
+}
+
+public String getEmployeeFirstConfirmYn() {
+	return employeeFirstConfirmYn;
+}
+
+public void setEmployeeFirstConfirmYn(String employeeFirstConfirmYn) {
+	this.employeeFirstConfirmYn = employeeFirstConfirmYn;
+}
+
+public String getEmployeeSecondConfirmYn() {
+	return employeeSecondConfirmYn;
+}
+
+public void setEmployeeSecondConfirmYn(String employeeSecondConfirmYn) {
+	this.employeeSecondConfirmYn = employeeSecondConfirmYn;
+}
+
+public String getEmployeeLastConfirmYn() {
+	return employeeLastConfirmYn;
+}
+
+public void setEmployeeLastConfirmYn(String employeeLastConfirmYn) {
+	this.employeeLastConfirmYn = employeeLastConfirmYn;
+}
+
+public java.sql.Date getEmployeeLastConfirmDate() {
+	return employeeLastConfirmDate;
+}
+
+public void setEmployeeLastConfirmDate(java.sql.Date employeeLastConfirmDate) {
+	this.employeeLastConfirmDate = employeeLastConfirmDate;
+}
+
+public String getEmployeeRegistReturnYn() {
+	return employeeRegistReturnYn;
+}
+
+public void setEmployeeRegistReturnYn(String employeeRegistReturnYn) {
+	this.employeeRegistReturnYn = employeeRegistReturnYn;
+}
+
+public List<AdminMemberRoleAndAuthority> getEmployeeMemberRoleeeAndAuthority() {
+	return employeeMemberRoleeeAndAuthority;
+}
+
+public void setEmployeeMemberRoleeeAndAuthority(List<AdminMemberRoleAndAuthority> employeeMemberRoleeeAndAuthority) {
+	this.employeeMemberRoleeeAndAuthority = employeeMemberRoleeeAndAuthority;
+}
+
+public static long getSerialversionuid() {
+	return serialVersionUID;
+}
+
+@Override
+public String toString() {
+	return "EmployeeImpl [employeeNo=" + employeeNo + ", employeeName=" + employeeName + ", employeeId=" + employeeId
+			+ ", employeePwd=" + employeePwd + ", employeeBirth=" + employeeBirth + ", employeeGender=" + employeeGender
+			+ ", employeePhone=" + employeePhone + ", employeeHireDate=" + employeeHireDate + ", employeeRetireDate="
+			+ employeeRetireDate + ", employeeSumCount=" + employeeSumCount + ", employeeSumTime=" + employeeSumTime
+			+ ", employeeLastLoginDate=" + employeeLastLoginDate + ", employeeBlackListYn=" + employeeBlackListYn
+			+ ", employeeRetireYn=" + employeeRetireYn + ", RequestDate=" + RequestDate + ", employeeFirstConfirmYn="
+			+ employeeFirstConfirmYn + ", employeeSecondConfirmYn=" + employeeSecondConfirmYn
+			+ ", employeeLastConfirmYn=" + employeeLastConfirmYn + ", employeeLastConfirmDate="
+			+ employeeLastConfirmDate + ", employeeRegistReturnYn=" + employeeRegistReturnYn
+			+ ", employeeMemberRoleeeAndAuthority=" + employeeMemberRoleeeAndAuthority + "]";
+}
+
    
-   
 
-   public void setEmployeeNo(int employeeNo) {
-      this.employeeNo = employeeNo;
-   }
-
-   public void setEmployeeName(String employeeName) {
-      this.employeeName = employeeName;
-   }
-
-   public void setEmployeeId(String employeeId) {
-      this.employeeId = employeeId;
-   }
-
-   public void setEmployeePwd(String employeePwd) {
-      this.employeePwd = employeePwd;
-   }
-
-   public void setEmployeeBirth(java.sql.Date employeeBirth) {
-      this.employeeBirth = employeeBirth;
-   }
-
-   public void setEmployeeGender(String employeeGender) {
-      this.employeeGender = employeeGender;
-   }
-
-   public void setEmployeePhone(String employeePhone) {
-      this.employeePhone = employeePhone;
-   }
-
-   public void setEmployeeHireDate(java.sql.Date employeeHireDate) {
-      this.employeeHireDate = employeeHireDate;
-   }
-
-   public void setEmployeeRetireDate(java.sql.Date employeeRetireDate) {
-      this.employeeRetireDate = employeeRetireDate;
-   }
-
-   public void setEmployeeSumCount(int employeeSumCount) {
-      this.employeeSumCount = employeeSumCount;
-   }
-
-   public void setEmployeeSumTime(int employeeSumTime) {
-      this.employeeSumTime = employeeSumTime;
-   }
-
-   public void setEmployeeLastLoginDate(java.sql.Date employeeLastLoginDate) {
-      this.employeeLastLoginDate = employeeLastLoginDate;
-   }
-
-   public void setEmployeeBlackListYn(String employeeBlackListYn) {
-      this.employeeBlackListYn = employeeBlackListYn;
-   }
-
-   public void setEmployeeRetireYn(String employeeRetireYn) {
-      this.employeeRetireYn = employeeRetireYn;
-   }
-
-   public void setRequestDate(java.sql.Date requestDate) {
-      RequestDate = requestDate;
-   }
-
-   public void setEmployeeFirstConfirmYn(String employeeFirstConfirmYn) {
-      this.employeeFirstConfirmYn = employeeFirstConfirmYn;
-   }
-
-   public void setEmployeeSecondConfirmYn(String employeeSecondConfirmYn) {
-      this.employeeSecondConfirmYn = employeeSecondConfirmYn;
-   }
-
-   public void setEmployeeLastConfirmYn(String employeeLastConfirmYn) {
-      this.employeeLastConfirmYn = employeeLastConfirmYn;
-   }
-
-   public void setEmployeeLastConfirmDate(java.sql.Date employeeLastConfirmDate) {
-      this.employeeLastConfirmDate = employeeLastConfirmDate;
-   }
-
-   public void setEmployeeRegistReturnYn(String employeeRegistReturnYn) {
-      this.employeeRegistReturnYn = employeeRegistReturnYn;
-   }
-
-   public void setEmployeeMemberRoleeeAndAuthority(List<AdminMemberRoleAndAuthority> employeeMemberRoleeeAndAuthority) {
-      this.employeeMemberRoleeeAndAuthority = employeeMemberRoleeeAndAuthority;
-   }
-
-   @Override
-   public String toString() {
-      return "EmployeeImpl [employeeNo=" + employeeNo + ", employeeName=" + employeeName + ", employeeId="
-            + employeeId + ", employeePwd=" + employeePwd + ", employeeBirth=" + employeeBirth + ", employeeGender="
-            + employeeGender + ", employeePhone=" + employeePhone + ", employeeHireDate=" + employeeHireDate
-            + ", employeeRetireDate=" + employeeRetireDate + ", employeeSumCount=" + employeeSumCount
-            + ", employeeSumTime=" + employeeSumTime + ", employeeLastLoginDate=" + employeeLastLoginDate
-            + ", employeeBlackListYn=" + employeeBlackListYn + ", employeeRetireYn=" + employeeRetireYn
-            + ", RequestDate=" + RequestDate + ", employeeFirstConfirmYn=" + employeeFirstConfirmYn
-            + ", employeeSecondConfirmYn=" + employeeSecondConfirmYn + ", employeeLastConfirmYn="
-            + employeeLastConfirmYn + ", employeeLastConfirmDate=" + employeeLastConfirmDate
-            + ", employeeRegistReturnYn=" + employeeRegistReturnYn + ", employeeMemberRoleeeAndAuthority="
-            + employeeMemberRoleeeAndAuthority + "]";
-   }
-   
    
 }

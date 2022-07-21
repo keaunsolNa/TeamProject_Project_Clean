@@ -15,12 +15,13 @@
 	<div th:include="common/header.html"></div>
 	<div th:include="common/payAside.html"></div>
 	<section>
-			<form action="/pay/adminPayWaiting" name="modifyForm" id="modifyForm" method="post">
+		<form action="/pay/management/adminPayWaiting" name="modifyForm" id="modifyForm" method="post">
 				<select name="adminNo" id="adminNo">
 					<!-- ajax로 조회 -->
 				</select>
 				<input class="payButton" type="button" value="급여지급">
-			</form>
+		</form>
+		<br clear="both">
 		<div id="wrap" style="margin-top: 5px">
 			<div id="allAdminTable">
 			    <h2 class="borderText" align="center">모든 관리자 목록</h2>

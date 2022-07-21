@@ -15,6 +15,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "TBL_VACATION")
@@ -36,6 +37,7 @@ public class Vacation implements Serializable{
 	@Column(name="VACATION_NO")
 	private int vacationNo;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name="REQUEST_DATE")
 	private java.sql.Date requestDate;
 	
@@ -57,9 +59,11 @@ public class Vacation implements Serializable{
 	@Column(name="VACATION_LAST_CONFIRM_YN")
 	private String vacationLastConfirmYn;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name="VACATION_START_DATE")
 	private java.sql.Date vacationStartDate;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name="VACATION_END_DATE")
 	private java.sql.Date vacationEndDate;
 	

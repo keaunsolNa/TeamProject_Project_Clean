@@ -55,7 +55,6 @@
 <body>
 
 	<div th:include="common/header.html"></div>
-	<div th:include="common/hrAside.html"></div>
 	
 	
 	 <div class="container">
@@ -115,7 +114,7 @@
 	            }
 	
 	        	employee[i].onclick = function(){
-	                location.href="/admin/vacation/standbyVacationDetail/" + this.parentNode.children[0].innerText;
+	                location.href="/admin/vacation/standbySecondVacationDetail/" + this.parentNode.children[0].innerText;
 	            }
 	        }
 	    };

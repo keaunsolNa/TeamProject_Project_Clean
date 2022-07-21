@@ -18,13 +18,10 @@ public class ReceiveController {
 	@MessageMapping("/hello")
 	@SendTo("/queue/greetings")
 	public ReceiveMessage greeting(SendMessage message, Principal principal) throws Exception {
-		Thread.sleep(1000); 
-
-		if(principal.getName().equals(message.getName())) {
-			return new ReceiveMessage(HtmlUtils.htmlEscape(message.getName() +"님, " + message.getMessage()));
-		} 
 		
-		return new ReceiveMessage();
+		Thread.sleep(1000); 
+		return new ReceiveMessage(HtmlUtils.htmlEscape(message.getName() +"님의, " + message.getMessage()));
+		
 	}
 	
 	@MessageMapping("/client")

@@ -31,7 +31,6 @@ public class AdminAndAdminPayDTO implements Serializable{
 	private List<AdminPayDTO> adminPay;
 	
 	public AdminAndAdminPayDTO() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public AdminAndAdminPayDTO(int adminNo, String adminName, String adminId, String adminPwd, Date adminBirth,

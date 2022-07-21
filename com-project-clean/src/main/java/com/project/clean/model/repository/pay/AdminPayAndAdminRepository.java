@@ -20,7 +20,6 @@ public interface AdminPayAndAdminRepository extends JpaRepository<AdminPayAndAdm
 
 	int countByAdminAdminPhoneContaining(String searchValue);
 	
-	int countByPayAdminDateContaining(Integer valueOf);
 	
 	// 관리자이름으로 검색
 	List<AdminPayAndAdmin> findByAdminAdminNameContaining(String searchValue, Pageable paging);
