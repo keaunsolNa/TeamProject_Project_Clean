@@ -15,7 +15,7 @@
 	<div th:include="common/header.html"></div>
 	<div th:include="common/payAside.html"></div>
 	<section>
-		<form action="/pay/management/adminPayWaiting" name="modifyForm" id="modifyForm" method="post">
+		<form action="/admin/pay/management/adminPayWaiting" name="modifyForm" id="modifyForm" method="post">
 				<select name="adminNo" id="adminNo">
 					<!-- ajax로 조회 -->
 				</select>
@@ -133,7 +133,7 @@
 	// ajax 관리자 이름 select로 가져오기
 	$(function(){
 			$.ajax({
-				url: "/pay/admin",
+				url: "/admin/pay/admin",
 				success: function(data){
 					const $adminNo = $("#adminNo");
 					$adminNo.html("");

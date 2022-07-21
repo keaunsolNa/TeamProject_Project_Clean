@@ -5,10 +5,12 @@ import java.util.List;
 import com.project.clean.controller.common.paging.SelectCriteria;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.ApplyEmployeeDTO;
+import com.project.clean.model.dto.commonDTO.EmployeeDTO;
 import com.project.clean.model.dto.commonDTO.ReservationInfoDTO;
 import com.project.clean.model.dto.commonDTO.SurchargeDTO;
 import com.project.clean.model.dto.joinDTO.AdminAndAdminPayDTO;
 import com.project.clean.model.dto.joinDTO.AdminPayAndAdminDTO;
+import com.project.clean.model.dto.joinDTO.BestEmployeePayAndEmployeeDTO;
 import com.project.clean.model.dto.joinDTO.EmployeePayAndApplyEmployeeDTO;
 
 public interface PayService {
@@ -51,10 +53,25 @@ public interface PayService {
 	
 	// 예약번호로 예약별직원 찾기
 	public List<ApplyEmployeeDTO> findByApplyReservationNo(int reservationNo);
-
+	
+	// 예약번호로 청소급여 찾기
 	public ReservationInfoDTO findByTotalPaymentByReservationNo(int reservationNo);
 
+	// 직원 급여 지급
 	public void registEmployeePay(int applyReservationNo, int applyEmployeeNo, int payEmployeeFinalSalary);
+
+	
+	// 모든 직원 찾기
+	public List<EmployeeDTO> findAllEmployee();
+	
+	// 이달의 우수사원 급여 지급
+	public void registBestEmployeePay(int bestEmployeeNo, int bestEmployeeBonus);
+	
+	// 이달의 우수사원 급여 전체 조회 페이징처리 카운트
+	public int selectBestEmployeePayTotalCount(String searchCondition, String searchValue);
+
+	// 이달의 우수사원 급여 전체 조회
+	public List<BestEmployeePayAndEmployeeDTO> bestEmployeePaySearch(SelectCriteria selectCriteria);
 
 
 	

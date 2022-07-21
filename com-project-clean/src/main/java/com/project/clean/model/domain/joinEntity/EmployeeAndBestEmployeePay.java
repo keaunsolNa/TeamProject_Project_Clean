@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 import com.project.clean.model.domain.commonEntity.BestEmployeePay;
 
-@Entity(name = "EMPLOYEE")
+@Entity
 @Table(name = "TBL_EMPLOYEE")
 public class EmployeeAndBestEmployeePay implements java.io.Serializable{
 
