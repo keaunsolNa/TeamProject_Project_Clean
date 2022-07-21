@@ -76,7 +76,6 @@
 	    
     	document.getElementById("denial").onclick = function(){
 	    	
-			
 			if($("#adminOpnion2").val().length < 30) {
 				
 				alert("소견서는 30자 이상 작성하여 제출해 주세요");
@@ -99,7 +98,6 @@
 	    			const reservationNo = $('.reservationNo').val();
 	    			const jbHtml = $( 'section' ).html();
 	    			const blackYn = 1;
-	    			alert("테스트 : " + reservationNo)
 	    			
 	    			$.ajax({
 	    				url: "denial",

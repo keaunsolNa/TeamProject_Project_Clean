@@ -37,8 +37,6 @@ $(function () {
 	$("form").on('submit', function (e) {
 		if(document.getElementById("formSender")){
 			
-        console.log("테스트")
-		alert("테스트111")			
         e.preventDefault();
 		    $( "#connect" ).click(function() { connect(); });
 			$( "#disconnect" ).click(function() { disconnect(); });
