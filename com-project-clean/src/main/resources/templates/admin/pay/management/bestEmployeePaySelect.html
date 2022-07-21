@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" th:href="@{/css/pay/adminPaySelect.css}">
+<title>Insert title here</title>
+<style>
+	tr:nth-of-type(1){background: #9AE8F9;}
+	table th{
+		border: 1px solid black;
+	}
+	table th,td{
+		cursor:default !important;
+	}
+</style>
+</head>
+<body>
+	<div th:include="common/header.html"></div>
+	<div th:include="common/payAside.html"></div>
+	<section>
+		
+		<table border="1">
+	        <tr>
+	           <th>이름</th> 
+	           <th>전화번호</th>
+	           <th>금액</th>
+	           <th>지급날짜</th>
+	        </tr>
+	        <tr th:each="pay : ${ bestEmployeePayList }">
+	          <td height="35px" th:text="${ pay.employee.employeeName }"></td> 
+	          <td th:text="${ pay.employee.employeePhone }"></td> 
+	          <td th:text="|${ pay.bestEmployeeBonus }원|"></td> 
+	          <td th:text="${ pay.bestEmployeePayDate }"></td> 
+	        </tr>
+    	</table>
+    	<br>
+    	<div th:replace="admin/pay/management/bestEmployeePayPaging.html"></div>
+    	
+		<br>
+		<div class="search-area" align="center">
+			<form id="searchForm" action="/admin/pay/management/bestEmployeePaySelect" method="get" style="display: inline-block">
+					<select th:with="searchCondition = ${selectCriteria.searchCondition}"
+						id="searchCondition" name="searchCondition">
+						<option value="employeeName" th:selected="${ searchCondition } == 'employeeName'">이름</option>
+						<option value="employeePhone" th:selected="${ searchCondition } == 'employeePhone'">전화번호</option>
+					</select> 
+				<input type="hidden" name="currentPage" value="1">
+				<input type="search" id="name" name="searchValue" th:value="${selectCriteria.searchValue}">
+				<button class="btn btn-bs" type="submit">검색하기</button>
+			</form>
+		</div>	
+ 
+    </section>
+</body>
+</html>
