@@ -35,7 +35,6 @@ public class AdminCheckListController {
 	/* KS. 미처리 체크리스트 목록 조회 */
 	@GetMapping("select")
 	public String selectStandCheckList() {
-		System.out.println("체크리스트 조회 확인");
 		return "admin/checkList/selectStandCheckList";
 	}
 	
@@ -79,6 +78,7 @@ public class AdminCheckListController {
 	@PostMapping(value = "denial", produces="application/json; charset=UTF-8")
 	@ResponseBody
 	public String denialCheckList(HttpServletRequest request) throws JsonProcessingException {
+		
 		int reservationNo = Integer.parseInt(request.getParameter("reservationNo"));
 		String htmlData = request.getParameter("jbHtml");
 		int BlackListYn = Integer.parseInt(request.getParameter("blackYn"));
@@ -150,6 +150,7 @@ public class AdminCheckListController {
 	@PostMapping(value = "accept/select", produces="application/json; charset=UTF-8")
 	@ResponseBody
 	public String acceptCheckListSelect(Principal principal) throws JsonProcessingException {
+		
 		ObjectMapper mapper = new ObjectMapper();
 		String adminId = principal.getName();
 		int parameter = 3;
