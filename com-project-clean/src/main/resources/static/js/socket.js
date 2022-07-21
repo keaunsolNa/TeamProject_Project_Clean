@@ -1,15 +1,14 @@
-var sjq  = jQuery.noConflict();
 var stompClient = null;
 
 function setConnected(connected) {
     if (connected) {
-        sjq("#conversation").show();
+        $("#conversation").show();
     }
     else {
-        sjq("#conversation").hide();
+        $("#conversation").hide();
     }
     
-sjq("#ReceiveMessage").html("").hide();
+$("#ReceiveMessage").html("").hide();
 }
 
 function connect() {
@@ -25,26 +24,30 @@ function connect() {
 }
 
 function sendName() {
-    stompClient.send("/app/hello", {}, JSON.stringify({'message': sjq("#sendingMessage").val(), 'name': sjq("#sendingName").val()}));
+    stompClient.send("/app/hello", {}, JSON.stringify({'message': $("#sendingMessage").val(), 'name': $("#sendingName").val()}));
 }
 
 function showGreeting(message) {
-    sjq("#ReceiveMessage").show();
-    sjq("#ReceiveMessage").append("<tr><td>" + message + "</td></tr>");
+    $("#ReceiveMessage").show();
+    $("#ReceiveMessage").append("<tr><td>" + message + "</td></tr>");
 }
 
-sjq(function () {
-    sjq("form").on('submit', function (e) {
-        e.preventDefault();
+$(function () {
+    $("form").on('submit', function (e) {
+		if(!$("#send").click){
+	        e.preventDefault();
+	        alert("e.preventDefault()")
+		} 
+			
     });
 
-    sjq( "#connect" ).click(function() { connect(); });
-    sjq( "#disconnect" ).click(function() { disconnect(); });
-    sjq( "#send" ).click(function() { sendName(); });
+    $( "#connect" ).click(function() { connect(); });
+    $( "#disconnect" ).click(function() { disconnect(); });
+    $( "#send" ).click(function() { sendName(); });
 });
 
-sjq(function(){
-	connect();
+$(document).ready(function(){
+	connect()
 });	
 
 

@@ -24,11 +24,4 @@ public class ReceiveController {
 		
 	}
 	
-	@MessageMapping("/client")
-	@SendTo("/queue/{id}")
-	public ReceiveMessage receiveMessage(SendMessage message) throws Exception{
-		
-		return new ReceiveMessage();
-		
-	}
 }
