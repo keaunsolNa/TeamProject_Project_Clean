@@ -367,11 +367,11 @@ public class AdminEmployeeController {
 			String middlePhoneChange = employeeList.get(i).getEmployeePhone();
 			
 			if(employeeList.get(i).getEmployeePhone().length() == 12) {
-				String middlePhoneNum = middlePhoneChange.replaceAll("-", "").replaceAll("010", "");
+				String middlePhoneNum = middlePhoneChange.replaceAll("-", "");
 				middlePhoneList.add(middlePhoneNum);
 				
 			}else if(employeeList.get(i).getEmployeePhone().length() == 13) {
-				String middlePhoneNum = middlePhoneChange.replaceAll("-", "").replaceAll("010", "");
+				String middlePhoneNum = middlePhoneChange.replaceAll("-", "");
 				middlePhoneList.add(middlePhoneNum);
 			}
 		}
