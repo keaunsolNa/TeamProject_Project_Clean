@@ -35,9 +35,11 @@
 .mainlogo {
 	font-size: xx-large;
 }
+
 .checkTitle{
 	font-size: xx-large;
 }
+
 .checklist{
     background-color: #CCF5FF;
     width: 13%;
@@ -109,21 +111,9 @@ input{
     background-color: rgba(104, 228, 255, 1);
     width: 50%;
     text-align: center;
-    background-color: rgba(104, 228, 255, 1);
-    width: 50%;
-    text-align: center;
-    background-color: rgba(104, 228, 255, 1);
-    width: 50%;
-    text-align: center;
 }
 
 .employeeOpnionArea{
-    background-color: rgba(104, 228, 255, 1);
-    width: 50%;
-    text-align: center;
-    background-color: rgba(104, 228, 255, 1);
-    width: 50%;
-    text-align: center;
     background-color: rgba(104, 228, 255, 1);
     width: 50%;
     text-align: center;
@@ -139,7 +129,7 @@ input{
 
 .OpnionArea{
     text-align: center;
-    margin-left: 30%;
+    margin-left: 35%
 }
 
 .OpnionArea label{
@@ -149,11 +139,6 @@ input{
 }
 
 .adminOpnionArea input{
-    transform: none;
-    border: 0px;
-}
-
-.employeeOpnionArea input{
     transform: none;
     border: 0px;
 }
@@ -191,7 +176,7 @@ input{
 
 .submittbtn{
 	background-color: rgba(104, 228, 255, 1);
-	margin-left: 47%;
+	margin-left: 48%;
 	border: 0px;
 	text-align: center;
 	width: 100px;
@@ -200,7 +185,8 @@ input{
 
 .submitarea{
 	
-	margin-left:40%	
+	margin-left:44%	
+	
 }
 
 .submitarea input{
