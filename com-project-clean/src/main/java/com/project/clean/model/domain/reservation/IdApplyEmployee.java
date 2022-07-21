@@ -9,6 +9,9 @@ public class IdApplyEmployee implements Serializable {
 	private int applyEmployeeNo;
 	private int applyReservationNo;
 	
+	public IdApplyEmployee() {
+	}
+	
 	public IdApplyEmployee(int applyEmployeeNo, int applyReservationNo) {
 		super();
 		this.applyEmployeeNo = applyEmployeeNo;

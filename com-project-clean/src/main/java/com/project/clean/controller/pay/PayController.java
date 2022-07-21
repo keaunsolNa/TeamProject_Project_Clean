@@ -86,6 +86,8 @@ public class PayController {
 	/* 직원 급여 상세조회 */
 	@GetMapping("/management/employeePaySelectInfo")
 	public void employeePaySelectInfo() {}
+	
+	
 
 	// 관리자 급여 ---------------------------------------------------------------------------------------------
 	
@@ -247,6 +249,8 @@ public class PayController {
 		 
 
 	}
+	
+	
 	
 
 

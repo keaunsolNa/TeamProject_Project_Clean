@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.project.clean.controller.common.paging.SelectCriteria;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
+import com.project.clean.model.dto.commonDTO.ApplyEmployeeDTO;
+import com.project.clean.model.dto.commonDTO.ReservationInfoDTO;
 import com.project.clean.model.dto.commonDTO.SurchargeDTO;
 import com.project.clean.model.dto.joinDTO.AdminAndAdminPayDTO;
 import com.project.clean.model.dto.joinDTO.AdminPayAndAdminDTO;
@@ -45,23 +47,27 @@ public interface PayService {
 	public int selectEmployeePayTotalCount(String searchCondition, String searchValue);
 
 	public List<EmployeePayAndApplyEmployeeDTO> employeePaySearch(SelectCriteria selectCriteria);
+	
+	
+	// 예약번호로 예약별직원 찾기
+	public List<ApplyEmployeeDTO> findByApplyReservationNo(int reservationNo);
 
+	public ReservationInfoDTO findByTotalPaymentByReservationNo(int reservationNo);
 
-
-
-
-
-
+	public void registEmployeePay(int applyReservationNo, int applyEmployeeNo, int payEmployeeFinalSalary);
 
 
 	
-
-
-
 	
-
-
-	
-
-
 }
+
+
+
+
+
+
+
+	
+
+
+
