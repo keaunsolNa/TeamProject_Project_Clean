@@ -69,14 +69,14 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 				.antMatchers("/client/**").hasRole("CLIENT")
 				.antMatchers("/member/**").hasRole("MEMBER")
 				.antMatchers("/employee/**").hasRole("EMPLOYEE")
-				.antMatchers("/admin/**").hasRole("ADMIN")
+				.antMatchers("/admin/").hasRole("ADMIN")
 				.antMatchers("/admin/boss/**").hasRole("ADMIN_BOSS")
 				.antMatchers("/admin/sec/**").hasRole("ADMIN_SEC")
 				.antMatchers("/admin/hr/**").hasRole("ADMIN_HR")
-				.antMatchers("/admin/fnc/**").hasRole("ADMIN_FNC")
+				.antMatchers("/pay/**").hasRole("ADMIN_FNC")
 				.antMatchers("/member/**").hasRole("MEMBER")
-				
-				.anyRequest().permitAll() 
+				.antMatchers("/admin/hr/regist/employeePage").hasRole("ADMIN_HR")
+				//admin/hr/regist/employeePage
 			.and()
 				.formLogin()
 				.loginPage("/common/login")

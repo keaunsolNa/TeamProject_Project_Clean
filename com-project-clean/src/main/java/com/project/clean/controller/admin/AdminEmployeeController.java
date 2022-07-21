@@ -13,7 +13,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
@@ -34,8 +33,6 @@ import com.project.clean.model.dto.commonDTO.ReasonDTO;
 import com.project.clean.model.dto.commonDTO.VacationDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
 import com.project.clean.model.service.admin.AdminEmployeeService;
-
-import net.bytebuddy.asm.Advice.OffsetMapping.Sort;
 
 @Controller
 @RequestMapping("/admin")
@@ -447,6 +444,7 @@ public class AdminEmployeeController {
 	}
 
 	/* 직원등록 */
+
 	@PostMapping("/hr/regist/employee")
 	public String registEmployee(EmployeeAndAllDTO employeeDTO, @RequestParam("picture") MultipartFile singleFile,
 			HttpServletRequest request, Model mv) {

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
@@ -101,14 +102,13 @@
         <br>
         <table class="button">
             <tr>
-            	<!-- 관리자거나 직원에 따라 2개로 나눠야 댐 -->
-            	<!-- <th:block sec:authorize="hasRole('MEMBER')"> -->
+            	<th:block sec:authorize="hasRole('HR')"> 
                 <td><button id="adminModify">수정</button></td>
-                 <!-- </th:block> -->
+                </th:block>
                  
-                 <!-- <th:block sec:authorize="hasRole('HR')"> -->
+                <th:block sec:authorize="hasRole('HR')">
                 <td><button id="entire" th:if="${employee.employeeRetireYn == 'N'}">탈퇴 처리</button></td>
-                 <!-- </th:block> -->
+                </th:block> 
                  
                 <td id="value" th:text="${employee.employeeNo}" style="display: none"></td>
             </tr>
