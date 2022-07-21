@@ -35,8 +35,8 @@ table th {
 
 <body>
     
-	<!-- <div th:replace="/common/Header.html"></div>
-	<div th:replace="/admin/adminAside.html"></div>        등록 내용 -->
+	 <div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div>       
 	<div th:replace="/admin/humanResource/registEmployee/adminRegistMainHeader.html"></div>
 	
 		        <form action="/admin/hr/regist/employee" method="post" id="registForm" encType="multipart/form-data">
@@ -104,7 +104,7 @@ table th {
 	                    <option id="daum" value="daum.com">daum.com</option>
 	                    <option id="yahoo" value="yahoo.com">yahoo.com</option>
 	                    <option id="nate" value="nate.com">nate.com</option>
-	                    <option id="self">직접입력</option>
+	                    <option id="self"  value="?">직접입력</option>
 	                      </select>
 	                      <div id="emailCheckMessage">5~12자리 대소문자 + 영어로 입력하기로 약속해요</div>
 	                      </td>
