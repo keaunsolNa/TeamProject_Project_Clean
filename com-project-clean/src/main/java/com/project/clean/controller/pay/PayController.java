@@ -18,14 +18,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.project.clean.controller.common.paging.Pagenation;
 import com.project.clean.controller.common.paging.SelectCriteria;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
+import com.project.clean.model.dto.commonDTO.BestEmployeePayDTO;
+import com.project.clean.model.dto.commonDTO.EmployeeDTO;
 import com.project.clean.model.dto.commonDTO.SurchargeDTO;
 import com.project.clean.model.dto.joinDTO.AdminAndAdminPayDTO;
 import com.project.clean.model.dto.joinDTO.AdminPayAndAdminDTO;
+import com.project.clean.model.dto.joinDTO.BestEmployeePayAndEmployeeDTO;
 import com.project.clean.model.dto.joinDTO.EmployeePayAndApplyEmployeeDTO;
 import com.project.clean.model.service.pay.PayService;
 
 @Controller
-@RequestMapping("pay")
+@RequestMapping("/admin/pay")
 public class PayController {
 	
 	private final PayService payService;
@@ -77,7 +80,7 @@ public class PayController {
 
 		mv.addObject("employeePayList", employeePayList);
 		mv.addObject("selectCriteria", selectCriteria);
-		mv.setViewName("pay/management/employeePaySelect");
+		mv.setViewName("admin/pay/management/employeePaySelect");
 
 		return mv;
 		
@@ -87,8 +90,12 @@ public class PayController {
 	@GetMapping("/management/employeePaySelectInfo")
 	public void employeePaySelectInfo() {}
 	
-	
+	/* 직원 급여 지급 */
+	// admin.checklist.AdminCheckListController에 acceptCheckList부분에 작성했다(체크리스트가 승인될때 바로 급여를 지급하게 만들었음)
 
+	
+	
+	
 	// 관리자 급여 ---------------------------------------------------------------------------------------------
 	
 	/* 관리자 급여 전체조회 */
@@ -130,7 +137,7 @@ public class PayController {
 
 		mv.addObject("adminPayList", adminPayList);
 		mv.addObject("selectCriteria", selectCriteria);
-		mv.setViewName("pay/management/adminPaySelect");
+		mv.setViewName("admin/pay/management/adminPaySelect");
 
 		return mv;
 	}
@@ -150,7 +157,7 @@ public class PayController {
 		
 		mv.addObject("pay", pay);
 		mv.addObject("insurance", insurance);
-		mv.setViewName("pay/management/adminPaySelectInfo");
+		mv.setViewName("admin/pay/management/adminPaySelectInfo");
 		
 		return mv;
 	}
@@ -170,13 +177,12 @@ public class PayController {
 		mv.addObject("adminList2", adminList2);
 		mv.addObject("adminList3", adminList3);
 		mv.addObject("insurance", insurance);
-		mv.setViewName("pay/management/adminPayWaiting");
+		mv.setViewName("admin/pay/management/adminPayWaiting");
 		
 		return mv;
 		
 	}
 	
-
 	/* 관리자 급여 대기목록 - 모든 관리자 조회 */
 	@GetMapping(value="/admin", produces = "application/json; charset=UTF-8")
 	@ResponseBody
@@ -185,8 +191,6 @@ public class PayController {
 		return payService.findAllAdmin();
 	
 	}
-	
-	
 	
 	/* 관리자 급여 지급 */
 	@PostMapping("/management/adminPayWaiting")
@@ -209,20 +213,98 @@ public class PayController {
 		 
 		rttr.addFlashAttribute("modifySuccessMessage", "급여 지급에 성공하였습니다");
 		  
-		return "redirect:/pay/management/adminPayWaiting";
+		return "redirect:admin/pay/management/adminPayWaiting";
 		 
 
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
 
+	
+	
+	
+	// 이달의 우수사원 급여 ---------------------------------------------------------------------------------------
+	
+	/* 이달의 우수사원 급여조회 */
+	@GetMapping("/management/bestEmployeePaySelect")
+	public ModelAndView bestEmployeePaySearch(HttpServletRequest request, ModelAndView mv) {
+		
+		String currentPage = request.getParameter("currentPage");
+		int pageNo = 1;
+
+		if(currentPage != null && !"".equals(currentPage)) {
+			pageNo = Integer.parseInt(currentPage);
+		}
+
+		String searchCondition = request.getParameter("searchCondition");
+		String searchValue = request.getParameter("searchValue");
+		
+		int totalCount = payService.selectBestEmployeePayTotalCount(searchCondition, searchValue);
+		
+		/* 한 페이지에 보여 줄 게시물 수 */
+		int limit = 10;		//얘도 파라미터로 전달받아도 된다.
+
+		/* 한 번에 보여질 페이징 버튼의 갯수 */
+		int buttonAmount = 5;
+
+		/* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
+		SelectCriteria selectCriteria = null;
+		if(searchValue != null && !"".equals(searchValue)) {
+			selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchCondition, searchValue);
+		} else {
+			selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
+		}
+		System.out.println(selectCriteria);
+		
+		System.out.println("갔다와써");
+		List<BestEmployeePayAndEmployeeDTO> bestEmployeePayList = payService.bestEmployeePaySearch(selectCriteria);
+		
+		for(BestEmployeePayAndEmployeeDTO pay : bestEmployeePayList) {
+			System.out.println(pay);
+		}
+
+		mv.addObject("bestEmployeePayList", bestEmployeePayList);
+		mv.addObject("selectCriteria", selectCriteria);
+		mv.setViewName("admin/pay/management/bestEmployeePaySelect");
+
+		return mv;
+		
+	}
+	
+	
+	
+	/* 이달의 우수사원 급여 지급 페이지 */
+	@GetMapping("/management/bestEmployeePayWaiting")
+	public void bestEmployeePayWaiting() {}
+	
+	/* 이달의 우수사원 급여 지급 페이지 - 모든 직원 조회 */
+	@GetMapping(value="/employee", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<EmployeeDTO> findEmployeeSelect(){
+		
+		return payService.findAllEmployee();
+	
+	}
+	
+	/* 이달의 우수사원 급여 지급 */
+	@PostMapping("/management/bestEmployeePayWaiting")
+	public String registBestEmployeePay(RedirectAttributes rttr, int bestEmployeeNo) {
+		
+		// 우수사원 보너스를 가져옴
+		List<SurchargeDTO> surchargeList = payService.findSurchargeList();
+		int bestEmployeeBonus = surchargeList.get(0).getSurchargeBonus();
+		
+		
+		// 우수사원 번호, 보너스를 service로 보냄
+		payService.registBestEmployeePay(bestEmployeeNo, bestEmployeeBonus);
+		 
+		rttr.addFlashAttribute("modifySuccessMessage", "우수사원 보너스 지급에 성공하였습니다");
+		  
+		return "redirect:admin/pay/management/bestEmployeePayWaiting";
+		 
+
+	}
+	
 	// 부가요금 ------------------------------------------------------------------------------------------------
 	
 	/* 부가요금 페이지(조회) */
@@ -232,7 +314,7 @@ public class PayController {
 		List<SurchargeDTO> surchargeList = payService.findSurchargeList();
 		
 		mv.addObject("surchargeList", surchargeList);
-		mv.setViewName("pay/management/surcharge");
+		mv.setViewName("admin/pay/management/surcharge");
 		
 		return mv;
 	}
@@ -245,7 +327,7 @@ public class PayController {
 		 
 		rttr.addFlashAttribute("modifySuccessMessage", "부가요금 수정에 성공하셨습니다");
 		  
-		return "redirect:/pay/management/surcharge";
+		return "redirect:admin/pay/management/surcharge";
 		 
 
 	}

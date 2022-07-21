@@ -14,26 +14,33 @@ import org.springframework.transaction.annotation.Transactional;
 import com.project.clean.controller.common.paging.SelectCriteria;
 import com.project.clean.model.domain.commonEntity.Admin;
 import com.project.clean.model.domain.commonEntity.ApplyEmployee;
+import com.project.clean.model.domain.commonEntity.Employee;
 import com.project.clean.model.domain.commonEntity.ReservationInfo;
 import com.project.clean.model.domain.commonEntity.Surcharge;
 import com.project.clean.model.domain.joinEntity.AdminAndAdminPay;
 import com.project.clean.model.domain.joinEntity.AdminPayAndAdmin;
+import com.project.clean.model.domain.joinEntity.BestEmployeePayAndEmployee;
 import com.project.clean.model.domain.joinEntity.EmployeePayAndApplyEmployee;
 //import com.project.clean.model.domain.joinEntity.EmployeePayAndApplyEmployee;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.ApplyEmployeeDTO;
+import com.project.clean.model.dto.commonDTO.EmployeeDTO;
 import com.project.clean.model.dto.commonDTO.ReservationInfoDTO;
 import com.project.clean.model.dto.commonDTO.SurchargeDTO;
 import com.project.clean.model.dto.joinDTO.AdminAndAdminPayDTO;
 import com.project.clean.model.dto.joinDTO.AdminPayAndAdminDTO;
+import com.project.clean.model.dto.joinDTO.BestEmployeePayAndEmployeeDTO;
 import com.project.clean.model.dto.joinDTO.EmployeePayAndApplyEmployeeDTO;
 import com.project.clean.model.repository.pay.AdminAndAdminPayRepository;
 import com.project.clean.model.repository.pay.AdminPayAndAdminRepository;
 import com.project.clean.model.repository.pay.AdminPayRepository;
 import com.project.clean.model.repository.pay.AdminRepositoryByPay;
 import com.project.clean.model.repository.pay.ApplyEmployeeRepositoryByPay;
+import com.project.clean.model.repository.pay.BestEmployeePayAndEmployeeRepository;
+import com.project.clean.model.repository.pay.BestEmployeePayRepository;
 import com.project.clean.model.repository.pay.EmployeePayAndEmployeeRepository;
 import com.project.clean.model.repository.pay.EmployeePayRepository;
+import com.project.clean.model.repository.pay.EmployeeRepositoryByPay;
 import com.project.clean.model.repository.pay.ReservationInfoRepositoryByPay;
 import com.project.clean.model.repository.pay.SurchargeRepository;
 
@@ -49,16 +56,21 @@ public class PayServiceImpl implements PayService{
 	private final EmployeePayAndEmployeeRepository employeePayAndEmployeeRepository;
 	private final ApplyEmployeeRepositoryByPay applyEmployeeRepositoryByPay;
 	private final ReservationInfoRepositoryByPay reservationInfoRepositoryByPay;
+	private final EmployeeRepositoryByPay employeeRepositoryByPay;
+	private final BestEmployeePayRepository bestEmployeePayRepository;
+	private final BestEmployeePayAndEmployeeRepository bestEmployeePayAndEmployeeRepository;
 	private final ModelMapper modelMapper;			// modelMapper 빈을 선언
-
-
+	
+	
 	public PayServiceImpl(SurchargeRepository surchargeRepository,
 			AdminPayAndAdminRepository adminPayAndAdminRepository,
 			AdminAndAdminPayRepository adminAndAdminPayRepository, AdminRepositoryByPay adminRepository,
 			AdminPayRepository adminPayRepository, EmployeePayRepository employeePayRepository,
 			EmployeePayAndEmployeeRepository employeePayAndEmployeeRepository,
 			ApplyEmployeeRepositoryByPay applyEmployeeRepositoryByPay,
-			ReservationInfoRepositoryByPay reservationInfoRepositoryByPay, ModelMapper modelMapper) {
+			ReservationInfoRepositoryByPay reservationInfoRepositoryByPay,
+			EmployeeRepositoryByPay employeeRepositoryByPay, BestEmployeePayRepository bestEmployeePayRepository,
+			BestEmployeePayAndEmployeeRepository bestEmployeePayAndEmployeeRepository, ModelMapper modelMapper) {
 		super();
 		this.surchargeRepository = surchargeRepository;
 		this.adminPayAndAdminRepository = adminPayAndAdminRepository;
@@ -69,8 +81,17 @@ public class PayServiceImpl implements PayService{
 		this.employeePayAndEmployeeRepository = employeePayAndEmployeeRepository;
 		this.applyEmployeeRepositoryByPay = applyEmployeeRepositoryByPay;
 		this.reservationInfoRepositoryByPay = reservationInfoRepositoryByPay;
+		this.employeeRepositoryByPay = employeeRepositoryByPay;
+		this.bestEmployeePayRepository = bestEmployeePayRepository;
+		this.bestEmployeePayAndEmployeeRepository = bestEmployeePayAndEmployeeRepository;
 		this.modelMapper = modelMapper;
 	}
+
+
+
+
+
+
 
 
 
@@ -340,7 +361,7 @@ public class PayServiceImpl implements PayService{
 	}
 
 
-
+	// 직원 급여 지급
 	@Override
 	@Transactional
 	public void registEmployeePay(int applyReservationNo, int applyEmployeeNo, int payEmployeeFinalSalary) {
@@ -348,6 +369,81 @@ public class PayServiceImpl implements PayService{
 				
 		employeePayRepository.modifyEmployeePay(applyReservationNo,applyEmployeeNo,payEmployeeFinalSalary);
 		
+	}
+
+
+
+	@Override
+	public List<EmployeeDTO> findAllEmployee() {
+		List<Employee> employeeList = employeeRepositoryByPay.findAll(Sort.by("employeeName"));				
+
+		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
+		return employeeList.stream().map(employee -> modelMapper.map(employee,EmployeeDTO.class)).collect(Collectors.toList());
+	}
+
+
+
+	@Override
+	@Transactional
+	public void registBestEmployeePay(int bestEmployeeNo, int bestEmployeeBonus) {
+		bestEmployeePayRepository.registBestEmployeePay(bestEmployeeNo,bestEmployeeBonus);
+		
+	}
+
+
+	// 이달의 우수사원 전체 조회 카운트
+	@Override
+	public int selectBestEmployeePayTotalCount(String searchCondition, String searchValue) {
+		int count = 0;
+		if(searchValue != null) {
+			if("employeeName".equals(searchCondition)) {
+				count = bestEmployeePayAndEmployeeRepository.countByEmployeeEmployeeNameContaining(searchValue);
+			}
+
+			if("employeePhone".equals(searchCondition)) {
+				count = bestEmployeePayAndEmployeeRepository.countByEmployeeEmployeePhoneContaining(searchValue);
+			}
+			
+				
+		} else {
+			count = (int)bestEmployeePayAndEmployeeRepository.count();
+		}
+
+		return count;
+	}
+
+
+	// 이달의 우수사원 전체 조회 
+	@Override
+	public List<BestEmployeePayAndEmployeeDTO> bestEmployeePaySearch(SelectCriteria selectCriteria) {
+		int index = selectCriteria.getPageNo() - 1;			// Pageble객체를 사용시 페이지는 0부터 시작(1페이지가 0)
+		int count = selectCriteria.getLimit();
+		String searchValue = selectCriteria.getSearchValue();
+
+		/* 페이징 처리와 정렬을 위한 객체 생성 */
+		Pageable paging = PageRequest.of(index, count, Sort.by("bestEmployeePayHistoryNo").descending());	// Pageable은 org.springframework.data.domain패키지로 import
+
+		List<BestEmployeePayAndEmployee> bestEmployeePayList = new ArrayList<BestEmployeePayAndEmployee>();
+		if(searchValue != null) {
+
+			/* 직원 이름 검색일 경우 */
+			if("employeeName".equals(selectCriteria.getSearchCondition())) {
+				bestEmployeePayList = bestEmployeePayAndEmployeeRepository.findByEmployeeEmployeeNameContaining(selectCriteria.getSearchValue(), paging);
+			}
+			
+			/* 직원 휴대폰번호 검색일 경우 */
+			if("adminJob".equals(selectCriteria.getSearchCondition())) {
+				bestEmployeePayList = bestEmployeePayAndEmployeeRepository.findByEmployeeEmployeePhoneContaining(selectCriteria.getSearchValue(), paging);
+			}
+
+			
+			
+		} else {
+			bestEmployeePayList = bestEmployeePayAndEmployeeRepository.findAll(paging).toList();
+		}
+
+		/* 자바의 Stream API와 ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
+		return bestEmployeePayList.stream().map(pay -> modelMapper.map(pay,BestEmployeePayAndEmployeeDTO.class)).collect(Collectors.toList());
 	}
 
 

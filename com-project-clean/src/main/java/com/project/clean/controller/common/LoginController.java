@@ -24,7 +24,7 @@ public class LoginController {
 	public String afterLoginFailed(ModelAndView mv, HttpServletRequest request, RedirectAttributes rttr) {
 		
 		System.out.println("로그인 실패");
-
+		System.out.println(request.getAttribute("errorMessage"));
 		rttr.addFlashAttribute("Message", request.getAttribute("errorMessage"));
 		
 		return "redirect:/main";

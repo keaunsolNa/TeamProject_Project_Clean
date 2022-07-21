@@ -267,7 +267,9 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 				
 				/* 블랙리스트 현재 누적 횟수 + 1 변수에 담기*/
 				int sumCount = employee.getEmployeeSumCount()+1;
-				
+					if(sumCount >= 5) {
+						employee.setEmployeeBlackListYn("Y");
+					}
 				/* 블랙리스트 횟수 추가 */
 				employee.setEmployeeSumCount(sumCount);
 			}

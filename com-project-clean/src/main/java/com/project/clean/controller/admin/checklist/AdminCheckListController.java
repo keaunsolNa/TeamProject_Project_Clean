@@ -83,7 +83,7 @@ public class AdminCheckListController {
 	@PostMapping(value = "denial", produces="application/json; charset=UTF-8")
 	@ResponseBody
 	public String denialCheckList(HttpServletRequest request) throws JsonProcessingException {
-		
+		System.out.println("출력 테스트");
 		int reservationNo = Integer.parseInt(request.getParameter("reservationNo"));
 		String htmlData = request.getParameter("jbHtml");
 		int BlackListYn = Integer.parseInt(request.getParameter("blackYn"));
