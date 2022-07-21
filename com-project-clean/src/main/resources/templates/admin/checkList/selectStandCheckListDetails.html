@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Project Clean</title>
+
     <script 
     	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	<link 
@@ -13,16 +14,16 @@
 		rel="stylesheet" type="text/css"
 		th:href="@{/css/employee/checklist/checkList.css}">
 	<script 
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script 
 		src="https://code.jquery.com/jquery-3.4.1.min.js"></script>	
+
 </head>
 <body>
+
+<input type="hidden" th:value="${checkList.checkReservationNo}" class="reservationNo" name="reservationNo"> 
+
 <section>
 	
-	<form method="post" action="admin/checklist/denial"  enctype="multipart/form-data">
-	
-		<input type="hidden" th:value="${checkList.checkReservationNo}" class="reservationNo" name="reservationNo"> 
+	<form method="post" action="admin/checklist/denial"  enctype="multipart/form-data" id ="formSender">
 		
 		<p th:utext="${checkList.checkHTML}" class="jbHtml"></p>			
 		
@@ -75,7 +76,7 @@
 	    
     	document.getElementById("denial").onclick = function(){
 	    	
-			const reservationNo = $('.reservationNo').val();
+			
 			if($("#adminOpnion2").val().length < 30) {
 				
 				alert("소견서는 30자 이상 작성하여 제출해 주세요");
@@ -86,7 +87,7 @@
 	    		if(confirm("서류를 반려하시겠습니까? 직원에게 알림이 전송됩니다.")){
 	    			
 	    			$("#sendingMessage").val("체크리스트가 반려되었습니다.")
-	    			$("#sendingName").val(userName)
+	    			$("#sendingName").val(userName) 
 	    			
 	    			$("#send").bind("click", function(){});
 	    			
@@ -95,8 +96,10 @@
 	    			document.getElementById("adminOpnion").remove();
 	    			document.getElementById("adminOpnion2").style="";
 	    			
+	    			const reservationNo = $('.reservationNo').val();
 	    			const jbHtml = $( 'section' ).html();
 	    			const blackYn = 1;
+	    			alert("테스트 : " + reservationNo)
 	    			
 	    			$.ajax({
 	    				url: "denial",
@@ -123,7 +126,6 @@
 	    	}
 	    }
     	document.getElementById("accept").onclick = function(){
-    		
 			const reservationNo = $('.reservationNo').val();
 			
 			if($("#adminOpnion2").val().length < 30) {
@@ -134,7 +136,7 @@
 			
 	    		if(confirm("서류를 승인하시겠습니까? 직원에게 알림이 전송됩니다.")){
 	    			
-	    			$("#sendingMessage").val("체크리스트가 승인되었습니다.")
+	    			$("#sendingMessage").val("체크리스트가 승인되었습니다. 급여 확인부탁드립니다.")
 	    			$("#sendingName").val(userName)
 	    			
 	    			$("#send").bind("click", function(){});
@@ -143,6 +145,8 @@
 	    			
 	    			document.getElementById("adminOpnion").remove();
 	    			document.getElementById("adminOpnion2").style="";
+	    			
+	    			const reservationNo = $('.reservationNo').val();
 	    			const jbHtml = $( 'section' ).html();
 	    			
 	    			
@@ -189,10 +193,14 @@
 </script>
 
 </body>
-	<script 
-		src="/js/socket.js"></script>
+
+	<script
+   		src="/js/socket.js"></script> 
+   	<script 
+    	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script 
+   		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script
 		src="http://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-   	<script 
-		src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
 </html>
