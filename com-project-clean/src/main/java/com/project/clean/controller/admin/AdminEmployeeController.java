@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +13,11 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,20 +35,24 @@ import com.project.clean.model.dto.commonDTO.VacationDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
 import com.project.clean.model.service.admin.AdminEmployeeService;
 
+import net.bytebuddy.asm.Advice.OffsetMapping.Sort;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminEmployeeController {
 
 	private final AdminEmployeeService adminService;
 	private final PageDTO pageDTO;
+	private BCryptPasswordEncoder passwordEncoder;
 	private final int maxLine = 5;
 
 	@Autowired
-	public AdminEmployeeController(AdminEmployeeService adminService, PageDTO pageDTO) {
+	public AdminEmployeeController(AdminEmployeeService adminService, PageDTO pageDTO, BCryptPasswordEncoder passwordEncoder) {
 		this.adminService = adminService;
 		this.pageDTO = pageDTO;
+		this.passwordEncoder = passwordEncoder;
 	}
-
+	
 	public Date today() {
 		LocalDate now = LocalDate.now();
 		java.sql.Date today = java.sql.Date.valueOf(now);
@@ -205,6 +213,14 @@ public class AdminEmployeeController {
 //		return selectRetireNEmployeeList;
 //	}
 
+	@GetMapping("/reitre/employee/{empNo}")
+	public String retireEmployee (@PathVariable int empNo) {
+		System.out.println("empNoempNoempNoempNoempNoempNoempNoempNoempNoempNo"+empNo);
+		adminService.retireEmployee(empNo);
+		
+		return "redirect:/admin/select/AllEmployee/move";
+	}
+	
 	/* (관리자가)직원 수정 페이지로 이동 */
 	@GetMapping("/modify/employee/{empNo}")
 	public String adminModifyEmployee(@PathVariable int empNo, Model mv) {
@@ -253,11 +269,12 @@ public class AdminEmployeeController {
 	/* (관리자가)직원 정보 수정 */
 	@PostMapping("/modify/employee")
 	public String modifyEmployee(EmployeeAndAllDTO employeeDTO, String oldSaveRoot, String oldSaveName, Model mv,
-			@RequestParam("picture") MultipartFile singleFile, HttpServletRequest request) {
+			@RequestParam("picture") MultipartFile singleFile, HttpServletRequest request, String status) {
 
 		String root = request.getSession().getServletContext().getRealPath("/");
 		String filePath = root + "adminEmployeePicture";
 
+		if("modify".equals(status)){
 		if (!singleFile.getOriginalFilename().isEmpty()) {
 
 			String originFileName = singleFile.getOriginalFilename();
@@ -285,17 +302,30 @@ public class AdminEmployeeController {
 				new File(filePath + "/" + saveName).delete();
 				mv.addAttribute("message", "파일 업로드 실패!");
 			}
+		} else {
+			
+			/* null이면 사진 바꾸지말고 다시 화면으로 가 (들어와서 사진 변경 안하고 수정확인 눌렀을 경우 file은 null이기 때문에 대비함)*/
 		}
 
 		adminService.modifyEmployee(employeeDTO);
-//		new File(oldSaveRoot + "/" + oldSaveName).delete();
 
 		mv.addAttribute("employeeDTO", employeeDTO);
+		
+		}else if ("delete".equals(status)) {
+			
+			/*1. 사용자가 delete 누르면 DB가서 해당 직원 조회하고 */
+			EmployeeAndAllDTO empDTO = adminService.deletePicture(employeeDTO.getEmployeeNo()); 
+			
+			/*4. 해당 파일 삭제 */
+			new File(filePath + "/" + empDTO.getEmployeePictureSaveName()).delete();
+
+		}
+		
 		return "redirect:/admin/select/AllEmployee/move";
 	}
 
 	/* 직원 등록 페이지 이동 */
-	@GetMapping("/hr/regist/EmployeePage")
+	@GetMapping("/hr/regist/employeePage")
 	public String registEmployeeList(@RequestParam(value = "page", defaultValue = "0") int page, Model mv) {
 		int maxMemberNo = adminService.getMaxMemberNo();
 
@@ -313,7 +343,58 @@ public class AdminEmployeeController {
 
 		return "admin/humanResource/registEmployee/registEmployeeList";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@GetMapping("/hr/regist/employee/findMiddlePhone")
+	@ResponseBody
+	public List<String> findMiddlePhoneNum(Model mv) {
+		
+		List<EmployeeAndAllDTO> employeeList = adminService.findMiddlePhoneNum();
+		List<String> middlePhoneList = new ArrayList<>();
+		
+		for(int i = 0; i < employeeList.size(); i++) {
+			String middlePhoneChange = employeeList.get(i).getEmployeePhone();
+			
+			if(employeeList.get(i).getEmployeePhone().length() == 12) {
+				String middlePhoneNum = middlePhoneChange.replaceAll("-", "").replaceAll("010", "");
+				middlePhoneList.add(middlePhoneNum);
+				
+			}else if(employeeList.get(i).getEmployeePhone().length() == 13) {
+				String middlePhoneNum = middlePhoneChange.replaceAll("-", "").replaceAll("010", "");
+				middlePhoneList.add(middlePhoneNum);
+			}
+		}
+		for(String e : middlePhoneList) {
+			System.out.println("eeeeeeeeeeeeasdeee" + e);
+		}
+		return middlePhoneList;
+	
+	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@GetMapping("/hr/waiting/employeeHR/move")
 	public String waitingEmployeeHrMove() {
 		return "/admin/humanResource/registEmployee/waitingEmployeeListHR";
@@ -403,7 +484,8 @@ public class AdminEmployeeController {
 		/* 비크립트 */
 		/* 비크립트 */
 		/* 비크립트 */
-		employeeDTO.setEmployeePwd("0000");
+		
+		employeeDTO.setEmployeePwd(passwordEncoder.encode("0000"));
 		/* 비크립트 */
 		/* 비크립트 */
 		/* 비크립트 */
@@ -624,7 +706,10 @@ public class AdminEmployeeController {
 	
 	
 	
-	
+	@GetMapping("/test")
+	public String test() {
+		return "/admin/humanResource/registEmployee/test.html";
+	}
 	
 	
 	
@@ -639,7 +724,7 @@ public class AdminEmployeeController {
 	/* 나의 휴가 조회 */
 	@GetMapping("/select/selectMyVacation")
 	@ResponseBody
-	public Map<String, Object> selectMyVacaionList(int adminNo, Date startDate, Date endDate, String category, String categoryValue, @PageableDefault(sort="vacationNo", size = maxLine) Pageable pageable) {
+	public Map<String, Object> selectMyVacaionList(int adminNo, Date startDate, Date endDate, String category, String categoryValue, @PageableDefault(direction = Direction.DESC, sort = "vacationNo", size = maxLine) Pageable pageable) {
 	      Map<String,Object> map = new HashMap<>();
 	      map = adminService.selectMyVacaionList(adminNo, pageable);
 	      
@@ -799,24 +884,9 @@ public class AdminEmployeeController {
 	@ResponseBody
 	public Map<String, Object> selectAllVacationConfirmList(String category, String categoryValue,String startDate, String endDate,  @PageableDefault( size = maxLine) Pageable pageable) {
 		Map<String,Object> map = new HashMap<>();
-		System.out.println("1categorycategorycategory"+category);
-		System.out.println("1categorycategorycategory"+category);
-		System.out.println("1categorycategorycategory"+category);
-		System.out.println("1categorycategorycategory"+category);
 		map = adminService.selectAllVacationConfirmList(category, categoryValue, startDate, endDate, pageable);
-		System.out.println("categorycategorycategory"+category);
-		System.out.println("categorycategorycategory"+category);
-		System.out.println("categorycategorycategory"+category);
-		System.out.println("categorycategorycategory"+category);
-		System.out.println("categorycategorycategory"+category);
-		System.out.println("categorycategorycategory"+category);
-		System.out.println("categorycategorycategory"+category);
 		
 		return map;
-		
-		
-		
-		
 		
 	}
 	/* 휴가 반려 조회 페이지 이동 */

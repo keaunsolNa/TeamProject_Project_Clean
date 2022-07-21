@@ -8,62 +8,12 @@
     
 
 <style type="text/css">
-  
-    .tg  {border-collapse:collapse;border-spacing:0;}
-      .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
-        overflow:hidden;padding:5px;word-break:normal;}
-      .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
-        font-weight:normal;overflow:hidden;padding:5px;word-break:normal;}
-      .tg .tg-amwm{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
-
-      .comfirmBox td{
-        height: 75px;
-      }
-
-      .confirmTable{
-        margin: 20px;
-      }
-
-      .confirmHeight{
-        margin: auto;
-        line-height: center;
-        line-height: 100px;
-      }
-    /* 결재 승인 */
-
-
-    /* 휴가신청서 */
-    .tg2  {border-collapse:collapse;border-spacing:0;}
-    .tg2 td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-    overflow:hidden;padding:10px 10px;word-break:normal;}
-    .tg2 th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-    font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;}
-    .tg2 .tg2-7btt{border-color:inherit; font-weight:bold;text-align:center;vertical-align:top}
-
-    .confirmDateContainer{
-        margin: 25px;
-    }
-    .container{
-        width: 1500px;
-    }
-
-    .reason{
-        height: 100px;
-        line-height: 100px;
-    }
-
-    .confirmLine{
-        line-height: 75px;
-    }
-
-
-    </style>
+</style>
 
 </head>
 <body>
-    <div class="container">
-      <div id="tab-1" class="tab-content current">
-
+	<div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div>
 	<form name="myVacationForm" action="/admin/select/selectMyVacation" id="myVacationForm">
         <span>나의 휴가 조회</span>
 <!-- 	<select name="category" id="category">
@@ -105,9 +55,6 @@
                <!-- /* 페이징 버튼들어올 공간 */ -->
 		</div>
         
-    </div>
-    </div>
-    
     <script>
     
     
@@ -161,8 +108,13 @@
 					$startTd = $("<td>").text(data.vacationList[index].vacationStartDate);
 					$endTd = $("<td>").text(data.vacationList[index].vacationEndDate);
 					$nameTd = $("<td>").text(data.vacationList[index].vacationName);
-					/* <td th:text="${ (index.) == 'Y'? '승인 완료' : (index.vacationReturnYn) == 'Y' ? '반려' : '승인대기중' }"></td> */
-					$lastTd = $("<td>").text(data.vacationList[index].vacationLastConfirmYn);
+					
+					if(data.vacationList[index].vacationLastConfirmYn == "Y"){
+						$lastTd = $("<td>").text("승인완료");	
+					}else{
+						$lastTd = $("<td>").text("승인반려");	
+					}
+					
 					
 							$tr.append($noTd);
 							$tr.append($requestTd);

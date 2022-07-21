@@ -6,66 +6,69 @@
     <meta charset="UTF-8">
     <title>Document</title>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <style type="text/css">
+<style type="text/css">
 
-      /* 결재 테이블 */
-      .tg  {border-collapse:collapse;border-spacing:0;}
-      .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
-        overflow:hidden;padding:5px;word-break:normal;}
-      .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
-        font-weight:normal;overflow:hidden;padding:5px;word-break:normal;}
-      .tg .tg-amwm{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
+/* 결재 테이블 */
+.tg td {
+	border-style: solid;
+	border-width: 1px;
+	font-size: 12px;
+	overflow: hidden;
+	padding: 5px;
+	word-break: normal;
+}
 
-      .comfirmBox td{
-        height: 75px;
-      }
+.tg th {
+	border-style: solid;
+	border-width: 1px;
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	padding: 5px;
+}
 
-      .confirmTable{
-        margin: 20px;
-      }
+.tg .tg-amwm {
+	font-weight: bold;
+	text-align: center;
+}
 
-      .confirmHeight{
-        margin: auto;
-        line-height: center;
-        line-height: 100px;
-      }
+.comfirmBox td {
+	height: 75px;
+}
 
-      /* 인사 테이블 */
-        .tg2  {border-collapse:collapse; border-spacing:0;}
-        .tg2 td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-          overflow:hidden;padding:10px 10px;word-break:normal;}
-        .tg2 th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-          font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;}
-        .tg2 .tg2-7btt{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
+.confirmTable {
+	margin: 20px;
+}
 
+.confirmHeight {
+	margin: auto;
+	line-height: center;
+}
 
-        
+/* 인사 테이블 */
 
+.tg2 td {
+	border-style: solid;
+	border-width: 1px;
+	font-size: 14px;
+	padding: 10px 10px;
+}
 
-      /* 부가 */
-      #confirm, #return{
-            margin: 15px;
-        }
+.tg2 th {
+	border-style: solid;
+	border-width: 1px;
+	font-size: 14px;
+}
 
-      button{
-          height: 30px;
-          width: 70px;
-        }
-
-
-
-      .container {
-            width: 1500px;
-            margin: 0 auto;
-        }
-
-
-        </style>
+.tg2 td {
+	font-weight: bold;
+	text-align: center;
+}
+</style>
 </head>
 <body>
-  <div class="container">
-
   <!-- 결재라인 -->
+  	<div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div> 
     <div>
       <table class="tg confirmTable" style="table-layout: fixed; width: 588px">
         <colgroup>
@@ -204,7 +207,6 @@
 		      </table>
           </form>
         </div>
-      </div>
       <script>
     	  const adminNoValue = $("#adminNoValue").text();
       

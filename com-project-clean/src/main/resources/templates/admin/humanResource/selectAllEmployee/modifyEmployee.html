@@ -19,7 +19,9 @@
         </style>
 </head>
 <body>
-    <div align="center">
+	<div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div>
+    <div>
     	<form action="/admin/modify/employee" method="post" id="modifyForm" enctype="multipart/form-data">
 	        <table class="tg" style="table-layout: fixed; width: 736px">
 	        <colgroup>
@@ -40,6 +42,8 @@
 	            <td class="tg-7btt" colspan="2" rowspan="3"> <img id="pictureImg" th:src="@{/adminEmployeePicture/} + ${employee.employeePictureSaveName}" width="100px" height="100px"></td>
 	            <td style="display: none;"><input type="text" id="oldSaveRoot" name="oldSaveRoot" th:value="${employee.employeePictureSaveRoot}"></td>
 	            <td style="display: none;"><input type="text" id="oldSaveName" name="oldSaveName" th:value="${employee.employeePictureSaveName}"></td>
+	            <td style="display: none;"><input type=text id="status" name="status" value="modify"></td>
+	            
 	            
 	          </tr>
 	          <tr>
@@ -58,7 +62,6 @@
 	             	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' th:value="${phone.lastPhoneNumber}" required>
 	             	<input style="display: none;" type="text" id="employeePhone" name="employeePhone">
 	             	<td style="display: none;"><input type="text" th:value="${phone.firstPhoneNumber}" id="firstPhoneNumber" name="firstPhoneNumber"></td>
-	             </td>
 	          </tr>
 	          <tr>
 	            <td class="tg-7btt">생년월일</td>
@@ -86,8 +89,8 @@
                 <td class="tg-7btt"style="display: none;"><input id="employeeEmail" name="employeeEmail" type="text"/></td>
                 <td class="tg-7btt"style="display: none;"><input id="domainValue" type="text" th:value="${email.domain}"/></td>
 	                    <td class="tg-7btt"> <button type="button" id="pictureModify" name="pictureModify">수정</button> </td>
-	                    <td class="tg-7btt"> <button type="button"id="pictureDelete" name="pictureDelete">삭제</button> </td>
-	                    <td style="display: none;"> <input type="file" id="picture" name="picture" onchange="loadImg(this,1)">
+	                    <td class="tg-7btt"> <button type="button"id="pictureDelete" name="pictureDelete" >삭제</button> </td>
+	                    <td style="display: none;"> <input type="file" id="picture" name="picture" onchange="loadImg(this,1)" accept="image/*">
 	          		</tr>
 	                  <tr>
 	                    <td class="tg-7btt">우편번호</td>
@@ -134,7 +137,6 @@
     
     <script>
     
-
 		
 	/* 핸드폰 번호 정규표현식 */
     $("#employeePhone2").focusout(function (event) {
@@ -218,21 +220,36 @@
     		$("#employeePhone1").val(checkedFirstPhone).prop("selected", true);
     		$("#domain").val(checkedDomain).prop("selected", true);
     		
-	
-		    /* 사진등록 */
+
+    		
 		    
-			/* 이미지 미리보기 관련 스크립트 */
+		    
+		   /* 변형 */ 
+    		$("#pictureModify").click(function(){
+    			$("#pictureImg").show();
+            	$("#status").val("modify");
+            	
+		   /* 삭제 */ 
+            })
+            $("#pictureDelete").click(function(){
+    			$("#pictureImg").hide();
+            	$("#status").val("delete");
+            })
+		    
+		    
+		    /* 사진등록 */
 			const pictureModify = document.getElementById("pictureModify");
 			
 			pictureModify.onclick = function() {
 				document.getElementById("picture").click();
 			}
-	
+			
 			/* 이미지 미리보기 관련 함수(File API 활용하기) */
 			function loadImg(value, num) {
 				
 				/* https://developer.mozilla.org/ko/docs/Web/API/FileReader 참고 (MDN 사이트 참고)*/
 				if (value.files && value.files[0]) {			// value.files[0]는 파일 이름
+					console.log(value.files[0]);
 					const reader = new FileReader();
 				
 					reader.readAsDataURL(value.files[0]);		// Base64방식으로 파일을 FileReader에 전달 (Base64로 인코딩한 것은 브라우저가 원래 데이터로 만들게 됨)

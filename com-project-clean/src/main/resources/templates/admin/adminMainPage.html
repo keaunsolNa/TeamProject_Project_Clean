@@ -6,22 +6,22 @@
 <title>Insert title here</title>
 </head>
 <body>
-	 <div th:include="common/header.html"></div>
-
+	<div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div>
+	
+	<!-- <div th:replace="admin/adminAside.html"></div> -->
 	<!-- <p th:text="${#authentication.name}"></p> -->
 	해당 사용자 권한: <span th:text="${#authentication.authorities}"></span>
 	<!-- <p th:text="${#authentication.authenticated}"></p> -->
 	 <br>
 	  <button onclick="location.href='/admin/select/AllEmployee/move'">전체 인원 조회</button>
 	<!-- <button onclick="location.href='/admin/select/retireN'">전체 인원 조회</button> -->
-
-	 <div th:include="admin/adminAside.html"></div>
-
-	<button onclick="location.href='/admin/hr/regist/EmployeePage'">직원 등록(hr)</button>
+	<button onclick="location.href='/admin/hr/regist/employeePage'">직원 등록(hr)</button>
 	
 	
 	
 	<button onclick="location.href='/admin/select/blackList/move'">블랙리스트 조회</button>
+	<button onclick="location.href='/admin/test'">테스트</button>
 	
 	
 	
@@ -44,10 +44,6 @@
 	</th:block>
 	</div>
 	
-	<button type="button" id="myVacationList">나의 휴가 조회(직원)</button>
-	      <div style="display: none;" id="myVacation" sec:authentication="principal.adminNo"></div>
-	
-	<button onclick="location.href='/admin/hr/select/Allvacation'">휴가 전체 조회</button>
 	
 	 <br>
 	 <br>
