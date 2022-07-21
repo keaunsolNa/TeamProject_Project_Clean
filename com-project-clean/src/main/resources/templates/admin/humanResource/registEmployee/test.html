@@ -65,7 +65,7 @@ table th {
 	                    
 	                    <td class="tg-7btt" style="display: none;"><input name="employeeNo" th:value="${employeeNo}"/></td>
 	                    <td class="tg-7btt">이름</td>
-	                    <td class="tg-7btt"><input type="text" id="employeeName" name="employeeName" class="required" maxlength='4' required>
+	                    <td class="tg-7btt"><input type="text" id="employeeName" name="employeeName" class="required" maxlength='4' placeholder="한글 2~4글자" required>
 	                    <div id="nameCheckMessage">2~4글자 한글을 입력하기로 해요</div></td>
 	                    
 	                    <!-- <td class="tg-7btt" colspan="2" rowspan="3"><div id="picture">사진</div></td> -->
@@ -86,8 +86,8 @@ table th {
 	                    		<option>017</option>
 	                    		<option>019</option>
 	                    	</select>-
-	                    	<input type="text" id="employeePhone2" name="employeePhone2" class="required" maxlength='4' required style="width: 50px">-
-	                    	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' required style="width: 50px">
+	                    	<input type="text" id="employeePhone2" name="employeePhone2" class="required" maxlength='4' required style="width: 50px" placeholder="숫자 3~4자리">-
+	                    	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' required style="width: 50px"  placeholder="숫자 4자리">
 	                    	<input style="display: none;" type="text" id="employeePhone" name="employeePhone">
 	                    	<div id="middleNumCheckMessage" >중간번호는 3~4자리 숫자를 입력하기로 약속해요</div>
 	                    	<div id="endNumCheckMessage" >끝번호는 4자리 숫자를 입력하기로 약속해요</div>
@@ -105,7 +105,7 @@ table th {
 	                <tbody>
 	                  <tr>
 	                    <td class="tg-7btt">이메일</td>
-	                    <td class="tg-7btt" colspan="3"><input type="text" id="email" class="required" name="email" required style="width: 200px;"> @ 
+	                    <td class="tg-7btt" colspan="3"><input type="text" id="email" class="required" name="email" required style="width: 200px;"  placeholder="영문 대소문자+숫자 5~12자리"> @ 
 	                      <select name="domain" id="domain" style="width: 100px; height: 25px;">
 	                    <option value="naver.com" selected>naver.com</option>
 	                    <option value="google.com">google.com</option>
@@ -131,7 +131,7 @@ table th {
 	                  </tr>
 	                  <tr>
 	                    <td class="tg-7btt">상세주소</td>
-	                    <td class="tg-7btt" colspan="5"><input type=text id="addressDetail" class="required" name="addressDetail" required></td>
+	                    <td class="tg-7btt" colspan="5"><input type=text id="addressDetail" class="required" name="addressDetail"  placeholder="틀리지 않게 주의해 주세요" required></td>
 	                    <td class="tg-7btt"style="display: none;"><input id="employeeAddress" name="employeeAddress" type="text"/></td>
 	                    
 	                  </tr>
@@ -246,26 +246,27 @@ table th {
 	    
 	 $("#employeePhone2").focusout(function () {
 	 	var regexp = /^[0-9]{3,4}/g;
-	     if (!regexp.test($("#employeePhone2").val())) {
+	     if (!regexp.test($("#employeePhone2").val())) {		// 중간번호 틀리면
 	    	 	$("#duplicateCheckMessage").hide();
 		     	$("#middleNumCheckMessage").show();
 		     	$("#endNumCheckMessage").hide();
 	     $(this).focus();
 	         $(this).val('');
-	     }else{
+	     }else{													// 중간번호 맞으면
 	     	$("#middleNumCheckMessage").hide();
 	     	$.ajax({
 	     		url: "/admin/hr/regist/employee/findMiddlePhone",
 	     		success: function(data){
 	     			for(var i = 0; i < data.length; i++){
-	     				if(data[i] == $("#employeePhone2").val() + $("#employeePhone3").val()){
+	     				if(data[i] == $("#employeePhone2").val() + $("#employeePhone3").val()){		// 중복값이면
 	     					$("#duplicateCheckMessage").show();
 	     			     	$("#middleNumCheckMessage").hide();
 	     			     	$("#endNumCheckMessage").hide();
-	     				    $(this).focus();
-	     				    $(this).val('');
+	     			     	
+	     				    $("#employeePhone2").focus();
+	     				    $("#employeePhone2").val('');
 	     					break;
-	     				}else{
+	     				}else{									//성공하면
 	     					$("#duplicateCheckMessage").hide();
 	     			     	$("#middleNumCheckMessage").hide();
 	     			     	$("#endNumCheckMessage").hide();
@@ -297,16 +298,15 @@ table th {
 	     					$("#duplicateCheckMessage").show();
 	     			     	$("#middleNumCheckMessage").hide();
 	     			     	$("#endNumCheckMessage").hide();
+	     			     	
+	     				    $("#employeePhone2").focus();
+	     				    $("#employeePhone2").val('');
 	     					break;
 	     				}else{
 	     					$("#duplicateCheckMessage").hide();
 	     			     	$("#middleNumCheckMessage").hide();
 	     			     	$("#endNumCheckMessage").hide();
 	     				}
-	     			}
-	     			if(data[i] == $("#employeePhone2").val() + $("#employeePhone3").val()){
-	     				    $(this).focus();
-	     				    $(this).val('');
 	     			}
 	     		},
 	     		error: function(){

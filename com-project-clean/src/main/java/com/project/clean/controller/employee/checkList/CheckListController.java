@@ -51,9 +51,9 @@ public class CheckListController {
 
 		String employeeId = principal.getName();
 		List<ReservationInfoDTO> reservationList =  checkListService.selectReservationListByEmployeeId(employeeId);
-		System.out.println("TESTTTTTTTTTT" + reservationList);
-		System.out.println("TESTTTTTTTTTTTTTTTTTT");
+		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
 		mapper.setDateFormat(dateFormat); 
 		return mapper.writeValueAsString(reservationList);
 	}
@@ -75,9 +75,7 @@ public class CheckListController {
 		
 		String employeeId = principal.getName();
 		int parameter = 1;
-		System.out.println("TEST");
 		List<CheckListAndReservationInfoAndEmployeeDTO> checkList = checkListService.selectCheckList(employeeId, parameter);
-		System.out.println("TEST");
 		
 		return mapper.writeValueAsString(checkList);
 		
@@ -201,13 +199,6 @@ public class CheckListController {
 	public String updateDenialCheckList(HttpServletRequest request) {
 		
 		int reservationNo = Integer.parseInt(request.getParameter("reservationNo"));
-		System.out.println("TEST");
-		System.out.println("TEST");
-		System.out.println("TEST");
-		System.out.println(reservationNo);
-		System.out.println("TEST");
-		System.out.println("TEST");
-		System.out.println("TEST");
 		
 		CheckListDTO checkListDTO = new CheckListDTO();
 		

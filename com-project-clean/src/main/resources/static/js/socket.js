@@ -34,7 +34,11 @@ function showGreeting(message) {
 
 $(function () {
     $("form").on('submit', function (e) {
-        e.preventDefault();
+		if(!$("#send").click){
+	        e.preventDefault();
+	        alert("e.preventDefault()")
+		} 
+			
     });
 
     $( "#connect" ).click(function() { connect(); });
@@ -42,8 +46,8 @@ $(function () {
     $( "#send" ).click(function() { sendName(); });
 });
 
-$(function(){
-	connect();
+$(document).ready(function(){
+	connect()
 });	
 
 
