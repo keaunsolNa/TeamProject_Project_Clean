@@ -360,7 +360,6 @@ public class AdminEmployeeController {
 			System.out.println("eeeeeeeeeeeeasdeee" + e);
 		}
 		return middlePhoneList;
-
 	}
 
 	@GetMapping("/hr/waiting/employeeHR/move")
@@ -568,7 +567,7 @@ public class AdminEmployeeController {
 
 		adminService.insertRestCommitConfirm(restCommitDTO);
 
-		return "redirect:/admin/hr/regist/EmployeePage";
+		return "redirect:/admin/hr/regist/employeePage";
 
 	}
 
@@ -576,7 +575,7 @@ public class AdminEmployeeController {
 	@PostMapping("/hr/return/restCommit")
 	public String insertRestCommitReturn(ReasonDTO restCommitDTO) {
 		adminService.insertRestCommitReturn(restCommitDTO);
-		return "redirect:/admin/hr/regist/EmployeePage";
+		return "redirect:/admin/hr/regist/employeePage";
 	}
 
 	/* 사장 직원 2차승인 */
@@ -584,7 +583,7 @@ public class AdminEmployeeController {
 	public String insertAndUpdateRestCommitConfirmBoss(ReasonDTO restCommitDTO) {
 		adminService.insertAndupdateRestCommitConfirmBoss(restCommitDTO);
 
-		return "redirect:/admin/hr/regist/EmployeePage";
+		return "redirect:/admin/hr/regist/employeePage";
 
 	}
 
@@ -592,7 +591,7 @@ public class AdminEmployeeController {
 	@PostMapping("/boss/return/restCommit")
 	public String insertAndupdateRestReturnReturnBoss(ReasonDTO restCommitDTO) {
 		adminService.insertAndupdateRestCommitReturnBoss(restCommitDTO);
-		return "redirect:/admin/hr/regist/EmployeePage";
+		return "redirect:/admin/hr/regist/employeePage";
 	}
 
 	/* 블랙리스트 조회페이지 이동 */

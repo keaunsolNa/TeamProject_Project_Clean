@@ -93,7 +93,7 @@
                 
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             
-                                <li><a class="dropdown-item" id="selectMyInfo">내정보 조회</a></li>
+                                <li><a class="dropdown-item" id="selectMyInfo" href="/member/selectEmployee/move">내정보 조회</a></li>
                                 <li><a class="dropdown-item" href="#">알림2</a></li>
                                 <li><a class="dropdown-item" href="#">알림3</a></li>
                                 
@@ -163,14 +163,7 @@
             </div>
         </nav>
 		
-		<div id="employeeNoValue" style="display: none;" sec:authentication="principal.employeeNo"></div>
     </header>
     
-    <script>
-    $("#selectMyInfo").click(function(){
-    	/* const employeeNo = $("#employeeNoValue").text(); */
-    	location.href="/member/selectEmployee/" + employeeNo;
-    })
-    </script>
 </body>
 </html>

@@ -102,11 +102,15 @@
         <br>
         <table class="button">
             <tr>
-            	<th:block sec:authorize="hasRole('HR')"> 
-                <td><button id="adminModify">수정</button></td>
-                </th:block>
+            <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
+                <td><button id="adminModify">HR수정</button></td>
+            </th:block>
                  
-                <th:block sec:authorize="hasRole('HR')">
+            <th:block sec:authorize="hasRole('ROLE_EMPLOYEE')">
+                <td><button id="employeeModify">EMPLOYEE수정</button></td>
+            </th:block>
+                 
+                <th:block sec:authorize="hasRole('ADMIN_HR')">
                 <td><button id="entire" th:if="${employee.employeeRetireYn == 'N'}">탈퇴 처리</button></td>
                 </th:block> 
                  
@@ -118,11 +122,11 @@
     <script>
     const value = $("#value").text();
 	$("#adminModify").click(function(){
-		location.href="/admin/modify/employee/"+value
+		location.href="/admin/modify/employee/"+value;
 	});
 	
 	$("#employeeModify").click(function(){
-		location.href="/admin/modify/employee"
+		location.href="/employee/modify/employee/"+value;
 	})
 	
 	$("#entire").click(function(){

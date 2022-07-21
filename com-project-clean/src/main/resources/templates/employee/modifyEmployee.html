@@ -283,7 +283,8 @@
 											$("#middleNumCheckMessage").hide();
 											$
 													.ajax({
-														url:"/admin/hr/regist/employee/findMiddlePhone",														success : function(data) {
+														url : "/employee/regist/employee/findMiddlePhone",
+														success : function(data) {
 															for (var i = 0; i < data.length; i++) {
 																if (data[i] == $("#employeePhone1").val() + $("#employeePhone2").val() + $("#employeePhone3").val()) { // 중복값이면
 																	$("#duplicateCheckMessage").show();
@@ -320,7 +321,8 @@
 											$("#endNumCheckMessage").hide();
 											$
 													.ajax({
-														url:"/admin/hr/regist/employee/findMiddlePhone",														success : function(data) {
+														url : "/employee/regist/employee/findMiddlePhone",
+														success : function(data) {
 															for (var i = 0; i < data.length; i++) {
 																if (data[i] == $("#employeePhone1").val()+ $("#employeePhone2").val()+ $("#employeePhone3").val()) {$("#duplicateCheckMessage").show();
 																	$("#middleNumCheckMessage").hide();

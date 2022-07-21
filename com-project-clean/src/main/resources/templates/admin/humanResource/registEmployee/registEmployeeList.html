@@ -34,9 +34,9 @@ table th {
 </head>
 
 <body>
-    
-<!-- 	 <div th:replace="/common/Header.html"></div>
-	<div th:replace="/admin/adminAside.html"></div>  -->      
+
+	<div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div>    
 	<div th:replace="/admin/humanResource/registEmployee/adminRegistMainHeader.html"></div>
 	
 		        <form action="/admin/hr/regist/employee" method="post" id="registForm" encType="multipart/form-data">
@@ -127,31 +127,13 @@ table th {
 	                    <option id="yahoo" value="yahoo.com">yahoo.com</option>
 	                    <option id="nate" value="nate.com">nate.com</option>
 	                    <option id="self">직접입력</option>
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    
 	                      </select>
+	                      
+	                      
+	                      
+	                      
+	                      
+	                      
 	                      <div id="emailCheckMessage">5~12자리 대소문자 + 영어로 입력하기로 약속해요</div>
 	                      <div id="selfEmailCheckMessage">옳바른 도메인 입력을 약속해요</div>
 	                      </td>
@@ -219,8 +201,6 @@ table th {
     	$("#selfInput").hide();
     	
     })
-    
-    
     
     $('#domain').change(function(){
         $("#domain option:selected").each(function () {
@@ -341,8 +321,8 @@ table th {
 	    	 	$("#duplicateCheckMessage").hide();
 		     	$("#middleNumCheckMessage").show();
 		     	$("#endNumCheckMessage").hide();
-	     $(this).focus();
 	         $(this).val('');
+	     $(this).focus();
 	     }else{													// 중간번호 맞으면
 	     	$("#middleNumCheckMessage").hide();
 	     	$.ajax({
@@ -377,14 +357,15 @@ table th {
     	 	$("#duplicateCheckMessage").hide();
 	     	$("#middleNumCheckMessage").hide();
 	     	$("#endNumCheckMessage").show();
-	     $(this).focus();
 	     $(this).val('');
+	     $(this).focus();
 	     }else{
 	     	$("#endNumCheckMessage").hide();
 	     	$.ajax({
 	     		url: "/admin/hr/regist/employee/findMiddlePhone",
 	     		success: function(data){
 	     			for(var i = 0; i < data.length; i++){
+	     				if(!$("#employeePhone2")){
 	     				if(data[i] ==$("#employeePhone1").val() + $("#employeePhone2").val() + $("#employeePhone3").val()){
 	     					$("#duplicateCheckMessage").show();
 	     			     	$("#middleNumCheckMessage").hide();
@@ -398,6 +379,7 @@ table th {
 	     			     	$("#middleNumCheckMessage").hide();
 	     			     	$("#endNumCheckMessage").hide();
 	     				}
+	     			}
 	     			}
 	     		},
 	     		error: function(){

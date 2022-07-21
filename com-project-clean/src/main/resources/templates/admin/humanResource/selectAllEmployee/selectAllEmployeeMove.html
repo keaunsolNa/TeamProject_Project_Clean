@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>	
+</head>
+		<div id="employeeNoValue" style="display: none;" sec:authentication="principal.employeeNo"></div>
+<body>
+
+<script>
+	$(function(){
+		const employeeNo = $("#employeeNoValue").text();
+    	location.href="/member/selectEmployee/" + employeeNo;
+	})
+</script>
+</body>
+</html>
