@@ -98,7 +98,7 @@ table th {
 	                  <tr>
 	                    <td class="tg-7btt">이메일</td>
 	                    <td class="tg-7btt" colspan="3"><input type="text" id="email" class="required" name="email" required style="width: 200px;"  placeholder="영문 대소문자+숫자 5~12자리"> @ 
-	                    <input id="selfInput" placeholder="이메일 주소를 입력하세요" value="얍">
+	                    <input id="selfInput" name="selfInput" placeholder="이메일 주소를 입력하세요" value="얍">
 	                      <select name="domain" id="domain" style="width: 100px; height: 25px;">
 	                    <option id="naver" value="naver.com" selected>naver.com</option>
 	                    <option id="google" value="google.com">google.com</option>
@@ -169,11 +169,15 @@ table th {
      		const value = $("")
         	
      		if($(this).val()== ("naver") || ("google") || ("daum") || ("yahoo") || ("nate") ){ // 시작 날짜 선택의 경우
+     			alert($(this).val());
      			 $("#selfInput").val('');                       //기존 값 초기화
-     			 $("#self").attr("value",$("#selfInput").val());
      			 $("#selfInput").attr("style","display:none"); //비활성화
      			 
      		} else if($(this).val()== ("#self")){	// 종료 날짜 선택 경우
+     			alert($("#selfInput").val());
+     			$("#self").attr('value', $("#selfInput").val());
+     			 /* $("#self").attr("value", $("#selfInput").val()); */
+     			alert($(this).val());
      			 $("#selfInput").attr("style","display:inline"); //활성화
      			
      			
@@ -298,6 +302,8 @@ table th {
 	     			     	$("#middleNumCheckMessage").hide();
 	     			     	$("#endNumCheckMessage").hide();
 	     			     	
+	     				    $("#employeePhone2").val('');
+	     				    $("#employeePhone2").focus();
 	     					break;
 	     				}else{									//성공하면
 	     					$("#duplicateCheckMessage").hide();
@@ -332,8 +338,8 @@ table th {
 	     			     	$("#middleNumCheckMessage").hide();
 	     			     	$("#endNumCheckMessage").hide();
 	     			     	
-	     				    $("#employeePhone3").focus();
 	     				    $("#employeePhone3").val('');
+	     				    $("#employeePhone3").focus();
 	     					break;
 	     				}else{
 	     					$("#duplicateCheckMessage").hide();
