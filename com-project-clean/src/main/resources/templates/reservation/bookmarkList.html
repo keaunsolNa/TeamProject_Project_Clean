@@ -3,19 +3,22 @@
 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
+<link href='/css/reservation/list.css' rel='stylesheet' />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
 	<script th:inline="javascript">
-		/*[# th:if = ${bookmarkMessage} != null]*/
-			alert([[${bookmarkMessage}]]);
-			location.href = '/';
-		/*[/]*/
+		const message = [[${message}]];
+		if(message){
+			alert(message);
+			location.href =  '/';
+		}
 	</script>
+	<div th:if ="${message} == null">
 	<div th:include="common/header.html"></div>
 	<div th:include="common/reservationAside.html"></div>
-	<h1 align="center" >즐겨찾기</h1>
+	<h1 class="head"  align="center" >즐겨찾기</h1>
 	<table align="center" border="1">
 		<tr>
 			<th style="display: none;"></th>
@@ -61,6 +64,6 @@
 	       }
 	   };
 	</script>
-
+	</div>
 </body>
 </html>

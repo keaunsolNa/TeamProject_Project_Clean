@@ -11,7 +11,9 @@ public interface EmpRepository extends JpaRepository<Employee, String> {
 
 	Employee findByEmployeeId(String employeeId);
 
-	Employee findByEmployeeNo(Integer employeeNo);
+	Employee findByEmployeeNo(int employeeNo);
+
+//	Employee findByEmployeeNoAndEmployeeBlackListYnAndEmployeeRetireYn(int employeeNo, String n1, String n2);
 
 
 }

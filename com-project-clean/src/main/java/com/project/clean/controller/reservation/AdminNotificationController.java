@@ -15,28 +15,29 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.project.clean.controller.common.paging.Pagenation;
 import com.project.clean.controller.common.paging.SelectCriteria;
-import com.project.clean.model.domain.commonEntity.Employee;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
-import com.project.clean.model.dto.commonDTO.EmployeeDTO;
 import com.project.clean.model.dto.commonDTO.NotificationDTO;
 import com.project.clean.model.dto.commonDTO.ReservationInfoDTO;
-import com.project.clean.model.service.reservation.EmployeeNotificationService;
+import com.project.clean.model.service.reservation.AdminNotificationService;
+import com.project.clean.model.service.reservation.AdminReservationService;
 
 @Controller
-@RequestMapping("/notification")
-public class NotificationController {
+@RequestMapping("/admin/notification")
+public class AdminNotificationController {
 
-
-	private final EmployeeNotificationService employeeNotificationService;
+	private final AdminNotificationService adminNotificationService;
+	private final AdminReservationService adminReservationService;
 
 	@Autowired
-	public NotificationController(EmployeeNotificationService employeeNotificationService) {
+	AdminNotificationController(AdminNotificationService adminNotificationService,
+			AdminReservationService adminReservationService) {
 		super();
-		this.employeeNotificationService = employeeNotificationService;
+		this.adminNotificationService = adminNotificationService;
+		this.adminReservationService = adminReservationService;
 	}
 	
-	@GetMapping("/list")
-	public ModelAndView notificationList(HttpServletRequest request, ModelAndView mv, Principal principal) {
+	@GetMapping("list")
+	public ModelAndView adminNotificationList(HttpServletRequest request, ModelAndView mv, Principal principal) {
 		
 		String currentPage = request.getParameter("currentPage");
 		int pageNo = 1;
@@ -45,12 +46,12 @@ public class NotificationController {
 			pageNo = Integer.parseInt(currentPage);
 		}
 		
-		/* 직원 번호 불러옴 */ 
-		String employeeId = principal.getName();
-		EmployeeDTO employee = employeeNotificationService.findByEmployeeId(employeeId);
-		int employeeNo = employee.getEmployeeNo();
+		/* 관리자 번호 불러옴 */
+		String adminId = principal.getName();
+		AdminDTO admin = adminReservationService.findByAdminId(adminId);
+		int adminNo = admin.getAdminNo();
 		
-		int totalCount = employeeNotificationService.selectTotalCount(employeeNo);
+		int totalCount = adminNotificationService.selectTotalCount(adminNo);
 		/* 한 페이지에 보여 줄 게시물 수 */
 		int limit = 10;		//얘도 파라미터로 전달받아도 된다.
 
@@ -60,32 +61,31 @@ public class NotificationController {
 		SelectCriteria selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
 		 
 		/* 해당 직원의 알림 목록 전체 select */
-		List<NotificationDTO> notificationList = employeeNotificationService.findAllByNotificationEmployeeNo(employeeNo, selectCriteria);
+		List<NotificationDTO> notificationList = adminNotificationService.findAllByNotificationAdminNoAndNotificationAdminYn(adminNo, "Y", selectCriteria);
 		System.out.println("notificationList" + notificationList);
 		
 		if(notificationList.size() == 0) {		
 			mv.addObject("message", "알림이 없습니다.");
-			mv.setViewName("reservation/notificationList");
+			mv.setViewName("reservation/admin/adminNotificationList");
 			return mv;
 		 } 
 	
 		mv.addObject("notificationList", notificationList);
 		mv.addObject("selectCriteria", selectCriteria);
-		mv.setViewName("reservation/notificationList");
+		mv.setViewName("reservation/admin/adminNotificationList");
 		return mv;
 	}
 	
-	/* 알림 세부 내용 */
 	@GetMapping("/detail/{notificationNo}")
-	public ModelAndView reservationDetail(ModelAndView mv, @PathVariable int notificationNo) {
+	public ModelAndView notificationDetail(ModelAndView mv, @PathVariable int notificationNo) {
 		
 		/* 해당 알림 테이블 조회 */
-		NotificationDTO notification = employeeNotificationService.findByNotificationNo(notificationNo);
+		NotificationDTO notification = adminNotificationService.findByNotificationNo(notificationNo);
 		/* 알림 읽음 여부 update */
-		employeeNotificationService.modifyNotificationReadYn(notificationNo, "Y");
+		adminNotificationService.modifyNotificationReadYn(notificationNo, "Y");
 		
 		/* 해당 예약건 select */
-		ReservationInfoDTO reservation = employeeNotificationService.findReservation(notification.getNotificationReservationNo());
+		ReservationInfoDTO reservation = adminNotificationService.findReservation(notification.getNotificationReservationNo());
 		/* 일할 시간 계산 */
 		java.sql.Timestamp startTime = reservation.getBusinessStartTime();
 		java.sql.Timestamp endTime = reservation.getBusinessEndTime();
@@ -96,7 +96,7 @@ public class NotificationController {
 		mv.addObject("notification", notification);
 		mv.addObject("reservation", reservation);
 		mv.addObject("workTime", workTime);
-		mv.setViewName("reservation/notificationDetail");
+		mv.setViewName("reservation/admin/adminNotificationDetail");
 		return mv;
 	}
 	
@@ -104,12 +104,12 @@ public class NotificationController {
 	@ResponseBody
 	public int notificationTime(Principal principal) {
 		
-		/* 직원 번호 불러옴 */ 
-		String employeeId = principal.getName();
-		EmployeeDTO employee = employeeNotificationService.findByEmployeeId(employeeId);
-		int employeeNo = employee.getEmployeeNo();
+		/* 관리자 번호 불러옴 */
+		String adminId = principal.getName();
+		AdminDTO admin = adminReservationService.findByAdminId(adminId);
+		int adminNo = admin.getAdminNo();
 		
-		List<NotificationDTO> notificationList = employeeNotificationService.findAllByNotificationEmployeeNoAndNotificationAdminYn(employeeNo, "N");
+		List<NotificationDTO> notificationList = adminNotificationService.findAllByNotificationAdminNoAndNotificationAdminYn(adminNo, "Y");
 		
 		int result = 0;
 		for(int i = 0; i < notificationList.size(); i++) {
@@ -120,7 +120,5 @@ public class NotificationController {
 		}
 		return result;
 	}
-		
-	
 	
 }

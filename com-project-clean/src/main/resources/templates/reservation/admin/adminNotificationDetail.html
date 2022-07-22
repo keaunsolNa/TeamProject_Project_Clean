@@ -9,12 +9,12 @@
 </head>
 <body>
 	<div th:include="common/header.html"></div>
-	<div th:include="common/reservationAside.html"></div>
+	<div th:include="common/adminReservationAside.html"></div>
 	<h1 class="head" align="center" >알림 상세 내용</h1>
 	<table align="center" border="1">
 		<tr>
 			<th>알림내용 : </th>
-			<td style="color : red;" th:text="${ notification.notificationText }"></td>
+			<td th:text="${ notification.notificationText }"></td>
 		</tr>
 		<tr>
 			<th>날짜 : </th>
@@ -70,21 +70,10 @@
 		</tr>
 	</table>
 	<div>
-		<button onclick="detail();">예약페이지</button>
+		<button th:onclick="'location.href = \'' + @{/admin/reservation/detail/{id}(id=${notification.notificationReservationNo})} + '\''">예약페이지</button>
 	</div>
 	<div>
 		<button onclick="history.back();">목록</button>
 	</div>
-	<script th:inline="javascript">
-		function detail(){
-			const start = new Date([[${#dates.format(reservation.businessStartTime, 'yyyy-MM-dd')}]]);
-			const now = new Date();
-			if(start.getTime() < now.getTime()){
-				alert("이미 종료된 예약입니다.");
-				return;
-			}
-			location.href = '/reservation/detail/'+[[${notification.notificationReservationNo}]];
-		};
-	</script>
 </body>
 </html>
