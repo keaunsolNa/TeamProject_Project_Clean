@@ -56,133 +56,6 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 		this.adminRepository = adminRepository;
 	}
 	
-	/* KS. CheckList 전체 조회 */
-	@Override
-	public List<CheckListAndReservationInfoAndEmployeeDTO> selectCheckList(String adminId, int parameter) {
-		List<CheckListDTO> check = new ArrayList<>();
-		List<CheckListAndReservationInfoAndEmployeeDTO> checkListAndReservationInfoAndEmployeeList = new ArrayList<>();
-		
-		try {
-			List<CheckList> checkList = new ArrayList<>();
-			
-			/* 파라미터 값으로 모든 체크리스트 조회 */
-			if(parameter == 1) {
-				checkList = checkListRepository.findAllByCheckStatus("R");
-			} else if(parameter == 2) {
-				checkList = checkListRepository.findAllByCheckStatus("D");
-			} else if(parameter == 3) {
-				checkList = checkListRepository.findAllByCheckStatus("A");
-			} else if(parameter == 4) {
-				checkList = checkListRepository.findAllByCheckStatus("B");
-			}
-			
-			/* 조회한 Entity List<CheckListDTO>로 전환 */
-			List<CheckListDTO> checkListDTO = checkList.stream().map(returnCheckList -> modelMapper.map(returnCheckList, CheckListDTO.class)).collect(Collectors.toList());
-
-			/* 매개변수로 adminEntity 조회 */
-			Admin admin = adminRepository.findByAdminId(adminId);
-			
-			/* AdminDTO로 전환 */
-			AdminDTO adminDTO = modelMapper.map(admin, AdminDTO.class);
-			
-			/* AdminNo Integer 변수에 담기 */
-			Integer adminNo = adminDTO.getAdminNo();
-			
-			/* 전달할 AdminName 변수에 담기 */
-			String adminName = "";
-			
-			/* for-each문 시작 */
-			for (CheckListDTO checkLists : checkListDTO) {
-				
-				if((checkLists.getAdminNo() == null || checkLists.getAdminNo() == adminNo)) {
-					
-					Integer checkAdminNo = checkLists.getAdminNo();
-					String checkHTML = checkLists.getCheckHTML();
-					String checkStatus = checkLists.getCheckStatus();
-					Integer checkReservationNo = checkLists.getCheckReservationNo();
-					
-					/* checkList에서 reservationNo 조회 */
-					Integer reservationNo = checkLists.getCheckReservationNo();
-					
-					/* reservationNo로 ReservationInfo Entity 조회 */
-					ReservationInfo reservationInfo = reservationInfoRepository.findByReservationNo(reservationNo);
-					
-					/* ReservationInfoEntity DTO로 전환 */
-					ReservationInfoDTO reservationInfoDTO = modelMapper.map(reservationInfo, ReservationInfoDTO.class);
-					
-					/* ReservationInfoDTO 에서 고객 이름 뽑아오기 */
-					String userName = reservationInfoDTO.getUserName();
-					
-					/* DTO의 reservationNo로 List<ApplyEmployeeEmbedded> 조회 */
-					List<ApplyEmployeeEmbedded> applyEmployeeList = applyRepository.findAllEmployeeApply2(reservationNo);
-					
-					/* 빈 List<EmployeeDTO> 객체 생성 */
-					List<EmployeeDTO> employeeArrayList = new ArrayList<>();
-					
-					/* 2중 for-each문 시작 */
-					for (ApplyEmployeeEmbedded applyEmployeeEmbedded : applyEmployeeList) {
-						
-						/* 조회한 ApplyEmployeeEmbeddedEntity로 employeeNo 조회 */
-						Integer employeeNo = applyEmployeeEmbedded.getApplyEmployeeIdAndApplyReservationNo().getApplyEmployeeNo();
-						
-						/* 조회한 employeeNo로 EmployeeEntity 조회 */
-						Employee employee = empRepository.findByEmployeeNo(employeeNo);
-						
-						/* EmployeeEntityEmployeeDTO로 변환 */
-						EmployeeDTO employeeDTO = modelMapper.map(employee, EmployeeDTO.class);
-						
-						/* EmployeeDTO에서 employeeName 변수 꺼내오기 */
-						String employeeId = employeeDTO.getEmployeeId();
-						
-						/* 전달용 DTO 객체 생성 */
-						CheckListAndReservationInfoAndEmployeeDTO checkListAndReservationInfoAndEmployeeDTO = new CheckListAndReservationInfoAndEmployeeDTO();
-						
-						/* 값 주입 */
-						checkListAndReservationInfoAndEmployeeDTO.setEmployeeName(employeeId);
-						checkListAndReservationInfoAndEmployeeDTO.setCustomerName(userName);
-						checkListAndReservationInfoAndEmployeeDTO.setCheckReservationNo(checkReservationNo);
-						
-						/* View단에서 보여질 checkList 상태값 설정 */
-						if(checkStatus.equals("R")) {
-							checkStatus = "미처리";
-						} else if(checkStatus.equals("D")) {
-							checkStatus = "반려";
-						} else if(checkStatus.equals("A")) {
-							checkStatus = "완료";
-						} else if(checkStatus.equals("B")) {
-							checkStatus = "경고";
-						}
-						
-						/* 값 주입 */
-						checkListAndReservationInfoAndEmployeeDTO.setCheckStatus(checkStatus);
-						checkListAndReservationInfoAndEmployeeDTO.setCheckHTML(checkHTML);
-						
-						/* 담당자 있는지 판별 */
-						if(checkLists.getAdminNo() == adminNo) {
-							adminName = adminDTO.getAdminName();
-							checkListAndReservationInfoAndEmployeeDTO.setAdminName(adminName);
-						} else {
-							adminName = "담당자 없음";
-							checkListAndReservationInfoAndEmployeeDTO.setAdminName(adminName);
-						}
-						
-						/*  List<CheckListAndReservationAndEmployee> 객체에 값 주입 */
-						checkListAndReservationInfoAndEmployeeList.add(checkListAndReservationInfoAndEmployeeDTO);
-						
-					}
-				}
-				
-				}
-				return checkListAndReservationInfoAndEmployeeList;
-			
-		} catch(java.util.NoSuchElementException e) {
-			
-			System.out.println("쌓인 체크리스트 없음");
-			
-			return checkListAndReservationInfoAndEmployeeList;
-		} 
-		
-	}
 
 	/* KS. CheckList 상세 조회 */
 	@Override
@@ -230,21 +103,21 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 		/* 예약번호로 체크리스트 조회 */
 		CheckList checkListEntity = checkListRepository.findByCheckReservationNo(checkList.getCheckReservationNo()); 
 		
+		/* 체크리스트 HTML 값 주입 */
+		checkListEntity.setCheckHTML(checkList.getCheckHTML());
+
 		/* parameter로 넘어온 값으로 각각의 체크리스트 상태에 맞는 체크리스트 조회 */
 		if(checkList.getCheckStatus().equals("D")) {
 			
-			checkListEntity.setCheckHTML(checkList.getCheckHTML());
 			checkListEntity.setCheckStatus("D");
 			
 		} else if(checkList.getCheckStatus().equals("A")) {
 			
-			checkListEntity.setCheckHTML(checkList.getCheckHTML());
 			checkListEntity.setCheckStatus("A");
 			
 		} else if(checkList.getCheckStatus().equals("B")) {
 			
 			checkListEntity.setCheckStatus("B");
-			checkListEntity.setCheckHTML(checkList.getCheckHTML());
 			
 			/* 체크리스트에서 예약 번호 조회 */
 			int reservationNo = checkListEntity.getCheckReservationNo();
@@ -283,40 +156,160 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 		return 0;
 	}
 
-	/* KS. 체크리스트 페이징 처리를 위한 총 게시글 수 검색 */
+	/* 체크리스트 조회 및 페이징 */
 	@Override
-	public int selectTotalCount(int paramter) {
+	public Map<String, Object> selectCheckList(String adminId, int parameter, String category, String categoryValue,
+			Pageable pageable) {
 		
-		int count = 0;
-		
-			if(paramter == 1) {
-				
-				count = (int)checkListRepository.countByCheckStatus("A");
+			Page<CheckList> paging;
+			List<CheckListDTO> checkList = new ArrayList<>();
+			Map<String, Object> map = new HashMap<>();
+			String status = "";
 			
+			if(parameter == 1) {
+				status = "R";
+			} else if(parameter == 2) {
+				status = "D";
+			} else if(parameter == 3) {
+				status = "A";
+			} else if(parameter == 4) {
+				status = "B";
 			}
-		
-		System.out.println(count);
-		return count;
-		
-	}
-
-	/* KS. 체크리스트 페이징 */
-	@Override
-	public List<CheckListDTO> searchCheckList(SelectCriteria selectCriteria) {
-		
-		int index = selectCriteria.getPageNo() - 1;	
-		System.out.println(index);
-		
-		int count = selectCriteria.getLimit();
-		System.out.println(count);
-		
-		Pageable paging = PageRequest.of(index, count, Sort.by("checkReservationNo"));
-
-		List<CheckList> checkList = new ArrayList<CheckList>();
-
-		checkList = checkListRepository.findAll(paging).toList();
-		return checkList.stream().map(check -> modelMapper.map(check, CheckListDTO.class)).collect(Collectors.toList());
-	}
+				
+			List<CheckListAndReservationInfoAndEmployeeDTO> checkListAndReservationInfoAndEmployeeList = new ArrayList<>();
+			
+			try {
+				
+				/* 파라미터 값으로 모든 체크리스트 조회 */
+				paging =  checkListRepository.findAllByCheckStatus(status, pageable);
+				
+				List<CheckList> checkArrayList = paging.getContent();
+				
+				checkList = checkArrayList.stream().map(list -> modelMapper.map(list, CheckListDTO.class)).toList();
+				System.out.println("Service Test1 :" + checkList);
+				int currentPage = paging.getNumber();
+				int maxPage = paging.getTotalPages();
+				int startPage = (int)(currentPage / 5) * 5;
+				int endPage = (int)(currentPage / 5) * 5 + 5;
+				
+				while (endPage > maxPage) {
+					endPage -=1;
+				}
+				
+				map.put("maxPage", maxPage);
+				map.put("startPage", startPage);
+				map.put("endPage", endPage);
+				map.put("currentPage", currentPage);
+				map.put("category", category);
+				map.put("categoryValue", categoryValue);
+				
+				System.out.println("Service 테스트2 : " + map);
+				/* 매개변수로 adminEntity 조회 */
+				Admin admin = adminRepository.findByAdminId(adminId);
+				
+				/* AdminDTO로 전환 */
+				AdminDTO adminDTO = modelMapper.map(admin, AdminDTO.class);
+				
+				/* AdminNo Integer 변수에 담기 */
+				Integer adminNo = adminDTO.getAdminNo();
+				
+				/* 전달할 AdminName 변수에 담기 */
+				String adminName = "";
+				
+				/* for-each문 시작 */
+				for (CheckListDTO checkLists : checkList) {
+					
+					if((checkLists.getAdminNo() == null || checkLists.getAdminNo() == adminNo)) {
+						
+						Integer checkAdminNo = checkLists.getAdminNo();
+						String checkHTML = checkLists.getCheckHTML();
+						String checkStatus = checkLists.getCheckStatus();
+						Integer checkReservationNo = checkLists.getCheckReservationNo();
+						
+						/* checkList에서 reservationNo 조회 */
+						Integer reservationNo = checkLists.getCheckReservationNo();
+						
+						/* reservationNo로 ReservationInfo Entity 조회 */
+						ReservationInfo reservationInfo = reservationInfoRepository.findByReservationNo(reservationNo);
+						
+						/* ReservationInfoEntity DTO로 전환 */
+						ReservationInfoDTO reservationInfoDTO = modelMapper.map(reservationInfo, ReservationInfoDTO.class);
+						
+						/* ReservationInfoDTO 에서 고객 이름 뽑아오기 */
+						String userName = reservationInfoDTO.getUserName();
+						
+						/* DTO의 reservationNo로 List<ApplyEmployeeEmbedded> 조회 */
+						List<ApplyEmployeeEmbedded> applyEmployeeList = applyRepository.findAllEmployeeApply2(reservationNo);
+						
+						/* 빈 List<EmployeeDTO> 객체 생성 */
+						List<EmployeeDTO> employeeArrayList = new ArrayList<>();
+						
+						/* 2중 for-each문 시작 */
+						for (ApplyEmployeeEmbedded applyEmployeeEmbedded : applyEmployeeList) {
+							
+							/* 조회한 ApplyEmployeeEmbeddedEntity로 employeeNo 조회 */
+							Integer employeeNo = applyEmployeeEmbedded.getApplyEmployeeIdAndApplyReservationNo().getApplyEmployeeNo();
+							
+							/* 조회한 employeeNo로 EmployeeEntity 조회 */
+							Employee employee = empRepository.findByEmployeeNo(employeeNo);
+							
+							/* EmployeeEntityEmployeeDTO로 변환 */
+							EmployeeDTO employeeDTO = modelMapper.map(employee, EmployeeDTO.class);
+							
+							/* EmployeeDTO에서 employeeName 변수 꺼내오기 */
+							String employeeId = employeeDTO.getEmployeeId();
+							
+							/* 전달용 DTO 객체 생성 */
+							CheckListAndReservationInfoAndEmployeeDTO checkListAndReservationInfoAndEmployeeDTO = new CheckListAndReservationInfoAndEmployeeDTO();
+							
+							/* 값 주입 */
+							checkListAndReservationInfoAndEmployeeDTO.setEmployeeName(employeeId);
+							checkListAndReservationInfoAndEmployeeDTO.setCustomerName(userName);
+							checkListAndReservationInfoAndEmployeeDTO.setCheckReservationNo(checkReservationNo);
+							
+							/* View단에서 보여질 checkList 상태값 설정 */
+							if(checkStatus.equals("R")) {
+								checkStatus = "미처리";
+							} else if(checkStatus.equals("D")) {
+								checkStatus = "반려";
+							} else if(checkStatus.equals("A")) {
+								checkStatus = "완료";
+							} else if(checkStatus.equals("B")) {
+								checkStatus = "경고";
+							}
+							
+							/* 값 주입 */
+							checkListAndReservationInfoAndEmployeeDTO.setCheckStatus(checkStatus);
+							checkListAndReservationInfoAndEmployeeDTO.setCheckHTML(checkHTML);
+							
+							/* 담당자 있는지 판별 */
+							if(checkLists.getAdminNo() == adminNo) {
+								adminName = adminDTO.getAdminName();
+								checkListAndReservationInfoAndEmployeeDTO.setAdminName(adminName);
+							} else {
+								adminName = "담당자 없음";
+								checkListAndReservationInfoAndEmployeeDTO.setAdminName(adminName);
+							}
+							
+							/*  List<CheckListAndReservationAndEmployee> 객체에 값 주입 */
+							checkListAndReservationInfoAndEmployeeList.add(checkListAndReservationInfoAndEmployeeDTO);
+							
+						}
+					}
+					
+					}
+				
+					map.put("checkList", checkListAndReservationInfoAndEmployeeList);
+					return map;
+				
+			} catch(java.util.NoSuchElementException e) {
+				
+				System.out.println("쌓인 체크리스트 없음");
+				
+				return map;
+			}
+			
+		}
 
 }
 

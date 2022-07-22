@@ -1,11 +1,15 @@
 package com.project.clean.controller.admin.checklist;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,13 +20,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.clean.controller.common.paging.Pagenation;
-import com.project.clean.controller.common.paging.SelectCriteria;
 import com.project.clean.model.dto.commonDTO.ApplyEmployeeDTO;
 import com.project.clean.model.dto.commonDTO.CheckListDTO;
 import com.project.clean.model.dto.commonDTO.ReservationInfoDTO;
 import com.project.clean.model.dto.commonDTO.SurchargeDTO;
-import com.project.clean.model.dto.joinDTO.CheckListAndReservationInfoAndEmployeeDTO;
 import com.project.clean.model.service.admin.checkList.AdminCheckListService;
 import com.project.clean.model.service.pay.PayService;
 
@@ -32,6 +33,7 @@ public class AdminCheckListController {
 	
 	private AdminCheckListService adminCheckListService;
 	private PayService payService;
+	private final int maxLine = 5;
 	
 	@Autowired 
 	public AdminCheckListController(AdminCheckListService adminCheckListService,PayService payService) {
@@ -46,20 +48,20 @@ public class AdminCheckListController {
 	}
 	
 	/* KS.미처리 체크리스트 목록 조회 */
-	@PostMapping(value ="select", produces="application/json; charset=UTF-8")
+	@PostMapping(value = "select")
 	@ResponseBody
-	public String selectStandCheckList(Principal principal) throws JsonProcessingException {
+	public Map<String, Object> selectStandCheckList(Principal principal, String category, String categoryValue,
+			@PageableDefault(sort = "checkReservationNo", size = maxLine) Pageable pageable) throws JsonProcessingException {
 		
-		ObjectMapper mapper = new ObjectMapper();
-		
+		Map<String, Object> map = new HashMap<>();
 		String adminId = principal.getName();
-		
 		int parameter = 1;
-		List<CheckListAndReservationInfoAndEmployeeDTO> checkList = adminCheckListService.selectCheckList(adminId, parameter);
 		
-		return mapper.writeValueAsString(checkList);
+		map = adminCheckListService.selectCheckList(adminId, parameter, category, categoryValue, pageable);
 		
+		return map;
 	}
+	
 	
 	/* KS.미처리 체크리스트 상세 조회 */
 	@GetMapping("selectDetails")
@@ -115,18 +117,18 @@ public class AdminCheckListController {
 	}
 	
 	/* KS. 반려 체크리스트 목록 조회 */
-	@PostMapping(value = "denial/select", produces="application/json; charset=UTF-8")
+	@PostMapping(value = "denial/select")
 	@ResponseBody
-	public String denialCheckListSelect(Principal principal) throws JsonProcessingException {
+	public Map<String, Object> denialCheckListSelect(Principal principal, String category, String categoryValue,
+			@PageableDefault(sort = "checkReservationNo", size = maxLine) Pageable pageable) throws JsonProcessingException {
 		
-		ObjectMapper mapper = new ObjectMapper();
-		
+		Map<String, Object> map = new HashMap<>();
 		String adminId = principal.getName();
 		int parameter = 2;
-		List<CheckListAndReservationInfoAndEmployeeDTO> checkList = adminCheckListService.selectCheckList(adminId, parameter);
-
-		return mapper.writeValueAsString(checkList);
 		
+		map = adminCheckListService.selectCheckList(adminId, parameter, category, categoryValue, pageable);
+		
+		return map;
 	}
 	
 	/* KS. 반려 체크리스트 상세 조회 */
@@ -149,47 +151,26 @@ public class AdminCheckListController {
 	
 	/* KS. 승인 체크리스트 목록 조회 */
 	@GetMapping("accept/select")
-	public ModelAndView acceptCheckListSelect(ModelAndView mv, HttpServletRequest request) {
-		
-		System.out.println("요청 확인");
-		
-		String currentPage = request.getParameter("currentPage");
-		int pageNo = 1;
-
-		if(currentPage != null && !"".equals(currentPage)) {
-			pageNo = Integer.parseInt(currentPage);
-		}
-		
-		int parameter = 1;
-		
-		int totalCount = adminCheckListService.selectTotalCount(parameter);
-		
-		int limit = 3;		
-		int buttonAmount = 5;
-
-		SelectCriteria selectCriteria = null;
-		
-		selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
-		
-		List<CheckListDTO> checkList = adminCheckListService.searchCheckList(selectCriteria);
-		mv.addObject("checkList", checkList);
-		mv.addObject("selectCriteria", selectCriteria);
-		mv.setViewName("admin/checkList/selectAcceptCheckList"); 
-		return mv;
+	public String acceptCheckListSelect() {
+        return "admin/checkList/selectAcceptCheckList";
 		
 	}
 	
+	
+	
 	/* KS. 승인 체크리스트 목록 조회 */
-	@PostMapping(value = "accept/select", produces="application/json; charset=UTF-8")
+	@PostMapping(value = "accept/select")
 	@ResponseBody
-	public String acceptCheckListSelect(Principal principal) throws JsonProcessingException {
+	public Map<String, Object> acceptCheckListSelect(Principal principal, String category, String categoryValue,
+			@PageableDefault(sort = "checkReservationNo", size = maxLine) Pageable pageable) throws JsonProcessingException {
 		
-		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> map = new HashMap<>();
 		String adminId = principal.getName();
 		int parameter = 3;
-		List<CheckListAndReservationInfoAndEmployeeDTO> checkList = adminCheckListService.selectCheckList(adminId, parameter);
 		
-		return mapper.writeValueAsString(checkList);
+		map = adminCheckListService.selectCheckList(adminId, parameter, category, categoryValue, pageable);
+		
+		return map;
 	}
 	
 	/* KS. 승인 체크리스트 상세 조회 */
@@ -224,43 +205,43 @@ public class AdminCheckListController {
 		checkList.setCheckStatus("A");
 		
 		
-		/* 다영 - 체크리스트가 승인되었을때 바로 급여를 지급함 ------------------------------------------------------------------*/
-		// 1. 예약번호로 원래 급여를 가져옴
-		ReservationInfoDTO reservationInfo = payService.findByTotalPaymentByReservationNo(reservationNo);
-		int totalPayment = reservationInfo.getTotalPayment();
-		
-		// 2. 부가요금을 가져옴
-		List<SurchargeDTO> surchargeList = payService.findSurchargeList();
-		int insurance = surchargeList.get(0).getSurchargeInsurance(); 			  // 4대보험
-		int commission = surchargeList.get(0).getSurchargeCommission();           // 수수료
-		
-		// 3. 예약번호로 예약별 직원의 목록을 가져옴 
-		List<ApplyEmployeeDTO> applyEmployee = payService.findByApplyReservationNo(reservationNo);
-		System.out.println("예약별 직원 리스트 개수" + applyEmployee.size());
-		
-		if(applyEmployee.size() == 1) {
-			int applyReservationNo = applyEmployee.get(0).getApplyReservationNo();
-			int applyEmployeeNo = applyEmployee.get(0).getApplyEmployeeNo();
-			
-			// 4대보험과 수수료를 뺀 최종 급여
-			int payEmployeeFinalSalary = totalPayment - (totalPayment * insurance / 100) - (totalPayment * commission / 100);
-			
-			// 4. 급여 지급하기(직원번호, 예약번호, 최종급여 service로 보냄)
-			payService.registEmployeePay(applyReservationNo, applyEmployeeNo, payEmployeeFinalSalary);
-			
-		}else {
-			int applyReservationNo = applyEmployee.get(0).getApplyReservationNo();
-			int applyEmployeeNo = applyEmployee.get(0).getApplyEmployeeNo();
-			int applyReservationNo2 = applyEmployee.get(1).getApplyReservationNo();
-			int applyEmployeeNo2 = applyEmployee.get(1).getApplyEmployeeNo();
-			
-			// 4대보험과 수수료를 뺀 최종 급여(2명일때 나누기 2를 추가로한다)
-			int payEmployeeFinalSalary = (totalPayment - (totalPayment * insurance / 100) - (totalPayment * commission / 100))/2 ;
-			// 4. 급여 지급하기(직원번호, 예약번호, 최종급여 service로 보냄)
-			payService.registEmployeePay(applyReservationNo, applyEmployeeNo, payEmployeeFinalSalary);
-			// 한명 더
-			payService.registEmployeePay(applyReservationNo2, applyEmployeeNo2, payEmployeeFinalSalary);
-		}
+//		/* 다영 - 체크리스트가 승인되었을때 바로 급여를 지급함 ------------------------------------------------------------------*/
+//		// 1. 예약번호로 원래 급여를 가져옴
+//		ReservationInfoDTO reservationInfo = payService.findByTotalPaymentByReservationNo(reservationNo);
+//		int totalPayment = reservationInfo.getTotalPayment();
+//		
+//		// 2. 부가요금을 가져옴
+//		List<SurchargeDTO> surchargeList = payService.findSurchargeList();
+//		int insurance = surchargeList.get(0).getSurchargeInsurance(); 			  // 4대보험
+//		int commission = surchargeList.get(0).getSurchargeCommission();           // 수수료
+//		
+//		// 3. 예약번호로 예약별 직원의 목록을 가져옴 
+//		List<ApplyEmployeeDTO> applyEmployee = payService.findByApplyReservationNo(reservationNo);
+//		System.out.println("예약별 직원 리스트 개수" + applyEmployee.size());
+//		
+//		if(applyEmployee.size() == 1) {
+//			int applyReservationNo = applyEmployee.get(0).getApplyReservationNo();
+//			int applyEmployeeNo = applyEmployee.get(0).getApplyEmployeeNo();
+//			
+//			// 4대보험과 수수료를 뺀 최종 급여
+//			int payEmployeeFinalSalary = totalPayment - (totalPayment * insurance / 100) - (totalPayment * commission / 100);
+//			
+//			// 4. 급여 지급하기(직원번호, 예약번호, 최종급여 service로 보냄)
+//			payService.registEmployeePay(applyReservationNo, applyEmployeeNo, payEmployeeFinalSalary);
+//			
+//		}else {
+//			int applyReservationNo = applyEmployee.get(0).getApplyReservationNo();
+//			int applyEmployeeNo = applyEmployee.get(0).getApplyEmployeeNo();
+//			int applyReservationNo2 = applyEmployee.get(1).getApplyReservationNo();
+//			int applyEmployeeNo2 = applyEmployee.get(1).getApplyEmployeeNo();
+//			
+//			// 4대보험과 수수료를 뺀 최종 급여(2명일때 나누기 2를 추가로한다)
+//			int payEmployeeFinalSalary = (totalPayment - (totalPayment * insurance / 100) - (totalPayment * commission / 100))/2 ;
+//			// 4. 급여 지급하기(직원번호, 예약번호, 최종급여 service로 보냄)
+//			payService.registEmployeePay(applyReservationNo, applyEmployeeNo, payEmployeeFinalSalary);
+//			// 한명 더
+//			payService.registEmployeePay(applyReservationNo2, applyEmployeeNo2, payEmployeeFinalSalary);
+//		}
 		
 		
 		
@@ -275,16 +256,19 @@ public class AdminCheckListController {
 	}
 	
 	/* KS. 블랙된 체크리스트 조회 */
-	@PostMapping(value = "black/select", produces="application/json; charset=UTF-8")
+	@PostMapping(value = "black/select")
 	@ResponseBody
-	public String blackCheckListSelect(Principal principal) throws JsonProcessingException {
-		ObjectMapper mapper = new ObjectMapper();
-		String adminId = principal.getName();
-		int parameter = 4;
-		List<CheckListAndReservationInfoAndEmployeeDTO> checkList = adminCheckListService.selectCheckList(adminId, parameter);
-		
-		return mapper.writeValueAsString(checkList);
-	}
+	public Map<String, Object> blackCheckListSelect(Principal principal, String category, String categoryValue,
+				@PageableDefault(sort = "checkReservationNo", size = maxLine) Pageable pageable) throws JsonProcessingException {
+			
+			Map<String, Object> map = new HashMap<>();
+			String adminId = principal.getName();
+			int parameter = 4;
+			
+			map = adminCheckListService.selectCheckList(adminId, parameter, category, categoryValue, pageable);
+			
+			return map;
+		}
 	
 	/* KS. 블랙된 체크리스트 상세 조회 */
 	@GetMapping("blackselectDetails")
@@ -301,37 +285,6 @@ public class AdminCheckListController {
 		
 		return mv;
 		
-	}
-	
-	/* KS. 페이징 처리 */
-	@GetMapping("paging")
-	public ModelAndView checkListPaging(HttpServletRequest request, ModelAndView mv) {
-
-		System.out.println("요청 확인");
-		String currentPage = request.getParameter("currentPage");
-		int pageNo = 1;
-
-		if(currentPage != null && !"".equals(currentPage)) {
-			pageNo = Integer.parseInt(currentPage);
-		}
-		
-		int parameter = 1;
-		
-		int totalCount = adminCheckListService.selectTotalCount(parameter);
-		
-		int limit = 3;		
-		int buttonAmount = 5;
-
-		SelectCriteria selectCriteria = null;
-		
-		selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
-		
-		List<CheckListDTO> checkList = adminCheckListService.searchCheckList(selectCriteria);
-
-		mv.addObject("checkList", checkList);
-		mv.addObject("selectCriteria", selectCriteria);
-		mv.setViewName("admin/checkList/selectAcceptCheckList"); 
-		return mv;
 	}
 	
 	
