@@ -17,7 +17,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.format.annotation.DateTimeFormat;
 
-@Entity
+@Entity(name = "VACATION")
 @Table(name = "TBL_VACATION")
 @SequenceGenerator(
       name = "VACATION_SEQ_TBL_GENERATOR",

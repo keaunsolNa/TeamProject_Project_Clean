@@ -30,6 +30,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.clean.controller.admin.paging.Pagenation;
+import com.project.clean.controller.admin.paging.SelectCriteria;
 import com.project.clean.exception.ThumbnailRegistException;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.RetireAdminDTO;
@@ -39,11 +41,14 @@ import com.project.clean.model.service.admin.AdminAdminService;
 @RequestMapping("admin")
 public class AdminAdminController {
 	
-private final AdminAdminService adminService;
+	private final AdminAdminService adminService;
+//	private final BCryptPasswordEncoder passwordEncoder;
+	
 	
 	@Autowired
 	public AdminAdminController(AdminAdminService adminService) {
 		this.adminService = adminService;
+//		this.passwordEncoder = passwordEncoder;
 	}
 	
 	
@@ -84,10 +89,6 @@ private final AdminAdminService adminService;
 	public ModelAndView registAdminHrCard(@ModelAttribute AdminDTO newAdmin, ModelAndView mv, HttpServletRequest request,
 											@RequestParam("thumbnailImg") MultipartFile thumbnailImg) throws UnsupportedEncodingException, ThumbnailRegistException {
 		
-		System.out.println("xptmxm");
-		System.out.println("xptmxm");
-		System.out.println("xptmxm");
-		System.out.println("xptmxm");
 		/* 기본값 셋팅 */
 		String pwd = "000000";
 		String adminRetireYn = "N";
@@ -100,16 +101,18 @@ private final AdminAdminService adminService;
 		
 		String adminAddress = adminAddressNo + "@" + adminAddress1 + "@" + adminAddress2;
 		
+//		newAdmin.setAdminPwd(passwordEncoder.encode("000000"));
 		newAdmin.setAdminPwd(pwd);
 		newAdmin.setAdminRetireYn(adminRetireYn);
 		newAdmin.setAdminSalary(adminSalary);
 		newAdmin.setAdminAddress(adminAddress);
 
 		/* 저장경로 설정 */
-		String adminPictureSaveRoot = "/adminPicture";
+		String saveRoot = request.getSession().getServletContext().getRealPath("/");
+		String adminPictureSaveRoot = saveRoot + "/adminPicture";
 
 		/* 이미지 저장 */
-		String saveRoot = System.getProperty("user.dir") + "/src/main/resources/static" + adminPictureSaveRoot;
+//		String saveRoot = System.getProperty("user.dir") + "/src/main/resources/static" + adminPictureSaveRoot;
 		
 		/* 파일 저장경로가 존재하지 않을 경우를 대비해 생성하는 코드 */
 		File directory = new File(adminPictureSaveRoot);
@@ -144,7 +147,7 @@ private final AdminAdminService adminService;
 				
 				try {
 							
-					thumbnailImg.transferTo(new File(saveRoot + "/" + adminPictureSaveName));
+					thumbnailImg.transferTo(new File(adminPictureSaveRoot + "/" + adminPictureSaveName));
 
 					/* DB에 업로드할 파일의 정보를 DTO에 set */
 					newAdmin.setAdminPictureSaveName(adminPictureSaveName);
@@ -174,12 +177,40 @@ private final AdminAdminService adminService;
 	
 	/* 관리자 목록 조회(퇴사여부 N) */
 	@GetMapping("hrCard/adminList")
-	@ResponseBody
-	public ModelAndView findAdminList(ModelAndView mv) {
+	public ModelAndView findAdminList(ModelAndView mv, HttpServletRequest request) {
 
-		List<AdminDTO> adminList = adminService.findAdminList();
+		String currentPage = request.getParameter("currentPage");
+		int pageNo = 1;
+
+		if(currentPage != null && !"".equals(currentPage)) {
+			pageNo = Integer.parseInt(currentPage);
+		}
+
+		String searchCondition = request.getParameter("searchCondition");
+		String searchValue = request.getParameter("searchValue");
+
+		int totalCount = adminService.selectTotalCount(searchCondition, searchValue);
+
+		/* 한 페이지에 보여 줄 게시물 수 */
+		int limit = 3;		//얘도 파라미터로 전달받아도 된다.
+
+		/* 한 번에 보여질 페이징 버튼의 갯수 */
+		int buttonAmount = 5;
+
+		/* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
+		SelectCriteria selectCriteria = null;
+		if(searchValue != null && !"".equals(searchValue)) {
+			selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchCondition, searchValue);
+		} else {
+			selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
+		}
+		System.out.println(selectCriteria);
+
+		
+		List<AdminDTO> adminList = adminService.findAdminList(selectCriteria);
 		
 		mv.addObject("adminList", adminList);
+		mv.addObject("selectCriteria", selectCriteria);
 		mv.setViewName("admin/hrCard/adminList");
 		
 		return mv;
@@ -189,11 +220,39 @@ private final AdminAdminService adminService;
 	
 	/* 퇴사한 관리자 목록 조회 */
 	@GetMapping(value = "hrCard/retireAdminList")
-	public ModelAndView findRetireAdminListAjax(ModelAndView mv) {
+	public ModelAndView findRetireAdminListAjax(ModelAndView mv,  HttpServletRequest request) {
 		
-		List<AdminDTO> retireAdminList = adminService.findRetireAdminList();
+		String currentPage = request.getParameter("currentPage");
+		int pageNo = 1;
+
+		if(currentPage != null && !"".equals(currentPage)) {
+			pageNo = Integer.parseInt(currentPage);
+		}
+
+		String searchCondition = request.getParameter("searchCondition");
+		String searchValue = request.getParameter("searchValue");
+
+		int totalCount = adminService.selectRetireTotalCount(searchCondition, searchValue);
+
+		/* 한 페이지에 보여 줄 게시물 수 */
+		int limit = 3;		//얘도 파라미터로 전달받아도 된다.
+
+		/* 한 번에 보여질 페이징 버튼의 갯수 */
+		int buttonAmount = 5;
+
+		/* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
+		SelectCriteria selectCriteria = null;
+		if(searchValue != null && !"".equals(searchValue)) {
+			selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchCondition, searchValue);
+		} else {
+			selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
+		}
+		System.out.println(selectCriteria);
+		
+		List<AdminDTO> retireAdminList = adminService.findRetireAdminList(selectCriteria);
 		
 		mv.addObject("retireAdminList", retireAdminList);
+		mv.addObject("selectCriteria", selectCriteria);
 		mv.setViewName("admin/hrCard/retireAdminList");
 		
 		return mv;
@@ -234,9 +293,6 @@ private final AdminAdminService adminService;
 		addressMap.put("addressNo", addressNo);
 		addressMap.put("address", address);
 		addressMap.put("addressDetail", addressDetail);
-
-		String save = admin.getAdminPictureSaveName();
-		String name = admin.getAdminPictureSaveRoot();
 		
 		/* 화면에 보여줄 정보를 담아준다. */
 		mv.addObject("address", addressMap);
@@ -426,10 +482,14 @@ private final AdminAdminService adminService;
 		/* 화면으로부터 전달받은 파일 수정(기존 파일로 업데이트) */
 		
 		/* 저장경로 설정 */
-		String adminPictureSaveRoot = "/adminPicture";
+		String saveRoot = request.getSession().getServletContext().getRealPath("/");
+		String adminPictureSaveRoot = saveRoot + "/adminPicture";
+
+		
 		
 		/* 이미지 저장 */
-		String saveRoot = System.getProperty("user.dir") + "/src/main/resources/static" + adminPictureSaveRoot;
+//		String saveRoot = System.getProperty("user.dir") + "/src/main/resources/static" + adminPictureSaveRoot;
+//		String adminPictureSaveRoot = "/adminPicture";
 		
 		/* 파일 저장경로가 존재하지 않을 경우를 대비해 생성하는 코드 */
 		File directory = new File(adminPictureSaveRoot);
@@ -463,7 +523,7 @@ private final AdminAdminService adminService;
 				
 				try {
 							
-					thumbnailImg.transferTo(new File(saveRoot + "/" + adminPictureSaveName));
+					thumbnailImg.transferTo(new File(adminPictureSaveRoot + "/" + adminPictureSaveName));
 
 					/* DB에 업로드할 파일의 정보를 DTO에 set */
 					admin.setAdminPictureSaveName(adminPictureSaveName);

@@ -1,8 +1,10 @@
 package com.project.clean.model.repository.admin;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,8 +19,8 @@ public interface AdminRepository extends JpaRepository<Admin, Integer>{
 	Admin findByAdminId(String adminId);
 	
 	/* 재직 중인 관리자 조회 */
-	@Query(value="SELECT * FROM TBL_ADMIN a where a.admin_retire_yn = 'N' ORDER BY a.admin_no", nativeQuery = true)
-	List<Admin> findAdminByAdminRetireN();
+//	@Query(value="SELECT * FROM TBL_ADMIN a where a.admin_retire_yn = 'N' ORDER BY a.admin_no", nativeQuery = true)
+//	List<Admin> findAdminByAdminRetireN();
 
 	@Query(value = "SELECT\r\n"
 				 + "       A.*\r\n"
@@ -65,8 +67,8 @@ public interface AdminRepository extends JpaRepository<Admin, Integer>{
 	Integer findByAdminRetireDate(int adminNo);
 
 	/* 퇴사자 조회 */
-	@Query(value="SELECT * FROM TBL_ADMIN a WHERE a.admin_retire_yn = 'Y' ORDER BY a.admin_no", nativeQuery = true)
-	List<Admin> findAdminByAdminRetireY();
+//	@Query(value="SELECT * FROM TBL_ADMIN a WHERE a.admin_retire_yn = 'Y' ORDER BY a.admin_no", nativeQuery = true)
+//	List<Admin> findAdminByAdminRetireY();
 
 	/* 최종 승인된 휴가가 연차일 경우 연차 사용 내역 업데이트 */
 	@Query(value="UPDATE tbl_admin a SET a.admin_use_annual_vacation = a.admin_use_annual_vacation + 1 WHERE a.admin_no = ?", nativeQuery = true)
@@ -74,9 +76,54 @@ public interface AdminRepository extends JpaRepository<Admin, Integer>{
 	@Modifying
 	void modifyAnnualVacationUse(int adminNo);
 
+	
+	/* ---------------------------------------------------------------------------------- */
+	
+	/* 재직 관리자 목록 조회 */
+	List<Admin> findAllByAdminRetireYn(String string);
+
+	/* 재직 관리자 이름 검색 */
+	List<Admin> findAllByAdminRetireYnAndAdminNameContaining(String string, String searchValue, Pageable paging);
+
+	/* 재직 관리자 생년월일 검색 */
+	List<Admin> findAllByAdminRetireYnAndAdminBirth(String string, Date adminBirth, Pageable paging);
+
+	/* 재직 관리자 입사일 검색 */
+	List<Admin> findAllByAdminRetireYnAndAdminHireDate(String string, Date adminHireDate, Pageable paging);
+
+	/* 재직 관리자 직책명 검색 */
+	List<Admin> findAllByAdminRetireYnAndAdminJob(String string, String searchValue, Pageable paging);
+
+	/* 재직 관리자 전화번호 검색 */
+	List<Admin> findAllByAdminRetireYnAndAdminPhoneContaining(String string, String searchValue, Pageable paging);
+
+	/* 재직자 이름 검색 페이징 */
+	int countByAdminRetireYnAndAdminNameContaining(String string, String searchValue);
+
+	/* 재직자 생년월일 페이징 */
+	int countByAdminRetireYnAndAdminBirth(String string, Date adminBirth);
+
+	/* 재직자 입사일 페이징 */
+	int countByAdminRetireYnAndAdminHireDate(String string, Date adminHireDate);
+
+	/* 재직자 직책명 페이징 */
+	int countByAdminRetireYnAndAdminJob(String string, String searchValue);
+
+	/* 재직자 휴대전화 번호 페이징 */
+	int countByAdminRetireYnAndAdminPhoneContaining(String string, String searchValue);
+
+	/* 전체 재직자 페이징 */
+	int countByAdminRetireYn(String string);
+
+	/* 퇴사자 퇴사일 검색 */
+	List<Admin> findAllByAdminRetireYnAndAdminRetireDate(String string, Date adminRetireDate, Pageable paging);
+
+	/* 퇴사자 페이징 */
+	int countByAdminRetireYnAndAdminRetireDate(String string, Date adminRetireDate);
+
 
 	/* 휴가 승인한 최종 관리자의 정보 불러오기 */
-//	@Query(value="SELECT * FROM tbl_admin a WHERE a.admin_no = ?", nativeQuery = true)
-//	Admin findByCommitAdmin(int bossNo);
+	@Query(value="SELECT * FROM tbl_admin a WHERE a.admin_no = ?", nativeQuery = true)
+	Admin findByCommitAdmin(int bossNo);
 
 }

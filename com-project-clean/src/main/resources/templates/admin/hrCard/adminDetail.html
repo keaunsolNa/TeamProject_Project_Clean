@@ -36,6 +36,8 @@
 <body>
 
 	<div th:include="common/header.html"></div>
+	<div th:include="admin/adminAside.html"></div>
+	
 	
 	<button onclick="history.back()">Back</button>
 	
@@ -56,7 +58,7 @@
 		        <td th:text="${ admin.adminName }"></td>
 				   <td colspan="2" rowspan="3">
 				   	<img width="100" height="120" 
-			        	th:src="${ admin.getAdminPictureSaveRoot() + '/' + admin.getAdminPictureSaveName() }"/>
+			        	th:src="@{/adminPicture/} + ${admin.adminPictureSaveName}"/>
 			        </td>
 		      </tr>
 		      <tr>
