@@ -24,7 +24,7 @@ public interface CheckListRepository  extends JpaRepository<CheckList, Integer>{
 	/* KS. 체크리스트 상태로 체크리스트 조회 */
 	CheckList findByCheckStatus(String checkStatus);
 
-	
+	/* KS. 체크리스트 페이징 */
 	int countByCheckStatus(String string);
 	
 
