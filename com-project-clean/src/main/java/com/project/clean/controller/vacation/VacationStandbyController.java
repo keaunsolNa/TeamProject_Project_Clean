@@ -1,13 +1,12 @@
 package com.project.clean.controller.vacation;
 
 import java.security.Principal;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
+import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.clean.controller.admin.paging.Pagenation;
+import com.project.clean.controller.admin.paging.SelectCriteria;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.VacationCommitDTO;
 import com.project.clean.model.dto.commonDTO.VacationDTO;
@@ -39,27 +40,87 @@ public class VacationStandbyController {
 		this.vacationService = vacationService;
 		this.adminService = adminService;
 	}
-	
-	/* 1차 승인 대기 목록 조회 */
+
+	/* 1차 승인 대기 목록 검색, 페이징 */
 	@GetMapping("vacation/standbyFirstVacationList")
-	public ModelAndView standbyFirstVacation(ModelAndView mv) {
+	public ModelAndView standbyFirstVacationSearch(ModelAndView mv, HttpServletRequest request) {
+
+			
+		String currentPage = request.getParameter("currentPage");
+		int pageNo = 1;
+
+		if(currentPage != null && !"".equals(currentPage)) {
+			pageNo = Integer.parseInt(currentPage);
+		}
+
+		String searchCondition = request.getParameter("searchCondition");
+		String searchValue = request.getParameter("searchValue");
+
+		int totalCount = vacationService.selectTotalCount(searchCondition, searchValue);
+
+		/* 한 페이지에 보여 줄 게시물 수 */
+		int limit = 1;		//얘도 파라미터로 전달받아도 된다.
+
+		/* 한 번에 보여질 페이징 버튼의 갯수 */
+		int buttonAmount = 3;
+
+		/* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
+		SelectCriteria selectCriteria = null;
+		if(searchValue != null && !"".equals(searchValue)) {
+			selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchCondition, searchValue);
+		} else {
+			selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
+		}
+		System.out.println(selectCriteria);
+
 		
-		List<VacationDTO> vacationList = vacationService.findByVacationList();
+		List<VacationDTO> vacationList = vacationService.findByVacationList(selectCriteria);
 		
 		mv.addObject("vacationList", vacationList);
+		mv.addObject("selectCriteria", selectCriteria);
 		mv.setViewName("admin/vacation/standbyFirstVacationList");
 		
 		return mv;
 	}
+
 	
 	/* 2차 승인 대기 목록 조회 */
 	@GetMapping("vacation/standbySecondVacationList")
-	public ModelAndView standbySecondVacation(ModelAndView mv) {
+	public ModelAndView standbySecondVacation(ModelAndView mv, HttpServletRequest request) {
 	
 		
-		List<VacationDTO> vacationList = vacationService.findVacationSecondList();
+		String currentPage = request.getParameter("currentPage");
+		int pageNo = 1;
+
+		if(currentPage != null && !"".equals(currentPage)) {
+			pageNo = Integer.parseInt(currentPage);
+		}
+
+		String searchCondition = request.getParameter("searchCondition");
+		String searchValue = request.getParameter("searchValue");
+
+		int totalCount = vacationService.selectSecondTotalCount(searchCondition, searchValue);
+
+		/* 한 페이지에 보여 줄 게시물 수 */
+		int limit = 1;		//얘도 파라미터로 전달받아도 된다.
+
+		/* 한 번에 보여질 페이징 버튼의 갯수 */
+		int buttonAmount = 3;
+
+		/* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
+		SelectCriteria selectCriteria = null;
+		if(searchValue != null && !"".equals(searchValue)) {
+			selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchCondition, searchValue);
+		} else {
+			selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
+		}
+		System.out.println(selectCriteria);
+
+		
+		List<VacationDTO> vacationList = vacationService.findVacationSecondList(selectCriteria);
 		
 		mv.addObject("vacationList", vacationList);
+		mv.addObject("selectCriteria", selectCriteria);
 		mv.setViewName("admin/vacation/standbySecondVacationList");
 		
 		return mv;

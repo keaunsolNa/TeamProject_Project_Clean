@@ -2,13 +2,11 @@ package com.project.clean.model.repository.pay;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
-import com.project.clean.model.domain.commonEntity.AdminPay;
-import com.project.clean.model.domain.joinEntity.AdminAndAdminPay;
 import com.project.clean.model.domain.joinEntity.AdminPayAndAdmin;
 
 public interface AdminPayAndAdminRepository extends JpaRepository<AdminPayAndAdmin, Integer>{
@@ -29,6 +27,9 @@ public interface AdminPayAndAdminRepository extends JpaRepository<AdminPayAndAdm
 	
 	// 관리자전화번호로 검색
 	List<AdminPayAndAdmin> findByAdminAdminPhoneContaining(Integer valueOf, Pageable paging);
+	
+	// 나의 급여조회 (관리자)
+	List<AdminPayAndAdmin> findAllByAdminAdminNo(int adminNo, Pageable paging);
 
 
 	

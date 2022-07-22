@@ -4,6 +4,43 @@
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <title>Insert title here</title>
+<style>
+	
+	.search-area {
+		font-family: 'MinSans-Medium';
+		width: 90%;
+		margin:0 auto;
+		
+	}
+	
+	.search-area #searchCondition {
+		height:30px;
+		margin-top:-3px;
+	}
+		
+	.btn-bs {
+		width:70px;
+		margin-top:-6px;
+		height:32px;
+		font-size:13px;
+		padding: 0; 
+		background-color: #9AE8F9;
+	}
+	
+	/* 페이징버튼 css */
+	.pagingArea button {
+		font-family: 'MinSans-Medium';
+		width:30px;
+		height:40px;
+		background-color: #9AE8F9;
+		border-color:gray;
+		border-style: none;
+		font-weight:bold;
+	}
+	
+	
+
+</style>
 </head>
 <body>
 	<div class="pagingArea" align="center">
@@ -44,7 +81,7 @@
 	</div>
 
 	<script>
-		const link = "/admin/hrCard/adminList";
+		const link = "/employee/pay/mypay/myPayForEmployee";
 		let searchText = "";
 		let searchConditionExist = "[[${ selectCriteria.searchCondition }]]";
 		let searchValueExist = "[[${ selectCriteria.searchValue }]]";

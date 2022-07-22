@@ -163,8 +163,15 @@
                             </a>
                 
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="/admin/pay/management/adminPaySelect">급여 관리</a></li>
-                                <li><a class="dropdown-item" href="/admin/pay/management/adminPaySelect">나의 급여</a></li>
+								<th:block sec:authorize="hasAnyRole('ADMIN_FNC','ADMIN_BOSS')">
+                                	<li><a class="dropdown-item" href="/admin/pay/management/adminPaySelect">급여 관리</a></li>
+                                </th:block>
+                                <th:block sec:authorize="hasAnyRole('ADMIN')">
+                               	 	<li><a class="dropdown-item" href="/admin/pay/myPay/myPayForAdmin">나의 급여</a></li>
+                                </th:block>
+                                <th:block sec:authorize="hasRole('EMPLOYEE')">
+                               	 	<li><a class="dropdown-item" href="/employee/pay/myPay/myPayForEmployee">나의 급여</a></li>
+                                </th:block>
                             </ul>
                         </li>
                     </ul>
