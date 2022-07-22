@@ -8,7 +8,30 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <style>
-
+	.section{
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		width: 1000px;
+	}
+	.tableBox{
+		width: 1000px;
+		border: 1px solid black;
+	}	
+	.tableBox tr{
+		height: 45px;
+	}
+	.tableBox td{
+		height: 45px;
+	}
+	.searchBox{
+		text-align: right;
+	}
+	.pagingBox{
+		 text-align: center;
+	}
+	.selectBox{
+		text-align: left;
+	}
 
     </style>
 </head>
@@ -17,10 +40,13 @@
 
     	<div th:replace="/common/Header.html"></div>
 		<div th:replace="/admin/adminAside.html"></div> 
-		<div th:replace="/admin/humanResource/registEmployee/adminRegistMainHeader.html"></div>
 
         <!-- 대기중 내용 -->
-        <div>
+        <section class="section">
+        <div class="selectBox"> 
+		<div th:replace="/admin/humanResource/registEmployee/adminRegistMainHeader.html"></div>
+		</div>
+        <div class="searchBox">
 		<form name="waitingForm" action="" id="waitForm">
 			<span>대기인원 조회</span> 
 			<select name="category" id="category">
@@ -35,8 +61,8 @@
 			<button type="button" id="waitFormButton" onclick="waitingAjax();">검색</button>
 			<input type="hidden" value="0" name=page>
 		</form>
-		
-            <table id="employeeList" border="1">
+		</div>
+            <table id="employeeList" class="tableBox">
                 <thead>
 					<tr>
 						<th>사원번호</th>
@@ -57,7 +83,7 @@
 	            <div id="paging" style="display: flex; justify-content: center;">
 	            <!-- /* 페이징 버튼들어올 공간 */ -->
 				</div>
-        </div>
+        </section>
 
 
 
