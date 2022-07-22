@@ -60,7 +60,7 @@ public class EmployeePayController {
 		List<EmployeePayAndApplyEmployeeDTO> employeePayList = payService.myPayForEmployee(employeeNo, selectCriteria);
 		if (pageNo == 1 && employeePayList.size() == 0) {
 			mv.addObject("ListNullMessage", "아직 받은 급여가 없습니다");
-			mv.setViewName("pay/myPay/myPayForEmployee");
+			mv.setViewName("employee/pay/myPay/myPayForEmployee");
 			return mv;
 		}
 		

@@ -366,7 +366,7 @@ public class PayController {
 		List<AdminPayAndAdminDTO> adminPayList = payService.myPayForAdmin(adminNo, selectCriteria);
 		if (pageNo == 1 && adminPayList.size() == 0) {
 			mv.addObject("ListNullMessage", "아직 받은 급여가 없습니다");
-			mv.setViewName("reservation/reservationMyList");
+			mv.setViewName("admin/pay/myPay/myPayForAdmin");
 			return mv;
 		}
 		

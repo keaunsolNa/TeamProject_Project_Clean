@@ -13,11 +13,16 @@
 </style>
 </head>
 <body>
+	<script th:inline="javascript">
+		const ListNullMessage = [[${ListNullMessage}]];
+		if(ListNullMessage){
+			alert(ListNullMessage);
+			location.href = '/';
+		}
+	</script>
+	<div th:if ="${ListNullMessage} == null">
 	<div th:include="common/header.html"></div>
 	<div th:include="common/payAside.html"></div>
-	<script th:inline="javascript">
-		const ListNullMessage = "[[${ ListNullMessage }]]";
-	</script>
 	<section>
 		
 		<table border="1">
@@ -42,5 +47,6 @@
 		<br>
  
     </section>
+	</div>
 </body>
 </html>
