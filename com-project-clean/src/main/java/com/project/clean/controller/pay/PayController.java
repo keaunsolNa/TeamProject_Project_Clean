@@ -20,6 +20,7 @@ import com.project.clean.controller.common.paging.SelectCriteria;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.BestEmployeePayDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeDTO;
+import com.project.clean.model.dto.commonDTO.EmployeePayDTO;
 import com.project.clean.model.dto.commonDTO.SurchargeDTO;
 import com.project.clean.model.dto.joinDTO.AdminAndAdminPayDTO;
 import com.project.clean.model.dto.joinDTO.AdminPayAndAdminDTO;
@@ -87,8 +88,16 @@ public class PayController {
 	}
 	
 	/* 직원 급여 상세조회 */
-	@GetMapping("/management/employeePaySelectInfo")
-	public void employeePaySelectInfo() {}
+	@GetMapping("/management/employeePaySelectInfo/{payHistoryEmployeeNo}")
+	public ModelAndView findEmployeePayByPayHistoryEmployeeNo(ModelAndView mv, @PathVariable int payHistoryEmployeeNo) {
+
+		EmployeePayAndApplyEmployeeDTO pay = payService.findEmployeePayByPayHistoryEmployeeNo(payHistoryEmployeeNo);
+
+		mv.addObject("pay", pay);
+		mv.setViewName("admin/pay/management/employeePaySelectInfo");
+		
+		return mv;
+	}
 	
 	/* 직원 급여 지급 */
 	// admin.checklist.AdminCheckListController에 acceptCheckList부분에 작성했다(체크리스트가 승인될때 바로 급여를 지급하게 만들었음)
@@ -137,26 +146,18 @@ public class PayController {
 
 		mv.addObject("adminPayList", adminPayList);
 		mv.addObject("selectCriteria", selectCriteria);
-		mv.setViewName("admin/pay/management/adminPaySelect");
+		mv.setViewName("/admin/pay/management/adminPaySelect");
 
 		return mv;
 	}
 	
 	/* 관리자 급여 상세조회 */
 	@GetMapping("/management/adminPaySelectInfo/{payHistoryAdminNo}")
-	@Transactional
 	public ModelAndView findAdminPayByPayHistoryAdminNo(ModelAndView mv, @PathVariable int payHistoryAdminNo) {
 
 		AdminPayAndAdminDTO pay = payService.findAdminPayByPayHistoryNo(payHistoryAdminNo);
-		List<SurchargeDTO> surchargeList = payService.findSurchargeList();
-		
-		// 첫 번째 겟으로 값이 있는 순서(인덱스번호)
-		// 4대보험료 불러오기 (급여계산에 쓰기 위해) 
-		int insurance =surchargeList.get(0).getSurchargeInsurance();
-	
-		
+
 		mv.addObject("pay", pay);
-		mv.addObject("insurance", insurance);
 		mv.setViewName("admin/pay/management/adminPaySelectInfo");
 		
 		return mv;

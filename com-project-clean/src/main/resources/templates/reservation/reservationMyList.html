@@ -3,19 +3,22 @@
 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
+<link href='/css/reservation/list.css' rel='stylesheet' />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
+	<script th:inline="javascript">
+		const message = [[${message}]];
+		if(message){
+			alert(message);
+			location.href = '/';
+		}
+	</script>
+	<div th:if ="${message} == null">
 	<div th:include="common/header.html"></div>
 	<div th:include="common/reservationAside.html"></div>
-	<script th:inline="javascript">
-		/*[# th:if = ${applyReservationListMessage} != null]*/
-			alert([[${applyReservationListMessage}]]);
-			location.href = '/';
-		/*[/]*/
-	</script>
-	<h1 align="center">내 일정 확인</h1>
+	<h1 class="head"  align="center">내 일정 확인</h1>
 	<table align="center" border="1">
 		<tr>
 			<th style="display: none;"></th>
@@ -43,8 +46,10 @@
 		</tr>
 
 	</table>
-
-    <div th:replace="reservation/reservationMyListPaging.html"></div>
+	<div th:if ="${applyReservationListMessage} == null">
+	   	<div th:replace="reservation/reservationMyListPaging.html"></div>
+	</div>
+    
 	<script>
 		window.onload = function(){
 	        const employee = document.getElementsByTagName("td");
@@ -63,6 +68,6 @@
 	        }
 	    };
 	</script>
-	
+	</div>
 </body>
 </html>
