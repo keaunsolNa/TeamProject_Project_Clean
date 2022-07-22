@@ -20,6 +20,7 @@
 <title>ProjectClean</title>
 </head>
 <body>
+	
 	<div th:include="common/header.html"></div>
 	<div th:include="common/checkListAside.html"></div>
 
@@ -43,17 +44,31 @@
 		<tbody>
 		</tbody>
 	</table>
-	 
+<!-- 
+	<table>
+		<tr th:each="checkList : ${ checkList }">
+			<td th:text="${ checkList.checkReservationNo }"></td>
+		</tr>
+	</table>
+
+ -->	
+ 	<input type="hidden" th:value="${selectCriteria.limit}" class="selectCriteria">
+	
 	<script>
-		window.onload = function(){
+	var indexSize = $('.selectCriteria').val();
+	console.log(indexSize)
+	
+	$(document).ready(function(){
 			$.ajax({
 				url : "select",
 				method : "post",
 				success:function(data){
-					
 					const $table = $("#taskInfo tbody");
 					$table.html("");
-					for(var index in data){
+					const limit = indexSize;
+					
+					for(index in data){
+							
 						$tr = $("<tr>");
 						$checkReservationNoTd = $("<td1>").addClass('rn').text(data[index].checkReservationNo);
 						$checkStatusTd = $("<td>").text(data[index].checkStatus);
@@ -69,9 +84,10 @@
 						$tr.append($checkAdminNameTd);
 						$tr.append($buttonTd);
 						$table.append($tr);
-						
-					};
+							
+						};
 				},
+				
 				error:function(error){
 					console.log(error);
 				}
@@ -95,8 +111,11 @@
 					}; 
 				};						
 
-			}, 1000)};
+			}, 1000)});
+			
    	</script>
    	
+<!--    	<div th:replace="admin/checkList/paging.html"></div> -->
+
 </body>
 </html>

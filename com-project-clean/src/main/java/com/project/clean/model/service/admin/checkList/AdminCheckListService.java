@@ -2,6 +2,7 @@ package com.project.clean.model.service.admin.checkList;
 
 import java.util.List;
 
+import com.project.clean.controller.common.paging.SelectCriteria;
 import com.project.clean.model.dto.commonDTO.CheckListDTO;
 import com.project.clean.model.dto.joinDTO.CheckListAndReservationInfoAndEmployeeDTO;
 
@@ -15,6 +16,12 @@ public interface AdminCheckListService {
 
 	/* KS. 체크리스트 수정 (소견서, 반려/승인 등) */
 	int modifyCheckList(CheckListDTO checkList);
+
+	/* KS. 체크리스트 페이징 처리를 위한 총 게시글 수 검색 */
+	int selectTotalCount(int parameter);
+
+	/* KS. 체크리스트 페이징 및 검색처리 */
+	List<CheckListDTO> searchCheckList(SelectCriteria selectCriteria);
 
 
 }

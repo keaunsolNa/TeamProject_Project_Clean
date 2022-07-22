@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.clean.controller.common.paging.Pagenation;
+import com.project.clean.controller.common.paging.SelectCriteria;
 import com.project.clean.model.dto.commonDTO.ApplyEmployeeDTO;
 import com.project.clean.model.dto.commonDTO.CheckListDTO;
 import com.project.clean.model.dto.commonDTO.ReservationInfoDTO;
@@ -34,7 +36,7 @@ public class AdminCheckListController {
 	@Autowired 
 	public AdminCheckListController(AdminCheckListService adminCheckListService,PayService payService) {
 		this.adminCheckListService = adminCheckListService;
-		this.payService = payService;
+		this.payService = payService; 
 	}
 	
 	/* KS. 미처리 체크리스트 목록 조회 */
@@ -147,8 +149,34 @@ public class AdminCheckListController {
 	
 	/* KS. 승인 체크리스트 목록 조회 */
 	@GetMapping("accept/select")
-	public String acceptCheckListSelect() {
-		return "admin/checkList/selectAcceptCheckList";
+	public ModelAndView acceptCheckListSelect(ModelAndView mv, HttpServletRequest request) {
+		
+		System.out.println("요청 확인");
+		
+		String currentPage = request.getParameter("currentPage");
+		int pageNo = 1;
+
+		if(currentPage != null && !"".equals(currentPage)) {
+			pageNo = Integer.parseInt(currentPage);
+		}
+		
+		int parameter = 1;
+		
+		int totalCount = adminCheckListService.selectTotalCount(parameter);
+		
+		int limit = 3;		
+		int buttonAmount = 5;
+
+		SelectCriteria selectCriteria = null;
+		
+		selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
+		
+		List<CheckListDTO> checkList = adminCheckListService.searchCheckList(selectCriteria);
+		mv.addObject("checkList", checkList);
+		mv.addObject("selectCriteria", selectCriteria);
+		mv.setViewName("admin/checkList/selectAcceptCheckList"); 
+		return mv;
+		
 	}
 	
 	/* KS. 승인 체크리스트 목록 조회 */
@@ -274,5 +302,38 @@ public class AdminCheckListController {
 		return mv;
 		
 	}
+	
+	/* KS. 페이징 처리 */
+	@GetMapping("paging")
+	public ModelAndView checkListPaging(HttpServletRequest request, ModelAndView mv) {
+
+		System.out.println("요청 확인");
+		String currentPage = request.getParameter("currentPage");
+		int pageNo = 1;
+
+		if(currentPage != null && !"".equals(currentPage)) {
+			pageNo = Integer.parseInt(currentPage);
+		}
+		
+		int parameter = 1;
+		
+		int totalCount = adminCheckListService.selectTotalCount(parameter);
+		
+		int limit = 3;		
+		int buttonAmount = 5;
+
+		SelectCriteria selectCriteria = null;
+		
+		selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
+		
+		List<CheckListDTO> checkList = adminCheckListService.searchCheckList(selectCriteria);
+
+		mv.addObject("checkList", checkList);
+		mv.addObject("selectCriteria", selectCriteria);
+		mv.setViewName("admin/checkList/selectAcceptCheckList"); 
+		return mv;
+	}
+	
+	
 	
 }	

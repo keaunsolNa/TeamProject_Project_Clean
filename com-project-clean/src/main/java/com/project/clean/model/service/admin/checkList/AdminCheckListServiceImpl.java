@@ -8,8 +8,12 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.project.clean.controller.common.paging.SelectCriteria;
 import com.project.clean.model.domain.commonEntity.Admin;
 import com.project.clean.model.domain.commonEntity.CheckList;
 import com.project.clean.model.domain.commonEntity.Employee;
@@ -160,7 +164,6 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 							checkListAndReservationInfoAndEmployeeDTO.setAdminName(adminName);
 						}
 						
-						
 						/*  List<CheckListAndReservationAndEmployee> 객체에 값 주입 */
 						checkListAndReservationInfoAndEmployeeList.add(checkListAndReservationInfoAndEmployeeDTO);
 						
@@ -276,6 +279,41 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 		}
 		
 		return 0;
+	}
+
+	/* KS. 체크리스트 페이징 처리를 위한 총 게시글 수 검색 */
+	@Override
+	public int selectTotalCount(int paramter) {
+		
+		int count = 0;
+		
+			if(paramter == 1) {
+				
+				count = (int)checkListRepository.countByCheckStatus("A");
+			
+			}
+		
+		System.out.println(count);
+		return count;
+		
+	}
+
+	/* KS. 체크리스트 페이징 */
+	@Override
+	public List<CheckListDTO> searchCheckList(SelectCriteria selectCriteria) {
+		
+		int index = selectCriteria.getPageNo() - 1;	
+		System.out.println(index);
+		
+		int count = selectCriteria.getLimit();
+		System.out.println(count);
+		
+		Pageable paging = PageRequest.of(index, count, Sort.by("checkReservationNo"));
+
+		List<CheckList> checkList = new ArrayList<CheckList>();
+
+		checkList = checkListRepository.findAll(paging).toList();
+		return checkList.stream().map(check -> modelMapper.map(check, CheckListDTO.class)).collect(Collectors.toList());
 	}
 
 }
