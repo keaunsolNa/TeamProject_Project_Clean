@@ -25,6 +25,7 @@ import com.project.clean.model.domain.joinEntity.EmployeePayAndApplyEmployee;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.ApplyEmployeeDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeDTO;
+import com.project.clean.model.dto.commonDTO.EmployeePayDTO;
 import com.project.clean.model.dto.commonDTO.ReservationInfoDTO;
 import com.project.clean.model.dto.commonDTO.SurchargeDTO;
 import com.project.clean.model.dto.joinDTO.AdminAndAdminPayDTO;
@@ -209,7 +210,6 @@ public class PayServiceImpl implements PayService{
 	}
 	
 	/* 관리자 급여 상세 조회 */
-	@Transactional
 	public AdminPayAndAdminDTO findAdminPayByPayHistoryNo(int payHistoryNo) {
 
 		/* findById메소드로 Optional 객체 조회후 Optional객체의 get메소드를 통해 조회 */
@@ -290,11 +290,11 @@ public class PayServiceImpl implements PayService{
 		int count = 0;
 		if(searchValue != null) {
 			if("employeeName".equals(searchCondition)) {
-				count = employeePayAndEmployeeRepository.countByEmployeeNameContaining(searchValue);
+				count = employeePayAndEmployeeRepository.countByEmployeeEmployeeNameContaining(searchValue);
 			}
 			
 			if("employeePhone".equals(searchCondition)) {
-				count = employeePayAndEmployeeRepository.countByEmployeePhoneContaining(searchValue);
+				count = employeePayAndEmployeeRepository.countByEmployeeEmployeePhoneContaining(searchValue);
 			}
 				
 		} else {
@@ -305,7 +305,7 @@ public class PayServiceImpl implements PayService{
 	}
 
 
-
+	// 직원 급여 전체 조회
 	@Override
 	public List<EmployeePayAndApplyEmployeeDTO> employeePaySearch(SelectCriteria selectCriteria) {
 		int index = selectCriteria.getPageNo() - 1;			// Pageble객체를 사용시 페이지는 0부터 시작(1페이지가 0)
@@ -320,19 +320,19 @@ public class PayServiceImpl implements PayService{
 
 			/* 직원 이름 검색일 경우 */
 			if("employeeName".equals(selectCriteria.getSearchCondition())) {
-				employeePayList = employeePayAndEmployeeRepository.findByEmployeeNameContaining(selectCriteria.getSearchValue(), paging);
+				employeePayList = employeePayAndEmployeeRepository.findByEmployeeEmployeeNameContaining(selectCriteria.getSearchValue(), paging);
 			}
 			
 			
 			/* 직원 전화번호 검색일 경우 */
 			if("employeePhone".equals(selectCriteria.getSearchCondition())) {
-				employeePayList = employeePayAndEmployeeRepository.findByEmployeePhoneContaining(Integer.valueOf(selectCriteria.getSearchValue()), paging);
+				employeePayList = employeePayAndEmployeeRepository.findByEmployeeEmployeePhoneContaining(Integer.valueOf(selectCriteria.getSearchValue()), paging);
 			}
 			
 
 			
 		} else {
-//			employeePayList = employeePayAndEmployeeRepository.findEmployeePayForNative(paging).toList();
+			employeePayList = employeePayAndEmployeeRepository.findAll(paging).toList();
 		}
 
 		/* 자바의 Stream API와 ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
@@ -432,7 +432,7 @@ public class PayServiceImpl implements PayService{
 			}
 			
 			/* 직원 휴대폰번호 검색일 경우 */
-			if("adminJob".equals(selectCriteria.getSearchCondition())) {
+			if("employeePhone".equals(selectCriteria.getSearchCondition())) {
 				bestEmployeePayList = bestEmployeePayAndEmployeeRepository.findByEmployeeEmployeePhoneContaining(selectCriteria.getSearchValue(), paging);
 			}
 
@@ -444,6 +444,25 @@ public class PayServiceImpl implements PayService{
 
 		/* 자바의 Stream API와 ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
 		return bestEmployeePayList.stream().map(pay -> modelMapper.map(pay,BestEmployeePayAndEmployeeDTO.class)).collect(Collectors.toList());
+	}
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public EmployeePayAndApplyEmployeeDTO findEmployeePayByPayHistoryEmployeeNo(int payHistoryNo) {
+		/* findById메소드로 Optional 객체 조회후 Optional객체의 get메소드를 통해 조회 */
+		EmployeePayAndApplyEmployee pay = employeePayAndEmployeeRepository.findById(payHistoryNo).get();
+		
+		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 MenuDTO로 반환 */
+		return modelMapper.map(pay, EmployeePayAndApplyEmployeeDTO.class);
 	}
 
 

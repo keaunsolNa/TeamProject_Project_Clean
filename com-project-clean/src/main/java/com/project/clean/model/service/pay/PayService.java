@@ -6,6 +6,7 @@ import com.project.clean.controller.common.paging.SelectCriteria;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.ApplyEmployeeDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeDTO;
+import com.project.clean.model.dto.commonDTO.EmployeePayDTO;
 import com.project.clean.model.dto.commonDTO.ReservationInfoDTO;
 import com.project.clean.model.dto.commonDTO.SurchargeDTO;
 import com.project.clean.model.dto.joinDTO.AdminAndAdminPayDTO;
@@ -72,6 +73,8 @@ public interface PayService {
 
 	// 이달의 우수사원 급여 전체 조회
 	public List<BestEmployeePayAndEmployeeDTO> bestEmployeePaySearch(SelectCriteria selectCriteria);
+
+	public EmployeePayAndApplyEmployeeDTO findEmployeePayByPayHistoryEmployeeNo(int payHistoryEmployeeNo);
 
 
 	

@@ -2,14 +2,18 @@ package com.project.clean.model.domain.joinEntity;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity(name = "EMPLOYEE_PAY")
+import com.project.clean.model.domain.commonEntity.Employee;
+import com.project.clean.model.domain.commonEntity.ReservationInfo;
+
+@Entity
 @Table(name = "TBL_EMPLOYEE_PAY")
 public class EmployeePayAndApplyEmployee implements Serializable {
 
@@ -25,59 +29,28 @@ public class EmployeePayAndApplyEmployee implements Serializable {
 	@Column(name="PAY_EMPLOYEE_FINAL_SALARY")
 	private int payEmployeeFinalSalary;
 	
-	@Column(name="APPLY_EMPLOYEE_NO")
-	private int applyEmployeeNo;
+	@ManyToOne
+	@JoinColumn(name = "PAY_APPLY_EMPLOYEE_NO", referencedColumnName="EMPLOYEE_NO")
+	private Employee employee;
 	
-	@Column(name="APPLY_RESERVATION_NO")
-	private int applyReservationNo;
+	@ManyToOne
+	@JoinColumn(name= "PAY_APPLY_RESERVATION_NO", referencedColumnName="RESERVATION_NO")
+	private ReservationInfo reservationInfo;
 	
-	@Column(name="EMPLOYEE_NAME")
-	private String employeeName;
-	
-	@Column(name="EMPLOYEE_PHONE")
-	private String employeePhone;
-	
-	@Column(name="USER_ADDRESS")
-	private String userAddress;
-	
-	@Column(name="USER_DETAIL_ADDRESS")
-	private String userDetailAddress;
-	
-	@Column(name="BUSINESS_DATE")
-	private java.sql.Date businessDate;
-	
-	@Column(name="BUSINESS_START_TIME")
-	private java.sql.Timestamp businessStartTime;
-
-	@Column(name="BUSINESS_END_TIME")
-	private java.sql.Timestamp businessEndTime;
-
-	@Column(name="TOTAL_PAYMENT")
-	private int totalPayment;
-
 	
 	public EmployeePayAndApplyEmployee() {
+		// TODO Auto-generated constructor stub
 	}
 
 
 	public EmployeePayAndApplyEmployee(int payHistoryEmployeeNo, Date payEmployeeDate, int payEmployeeFinalSalary,
-			int applyEmployeeNo, int applyReservationNo, String employeeName, String employeePhone, String userAddress,
-			String userDetailAddress, Date businessDate, Timestamp businessStartTime, Timestamp businessEndTime,
-			int totalPayment) {
+			Employee employee, ReservationInfo reservationInfo) {
 		super();
 		this.payHistoryEmployeeNo = payHistoryEmployeeNo;
 		this.payEmployeeDate = payEmployeeDate;
 		this.payEmployeeFinalSalary = payEmployeeFinalSalary;
-		this.applyEmployeeNo = applyEmployeeNo;
-		this.applyReservationNo = applyReservationNo;
-		this.employeeName = employeeName;
-		this.employeePhone = employeePhone;
-		this.userAddress = userAddress;
-		this.userDetailAddress = userDetailAddress;
-		this.businessDate = businessDate;
-		this.businessStartTime = businessStartTime;
-		this.businessEndTime = businessEndTime;
-		this.totalPayment = totalPayment;
+		this.employee = employee;
+		this.reservationInfo = reservationInfo;
 	}
 
 
@@ -111,103 +84,23 @@ public class EmployeePayAndApplyEmployee implements Serializable {
 	}
 
 
-	public int getApplyEmployeeNo() {
-		return applyEmployeeNo;
+	public Employee getEmployee() {
+		return employee;
 	}
 
 
-	public void setApplyEmployeeNo(int applyEmployeeNo) {
-		this.applyEmployeeNo = applyEmployeeNo;
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 
 
-	public int getApplyReservationNo() {
-		return applyReservationNo;
+	public ReservationInfo getReservationInfo() {
+		return reservationInfo;
 	}
 
 
-	public void setApplyReservationNo(int applyReservationNo) {
-		this.applyReservationNo = applyReservationNo;
-	}
-
-
-	public String getEmployeeName() {
-		return employeeName;
-	}
-
-
-	public void setEmployeeName(String employeeName) {
-		this.employeeName = employeeName;
-	}
-
-
-	public String getEmployeePhone() {
-		return employeePhone;
-	}
-
-
-	public void setEmployeePhone(String employeePhone) {
-		this.employeePhone = employeePhone;
-	}
-
-
-	public String getUserAddress() {
-		return userAddress;
-	}
-
-
-	public void setUserAddress(String userAddress) {
-		this.userAddress = userAddress;
-	}
-
-
-	public String getUserDetailAddress() {
-		return userDetailAddress;
-	}
-
-
-	public void setUserDetailAddress(String userDetailAddress) {
-		this.userDetailAddress = userDetailAddress;
-	}
-
-
-	public java.sql.Date getBusinessDate() {
-		return businessDate;
-	}
-
-
-	public void setBusinessDate(java.sql.Date businessDate) {
-		this.businessDate = businessDate;
-	}
-
-
-	public java.sql.Timestamp getBusinessStartTime() {
-		return businessStartTime;
-	}
-
-
-	public void setBusinessStartTime(java.sql.Timestamp businessStartTime) {
-		this.businessStartTime = businessStartTime;
-	}
-
-
-	public java.sql.Timestamp getBusinessEndTime() {
-		return businessEndTime;
-	}
-
-
-	public void setBusinessEndTime(java.sql.Timestamp businessEndTime) {
-		this.businessEndTime = businessEndTime;
-	}
-
-
-	public int getTotalPayment() {
-		return totalPayment;
-	}
-
-
-	public void setTotalPayment(int totalPayment) {
-		this.totalPayment = totalPayment;
+	public void setReservationInfo(ReservationInfo reservationInfo) {
+		this.reservationInfo = reservationInfo;
 	}
 
 
@@ -219,13 +112,13 @@ public class EmployeePayAndApplyEmployee implements Serializable {
 	@Override
 	public String toString() {
 		return "EmployeePayAndApplyEmployee [payHistoryEmployeeNo=" + payHistoryEmployeeNo + ", payEmployeeDate="
-				+ payEmployeeDate + ", payEmployeeFinalSalary=" + payEmployeeFinalSalary + ", applyEmployeeNo="
-				+ applyEmployeeNo + ", applyReservationNo=" + applyReservationNo + ", employeeName=" + employeeName
-				+ ", employeePhone=" + employeePhone + ", userAddress=" + userAddress + ", userDetailAddress="
-				+ userDetailAddress + ", businessDate=" + businessDate + ", businessStartTime=" + businessStartTime
-				+ ", businessEndTime=" + businessEndTime + ", totalPayment=" + totalPayment + "]";
+				+ payEmployeeDate + ", payEmployeeFinalSalary=" + payEmployeeFinalSalary + ", employee=" + employee
+				+ ", reservationInfo=" + reservationInfo + "]";
 	}
-
+	
+	
+	
+	
 
 	
 	

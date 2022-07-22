@@ -20,12 +20,34 @@
 		<table border="1">
 	        <tr>
 	           <th>이름</th> 
-	           <th>직급</th> 
 	           <th>전화번호</th>
+	           <th>근무지</th>
+	           <th>근무날짜</th>
 	           <th>지급날짜</th>
 	        </tr>
-	       
-
+	        <tr th:each="pay : ${ employeePayList }">
+	          <td height="35px" th:text="${ pay.employee.employeeName }" th:onclick="|location.href='/admin/pay/management/employeePaySelectInfo/${ pay.payHistoryEmployeeNo }'|"></td> 
+	          <td height="35px" th:text="${ pay.employee.employeePhone }" th:onclick="|location.href='/admin/pay/management/employeePaySelectInfo/${ pay.payHistoryEmployeeNo }'|"></td> 
+	          <td height="35px" th:text="${ pay.reservationInfo.userAddress }" th:onclick="|location.href='/admin/pay/management/employeePaySelectInfo/${ pay.payHistoryEmployeeNo }'|"></td> 
+	          <td height="35px" th:text="${ pay.reservationInfo.businessDate }" th:onclick="|location.href='/admin/pay/management/employeePaySelectInfo/${ pay.payHistoryEmployeeNo }'|"></td> 
+	          <td height="35px" th:text="${ pay.payEmployeeDate }"></td> 
+	        </tr>
+		</table>
+		<br>
+		<div th:replace="admin/pay/management/employeePayPaging.html"></div>
+    	<br>
+		<div class="search-area" align="center">
+			<form id="searchForm" action="/admin/pay/management/employeePaySelect" method="get" style="display: inline-block">
+					<select th:with="searchCondition = ${selectCriteria.searchCondition}"
+						id="searchCondition" name="searchCondition">
+						<option value="employeeName" th:selected="${ searchCondition } == 'employeeName'">이름</option>
+						<option value="employeePhone" th:selected="${ searchCondition } == 'employeePhone'">전화번호</option>
+					</select> 
+				<input type="hidden" name="currentPage" value="1">
+				<input type="search" id="name" name="searchValue" th:value="${selectCriteria.searchValue}">
+				<button class="btn btn-bs" type="submit">검색하기</button>
+			</form>
+		</div>	
     </section>
 </body>
 </html>
