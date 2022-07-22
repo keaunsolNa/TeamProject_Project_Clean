@@ -3,9 +3,11 @@ package com.project.clean.model.repository.employee.checkList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.project.clean.model.domain.commonEntity.CheckList;
+import com.project.clean.model.dto.joinDTO.CheckListAndReservationInfoAndEmployeeDTO;
 
 public interface CheckListRepository  extends JpaRepository<CheckList, Integer>{
 
@@ -26,6 +28,7 @@ public interface CheckListRepository  extends JpaRepository<CheckList, Integer>{
 
 	/* KS. 체크리스트 페이징 */
 	int countByCheckStatus(String string);
+
 	
 
 }

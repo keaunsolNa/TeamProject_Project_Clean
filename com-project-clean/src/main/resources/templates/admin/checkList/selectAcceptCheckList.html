@@ -30,6 +30,23 @@
 			alert(Message)
 		}
 	</script>	
+	<form name = "searchValue" id="searchAcceptCheckList">
+	
+		<span>체크리스트 조회</span>
+		<select name ="category" id="category">
+			<option value="all" selected>전체</option>
+			<option value="employeeName">재직자 아이디</option>
+			<option value="customerName">고객 이름</option>
+		</select>
+		
+		<input type="text" name="categoryValue" id="categoryValue" placeholder="검색">
+		<input type="text" style="display: none;">
+		
+		<button type="button" id="search" onclick="search();">검색</button>
+		<input type="hidden" value="0" name=page>
+		
+	</form>
+	
 	<table id="taskInfo">
 		<thead>
 			<tr>
@@ -44,6 +61,25 @@
 		<tbody>
 		</tbody>
 	</table>
+	
+	<form name="mainPage">
+		<input type="hidden" value="0" name="category">
+	</form>
+	
+	<div id="paging" style="display: flex; justify-content: center;">
+	
+	</div>
+	
+	<script>
+		
+		function returnPage(category, categoryValue, page){
+			var queryString ={"category" : category
+					, "categoryValue" : categoryValue
+					, "page" : page};
+			checkListFunction(queryString);
+		}
+		
+	</script>
 <!-- 
 	<table>
 		<tr th:each="checkList : ${ checkList }">
@@ -55,8 +91,6 @@
  	<input type="hidden" th:value="${selectCriteria.limit}" class="selectCriteria">
 	
 	<script>
-	var indexSize = $('.selectCriteria').val();
-	console.log(indexSize)
 	
 	$(document).ready(function(){
 			$.ajax({

@@ -1,13 +1,16 @@
 package com.project.clean.model.service.admin.checkList;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -56,7 +59,6 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 	/* KS. CheckList 전체 조회 */
 	@Override
 	public List<CheckListAndReservationInfoAndEmployeeDTO> selectCheckList(String adminId, int parameter) {
-
 		List<CheckListDTO> check = new ArrayList<>();
 		List<CheckListAndReservationInfoAndEmployeeDTO> checkListAndReservationInfoAndEmployeeList = new ArrayList<>();
 		
