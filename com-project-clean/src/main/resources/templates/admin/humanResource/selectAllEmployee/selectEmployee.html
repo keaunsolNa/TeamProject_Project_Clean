@@ -1,23 +1,33 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <style type="text/css">
-        .tg  {border-collapse:collapse; border-spacing:0;}
-        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-          overflow:hidden;padding:10px 10px;word-break:normal;}
-        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-          font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;}
-        .tg .tg-7btt{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
-        #modify, #entire{
-            margin: 20px;
-        }
-        </style>
+.tg td {
+	border-color: black;
+	border-style: solid;
+	border-width: 1px;
+	font-size: 14px;
+	padding: 10px 10px;
+}
+
+.tg th {
+	font-size: 14px;
+}
+
+.tg .tg-7btt {
+	font-weight: bold;
+	text-align: center;
+}
+</style>
 </head>
 <body>
-    <div align="center">
+    <div>
+	<div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div>
         <table class="tg" style="table-layout: fixed; width: 736px">
         <colgroup>
         <col style="width: 158px">
@@ -37,8 +47,8 @@
             <td class="tg-7btt" colspan="2" rowspan="3">
             
              <img id="pictureImg" th:src="@{/adminEmployeePicture/} + ${employee.employeePictureSaveName}" 
-             	  alt="사진을 등록해주세요" width="100px" height="100px">
-            </td>
+             	  alt="사진을 등록해주세요" width="100px" height="100px" onerror="this.style.display='none';"/>
+            </td>													 
             <!-- <td class="tg-7btt" colspan="2" rowspan="3" th:text="${employeePicture.employeePictureSaveName}"></td> -->
           </tr>
           <tr>
@@ -92,14 +102,17 @@
         <br>
         <table class="button">
             <tr>
-            	<!-- 관리자거나 직원에 따라 2개로 나눠야 댐 -->
-            	<!-- <th:block sec:authorize="hasRole('MEMBER')"> -->
-                <td><button id="adminModify">수정</button></td>
-                 <!-- </th:block> -->
+            <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
+                <td><button id="adminModify">HR수정</button></td>
+            </th:block>
                  
-                 <!-- <th:block sec:authorize="hasRole('HR')"> -->
-                <td><button id="entire">탈퇴 처리</button></td>
-                 <!-- </th:block> -->
+            <th:block sec:authorize="hasRole('ROLE_EMPLOYEE')">
+                <td><button id="employeeModify">EMPLOYEE수정</button></td>
+            </th:block>
+                 
+                <th:block sec:authorize="hasRole('ADMIN_HR')">
+                <td><button id="entire" th:if="${employee.employeeRetireYn == 'N'}">탈퇴 처리</button></td>
+                </th:block> 
                  
                 <td id="value" th:text="${employee.employeeNo}" style="display: none"></td>
             </tr>
@@ -109,11 +122,18 @@
     <script>
     const value = $("#value").text();
 	$("#adminModify").click(function(){
-		location.href="/admin/modify/employee/"+value
+		location.href="/admin/modify/employee/"+value;
 	});
 	
 	$("#employeeModify").click(function(){
-		location.href="/admin/modify/employee"
+		location.href="/employee/modify/employee/"+value;
+	})
+	
+	$("#entire").click(function(){
+		
+		if(confirm("탈퇴처리 하시겠습니까?")){
+			location.href="/admin/reitre/employee/"+value;
+		}
 	})
     </script>
 </body>

@@ -4,7 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <script	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script 
+   		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <style type="text/css">
 .checkBoxs > input{
 	width:30px;
@@ -22,7 +23,6 @@ input{
 <title>Insert title here</title>
 </head>
 <body>
-	<div th:include="common/header.html"></div>
 
 	<form action="/reservation/client" method="post" align="center">
 		<label>고객 이름 </label><br> <input type="text" name="userName"><br>

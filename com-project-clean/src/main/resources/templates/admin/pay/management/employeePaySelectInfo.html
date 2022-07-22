@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" th:href="@{/css/pay/adminPaySelectInfo.css}">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:include="common/header.html"></div>
+	<div th:include="common/payAside.html"></div>
+	<section>
+		<table border="1">
+	        <tr>	
+				<th width="230px" height="220px"><img id="pictureImg" th:src="@{/employeePicture/} + ${pay.employee.employeePictureSaveName}" alt="사진을 등록해주세요" width="100%" height="100%"></th>
+	            <th width="230px" th:utext="|급여 지급 날짜 <br> <p>${ pay.payEmployeeDate }</p>|"><br></th>
+	            <th width="230px" colspan="2" th:utext="|4대보험,수수료,근무인원 미적용 급여 <br> <p>${ pay.reservationInfo.totalPayment}원</p>|"></th>
+	            <th colspan="2" width="230px" th:utext="|최종 급여 <br> <p>${ pay.payEmployeeFinalSalary }원</p>|"></th>
+	        </tr>
+	        <tr>
+	            <th height="30px">직원이름</th>
+	            <th colspan="4">전화번호</th>
+	        </tr>
+	        <tr>
+	            <th height="80px" colspan="1" th:text="${ pay.employee.employeeName }"></th>
+	            <th colspan="4" th:text="${ pay.employee.employeePhone }"></th>
+	        </tr>
+    	</table>
+    	<br>
+    	<br>
+    	<table>
+    	    <tr>
+    	    	<th width="230px">근무날짜</th>
+	        	<th>근무시작시간</th>
+	            <th>근무종료시간</th>
+	        </tr>
+	        <tr>
+	        	<th height="80px" th:text="${ pay.reservationInfo.businessDate}"></th>
+	        	<th th:text="${ pay.reservationInfo.businessStartTime }"></th>
+	        	<th th:text="${ pay.reservationInfo.businessEndTime }"></th>
+	            
+	        </tr>
+	        <tr>
+	        	<th>근무인원</th>
+	        	<th colspan="2">근무지</th>
+	        </tr>
+	        <tr>
+	        	<th height="80px" th:text="|${ pay.reservationInfo.businessApplyPeople }명|"></th>
+	        	<th colspan="2" th:text="|${ pay.reservationInfo.userAddress } ${ pay.reservationInfo.userDetailAddress }|"></th>
+	        </tr>
+    	</table>
+    </section>
+</body>
+
+</html>

@@ -1,3 +1,7 @@
+*, ::after, ::before {
+    box-sizing: inherit !important; 
+    
+}
 section {
 	padding-top:60px;
 }
@@ -6,12 +10,11 @@ section {
 h2 {
 	font-weight: 800;
 }
+
+
 table {
 	width: 100%;
 	font-family: 'MinSans-Medium';
-	src:
-		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff')
-		format('woff');
 	font-weight: normal;
 	font-style: normal;
 	border: 1px solid #9AE8F9;
@@ -57,9 +60,8 @@ table th, table tr, table td {
 
 th input {
 	width: 95%;
-	height: 100%;
 	border: none;
-	font-size: 13px;
+	font-size: 15px;
 }
 
 #surchargeButton {

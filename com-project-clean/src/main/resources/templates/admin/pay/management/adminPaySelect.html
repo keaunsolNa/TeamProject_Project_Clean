@@ -24,19 +24,19 @@
 	           <th>전화번호</th>
 	           <th>지급날짜</th>
 	        </tr>
-	        <!-- <tr th:each="pay : ${ adminPayList }">
-	          <td height="35px" th:text="${ pay.admin.adminName }" th:onclick="|location.href='/pay/adminPaySelectInfo/${ pay.payHistoryAdminNo }'|"></td> 
-	          <td th:text="${ pay.admin.adminJob }" th:onclick="|location.href='/pay/adminPaySelectInfo/${ pay.payHistoryAdminNo }'|"></td> 
-	          <td th:text="${ pay.admin.adminPhone }" th:onclick="|location.href='/pay/adminPaySelectInfo/${ pay.payHistoryAdminNo }'|"></td> 
-	          <td th:text="${ pay.payAdminDate }" th:onclick="|location.href='/pay/adminPaySelectInfo/${ pay.payHistoryAdminNo }'|"></td>  
-	        </tr> -->
+	        <tr th:each="pay : ${ adminPayList }">
+	          <td height="35px" th:text="${ pay.admin.adminName }" th:onclick="|location.href='/admin/pay/management/adminPaySelectInfo/${ pay.payHistoryAdminNo }'|"></td> 
+	          <td th:text="${ pay.admin.adminJob }" th:onclick="|location.href='/admin/pay/management/adminPaySelectInfo/${ pay.payHistoryAdminNo }'|"></td> 
+	          <td th:text="${ pay.admin.adminPhone }" th:onclick="|location.href='/admin/pay/management/adminPaySelectInfo/${ pay.payHistoryAdminNo }'|"></td> 
+	          <td th:text="${ pay.payAdminDate }" th:onclick="|location.href='/admin/pay/management/adminPaySelectInfo/${ pay.payHistoryAdminNo }'|"></td>  
+	        </tr>
     	</table>
     	<br>
-    	<!-- <div th:replace="pay/employeePayPaging.html"></div> -->
+    	<div th:replace="admin/pay/management/adminPayPaging.html"></div>
     	
 		<br>
-		<!-- <div class="search-area" align="center">
-			<form id="searchForm" action="/pay/adminPaySelect" method="get" style="display: inline-block">
+		<div class="search-area" align="center">
+			<form id="searchForm" action="/admin/pay/management/adminPaySelect" method="get" style="display: inline-block">
 					<select th:with="searchCondition = ${selectCriteria.searchCondition}"
 						id="searchCondition" name="searchCondition">
 						<option value="adminName" th:selected="${ searchCondition } == 'adminName'">이름</option>
@@ -47,7 +47,7 @@
 				<input type="search" id="name" name="searchValue" th:value="${selectCriteria.searchValue}">
 				<button class="btn btn-bs" type="submit">검색하기</button>
 			</form>
-		</div>	 -->
+		</div>	
  
     </section>
 </body>

@@ -1,0 +1,23 @@
+body {
+	font-family: 'MinSans-Medium' !important;
+}
+.head {
+	margin: 20px auto 30px auto;
+}
+
+table {
+	width: 70%;
+	border: 1px solid black;
+	border-collapse: collapse;
+	margin-bottom: 30px;
+}
+
+th, td {
+	border: 1px solid black !important;
+	padding: 10px !important;
+	text-align: center !important;
+}
+
+th{
+	background-color: #9AE8F9;
+}

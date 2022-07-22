@@ -1,52 +1,47 @@
+<!DOCTYPE html>
+
 <html xmlns:th="https://www.thymeleaf.org"
 	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <style>
+<meta charset="UTF-8">
+<title>Document</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-        .tg  {border-collapse:collapse; border-spacing:0;}
-        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-          overflow:hidden;padding:10px 10px;word-break:normal;}
-        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-          font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;}
-        .tg .tg-7btt{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
+<style>
+table td {
+	border-color: black;
+	border-style: solid;
+	border-width: 1px;
+	font-size: 14px;
+	overflow: hidden;
+	padding: 10px 10px;
+	font-weight: bold;
+	text-align: center;
+}
 
-        #modify, #entire{
-            margin: 20px;
-        }
-        input{
-          height: 18px;
-          width: 70px;
-        }
-        body {
-            margin-top: 100px;
-            font-family: 'Trebuchet MS', serif;
-            line-height: 1.6
-        }
+table th {
+	border-style: solid;
+	border-width: 1px;
+	font-size: 14px;
+	font-weight: normal;
+	overflow: hidden;
+}
 
-        /* 전체 크기 */
-        .container {
-            width: 1500px;
-            margin: 0 auto;
-        }
-
-
-    </style>
+</style>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- jQuery library -->
 </head>
 
 <body>
-    <div class="container">
-		<div th:replace="/admin/humanResource/registEmployee/adminRegistMainHeader.html"></div>
 
-
-        <!-- 등록 내용 -->
-        <div id="tab-1" class="tab-content current">
-            <div align="left">
+	<div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div>    
+	<div th:replace="/admin/humanResource/registEmployee/adminRegistMainHeader.html"></div>
+	
 		        <form action="/admin/hr/regist/employee" method="post" id="registForm" encType="multipart/form-data">
-	                <table class="tg" style="table-layout: fixed; width: 736px">
+	                <table class="tg" style="table-layout: fixed; width: 1536px">
 	                <colgroup>
 	                <col style="width: 158px">
 	                <col style="width: 147px">
@@ -59,22 +54,14 @@
 	                  <tr>
 	                    <td class="tg-7btt">직원번호</td>
 	                    <td class="tg-7btt" id="employeeNo" th:text="${employeeNo}"></td>
-	                    <!-- 수정수정 -->
-	                    <!-- 수정수정 -->
-	                    <!-- 수정수정 -->
-	                    <!-- 수정수정 -->
-	                    <td class="tg-7btt" style="display: none;"><input id="adminNo" name="adminNo" th:value="7"></input></td>
-   	                    <!-- 수정수정 -->
-   	                    <!-- 수정수정 -->
-	                    <!-- 수정수정 -->
-	                    <!-- 수정수정 -->
 	                    
 	                    <td class="tg-7btt" style="display: none;"><input name="employeeNo" th:value="${employeeNo}"/></td>
 	                    <td class="tg-7btt">이름</td>
-	                    <td class="tg-7btt"><input type="text" id="employeeName" name="employeeName" class="required" maxlength='4' required></td>
+	                    <td class="tg-7btt"><input type="text" id="employeeName" name="employeeName" class="required" maxlength='4' placeholder="한글 2~4글자" required>
+	                    <div id="nameCheckMessage">2~4글자 한글을 입력하기로 해요</div></td>
 	                    
 	                    <!-- <td class="tg-7btt" colspan="2" rowspan="3"><div id="picture">사진</div></td> -->
-	                    <td class="tg-7btt" colspan="2" rowspan="3">사진 <img id="pictureImg" width="100px" height="100px"></td>
+	                    <td class="tg-7btt" colspan="2" rowspan="3"><img id="pictureImg" width="100px" height="100px"></td>
 	                    
 	                    
 	                  </tr>
@@ -83,7 +70,7 @@
 	                    <td class="tg-7btt" th:text="${employeeId}"></td>
 	                    <td class="tg-7btt" style="display: none;"><input name="employeeId" th:value="${employeeId}"/></td>
 	                    <td class="tg-7btt">전화번호</td>
-	                    <td class="tg-7btt">
+	                    <td class="tg-7btt" style="width: 200px">
 	                    	<select id="employeePhone1" name="employeePhone1" class="required">
 	                    		<option selected>010</option>
 	                    		<option>011</option>
@@ -91,10 +78,12 @@
 	                    		<option>017</option>
 	                    		<option>019</option>
 	                    	</select>-
-	                    	<input type="text" id="employeePhone2" name="employeePhone2" class="required" maxlength='4' required>-
-	                    	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' required>
+	                    	<input type="text" id="employeePhone2" name="employeePhone2" class="required" maxlength='4' required style="width: 50px" placeholder="숫자 3~4자리">-
+	                    	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' required style="width: 50px"  placeholder="숫자 4자리">
 	                    	<input style="display: none;" type="text" id="employeePhone" name="employeePhone">
-	                    
+	                    	<div id="middleNumCheckMessage" >중간번호는 3~4자리 숫자를 입력하기로 약속해요</div>
+	                    	<div id="endNumCheckMessage" >끝번호는 4자리 숫자를 입력하기로 약속해요</div>
+	                    	<div id="duplicateCheckMessage" >중복된 핸드폰번호는 사용하지 않기로 약속해요</div>
 	                    </td>
 	                  </tr>
 	                  <tr>
@@ -106,18 +95,53 @@
 	                </thead>
 	                <tbody>
 	                  <tr>
+	                  
+	                  
+	                  
+	                  
+	                  
+	                  
+	                  
+	                  
+	                  
+	                  
+	                  
+	                  
+	                  
+	                  
+	                  
+	                  
+	                  
+	                  
+	                  
+	                  
+	                  
+	                  
 	                    <td class="tg-7btt">이메일</td>
-	                    <td class="tg-7btt" colspan="3"><input type="text" id="email" class="required" name="email" required style="width: 200px;"> @ 
+	                    <td class="tg-7btt" colspan="3"><input type="text" id="email" class="required" name="email" required style="width: 200px;"  placeholder="영문 대소문자+숫자 5~12자리"> @ 
+	                    <input id="selfInput" name="selfInput" placeholder="이메일 주소를 입력하세요">
 	                      <select name="domain" id="domain" style="width: 100px; height: 25px;">
-	                    <option value="naver.com" selected>naver.com</option>
-	                    <option value="google.com">google.com</option>
-	                    <option value="hanmail.com">hanmail.com</option>
+	                    <option id="naver" value="naver.com" selected>naver.com</option>
+	                    <option id="google" value="google.com">google.com</option>
+	                    <option id="daum" value="daum.com">daum.com</option>
+	                    <option id="yahoo" value="yahoo.com">yahoo.com</option>
+	                    <option id="nate" value="nate.com">nate.com</option>
+	                    <option id="self">직접입력</option>
 	                      </select>
+	                      
+	                      
+	                      
+	                      
+	                      
+	                      
+	                      <div id="emailCheckMessage">5~12자리 대소문자 + 영어로 입력하기로 약속해요</div>
+	                      <div id="selfEmailCheckMessage">옳바른 도메인 입력을 약속해요</div>
+	                      </td>
 	              		<td class="tg-7btt"style="display: none;"><input id="employeeEmail" name="employeeEmail" type="text"/></td>
 	              		
 	                    <td class="tg-7btt"> <button type="button" id="pictureRegist" name="pictureRegist">등록</button> </td>
 	                    <td class="tg-7btt"> <button type="button"id="pictureDelete" name="pictureDelete">삭제</button> </td>
-	                    <td style="display: none;"> <input type="file" id="picture" name="picture" onchange="loadImg(this,1)">
+	                    <td style="display: none;"> <input type="file" id="picture" name="picture" onchange="loadImg(this,1)"  accept="image/*">
 	                    
 	                  </tr>
 	                  <tr>
@@ -131,7 +155,7 @@
 	                  </tr>
 	                  <tr>
 	                    <td class="tg-7btt">상세주소</td>
-	                    <td class="tg-7btt" colspan="5"><input type=text id="addressDetail" class="required" name="addressDetail" required></td>
+	                    <td class="tg-7btt" colspan="5"><input type=text id="addressDetail" class="required" name="addressDetail"  placeholder="틀리지 않게 주의해 주세요" required></td>
 	                    <td class="tg-7btt"style="display: none;"><input id="employeeAddress" name="employeeAddress" type="text"/></td>
 	                    
 	                  </tr>
@@ -164,37 +188,39 @@
 	                </table>
                 </form>
                 <br>
-            </div>
-        </div>
-    </div>
 
     <script>
+
+    $(function(){
+    	$("#nameCheckMessage").hide();
+    	$("#emailCheckMessage").hide();
+    	$("#selfEmailCheckMessage").hide();
+    	$("#middleNumCheckMessage").hide();
+    	$("#endNumCheckMessage").hide();
+    	$("#duplicateCheckMessage").hide();
+    	$("#selfInput").hide();
+    	
+    })
     
-    /* 사진등록 */
+    $('#domain').change(function(){
+        $("#domain option:selected").each(function () {
+        	
+		 if($(this).attr('id') == "self"){	// 직접입력 선택 시
+	   			$("#selfInput").attr("style","display:inline");
+	   			$("#self").val("");
+	   			$("#selfInput").val('');
+	   			
+	   			
+     	} else{	// 아닌거 선택 시
+	   			$("#selfInput").attr("style","display:none");
+	   			
+	    		}
+        });
+     });
+   
+   
     
-			/* 이미지 미리보기 관련 스크립트 */
-			const pictureRegist = document.getElementById("pictureRegist");
-			
-			pictureRegist.onclick = function() {
-				document.getElementById("picture").click();
-			}
-	
-			/* 이미지 미리보기 관련 함수(File API 활용하기) */
-			function loadImg(value, num) {
-				
-				/* https://developer.mozilla.org/ko/docs/Web/API/FileReader 참고 (MDN 사이트 참고)*/
-				if (value.files && value.files[0]) {			// value.files[0]는 파일 이름
-					const reader = new FileReader();
-				
-					reader.readAsDataURL(value.files[0]);		// Base64방식으로 파일을 FileReader에 전달 (Base64로 인코딩한 것은 브라우저가 원래 데이터로 만들게 됨)
-					
-					/* load 이벤트의 핸들러로 읽기 동작이 성공적으로 완료 되었을 때마다 발생한다. */
-					reader.onload = function(e) {				// load EventListener에 function 등록 (FileReader에서 전달 받은 파일을 다 읽으면 리스너에 등록한 function이 호출 됨)
-							document.getElementById("pictureImg").src = e.target.result;
-							
-						}
-					}
-				}
+
     
     /* 회원 등록 정보 */
   	$("#regist").click(function(){
@@ -205,23 +231,48 @@
   		const name = $("#employeeName").val();
   		const birth = $("#employeeBirth").val();
   		const email = $("#email").val();
-  		const domain = $("#domain").val();
-  		
+    	const domain = $("#selfInput").val();
+
 		const addressNo = $("#addressNo").text();
 		const address = $("#address").text();
   		const addressDetail = $("#addressDetail").val();
   		
-  			if(!(name && phone2 && phone3 && birth && email && addressNo && addressDetail)){
-  				alert("입력되지 않은 항목이 있습니다.");
-  			}else{
+   			if(!(name)){
+   				alert("이름을 입력해주세요");
+   				$("#employeeName").focus();
+  			}
+  			else if(!(phone2 || phone3)){
+   				alert("번호를 입력해주세요");
+   				$("#employeePhone2").focus();
+  			}
+  			else if(!(birth)){
+   				alert("생년월일을 입력해주세요");
+   				$("#employeeBirth").focus();
+  			}
+  			else if(!(email)){
+   				alert("이메일을 입력해주세요");
+   				$("#email").focus();
+  			}
+  			else if(!(domain) && ($("#domain option:selected").attr('id') == "self")){
+   				alert("도메인을 입력해주세요");
+   				$("#selfInput").focus();
+  			}
+  			else if(!(addressDetail)){
+   				alert("상세주소를 입력해주세요");
+   				$("#addressDetail").focus();
+  			}
+  			else{
 			if(confirm("등록하시겠습니까?")){
+		    	/* const domain = $("#domain").val(); */
+	
+		    	$("#self").attr('value', domain);
+				alert("domain의 값 ="+ domain);
 				$('#employeePhone').attr('value', phone1 +"-"+ phone2 +"-"+ phone3 );
 				$('#employeeAddress').attr('value', addressNo + "@" + address + "@" + addressDetail);
-				$('#employeeEmail').attr('value', email + "@" + domain);
+				$('#employeeEmail').attr('value', email + "@" + $("#domain").val());
 				$("#registForm").submit();
-  				
   			}
-  		}
+  		} 
 	})   
 
 	$("#resetButton").click(function(){
@@ -231,39 +282,160 @@
 	})
 	
 	/* 핸드폰 번호 정규표현식 */
-	
-    $("#employeePhone2").focusout(function (event) {
+/* 	
+    $("#employeePhone2").focusout(function () {
 
-    	var regexp = /^[0-9]{3,4}/gi;
+    	var regexp = /^[0-9]{3,4}/g;
         phoneCheck = $(this).val();
         if (!regexp.test(phoneCheck)) {
-            alert("3 ~ 4자리의 숫자만 사용하기로 약속해요");
+        	$("#middleNumCheckMessage").show();
+        $(this).focus();
             $(this).val('');
-            document.location.reload(true);
+        }else{
+        	$("#middleNumCheckMessage").hide();
         }
     });
     
-    $("#employeePhone3").focusout(function (event) {
+    $("#employeePhone3").focusout(function () {
 
-    	var regexp = /^[0-9]{4}/gi;
+    	var regexp = /^[0-9]{4}/g;
         phoneCheck = $(this).val();
         if (!regexp.test(phoneCheck)) {
-        	alert("4자리의 숫자만 사용하기로 약속해요");
-        $("#employeePhone3").focus();
+        	$("#endNumCheckMessage").show();
+        $(this).focus();
              $(this).val(''); 
-             document.location.reload(true);
+        }else{
+        	$("#endNumCheckMessage").hide();
         }
     });
     
-    /* 이름 정규표현식 */
-    $("#employeeName").focusout(function (event) {
+ */ 
+ 		/* 이거 왜 안되냐
+	    phoneCheck2 = $("#employeePhone2").val();
+	    phoneCheck3 = $("#employeePhone3").val();
+	    const phoneCheck = phoneCheck2 + phoneCheck3; */
+	    
+	 $("#employeePhone2").focusout(function () {
+	 	var regexp = /^[0-9]{3,4}/g;
+	     if (!regexp.test($("#employeePhone2").val())) {		// 중간번호 틀리면
+	    	 	$("#duplicateCheckMessage").hide();
+		     	$("#middleNumCheckMessage").show();
+		     	$("#endNumCheckMessage").hide();
+	         $(this).val('');
+	     $(this).focus();
+	     }else{													// 중간번호 맞으면
+	     	$("#middleNumCheckMessage").hide();
+	     	$.ajax({
+	     		url: "/admin/hr/regist/employee/findMiddlePhone",
+	     		success: function(data){
+	     			for(var i = 0; i < data.length; i++){
+	     				if(data[i] == $("#employeePhone1").val() + $("#employeePhone2").val() + $("#employeePhone3").val()){		// 중복값이면
+	     					$("#duplicateCheckMessage").show();
+	     			     	$("#middleNumCheckMessage").hide();
+	     			     	$("#endNumCheckMessage").hide();
+	     			     	
+	     				    $("#employeePhone2").val('');
+	     				    $("#employeePhone2").focus();
+	     					break;
+	     				}else{									//성공하면
+	     					$("#duplicateCheckMessage").hide();
+	     			     	$("#middleNumCheckMessage").hide();
+	     			     	$("#endNumCheckMessage").hide();
+	     				}
+	     			}
+	     		},
+	     		error: function(){
+	     			alert("fail");
+	     		}
+	     	})
+	     }
+	 });
+	    
+	 $("#employeePhone3").focusout(function () {
+	     var regexp = /^[0-9]{4}/g;
+	     if (!regexp.test($("#employeePhone3").val())) {
+    	 	$("#duplicateCheckMessage").hide();
+	     	$("#middleNumCheckMessage").hide();
+	     	$("#endNumCheckMessage").show();
+	     $(this).val('');
+	     $(this).focus();
+	     }else{
+	     	$("#endNumCheckMessage").hide();
+	     	$.ajax({
+	     		url: "/admin/hr/regist/employee/findMiddlePhone",
+	     		success: function(data){
+	     			for(var i = 0; i < data.length; i++){
+	     				if(!$("#employeePhone2")){
+	     				if(data[i] ==$("#employeePhone1").val() + $("#employeePhone2").val() + $("#employeePhone3").val()){
+	     					$("#duplicateCheckMessage").show();
+	     			     	$("#middleNumCheckMessage").hide();
+	     			     	$("#endNumCheckMessage").hide();
+	     			     	
+	     				    $("#employeePhone3").val('');
+	     				    $("#employeePhone3").focus();
+	     					break;
+	     				}else{
+	     					$("#duplicateCheckMessage").hide();
+	     			     	$("#middleNumCheckMessage").hide();
+	     			     	$("#endNumCheckMessage").hide();
+	     				}
+	     			}
+	     			}
+	     		},
+	     		error: function(){
+	     			alert("fail");
+	     		}
+	     	})
+	     }
+	 });
+ 	
+ 
+ 
+ 
+ 
+ 
+ 	/* 이름 정규표현식 */
+    $("#employeeName").focusout(function () {
 
     	var regexp =  /^[가-힣]{2,4}$/;
+
         phoneCheck = $(this).val();
         if (!regexp.test(phoneCheck)) {
-            alert("2~4글자의 한글만 사용하기로 약속해요");
+        	$("#nameCheckMessage").show();
+        $(this).focus();
              $(this).val(''); 
-             document.location.reload(true);
+        }else{
+        	$("#nameCheckMessage").hide();
+        }
+    });
+    
+    /* 앞 이메일 정규표현식 */
+    $("#email").focusout(function () {
+
+    	var regexp = /^[a-z0-9]{5,12}$/gi;
+
+        emailCheck = $(this).val();
+        if (!regexp.test(emailCheck)) {
+        	$("#emailCheckMessage").show();
+        $(this).focus();
+        $(this).val(''); 
+        }else{
+        	$("#emailCheckMessage").hide();
+        }
+    });
+    
+    /* 직접입력 이메일 정규표현식 */
+    $("#selfInput").focusout(function () {
+
+    	var regexp = /[a-zA-Z0-9-]{2,8}\.[a-zA-Z0-9-.]{2,4}/g;
+
+        emailCheck = $(this).val();
+        if (!regexp.test(emailCheck)) {
+        	$("#selfEmailCheckMessage").show();
+        $(this).focus();
+             $(this).val(''); 
+        }else{
+        	$("#selfEmailCheckMessage").hide();
         }
     });
     
@@ -293,7 +465,31 @@
         }
     )
     
-
+    /* 사진등록 */
+    
+			/* 이미지 미리보기 관련 스크립트 */
+			const pictureRegist = document.getElementById("pictureRegist");
+			
+			pictureRegist.onclick = function() {
+				document.getElementById("picture").click();
+			}
+	
+			/* 이미지 미리보기 관련 함수(File API 활용하기) */
+			function loadImg(value, num) {
+				
+				/* https://developer.mozilla.org/ko/docs/Web/API/FileReader 참고 (MDN 사이트 참고)*/
+				if (value.files && value.files[0]) {			// value.files[0]는 파일 이름
+					const reader = new FileReader();
+				
+					reader.readAsDataURL(value.files[0]);		// Base64방식으로 파일을 FileReader에 전달 (Base64로 인코딩한 것은 브라우저가 원래 데이터로 만들게 됨)
+					
+					/* load 이벤트의 핸들러로 읽기 동작이 성공적으로 완료 되었을 때마다 발생한다. */
+					reader.onload = function(e) {				// load EventListener에 function 등록 (FileReader에서 전달 받은 파일을 다 읽으면 리스너에 등록한 function이 호출 됨)
+							document.getElementById("pictureImg").src = e.target.result;
+							
+						}
+					}
+				}
         
     </script>
 </body>

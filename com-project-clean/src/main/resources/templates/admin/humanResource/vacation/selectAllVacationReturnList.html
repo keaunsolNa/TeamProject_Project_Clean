@@ -6,26 +6,14 @@
     <title>Document</title>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <style>
-        body {
-            margin-top: 100px;
-            font-family: 'Trebuchet MS', serif;
-            line-height: 1.6
-        }
-
-        /* 전체 크기 */
-        .container {
-            width: 1500px;
-            margin: 0 auto;
-        }
         
     </style>
 </head>
 
-
 <body>
 
-    <div class="container">
-    
+      <div th:replace="/common/Header.html"></div>
+	  <div th:replace="/admin/adminAside.html"></div>
       <div th:replace="admin/humanResource/vacation/selectAllVacationHeader"></div>
       
       	<form name="myVacationForm" action="/admin/select/selectMyVacation" id="myVacationForm">
@@ -77,8 +65,6 @@
                <!-- /* 페이징 버튼들어올 공간 */ -->
 			</div>
         
-    </div>
-    
     <script>
 
 
@@ -116,6 +102,10 @@
              const $table = $("#vacationTable tbody");
              const $div = $("#paging");
              
+             const confirmY = "승인";
+             const confirmN = "반려";
+             const returnY = "반려";
+             const returnN = "승인";
              /* 데이터 필드, 페이징버튼 필드 초기화 */
              $table.html("");
              $div.html("");
@@ -131,10 +121,29 @@
 					$startTd = $("<td>").text(data.vacationList[index].vacationStartDate);
 					$endTd = $("<td>").text(data.vacationList[index].vacationEndDate);
 					$vNameTd = $("<td>").text(data.vacationList[index].vacationName);
-					$firstTd = $("<td>").text(data.vacationList[index].vacationFirstConfirmYn);
-					$secondTd = $("<td>").text(data.vacationList[index].vacationSecondConfirmYn);
-					$returnTd = $("<td>").text(data.vacationList[index].vacationReturnYn);
-					$lastTd = $("<td>").text(data.vacationList[index].vacationLastConfirmYn);
+					if(data.vacationList[index].vacationFirstConfirmYn == "Y"){
+						$firstTd = $("<td>").html(confirmY);
+					}else{
+						$firstTd = $("<td>").html(confirmN);
+					}
+					
+					if(data.vacationList[index].vacationSecondConfirmYn == "Y"){
+						$secondTd = $("<td>").html(confirmY);
+					}else{
+						$secondTd = $("<td>").html(confirmN);
+					}
+					
+					if(data.vacationList[index].vacationReturnYn == "Y"){
+						$returnTd = $("<td>").html(returnY);
+					}else{
+						$returnTd = $("<td>").html(returnN);
+					}
+					
+					if(data.vacationList[index].vacationLastConfirmYn == "Y"){
+						$lastTd = $("<td>").html(confirmY);
+					}else{
+						$lastTd = $("<td>").html(confirmN);
+					}
 							$tr.append($noTd);
 							$tr.append($nameTd);
 							$tr.append($requestTd);

@@ -3,64 +3,75 @@
 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
+<link href='/css/reservation/detail.css' rel='stylesheet'/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
 	<script th:inline="javascript">
-	/*[# th:if = ${applyMessage} != null]*/
-		alert([[${applyMessage}]]);
-		location.href = '/reservation/detail/' + '[[${reservationNo}]]';
-	/*[/]*/
+		const message = [[${message}]];
+		if(message){
+			alert(message);
+			location.href =  '/reservation/detail/' + '[[${reservationNo}]]';
+		}
 	</script>
+	<div th:if ="${message} == null">
+	
 	<div th:include="common/header.html"></div>
 	<div th:include="common/reservationAside.html"></div>
 	
-	<h1 align="center" th:text="${#dates.format(date, 'yyyy-MM-dd')}"></h1>
+	<h1 class="head" align="center" th:text="${#dates.format(reservation.businessStartTime, 'yyyy/MM/dd')}"></h1>
+	<h3 class="head" align="center" th:text="${#dates.format(reservation.businessStartTime, 'HH:mm')} + '~' + ${#dates.format(reservation.businessEndTime, 'HH:mm')}"></h3>
 	<table align="center" border="1">
 		<tr>
-			<td>주소 : </td>
+			<th>주소</th>
 			<td th:text="${ reservation.userAddress }"></td>
 		</tr>
 		<tr>
-			<td>평수 : </td>
+			<th>상세주소</th>
+			<td th:text="${ reservation.userDetailAddress }"></td>
+		</tr>
+		<tr>
+			<th>평수</th>
 			<td th:text="${ reservation.userHouseSize } + '평'"></td>
 		</tr>
 		<tr>
-			<td>급여 : </td>
+			<th>급여</th>
 			<td th:if="${ reservation.businessFixedPeople == 2}" th:text="${#numbers.formatInteger(reservation.totalPayment * 0.92 * 0.8 / 2 , 3, 'COMMA')} + '원'"></td>
 			<td th:if="${ reservation.businessFixedPeople == 1}" th:text="${#numbers.formatInteger(reservation.totalPayment * 0.92 * 0.8 , 3, 'COMMA')} + '원'"></td>
 		</tr>
 		<tr>
-			<td>시간 : </td>
+			<th>시간</th>
 			<td th:text="${ workTime } + '시간'"></td>
 		</tr>
 		<tr>
-			<td>요청사항 : </td>
+			<th>요청사항</th>
 			<td th:text="${ reservation.userRequirements }"></td>
 		</tr>
 		<tr>
-			<td>부가서비스 : </td>
-			<td th:if="${ reservation.gashoodCleanYn == 'Y'}" th:text="'가스레인지 후드 청소'"></td>
-			<td th:if="${ reservation.moldCleanYn == 'Y'}" th:text="'곰팡이 제거'"></td>
-			<td th:if="${ reservation.filterCleanYn == 'Y'}" th:text="'필터 청소'"></td>
-			<td th:if="${ reservation.warehouseCleanYn == 'Y'}" th:text="'창고 정리'"></td>
-			<td th:if="${ reservation.petYn == 'Y'}" th:text="'애완동물 여부 (관련청소)'"></td>
-			<td th:if="${ reservation.multipleLayerYn == 'Y'}" th:text="'복층 여부'"></td>
+			<th>부가서비스</th>
+			<td>
+				<span th:if="${ reservation.gashoodCleanYn == 'Y'}" th:text="' 가스레인지 후드 청소 '"></span>
+				<span th:if="${ reservation.moldCleanYn == 'Y'}" th:text="' 곰팡이 제거 '" ></span>
+				<span th:if="${ reservation.filterCleanYn == 'Y'}" th:text="' 필터 청소 '"></span>
+				<span th:if="${ reservation.warehouseCleanYn == 'Y'}" th:text="' 창고 정리 '"></span>
+				<span th:if="${ reservation.petYn == 'Y'}" th:text="' 애완 동물 여부(관련청소) '"></span>
+				<span th:if="${ reservation.multipleLayerYn == 'Y'}" th:text="' 복층 여부 '"></span>
+			</td>
 		</tr>
 		
 		<tr>
-			<td>정원 : </td>
+			<th>정원</th>
 			<td th:text="${ reservation.businessFixedPeople } + '명'"></td>
 		</tr>
 		
 		<tr>
-			<td>지원인원 : </td>
+			<th>지원인원</th>
 			<td th:text="${ reservation.businessApplyPeople } + '명'"></td>
 		</tr> 
 		
 		<tr>
-			<td>지원 가능 여부 : </td>
+			<th>지원 가능 여부</th>
 			<td style="color:red;" th:if="${ reservation.applyEndYn =='Y'}" th:text="불가능"></td>
 			<td style="color:blue;" th:if="${ reservation.applyEndYn =='N'}" th:text="가능"></td>
 		</tr>
@@ -71,7 +82,7 @@
 		<button th:onclick="'location.href = \'' + @{/reservation/apply/{id}(id=${reservation.reservationNo})} + '\''">지원</button>
 	</div>
 	<div th:if="${ applyButtonText == '지원취소'}">
-		<button th:onclick="'location.href = \'' + @{/reservation/applyCancel/{id}(id=${reservation.reservationNo})} + '\''">지원 취소</button>
+		<button onclick="applyCancel();">지원 취소</button>
 	</div>
 	<div th:if="${ applyButtonText == '즐겨찾기'}">
 		<button th:onclick="'location.href = \'' + @{/reservation/bookmark/{id}(id=${reservation.reservationNo})} + '\''">즐겨찾기 등록</button>
@@ -82,6 +93,27 @@
 	<div th:if="${ applyButtonText == '즐겨찾기 취소'}">
 		<button th:onclick="'location.href = \'' + @{/reservation/bookmarkCancel/{id}(id=${reservation.reservationNo})} + '\''">즐겨찾기 취소</button>
 	</div>
-	<button>목록</button>
+	<div>
+		<button onclick="history.back();">목록</button>
+	</div>
+	
+	<script th:inline="javascript">
+		function applyCancel(){
+			   if(confirm("업무 시작 48시간 이내에 취소시 패널티가 부여됩니다. \n취소하시겠습니까?")){
+				   location.href = '/reservation/applyCancel/'+[[${reservation.reservationNo}]];
+			   }
+		};
+	</script>
+	<script th:inline="javascript">
+	$(function(){
+			const start = new Date([[${#dates.format(reservation.businessStartTime, 'yyyy-MM-dd')}]]);
+			const now = new Date();
+			if(start.getTime() < now.getTime()){
+				alert("이미 종료된 예약입니다.");
+				history.back();
+			}
+		});
+	</script>
+	</div>
 </body>
 </html>

@@ -19,7 +19,9 @@
         </style>
 </head>
 <body>
-    <div align="center">
+	<div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div>
+    <div>
     	<form action="/admin/modify/employee" method="post" id="modifyForm" enctype="multipart/form-data">
 	        <table class="tg" style="table-layout: fixed; width: 736px">
 	        <colgroup>
@@ -40,6 +42,8 @@
 	            <td class="tg-7btt" colspan="2" rowspan="3"> <img id="pictureImg" th:src="@{/adminEmployeePicture/} + ${employee.employeePictureSaveName}" width="100px" height="100px"></td>
 	            <td style="display: none;"><input type="text" id="oldSaveRoot" name="oldSaveRoot" th:value="${employee.employeePictureSaveRoot}"></td>
 	            <td style="display: none;"><input type="text" id="oldSaveName" name="oldSaveName" th:value="${employee.employeePictureSaveName}"></td>
+	            <td style="display: none;"><input type=text id="status" name="status" value="modify"></td>
+	            
 	            
 	          </tr>
 	          <tr>
@@ -57,8 +61,14 @@
 	             	<input type="text" id="employeePhone2" name="employeePhone2" class="required" maxlength='4' th:value="${phone.middlePhoneNumber}" required>-
 	             	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' th:value="${phone.lastPhoneNumber}" required>
 	             	<input style="display: none;" type="text" id="employeePhone" name="employeePhone">
-	             	<td style="display: none;"><input type="text" th:value="${phone.firstPhoneNumber}" id="firstPhoneNumber" name="firstPhoneNumber"></td>
-	             </td>
+            		<div id="middleNumCheckMessage" >중간번호는 3~4자리 숫자를 입력하기로 약속해요</div>
+                   	<div id="endNumCheckMessage" >끝번호는 4자리 숫자를 입력하기로 약속해요</div>
+                   	<div id="duplicateCheckMessage" >중복된 핸드폰번호는 사용하지 않기로 약속해요</div>
+	             	
+	             	</td>
+	             	<td style="display: none;"><input type="text" th:value="${phone.firstPhoneNumber}" id="firstPhoneNumber" name="firstPhoneNumber">
+	             	</td>
+	             	
 	          </tr>
 	          <tr>
 	            <td class="tg-7btt">생년월일</td>
@@ -76,18 +86,29 @@
 	        </thead>
 	        <tbody>
 	          <tr>
+	          
+	          
+	          
+	          
 	          	<td class="tg-7btt">이메일</td>
 	            <td class="tg-7btt" colspan="3"><input th:value="${email.email}" type="text" id="email" class="required" placeholder="이메일을 입력해주세요" required style="width: 200px;"> @ 
-		            <select id="domain" name="domain" style="width: 100px; height: 25px;">
-			            <option value="naver.com" selected>naver.com</option>
-			            <option value="google.com">google.com</option>
-			            <option value="hanmail.com">hanmail.com</option>
-		            </select>
+		 	        <input id="selfInput" name="selfInput" placeholder="이메일 주소를 입력하세요">
+		                <select name="domain" id="domain" style="width: 100px; height: 25px;">
+			                <option id="naver" value="naver.com">naver.com</option>
+			                <option id="google" value="google.com">google.com</option>
+			                <option id="daum" value="daum.com">daum.com</option>
+			                <option id="yahoo" value="yahoo.com">yahoo.com</option>
+			                <option id="nate" value="nate.com">nate.com</option>
+			                <option id="self" value="id">직접입력</option>
+		                </select>
+                     <div id="emailCheckMessage">5~12자리 대소문자 + 영어로 입력하기로 약속해요</div>
+                     <div id="selfEmailCheckMessage">옳바른 도메인 입력을 약속해요</div>   
+		         </td> 
                 <td class="tg-7btt"style="display: none;"><input id="employeeEmail" name="employeeEmail" type="text"/></td>
                 <td class="tg-7btt"style="display: none;"><input id="domainValue" type="text" th:value="${email.domain}"/></td>
 	                    <td class="tg-7btt"> <button type="button" id="pictureModify" name="pictureModify">수정</button> </td>
-	                    <td class="tg-7btt"> <button type="button"id="pictureDelete" name="pictureDelete">삭제</button> </td>
-	                    <td style="display: none;"> <input type="file" id="picture" name="picture" onchange="loadImg(this,1)">
+	                    <td class="tg-7btt"> <button type="button"id="pictureDelete" name="pictureDelete" >삭제</button> </td>
+	                    <td style="display: none;"> <input type="file" id="picture" name="picture" onchange="loadImg(this,1)" accept="image/*">
 	          		</tr>
 	                  <tr>
 	                    <td class="tg-7btt">우편번호</td>
@@ -134,29 +155,7 @@
     
     <script>
     
-
 		
-	/* 핸드폰 번호 정규표현식 */
-    $("#employeePhone2").focusout(function (event) {
-
-    	var regexp = /^[0-9]{3,4}/gi;
-        phoneCheck = $(this).val();
-        if (!regexp.test(phoneCheck)) {
-            alert("3 ~ 4자리의 숫자만 사용하기로 약속해요11");
-            $(this).val('');
-        }
-    });
-	
-    $("#employeePhone3").focusout(function (event) {
-
-    	var regexp = /^[0-9]{3,4}/gi;
-        phoneCheck = $(this).val();
-        if (!regexp.test(phoneCheck)) {
-            alert("4자리의 숫자만 사용하기로 약속해요11");
-            $(this).val('');
-        }
-    });
-    
     /* 우편번호 스크립트 */
     $("#findAddress").click(
     		
@@ -173,80 +172,263 @@
             }
         )
         
-    /* 회원 수정 정보 */
-  	$("#modify").click(function(){
-  		const phone1 = $("#employeePhone1").val();
-  		const phone2 = $("#employeePhone2").val();
-  		const phone3 = $("#employeePhone3").val();
-  		const email = $("#email").val();
-  		const domain = $("#domain").val();
-		const addressNo = $("#addressNo").text();
-		const address = $("#address").text();
-  		const addressDetail = $("#addressDetail").val();
-  		
-  			if(!(employeePhone2 && employeePhone3 && email && addressNo && addressDetail)){
-  				alert("입력되지 않은 항목이 있습니다.");
-  			}else{
-			if(confirm("등록하시겠습니까?")){
-				$('#employeePhone').attr('value', phone1 +"-"+ phone2 +"-"+ phone3 );
-				$('#employeeAddress').attr('value', addressNo + "@" + address + "@" + addressDetail);
-				$('#employeeEmail').attr('value', email + "@" + domain);
-				$("#modifyForm").submit();
-  			}
-  		}
-	})  
-    	
-    	/* 취소 시 */
-    	$("#entire").click(function(){
-    		if(!confirm("수정을 취소하시겠습니까?")){
-    		} else{
-			alert("취소 되었습니다.")    			
-    		location.href="/";
-    		}
-    	});
-    	
-    	/* 퇴사자 라디오 버튼 체크 */
-    	$(function(){
-    		const checkedValue = $("#retireYn").val();
-    		$(":radio[name='employeeRetireYn'][value='" + checkedValue + "']").attr('checked', true);
-    	})
-    	
-    		const checkedFirstPhone = $("#firstPhoneNumber").val();
-    		const checkedDomain = $("#domainValue").val();
-    	
-    		
-    		$("#employeePhone1").val(checkedFirstPhone).prop("selected", true);
-    		$("#domain").val(checkedDomain).prop("selected", true);
-    		
-	
-		    /* 사진등록 */
-		    
-			/* 이미지 미리보기 관련 스크립트 */
-			const pictureModify = document.getElementById("pictureModify");
-			
-			pictureModify.onclick = function() {
-				document.getElementById("picture").click();
-			}
-	
-			/* 이미지 미리보기 관련 함수(File API 활용하기) */
-			function loadImg(value, num) {
-				
-				/* https://developer.mozilla.org/ko/docs/Web/API/FileReader 참고 (MDN 사이트 참고)*/
-				if (value.files && value.files[0]) {			// value.files[0]는 파일 이름
-					const reader = new FileReader();
-				
-					reader.readAsDataURL(value.files[0]);		// Base64방식으로 파일을 FileReader에 전달 (Base64로 인코딩한 것은 브라우저가 원래 데이터로 만들게 됨)
-					
-					/* load 이벤트의 핸들러로 읽기 동작이 성공적으로 완료 되었을 때마다 발생한다. */
-					reader.onload = function(e) {				// load EventListener에 function 등록 (FileReader에서 전달 받은 파일을 다 읽으면 리스너에 등록한 function이 호출 됨)
-							document.getElementById("pictureImg").src = e.target.result;
-							
+            $(function(){
+            	const checkedDomain = $("#domainValue").val();
+            	const emailOptions = $('#domain').find('option').map(function() {return $(this).val()}).get();
+		    	$("#nameCheckMessage").hide();
+		    	$("#emailCheckMessage").hide();
+		    	$("#selfEmailCheckMessage").hide();
+		    	$("#middleNumCheckMessage").hide();
+		    	$("#endNumCheckMessage").hide();
+		    	$("#duplicateCheckMessage").hide();
+		    	$("#selfInput").hide();
+
+					for (var i = 0; i < emailOptions.length; i++) {
+							if (emailOptions[i] === checkedDomain) {
+									$("#selfInput").hide();
+								$("#domain").val(checkedDomain).prop("selected", true);
+								break;
+							} else {
+									/* 박스 보여주고 */
+									$("#selfInput").show();
+								/* 박스에 넘어온 값 넣어주고 */
+								$("#selfInput").val(checkedDomain);
+								/* select의 value가 id인 애를 selected해라 */
+								$("#domain").val("id").prop("selected", true);
+
+							}
+						}
+
+					})
+
+					$('#domain').change(
+							function() {
+								$("#domain option:selected").each(
+										function() {
+
+											if ($(this).attr('id') == "self") { // 직접입력 선택 시
+												$("#selfInput").attr("style",
+														"display:inline");
+												$("#self").val("");
+												$("#selfInput").val('');
+
+											} else { // 아닌거 선택 시
+												$("#selfInput").attr("style",
+														"display:none");
+
+											}
+										});
+							});
+
+					/* 회원 수정 정보 */
+					$("#modify")
+							.click(
+									function() {
+										const phone1 = $("#employeePhone1")
+												.val();
+										const phone2 = $("#employeePhone2")
+												.val();
+										const phone3 = $("#employeePhone3")
+												.val();
+										const no = $("#employeeNo").text();
+										const name = $("#employeeName").val();
+										const birth = $("#employeeBirth").val();
+										const email = $("#email").val();
+										const domain = $("#selfInput").val();
+
+										const addressNo = $("#addressNo")
+												.text();
+										const address = $("#address").text();
+										const addressDetail = $(
+												"#addressDetail").val();
+
+										if (!(phone2 || phone3)) {
+											alert("번호를 입력해주세요");
+											$("#employeePhone2").focus();
+										} else if (!(email)) {
+											alert("이메일을 입력해주세요");
+											$("#email").focus();
+										} else if (!(domain)
+												&& ($("#domain option:selected")
+														.attr('id') == "self")) {
+											alert("도메인을 입력해주세요");
+											$("#selfInput").focus();
+										} else if (!(addressDetail)) {
+											alert("상세주소를 입력해주세요");
+											$("#addressDetail").focus();
+										} else {
+											if (confirm("수정하시겠습니까?")) {
+												/* const domain = $("#domain").val(); */
+
+												$("#self").attr('value', domain);
+												$('#employeePhone').attr('value',phone1 + "-" + phone2+ "-" + phone3);
+												$('#employeeAddress').attr('value',addressNo+ "@" + address + "@" + addressDetail);
+												$('#employeeEmail').attr('value',email+ "@"+ $("#domain").val());
+												$("#modifyForm").submit();
+											}
+										}
+									})
+
+					$("#employeePhone2")
+							.focusout(
+									function() {
+										var regexp = /^[0-9]{3,4}/g;
+										if (!regexp.test($("#employeePhone2")
+												.val())) { // 중간번호 틀리면
+											$("#duplicateCheckMessage").hide();
+											$("#middleNumCheckMessage").show();
+											$("#endNumCheckMessage").hide();
+											$(this).focus();
+										} else { // 중간번호 맞으면
+											$("#middleNumCheckMessage").hide();
+											$
+													.ajax({
+														url:"/admin/hr/regist/employee/findMiddlePhone",														success : function(data) {
+															for (var i = 0; i < data.length; i++) {
+																if (data[i] == $("#employeePhone1").val() + $("#employeePhone2").val() + $("#employeePhone3").val()) { // 중복값이면
+																	$("#duplicateCheckMessage").show();
+																	$("#middleNumCheckMessage").hide();
+																	$("#endNumCheckMessage").hide();
+																	$("#employeePhone2")
+																			.focus();
+																	break;
+																} else { //성공하면
+																	$("#duplicateCheckMessage").hide();
+																	$("#middleNumCheckMessage").hide();
+																	$("#endNumCheckMessage").hide();
+																}
+															}
+														},
+														error : function() {
+															alert("fail");
+														}
+													})
+										}
+									});
+
+					$("#employeePhone3")
+							.focusout(
+									function() {
+										var regexp = /^[0-9]{4}/g;
+										if (!regexp.test($("#employeePhone3")
+												.val())) {
+											$("#duplicateCheckMessage").hide();
+											$("#middleNumCheckMessage").hide();
+											$("#endNumCheckMessage").show();
+											$(this).focus();
+										} else {
+											$("#endNumCheckMessage").hide();
+											$
+													.ajax({
+														url:"/admin/hr/regist/employee/findMiddlePhone",														success : function(data) {
+															for (var i = 0; i < data.length; i++) {
+																if (data[i] == $("#employeePhone1").val()+ $("#employeePhone2").val()+ $("#employeePhone3").val()) {$("#duplicateCheckMessage").show();
+																	$("#middleNumCheckMessage").hide();
+																	$("#endNumCheckMessage").hide();
+																	$("#employeePhone3").focus();
+																	break;
+																} else {
+																	$("#duplicateCheckMessage").hide();
+																	$("#middleNumCheckMessage").hide();
+																	$("#endNumCheckMessage").hide();
+																}
+															}
+														},
+														error : function() {
+															alert("fail");
+														}
+													})
+										}
+									});
+
+					/* 앞 이메일 정규표현식 */
+					$("#email").focusout(function() {
+
+						var regexp = /^[a-z0-9]{5,12}$/gi;
+
+						emailCheck = $(this).val();
+						if (!regexp.test(emailCheck)) {
+							$("#emailCheckMessage").show();
+							$(this).focus();
+						} else {
+							$("#emailCheckMessage").hide();
+						}
+					});
+
+					/* 직접입력 이메일 정규표현식 */
+					$("#selfInput").focusout(function() {
+
+						var regexp = /[a-zA-Z0-9-]{2,8}\.[a-zA-Z0-9-.]{2,4}/g;
+
+						emailCheck = $(this).val();
+						if (!regexp.test(emailCheck)) {
+							$("#selfEmailCheckMessage").show();
+							$(this).focus();
+						} else {
+							$("#selfEmailCheckMessage").hide();
+						}
+					});
+
+					/* 취소 시 */
+					$("#entire").click(function() {
+						if (!confirm("수정을 취소하시겠습니까?")) {
+						} else {
+							alert("취소 되었습니다.")
+							location.href = "/";
+						}
+					});
+
+					/* 퇴사자 라디오 버튼 체크 */
+					$(function() {
+						const checkedValue = $("#retireYn").val();
+						$(
+								":radio[name='employeeRetireYn'][value='"
+										+ checkedValue + "']").attr('checked',
+								true);
+					})
+					/* 핸드폰 앞자리 선택 체크 */
+					const checkedFirstPhone = $("#firstPhoneNumber").val();
+					$("#employeePhone1").val(checkedFirstPhone).prop(
+							"selected", true);
+
+					/* 변형 */
+					$("#pictureModify").click(function() {
+						$("#pictureImg").show();
+						$("#status").val("modify");
+					})
+
+					/* 삭제 */
+					$("#pictureDelete").click(function() {
+						$("#pictureImg").hide();
+						$("#status").val("delete");
+					})
+
+					/* 사진등록 */
+					const pictureModify = document
+							.getElementById("pictureModify");
+
+					pictureModify.onclick = function() {
+						document.getElementById("picture").click();
+					}
+
+					/* 이미지 미리보기 관련 함수(File API 활용하기) */
+					function loadImg(value, num) {
+
+						/* https://developer.mozilla.org/ko/docs/Web/API/FileReader 참고 (MDN 사이트 참고)*/
+						if (value.files && value.files[0]) { // value.files[0]는 파일 이름
+							console.log(value.files[0]);
+							const reader = new FileReader();
+
+							reader.readAsDataURL(value.files[0]); // Base64방식으로 파일을 FileReader에 전달 (Base64로 인코딩한 것은 브라우저가 원래 데이터로 만들게 됨)
+
+							/* load 이벤트의 핸들러로 읽기 동작이 성공적으로 완료 되었을 때마다 발생한다. */
+							reader.onload = function(e) { // load EventListener에 function 등록 (FileReader에서 전달 받은 파일을 다 읽으면 리스너에 등록한 function이 호출 됨)
+								document.getElementById("pictureImg").src = e.target.result;
+
+							}
 						}
 					}
-				}
-			
-
-    </script>
+				</script>
 </body>
 </html>
 

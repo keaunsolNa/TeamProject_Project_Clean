@@ -1,6 +1,9 @@
+section {
+	margin-top: 3% !important;
+}
 
 table{
-	width:90%;
+	width:80%;
 	margin:0 auto;
     font-family: 'MinSans-Medium';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff') format('woff');

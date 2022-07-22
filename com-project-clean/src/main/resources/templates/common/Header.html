@@ -19,10 +19,10 @@
     	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script 
    		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script 
-    	src="/js/socket.js"></script>
-    	
+   	<script
+   		src="/js/socket.js"></script>
 </head>
+    	
 
 <body>
     <div class="row">
@@ -92,9 +92,11 @@
                             </a>
                 
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">알림1</a></li>
+                            
+                                <li><a class="dropdown-item" id="selectMyInfo" href="/member/selectEmployee/move">내정보 조회</a></li>
                                 <li><a class="dropdown-item" href="#">알림2</a></li>
                                 <li><a class="dropdown-item" href="#">알림3</a></li>
+                                
                             </ul>
                         </li>
                     
@@ -104,11 +106,20 @@
                             예약관리
                             </a>
                 
+                            <th:block sec:authorize="hasRole('ADMIN')">
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">알림1</a></li>
-                                <li><a class="dropdown-item" href="#">알림2</a></li>
-                                <li><a class="dropdown-item" href="#">알림3</a></li>
+                                <li><a class="dropdown-item" href="/admin/reservation/main">예약 일정 확인</a></li>
+                                <li><a class="dropdown-item" href="/admin/notification/list">알림</a></li>
                             </ul>
+                		</th:block>
+                		<th:block sec:authorize="hasRole('EMPLOYEE')">
+                			<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/">예약</a></li>
+                                <li><a class="dropdown-item" href="/reservation/myList">내 일정 확인</a></li>
+                                <li><a class="dropdown-item" href="/bookmark/list">즐겨찾기 목록</a></li>
+                                <li><a class="dropdown-item" href="/notification/list">알림</a></li>
+                            </ul>
+                		</th:block>
                         </li>
 
                         <li class="nav-item dropdown">
@@ -152,9 +163,8 @@
                             </a>
                 
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">알림1</a></li>
-                                <li><a class="dropdown-item" href="#">알림2</a></li>
-                                <li><a class="dropdown-item" href="#">알림3</a></li>
+                                <li><a class="dropdown-item" href="/admin/pay/management/adminPaySelect">급여 관리</a></li>
+                                <li><a class="dropdown-item" href="/admin/pay/management/adminPaySelect">나의 급여</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -163,5 +173,6 @@
         </nav>
 		
     </header>
+    
 </body>
 </html>

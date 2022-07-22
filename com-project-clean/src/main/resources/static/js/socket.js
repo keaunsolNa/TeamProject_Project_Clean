@@ -1,5 +1,4 @@
 var stompClient = null;
-
 function setConnected(connected) {
     if (connected) {
         $("#conversation").show();
@@ -31,19 +30,22 @@ function showGreeting(message) {
     $("#ReceiveMessage").show();
     $("#ReceiveMessage").append("<tr><td>" + message + "</td></tr>");
 }
-
+function sendjs(){
+	
+}
 $(function () {
-    $("form").on('submit', function (e) {
+	$("form").on('submit', function (e) {
+		if(document.getElementById("formSender")){
+			
         e.preventDefault();
+		    $( "#connect" ).click(function() { connect(); });
+			$( "#disconnect" ).click(function() { disconnect(); });
+	    	sendName(); 
+		}	
     });
-
-    $( "#connect" ).click(function() { connect(); });
-    $( "#disconnect" ).click(function() { disconnect(); });
-    $( "#send" ).click(function() { sendName(); });
 });
 
-$(function(){
-	connect();
+$(document).ready(function(){
+	connect()
 });	
-
 

@@ -6,65 +6,88 @@
 
 <style type="text/css">
 
-      /* 결재 테이블 */
-      .tg  {border-collapse:collapse;border-spacing:0;}
-      .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
-        overflow:hidden;padding:5px;word-break:normal;}
-      .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
-        font-weight:normal;overflow:hidden;padding:5px;word-break:normal;}
-      .tg .tg-amwm{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
+/* 결재 테이블 */
 
-      .comfirmBox td{
-        height: 75px;
-      }
+.tg td {
+	border-style: solid;
+	border-width: 1px;
+	font-size: 14px;
+}
 
-      .confirmTable{
-        margin: 20px;
-      }
+.tg th {
+	border-style: solid;
+	border-width: 1px;
+	font-size: 14px;
+}
 
-      .confirmHeight{
-        margin: auto;
-        line-height: center;
-        line-height: 100px;
-      }
+/* 휴가신청서 */
+.tg2 td {
+	border-style: solid;
+	border-width: 1px;
+	font-size: 14px;
+	padding: 10px 10px;
+}
 
-    /* 휴가신청서 */
-    .tg2  {border-collapse:collapse;border-spacing:0;}
-    .tg2 td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-    overflow:hidden;padding:10px 10px;word-break:normal;}
-    .tg2 th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-    font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;}
-    .tg2 .tg2-7btt{border-color:inherit; font-weight:bold;text-align:center;vertical-align:top}
+.tg2 th {
+	border-style: solid;
+	border-width: 1px;
+	font-size: 14px;
+	padding: 10px 10px;
+}
 
-    /* 반려사유 */
-    .returnReason{
-      height: 50px;
-      line-height: 45px;
-    }
+.tg2 .tg2-7btt {
+	font-weight: bold;
+	text-align: center;
+}
 
-    .confirmDateContainer{
-        margin: 25px;
-    }
-    .container{
-        width: 1500px;
-    }
+.tg .tg-amwm {
+	font-weight: bold;
+	text-align: center;
+}
 
-    .reason{
-        height: 100px;
-        line-height: 100px;
-    }
+/* 반려사유 */
+.returnReason {
+	height: 50px;
+	line-height: 45px;
+}
 
-    .confirmLine{
-        line-height: 75px;
-    }
+.confirmDateContainer {
+	margin: 25px;
+}
+
+.container {
+	width: 1500px;
+}
+
+.reason {
+	height: 100px;
+	line-height: 100px;
+}
+
+.confirmLine {
+	line-height: 75px;
+}
 
 
-    </style>
+
+.comfirmBox td {
+	height: 75px;
+}
+
+.confirmTable {
+	margin: 20px;
+}
+
+.confirmHeight {
+	margin: auto;
+	line-height: center;
+}
+</style>
 
 </head>
 <body>
-    <div class="container">
-      
+    <div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div>
       <!-- 결재라인 -->
       <div class="confirmDateContainer">
         <table class="tg confirmTable" style="table-layout: fixed; width: 588px">
@@ -152,7 +175,6 @@
               </tr>
             </tbody>
           </table>
-    </div>
     </div>
 </body>
 </html>

@@ -89,9 +89,14 @@ public class EmployeeNotificationService {
 
 
 	public ReservationInfoDTO findReservation(int notificationReservationNo) {
-
 		Reservation reservation = reservationRepository.findReservationByReservationNo(notificationReservationNo);
 		return modelMapper.map(reservation, ReservationInfoDTO.class);
+	}
+
+	public List<NotificationDTO> findAllByNotificationEmployeeNoAndNotificationAdminYn(int employeeNo, String string) {
+		
+		List<Notification> notificationList = notificationRepository.findAllByNotificationEmployeeNoAndNotificationAdminYn(employeeNo, string);
+		return notificationList.stream().map(noti -> modelMapper.map(noti, NotificationDTO.class)).toList();
 	}
 
 
