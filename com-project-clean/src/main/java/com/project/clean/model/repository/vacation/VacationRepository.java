@@ -3,7 +3,6 @@ package com.project.clean.model.repository.vacation;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -68,6 +67,72 @@ public interface VacationRepository extends JpaRepository<Vacation, Integer>{
 
 	public Vacation findByVacationNo(int vacationNo, Sort sort);
 
+	public Page<Vacation> findByVacationFirstConfirmYnAndVacationSecondConfirmYnAndVacationLastConfirmYnAndVacationReturnYn(
+			String firstConfirm, String secondConfirm, String lastConfirm, String returnUn, Pageable pageable);
+	
+	public Page<Vacation> findByVacationFirstConfirmYnOrVacationSecondConfirmYnOrVacationLastConfirmYnOrVacationReturnYn(
+			String firstConfirm, String secondConfirm, String lastConfirm, String returnUn, Pageable pageable);
+
+	/* 승인 전체 조회 */
+	Page<Vacation> findByVacationLastConfirmYn(String string, Pageable pageable);
+	
+	/* 반려 전체 조회 */
+	Page<Vacation> findByVacationReturnYn(String string, Pageable pageable);
+	
+	/* 전체 이름 검색 */
+	public Page<Vacation> findByRequestAdminContaining(String categoryValue, Pageable pageable);
+	
+	/* 승인 이름 검색*/
+	public Page<Vacation> findByVacationLastConfirmYnAndRequestAdminContaining(String confirm, String categoryValue, Pageable pageable);
+	
+	/* 반려 이름 검색*/
+	public Page<Vacation> findByVacationReturnYnAndRequestAdminContaining(String returnYn, String categoryValue, Pageable pageable);
+
+	/* 전체 휴가 시작일 검색 */
+	@Query(value = " SELECT \r\n"
+				  + "       *\r\n"
+				  + "  FROM TBL_VACATION\r\n"
+				  + "  WHERE VACATION_START_DATE BETWEEN TO_DATE(?1) AND TO_DATE(?2)", nativeQuery = true)
+	public Page<Vacation> selectBetweenStartDate(String startDate, String endDate, Pageable pageable);
+	/* 전체 휴가 종료일 검색 */
+	@Query(value = " SELECT \r\n"
+			  + "       *\r\n"
+			  + "  FROM TBL_VACATION\r\n"
+			  + "  WHERE VACATION_END_DATE BETWEEN TO_DATE(?1) AND TO_DATE(?2)", nativeQuery = true)
+	public Page<Vacation> selectBetweenEndDate(String startDate, String endDate, Pageable pageable);
+	
+	/* 승인 휴가 시작일 검색 */
+	@Query(value = "  SELECT \r\n"
+			+ "       *\r\n"
+			+ "  FROM TBL_VACATION\r\n"
+			+ "  WHERE VACATION_START_DATE BETWEEN TO_DATE(?1)AND TO_DATE(?2)\r\n"
+			+ "    AND VACATION_LAST_CONFIRM_YN = 'Y'", nativeQuery = true)
+	public Page<Vacation> selectConfirmBetweenStartDate(String startDate, String endDate, Pageable pageable);
+	
+	/* 승인 휴가 종료일 검색 */
+	@Query(value = " SELECT \r\n"
+			+ "       *\r\n"
+			+ "  FROM TBL_VACATION\r\n"
+			+ "  WHERE VACATION_END_DATE BETWEEN TO_DATE(?1)AND TO_DATE(?2)\r\n"
+			+ "    AND VACATION_LAST_CONFIRM_YN = 'Y'", nativeQuery = true)
+	public Page<Vacation> selectConfirmBetweenEndDate(String startDate, String endDate, Pageable pageable);
+	
+	/* 반려 휴가 시작일 검색 */
+	@Query(value = " SELECT \r\n"
+			+ "       *\r\n"
+			+ "  FROM TBL_VACATION\r\n"
+			+ "  WHERE VACATION_START_DATE BETWEEN TO_DATE(?1)AND TO_DATE(?2)\r\n"
+			+ "    AND VACATION_RETURN_YN = 'Y'", nativeQuery = true)
+	public Page<Vacation> selectReturnBetweenStartDate(String startDate, String endDate, Pageable pageable);
+	
+	/* 반려 휴가 종료일 검색 */
+	@Query(value = " SELECT \r\n"
+			+ "       *\r\n"
+			+ "  FROM TBL_VACATION\r\n"
+			+ "  WHERE VACATION_END_DATE BETWEEN TO_DATE(?1)AND TO_DATE(?2)\r\n"
+			+ "    AND VACATION_RETURN_YN = 'Y'", nativeQuery = true)
+	public Page<Vacation> selectReturnBetweenEndDate(String startDate, String endDate, Pageable pageable);
+
 	/* 1차 승인 - 1차 승인여부 변경 */
 	@Modifying
 	@Query(value="UPDATE tbl_vacation v SET v.vacation_first_confirm_yn = 'Y' WHERE v.vacation_no = ?", nativeQuery = true)
@@ -85,6 +150,7 @@ public interface VacationRepository extends JpaRepository<Vacation, Integer>{
 
 	/* 대표 승인을 위한 조회 */
 	Vacation findByVacationNo(int vacationNo);
+
 
 //	/* 휴가 대기 목록 신청자명으로 검색 */
 //	int countByRequestAdminContaining(String searchValue);
@@ -188,9 +254,6 @@ public interface VacationRepository extends JpaRepository<Vacation, Integer>{
 	/* 2차 대기 목록 휴가명 검색 */
 	List<Vacation> findAllByVacationFirstConfirmYnAndVacationSecondConfirmYnAndVacationReturnYnAndVacationNameContaining(
 			String string, String string2, String string3, String searchValue, Pageable paging);
-
-	
-	
 
 	
 }

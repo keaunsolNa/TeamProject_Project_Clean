@@ -8,8 +8,20 @@
 <body>
 
 	<button onclick="location.href='/admin/hr/regist/EmployeePage'">직원등록</button>
-	<button onclick="location.href='/admin/hr/waiting/employee'">대기중직원</button>
-	<button onclick="location.href='/admin/hr/return/employee'">반려직원</button>
+	
+	                <span sec:authorize="hasRole('ROLE_ADMIN_HR')">
+                	<!-- HR -->
+                    <span sec:authorize="!hasRole('ROLE_ADMIN_BOSS')">	
+					<button onclick="location.href='/admin/hr/waiting/employeeHR/move'">대기중직원(인사)</button>
+                    </span>
+                    
+                    <!-- BOSS -->
+						<button onclick="location.href='/admin/hr/waiting/employeeBoss/move'">대기중직원(대표)</button>
+                    <span sec:authorize="hasRole('ROLE_ADMIN_BOSS')">
+                    </span>
+                </span>
+	
+	<button onclick="location.href='/admin/hr/return/employee/move'">반려직원</button>
 </body>
 
 </html>

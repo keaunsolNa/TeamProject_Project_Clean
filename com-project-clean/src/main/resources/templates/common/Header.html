@@ -25,21 +25,11 @@
 </head>
 
 <body>
-        <div class="col-md-6">
-            <form class="form-inline">
-                <div class="form-group">
-                    <input type="text" id="sendingMessage" class="form-control">
-                </div>
-                <button id="send" class="btn btn-default" type="submit">Send</button>
-            </form>
-        </div>
     <div class="row">
         <div class="col-md-12">
             <table id="conversation" class="table table-striped">
                 <thead>
-                <tr>
-                    <th>Message : </th>
-                </tr>
+                
                 </thead>
                 <tbody id="ReceiveMessage">
                 </tbody>
@@ -72,12 +62,10 @@
                     </ul>
 
                     <th:block sec:authorize="hasRole('ADMIN')">			
-						<span id="name" hidden sec:authentication="principal.adminId"></span>
-						<h3><span sec:authentication="principal.adminName"></span></h3>
+						<h3><span sec:authentication="principal.adminName" id="userName" th:value="principal.adminName"></span></h3>
 					</th:block>
                     <th:block sec:authorize="hasRole('EMPLOYEE')">			
-						<span id="name" hidden sec:authentication="principal.employeeId"></span>
-						<h3><span sec:authentication="principal.employeeName"></span></h3>
+						<h3><span sec:authentication="principal.employeeName" id="userName" th:value="principal.employeeName"></span></h3>
 					</th:block>
 
                     <ul class="navbar-nav me-auto mb-3 mb-lg-0">
@@ -173,9 +161,7 @@
                 </div>
             </div>
         </nav>
-        
 		
     </header>
-	
 </body>
 </html>

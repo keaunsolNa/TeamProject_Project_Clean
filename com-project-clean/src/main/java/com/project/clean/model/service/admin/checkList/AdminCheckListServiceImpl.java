@@ -122,13 +122,13 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 						EmployeeDTO employeeDTO = modelMapper.map(employee, EmployeeDTO.class);
 						
 						/* EmployeeDTO에서 employeeName 변수 꺼내오기 */
-						String employeeName = employeeDTO.getEmployeeName();
+						String employeeId = employeeDTO.getEmployeeId();
 						
 						/* 전달용 DTO 객체 생성 */
 						CheckListAndReservationInfoAndEmployeeDTO checkListAndReservationInfoAndEmployeeDTO = new CheckListAndReservationInfoAndEmployeeDTO();
 						
 						/* 값 주입 */
-						checkListAndReservationInfoAndEmployeeDTO.setEmployeeName(employeeName);
+						checkListAndReservationInfoAndEmployeeDTO.setEmployeeName(employeeId);
 						checkListAndReservationInfoAndEmployeeDTO.setCustomerName(userName);
 						checkListAndReservationInfoAndEmployeeDTO.setCheckReservationNo(checkReservationNo);
 						if(checkStatus.equals("R")) {

@@ -27,6 +27,9 @@ public class AdminPayAndAdmin implements java.io.Serializable{
 	@Column(name="PAY_ADMIN_DATE")
 	private java.sql.Date payAdminDate;
 	
+	@Column(name="PAY_ADMIN_FINAL_SALARY")
+	private int payAdminFinalSalary;
+	
 	@ManyToOne
 	@JoinColumn(name = "PAY_ADMIN_NO", insertable = false, updatable = false)
 	private Admin admin;
@@ -34,11 +37,13 @@ public class AdminPayAndAdmin implements java.io.Serializable{
 	public AdminPayAndAdmin() {
 	}
 
-	public AdminPayAndAdmin(int payHistoryAdminNo, int payAdminNo, Date payAdminDate, Admin admin) {
+	public AdminPayAndAdmin(int payHistoryAdminNo, int payAdminNo, Date payAdminDate, int payAdminFinalSalary,
+			Admin admin) {
 		super();
 		this.payHistoryAdminNo = payHistoryAdminNo;
 		this.payAdminNo = payAdminNo;
 		this.payAdminDate = payAdminDate;
+		this.payAdminFinalSalary = payAdminFinalSalary;
 		this.admin = admin;
 	}
 
@@ -66,6 +71,14 @@ public class AdminPayAndAdmin implements java.io.Serializable{
 		this.payAdminDate = payAdminDate;
 	}
 
+	public int getPayAdminFinalSalary() {
+		return payAdminFinalSalary;
+	}
+
+	public void setPayAdminFinalSalary(int payAdminFinalSalary) {
+		this.payAdminFinalSalary = payAdminFinalSalary;
+	}
+
 	public Admin getAdmin() {
 		return admin;
 	}
@@ -74,13 +87,17 @@ public class AdminPayAndAdmin implements java.io.Serializable{
 		this.admin = admin;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public String toString() {
 		return "AdminPayAndAdmin [payHistoryAdminNo=" + payHistoryAdminNo + ", payAdminNo=" + payAdminNo
-				+ ", payAdminDate=" + payAdminDate + ", admin=" + admin + "]";
+				+ ", payAdminDate=" + payAdminDate + ", payAdminFinalSalary=" + payAdminFinalSalary + ", admin=" + admin
+				+ "]";
 	}
-	
-	
+
 	
 	
 }

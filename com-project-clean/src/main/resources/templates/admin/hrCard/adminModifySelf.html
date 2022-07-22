@@ -35,7 +35,6 @@
 </head>
 <body>
 
-	<div th:include="common/Header.html"></div>
 	
 	<button onclick="history.back()">Back</button>
 	
@@ -55,14 +54,12 @@
 		        <td th:text="${ adminModify.adminNo }"></td>
 		        <td>이름</td>
 		        <td th:text="${ adminModify.adminName }"></td>
-		        <th:block th:if="${adminModify.adminPictureSaveName}">
 				   <td colspan="2" rowspan="3">
-				   <img width="100" height="120" 
+				   <img width="100" height="120" id="pictureImg"
 			        	th:src="@{/adminPicture/} + ${adminModify.adminPictureSaveName}"/>
 			        </td>
 			        <td style="display: none;"><input type="text" id="oldSaveRoot" name="oldSaveRoot" th:value="${adminModify.adminPictureSaveRoot}"></td>
 	           	    <td style="display: none;"><input type="text" id="oldSaveName" name="oldSaveName" th:value="${adminModify.adminPictureSaveName}"></td>
-				 </th:block>
 		      </tr>
 		      <tr>
 		        <td>ID</td>
@@ -140,9 +137,9 @@
    		 </table>
    		 <input type="hidden" name="adminNo" th:value="${ adminModify.adminNo }"> 
    		 
-   		 <input type="file" id="thumbnailImg" name="thumbnailImg" onchange="loadImg(this,1)" style="display: none">
+   		<!--  <input type="file" id="thumbnailImg" name="thumbnailImg" onchange="loadImg(this,1)" style="display: none"> -->
 	   	
-	   	 <input class="btn_hrcard" type="button" id="modify" value="수정완료">
+	   	<input class="btn_hrcard" type="button" id="modify" value="수정완료">
 	    <input class="btn_hrcard" type="button" id="resetButton" value="수정취소">
     </form>
     

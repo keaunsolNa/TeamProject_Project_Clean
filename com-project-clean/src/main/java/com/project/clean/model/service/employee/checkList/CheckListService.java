@@ -14,12 +14,14 @@ public interface CheckListService {
 
 	int registNewCheckList(CheckListDTO checkListDTO);
 
-	CheckListDTO selectCheckList(String userId);
+	CheckListDTO InsertCheckList(String userId);
 
 	int updateCheckList(CheckListDTO checkListDTO);
 
 	List<CheckListAndReservationInfoAndEmployeeDTO> selectCheckList(String employeeId, int parameter);
 
 	CheckListDTO selectCheckListDetails(int reservationNo);
+
+	int selectCheckListIsNotNull();
 	 
 }

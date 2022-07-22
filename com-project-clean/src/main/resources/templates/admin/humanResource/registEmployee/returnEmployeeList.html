@@ -33,38 +33,6 @@
             margin: 0 auto;
         }
 
-        ul.tabs {
-            margin: 0px;
-            padding: 0px;
-            list-style: none;
-        }
-
-        /* 선택하지 않은 탭 css */
-        ul.tabs li {
-            background: rgba(219, 243, 249, 1);
-            color: rgb(0, 0, 0);
-            display: inline-block;
-            padding: 10px 15px;
-            /* 좌측은 위아래 사이즈 우측은 좌우 사이즈 */
-            cursor: pointer;
-        }
-
-        /* 선택한 탭 css 설정 */
-        ul.tabs li.current {
-            background: rgba(104, 228, 255, 1);
-            color: rgb(0, 0, 0);
-        }
-
-        /* 선택한 탭의 내용 css 설정 */
-        .tab-content {
-            display: none;
-            background: #e95151;
-            padding: 15px;
-        }
-
-        .tab-content.current {
-            display: inherit;
-        }
 
         .button{
             text-align: center;
@@ -74,111 +42,203 @@
 </head>
 
 <body>
+
     <div class="container">
 		<div th:replace="/admin/humanResource/registEmployee/adminRegistMainHeader.html"></div>
 
-            <span>반려인원 조회</span>
-
-            <select name="returnCategory" id="returnCategory">
-                <option value="returnEmpNo" selected>사원번호</option>
-                <option value="returnEmpName">이름</option>
-                <option value="returnEmpBirth">생년월일</option>
-                <option value="returnEmpAddress">주소</option>
-                <option value="returnEmpPhone">전화번호</option>
-            </select>
-            <input type="text" name="returnCategoryValue">
-            <button type="button" id="returnSearch">검색</button>
-
+        <!-- 대기중 내용 -->
+        <div id="tab-2" class="tab-content">
+		<form name="waitingForm" action="" id="waitForm">
+			<span>대기인원 조회</span> 
+			
+			
+			
+			
+			<select name="category" id="category">
+				<option value="all" selected>전체</option>
+				<option value="name">이름</option>
+				<option value="phone">전화번호</option>
+			</select> 
+			<input type="text" id="categoryValue" name="categoryValue" placeholder="대기인원 조회">
+			<input type="text" style="display: none;"> <!-- enter - submit 방지 -->
+			
+			<button type="button" id="searchN" onclick="returnAjax();">검색</button>
+			<input type="hidden" value="0" name=page>
+		</form>
+		
             <table id="returnEmployeeList" border="1">
                 <thead>
                     <tr>
                         <th>사원번호</th>
                         <th>이름</th>
                         <th>생년월일</th>
+                        <th>전화번호</th>
                         <th>1차 반려 여부</th>
                         <th>2차 반려 여부</th>
                         <th>최종 반려 여부</th>
-                        <th>전화번호</th>
-                        <th>성별</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="index : ${returnEmployeeList}">
-	                    <td class="returnEmployee" th:text="${ index.employeeNo }"></td>
-	                    <td class="returnEmployee" th:text="${ index.employeeName }"></td>
-	                    <td class="returnEmployee" th:text="${ index.employeeBirth }"></td>
-	                    <td class="returnEmployee" th:text="${ index.employeeFirstConfirmYn }"></td>
-	                    <td class="returnEmployee" th:text="${ index.employeeSecondConfirmYn }"></td>
-	                    <td class="returnEmployee" th:text="${ index.employeeRegistReturnYn }"></td>
-	                    <td class="returnEmployee" th:text="${ index.employeePhone }"></td>
-	                    <td class="returnEmployee" th:text="${ index.employeeGender }"></td>
-                    </tr>
+
                 </tbody>
             </table>
-			<div id="waitingPaging"> <div th:replace="/admin/humanResource/registEmployee/returnPaging.html"></div></div>
+             <form name="mainPage">
+				<input type="hidden" value="0" name=page>
+	        </form>
+	            <div id="paging" style="display: flex; justify-content: center;">
+	            <!-- /* 페이징 버튼들어올 공간 */ -->
+				</div>
+        </div>
+
 
     </div>
 
     <script>
+  
+	  
 
-        /* 반려 검색기능 list 출력 */
-		$("#returnSearch").click(function(){
-			$.ajax({
-				url : "gson1",
-				success:function(data){
+     $(document).ready(function(){
+   	  returnAjax();
+     });
+     
+     /* 페이징 버튼을 통한 요청 함수 */
+     function returnPage(category, categoryValue, page){
+        console.log("ajax page이동 실행 시도");
+        var queryString = {"category" : category
+                     , "categoryValue" : categoryValue
+                     , "page" : page};
+        returnAjaxFunction(queryString);
+     }
+     
+     
+     /* 유저가 조건 선택해 검색하는 요청 함수 */
+     function returnAjax(){
+        console.log("ajax 기본함수 실행 시도");
+			
+        var queryString = $("form[name=waitingForm]").serialize();
+        returnAjaxFunction(queryString);
+     }
+     
+     
+	  /* 리턴 인원 ajax */
+     function returnAjaxFunction(queryString){
+        $.ajax({
+           url : "/admin/hr/return/employee",
+           data : queryString,
+           success : function(data){
+              const $table = $("#returnEmployeeList tbody");
+              const $div = $("#paging");
+              
+              /* 데이터 필드, 페이징버튼 필드 초기화 */
+              $table.html("");
+              $div.html("");
+              /* search criteria (페이징 버튼으로 ajax요청보낼 때 사용함) */
+              category=data.category;
+              categoryValue=data.categoryValue;
+              
+				for ( var index in data.returnEmployeeList) {
+	                $tr = $("<tr>");   
+					$noTd = $("<td>").text(data.returnEmployeeList[index].employeeNo);
+					$nameTd = $("<td>").text(data.returnEmployeeList[index].employeeName);
+					$birthTd = $("<td>").text(data.returnEmployeeList[index].employeeBirth);
+					$phoneTd = $("<td>").text(data.returnEmployeeList[index].employeePhone);
+					$firstTd = $("<td>").text(data.returnEmployeeList[index].employeeFirstConfirmYn);
+					$secondTd = $("<td>").text(data.returnEmployeeList[index].employeeSecondConfirmYn);
+					$lastTd = $("<td>").text(data.returnEmployeeList[index].employeeLastConfirmYn);
 
-					const $table = $("#employeeList tbody");
-					$table.html("");
-					
-					for(var index in data){
-						$tr = $("<tr>");
-						$noTd = $("<td>").text(data[index].no);
-						$nameTd = $("<td>").text(data[index].name);
-						$ageTd = $("<td>").text(data[index].age);
-						$enrollDateTd = $("<td>").text(data[index].enrollDate);
-						$unknown1 = $("<td>").text(data[index].enrollDate);
-						$unknown2 = $("<td>").text(data[index].enrollDate);
-						
-						$tr.append($noTd);
-						$tr.append($nameTd);
-						$tr.append($ageTd);
-						$tr.append($enrollDateTd);
-						$tr.append($unknown1);
-						$tr.append($unknown2);
-						
-						$table.append($tr);
-					}
-				},
-				error:function(error){
-					console.log(error);
-				}
-			});
-		});
+							$tr.append($noTd);
+							$tr.append($nameTd);
+							$tr.append($birthTd);
+							$tr.append($phoneTd);
+							$tr.append($firstTd);
+							$tr.append($secondTd);
+							$tr.append($lastTd);
+
+							$table.append($tr);
+
+							hover();
+
+						}
+              
+              var $startPage = data.startPage;
+              var $endPage = data.endPage;
+              var $currentPage = data.currentPage;
+              var $maxPage = data.maxPage;
+              
+              var $beforeStartPage = data.startPage-1;
+              var $afterEndPage = data.endPage;
+              
+              if($startPage==0){
+                 $button = $("<button class='page' disabled><<</button>");
+                 $div.append($button);
+              } else {
+                 $button = $("<button class='page' id='goBackPage' onclick='returnPage(category,categoryValue,"+$beforeStartPage+")'><<</button>");
+                 $div.append($button);
+              }
+              
+              for(i=$startPage;i<$endPage;i++){
+                 if(i!=$currentPage){
+                    $button = $("<button class='page' onclick='returnPage(category,categoryValue,"+(i)+")'>"+(i+1)+"</button>");   
+                 } else {
+                    $button = $("<button disabled class='page'>"+(i+1)+"</button>");
+                 }
+                 
+                 $div.append($button);
+              }
+              
+              if($maxPage==$endPage){
+                 $button = $("<button class='page' disabled>>></button>");
+                 $div.append($button);
+              } else {
+                 $button = $("<button class='page' id='goForwardPage' onclick='returnPage(category,categoryValue,"+$afterEndPage+")'>>></button>");
+                 $div.append($button);
+              }
+              
+           },
+           error : function(error){
+              console.log(error);
+           }
+        });
+     };
+
+     //검색 후 리스트 리셋
+     $('#category').change(function(){
+        $("#category option:selected").each(function () {
+     		
+     			 $("#categoryValue").val('');         //기존 값 초기화
+     			 mainList();
+
+        });
+     });
+ 	    
+ 	  /* 검색 시 검색 결과 리셋 2-2 */
+     function mainList(){
+        console.log("ajax 기본함수 실행 시도");
+ 			
+        var queryString = $("form[name=mainPage]").serialize();
+        returnAjaxFunction(queryString);
+     }
+
         
-        /* hover event */
-        function returnHover(){
-            const employee = document.getElementsByClassName("returnEmployee");
+ 		/* hover event */
+		function hover() {
+			const employee = document.getElementsByTagName("td");
 
-            for(let i = 0; i < employee.length; i++){
-            	employee[i].onmouseenter = function(){
-                    this.parentNode.style.backgroundColor = "rgb(50,150,250)";
-                    this.parentNode.style.cursor = "pointer";
-                }
-            	employee[i].onmouseout = function(){
-                    this.parentNode.style.backgroundColor = "white";
-                }
+			for (let i = 0; i < employee.length; i++) {
+				employee[i].onmouseenter = function() {
+					this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+					this.parentNode.style.cursor = "pointer";
+				}
+				employee[i].onmouseout = function() {
+					this.parentNode.style.backgroundColor = "white";
+				}
 
             	employee[i].onclick = function(){
                     location.href="/admin/select/returnDetail/" + this.parentNode.children[0].innerText;
-                }
-            }
-        };
-        
-        /* 시작 할 때 hover event */
-        $(function(){
-        	returnHover();
-        })
-
+                
+				}
+			}
+		};
         
     </script>
 </body>

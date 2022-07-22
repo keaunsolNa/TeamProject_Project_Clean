@@ -3,6 +3,8 @@ package com.project.clean.model.service.pay;
 import java.util.List;
 
 import com.project.clean.controller.common.paging.SelectCriteria;
+import com.project.clean.model.dto.commonDTO.AdminDTO;
+import com.project.clean.model.dto.commonDTO.AdminPayDTO;
 import com.project.clean.model.dto.commonDTO.SurchargeDTO;
 import com.project.clean.model.dto.joinDTO.AdminAndAdminPayDTO;
 import com.project.clean.model.dto.joinDTO.AdminPayAndAdminDTO;
@@ -31,6 +33,13 @@ public interface PayService {
 	public List<AdminAndAdminPayDTO> findPaidAdmin();
 	
 	public List<AdminAndAdminPayDTO> findAllAdmin();
+
+	// 관리자 번호로 관리자 한명 조회
+	public AdminDTO findAdminByPayAdminNo(int adminNo);
+	
+	public void registAdminPay(int adminNo, int salary, int insurance);
+
+//	public List<EmployeePayAndApplyEmployeeDTO> findEmployeePayList();
 
 
 

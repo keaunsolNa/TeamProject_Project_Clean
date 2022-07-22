@@ -1,6 +1,5 @@
 package com.project.clean.model.domain.joinEntity;
 
-import java.sql.Blob;
 import java.sql.Date;
 import java.util.List;
 
