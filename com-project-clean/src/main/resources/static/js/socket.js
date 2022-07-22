@@ -1,56 +1,51 @@
-var jq = jQuery.noConflict();
 var stompClient = null;
-
 function setConnected(connected) {
-    jq("#connect").prop("disabled", connected);
-    jq("#disconnect").prop("disabled", !connected);
     if (connected) {
-        jq("#conversation").show();
+        $("#conversation").show();
     }
     else {
-        jq("#conversation").hide();
+        $("#conversation").hide();
     }
-    jq("#ReceiveMessage").html("");
+    
+$("#ReceiveMessage").html("").hide();
 }
 
 function connect() {
-    var socket = new SockJS('/gs-guide-websocket');
+    var socket = new SockJS('/checkListSocket');
     stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
+    stompClient.connect({"token" : "발급받은 토큰"}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/greetings', function (greeting) {
+        stompClient.subscribe('/queue/greetings', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
     });
 }
 
-function disconnect() {
-    if (stompClient !== null) {
-        stompClient.disconnect();
-    }
-    setConnected(false);
-    console.log("Disconnected");
-}
-
 function sendName() {
-    stompClient.send("/app/hello", {}, JSON.stringify({'name': jq("#sendingMessage").val()}));
+    stompClient.send("/app/hello", {}, JSON.stringify({'message': $("#sendingMessage").val(), 'name': $("#sendingName").val()}));
 }
 
 function showGreeting(message) {
-    jq("#ReceiveMessage").append("<tr><td>" + message + "</td></tr>");
+    $("#ReceiveMessage").show();
+    $("#ReceiveMessage").append("<tr><td>" + message + "</td></tr>");
 }
-
-jq(function () {
-    jq("form").on('submit', function (e) {
+function sendjs(){
+	
+}
+$(function () {
+	$("form").on('submit', function (e) {
+		if(document.getElementById("formSender")){
+			
         e.preventDefault();
+		    $( "#connect" ).click(function() { connect(); });
+			$( "#disconnect" ).click(function() { disconnect(); });
+	    	sendName(); 
+		}	
     });
-
-    jq( "#connect" ).click(function() { connect(); });
-    jq( "#disconnect" ).click(function() { disconnect(); });
-    jq( "#send" ).click(function() { sendName(); });
 });
 
-window.onload = function(){
-	connect();
-}
+$(document).ready(function(){
+	connect()
+});	
+

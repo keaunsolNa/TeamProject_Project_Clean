@@ -32,10 +32,12 @@ public class AuthFailedHandler implements AuthenticationFailureHandler{
 		
 		System.out.println("로그인 실패 컨트롤러 도착 확인");
 		
-		if(exception instanceof BadCredentialsException || exception instanceof InternalAuthenticationServiceException) {
+		if(exception instanceof BadCredentialsException) {
 			errorMessage ="아이디나 비밀번호가 일치하지 않습니다. 다시 확인 해 주십시오.";
 		} else if(exception instanceof DisabledException) {
 			errorMessage = "계정이 비활성화 되었습니다. 보안 담당자에게 문의하세요";
+		} else if(exception instanceof InternalAuthenticationServiceException) {
+			errorMessage = "아이디나 비밀번호가 일치하지 않습니다. 다시 확인 해 주십시오.";
 		} else if(exception instanceof CredentialsExpiredException) {
 			errorMessage = "비밀번호 유효기간 만료. 보안 담당자에게 문의하세요.";
 		} else {

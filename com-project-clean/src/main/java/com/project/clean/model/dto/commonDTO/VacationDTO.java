@@ -21,13 +21,15 @@ public class VacationDTO implements Serializable{
 	private String vacationReturnYn;
 	private int adminNo;
 	private List<VacationCommitDTO> vacationCommitList;
+	private AdminDTO adminDTO;
+	
 	public VacationDTO() {
 		super();
 	}
 	public VacationDTO(int vacationNo, Date requestDate, String requestAdmin, String vacationName, String drafter,
 			String vacationFirstConfirmYn, String vacationSecondConfirmYn, String vacationLastConfirmYn,
 			Date vacationStartDate, Date vacationEndDate, String vacationReason, String vacationReturnYn, int adminNo,
-			List<VacationCommitDTO> vacationCommitList) {
+			List<VacationCommitDTO> vacationCommitList, AdminDTO adminDTO) {
 		super();
 		this.vacationNo = vacationNo;
 		this.requestDate = requestDate;
@@ -43,6 +45,7 @@ public class VacationDTO implements Serializable{
 		this.vacationReturnYn = vacationReturnYn;
 		this.adminNo = adminNo;
 		this.vacationCommitList = vacationCommitList;
+		this.adminDTO = adminDTO;
 	}
 	public int getVacationNo() {
 		return vacationNo;
@@ -128,6 +131,12 @@ public class VacationDTO implements Serializable{
 	public void setVacationCommitList(List<VacationCommitDTO> vacationCommitList) {
 		this.vacationCommitList = vacationCommitList;
 	}
+	public AdminDTO getAdminDTO() {
+		return adminDTO;
+	}
+	public void setAdminDTO(AdminDTO adminDTO) {
+		this.adminDTO = adminDTO;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -138,11 +147,14 @@ public class VacationDTO implements Serializable{
 				+ vacationFirstConfirmYn + ", vacationSecondConfirmYn=" + vacationSecondConfirmYn
 				+ ", vacationLastConfirmYn=" + vacationLastConfirmYn + ", vacationStartDate=" + vacationStartDate
 				+ ", vacationEndDate=" + vacationEndDate + ", vacationReason=" + vacationReason + ", vacationReturnYn="
-				+ vacationReturnYn + ", adminNo=" + adminNo + ", vacationCommitList=" + vacationCommitList + "]";
+				+ vacationReturnYn + ", adminNo=" + adminNo + ", vacationCommitList=" + vacationCommitList
+				+ ", adminDTO=" + adminDTO + "]";
 	}
+	
 	
 	
 	
 	
 
 }
+

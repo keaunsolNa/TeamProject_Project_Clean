@@ -55,8 +55,10 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 
 		List<CheckListDTO> check = new ArrayList<>();
 		List<CheckListAndReservationInfoAndEmployeeDTO> checkListAndReservationInfoAndEmployeeList = new ArrayList<>();
+		
 		try {
 			List<CheckList> checkList = new ArrayList<>();
+			
 			/* 파라미터 값으로 모든 체크리스트 조회 */
 			if(parameter == 1) {
 				checkList = checkListRepository.findAllByCheckStatus("R");
@@ -85,7 +87,9 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 			
 			/* for-each문 시작 */
 			for (CheckListDTO checkLists : checkListDTO) {
+				
 				if((checkLists.getAdminNo() == null || checkLists.getAdminNo() == adminNo)) {
+					
 					Integer checkAdminNo = checkLists.getAdminNo();
 					String checkHTML = checkLists.getCheckHTML();
 					String checkStatus = checkLists.getCheckStatus();
@@ -122,15 +126,17 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 						EmployeeDTO employeeDTO = modelMapper.map(employee, EmployeeDTO.class);
 						
 						/* EmployeeDTO에서 employeeName 변수 꺼내오기 */
-						String employeeName = employeeDTO.getEmployeeName();
+						String employeeId = employeeDTO.getEmployeeId();
 						
 						/* 전달용 DTO 객체 생성 */
 						CheckListAndReservationInfoAndEmployeeDTO checkListAndReservationInfoAndEmployeeDTO = new CheckListAndReservationInfoAndEmployeeDTO();
 						
 						/* 값 주입 */
-						checkListAndReservationInfoAndEmployeeDTO.setEmployeeName(employeeName);
+						checkListAndReservationInfoAndEmployeeDTO.setEmployeeName(employeeId);
 						checkListAndReservationInfoAndEmployeeDTO.setCustomerName(userName);
 						checkListAndReservationInfoAndEmployeeDTO.setCheckReservationNo(checkReservationNo);
+						
+						/* View단에서 보여질 checkList 상태값 설정 */
 						if(checkStatus.equals("R")) {
 							checkStatus = "미처리";
 						} else if(checkStatus.equals("D")) {
@@ -140,9 +146,12 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 						} else if(checkStatus.equals("B")) {
 							checkStatus = "경고";
 						}
+						
+						/* 값 주입 */
 						checkListAndReservationInfoAndEmployeeDTO.setCheckStatus(checkStatus);
 						checkListAndReservationInfoAndEmployeeDTO.setCheckHTML(checkHTML);
 						
+						/* 담당자 있는지 판별 */
 						if(checkLists.getAdminNo() == adminNo) {
 							adminName = adminDTO.getAdminName();
 							checkListAndReservationInfoAndEmployeeDTO.setAdminName(adminName);
@@ -174,12 +183,15 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 	@Override
 	public CheckListDTO selectCheckListDetails(String adminId, int checkReservationNo, int parameter) {
 		
+		/* 빈 객체 생성 */
 		CheckList checkList = new CheckList();
 		
 		try {
 			
+			/* 예약번호로 체크리스트 조회 */
 			checkList = checkListRepository.findByCheckReservationNo(checkReservationNo);
 			
+			/* 아직 아무도 보지 않은 체크리스트인 경우 담당자 배정 */
 			if(parameter == 1) {
 				
 				Admin admin = adminRepository.findByAdminId(adminId);
@@ -192,6 +204,7 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 				
 			} 
 			
+			/* 체크리스트가 없을 때 에외처리 */
 		} catch (java.util.NoSuchElementException e) {
 			
 			CheckListDTO checkListDTO = new CheckListDTO();
@@ -201,6 +214,7 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 			return checkListDTO;
 		}
 		
+		/* 결과값 반환 */
 		return modelMapper.map(checkList, CheckListDTO.class);
 	}
 
@@ -208,34 +222,55 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 	@Override
 	public int modifyCheckList(CheckListDTO checkList) {
 		
+		/* 예약번호로 체크리스트 조회 */
 		CheckList checkListEntity = checkListRepository.findByCheckReservationNo(checkList.getCheckReservationNo()); 
 		
+		/* parameter로 넘어온 값으로 각각의 체크리스트 상태에 맞는 체크리스트 조회 */
 		if(checkList.getCheckStatus().equals("D")) {
+			
 			checkListEntity.setCheckHTML(checkList.getCheckHTML());
 			checkListEntity.setCheckStatus("D");
+			
 		} else if(checkList.getCheckStatus().equals("A")) {
+			
 			checkListEntity.setCheckHTML(checkList.getCheckHTML());
 			checkListEntity.setCheckStatus("A");
+			
 		} else if(checkList.getCheckStatus().equals("B")) {
+			
 			checkListEntity.setCheckStatus("B");
 			checkListEntity.setCheckHTML(checkList.getCheckHTML());
 			
+			/* 체크리스트에서 예약 번호 조회 */
 			int reservationNo = checkListEntity.getCheckReservationNo();
+			
+			/* 예약번호로 예약 리스트 조회 */
 			ReservationInfo reservationInfo = reservationInfoRepository.findByReservationNo(reservationNo);
 			
+			/* Entity DTO로 매핑 */
 			ReservationInfoDTO reservationInfoDTO = modelMapper.map(reservationInfo, ReservationInfoDTO.class);
 			
+			/* 예약번호로 List<ApplyEmployeeEmbedded> 조회 */
 			List<ApplyEmployeeEmbedded> applyEmployeeList = applyRepository.findAllEmployeeApply2(reservationNo);
 			
+			/* List<ApplyEmployeeEmbedded> Entity DTO로 매핑 */
 			List<EmployeeDTO> employeeArrayList = new ArrayList<>();
 			
+			/* for문 시행 */
 			for (ApplyEmployeeEmbedded applyEmployeeEmbedded : applyEmployeeList) {
+				
+				/* 일치하는 직원 번호 조회 */
 				Integer employeeNo = applyEmployeeEmbedded.getApplyEmployeeIdAndApplyReservationNo().getApplyEmployeeNo();
 				
+				/* 직원번호로 직원 Entity 조회 */
 				Employee employee = empRepository.findByEmployeeNo(employeeNo);
 				
+				/* 블랙리스트 현재 누적 횟수 + 1 변수에 담기*/
 				int sumCount = employee.getEmployeeSumCount()+1;
-				
+					if(sumCount >= 5) {
+						employee.setEmployeeBlackListYn("Y");
+					}
+				/* 블랙리스트 횟수 추가 */
 				employee.setEmployeeSumCount(sumCount);
 			}
 		}

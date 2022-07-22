@@ -1,48 +1,60 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
 <title>Document</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style>
-body {
-	margin-top: 100px;
-	font-family: 'Trebuchet MS', serif;
-	line-height: 1.6
-}
-
-/* 전체 크기 */
-.container {
-	width: 1500px;
-	margin: 0 auto;
-}
 
 </style>
 </head>
 
 <body>
+	<div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div>
 	<div th:replace="/admin/humanResource/selectAllEmployee/selectEmployeeListHeader.html"></div>
-	<div class="container">
-
-		<!-- 직원 내용 -->
-		<div id="tab-1" class="tab-content current">
-			<span>인사관리 카드조회</span> <select name="category" id="category">
-				<option value="empNo" selected>사원번호</option>
-				<option value="empName">이름</option>
-				<option value="empBirth">생년월일</option>
-				<option value="empAddress">주소</option>
-				<option value="empPhone">전화번호</option>
-			</select> <input type="text" name="categoryValue">
-			<button type="button" id="search">검색</button>
+	<br>
+		<!-- 재직자 검색 -->
+		<form name="retireNForm" id="retireNSearch">
+			<span>인사관리 카드조회</span> 
+			<select name="categoryN" id="categoryN">
+				<option value="all" selected>전체</option>
+				<option value="name">이름</option>
+				<option value="address">주소</option>
+				<option value="phone">전화번호</option>
+			</select> 
+			<input type="text" name="categoryValue" id="categoryValueN" placeholder="재직자 검색">
+			<input type="text" style="display: none;"> <!-- enter - submit 방지 -->
 			
-			<input type="radio" value="admin" name="retire" id="retireNEmployee">
-			<label for="retireNEmployee">재직자</label> 
-			<input type="radio" value="admin" name="retire" id="retireYEmployee"> <label for="retireYEmployee">퇴사자</label>
-
+			<button type="button" id="searchN" onclick="retireNAjax();">검색</button>
+			<input type="hidden" value="0" name=page>
+		</form>
+		<!-- 퇴사자 검색 -->
+		               
+		<form name="retireYForm" id="retireYSearch">
+			<span>인사관리 카드조회</span> 
+			<select name="categoryY" id="categoryY">
+				<option value="all" selected>전체</option>
+				<option value="name">이름</option>
+				<option value="address">주소</option>
+				<option value="phone">전화번호</option>
+			</select> 
+			<input type="text" name="categoryValue" id="categoryValueY" placeholder="퇴사자 검색">
+			<input type="text" style="display: none;"> <!-- enter - submit 방지 -->
+			<button type="button" id="searchY" onclick="retireYAjax();">검색</button>
+			<input type="hidden" value="0" name=page>
+		</form>
+		
+			<input type="radio" value="admin" name="retire" id="retireNEmployeeRadio">
+			<label for="retireNEmployeeRadio">재직자</label> 
+			<input type="radio" value="admin" name="retire" id="retireYEmployeeRadio"> 
+			<label for="retireYEmployeeRadio">퇴사자</label>
+			
 			<table id="employeeList" border="1">
 				<thead>
 					<tr>
-						<th>사원번호</th>
+						<th>번호</th>
 						<th>이름</th>
 						<th>생년월일</th>
 						<th>주소</th>
@@ -51,195 +63,321 @@ body {
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="index : ${employeeAllList}">
-						<td th:text="${ index.employeeNo }"></td>
-						<td th:text="${ index.employeeName }"></td>
-						<td th:text="${ index.employeeBirth }"></td>
-						<td th:text="${ index.employeeAddress }"></td>
-						<td th:text="${ index.employeePhone }"></td>
-						<td th:text="${ index.employeeHireDate }"></td>
-					</tr>
-				</tbody>
+                  <!-- /* ajax data 삽입 공간 */ -->				
+ 				</tbody>
 			</table>
-		</div>
-		
-			<div id="entireN"> <div th:replace="/admin/humanResource/selectAllEmployee/retireNPaging.html"></div></div>
-			<div id="entireY"> <div th:replace="/admin/humanResource/selectAllEmployee/retireYPaging.html"></div></div>
 			
-						<!-- <div> <input id="inputMainTain" th:value="${mainTain}"></div> -->
-		</div>
+			        <!-- 검색 시 검색 결과 리셋 2-1 -->
+        <form name="mainPage">
+		<input type="hidden" value="0" name="categoryN">
+        </form>
+			
+				<div id="paging" style="display: flex; justify-content: center;">
+               <!-- /* 페이징 버튼들어올 공간 */ -->
+				</div>
 		
-		<script th:inline="javascript">
-		    /*<![CDATA[*/
-			$(function(){
-				const mainTain = /*[[${mainTain}]]*/;			
-			if(mainTain == 'N'){
-				$("#retireNEmployee").attr("checked","true")
-				$('#entireN').show();
-				$('#entireY').hide();
-			}else if(mainTain == 'Y'){
-				$("#retireYEmployee").attr("checked","true")
-				$('#entireN').hide();
-				$('#entireY').show();
-			}
-			hover();
-			})
-		    /*]]>*/
-		</script>
 
 
 	<script>
+	
+		 /* 라디오 버튼 */
+		  $("#retireNEmployeeRadio").click(function(){
+			  retireNAjax();
+		  })
+		  
+		  $("#retireYEmployeeRadio").click(function(){
+			  retireYAjax(); 
+		  })
+		  
+	
+	      $(document).ready(function(){
+				$("#retireNEmployeeRadio").attr("checked","true")
+	    	  retireNAjax();
+	      });
+	      
+	      /* 페이징 버튼을 통한 요청 함수 */
+	      function returnNPage(category, categoryValue, page){
+	         console.log("ajax page이동 실행 시도");
+	         var queryString = {"category" : category
+	                      , "categoryValue" : categoryValue
+	                      , "page" : page};
+	         retireNAjaxFunction(queryString);
+	      }
+	      
+	      /* 페이징 버튼을 통한 요청 함수 */
+	      function returnYPage(category, categoryValue, page){
+	         console.log("ajax page이동 실행 시도");
+	         var queryString = {"category" : category
+	                      , "categoryValue" : categoryValue
+	                      , "page" : page};
+	         retireYAjaxFunction(queryString);
+	      }
+	      
+	      /* 유저가 조건 선택해 검색하는 요청 함수 */
+	      function retireNAjax(){
+	         console.log("retireNAjax 기본함수 실행 시도");
+				$('#entireN').attr('style', "display:inline;");
+				$('#retireNSearch').attr('style', "display:inline;");
+				$('#entireY').attr('style', "display:none;");
+				$('#retireYSearch').attr('style', "display:none;");
+				
+	         var queryString = $("form[name=retireNForm]").serialize();
+	         retireNAjaxFunction(queryString);
+	      }
+	      
+	      /* 유저가 조건 선택해 검색하는 요청 함수 */
+	      function retireYAjax(){
+	         console.log("retireYAjax 기본함수 실행 시도");
+   				$('#entireN').attr('style', "display:none;");
+   				$('#retireNSearch').attr('style', "display:none;");
+   				$('#entireY').attr('style', "display:inline;");
+   				$('#retireYSearch').attr('style', "display:inline;");
+   				
+	         var queryString = $("form[name=retireYForm]").serialize();
+	         retireYAjaxFunction(queryString);
+	         
+	      }
+	      
+		  /* 재직자 ajax */
+	      function retireNAjaxFunction(queryString){
+	         $.ajax({
+	            url : "/admin/select/retireN",
+	            data : queryString,
+	            success : function(data){
+	               const $table = $("#employeeList tbody");
+	               const $div = $("#paging");
+	   			   const mainTain = data.mainTain;
+	               
+	               /* 데이터 필드, 페이징버튼 필드 초기화 */
+	               $table.html("");
+	               $div.html("");
+	               /* search criteria (페이징 버튼으로 ajax요청보낼 때 사용함) */
+	               category=data.category;
+	               categoryValue=data.categoryValue;
+	               
+					for ( var index in data.retireNEmployee) {
+		                $tr = $("<tr>");   
+						$noTd = $("<td>").text(data.retireNEmployee[index].employeeNo);
+						$nameTd = $("<td>").text(data.retireNEmployee[index].employeeName);
+						$birthTd = $("<td>").text(data.retireNEmployee[index].employeeBirth);
+						$addressTd = $("<td>").text(data.retireNEmployee[index].employeeAddress.replace(/@/g," "));
+						$phoneTd = $("<td>").text(data.retireNEmployee[index].employeePhone);
+						$hireDateTd = $("<td>").text(data.retireNEmployee[index].employeeHireDate);
 
-		/* hover event */
-		function hover() {
-			const employee = document.getElementsByTagName("td");
+								$tr.append($noTd);
+								$tr.append($nameTd);
+								$tr.append($birthTd);
+								$tr.append($addressTd);
+								$tr.append($phoneTd);
+								$tr.append($hireDateTd);
 
-			for (let i = 0; i < employee.length; i++) {
-				employee[i].onmouseenter = function() {
-					this.parentNode.style.backgroundColor = "rgb(50,150,250)";
-					this.parentNode.style.cursor = "pointer";
-				}
-				employee[i].onmouseout = function() {
-					this.parentNode.style.backgroundColor = "white";
-				}
-
-				employee[i].onclick = function() {
-					location.href = "/member/selectEmployee/"
-							+ this.parentNode.children[0].innerText;
-				}
-			}
-		};
-
-		
-
-		/* 검색기능 list 출력 */
-		$("#search").click(function() {
-			$.ajax({
-				url : "gson1",
-				success : function(data) {
-
-					const $table = $("#employeeList tbody");
-					$table.html("");
-
-					for ( var index in data) {
-						$tr = $("<tr>");
-						$noTd = $("<td>").text(data[index].no);
-						$nameTd = $("<td>").text(data[index].name);
-						$ageTd = $("<td>").text(data[index].age);
-						$enrollDateTd = $("<td>").text(data[index].enrollDate);
-						$unknown1 = $("<td>").text(data[index].enrollDate);
-						$unknown2 = $("<td>").text(data[index].enrollDate);
-
-						$tr.append($noTd);
-						$tr.append($nameTd);
-						$tr.append($ageTd);
-						$tr.append($enrollDateTd);
-						$tr.append($unknown1);
-						$tr.append($unknown2);
-
-						$table.append($tr);
-					}
-				},
-				error : function(error) {
-					console.log(error);
-				}
-			});
-		});
-
-		/* 재직자 list ajax */
-		
-		$("#retireNEmployee").click(function() {
-			location.href = "/admin/select/retireN"
-		})
-		
-/* 		$("#retireN").click(function() {
-							$.ajax({
-									url : "/admin/select/retireNEmployeeAjax",S
-									success : function(retireNEmployee) {
-
-									const $table = $("#employeeList tbody");
-									$table.html("");
-									for ( var index in retireNEmployee) {
-										$tr = $("<tr>");
-										$noTd = $("<td>").text(retireNEmployee[index].employeeNo);
-										$nameTd = $("<td>").text(retireNEmployee[index].employeeName);
-										$birthTd = $("<td>").text(retireNEmployee[index].employeeBirth);
-										$addressTd = $("<td>").text(retireNEmployee[index].employeeAddress);
-										$phoneTd = $("<td>").text(retireNEmployee[index].employeePhone);
-										$hireDateTd = $("<td>").text(retireNEmployee[index].employeeHireDate);
-
-												$tr.append($noTd);
-												$tr.append($nameTd);
-												$tr.append($birthTd);
-												$tr.append($addressTd);
-												$tr.append($phoneTd);
-												$tr.append($hireDateTd);
-
-												$table.append($tr);
-
-												hover();
-											}
-										},
-										error : function(error) {
-											console.log(error);
-										}
-									});
-						});
-		 */
-		
-
-		/* 퇴사자 list ajax */
-/		$("#retireYEmployee").click(function() {
-			location.href = "/admin/select/retireY";
-		}) 
-		
-		/* 
- 		$("#retireYEmployee").click(function() {
-							$.ajax({
-							url : "/admin/select/retireYAjax",
-							success : function(RetireYEmployee) {
-								$('#inputMainTain').attr('value','Yajax');
-								alert("f")
-								$('#clickFirst2').click();
-								alert("g")
-								console.log("Y");
-								$('#entireN').hide();
-								$('#entireY').show();
-
-
-								const $table = $("#employeeList tbody");
-								$table.html("");
-
-								for ( var index in RetireYEmployee) {
-									$tr = $("<tr>");
-									$noTd = $("<td>").text(RetireYEmployee[index].employeeNo);
-									$nameTd = $("<td>").text(RetireYEmployee[index].employeeName);
-									$birthTd = $("<td>").text(RetireYEmployee[index].employeeBirth);
-									$addressTd = $("<td>").text(RetireYEmployee[index].employeeAddress);
-									$phoneTd = $("<td>").text(RetireYEmployee[index].employeePhone);
-									$hireDateTd = $("<td>").text(RetireYEmployee[index].employeeHireDate);
-
-									$tr.append($noTd);
-									$tr.append($nameTd);
-									$tr.append($birthTd);
-									$tr.append($addressTd);
-									$tr.append($phoneTd);
-									$tr.append($hireDateTd);
-
-									$table.append($tr);
-								}
-								const employee = document
-										.getElementsByTagName("td");
+								$table.append($tr);
 
 								hover();
-								},
-							error : function(error) {
-								console.log(error);
 							}
-						});
-						}); 
-		  */
+	               
+	               var $startPage = data.startPage;
+	               var $endPage = data.endPage;
+	               var $currentPage = data.currentPage;
+	               var $maxPage = data.maxPage;
+	               
+	               var $beforeStartPage = data.startPage-1;
+	               var $afterEndPage = data.endPage;
+	               
+	               if($startPage==0){
+	                  $button = $("<button class='page' disabled><<</button>");
+	                  $div.append($button);
+	               } else {
+	                  $button = $("<button class='page' id='goBackPage' onclick='returnNPage(category,categoryValue,"+$beforeStartPage+")'><<</button>");
+	                  $div.append($button);
+	               }
+	               
+	               for(i=$startPage;i<$endPage;i++){
+	                  if(i!=$currentPage){
+	                     $button = $("<button class='page' onclick='returnNPage(category,categoryValue,"+(i)+")'>"+(i+1)+"</button>");   
+	                  } else {
+	                     $button = $("<button disabled class='page'>"+(i+1)+"</button>");
+	                  }
+	                  
+	                  $div.append($button);
+	               }
+	               
+	               if($maxPage==$endPage){
+	                  $button = $("<button class='page' disabled>>></button>");
+	                  $div.append($button);
+	               } else {
+	                  $button = $("<button class='page' id='goForwardPage' onclick='returnNPage(category,categoryValue,"+$afterEndPage+")'>>></button>");
+	                  $div.append($button);
+	               }
+	               
+	            },
+	            error : function(error){
+	               console.log(error);
+	            }
+	         });
+	      };
+	
+	
+	      
+	      
+	      /* 퇴사자 ajax */
+	      function retireYAjaxFunction(queryString){
+	         $.ajax({
+	            url : "/admin/select/retireY",
+	            data : queryString,
+	            success : function(data){
+	               const $table = $("#employeeList tbody");
+	               const $div = $("#paging");
+	   			   const mainTain = data.mainTain;
+	               
+	               /* 데이터 필드, 페이징버튼 필드 초기화 */
+	               $table.html("");
+	               $div.html("");
+	               /* search criteria (페이징 버튼으로 ajax요청보낼 때 사용함) */
+	               category=data.category;
+	               categoryValue=data.categoryValue;
+	               
+					for ( var index in data.retireYEmployee) {
+		                $tr = $("<tr>");   
+						$noTd = $("<td>").text(data.retireYEmployee[index].employeeNo);
+						$nameTd = $("<td>").text(data.retireYEmployee[index].employeeName);
+						$birthTd = $("<td>").text(data.retireYEmployee[index].employeeBirth);
+						$addressTd = $("<td>").text(data.retireYEmployee[index].employeeAddress.replace(/@/g, ' '));
+						$phoneTd = $("<td>").text(data.retireYEmployee[index].employeePhone);
+						$hireDateTd = $("<td>").text(data.retireYEmployee[index].employeeHireDate);
+
+								$tr.append($noTd);
+								$tr.append($nameTd);
+								$tr.append($birthTd);
+								$tr.append($addressTd);
+								$tr.append($phoneTd);
+								$tr.append($hireDateTd);
+
+								$table.append($tr);
+
+								hover();
+							}
+	               
+	               var $startPage = data.startPage;
+	               var $endPage = data.endPage;
+	               var $currentPage = data.currentPage;
+	               var $maxPage = data.maxPage;
+	               
+	               var $beforeStartPage = data.startPage-1;
+	               var $afterEndPage = data.endPage;
+	               
+	               if($startPage==0){
+	                  $button = $("<button class='page' disabled><<</button>");
+	                  $div.append($button);
+	               } else {
+	                  $button = $("<button class='page' id='goBackPage' onclick='returnYPage(category,categoryValue,"+$beforeStartPage+")'><<</button>");
+	                  $div.append($button);
+	               }
+	               
+	               for(i=$startPage;i<$endPage;i++){
+	                  if(i!=$currentPage){
+	                     $button = $("<button class='page' onclick='returnYPage(category,categoryValue,"+(i)+")'>"+(i+1)+"</button>");   
+	                  } else {
+	                     $button = $("<button disabled class='page'>"+(i+1)+"</button>");
+	                  }
+	                  
+	                  $div.append($button);
+	               }
+	               
+	               if($maxPage==$endPage){
+	                  $button = $("<button class='page' disabled>>></button>");
+	                  $div.append($button);
+	               } else {
+	                  $button = $("<button class='page' id='goForwardPage' onclick='returnYPage(category,categoryValue,"+$afterEndPage+")'>>></button>");
+	                  $div.append($button);
+	               }
+	               
+	            },
+	            error : function(error){
+	               console.log(error);
+	            }
+	         });
+	      };
+	      
+	      
+	      
+	      //검색 후 리스트 리셋(재직자)
+	      $('#categoryN').change(function(){
+	         $("#categoryN option:selected").each(function () {
+	      		
+	      			 $("#categoryValueN").val('');                       //기존 값 초기화
+	      			 retireNMainList();
+
+	         });
+	      });
+	      
+	      //검색 후 리스트 리셋(퇴사자)
+	      $('#categoryY').change(function(){
+	         $("#categoryY option:selected").each(function () {
+	      		
+	      			 $("#categoryValueY").val('');                       //기존 값 초기화
+	      			 retireYMainList();
+
+	         });
+	      }); 
+	    
+	    
+	    
+	    
+	  	    
+	  	  /* 검색 시 검색 결과 리셋 (재직자)2-2 */
+	      function retireNMainList(){
+	         console.log("ajax 기본함수 실행 시도333");
+	  			
+	         var queryString = $("form[name=mainPage]").serialize();
+	         retireNAjaxFunction(queryString);
+	      }
+	  	  
+	  	  /* 검색 시 검색 결과 리셋 (퇴사자)2-2 */
+	      function retireYMainList(){
+	         console.log("ajax 기본함수 실행 시도444");
+	  			
+	         var queryString = $("form[name=mainPage]").serialize();
+	         retireYAjaxFunction(queryString);
+	      }
+	
+
+	      
+	      
+	      
+	      
+	      
+	      
+	      
+	      
+	 		/* hover event */
+			function hover() {
+				const employee = document.getElementsByTagName("td");
+
+				for (let i = 0; i < employee.length; i++) {
+					employee[i].onmouseenter = function() {
+						this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+						this.parentNode.style.cursor = "pointer";
+					}
+					employee[i].onmouseout = function() {
+						this.parentNode.style.backgroundColor = "white";
+					}
+
+					employee[i].onclick = function() {
+						location.href = "/member/selectEmployee/"
+								+ this.parentNode.children[0].innerText;
+					}
+				}
+			};
+	
+	
+	
+	
+	
+
 	</script>
+	
+
 </body>
 
 </html>

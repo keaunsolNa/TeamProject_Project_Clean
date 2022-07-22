@@ -1,78 +1,41 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    
 
 <style type="text/css">
-  
-    .tg  {border-collapse:collapse;border-spacing:0;}
-      .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
-        overflow:hidden;padding:5px;word-break:normal;}
-      .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
-        font-weight:normal;overflow:hidden;padding:5px;word-break:normal;}
-      .tg .tg-amwm{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
-
-      .comfirmBox td{
-        height: 75px;
-      }
-
-      .confirmTable{
-        margin: 20px;
-      }
-
-      .confirmHeight{
-        margin: auto;
-        line-height: center;
-        line-height: 100px;
-      }
-    /* 결재 승인 */
-
-
-    /* 휴가신청서 */
-    .tg2  {border-collapse:collapse;border-spacing:0;}
-    .tg2 td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-    overflow:hidden;padding:10px 10px;word-break:normal;}
-    .tg2 th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-    font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;}
-    .tg2 .tg2-7btt{border-color:inherit; font-weight:bold;text-align:center;vertical-align:top}
-
-    .confirmDateContainer{
-        margin: 25px;
-    }
-    .container{
-        width: 1500px;
-    }
-
-    .reason{
-        height: 100px;
-        line-height: 100px;
-    }
-
-    .confirmLine{
-        line-height: 75px;
-    }
-
-
-    </style>
+</style>
 
 </head>
 <body>
-    <div class="container">
-      <div id="tab-1" class="tab-content current">
+	<div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div>
+	<form name="myVacationForm" action="/admin/select/selectMyVacation" id="myVacationForm">
         <span>나의 휴가 조회</span>
+<!-- 	<select name="category" id="category">
+		<option value="all" selected>전체</option>
+		<option value="request">신청날짜</option>
+		<option value="start">휴가 시작일</option>
+		<option value="end">휴가 종료일</option>
+	</select> 
+		 검색 시작일 <input type="date" name="startDate">
+		 검색 종료일 <input type="date" name="endDate">
+		<input type="text" name="categoryValue" placeholder="휴가 내역 검색">
+		<input type="text" style="display: none;"> <!-- enter - submit 방지 
+		
+		<button type="button" onclick="vacationAjax();">검색</button>
+	 -->
+		<input type="hidden" value="0" name=page>
+<!-- 		<input type="hidden" name=adminNo sec:authentication="principal.adminNo"> -->
+		<input type="hidden" id="adminNo" name="adminNo" th:value="${#authentication.principal.adminNo}">
+		
+	</form>
 
-        <select name="category" id="category">
-            <option value="empNo" selected>사원번호</option>
-            <option value="empName">이름</option>
-            <option value="empBirth">생년월일</option>
-            <option value="empAddress">주소</option>
-            <option value="empPhone">전화번호</option>
-        </select>
-        <input type="text" name="categoryValue">
-        <button type="button" id="search">검색</button>
-
-        <table id="vacationList" border="1">
+        <table id="myVacationList" border="1">
             <thead>
                 <tr>
                     <th>신청번호</th>
@@ -80,28 +43,141 @@
                     <th>휴가시작일</th>
                     <th>휴가종료일</th>
                     <th>휴가구분</th>
-                    <th>반려여부</th>
+                    <th>승인 여부</th>
                 </tr>
             </thead>
-            <tbody>
 				<tbody>
-					<tr th:each="index : ${vacation}">
-						<td th:text="${ index.vacationNo }"></td>
-						<td th:text="${ index.requestDate }"></td>
-						<td th:text="${ index.vacationStartDate }"></td>
-						<td th:text="${ index.vacationEndDate }"></td>
-						<td th:text="${ index.vacationName }"></td>
-						<td th:text="${ vacationStatus }"></td>
-					</tr>
+
 				</tbody>
-            </tbody>
         </table>
-         <div id="vacationPaging"> <div th:replace="/admin/humanResource/vacation/vacationPaging.html"></div></div>
         
-    </div>
-    </div>
-    
+        <div id="paging" style="display: flex; justify-content: center;">
+               <!-- /* 페이징 버튼들어올 공간 */ -->
+		</div>
+        
     <script>
+    
+    
+	
+
+    $(document).ready(function(){
+    	vacationAjax();
+  	  
+    });
+    
+    /* 페이징 버튼을 통한 요청 함수 */
+    function vacationPage(adminNo, page){
+       console.log("ajax page이동 실행 시도");
+       var queryString = {"adminNo" : adminNo
+	                       , "page" : page};
+       vacationAjaxFunction(queryString);
+    }
+    
+    
+    /* 유저가 조건 선택해 검색하는 요청 함수 */
+    function vacationAjax(){
+       console.log("ajax 기본함수 실행 시도");
+			
+       var queryString = $("form[name=myVacationForm]").serialize();
+       vacationAjaxFunction(queryString);
+    }
+    
+/* 	<div style="display: none;" id="adminNo" sec:authentication="principal.adminNo"></div> */
+
+	  /* 나의 휴가 조회 ajax */
+    function vacationAjaxFunction(queryString){
+       $.ajax({
+          url : "/admin/select/selectMyVacation",
+          data : queryString,
+          success : function(data){
+             const $table = $("#myVacationList tbody");
+             const $div = $("#paging");
+       		 const adminNo = $("#adminNo").val();
+             /* 데이터 필드, 페이징버튼 필드 초기화 */
+             $table.html("");
+             $div.html("");
+             /* search criteria (페이징 버튼으로 ajax요청보낼 때 사용함) */
+             category=data.category;
+             categoryValue=data.categoryValue;
+             
+             
+				for ( var index in data.vacationList) {
+	                $tr = $("<tr>");   
+					$noTd = $("<td>").text(data.vacationList[index].vacationNo);
+					$requestTd = $("<td>").text(data.vacationList[index].requestDate);
+					$startTd = $("<td>").text(data.vacationList[index].vacationStartDate);
+					$endTd = $("<td>").text(data.vacationList[index].vacationEndDate);
+					$nameTd = $("<td>").text(data.vacationList[index].vacationName);
+					
+					if(data.vacationList[index].vacationLastConfirmYn == "Y"){
+						$lastTd = $("<td>").text("승인완료");	
+					}else{
+						$lastTd = $("<td>").text("승인반려");	
+					}
+					
+					
+							$tr.append($noTd);
+							$tr.append($requestTd);
+							$tr.append($startTd);
+							$tr.append($endTd);
+							$tr.append($nameTd);
+							$tr.append($lastTd);
+
+							$table.append($tr);
+
+							hover();
+
+						}
+             
+             var $startPage = data.startPage;
+             var $endPage = data.endPage;
+             var $currentPage = data.currentPage;
+             var $maxPage = data.maxPage;
+             
+             var $beforeStartPage = data.startPage-1;
+             var $afterEndPage = data.endPage;
+             
+             if($startPage==0){
+                $button = $("<button class='page' disabled><<</button>");
+                $div.append($button);
+             } else {
+                $button = $("<button class='page' id='goBackPage' onclick='vacationPage("+adminNo+","+$beforeStartPage+")'><<</button>");
+                $div.append($button);
+             }
+             
+             for(i=$startPage;i<$endPage;i++){
+                if(i!=$currentPage){
+                   $button = $("<button class='page' onclick=vacationPage("+adminNo+","+(i)+')>'+(i+1)+"</button>");   
+                } else {
+                   $button = $("<button disabled class='page'>"+(i+1)+"</button>");
+                }
+                
+                $div.append($button);
+             }
+             
+             if($maxPage==$endPage){
+                $button = $("<button class='page' disabled>>></button>");
+                $div.append($button);
+             } else {
+                $button = $("<button class='page' id='goForwardPage' onclick='vacationPage("+adminNo+","+$afterEndPage+")>>></button>'");
+                $div.append($button);
+             }
+             
+          },
+          error : function(error){
+             console.log(error);
+          }
+       });
+    };
+
+    
+    
+    
+    
+    
+    
+    
+    
 
 	/* hover event */
 	function hover() {

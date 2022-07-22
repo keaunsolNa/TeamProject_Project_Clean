@@ -54,7 +54,6 @@
 </head>
 <body>
 	<div th:include="common/header.html"></div>
-	<div th:include="common/hrAside.html"></div>
 	<div class="container">
 
         <!-- 관리자 내용 -->
@@ -74,10 +73,9 @@
                 <!--  <div th:replace="hrCard/adminListPaging.html"></div> -->
                  
                  
-                <input type="radio" value="admin" name="retire" id="adminRetireN"> 
-                <label for="adminRetireN">재직자</label>
-                <input type="radio" value="admin" name="retire" id="adminRetireY"> 
-                <label for="adminRetireY">퇴사자</label>
+         
+                <a href="/admin/hrCard/retireAdminList">퇴사자 목록</a>
+
     
                 <table id="adminList" border="1">
                     <thead>
@@ -104,20 +102,6 @@
             </div>
        
     <script>
-        /* 탭 전환 관련 스크립트 */
-        $(document).ready(function () {
-
-            $('ul.tabs li').click(function () {
-                var tab_id = $(this).attr('data-tab');
-
-                $('ul.tabs li').removeClass('current');
-                $('.tab-content').removeClass('current');
-
-                $(this).addClass('current');
-                $("#" + tab_id).addClass('current');
-            })
-
-        })
         
         /* hover event */
         function hover(){
@@ -177,84 +161,6 @@
 				}
 			});
 		});
-
-        /* 재직자 list ajax */
-		$("#adminRetireN").click(function(){
-			$.ajax({
-				url : "adminList/adminAjax",
-				success:function(adminListAjax){
-
-					const $table = $("#adminList tbody");
-					$table.html("");
-					
-					for(var index in adminListAjax){
-						$tr = $("<tr>");
-						$noTd = $("<td>").text(adminListAjax[index].adminNo);
-						$nameTd = $("<td>").text(adminListAjax[index].adminName);
-						$birthTd = $("<td>").text(adminListAjax[index].adminBirth);
-						$addressTd = $("<td>").text(adminListAjax[index].adminHireDate);
-						$phoneTd = $("<td>").text(adminListAjax[index].adminJob);
-						$hireDateTd = $("<td>").text(adminListAjax[index].adminPhone);
-						
-						$tr.append($noTd);
-						$tr.append($nameTd);
-						$tr.append($birthTd);
-						$tr.append($addressTd);
-						$tr.append($phoneTd);
-						$tr.append($hireDateTd);
-						
-						$table.append($tr);
-						
-						hover();
-					}
-				},
-				error:function(error){
-					console.log(error);
-				}
-			});
-		});
-        
-        /* 퇴사자 list ajax */
-		$("#adminRetireY").click(function(){
-			$.ajax({
-				url : "adminList/retireAdminAjax",
-				success:function(retireAdminList){
-
-					const $table = $("#adminList tbody");
-					$table.html("");
-					
-					for(var index in retireAdminList){
-						$tr = $("<tr>");
-						$noTd = $("<td>").text(retireAdminList[index].retireAdminNo);
-						$nameTd = $("<td>").text(retireAdminList[index].retireAdminName);
-						$birthTd = $("<td>").text(retireAdminList[index].retireAdminBirth);
-						$addressTd = $("<td>").text(retireAdminList[index].retireAdminHireDate);
-						$phoneTd = $("<td>").text(retireAdminList[index].retireAdminJob);
-						$hireDateTd = $("<td>").text(retireAdminList[index].retireAdminPhone);
-						
-						$tr.append($noTd);
-						$tr.append($nameTd);
-						$tr.append($birthTd);
-						$tr.append($addressTd);
-						$tr.append($phoneTd);
-						$tr.append($hireDateTd);
-						
-						$table.append($tr);
-					}
-		            const admin = document.getElementsByTagName("td");
-
-		            hover();
-					
-				},
-				error:function(error){
-					console.log(error);
-				}
-			});
-		});
-
-        
-       
-        
        
     </script>
     

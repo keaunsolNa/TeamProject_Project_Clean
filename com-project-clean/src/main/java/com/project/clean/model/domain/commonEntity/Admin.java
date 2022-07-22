@@ -270,6 +270,7 @@ public class Admin implements java.io.Serializable{
 	public void setAdminPictureThumbnailName(String adminPictureThumbnailName) {
 		this.adminPictureThumbnailName = adminPictureThumbnailName;
 	}
+	
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

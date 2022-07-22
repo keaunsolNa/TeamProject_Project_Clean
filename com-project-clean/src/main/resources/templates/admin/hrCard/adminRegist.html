@@ -64,11 +64,9 @@
     </style>
 </head>
 <body>
-	<div th:include="common/header.html"></div>
-	<div th:include="common/hrAside.html"></div>
 
 	<button onclick="history.back()">Back</button>
-    <form action="/admin/hrCard/adminRegist" id="registForm" method="post" enctype="multipart/form-data">
+    <form action="/admin/hrCard/adminRegist" id="registForm" method="post" enctype="multipart/form-data" onsubmit="sendjs();">
 	    <table class="tg" style=" table-layout: fixed; width: 597px">
 	    <colgroup>
 	    <col style="width: 100px">
@@ -166,26 +164,13 @@
 		        <td>퇴사여부</td>
 		        <td colspan="2">N</td>
 		      </tr>
-		      <tr>
-		      	<td rowspan="4">직인 등록</td>
-		      	<td colspan="5" rowspan="4">
-		      		<img id="signImg" width="300px" height="300px">
-		      		<input type="file" id="thumbnailImg2" name="thumbnailImg2" onchange="loadImg(this,2)" style="display: none">
-		      	</td>
-		      </tr>
-		      <tr><td colspan="2"></td>
-		      <td>직인 등록</td>
-		      </tr>
-		      <tr>
-		      <td>직인 등록</td>
-		      </tr>
 		    </tbody>
 		    </table>
 	    <input class="btn_hrcard" type="button" id="regist" value="등록완료">
 	    <input class="btn_hrcard" type="button" id="resetButton" value="등록취소">
 	    <input name="adminId" type="hidden" th:value="${ adminId }">
-	    	
   </form>
+  
   <script>
   /* 회원 수정 정보 */
 	$("#regist").click(function(){
@@ -295,13 +280,9 @@
 		<script>
 		/* 이미지 미리보기 관련 스크립트 */
 		const $adminImg = document.getElementById("adminImg");
-		const $signImg = document.getElementById("signImg");
 		
 		$adminImg.onclick = function() {
 			document.getElementById("thumbnailImg").click();
-		}
-		$signImg.onclick = function(){
-			document.getElementById("thumbnailImg2").click();	
 		}
 
 		/* 이미지 미리보기 관련 함수(File API 활용하기) */
@@ -314,14 +295,7 @@
 				
 				/* load 이벤트의 핸들러로 읽기 동작이 성공적으로 완료 되었을 때마다 발생한다. */
 				reader.onload = function(e) {				// load EventListener에 function 등록 (FileReader에서 전달 받은 파일을 다 읽으면 리스너에 등록한 function이 호출 됨)
-					switch(num){
-						case 1 : 
-							document.getElementById("adminImg").src = e.target.result;
-							break;
-						case 2 :
-							document.getElementById("signImg").src = e.target.result;
-							break;
-					}		
+						document.getElementById("adminImg").src = e.target.result;
 						
 					}
 				}

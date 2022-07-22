@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style>
+        body {
+            margin-top: 100px;
+            font-family: 'Trebuchet MS', serif;
+            line-height: 1.6
+        }
+
+        /* 전체 크기 */
+        .container {
+            width: 1500px;
+            margin: 0 auto;
+        }
+
+        ul.tabs {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+        }
+
+        /* 선택하지 않은 탭 css */
+        ul.tabs li {
+            background: rgba(219, 243, 249, 1);
+            color: rgb(0, 0, 0);
+            display: inline-block;
+            padding: 10px 15px;
+            /* 좌측은 위아래 사이즈 우측은 좌우 사이즈 */
+            cursor: pointer;
+        }
+
+        /* 선택한 탭 css 설정 */
+        ul.tabs li.current {
+            background: rgba(104, 228, 255, 1);
+            color: rgb(0, 0, 0);
+        }
+
+        /* 선택한 탭의 내용 css 설정 */
+        .tab-content {
+            display: none;
+            background: #e95151;
+            padding: 15px;
+        }
+
+        .tab-content.current {
+            display: inherit;
+        }
+    </style>
+</head>
+<body>
+
+	<div th:include="common/header.html"></div>
+	
+	
+	 <div class="container">
+
+        
+ 
+        <div id="tab-1" class="tab-content current">
+            <span>인사관리 카드 조회</span>
+
+            <select name="category" id="category">
+                <option value="empNo" selected>사원번호</option>
+                <option value="empName">휴가구분</option>
+                <option value="empBirth">생년월일</option>
+                <option value="empAddress">주소</option>
+                <option value="empPhone">전화번호</option>
+            </select>
+            <input type="text" name="categoryValue">
+            <button type="button" id="search">검색</button>
+
+            <table id="vacationList" border="1">
+                <thead>
+                    <tr>
+                        <th>신청번호</th>
+                        <th>신청자</th>
+                        <th>휴가시작일</th>
+                        <th>휴가종료일</th>
+                        <th>휴가구분</th>
+<!--                         <th>연차 사용 횟수</th> -->
+                        <th>1차 승인 여부</th>
+                 		
+                    </tr>
+                </thead>
+                <tbody>
+                   	<tr th:each="index : ${ vacationList }">
+						<td th:text="${ index.vacationNo }"></td>
+						<td th:text="${ index.requestAdmin }"></td>
+						<td th:text="${ index.vacationStartDate }"></td>
+						<td th:text="${ index.vacationEndDate }"></td>
+						<td th:text="${ index.vacationName }"></td>
+<!-- 						<td th:text="${ index.adminList.annualVacationUse }"></td> -->
+						<td th:text="${ index.vacationFirstConfirmYn }"></td>
+					</tr>
+                </tbody>
+            </table>
+        </div>
+	</div>
+	
+	<script>
+	 /* hover event */
+	    function hover(){
+	        const employee = document.getElementsByTagName("td");
+	
+	        for(let i = 0; i < employee.length; i++){
+	        	employee[i].onmouseenter = function(){
+	                this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+	                this.parentNode.style.cursor = "pointer";
+	            }
+	        	employee[i].onmouseout = function(){
+	                this.parentNode.style.backgroundColor = "white";
+	            }
+	
+	        	employee[i].onclick = function(){
+	                location.href="/admin/vacation/standbyVacationDetail/" + this.parentNode.children[0].innerText;
+	            }
+	        }
+	    };
+	    
+	    /* 시작 할 때 hover event */
+        $(function(){
+        	hover();
+        })
+	
+	</script>
+
+</body>
+</html>

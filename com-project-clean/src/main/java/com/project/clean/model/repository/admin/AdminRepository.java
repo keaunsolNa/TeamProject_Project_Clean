@@ -41,7 +41,7 @@ public interface AdminRepository extends JpaRepository<Admin, Integer>{
 	int findNewAdminNo();
 
 	/* 관리자 퇴사 처리(RetireYN N -> Y) */
-	@Query(value="UPDATE tbl_admin a SET  a.admin_retire_yn = 'Y' WHERE admin_no = 3", nativeQuery = true)
+	@Query(value="UPDATE tbl_admin a SET  a.admin_retire_yn = 'Y' WHERE admin_no = ?", nativeQuery = true)
 	void modifyAdminRetire(Admin map);
 
 	/* 재직자 Ajax 조회 */
@@ -63,5 +63,20 @@ public interface AdminRepository extends JpaRepository<Admin, Integer>{
 	@Modifying
 	@Query(value="UPDATE TBL_ADMIN a SET admin_retire_date = sysdate WHERE admin_no = ?", nativeQuery = true)
 	Integer findByAdminRetireDate(int adminNo);
+
+	/* 퇴사자 조회 */
+	@Query(value="SELECT * FROM TBL_ADMIN a WHERE a.admin_retire_yn = 'Y' ORDER BY a.admin_no", nativeQuery = true)
+	List<Admin> findAdminByAdminRetireY();
+
+	/* 최종 승인된 휴가가 연차일 경우 연차 사용 내역 업데이트 */
+	@Query(value="UPDATE tbl_admin a SET a.admin_use_annual_vacation = a.admin_use_annual_vacation + 1 WHERE a.admin_no = ?", nativeQuery = true)
+	@Transactional
+	@Modifying
+	void modifyAnnualVacationUse(int adminNo);
+
+
+	/* 휴가 승인한 최종 관리자의 정보 불러오기 */
+//	@Query(value="SELECT * FROM tbl_admin a WHERE a.admin_no = ?", nativeQuery = true)
+//	Admin findByCommitAdmin(int bossNo);
 
 }

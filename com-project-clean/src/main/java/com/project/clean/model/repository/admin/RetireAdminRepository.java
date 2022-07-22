@@ -11,6 +11,10 @@ import com.project.clean.model.domain.commonEntity.RetireAdmin;
 @Repository
 public interface RetireAdminRepository extends JpaRepository<RetireAdmin, Integer>{
 
-	@Query(value="SELECT * FROM TBL_RETIRE_ADMIN a ORDER BY retire_admin_no", nativeQuery = true)
+	@Query(value="SELECT * FROM TBL_RETIRE_ADMIN a ORDER BY a.retire_admin_no", nativeQuery = true)
 	List<RetireAdmin> findRetireAdminList();
+	
+	RetireAdmin findByRetireAdminNo(int retireAdminNo);
+
+
 }

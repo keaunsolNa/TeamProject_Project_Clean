@@ -15,7 +15,15 @@
 	      
 </head>
 <body>
-
+	<input hidden type="text" th:value="${userId}" class="employeeName" id="employeeName">
+	
+	<form hidden id="sendForm">
+    	<div>
+     	 	<input type="text" id="sendingMessage">
+        	<input type="text" id="sendingName" >
+    	</div>
+    	<button id="send" type="submit">Send</button>
+	</form>
 <section>
 
 	<form method="post" action="admin/checklist/denial"  enctype="multipart/form-data">
@@ -24,27 +32,46 @@
 		
 		<p th:utext="${checkList.checkHTML}" class="jbHtml"></p>			
 		
-		  <th:block th:if="${ checkList.checkStatus == 'D' }">	
+		<th:block th:if="${ checkList.checkStatus == 'D' }">	
 		  
-	        <div class="OpnionArea">
-		        <div class="employeeOpnionArea">
-	   	        	<label>직원 답변</label><br>
-	    	        <textarea id="employeeOpnion" class="Opnion" maxlength="300"></textarea>
-		        	<textarea id="employeeOpnion2" class="Opnion" maxlength="300" style="display: none"></textarea>
+		  	<br><br>
+		  
+			<div class="OpnionArea">
+		        <div class="employeeOpnionArea" id="employeeOpnionArea">
+	   	        	<br><label>직원 사유서</label><br><br>
+	    	        <textarea id="employeeOpnion" class="Opnion" maxlength="300" rows="5"></textarea>
+		        	<textarea id="employeeOpnion2" class="Opnion" maxlength="300" rows="5" style="display: none"></textarea>
 			    </div>
 	    	</div>
 	    	
 	    </th:block>
 	    
-	<br><br>				
+	<br><br>	
+				
 	</form>
 
 </section>
-
+	<br>
+	
 	<th:block th:if="${ checkList.checkStatus == 'D' }">	
 	    <input type="button" value="등록" id="submit" class="submittbtn">
 	</th:block>
-	
+
+<script>
+	const opnion = document.querySelectorAll(".employeeOpnionArea");
+
+	for(let i = 0; i < opnion.length; i++){
+		
+		if(i == 0){
+			continue;
+		} else {
+			alert("이미 사유서가 제출되었습니다.")
+			console.log("이미 사유서가 제출되었습니다.")
+			opnion[i].remove();
+			document.getElementById("submit").remove();
+		}
+	}
+</script>
 	
 <!--  textarea script -->
 <script>
@@ -65,50 +92,54 @@
     	
     	document.getElementById("submit").onclick = function(){
 			const reservationNo = $('.reservationNo').val();
-    		if(confirm("사유서를 제출하시겠습니까? 담당 관리자에게 알람이 전송됩니다.")){
-    			
-    			document.getElementById("employeeOpnion").remove();
-    			document.getElementById("employeeOpnion2").style="";
-    			const jbHtml = $( 'section' ).html();
-
-    			$.ajax({
-    				url: "submmit",
-    				type:"POST",
-    				data:{	
-    					jbHtml : jbHtml,
-    					reservationNo : reservationNo
-    				},
-    				
-    				success: function(data){
-    					location.href="/employee/checkList/selectMyCheckList"
-		    			alert("전송 완료");
-						
-    				},
-    				error : function(request, status){
-    					alert("전송 실패")
-    				}
-    			})
-    		 } 
+			const userName = document.getElementById("employeeName").value
+			
+			if($("#employeeOpnion2").val().length < 30) {
+				
+				alert("사유서는 30자 이상 작성하여 제출해 주세요");
+				
+			} else {
+			
+	    		if(confirm("사유서를 제출하시겠습니까? 담당 관리자에게 알람이 전송됩니다.")){
+	    			
+	    			$("#sendingMessage").val("사유서가 제출되었습니다.")
+	    			$("#sendingName").val(userName)
+	    			
+	    			$("#send").bind("click", function(){});
+		    			
+		    		$("#send").trigger("click");
+		    		
+	    			document.getElementById("employeeOpnion").remove();
+	    			document.getElementById("employeeOpnion2").style="";
+	    			const jbHtml = $( 'section' ).html();
+	
+	    			$.ajax({
+	    				url: "submmit",
+	    				type:"POST",
+	    				data:{	
+	    					jbHtml : jbHtml,
+	    					reservationNo : reservationNo
+	    				},
+	    				
+	    				success: function(data){
+	    					location.href="/employee/checkList/selectMyCheckList"
+			    			alert("전송 완료");
+							
+	    				},
+	    				error : function(request, status){
+	    					alert("전송 실패")
+	    				}
+	    			})
+	    		 } 
+	    	}
     	}
-
     </script>	
 
-<!-- checkbox script -->
-<script>
-const checkboxs = document.querySelectorAll('form .checklist .checkbox');
-for(let i =0; i < checkboxs.length; i++){
-	const checkbox = checkboxs[i]
-	if(checkbox.value == "NOT"){
-		$(checkbox).attr("disabled", true)
-	} else if(checkbox.value == "YES") {
-		$(checkbox).attr("checked",true)
-		$(checkbox).attr("disabled", true)
-	};
-};
-</script>
 </body>
 	<script 
 		src="/js/socket.js"></script>
+	<script 
+		src="/js/checkListCheckBox2.js"></script>
 	<script
 		src="http://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
    	<script 

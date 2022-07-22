@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<style type="text/css">
+
+    /* 전체 div */
+    .container{
+        width: 1500px;
+        margin: 0 auto;
+    }
+  
+    /* 결재 승인 */
+    .tg2  {border-collapse:collapse;border-spacing:0;}
+      .tg2 td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
+        overflow:hidden;padding:5px;word-break:normal;}
+      .tg2 th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
+        font-weight:normal;overflow:hidden;padding:5px;word-break:normal;}
+      .tg2 .tg2-amwm{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top;}
+
+    .comfirmBox td{
+        height: 75px;
+      }
+
+      /* .confirmTable{
+        margin: 20px;
+      } */
+
+      .confirmHeight{
+        margin: auto;
+        line-height: center;
+        line-height: 100px;
+      }
+
+
+    /* 휴가신청서 */
+    .tg3  {border-collapse:collapse;border-spacing:0;}
+    .tg3 td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    overflow:hidden;padding:10px 10px;word-break:normal;}
+    .tg3 th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;}
+    .tg3 .tg3-7btt{border-color:inherit; font-weight:bold;text-align:center;vertical-align:top}
+    .vacationReason{
+      resize: none; width: 400px; height: 95px;
+    }
+    /* .confirmDateContainer{
+        margin: 25px;
+    } */
+    
+
+    .reason{
+        height: 100px;
+        line-height: 100px;
+    }
+
+    .confirmLine{
+        line-height: 75px;
+    }
+
+
+    </style>
+</head>
+<body>
+ 	<div class="container">
+        <div class="confirmDateContainer">
+  
+    </div>
+    <form id="vacationForm" action="registVacation/run" method="post">
+      <table class="tg2 confirmTable" style="table-layout: fixed; width: 588px">
+        <colgroup>
+          <col style="width: 186px">
+          <col style="width: 201px">
+          <col style="width: 201px">
+        </colgroup>
+        <thead>
+          <tr>
+            <td class="tg2-amwm">결재 신청 날짜</td>
+            <td class="tg2-amwm" colspan="2">
+              <div width="50px" th:text="${today}"></div>
+              <input style="display: none;" name="requestDate" th:value="${today}">
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tg2-amwm confirmHeight" rowspan="3">결재</td>
+            <td class="tg2-amwm" width="50px">인사담당자</td>
+            <td class="tg2-amwm" width="50px">대표</td>
+          </tr>
+          <tr class="comfirmBox">
+            <td class="tg2-amwm">
+              <div id="humanResource" name="humanResource"></div>
+            </td>
+            <td class="tg2-amwm">
+              <div id="boss" name="boss"></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="tg2-amwm" width="50px" height="15px"> </td>
+            <td class="tg2-amwm" width="50px"> </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+    <div class="registVacationContainer">
+        <table class="tg3" style="table-layout: fixed; width: 502px">
+            <colgroup>
+            <col style="width: 250px">
+            <col style="width: 450px">
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="tg3-7btt" colspan="2">휴가신청서</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+              	<input style="display: none;" name="adminNo" th:value="${admin.adminNo}">
+                <td class="tg3-7btt">성명</td>
+                <td class="tg3-7btt" th:text="${admin.adminName}"></td>
+                <input style="display: none;" name="requestAdmin" th:value="${admin.adminName}">
+              </tr>
+              <tr>
+                <td class="tg3-7btt">직급</td>
+                <td class="tg3-7btt" th:text="${admin.adminJob}"></td>
+              </tr>
+              <tr>
+                <td class="tg3-7btt">휴가명</td>
+                <td class="tg3-7btt">
+                	<select required id="vacationName" name="vacationName">
+                		<option>연차</option>
+                		<option>공가</option>
+                		<option>경조사</option>
+                		<option>기타</option>
+                	</select>
+                </td>
+              </tr>
+              <tr>
+                <td class="tg3-7btt">기간</td>
+                <td class="tg3-7btt"><input type="date" id="vacationStartDate" name="vacationStartDate" min="vacationStartDate" required> ~ <input type="date" id="vacationEndDate" name="vacationEndDate" value="xxx" min="한달 후" max="올해" required></td>
+              </tr>
+              <tr>
+                <td class="tg3-7btt">연락망</td>
+                <td class="tg3-7btt" th:text="${admin.adminPhone}"></td>
+              </tr>
+              <tr>
+                <td class="tg3-7btt"><div class="reason">사유</div></td>
+                <td class="tg3-7btt"><div class="reason"> <textarea class="vacationReason" id="vacationReason" name="vacationReason" required></textarea></div></td>
+              </tr>
+              <tr>
+                <td class="tg3-7btt" colspan="2">위와 같이 휴가를 신청하오니 승인하여 주시기 바랍니다.</td>
+              </tr>
+            </tbody>
+           </table>
+        
+          <button type="button" id="vacationSubmit">신청</button>
+      </div>
+    </div>
+   </form> 
+    <script>
+		$("#vacationSubmit").click(function(){
+		 		
+		 		const name = $("#vacationName").val();
+		 		const start = $("#vacationStartDate").val();
+		 		const end = $("#vacationEndDate").val();
+		  		const reason = $("#vacationReason").val();
+		
+		 		
+		 		// 이미지 나중에 추가
+		 		const addressDetail = $("#addressDetail").val();
+		 		
+		 			if(!(name && start && end && reason)){
+		 				alert("입력되지 않은 항목이 있습니다.");
+		 			}else{
+		 			if(confirm("휴가를 신청하시겠습니까?")){
+		 				$("#vacationForm").submit();
+		 				
+		 			}
+		 		}
+		 	})  
+		 	$("#resetButton").click(function(){
+		 		if(confirm("휴가 신청을 초기화 하시겠습니까?")){
+		 			document.getElementById("vacationForm").reset();
+		 		}
+		 	})
+
+
+
+    </script>
+    
+  
+</body>
+</html>

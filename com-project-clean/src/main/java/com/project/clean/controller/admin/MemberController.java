@@ -28,12 +28,19 @@ public class MemberController {
 	public MemberController(MemberSerivceImpl memberService) {
 		this.memberService = memberService; 
 	}
+
+	/* 직원 한명 조회(직원) */
+	@GetMapping("selectEmployee/move")
+	public String selectOneEmplyoeeMove() {
+		
+		return  "/admin/humanResource/selectAllEmployee/selectAllEmployeeMove";
+	}
 	
-	/* 직원 한명 조회 */
+	
+	/* 직원 한명 조회 (관리자)*/
 	@GetMapping("/selectEmployee/{empNo}")
 	public String selectOneEmployee(@PathVariable int empNo, Model mv) {
 		EmployeeAndAllDTO employeeDTO = memberService.selectOneEmployee(empNo);
-
 		String[] seperateAddress = employeeDTO.getEmployeeAddress().split("@");
 		
 		String addressNo = seperateAddress[0];

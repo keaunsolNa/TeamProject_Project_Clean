@@ -9,14 +9,17 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.project.clean.model.domain.adminEntity.AdminVacationCommitPFKId;
 
 
 @Entity
 @Table(name = "TBL_VACATION_COMMIT")
 @IdClass(AdminVacationCommitPFKId.class)
+@DynamicInsert 
 public class VacationCommit implements Serializable {
-
 	private static final long serialVersionUID = -8882971212931923117L;
 	
 	@Id
@@ -27,7 +30,7 @@ public class VacationCommit implements Serializable {
 	@Column(name="VACATION_NO")
 	private int vacationNo;
 	
-	@Column(name="CONFIRM_REASON")
+	@Column(name="CONFIRM_REASON", nullable=true)
 	private String confirmReason;
 	
 	@Column(name="CONFIRM_DATE")

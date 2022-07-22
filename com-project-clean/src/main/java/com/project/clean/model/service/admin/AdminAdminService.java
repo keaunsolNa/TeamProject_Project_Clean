@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.project.clean.model.domain.commonEntity.Admin;
@@ -31,7 +32,7 @@ public class AdminAdminService{
 		this.retireAdminRepository = retireAdminRepository;
 	}
 
-	
+	/* 재직자 조회 */
 	public List<AdminDTO> findAdminList() {
 		
 		/* 퇴사여부가 Y(yes) 가 아닌 관리자 조회 */
@@ -39,6 +40,17 @@ public class AdminAdminService{
 		
 		return adminList.stream().map(admin -> modelMapper.map(admin, AdminDTO.class)).collect(Collectors.toList());
 	}
+	
+	/* 퇴사자 조회(Ajax) */
+	public List<AdminDTO> findRetireAdminList() {
+		
+		List<Admin> retireAdminList = adminRepository.findAdminByAdminRetireY();
+	
+		
+		return retireAdminList.stream().map(admin -> modelMapper.map(admin, AdminDTO.class)).collect(Collectors.toList());
+
+	}
+	
 	
 ////	public List<AdminDTO> findAdminList(SelectCriteria selectCriteria) {
 ////		
@@ -58,12 +70,22 @@ public class AdminAdminService{
 
 	}
 
-	/* 관리자 기본정보 상세 조회 */
+	/* 관리자 상세 조회 */
 	public AdminDTO findByAdminNo(int adminNo) {
 		
 		Admin admin = adminRepository.findByAdminNo(adminNo).get();
 		
 		return modelMapper.map(admin, AdminDTO.class);
+	}
+	
+	
+	
+	/* 퇴사자 상세 조회 */
+	public RetireAdminDTO findByRetireAdminNo(int retireAdminNo) {
+		
+		RetireAdmin retireAdmin = retireAdminRepository.findByRetireAdminNo(retireAdminNo);
+		
+		return modelMapper.map(retireAdmin, RetireAdminDTO.class);
 	}
 
 
@@ -74,15 +96,7 @@ public class AdminAdminService{
 	}
 
 	
-	/* 퇴사자 조회(Ajax) */
-	@Transactional
-	public List<RetireAdminDTO> findRetireAdminList() {
-		
-		List<RetireAdmin> retireAdminList = retireAdminRepository.findRetireAdminList();
-		
-		return retireAdminList.stream().map(retireAdmin -> modelMapper.map(retireAdmin, RetireAdminDTO.class)).collect(Collectors.toList());
 
-	}
 
 	/* 재직자 조회(Ajax) */
 	@Transactional
@@ -120,29 +134,17 @@ public class AdminAdminService{
 
 
 	/* 관리자 - 본인의 인사카드를 수정 */
+	@Transactional
 	public void modifyAdminSelfCard(AdminDTO adminDTO) {
-		
-		System.out.println("서비스 잘왔나~");
-		
 		
 		Admin adminModify = adminRepository.findByAdminNo(adminDTO.getAdminNo()).get();
 		
 		adminModify.setAdminAddress(adminDTO.getAdminAddress());
 		adminModify.setAdminPhone(adminDTO.getAdminPhone());
 		adminModify.setAdminEmail(adminDTO.getAdminEmail());
+		adminModify.setAdminPictureSaveRoot(adminDTO.getAdminPictureSaveRoot());
+		adminModify.setAdminPictureSaveName(adminDTO.getAdminPictureSaveName());
 		
-		System.out.println(adminModify);
-		System.out.println(adminModify);
-
-		System.out.println(adminModify);
-
-		System.out.println(adminModify);
-
-		System.out.println(adminModify);
-
-		System.out.println(adminModify);
-
-
 	}
 
 	/* 퇴사자 정보 퇴사자 테이블에 삽입 */
@@ -152,8 +154,26 @@ public class AdminAdminService{
 		
 	}
 
+	/* 휴가 신청을 위한 조회 - 로그인한 회원의 아이디를 이용해 해당 회원의 정보 찾기 */
+	public AdminDTO findByAdminId(String adminId) {
+		
+		Admin admin = adminRepository.findByAdminId(adminId);
+		
+		return modelMapper.map(admin, AdminDTO.class);
+	}
 
-	
+	/* 휴가 2차 승인시 휴가명이 연차일 경우 관리자의 연차 사용 횟수 증가 */
+	public void modifyAnnualVacationUse(int adminNo) {
+		
+		adminRepository.modifyAnnualVacationUse(adminNo);
+	}
+
+//	public AdminDTO findAllByBossNo(int bossNo) {
+//		
+//		Admin admin = adminRepository.findByCommitAdmin(bossNo);
+//		
+//		return modelMapper.map(admin, AdminDTO.class);
+//	}
 
 	
 }

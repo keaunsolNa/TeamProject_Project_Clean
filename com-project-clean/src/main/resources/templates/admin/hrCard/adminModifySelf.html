@@ -35,8 +35,6 @@
 </head>
 <body>
 
-	<div th:include="common/Header.html"></div>
-	<div th:include="common/hrAside.html"></div>
 	
 	<button onclick="history.back()">Back</button>
 	
@@ -57,10 +55,13 @@
 		        <td>이름</td>
 		        <td th:text="${ adminModify.adminName }"></td>
 		        <th:block th:if="${adminModify.adminPictureSaveName}">
-				    <td colspan="2" rowspan="3"><img width="100" height="120" 
-			        	th:src="@{static/adminPicture/thumbnail/} + ${adminModify.adminPictureSaveName}"/>
+				   <td colspan="2" rowspan="3">
+				   	<img width="100" height="120" id="pictureImg"
+			        	th:src="${ adminModify.getAdminPictureSaveRoot() + '/' + adminModify.getAdminPictureSaveName() }"/>
 			        </td>
-				</th:block>
+			        <td style="display: none;"><input type="text" id="oldSaveRoot" name="oldSaveRoot" th:value="${adminModify.adminPictureSaveRoot}"></td>
+	           	    <td style="display: none;"><input type="text" id="oldSaveName" name="oldSaveName" th:value="${adminModify.adminPictureSaveName}"></td>
+				 </th:block>
 		      </tr>
 		      <tr>
 		        <td>ID</td>
@@ -99,13 +100,18 @@
 		            </select>
 		        <td style="display: none;"><input id="adminEmail" name="adminEmail" type="text"/></td> 
 		    	<td style="display: none;"><input id="domainValue" type="text" th:value="${email.domain}"/></td>
+		    	
+		    	<td class="tg-7btt" colspan="2"> <button type="button" id="pictureModify" name="pictureModify">수정</button> </td>
+	            <!-- <td class="tg-7btt"> <button type="button"id="pictureDelete" name="pictureDelete">삭제</button> </td> -->
+	            <td style="display: none;"> <input type="file" id="picture" name="picture" onchange="loadImg(this,1)">
 		     </tr>
 		     <tr>
 		        <td class="tg-wman">우편번호</td>
 		        <td class="tg-wman"><input type="text" id="addressNo" name="addressNo" th:value="${address.addressNo}" readonly></td>
 		        <td class="tg-wman">기본주소</td>
-		        <td class="tg-wman" colspan="2"><input type="text" id="address" name="address" th:value="${address.address}" readonly></td>
-		        <td><input type="button" value="검색" class="btn btn-yg" id="searchAdminAddressNo" ></td>
+		        <td class="tg-wman"><input type="text" id="address" name="address" th:value="${address.address}" readonly></td>
+		        <td><input type="button" value="검색" class="btn btn-yg" id="searchAdminAddressNo"></td>
+		        	            
 		      </tr>
 		      <tr>
 		        <td class="tg-wman">상세주소</td>
@@ -230,10 +236,10 @@
 	<script>
 			
 			/* 이미지 미리보기 관련 스크립트 */
-			const $adminImg = document.getElementById("adminImg");
+			const pictureModify = document.getElementById("pictureModify");
 			
-			$adminImg.onclick = function() {
-				document.getElementById("thumbnailImg").click();
+			pictureModify.onclick = function() {
+				document.getElementById("picture").click();
 			}
 	
 			/* 이미지 미리보기 관련 함수(File API 활용하기) */
@@ -243,19 +249,11 @@
 				if (value.files && value.files[0]) {			// value.files[0]는 파일 이름
 					const reader = new FileReader();
 				
-					/*
-						FileReader 객체는 웹 애플리케이션이 비동기적으로 데이터를 읽기 위하여 읽을 파일을 가리키는 File 혹은 Blob 객체를
-						이용해 파일의 내용을(혹은 raw data버퍼로) 읽고 사용자의 컴퓨터에 저장하는 것을 가능하게 하는 것	
-						Blob(Binary large object) : 파일류의 불변하는 미가공 데이터로 텍스트와 이진 데이터의 형태로 읽을 수 있음
-					*/
-//					reader.readAsText(value.files[0]);			// 텍스트 파일을 읽을 때 사용 (이미지 파일을 텍스트로 읽어서 글자가 깨짐)			
-//					reader.readAsArrayBuffer(value.files[0]);	// 데이터를 일정한 크기로 조금씩(파일을 표현하는 ArrayBuffer) 서버로 보낼 때
-//					reader.readAsBinaryString(value.files[0]);	// 이진 데이터를 서버로 보낼 때 사용
 					reader.readAsDataURL(value.files[0]);		// Base64방식으로 파일을 FileReader에 전달 (Base64로 인코딩한 것은 브라우저가 원래 데이터로 만들게 됨)
 					
 					/* load 이벤트의 핸들러로 읽기 동작이 성공적으로 완료 되었을 때마다 발생한다. */
 					reader.onload = function(e) {				// load EventListener에 function 등록 (FileReader에서 전달 받은 파일을 다 읽으면 리스너에 등록한 function이 호출 됨)
-							document.getElementById("adminImg").src = e.target.result;
+							document.getElementById("pictureImg").src = e.target.result;
 							
 						}
 					}
