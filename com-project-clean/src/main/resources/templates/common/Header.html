@@ -106,11 +106,20 @@
                             예약관리
                             </a>
                 
+                            <th:block sec:authorize="hasRole('ADMIN')">
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">알림1</a></li>
-                                <li><a class="dropdown-item" href="#">알림2</a></li>
-                                <li><a class="dropdown-item" href="#">알림3</a></li>
+                                <li><a class="dropdown-item" href="/admin/reservation/main">예약 일정 확인</a></li>
+                                <li><a class="dropdown-item" href="/admin/notification/list">알림</a></li>
                             </ul>
+                		</th:block>
+                		<th:block sec:authorize="hasRole('EMPLOYEE')">
+                			<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/">예약</a></li>
+                                <li><a class="dropdown-item" href="/reservation/myList">내 일정 확인</a></li>
+                                <li><a class="dropdown-item" href="/bookmark/list">즐겨찾기 목록</a></li>
+                                <li><a class="dropdown-item" href="/notification/list">알림</a></li>
+                            </ul>
+                		</th:block>
                         </li>
 
                         <li class="nav-item dropdown">

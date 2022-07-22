@@ -75,10 +75,52 @@ body {
         <a href="/">예약</a>
         <a href="/reservation/myList">내 일정 확인</a>
         <a href="/bookmark/list">즐겨찾기 목록</a>
-        <a href="/notification/list">알림</a>
+        <a class="notificationA"  href="/notification/list">알림 <span class="notificationSpan"></span></a>
       </div>
 </div>
-
+<script type="text/javascript">
+$(function(){
+	$.ajax({
+		url: "/notification/time",
+		success: function(data){
+			const $notificationA = $(".notificationA");
+			if(data != 0){
+				$notificationA.css("color", "red");
+				setInterval(function () {
+					$('.notificationSpan').text(data);
+					$('.notificationSpan').fadeIn(100 , function () {
+						$('.notificationSpan').fadeOut(1000);
+					});
+				}, 2000);
+			}
+		},
+		error:function(error){
+			alert("error");
+		}
+	});
+	
+	setInterval(function(){
+		$.ajax({
+			url: "/notification/time",
+			success: function(data){
+				const $notificationA = $(".notificationA");
+				if(data != 0){
+					$notificationA.css("color", "red");
+					setInterval(function () {
+						$('.notificationSpan').text(data);
+						$('.notificationSpan').fadeIn(900 , function () {
+							$('.notificationSpan').fadeOut(100);
+						});
+					}, 1000);
+				}
+			},
+			error:function(error){
+				alert("error");
+			}
+		});
+	}, 5000);
+});
+</script>
 
 <script>
 /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
