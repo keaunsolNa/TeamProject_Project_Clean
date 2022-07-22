@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'MinSans-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.background404 {
+	background-image: url(/css/common/error/404img.png);
+	background-size: cover;
+	position: fixed;
+	width: 1100px;
+	height: 800px;
+	padding: 20px 10px 5px 10px;
+}
+
+.background500 {
+	background-image: url(/css/common/error/500img.png);
+	background-size: cover;
+	position: fixed;
+	width: 1100px;
+	height: 800px;
+	padding: 20px 10px 5px 10px;
+}
+
+.btn_error4{
+	font-family: 'MinSans-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff') format('woff');
+	margin: 570px 0px 0px 170px;
+	background-color: #4b4b4b;
+    padding: 5px 10px 5px 10px;
+    border-radius: 10px;
+    color: white;
+}
+
+.btn_error5{
+	font-family: 'MinSans-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff') format('woff');
+	margin: 500px 0px 0px 80px;
+	background-color: #4b4b4b;
+    padding: 5px 10px 5px 10px;
+    border-radius: 10px;
+    color: white;
+}
