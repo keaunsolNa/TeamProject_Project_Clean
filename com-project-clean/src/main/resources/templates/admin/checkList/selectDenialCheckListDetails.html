@@ -35,15 +35,8 @@
 	<input type="button" value="블랙+" id="denial">
 </div>
 
-	<th:block sec:authorize="hasRole('ADMIN')">			
-		<h3><span hidden sec:authentication="principal.adminId" id="userId" th:value="principal.adminId"></span></h3>
-	</th:block>
-
-	<th:block sec:authorize="hasRole('EMPLOYEE')">			
-		<h3><span hidden sec:authentication="principal.employeeId" id="userId" th:value="principal.employeeId"></span></h3>
-	</th:block>
-
 <input hidden type="text" th:value="${employeeName}" class="employeeName" id="employeeName">
+<input hidden type="text" th:value="${employeeName}" class="employeeName" id="client">
 
 <form hidden id="sendForm">
     <div>
@@ -57,9 +50,7 @@
 <script>
 	
 	if(document.getElementById("employeeOpnion2")){
-		console.log("있음111")
 	} else{
-		console.log("없음222")
 		const div = document.getElementById("submitarea");
 		div.remove();
 	}
@@ -78,7 +69,6 @@
     	
 		    const jbHtml = "";
 		    const userName = document.getElementById("employeeName").value
-		    const sessionName = document.getElementById("userId").value
 			const reservationNo = $('.reservationNo').val();
 		    
 	    	document.getElementById("denial").onclick = function(){

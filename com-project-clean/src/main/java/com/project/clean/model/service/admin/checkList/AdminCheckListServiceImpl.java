@@ -183,7 +183,6 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 				
 				/* 파라미터 값으로 모든 체크리스트 조회 */
 				paging =  checkListRepository.findAllByCheckStatus(status, pageable);
-				
 				List<CheckList> checkArrayList = paging.getContent();
 				
 				checkList = checkArrayList.stream().map(list -> modelMapper.map(list, CheckListDTO.class)).toList();

@@ -1,4 +1,7 @@
 var stompClient = null;
+var senderName = null;
+var clientName = document.getElementById("client").value;
+console.log(clientName)
 function setConnected(connected) {
     if (connected) {
         $("#conversation").show();
@@ -16,14 +19,14 @@ function connect() {
     stompClient.connect({"token" : "발급받은 토큰"}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/queue/greetings', function (greeting) {
+        stompClient.subscribe('/queue/greetings'+clientName, function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
     });
 }
 
 function sendName() {
-    stompClient.send("/app/hello", {}, JSON.stringify({'message': $("#sendingMessage").val(), 'name': $("#sendingName").val()}));
+    stompClient.send("/app/hello"+clientName, {}, JSON.stringify({'message': $("#sendingMessage").val(), 'name': $("#sendingName").val()}));
 }
 
 function showGreeting(message) {
@@ -33,10 +36,11 @@ function showGreeting(message) {
 function sendjs(){
 	
 }
+
 $(function () {
 	$("form").on('submit', function (e) {
 		if(document.getElementById("formSender")){
-			
+			senderName = document.getElementById("employeeName").value;
         e.preventDefault();
 		    $( "#connect" ).click(function() { connect(); });
 			$( "#disconnect" ).click(function() { disconnect(); });

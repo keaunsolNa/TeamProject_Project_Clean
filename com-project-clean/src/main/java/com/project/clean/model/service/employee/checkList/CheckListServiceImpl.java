@@ -275,7 +275,6 @@ public class CheckListServiceImpl implements CheckListService{
 						checkListAndReservationInfoAndEmployeeDTO.setEmployeeName(employeeName);
 						checkListAndReservationInfoAndEmployeeDTO.setCustomerName(userName);
 						checkListAndReservationInfoAndEmployeeDTO.setCheckReservationNo(checkReservationNo);
-						
 						/* View에서 뿌려줄 변수값 변환 */
 						if(checkStatus.equals("R")) {
 							checkStatus = "확인중";
@@ -293,7 +292,7 @@ public class CheckListServiceImpl implements CheckListService{
 						
 						/* 매개변수 초기화 */
 						String adminName = "";
-						Integer adminNo = 0;
+						String adminId = "";
 						
 							/* 예외 처리 */
 							try {
@@ -309,10 +308,11 @@ public class CheckListServiceImpl implements CheckListService{
 								
 								/* 필요한 매개변수 가져오기 */
 								adminName = adminDTO.getAdminName();
-								adminNo = admin.getAdminNo();
+								adminId = adminDTO.getAdminId();
 								
 								/* 값 주입 */
 								checkListAndReservationInfoAndEmployeeDTO.setAdminName(adminName);
+								checkListAndReservationInfoAndEmployeeDTO.setAdminId(adminId);
 								
 								checkListAndReservationInfoAndEmployeeList.add(checkListAndReservationInfoAndEmployeeDTO);
 								

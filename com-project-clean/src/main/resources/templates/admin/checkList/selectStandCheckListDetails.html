@@ -20,7 +20,6 @@
 <body>
 
 <input type="hidden" th:value="${checkList.checkReservationNo}" class="reservationNo" name="reservationNo"> 
-
 <section>
 	
 	<form method="post" action="admin/checklist/denial"  enctype="multipart/form-data" id ="formSender">
@@ -51,6 +50,7 @@
 	</div>
 
 	<input hidden type="text" th:value="${employeeName}" class="employeeName" id="employeeName">
+	<input hidden type="text" th:value="${employeeName}" class="employeeName" id="client">
 
 	<form hidden class="form-inline">
     	<div class="form-group">
@@ -70,7 +70,6 @@
 
 </script>
 
-console.log("테스트~~~")
 <!-- Submit script -->
     <script>
 	    const jbHtml = "";
@@ -112,7 +111,7 @@ console.log("테스트~~~")
 	    				
 	    				success: function(data){
 			    			
-	    					alert("전송 완료. 직원에게 알림이 전송되었습니다. ");
+	    					alert("전송 완료. 해당 직원에게 알림이 전송되었습니다. ");
 			    			location.href="/admin/checklist/denial/select"
 			    			
 	    				},
@@ -134,7 +133,7 @@ console.log("테스트~~~")
 				
 			} else {
 			
-	    		if(confirm("서류를 승인하시겠습니까? 직원에게 알림이 전송됩니다.")){
+	    		if(confirm("서류를 승인하시겠습니까? 해당 직원에게 알림이 전송됩니다.")){
 	    			
 	    			$("#sendingMessage").val("체크리스트가 승인되었습니다. 급여 확인부탁드립니다.")
 	    			$("#sendingName").val(userName)

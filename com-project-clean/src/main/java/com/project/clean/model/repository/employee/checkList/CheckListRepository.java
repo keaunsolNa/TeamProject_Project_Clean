@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.project.clean.model.domain.commonEntity.CheckList;
@@ -31,6 +33,7 @@ public interface CheckListRepository  extends JpaRepository<CheckList, Integer>{
 	int countByCheckStatus(String string);
 
 	Page<CheckList> findAllByCheckStatus(String status, Pageable pageable);
+
 
 
 	

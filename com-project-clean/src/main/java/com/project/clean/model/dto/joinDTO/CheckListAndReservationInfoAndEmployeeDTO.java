@@ -13,10 +13,11 @@ public class CheckListAndReservationInfoAndEmployeeDTO implements Serializable{
 	private String customerName;
 	private String employeeName;
 	private String adminName;
+	private String adminId;
 	public CheckListAndReservationInfoAndEmployeeDTO() {
 	}
 	public CheckListAndReservationInfoAndEmployeeDTO(Integer checkReservationNo, String checkHTML, String checkStatus,
-			Integer adminNo, String customerName, String employeeName, String adminName) {
+			Integer adminNo, String customerName, String employeeName, String adminName, String adminId) {
 		this.checkReservationNo = checkReservationNo;
 		this.checkHTML = checkHTML;
 		this.checkStatus = checkStatus;
@@ -24,6 +25,7 @@ public class CheckListAndReservationInfoAndEmployeeDTO implements Serializable{
 		this.customerName = customerName;
 		this.employeeName = employeeName;
 		this.adminName = adminName;
+		this.adminId = adminId;
 	}
 	public Integer getCheckReservationNo() {
 		return checkReservationNo;
@@ -67,6 +69,12 @@ public class CheckListAndReservationInfoAndEmployeeDTO implements Serializable{
 	public void setAdminName(String adminName) {
 		this.adminName = adminName;
 	}
+	public String getAdminId() {
+		return adminId;
+	}
+	public void setAdminId(String adminId) {
+		this.adminId = adminId;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -74,8 +82,9 @@ public class CheckListAndReservationInfoAndEmployeeDTO implements Serializable{
 	public String toString() {
 		return "CheckListAndReservationInfoAndEmployeeDTO [checkReservationNo=" + checkReservationNo + ", checkHTML="
 				+ checkHTML + ", checkStatus=" + checkStatus + ", adminNo=" + adminNo + ", customerName=" + customerName
-				+ ", employeeName=" + employeeName + ", adminName=" + adminName + "]";
+				+ ", employeeName=" + employeeName + ", adminName=" + adminName + ", adminId=" + adminId + "]";
 	}
+	
 	
 	
 	

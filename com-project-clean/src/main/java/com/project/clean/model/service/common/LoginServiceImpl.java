@@ -155,9 +155,6 @@ public class LoginServiceImpl implements LoginService{
 	            		/* 신규 IP 등록 */
 	            		adminIp.setAdminNo(adminDTO.getAdminNo());
 	            		adminIp.setIpAddressValue(strIpAdress);
-	            		System.out.println("TEST" + adminIp);
-	            		System.out.println("TEST" + adminIp);
-	            		System.out.println("TEST" + adminIp);
 	            	}
 	            
 	            	/* 관리자 접속 IP가 4개 이상일 때 */

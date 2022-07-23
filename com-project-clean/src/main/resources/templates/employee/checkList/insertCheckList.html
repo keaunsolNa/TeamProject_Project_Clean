@@ -17,7 +17,7 @@
 
 <body>
 	<input hidden type="text" th:value="${userId}" class="employeeName" id="employeeName">
-	
+	<input hidden type="text" th:value="${employeeName}" class="employeeName" id="client">
 	<form hidden id="sendForm">
     	<div>
      	 	<input type="text" id="sendingMessage">
@@ -69,15 +69,6 @@
 	<br><br><br><br>    	
 	<input type="button" id="submitButton" value="제출" class="submittbtn" >	  
 	
-	<th:block sec:authorize="hasRole('ADMIN')">			
-		<h3><span hidden sec:authentication="principal.adminId" id="userId" th:value="principal.adminId"></span></h3>
-	</th:block>
-
-	<th:block sec:authorize="hasRole('EMPLOYEE')">			
-		<h3><span hidden sec:authentication="principal.employeeId" id="userId" th:value="principal.employeeId"></span></h3>
-	</th:block>
-	
-    
 	<!-- submit script -->
     <script>
 	    
