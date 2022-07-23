@@ -9,13 +9,11 @@
 	<link rel="stylesheet" type="text/css" th:href="@{/css/common/commonLayout.css}" />
 	<script src="http://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>	
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-   	<script src="/js/socket.js"></script>
+
 </head>
-    	
 
 <body>
+
     <div class="row">
         <div class="col-md-12">
             <table id="conversation" class="table table-striped">
@@ -49,10 +47,12 @@
                     </ul>
 
                     <th:block sec:authorize="hasRole('ADMIN')">			
-						<h3><span sec:authentication="principal.adminName" id="userName" th:value="principal.adminName"></span></h3>
+						<h3><span sec:authentication="principal.adminName" id="userName" th:value="${#authentication.name}"></span></h3>
+						<input hidden type="text" th:value="${#authentication.name}" id="client">
 					</th:block>
                     <th:block sec:authorize="hasRole('EMPLOYEE')">			
-						<h3><span sec:authentication="principal.employeeName" id="userName" th:value="principal.employeeName"></span></h3>
+						<h3><span sec:authentication="principal.employeeName" id="userName" th:value="${#authentication.name}"></span></h3>
+						<input hidden type="text" th:value="${#authentication.name}" id="client">
 					</th:block>
 
                     <ul class="navbar-nav me-auto mb-3 mb-lg-0">
@@ -87,13 +87,6 @@
 						        	<a class="dropdown-item" href="/admin/select/AllEmployee/move">전체 인원 조회</a>
 						        </th:block>    
 						        
-						                                    
-                                
-                                
-                                
-                                
-
-        
         <a class="dropdown-item" href="/admin/hrCard/adminList">관리자 조회</a>
         
         <a class="dropdown-item" href="/admin/hrCard/adminRegist">관리자 등록</a>
@@ -122,23 +115,6 @@
         <a class="dropdown-item" href="/admin/vacation/standbyFirstVacationList">1 승인 대기 목록</a>
         
         <a class="dropdown-item" href="/admin/vacation/standbySecondVacationList">1 승인 대기 목록</a>
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
                                 
                                 
                             </ul>
@@ -226,4 +202,7 @@
     </header>
     
 </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+   	<script src="/js/socket.js"></script>
 </html>

@@ -58,6 +58,7 @@
 						$checkStatusTd = $("<td>").text(data[index].checkStatus);
 						$checkUserNameTd = $("<td>").text(data[index].customerName);
 						$checkEmployeeNameTd = $("<td>").text(data[index].employeeName);
+						$checkAdminIdTd = $("<td2>").addClass('aid').text(data[index].adminId).hide();
 						$checkAdminNameTd = $("<td>").text(data[index].adminName);
 						$buttonTd = $("<button></button>").addClass('btn').addClass([index]).append("상세보기");
 						
@@ -65,6 +66,7 @@
 						$tr.append($checkStatusTd);
 						$tr.append($checkUserNameTd);
 						$tr.append($checkEmployeeNameTd);
+						$tr.append($checkAdminIdTd);
 						$tr.append($checkAdminNameTd);
 						$tr.append($buttonTd);
 						$table.append($tr);
@@ -89,7 +91,11 @@
 						const resNo2 = resNo1[i];
 						var resNo3 = resNo2.parentNode.querySelector('.rn').innerText;
 						
- 					 	location.href="/employee/checkList/denialSelectDetails?re="+ resNo3; 
+						const adminId1 = document.querySelectorAll('table#taskInfo tbody td2');
+						const adminId2 = adminId1[i];
+						var adminId3 = adminId2.parentNode.querySelector('.aid').innerText;
+						
+ 					 	location.href="/employee/checkList/denialSelectDetails?re="+ resNo3 + "&aid=" + adminId3; 
 							
 					}; 
 				};						
