@@ -6,7 +6,29 @@
 <title>Document</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style>
-
+	.section{
+		width: 1000px;
+	}
+	.tableBox{
+		width: 1000px;
+		border: 1px solid black;
+	}
+	.tableBox tr{
+		height: 45px;
+	}
+	.tableBox td{
+		height: 45px;
+	}
+	.searchBox{
+		text-align: right;
+		margin-bottom: 10px;
+	}
+	.pagingBox{
+		 text-align: center;
+	}
+	.selectBox{
+		text-align: left;
+	}
 </style>
 </head>
 
@@ -15,10 +37,13 @@
 
 	<div th:replace="/common/Header.html"></div>
 	<div th:replace="/admin/adminAside.html"></div>
+	
+	<section class="section">
+	<div class="selectBox">
 		<div th:replace="admin/humanResource/vacation/selectAllVacationHeader"></div>
-
-		<form name="myVacationForm" action="/admin/select/selectMyVacation"
-			id="myVacationForm">
+	</div>
+	<div class="searchBox">
+		<form name="myVacationForm" action="/admin/select/selectMyVacation" id="myVacationForm">
 			<span>휴가 승인 전체 조회</span> 
 			
 			<select name="category" id="category">
@@ -35,8 +60,8 @@
 			<button type="button" onclick="vacationConformAjax();">검색</button>
 			<input type="hidden" value="0" name=page>
 		</form>
-
-		<table id="vacationTable" border="1">
+	</div>
+		<table id="vacationTable" class="tableBox">
 			<thead>
 				<tr>
 					<th>신청번호</th>
@@ -61,10 +86,10 @@
 		<input type="hidden" value="0" name=page>
         </form>
 		
-		<div id="paging" style="display: flex; justify-content: center;">
+		<div id="paging" class="pagingBox">
 			<!-- /* 페이징 버튼들어올 공간 */ -->
 		</div>
-
+	</section>
 
 	<script>
 		$(document).ready(function() {
@@ -279,7 +304,7 @@
 
 			for (let i = 0; i < vacationList.length; i++) {
 				vacationList[i].onmouseenter = function() {
-					this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+					this.parentNode.style.backgroundColor = "#7dbeed96";
 					this.parentNode.style.cursor = "pointer";
 				}
 				vacationList[i].onmouseout = function() {

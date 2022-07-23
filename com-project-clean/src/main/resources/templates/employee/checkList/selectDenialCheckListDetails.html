@@ -13,9 +13,10 @@
 	<script 
 		src="https://code.jquery.com/jquery-3.4.1.min.js"></script>	
 	      
-</head>
+</head> 
 <body>
-	<input hidden type="text" th:value="${userId}" class="employeeName" id="employeeName">
+	<input hidden type="text" th:value="${userId}" id="employeeName">
+	<input hidden type="text" th:value="${adminId}" id="client">
 	
 	<form hidden id="sendForm">
     	<div>
@@ -26,7 +27,7 @@
 	</form>
 <section>
 
-	<form method="post" action="admin/checklist/denial"  enctype="multipart/form-data">
+	<form method="post" action="admin/checklist/denial"  enctype="multipart/form-data" id ="formSender">
 	
 		<input type="hidden" th:value="${checkList.checkReservationNo}" class="reservationNo" name="reservationNo"> 
 		
@@ -57,6 +58,14 @@
 	    <input type="button" value="등록" id="submit" class="submittbtn">
 	</th:block>
 
+	<form hidden id="sendForm">
+	    <div>
+	        <input type="text" id="sendingMessage">
+	        <input type="text" id="sendingName" >
+	    </div>
+	    <button id="send" type="submit">Send</button>
+	</form>
+
 <script>
 	const opnion = document.querySelectorAll(".employeeOpnionArea");
 
@@ -66,7 +75,6 @@
 			continue;
 		} else {
 			alert("이미 사유서가 제출되었습니다.")
-			console.log("이미 사유서가 제출되었습니다.")
 			opnion[i].remove();
 			document.getElementById("submit").remove();
 		}

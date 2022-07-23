@@ -1,12 +1,12 @@
 package com.project.clean.controller.pay;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,14 +18,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.project.clean.controller.common.paging.Pagenation;
 import com.project.clean.controller.common.paging.SelectCriteria;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
-import com.project.clean.model.dto.commonDTO.BestEmployeePayDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeDTO;
-import com.project.clean.model.dto.commonDTO.EmployeePayDTO;
 import com.project.clean.model.dto.commonDTO.SurchargeDTO;
 import com.project.clean.model.dto.joinDTO.AdminAndAdminPayDTO;
 import com.project.clean.model.dto.joinDTO.AdminPayAndAdminDTO;
 import com.project.clean.model.dto.joinDTO.BestEmployeePayAndEmployeeDTO;
 import com.project.clean.model.dto.joinDTO.EmployeePayAndApplyEmployeeDTO;
+import com.project.clean.model.repository.pay.AdminRepositoryByPay;
 import com.project.clean.model.service.pay.PayService;
 
 @Controller
@@ -99,6 +98,8 @@ public class PayController {
 		return mv;
 	}
 	
+
+	
 	/* 직원 급여 지급 */
 	// admin.checklist.AdminCheckListController에 acceptCheckList부분에 작성했다(체크리스트가 승인될때 바로 급여를 지급하게 만들었음)
 
@@ -155,7 +156,7 @@ public class PayController {
 	@GetMapping("/management/adminPaySelectInfo/{payHistoryAdminNo}")
 	public ModelAndView findAdminPayByPayHistoryAdminNo(ModelAndView mv, @PathVariable int payHistoryAdminNo) {
 
-		AdminPayAndAdminDTO pay = payService.findAdminPayByPayHistoryNo(payHistoryAdminNo);
+		AdminPayAndAdminDTO pay = payService.findAdminPayByPayHistoryAdminNo(payHistoryAdminNo);
 
 		mv.addObject("pay", pay);
 		mv.setViewName("admin/pay/management/adminPaySelectInfo");
@@ -204,7 +205,7 @@ public class PayController {
 		
 		
 		// adminNo로 해당 관리자의 모든 정보를 가져옴
-		AdminDTO admin = payService.findAdminByPayAdminNo(adminNo);
+		AdminDTO admin = payService.findAdminByAdminNo(adminNo);
 		System.out.println("관리자 확인" + admin);
 		
 		// 급여만 빼옴
@@ -214,7 +215,7 @@ public class PayController {
 		 
 		rttr.addFlashAttribute("modifySuccessMessage", "급여 지급에 성공하였습니다");
 		  
-		return "redirect:admin/pay/management/adminPayWaiting";
+		return "redirect:/admin/pay/management/adminPayWaiting";
 		 
 
 	}
@@ -301,7 +302,7 @@ public class PayController {
 		 
 		rttr.addFlashAttribute("modifySuccessMessage", "우수사원 보너스 지급에 성공하였습니다");
 		  
-		return "redirect:admin/pay/management/bestEmployeePayWaiting";
+		return "redirect:/admin/pay/management/bestEmployeePayWaiting";
 		 
 
 	}
@@ -328,13 +329,65 @@ public class PayController {
 		 
 		rttr.addFlashAttribute("modifySuccessMessage", "부가요금 수정에 성공하셨습니다");
 		  
-		return "redirect:admin/pay/management/surcharge";
+		return "redirect:/admin/pay/management/surcharge";
 		 
 
 	}
 	
+	// 나의 급여 ------------------------------------------------------
+	
+	/* 나의 급여 조회(관리자) */
+	@GetMapping("/myPay/myPayForAdmin")
+	public ModelAndView myPayForAdmin(HttpServletRequest request, ModelAndView mv, Principal principal) {
+
+		/* 관리자 번호 가져오기 */
+		String adminId = principal.getName();
+		
+		AdminDTO admin = payService.findAdminByAdminId(adminId);
+		int adminNo = admin.getAdminNo();
+		
+		String currentPage = request.getParameter("currentPage");
+		int pageNo = 1;
+
+		if (currentPage != null && !"".equals(currentPage)) {
+			pageNo = Integer.parseInt(currentPage);
+		}
+		
+		int totalCount = payService.selectMyPayForAdminTotalCount(adminNo);
+		
+		/* 한 페이지에 보여 줄 게시물 수 */
+		int limit = 10; // 얘도 파라미터로 전달받아도 된다.
+
+		/* 한 번에 보여질 페이징 버튼의 갯수 */
+		int buttonAmount = 5;
+		
+		SelectCriteria selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
+
+		List<AdminPayAndAdminDTO> adminPayList = payService.myPayForAdmin(adminNo, selectCriteria);
+		if (pageNo == 1 && adminPayList.size() == 0) {
+			mv.addObject("ListNullMessage", "아직 받은 급여가 없습니다");
+			mv.setViewName("admin/pay/myPay/myPayForAdmin");
+			return mv;
+		}
+		
+		mv.addObject("adminPayList", adminPayList);
+		mv.addObject("selectCriteria", selectCriteria);
+		mv.setViewName("admin/pay/myPay/myPayForAdmin");
+		return mv;
+	}
 	
 	
+	/* 나의 관리자 급여 상세조회 */
+	@GetMapping("/myPay/myPayForAdminSelectInfo/{payHistoryAdminNo}")
+	public ModelAndView findMyPayForAdminByPayHistoryAdminNo(ModelAndView mv, @PathVariable int payHistoryAdminNo) {
+
+		AdminPayAndAdminDTO pay = payService.findAdminPayByPayHistoryAdminNo(payHistoryAdminNo);
+
+		mv.addObject("pay", pay);
+		mv.setViewName("admin/pay/myPay/myPayForAdminSelectInfo");
+		
+		return mv;
+	}
 
 
 }

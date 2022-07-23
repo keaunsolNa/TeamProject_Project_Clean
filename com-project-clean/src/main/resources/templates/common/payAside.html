@@ -41,7 +41,7 @@ section{
 /* On mouse-over */
 .sidenav a:hover, .dropdown-btn:hover {
   -webkit-text-stroke: 1px;
-  color:rgb(88, 218, 245);
+  color:#7DBEED;
 }
 
 /* Add an active class to the active dropdown button */
@@ -63,6 +63,10 @@ section{
   padding-right: 8px;
 }
 
+.dropdown-btn {
+  font-weight: bold;
+}
+
 /* Some media queries for responsiveness */
 /* @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
@@ -73,17 +77,31 @@ section{
 <body>
 
 <div class="sidenav">
-    <button class="dropdown-btn">급여관리
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-container">
-        <a href="/admin/pay/management/employeePaySelect">직원 급여 조회</a>
-        <a href="/admin/pay/management/bestEmployeePaySelect">우수직원 급여 조회</a>
-        <a href="/admin/pay/management/bestEmployeePayWaiting">우수직원 급여 지급</a>
-        <a href="/admin/pay/management/adminPaySelect">관리자 급여 조회</a>
-        <a href="/admin/pay/management/adminPayWaiting">관리자 급여 지급</a>
-        <a href="/admin/pay/management/surcharge">부가요금 관리</a>
-      </div>
+	<th:block sec:authorize="hasAnyRole('ADMIN_FNC','ADMIN_BOSS')">
+	    <button class="dropdown-btn">급여관리
+	        <i class="fa fa-caret-down"></i>
+	     </button>
+	     <div class="dropdown-container">
+	        <a href="/admin/pay/management/employeePaySelect">직원 급여 조회</a>
+	        <a href="/admin/pay/management/bestEmployeePaySelect">우수직원 급여 조회</a>
+	        <a href="/admin/pay/management/bestEmployeePayWaiting">우수직원 급여 지급</a>
+	        <a href="/admin/pay/management/adminPaySelect">관리자 급여 조회</a>
+	        <a href="/admin/pay/management/adminPayWaiting">관리자 급여 지급</a>
+	        <a href="/admin/pay/management/surcharge">부가요금 관리</a>
+	     </div>
+     </th:block>
+	      <button class="dropdown-btn">나의 급여
+	        <i class="fa fa-caret-down"></i>
+	      </button>
+	      <div class="dropdown-container">
+	         <th:block sec:authorize="hasRole('ADMIN')">
+	         	<a href="/admin/pay/myPay/myPayForAdmin" >나의 급여 조회</a>
+	         </th:block>
+	         <th:block sec:authorize="hasRole('EMPLOYEE')">
+	         	<a href="/employee/pay/myPay/myPayForEmployee">나의 급여 조회</a>
+	         </th:block>
+	      </div>
+      
 </div>
 
 

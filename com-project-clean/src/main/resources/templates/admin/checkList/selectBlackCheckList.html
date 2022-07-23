@@ -23,6 +23,9 @@
 			alert(Message)
 		}
 	</script>	
+	
+	<input type="hidden" value="0" name=page>
+	
 	<table id="taskInfo">
 		<thead>
 			<tr>
@@ -38,60 +41,146 @@
 		</tbody>
 	</table>
 	 
+	<form name="mainPage">
+		<input type="hidden" value="0" name="category">
+	</form>
+	
+	<div id="paging" style="display: flex; justify-content: center;">	 
+	
+	</div>
 	 
 	<script>
-		window.onload = function(){
-			$.ajax({
-				url : "select",
-				method : "post",
-				success:function(data){
-					
-					const $table = $("#taskInfo tbody");
-					$table.html("");
-					for(var index in data){
-						$tr = $("<tr>");
-						$checkReservationNoTd = $("<td1>").addClass('rn').text(data[index].checkReservationNo);
-						$checkStatusTd = $("<td>").text(data[index].checkStatus);
-						$checkUserNameTd = $("<td>").text(data[index].customerName);
-						$checkEmployeeNameTd = $("<td>").text(data[index].employeeName);
-						$checkAdminNameTd = $("<td>").text(data[index].adminName);
-						$buttonTd = $("<button></button>").addClass('btn').addClass([index]).append("상세보기");
-						
-						$tr.append($checkReservationNoTd);
-						$tr.append($checkStatusTd);
-						$tr.append($checkUserNameTd);
-						$tr.append($checkEmployeeNameTd);
-						$tr.append($checkAdminNameTd);
-						$tr.append($buttonTd);
-						$table.append($tr);
-						
-					};
-				},
-				error:function(error){
-					console.log(error);
-				}
-			});
-			
- 			setTimeout(function() {
-				const buttons = document.querySelectorAll('table#taskInfo tbody tr button');
+	
+	$(document).ready(function(){
+		checkListFunction();
+	});
+	
+	function returnPage(category, categoryValue, page){
+		
+		var queryString ={"category" : category
+				, "categoryValue" : categoryValue
+				, "page" : page};
+		checkListFunction(queryString);
+		
+	}
+	
+	function checkListFunction(queryString){
+		$.ajax({
+			url : "select",
+			data : queryString,
+			type : "POST",
+			success : function(data){
+				const $table = $("#taskInfo tbody");
+				const $div = $("#paging");
 				
-				for(let i = 0; i < buttons.length; i++) {
+				$table.html("");
+				$div.html("");
+				
+				category=data.category;
+				categoryValue=data.categoryValue;
+				
+				for(var index in data.checkList){
 					
-					const button = buttons[i];
+					$tr = $("<tr>");
+					$checkReservationNoTd = $("<td1>").addClass('rn').text(data.checkList[index].checkReservationNo);
+					$checkStatusTd = $("<td>").text(data.checkList[index].checkStatus);
+					$checkUserNameTd = $("<td>").text(data.checkList[index].customerName);
+					$checkEmployeeNameTd = $("<td>").text(data.checkList[index].employeeName);
+					$checkAdminNameTd = $("<td>").text(data.checkList[index].adminName);
+					$buttonTd = $("<button></button>").addClass('btn').addClass([index]).append("상세보기");
 					
-					button.onclick = function() {
+					console.log($checkReservationNoTd)
+					
+					$tr.append($checkReservationNoTd);
+					$tr.append($checkStatusTd);
+					$tr.append($checkUserNameTd);
+					$tr.append($checkEmployeeNameTd);
+					$tr.append($checkAdminNameTd);
+					$tr.append($buttonTd);
+					$table.append($tr);
+				};
+				
+				var $startPage = data.startPage;
+				var $endPage = data.endPage;
+	            var $currentPage = data.currentPage;
+	            var $maxPage = data.maxPage;
+	               
+	            var $beforeStartPage = data.startPage-1;
+	            var $afterEndPage = data.endPage;
+	            
+	            if($startPage == 0){
+	            	
+	            	$button = $("<button class='page' disabled>◀◀</button>");
+	                 	$div.append($button);
+	                 	
+				} else {
+					
+	                  $button = $("<button class='page' id='goBackPage' onclick='returnPage(category,categoryValue,"+$beforeStartPage+")'>◀◀</button>");
+	                  $div.append($button);
+	            }
+	               
+	            for(i=$startPage;i<$endPage;i++){
+	            	
+	            	if(i!=$currentPage){
+	            		
+						$button = $("<button class='page' onclick='returnPage(category,categoryValue,"+(i)+")'>"+(i+1)+"</button>");   
+	                     
+	                } else {
+	                	
+						$button = $("<button disabled class='page'>"+(i+1)+"</button>");
+	                }
+	                  
+						$div.append($button);
+	                  
+	               	}
+	               
+	               	if($maxPage==$endPage){
+	            	   
+	                  	$button = $("<button class='page' disabled>▶▶</button>");
+	                  	$div.append($button);
+	                  	
+	               } else {
+	            	   
+	                  $button = $("<button class='page' id='goForwardPage' onclick='returnPage(category,categoryValue,"+$afterEndPage+")'>▶▶</button>");
+	                  $div.append($button);
+	                  
+	               }
+	               
+					const buttons = document.querySelectorAll('table#taskInfo tbody tr button');
+					
+					for(let i = 0; i < buttons.length; i++) {
 						
-						const resNo1 = document.querySelectorAll('table#taskInfo tbody tr td1');
-						const resNo2 = resNo1[i];
-						var resNo3 = resNo2.parentNode.querySelector('.rn').innerText;
+						const button = buttons[i];
 						
- 					 	location.href="/admin/checklist/blackselectDetails?re="+ resNo3; 
+						button.onclick = function() {
 							
-					}; 
-				};						
+							const resNo1 = document.querySelectorAll('table#taskInfo tbody tr td1');
+							const resNo2 = resNo1[i];
 
-			}, 1000)};
-   	</script>
-   	
+							var resNo3 = resNo2.parentNode.querySelector('.rn').innerText;
+	 					 	location.href="/admin/checklist/acceptSelectDetails?re="+ resNo3; 
+								
+						}; 
+					};		
+	            },
+	            
+	            error : function(error){
+	            	
+	               console.log(error);
+	               
+	            }
+			});
+		};
+	      
+		function mainCheckList(){
+	    	  
+			var queryString = $("form[name=mainPage]").serialize();
+			
+				checkListFunction
+				
+	      	};
+	      
+</script>
+		
 </body>
 </html>

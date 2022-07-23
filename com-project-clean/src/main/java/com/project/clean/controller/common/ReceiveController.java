@@ -5,6 +5,7 @@ import java.security.Principal;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -23,10 +24,9 @@ public class ReceiveController {
 		this.request = request;
 	}
 
-	@MessageMapping("/hello")
-	@SendTo("/queue/greetings")
-	public ReceiveMessage greeting(SendMessage message, Principal principal) throws Exception {
-		
+	@MessageMapping("/hello{clientName}")
+	@SendTo("/queue/greetings{clientName}")
+	public ReceiveMessage greeting(SendMessage message, Principal principal, @DestinationVariable String clientName) throws Exception {
 		Thread.sleep(1000); 
 		return new ReceiveMessage(HtmlUtils.htmlEscape(message.getName() +"님의 " + message.getMessage()));
 		

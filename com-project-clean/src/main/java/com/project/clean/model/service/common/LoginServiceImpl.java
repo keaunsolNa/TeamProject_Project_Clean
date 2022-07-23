@@ -52,13 +52,14 @@ public class LoginServiceImpl implements LoginService{
 	}
 	
 	
+	/* KS. 로그인 */
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 		
+		/* ID값으로 관리자 여부 확인 */
 		if(!userId.contains("cleanup")) {
 			
-			System.out.println("EMPLOYEE 조회 시작");
 			/* employee select*/
 			EmployeeAndAdminMemberAuthority employee = commonEmployeeLoginRepository.findByEmployeeIdAndEmployeeRetireYn(userId, "N");
 			
@@ -67,35 +68,37 @@ public class LoginServiceImpl implements LoginService{
 			
 			Date lastLoginTime = new java.sql.Date(System.currentTimeMillis());
 			
+			/* 마지막 로그인 시간 Update */
 			employee.setEmployeeLastLoginDate(lastLoginTime);
 			
+			/* 권한 설정 */
 			if(employee.getEmployeeMemberRoleeeAndAuthority() != null) {
 				List<AdminMemberRoleAndAuthority> roleList = employee.getEmployeeMemberRoleeeAndAuthority();
 				
 				for(int i = 0; i < roleList.size(); i++) {
+					/* 권한 주입 */
 					Authority list = roleList.get(i).getAuthority();
-					System.out.println(list.getName());
 					authorities.add(new SimpleGrantedAuthority(list.getName()));
 				}
 			}
 			
+			/* user 객체 재정의 */
 			EmployeeImpl user = new EmployeeImpl(employee.getEmployeeId(), employee.getEmployeePwd(), authorities);
 			user.SetDetailEmployee(modelMapper.map(employee, EmployeeAndAdminMemberAuthorityDTO.class));
 			
-			System.out.println("TEST1");
+			/* 블랙리스트 회원 처리 */
 			if(user.getEmployeeBlackListYn().equals("Y")) {
 				System.out.println("블랙리스트");
 				throw new DisabledException(user.getEmployeeId());
 			}
 			
-			System.out.println("블랙리스트 아님");
+			/* 값 반환 */
 			return user;
 			
 		} else {
 			
 			/* admin select*/
 			AdminAndAdminMemberAuthority admin = commonAdminLoginRepository.findByAdminIdAndAdminRetireYn(userId, "N");
-			System.out.println("조회 해 온 멤버 객체 : " + admin);
 			
 			/* authorities 빈 객체 등록 */
 			List<GrantedAuthority> authorities = new ArrayList<>();
@@ -105,66 +108,75 @@ public class LoginServiceImpl implements LoginService{
 				admin = new AdminAndAdminMemberAuthority();
 			} 
 			
+			/* 현재 시간 구하기 */
 			Date lastLoginTime = new java.sql.Date(System.currentTimeMillis());
 			
-			
+			/* 권한 설정 */
 			if(admin.getAdminMemberRoleAndAuthority() != null) {
 				List<AdminMemberRoleAndAuthority> roleList = admin.getAdminMemberRoleAndAuthority();
 				
+				/* 권한 주입 */
 				for(int i = 0; i< roleList.size(); i++) {
 					Authority list = roleList.get(i).getAuthority();
-					System.out.println(list.getName());
 					authorities.add(new SimpleGrantedAuthority(list.getName()));
 				}
 			}
 			
+			/* Mapping */
 			AdminDTO adminDTO = modelMapper.map(admin, AdminDTO.class);
 			
+			/* 접속 IP 관련 설정 */
 			AdminIpAddressDTO adminIp = new AdminIpAddressDTO();
 			
 			try {
+				/* 접속 Session IP 주소 가져오기 */
 	            InetAddress inetAddress = InetAddress.getLocalHost();
 	            String strIpAdress = inetAddress.getHostAddress();
+	            
+	            /* 관리자 IP 주소 가져오기 */
 	            String IpAdressNo = admin.getAdminId();
 	            
-	            System.out.println("조회해온 IP 주소 : " + strIpAdress);
-	            System.out.println("관리자 IP : " + adminIp);
-	            System.out.println("관리자 보유 IP 주소 : " + admin.getAdminIpAddress());
-	            
-	            if(null != strIpAdress) {
+	            /* 관리자가 접속 IP가 없을 때 신규 IP 등록*/
+	            if(admin.getAdminIpAddress().isEmpty()) {
+	            	
 	            	if(admin.getAdminIpAddress().isEmpty()) {
 	            		adminIp.setAdminNo(adminDTO.getAdminNo());
 	            		adminIp.setIpAddressValue(strIpAdress);
-	            		
+	            		System.out.println(strIpAdress);
 	            		adminIpRepositroy.save(modelMapper.map(adminIp, AdminIpAddress.class));
 	            	}
 	            	
-	            } else if(admin.getAdminIpAddress().size() < 4) {
+	            	/* 관리자 접속 IP가 4개 이하일 때 */
+	            } else if(admin.getAdminIpAddress().size() < 5) {
 	            	
+	            	/* 접속 IP가 기존 IP가 아닐 때 */
 	            	if(!(admin.getAdminIpAddress().contains(strIpAdress))) {
 	            		
+	            		/* 신규 IP 등록 */
 	            		adminIp.setAdminNo(adminDTO.getAdminNo());
 	            		adminIp.setIpAddressValue(strIpAdress);
-	            		
-	            		adminIpRepositroy.save(modelMapper.map(adminIp, AdminIpAddress.class));
 	            	}
-	            } else if(admin.getAdminIpAddress().size() >= 4) {
+	            
+	            	/* 관리자 접속 IP가 4개 이상일 때 */
+	            } else if(admin.getAdminIpAddress().size() > 4) {
 	            	System.out.println("4개 이상 IP 확인");
-	            	throw new DisabledException("인가 실패");
+	            	throw new DisabledException(IpAdressNo);
 	            }
 	            
 	        } catch (java.net.UnknownHostException e) {
+	        	
 	            e.printStackTrace();
+	            
 	        }
 			
+			/* 마지막 로그인 시간 Update */
 			admin.setAdminLastLoginDate(lastLoginTime);
 
-			
+			/* User 객체 재정의 */
 			AdminImpl user = new AdminImpl(admin.getAdminId(), admin.getAdminPwd(), authorities);
-			
-			System.out.println("재정의 전 AdminImpl 객체 :" + user);
 			user.SetDetailsAdmin(modelMapper.map(admin, AdminAndAdminMemberAuthorityDTO.class));
-			System.out.println("재정의 후 AdminImpl 객체 :" + user);
+			
+			/* 값 반환 */
 			return user;
 			
 		}

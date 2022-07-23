@@ -453,7 +453,7 @@ public class AdminEmployeeController {
 		registEmployeePicture(employeeDTO, singleFile, request, mv);
 		adminService.registEmployee(employeeDTO);
 
-		return "redirect:/main";
+		return "redirect:/admin/hr/regist/employeePage";
 
 	}
 
