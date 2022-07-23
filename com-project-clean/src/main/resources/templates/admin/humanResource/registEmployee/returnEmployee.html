@@ -6,10 +6,6 @@
 <title>Document</title>
 <style type="text/css">
 
-.section{
-	margin-left: 0 !important;
-	margin-top: 0 !important;
-}
 /* 결재 테이블 */
 .confirmTableBox td {
 	border: solid 1px;
@@ -58,7 +54,7 @@
         </colgroup>
 				<thead>
 					<tr>
-						<td>결재 신청 날짜</td>
+						<td class="subTitle">결재 신청 날짜</td>
 						<td colspan="2">
 							<div name="confirmDateBox" th:text="${returnEmployee.RequestDate}"></div>
 						</td>
@@ -66,9 +62,9 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td rowspan="3">결재</td>
-						<td>인사담당자</td>
-						<td>대표</td>
+						<td class="subTitle" rowspan="3">결재</td>
+						<td class="subTitle">인사담당자</td>
+						<td class="subTitle">대표</td>
 					</tr>
 					<tr class="comfirmBox">
 						<td>
@@ -103,74 +99,74 @@
 	            </colgroup>
 				<thead>
 					<tr>
-						<td>직원번호</td>
+						<td class="subTitle">직원번호</td>
 						<td th:text="${returnEmployee.employeeNo}"></td>
-						<td>이름</td>
+						<td class="subTitle">이름</td>
 						<td th:text="${returnEmployee.employeeName}"></td>
 						<td colspan="2" rowspan="3"><img id="pictureImg"th:src="@{/adminEmployeePicture/} + ${returnEmployee.employeePictureSaveName}"></td>
 					</tr>
 					<tr>
-						<td>ID</td>
+						<td class="subTitle">ID</td>
 						<td th:text="${returnEmployee.employeeId}"></td>
-						<td>전화번호</td>
+						<td class="subTitle">전화번호</td>
 						<td th:text="${returnEmployee.employeePhone}"></td>
 					</tr>
 					<tr>
-						<td>생년월일</td>
+						<td class="subTitle">생년월일</td>
 						<td th:text="${returnEmployee.employeeBirth}"></td>
-						<td>퇴사여부</td>
+						<td class="subTitle">퇴사여부</td>
 						<td th:text="${returnEmployee.employeeRetireYn}"></td>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td>이메일</td>
+						<td class="subTitle">이메일</td>
 						<td colspan="5"
 							th:text="${returnEmployee.employeeEmail}"></td>
 					</tr>
 					<tr>
-						<td>우편번호</td>
+						<td class="subTitle">우편번호</td>
 						<td th:text="${address.addressNo}"></td>
-						<td>기본주소</td>
+						<td class="subTitle">기본주소</td>
 						<td colspan="3" th:text="${address.address}"></td>
 					</tr>
 					<tr>
-						<td>상세주소</td>
+						<td class="subTitle">상세주소</td>
 						<td colspan="5"
 							th:text="${address.addressDetail}"></td>
 					</tr>
 					<tr>
-						<td>입사일</td>
+						<td class="subTitle">입사일</td>
 						<td th:text="${returnEmployee.employeeHireDate}"></td>
-						<td>퇴사일</td>
+						<td class="subTitle">퇴사일</td>
 						<td colspan="3"
 							th:text="${returnEmployee.employeeRetireDate}"></td>
 					</tr>
 					<tr>
-						<td>누적경고횟수</td>
+						<td class="subTitle">누적경고횟수</td>
 						<td th:text="${returnEmployee.employeeSumCount}"></td>
-						<td>누적근무시간</td>
+						<td class="subTitle">누적근무시간</td>
 						<td colspan="3"
 							th:text="${returnEmployee.employeeSumTime}"></td>
 					</tr>
 					<tr>
-						<td>마지막 로그인 일자</td>
+						<td class="subTitle">마지막 로그인 일자</td>
 						<td
 							th:text="${returnEmployee.employeeLastLoginDate}"></td>
-						<td>블랙리스트 여부</td>
+						<td class="subTitle">블랙리스트 여부</td>
 						<td colspan="3"
 							th:text="${returnEmployee.employeeBlackListYn}"></td>
 					</tr>
 					<tr>
 						<td style="line-height: 150px;">
-							<div>인사담당자 의견</div>
+							<div class="subTitle">인사담당자 의견</div>
 						</td>
 						<td style="line-height: 150px;" colspan="5"
 							th:text="${hrReason}"></td>
 					</tr>
 					<tr>
 						<td style="line-height: 150px;">
-							<div>대표 의견</div>
+							<div class="subTitle">대표 의견</div>
 						</td>
 						<td style="line-height: 150px;" colspan="5"
 							th:text="${bossReason}"></td>

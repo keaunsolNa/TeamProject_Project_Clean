@@ -9,7 +9,7 @@ table{
     font-weight: normal;
     font-style: normal;
     font-size:16px;
-    border:1px solid #9AE8F9;
+    border:1px solid #7DBEED;
     text-align: center;
     border-collapse: collapse;
   
@@ -17,7 +17,7 @@ table{
  
 
 table th, table tr, table td {
-	border: 2px solid #9AE8F9;
+	border: 2px solid #7DBEED;
 }
 
 p {
@@ -29,6 +29,6 @@ table tr:first-of-type th:nth-of-type(3) p{
 }
 
 table tr:first-of-type th:nth-of-type(4) p{
-	color:#0195b4;
+	color:#7DBEED;
 }
 

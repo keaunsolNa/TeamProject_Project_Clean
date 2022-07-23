@@ -313,8 +313,8 @@ public class PayServiceImpl implements PayService{
 		String searchValue = selectCriteria.getSearchValue();
 
 		/* 페이징 처리와 정렬을 위한 객체 생성 */
-		Pageable paging = PageRequest.of(index, count);	// Pageable은 org.springframework.data.domain패키지로 import
-
+		Pageable paging = PageRequest.of(index, count, Sort.by("payHistoryEmployeeNo").descending());	// Pageable은 org.springframework.data.domain패키지로 import
+		/* 페이징 처리와 정렬을 위한 객체 생성 */
 		List<EmployeePayAndApplyEmployee> employeePayList = new ArrayList<EmployeePayAndApplyEmployee>();
 		if(searchValue != null) {
 

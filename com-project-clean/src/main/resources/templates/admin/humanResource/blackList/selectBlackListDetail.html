@@ -22,10 +22,6 @@
 	text-align: center;
 }
 
-.section{
-	margin-left: 0 !important;
-	margin-top: 0 !important;
-}
 .tableBox{
 	width: 770px;
 }
@@ -58,9 +54,9 @@
             </colgroup>
          <thead>
           <tr>
-            <td>직원번호</td>
+            <td class="subTitle">직원번호</td>
             <td th:text="${employee.employeeNo}"></td>
-            <td>이름</td>
+            <td class="subTitle">이름</td>
             <td th:text="${employee.employeeName}"></td>
             <td colspan="2" rowspan="3">
             
@@ -69,49 +65,49 @@
             </td>
           </tr>
           <tr>
-            <td>ID</td>
+            <td class="subTitle">ID</td>
             <td th:text="${employee.employeeId}"></td>
-            <td>전화번호</td>
+            <td class="subTitle">전화번호</td>
             <td th:text="${employee.employeePhone}"></td>
           </tr>
           <tr>
-            <td>생년월일</td>
+            <td class="subTitle">생년월일</td>
             <td th:text="${employee.employeeBirth}"></td>
-            <td>퇴사여부</td>
+            <td class="subTitle">퇴사여부</td>
             <td th:text="${employee.employeeRetireYn}"></td>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>이메일</td>
+            <td class="subTitle">이메일</td>
             <td colspan="5" th:text="${employee.employeeEmail}"></td>
           </tr>
           <tr>
-            <td>우편번호</td>
+            <td class="subTitle">우편번호</td>
             <td th:text="${address.addressNo}"></td>
-            <td>기본주소</td>
+            <td class="subTitle">기본주소</td>
             <td colspan='3' th:text="${address.address}"></td>
           </tr>
           <tr>
-            <td>상세주소</td>
+            <td class="subTitle">상세주소</td>
             <td colspan="5" th:text="${address.addressDetail}"></td>
           </tr>
           <tr>
-            <td>입사일</td>
+            <td class="subTitle">입사일</td>
             <td th:text="${employee.employeeHireDate}"></td>
-            <td>퇴사일</td>
+            <td class="subTitle">퇴사일</td>
             <td colspan="3" th:text="${employee.employeeRetireDate}"></td>
           </tr>
           <tr>
-            <td>누적경고횟수</td>
+            <td class="subTitle">누적경고횟수</td>
             <td th:text="${employee.employeeSumCount}"></td>
-            <td>누적근무시간</td>
+            <td class="subTitle">누적근무시간</td>
             <td colspan="3" th:text="${employee.employeeSumTime}"></td>
           </tr>
           <tr>
-            <td>마지막 로그인 일자</td>
+            <td class="subTitle">마지막 로그인 일자</td>
             <td th:text="${employee.employeeLastLoginDate}"></td>
-            <td>블랙리스트 여부</td>
+            <td class="subTitle">블랙리스트 여부</td>
             <td colspan="3" th:text="${employee.employeeBlackListYn}"></td>
           </tr>
         </tbody>
