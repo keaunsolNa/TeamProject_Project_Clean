@@ -65,6 +65,9 @@
     </style>
 </head>
 <body>
+<div th:replace="/common/Header.html"></div>
+	<div th:include="admin/adminAside.html"></div>
+
  	<div class="container">
         <div class="confirmDateContainer">
   
@@ -174,17 +177,21 @@
 		 		const addressDetail = $("#addressDetail").val();
 		 		
 		 			if(!(name && start && end && reason)){
-		 				alert("입력되지 않은 항목이 있습니다.");
+		 				alert("입력되지 않은 항목이 존재합니다.");
 		 			}else{
-		 			if(confirm("휴가를 신청하시겠습니까?")){
+		 			if(confirm("휴가를 신청하시겠습니까?") == true){
 		 				$("#vacationForm").submit();
 		 				
+		 			}else{
+		 				return false;
 		 			}
 		 		}
 		 	})  
 		 	$("#resetButton").click(function(){
-		 		if(confirm("휴가 신청을 초기화 하시겠습니까?")){
+		 		if(confirm("휴가 신청을 초기화 하시겠습니까?") == true){
 		 			document.getElementById("vacationForm").reset();
+		 		}else{
+		 			return false;
 		 		}
 		 	})
 

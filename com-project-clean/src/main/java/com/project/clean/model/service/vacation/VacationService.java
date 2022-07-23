@@ -32,15 +32,13 @@ public class VacationService {
 	private final VacationRepository vacationRepository;
 	private final ModelMapper modelMapper;
 	private final VacationCommitRepository vacationCommitRepository;
-	private final VacationJPQLRepository vacationJpqlRepository;
 	
 	@Autowired
 	public VacationService(VacationRepository vacationRepository, ModelMapper modelMapper, VacationCommitRepository vacationCommitRepository
-			, AdminVacationRepository adminVacationRepository, VacationJPQLRepository vacationJpqlRepository) {
+			, AdminVacationRepository adminVacationRepository) {
 		this.vacationRepository = vacationRepository;
 		this.modelMapper = modelMapper;
 		this.vacationCommitRepository = vacationCommitRepository;
-		this.vacationJpqlRepository = vacationJpqlRepository;
 	}
 	
 	
@@ -73,19 +71,24 @@ public class VacationService {
 			/* 휴가 시작일 검색 */
 			if("vacationStartDate".equals(selectCriteria.getSearchCondition())) {
 				
-				Date vacationStartDate = Date.valueOf(selectCriteria.getSearchValue()); 
-				
-				vacationList = vacationRepository.findAllByVacationFirstConfirmYnAndVacationReturnYnAndVacationStartDate("N", "N", vacationStartDate, paging);
-		
+				if(!selectCriteria.getSearchValue().isBlank()) {
+					
+					Date vacationStartDate = Date.valueOf(selectCriteria.getSearchValue()); 
+					
+					vacationList = vacationRepository.findAllByVacationFirstConfirmYnAndVacationReturnYnAndVacationStartDate("N", "N", vacationStartDate, paging);
+			
+				}
 			}
 			
 			/* 휴가 종료일 검색 */
 			if("vacationEndDate".equals(selectCriteria.getSearchCondition())) {
 				
-				Date vacationEndDate = Date.valueOf(selectCriteria.getSearchValue()); 
+				if(!selectCriteria.getSearchValue().isBlank()) {
 				
-				vacationList = vacationRepository.findAllByVacationFirstConfirmYnAndVacationReturnYnAndVacationEndDate("N", "N", vacationEndDate, paging);
-						
+					Date vacationEndDate = Date.valueOf(selectCriteria.getSearchValue()); 
+					
+					vacationList = vacationRepository.findAllByVacationFirstConfirmYnAndVacationReturnYnAndVacationEndDate("N", "N", vacationEndDate, paging);
+				}
 			}
 			
 			/* 휴가명 검색 */
@@ -127,19 +130,21 @@ public class VacationService {
 			/* 휴가 시작일 */
 			if("vacationStartDate".equals(searchCondition)){
 				
-				Date vacationStartDate = Date.valueOf(searchValue); 
-				
-				count = vacationRepository.countByVacationFirstConfirmYnAndVacationReturnYnAndVacationStartDate("N", "N", vacationStartDate);
-				
+				if(!searchValue.isBlank()) {
+					Date vacationStartDate = Date.valueOf(searchValue); 
+					
+					count = vacationRepository.countByVacationFirstConfirmYnAndVacationReturnYnAndVacationStartDate("N", "N", vacationStartDate);
+				}
 			}
 			
 			/* 휴가 종료일 */
 			if("vacationEndDate".equals(searchCondition)) {
 				
-				Date vacationEndDate = Date.valueOf(searchValue); 
-				
-				count = vacationRepository.countByVacationFirstConfirmYnAndVacationReturnYnAndVacationEndDate("N", "N", vacationEndDate);
-				
+				if(!searchValue.isBlank()) {
+					Date vacationEndDate = Date.valueOf(searchValue); 
+					
+					count = vacationRepository.countByVacationFirstConfirmYnAndVacationReturnYnAndVacationEndDate("N", "N", vacationEndDate);
+				}
 			}
 			
 		} else {
@@ -177,19 +182,23 @@ public class VacationService {
 			/* 휴가 시작일 검색 */
 			if("vacationStartDate".equals(selectCriteria.getSearchCondition())) {
 				
-				Date vacationStartDate = Date.valueOf(selectCriteria.getSearchValue()); 
-				
-				vacationList = vacationRepository.findAllByVacationFirstConfirmYnAndVacationSecondConfirmYnAndVacationReturnYnAndVacationStartDate("Y", "N", "N", vacationStartDate, paging);
-		
+				if(!selectCriteria.getSearchValue().isBlank()) {
+					
+					Date vacationStartDate = Date.valueOf(selectCriteria.getSearchValue()); 
+					
+					vacationList = vacationRepository.findAllByVacationFirstConfirmYnAndVacationSecondConfirmYnAndVacationReturnYnAndVacationStartDate("Y", "N", "N", vacationStartDate, paging);
+				}
 			}
 			
 			/* 휴가 종료일 검색 */
 			if("vacationEndDate".equals(selectCriteria.getSearchCondition())) {
 				
-				Date vacationEndDate = Date.valueOf(selectCriteria.getSearchValue()); 
-				
-				vacationList = vacationRepository.findAllByVacationFirstConfirmYnAndVacationSecondConfirmYnAndVacationReturnYnAndVacationEndDate("Y", "N", "N", vacationEndDate, paging);
-						
+				if(!selectCriteria.getSearchValue().isBlank()) {
+					
+					Date vacationEndDate = Date.valueOf(selectCriteria.getSearchValue()); 
+					
+					vacationList = vacationRepository.findAllByVacationFirstConfirmYnAndVacationSecondConfirmYnAndVacationReturnYnAndVacationEndDate("Y", "N", "N", vacationEndDate, paging);
+				}	
 			}
 			
 			/* 휴가명 검색 */
@@ -202,7 +211,7 @@ public class VacationService {
 		} else {
 			
 			/* 1차 승인여부가 Y이며 2차 승인 여부가 N이고 반려 여부가 N인 목록 조회 */ 
-			vacationList = vacationRepository.findAllByVacationFirstConfirmYnAndVacationSecondConfirmYnAndVacationReturnYn("Y", "N", "N");
+			vacationList = vacationRepository.findAllByVacationFirstConfirmYnAndVacationSecondConfirmYnAndVacationReturnYn("Y", "N", "N", paging);
 		
 		}
 		
@@ -297,6 +306,7 @@ public class VacationService {
 			
 			/* 휴가명 */
 			if("vacationName".equals(searchCondition)) {
+				
 				count = vacationRepository.countByVacationFirstConfirmYnAndVacationSecondConfirmYnAndVacationReturnYnAndVacationNameContaining("Y", "N", "N", searchValue);
 				
 			}			
@@ -304,25 +314,29 @@ public class VacationService {
 			/* 휴가 시작일 */
 			if("vacationStartDate".equals(searchCondition)){
 				
-				Date vacationStartDate = Date.valueOf(searchValue); 
-				
-				count = vacationRepository.countByVacationFirstConfirmYnAndVacationSecondConfirmYnAndVacationReturnYnAndVacationStartDate("Y", "N", "N" , vacationStartDate);
-				
+				if(!searchValue.isBlank()) {
+					Date vacationStartDate = Date.valueOf(searchValue); 
+					
+					count = vacationRepository.countByVacationFirstConfirmYnAndVacationSecondConfirmYnAndVacationReturnYnAndVacationStartDate("Y", "N", "N" , vacationStartDate);
+				}
 			}
 			
 			/* 휴가 종료일 */
 			if("vacationEndDate".equals(searchCondition)) {
 				
-				Date vacationEndDate = Date.valueOf(searchValue); 
+				if(!searchValue.isBlank()) {
 				
-				count = vacationRepository.countByVacationFirstConfirmYnAndVacationSecondConfirmYnAndVacationReturnYnAndVacationEndDate("Y", "N" , "N", vacationEndDate);
+					Date vacationEndDate = Date.valueOf(searchValue); 
+					
+					count = vacationRepository.countByVacationFirstConfirmYnAndVacationSecondConfirmYnAndVacationReturnYnAndVacationEndDate("Y", "N" , "N", vacationEndDate);
 				
+				}
 			}
 			
 		} else {
 			count = (int)vacationRepository.countByVacationFirstConfirmYnAndVacationSecondConfirmYnAndVacationReturnYn("Y", "N" ,"N");
+	
 		}
-		
 		
 		return count;
 		
