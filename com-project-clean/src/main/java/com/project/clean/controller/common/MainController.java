@@ -2,7 +2,9 @@ package com.project.clean.controller.common;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.project.clean.model.dto.commonDTO.AdminDTO;
+import com.project.clean.model.service.admin.AdminAdminService;
 import com.project.clean.model.service.reservation.EmployeeReservationService;
 
 
@@ -22,10 +26,12 @@ import com.project.clean.model.service.reservation.EmployeeReservationService;
 public class MainController {
 	
 	private final EmployeeReservationService employeeReservationService;
+	private final AdminAdminService adminService;
 
 	@Autowired
-	public MainController(EmployeeReservationService employeeReservationService) {
+	public MainController(EmployeeReservationService employeeReservationService, AdminAdminService adminService) {
 		this.employeeReservationService = employeeReservationService;
+		this.adminService = adminService;
 	}
 	
 
@@ -41,7 +47,36 @@ public class MainController {
 	        boolean isEmployee = authorities.stream().filter(o -> o.getAuthority().equals("ROLE_EMPLOYEE")).findAny().isPresent();
 	        
 	        if(isAdmin == true) {
-	        	mv.setViewName("admin/adminMainPage");
+	        	
+	        	AdminDTO admin =  adminService.findByAdminId(userinfo.getUsername());
+	        	
+	        	int adminNo = admin.getAdminNo();
+	        	
+	        	/* DB에 저장된 주소 @로 분리 */
+	    		String[] seperateAddress = admin.getAdminAddress().split("@");
+	    		String addressNo = seperateAddress[0];
+	    		String address = seperateAddress[1];
+	    		String addressDetail = seperateAddress[2];
+	    		
+	    		System.out.println("addressNo" + addressNo);
+	    		System.out.println("address" + address);
+	    		System.out.println("addressDetail" + addressDetail);
+	    		
+	    		/* 나눠진 주소를 담아준다. */
+	    		Map<String, String> addressMap = new HashMap<>();
+	    		addressMap.put("addressNo", addressNo);
+	    		addressMap.put("address", address);
+	    		addressMap.put("addressDetail", addressDetail);
+	    		
+	    		/* 화면에 보여줄 정보를 담아준다. */
+	    		mv.addObject("address", addressMap);
+	    		mv.addObject("admin", admin);
+	        	
+	        	
+//	        	mv.setViewName("admin/adminMainPage");
+	        	
+	        	mv.setViewName("admin/hrCard/adminDetail");
+	        	
 	        } else if(isEmployee == true){
 	        	/* 예약날짜 중복없이 select */
 	        	List<String> reservationDateList = employeeReservationService.findDistinctByBusinessDate();
@@ -78,4 +113,5 @@ public class MainController {
 	public String redirectMain(@AuthenticationPrincipal User userinfo, ModelAndView mv) {
 		return "redirect:/";
 	}
+	
 }

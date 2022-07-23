@@ -11,15 +11,15 @@ public class NotificationDTO implements Serializable{
 	private java.sql.Date notificationCreateTime;
 	private String notificationReadYn;
 	private String notificationAdminYn;
-	private int notificationEmployeeNo;
+	private Integer notificationEmployeeNo;
 	private int notificationReservationNo;
 	private int notificationAdminNo;
 	public NotificationDTO() {
 		super();
 	}
-	public NotificationDTO(int notificationNo, String notificationText, Date notificationCreateTime,
-			String notificationReadYn, String notificationAdminYn, int notificationEmployeeNo,
-			int notificationReservationNo, int notificationAdminNo) {
+	NotificationDTO(int notificationNo, String notificationText, Date notificationCreateTime, String notificationReadYn,
+			String notificationAdminYn, Integer notificationEmployeeNo, int notificationReservationNo,
+			int notificationAdminNo) {
 		super();
 		this.notificationNo = notificationNo;
 		this.notificationText = notificationText;
@@ -60,10 +60,10 @@ public class NotificationDTO implements Serializable{
 	public void setNotificationAdminYn(String notificationAdminYn) {
 		this.notificationAdminYn = notificationAdminYn;
 	}
-	public int getNotificationEmployeeNo() {
+	public Integer getNotificationEmployeeNo() {
 		return notificationEmployeeNo;
 	}
-	public void setNotificationEmployeeNo(int notificationEmployeeNo) {
+	public void setNotificationEmployeeNo(Integer notificationEmployeeNo) {
 		this.notificationEmployeeNo = notificationEmployeeNo;
 	}
 	public int getNotificationReservationNo() {
@@ -89,8 +89,6 @@ public class NotificationDTO implements Serializable{
 				+ ", notificationReservationNo=" + notificationReservationNo + ", notificationAdminNo="
 				+ notificationAdminNo + "]";
 	}
-	
-
-	
+		
 }
 

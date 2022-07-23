@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.project.clean.controller.common.paging.Pagenation;
 import com.project.clean.controller.common.paging.SelectCriteria;
+import com.project.clean.model.domain.commonEntity.ApplyEmployee;
+import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.ApplyEmployeeDTO;
 import com.project.clean.model.dto.commonDTO.BookMarkDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeDTO;
@@ -40,7 +43,7 @@ public class ReservationController {
 		this.employeeReservationService = employeeReservationService;
 	}
 
-	@GetMapping("/client")
+	@GetMapping("/client/iliilliiillliiiillll")
 	public String clientReservation() {
 		return "/reservation/client";
 	}
@@ -146,7 +149,7 @@ public class ReservationController {
 
 		employeeReservationService.insertNewReservation(newReservation);
 
-		mv.addObject("successCode", "successCode");
+		mv.addObject("message", "고객 예약 완료");
 		mv.setViewName("reservation/empMainPage");
 
 		return mv;
@@ -166,7 +169,7 @@ public class ReservationController {
 		java.sql.Date businessDate = java.sql.Date.valueOf(date);
 		int totalCount = employeeReservationService.selectTotalCount(businessDate);
 		/* 한 페이지에 보여 줄 게시물 수 */
-		int limit = 2; // 얘도 파라미터로 전달받아도 된다.
+		int limit = 10; // 얘도 파라미터로 전달받아도 된다.
 
 		/* 한 번에 보여질 페이징 버튼의 갯수 */
 		int buttonAmount = 5;
@@ -263,11 +266,27 @@ public class ReservationController {
 		String employeeId = principal.getName();
 		EmployeeDTO employee = employeeReservationService.findByEmployeeId(employeeId);
 		int employeeNo = employee.getEmployeeNo();
+		
 
 		ApplyEmployeeDTO newApply = new ApplyEmployeeDTO();
 		newApply.setApplyReservationNo(reservationNo);
 		newApply.setApplyEmployeeNo(employeeNo);
+		newApply.setApplyCancelYn("N");
 
+		/* 해당 예약정보를 불러옴 */
+		ReservationInfoDTO reservationByReservationNo = employeeReservationService.findReservationByReservationNo(reservationNo);
+		/* 정원이 2명이라면 그 중 1명만 체크리스트 작성 Y로 만듬 */
+		if(reservationByReservationNo.getBusinessApplyPeople() == 1) {		// 이미 지원한 인원이 있으면
+			// 해당 예약건에 지원한 인원 중 취소 안한인원을 불러옴 */
+			ApplyEmployeeDTO applyEmp = employeeReservationService.findByApplyReservationNoAndApplyCancelYn(reservationNo, "N");
+			if("Y".equals(applyEmp.getCheckEmployeeYn())) {
+				newApply.setCheckEmployeeYn("N");
+			} else {
+				newApply.setCheckEmployeeYn("Y");
+			}
+		} else {
+			newApply.setCheckEmployeeYn("Y");
+		}
 		/* 예약 지원 테이블 insert */
 		employeeReservationService.insertNewApply(newApply);
 		/* 예약 정보 테이블 지원인원 update */
@@ -277,7 +296,7 @@ public class ReservationController {
 		if (reservation.getBusinessFixedPeople() == reservation.getBusinessApplyPeople()) {
 			employeeReservationService.modifyReservationApplyEndYnByY(reservationNo);
 		}
-		mv.addObject("applyMessage", "지원이 완료되었습니다");
+		mv.addObject("message", "지원이 완료되었습니다");
 		mv.addObject("reservationNo", reservationNo);
 		mv.setViewName("reservation/reservationDetail");
 		return mv;
@@ -285,8 +304,9 @@ public class ReservationController {
 
 	/* 지원 취소하기 */
 	/* 취소 시 즐겨찾기 한 직원한테 알림 전송 */
+	/* 48시간 이내 취소시 패널티 부여 및 메세지 전송 */
 	@GetMapping("/applyCancel/{reservationNo}")
-	public ModelAndView reservationApplyCancel(ModelAndView mv, @PathVariable int reservationNo, Principal principal) {
+	public ModelAndView reservationApplyCancel(ModelAndView mv, @PathVariable int reservationNo, Principal principal) throws ParseException {
 
 		/* 직원 번호 불러옴 */
 		String employeeId = principal.getName();
@@ -300,6 +320,49 @@ public class ReservationController {
 		/* 마감여부 n으로 변경 */
 		ReservationInfoDTO reservation = employeeReservationService.findReservationByReservationNo(reservationNo);
 		employeeReservationService.modifyReservationApplyEndYnByN(reservationNo);
+		
+		/* 일할 시간 계산 */
+		java.sql.Timestamp startTime = reservation.getBusinessStartTime();
+		Date date = new Date();
+		long start = startTime.getTime();
+		long now48 = date.getTime()+ 172800000;
+		long now24 = date.getTime()+ 86400000;
+		
+		if(now48 > start) {		// 48 시간 이내이면 패널티 부여
+			employeeReservationService.modifyEmployeePenalty(employeeNo);
+			mv.addObject("message", "48시간 이내에 취소하여 패널티를 1회가 부여됐습니다.");
+			
+			/* 해당 직원에게 알림메세지 전송 */
+			NotificationDTO newNotification2 = new NotificationDTO();
+			String notificationMessage2 = "48시간 이내에 취소하여 패널티를 1회가 부여됐습니다.";
+			newNotification2.setNotificationText(notificationMessage2);
+			newNotification2.setNotificationEmployeeNo(employeeNo);
+			newNotification2.setNotificationReservationNo(reservationNo);
+			newNotification2.setNotificationAdminNo(1);
+			employeeReservationService.insertNewNotificationMessage(newNotification2);
+			
+			if(now24 > start) {		// 24시간 이내이면 총관리자, 일반관리자, 인사관리자 에게 알림메세지 전송
+				
+				List<AdminDTO> adminList = employeeReservationService.findAllAdmin();
+				
+				for(int i = 0; i<adminList.size();i++) {
+					AdminDTO admin = adminList.get(i);
+					
+					String adminJob = admin.getAdminJob();
+					if("총관리자".equals(adminJob) || "일반관리자".equals(adminJob) || "인사관리자".equals(adminJob)) {
+						NotificationDTO newNotification3 = new NotificationDTO();
+						String notificationMessage3 = "24시간 이내에 취소된 건이 있습니다. \n직원추가가 필요합니다.";
+						newNotification3.setNotificationText(notificationMessage3);
+						newNotification2.setNotificationEmployeeNo(null);
+						newNotification3.setNotificationReservationNo(reservationNo);
+						newNotification3.setNotificationAdminNo(admin.getAdminNo());
+						newNotification3.setNotificationAdminYn("Y");
+						employeeReservationService.insertNewNotificationMessage(newNotification3);
+					}
+				}
+			}
+		} 
+		
 		/* 해당 예약건을 즐겨찾기 한 직원에게 알림 전송 */
 		NotificationDTO newNotification = new NotificationDTO();
 		String notificationMessage = "즐겨찾기 하신 예약건이 지원 가능 상태로 변경되었습니다.";
@@ -307,10 +370,9 @@ public class ReservationController {
 		newNotification.setNotificationEmployeeNo(employeeNo);
 		newNotification.setNotificationReservationNo(reservationNo);
 		newNotification.setNotificationAdminNo(1);
-
 		employeeReservationService.insertNewNotificationMessage(newNotification);
-
-		mv.addObject("applyMessage", "지원취소가 완료되었습니다");
+		
+		mv.addObject("message", "지원취소가 완료되었습니다");
 		mv.addObject("reservationNo", reservationNo);
 		mv.setViewName("reservation/reservationDetail");
 
@@ -333,7 +395,7 @@ public class ReservationController {
 		newBookmark.setBookmarkCancelYn("N");
 		employeeReservationService.insertNewBookmark(newBookmark);
 
-		mv.addObject("applyMessage", "즐겨찾기 등록이 완료되었습니다.\n해당 예약이 지원가능상태로 변경 시 알림메세지를 전송하겠습니다.");
+		mv.addObject("message", "즐겨찾기 등록이 완료되었습니다.\n해당 예약이 지원가능상태로 변경 시 알림메세지를 전송하겠습니다.");
 		mv.addObject("reservationNo", reservationNo);
 		mv.setViewName("reservation/reservationDetail");
 
@@ -352,7 +414,7 @@ public class ReservationController {
 		/* 즐겨찾기 테이블 취소로 update */
 		employeeReservationService.modifyBookmarkCancelByY(employeeNo, reservationNo);
 
-		mv.addObject("applyMessage", "즐겨찾기가 취소되었습니다.");
+		mv.addObject("message", "즐겨찾기가 취소되었습니다.");
 		mv.addObject("reservationNo", reservationNo);
 		mv.setViewName("reservation/reservationDetail");
 
@@ -371,7 +433,7 @@ public class ReservationController {
 		/* 즐겨찾기 테이블 취소여부 N으로 update */
 		employeeReservationService.modifyBookmarkCancelByN(employeeNo, reservationNo);
 
-		mv.addObject("applyMessage", "즐겨찾기 등록이 완료되었습니다.\n해당 예약이 지원가능상태로 변경 시 알림메세지를 전송하겠습니다.");
+		mv.addObject("message", "즐겨찾기 등록이 완료되었습니다.\n해당 예약이 지원가능상태로 변경 시 알림메세지를 전송하겠습니다.");
 		mv.addObject("reservationNo", reservationNo);
 		mv.setViewName("reservation/reservationDetail");
 
@@ -397,7 +459,7 @@ public class ReservationController {
 		int totalCount = employeeReservationService.selectTotalCount(employeeNo);
 		System.out.println();
 		/* 한 페이지에 보여 줄 게시물 수 */
-		int limit = 2; // 얘도 파라미터로 전달받아도 된다.
+		int limit = 10; // 얘도 파라미터로 전달받아도 된다.
 
 		/* 한 번에 보여질 페이징 버튼의 갯수 */
 		int buttonAmount = 5;
@@ -406,7 +468,7 @@ public class ReservationController {
 
 		List<ApplyEmployeeAndReservationInfoDTO> applyReservationList = employeeReservationService.findByApplyEmployeeNo(employeeNo, selectCriteria);
 		if (pageNo ==1 && applyReservationList.size() == 0) { // 즐겨찾기 한 내역이 없으면 return
-			mv.addObject("applyReservationListMessage", "일정이 없습니다. 예약에 지원해주세요");
+			mv.addObject("message", "일정이 없습니다. 예약에 지원해주세요");
 			mv.setViewName("reservation/reservationMyList");
 			return mv;
 		}

@@ -15,5 +15,13 @@ public interface NotificationRepository extends JpaRepository<Notification, Obje
 
 	List<Notification> findAllByNotificationEmployeeNo(int employeeNo, Pageable paging);
 
+	int countByNotificationAdminNoAndNotificationAdminYn(int adminNo, String string);
+
+	List<Notification> findAllByNotificationAdminNoAndNotificationAdminYn(int adminNo, String y, Pageable paging);
+
+	List<Notification> findAllByNotificationAdminNoAndNotificationAdminYn(int adminNo, String string);
+
+	List<Notification> findAllByNotificationEmployeeNoAndNotificationAdminYn(int employeeNo, String string);
+
 
 }

@@ -6,6 +6,8 @@ import com.project.clean.model.domain.commonEntity.Employee;
 
 public interface EmployeeRepositoryByPay  extends JpaRepository<Employee, Integer> {
 
+	Employee findByEmployeeId(String employeeId);
+
 
 	
 

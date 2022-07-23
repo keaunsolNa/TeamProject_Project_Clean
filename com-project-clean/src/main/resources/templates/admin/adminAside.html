@@ -94,8 +94,10 @@ text-align: center;}
         	<a href="/admin/select/AllEmployee/move">전체 인원 조회</a>
         </th:block>
         
-	        <a href="#">관리자 등록</a>
-	        
+        <a href="/admin/hrCard/adminList">관리자 조회</a>
+        
+        <a href="/admin/hrCard/adminRegist">관리자 등록</a>
+        
         <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
 	        <a href="/admin/hr/regist/employeePage">직원 등록</a>
         </th:block>
@@ -110,8 +112,9 @@ text-align: center;}
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        	<a href="#">휴가 신청</a>
-        	
+        
+        <a href="/admin/vacation/registVacation">휴가 신청</a>
+        
         <th:block sec:authorize="hasRole('ROLE_ADMIN')">
         	<a href="/admin/select/selectMyVacation/move">나의 휴가 조회</a>
         </th:block>
@@ -120,7 +123,9 @@ text-align: center;}
         	<a href="/admin/hr/humanResource/selectAllVacation/move">휴가 전체 조회</a>
         </th:block>
         
-        <a href="#">승인 대기 목록</a>
+        <a href="/admin/vacation/standbyFirstVacationList">1 승인 대기 목록</a>
+        
+        <a href="/admin/vacation/standbySecondVacationList">1 승인 대기 목록</a>
     </div>
 </div>
 

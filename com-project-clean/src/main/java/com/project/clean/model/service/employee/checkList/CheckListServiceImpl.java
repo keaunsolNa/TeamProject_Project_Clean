@@ -317,7 +317,7 @@ public class CheckListServiceImpl implements CheckListService{
 								checkListAndReservationInfoAndEmployeeList.add(checkListAndReservationInfoAndEmployeeDTO);
 								
 								continue;
-//								return checkListAndReservationInfoAndEmployeeList;
+								
 								/* 아직 담당자 없을 때를 위한 예외처리 */
 							} catch(NullPointerException e) {
 								
@@ -331,7 +331,6 @@ public class CheckListServiceImpl implements CheckListService{
 								checkListAndReservationInfoAndEmployeeList.add(checkListAndReservationInfoAndEmployeeDTO);
 								
 								continue;
-//								return checkListAndReservationInfoAndEmployeeList;
 							}
 							
 						}

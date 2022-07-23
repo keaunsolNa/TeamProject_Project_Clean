@@ -6,4 +6,7 @@ import com.project.clean.model.domain.commonEntity.Admin;
 
 public interface AdminRepositoryByPay  extends JpaRepository<Admin, Integer> {
 
+	Admin findByAdminId(String adminId);
+
+
 }

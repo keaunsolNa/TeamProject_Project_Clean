@@ -54,22 +54,23 @@ public class PayServiceImpl implements PayService{
 	private final AdminPayRepository adminPayRepository;
 	private final EmployeePayRepository employeePayRepository;
 	private final EmployeePayAndEmployeeRepository employeePayAndEmployeeRepository;
-	private final ApplyEmployeeRepositoryByPay applyEmployeeRepositoryByPay;
-	private final ReservationInfoRepositoryByPay reservationInfoRepositoryByPay;
-	private final EmployeeRepositoryByPay employeeRepositoryByPay;
+	private final ApplyEmployeeRepositoryByPay applyEmployeeRepository;
+	private final ReservationInfoRepositoryByPay reservationInfoRepository;
+	private final EmployeeRepositoryByPay employeeRepository;
 	private final BestEmployeePayRepository bestEmployeePayRepository;
 	private final BestEmployeePayAndEmployeeRepository bestEmployeePayAndEmployeeRepository;
 	private final ModelMapper modelMapper;			// modelMapper 빈을 선언
 	
 	
+
 	public PayServiceImpl(SurchargeRepository surchargeRepository,
 			AdminPayAndAdminRepository adminPayAndAdminRepository,
 			AdminAndAdminPayRepository adminAndAdminPayRepository, AdminRepositoryByPay adminRepository,
 			AdminPayRepository adminPayRepository, EmployeePayRepository employeePayRepository,
 			EmployeePayAndEmployeeRepository employeePayAndEmployeeRepository,
-			ApplyEmployeeRepositoryByPay applyEmployeeRepositoryByPay,
-			ReservationInfoRepositoryByPay reservationInfoRepositoryByPay,
-			EmployeeRepositoryByPay employeeRepositoryByPay, BestEmployeePayRepository bestEmployeePayRepository,
+			ApplyEmployeeRepositoryByPay applyEmployeeRepository,
+			ReservationInfoRepositoryByPay reservationInfoRepository, EmployeeRepositoryByPay employeeRepository,
+			BestEmployeePayRepository bestEmployeePayRepository,
 			BestEmployeePayAndEmployeeRepository bestEmployeePayAndEmployeeRepository, ModelMapper modelMapper) {
 		super();
 		this.surchargeRepository = surchargeRepository;
@@ -79,9 +80,9 @@ public class PayServiceImpl implements PayService{
 		this.adminPayRepository = adminPayRepository;
 		this.employeePayRepository = employeePayRepository;
 		this.employeePayAndEmployeeRepository = employeePayAndEmployeeRepository;
-		this.applyEmployeeRepositoryByPay = applyEmployeeRepositoryByPay;
-		this.reservationInfoRepositoryByPay = reservationInfoRepositoryByPay;
-		this.employeeRepositoryByPay = employeeRepositoryByPay;
+		this.applyEmployeeRepository = applyEmployeeRepository;
+		this.reservationInfoRepository = reservationInfoRepository;
+		this.employeeRepository = employeeRepository;
 		this.bestEmployeePayRepository = bestEmployeePayRepository;
 		this.bestEmployeePayAndEmployeeRepository = bestEmployeePayAndEmployeeRepository;
 		this.modelMapper = modelMapper;
@@ -209,8 +210,7 @@ public class PayServiceImpl implements PayService{
 	}
 	
 	/* 관리자 급여 상세 조회 */
-	@Transactional
-	public AdminPayAndAdminDTO findAdminPayByPayHistoryNo(int payHistoryNo) {
+	public AdminPayAndAdminDTO findAdminPayByPayHistoryAdminNo(int payHistoryNo) {
 
 		/* findById메소드로 Optional 객체 조회후 Optional객체의 get메소드를 통해 조회 */
 		AdminPayAndAdmin pay = adminPayAndAdminRepository.findById(payHistoryNo).get();
@@ -256,7 +256,7 @@ public class PayServiceImpl implements PayService{
 	
 	/* 관리자 한명의 정보만 반환 */
 	@Override
-	public AdminDTO findAdminByPayAdminNo(int adminNo) {
+	public AdminDTO findAdminByAdminNo(int adminNo) {
 		/* findById메소드로 Optional 객체 조회후 Optional객체의 get메소드를 통해 조회 */
 		Admin admin = adminRepository.findById(adminNo).get();
 		
@@ -290,11 +290,11 @@ public class PayServiceImpl implements PayService{
 		int count = 0;
 		if(searchValue != null) {
 			if("employeeName".equals(searchCondition)) {
-				count = employeePayAndEmployeeRepository.countByEmployeeNameContaining(searchValue);
+				count = employeePayAndEmployeeRepository.countByEmployeeEmployeeNameContaining(searchValue);
 			}
 			
 			if("employeePhone".equals(searchCondition)) {
-				count = employeePayAndEmployeeRepository.countByEmployeePhoneContaining(searchValue);
+				count = employeePayAndEmployeeRepository.countByEmployeeEmployeePhoneContaining(searchValue);
 			}
 				
 		} else {
@@ -305,7 +305,7 @@ public class PayServiceImpl implements PayService{
 	}
 
 
-
+	// 직원 급여 전체 조회
 	@Override
 	public List<EmployeePayAndApplyEmployeeDTO> employeePaySearch(SelectCriteria selectCriteria) {
 		int index = selectCriteria.getPageNo() - 1;			// Pageble객체를 사용시 페이지는 0부터 시작(1페이지가 0)
@@ -320,19 +320,19 @@ public class PayServiceImpl implements PayService{
 
 			/* 직원 이름 검색일 경우 */
 			if("employeeName".equals(selectCriteria.getSearchCondition())) {
-				employeePayList = employeePayAndEmployeeRepository.findByEmployeeNameContaining(selectCriteria.getSearchValue(), paging);
+				employeePayList = employeePayAndEmployeeRepository.findByEmployeeEmployeeNameContaining(selectCriteria.getSearchValue(), paging);
 			}
 			
 			
 			/* 직원 전화번호 검색일 경우 */
 			if("employeePhone".equals(selectCriteria.getSearchCondition())) {
-				employeePayList = employeePayAndEmployeeRepository.findByEmployeePhoneContaining(Integer.valueOf(selectCriteria.getSearchValue()), paging);
+				employeePayList = employeePayAndEmployeeRepository.findByEmployeeEmployeePhoneContaining(Integer.valueOf(selectCriteria.getSearchValue()), paging);
 			}
 			
 
 			
 		} else {
-//			employeePayList = employeePayAndEmployeeRepository.findEmployeePayForNative(paging).toList();
+			employeePayList = employeePayAndEmployeeRepository.findAll(paging).toList();
 		}
 
 		/* 자바의 Stream API와 ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
@@ -345,7 +345,7 @@ public class PayServiceImpl implements PayService{
 	@Override
 	public List<ApplyEmployeeDTO> findByApplyReservationNo(int reservationNo) {
 		/* findById메소드로 Optional 객체 조회후 Optional객체의 get메소드를 통해 조회 */
-		List<ApplyEmployee> applyEmployeeList = applyEmployeeRepositoryByPay.findByApplyReservationNo(Integer.valueOf(reservationNo));
+		List<ApplyEmployee> applyEmployeeList = applyEmployeeRepository.findByApplyReservationNo(Integer.valueOf(reservationNo));
 		
 		/* 자바의 Stream API와 ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
 		return applyEmployeeList.stream().map(applyEmployee -> modelMapper.map(applyEmployee,ApplyEmployeeDTO.class)).collect(Collectors.toList());
@@ -354,7 +354,7 @@ public class PayServiceImpl implements PayService{
 	// 예약번호로 그 예약의 원래 급여 찾기
 	@Override
 	public ReservationInfoDTO findByTotalPaymentByReservationNo(int reservationNo) {
-		ReservationInfo reservationInfo = reservationInfoRepositoryByPay.findById(reservationNo).get();
+		ReservationInfo reservationInfo = reservationInfoRepository.findById(reservationNo).get();
 		
 		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 MenuDTO로 반환 */
 		return modelMapper.map(reservationInfo, ReservationInfoDTO.class);
@@ -375,7 +375,7 @@ public class PayServiceImpl implements PayService{
 
 	@Override
 	public List<EmployeeDTO> findAllEmployee() {
-		List<Employee> employeeList = employeeRepositoryByPay.findAll(Sort.by("employeeName"));				
+		List<Employee> employeeList = employeeRepository.findAll(Sort.by("employeeName"));				
 
 		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
 		return employeeList.stream().map(employee -> modelMapper.map(employee,EmployeeDTO.class)).collect(Collectors.toList());
@@ -432,7 +432,7 @@ public class PayServiceImpl implements PayService{
 			}
 			
 			/* 직원 휴대폰번호 검색일 경우 */
-			if("adminJob".equals(selectCriteria.getSearchCondition())) {
+			if("employeePhone".equals(selectCriteria.getSearchCondition())) {
 				bestEmployeePayList = bestEmployeePayAndEmployeeRepository.findByEmployeeEmployeePhoneContaining(selectCriteria.getSearchValue(), paging);
 			}
 
@@ -446,6 +446,116 @@ public class PayServiceImpl implements PayService{
 		return bestEmployeePayList.stream().map(pay -> modelMapper.map(pay,BestEmployeePayAndEmployeeDTO.class)).collect(Collectors.toList());
 	}
 
+
+
+	// 직원 급여 상세조회
+	@Override
+	public EmployeePayAndApplyEmployeeDTO findEmployeePayByPayHistoryEmployeeNo(int payHistoryNo) {
+		/* findById메소드로 Optional 객체 조회후 Optional객체의 get메소드를 통해 조회 */
+		EmployeePayAndApplyEmployee pay = employeePayAndEmployeeRepository.findById(payHistoryNo).get();
+		
+		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 MenuDTO로 반환 */
+		return modelMapper.map(pay, EmployeePayAndApplyEmployeeDTO.class);
+	}
+
+
+
+
+
+	// 관리자아이디로 관리자찾기
+	@Override
+	public AdminDTO findAdminByAdminId(String adminId) {
+		
+		/* findById메소드로 Optional 객체 조회후 Optional객체의 get메소드를 통해 조회 */
+		Admin admin = adminRepository.findByAdminId(adminId);
+		
+		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 MenuDTO로 반환 */
+		return modelMapper.map(admin, AdminDTO.class);
+	}
+
+	
+	@Override
+	public int selectMyPayForAdminTotalCount(int adminNo) {
+		int count = (int)adminRepository.count();
+		System.out.println(count + "입니다");
+		return count;
+	}
+
+	@Override
+	public List<AdminPayAndAdminDTO> myPayForAdmin(int adminNo, SelectCriteria selectCriteria) {
+		int index = selectCriteria.getPageNo() - 1;			// Pageble객체를 사용시 페이지는 0부터 시작(1페이지가 0)
+		int count = selectCriteria.getLimit();
+
+		/* 페이징 처리와 정렬을 위한 객체 생성 */
+		Pageable paging = PageRequest.of(index, count, Sort.by("payHistoryAdminNo").descending());	// Pageable은 org.springframework.data.domain패키지로 import
+
+		List<AdminPayAndAdmin> adminPayList = new ArrayList<AdminPayAndAdmin>();
+		adminPayList = adminPayAndAdminRepository.findAllByAdminAdminNo(adminNo,paging);
+
+		/* 자바의 Stream API와 ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
+		return adminPayList.stream().map(pay -> modelMapper.map(pay,AdminPayAndAdminDTO.class)).toList();
+	}
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public EmployeeDTO findEmployeeByEmployeeId(String employeeId) {
+		/* findById메소드로 Optional 객체 조회후 Optional객체의 get메소드를 통해 조회 */
+		Employee employee = employeeRepository.findByEmployeeId(employeeId);
+		
+		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 MenuDTO로 반환 */
+		return modelMapper.map(employee, EmployeeDTO.class);
+	}
+
+
+
+
+	@Override
+	public int selectMyPayForEmployeeTotalCount(int employeeNo) {
+		int count = (int)employeeRepository.count();
+		System.out.println(count + "입니다");
+		return count;
+	}
+
+
+
+
+	@Override
+	public List<EmployeePayAndApplyEmployeeDTO> myPayForEmployee(int employeeNo, SelectCriteria selectCriteria) {
+		int index = selectCriteria.getPageNo() - 1;			// Pageble객체를 사용시 페이지는 0부터 시작(1페이지가 0)
+		int count = selectCriteria.getLimit();
+
+		/* 페이징 처리와 정렬을 위한 객체 생성 */
+		Pageable paging = PageRequest.of(index, count, Sort.by("payHistoryEmployeeNo").descending());	// Pageable은 org.springframework.data.domain패키지로 import
+
+		List<EmployeePayAndApplyEmployee> employeePayList = new ArrayList<EmployeePayAndApplyEmployee>();
+		employeePayList = employeePayAndEmployeeRepository.findAllByEmployeeEmployeeNo(employeeNo,paging);
+
+		/* 자바의 Stream API와 ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
+		return employeePayList.stream().map(pay -> modelMapper.map(pay,EmployeePayAndApplyEmployeeDTO.class)).toList();
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
 
 	
 

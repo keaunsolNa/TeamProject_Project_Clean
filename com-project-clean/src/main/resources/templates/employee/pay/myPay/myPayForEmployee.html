@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" th:href="@{/css/pay/adminPaySelect.css}">
+<title>Insert title here</title>
+<style>
+	tr:nth-of-type(1){background: #9AE8F9;}
+	table th{
+		border: 1px solid black;
+	}
+</style>
+</head>
+<body>
+	<script th:inline="javascript">
+		const ListNullMessage = [[${ListNullMessage}]];
+		if(ListNullMessage){
+			alert(ListNullMessage);
+			location.href = '/';
+		}
+	</script>
+	<div th:if ="${ListNullMessage} == null">
+	<div th:include="common/header.html"></div>
+	<div th:include="common/payAside.html"></div>
+	<section>
+		
+		<table border="1">
+	        <tr>
+	           <th>이름</th> 
+	           <th>전화번호</th>
+	           <th>근무지</th>
+	           <th>근무날짜</th>
+	           <th>지급날짜</th>
+	        </tr>
+	        <tr th:each="pay : ${ employeePayList }">
+	          <td height="35px" th:text="${ pay.employee.employeeName }" th:onclick="|location.href='/employee/pay/myPay/myPayForEmployeeSelectInfo/${ pay.payHistoryEmployeeNo }'|"></td> 
+	          <td height="35px" th:text="${ pay.employee.employeePhone }" th:onclick="|location.href='/employee/pay/myPay/myPayForEmployeeSelectInfo/${ pay.payHistoryEmployeeNo }'|"></td> 
+	          <td height="35px" th:text="${ pay.reservationInfo.userAddress }"th:onclick="|location.href='/employee/pay/myPay/myPayForEmployeeSelectInfo/${ pay.payHistoryEmployeeNo }'|"></td> 
+	          <td height="35px" th:text="${ pay.reservationInfo.businessDate }" th:onclick="|location.href='/employee/pay/myPay/myPayForEmployeeSelectInfo/${ pay.payHistoryEmployeeNo }'|"></td> 
+	          <td height="35px" th:text="${ pay.payEmployeeDate }"></td> 
+	        </tr>
+		</table>
+    	<br>
+    	<div th:replace="employee/pay/myPay/myPayForEmployeePaging.html"></div>
+    	
+		<br>
+ 
+    </section>
+	</div>
+</body>
+</html>

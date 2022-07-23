@@ -26,7 +26,7 @@
 	</form>
 <section>
 
-	<form method="post" action="admin/checklist/denial"  enctype="multipart/form-data">
+	<form method="post" action="admin/checklist/denial"  enctype="multipart/form-data" id ="formSender">
 	
 		<input type="hidden" th:value="${checkList.checkReservationNo}" class="reservationNo" name="reservationNo"> 
 		
@@ -57,6 +57,25 @@
 	    <input type="button" value="등록" id="submit" class="submittbtn">
 	</th:block>
 
+
+	<th:block sec:authorize="hasRole('ADMIN')">			
+		<h3><span hidden sec:authentication="principal.adminId" id="userId" th:value="principal.adminId"></span></h3>
+	</th:block>
+
+	<th:block sec:authorize="hasRole('EMPLOYEE')">			
+		<h3><span hidden sec:authentication="principal.employeeId" id="userId" th:value="principal.employeeId"></span></h3>
+	</th:block>
+
+	<input hidden type="text" th:value="${employeeName}" class="employeeName" id="employeeName">
+	
+	<form hidden id="sendForm">
+	    <div>
+	        <input type="text" id="sendingMessage">
+	        <input type="text" id="sendingName" >
+	    </div>
+	    <button id="send" type="submit">Send</button>
+	</form>
+
 <script>
 	const opnion = document.querySelectorAll(".employeeOpnionArea");
 
@@ -66,7 +85,6 @@
 			continue;
 		} else {
 			alert("이미 사유서가 제출되었습니다.")
-			console.log("이미 사유서가 제출되었습니다.")
 			opnion[i].remove();
 			document.getElementById("submit").remove();
 		}

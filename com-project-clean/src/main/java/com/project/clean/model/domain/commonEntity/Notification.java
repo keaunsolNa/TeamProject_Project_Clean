@@ -48,8 +48,8 @@ public class Notification implements Serializable{
 	@Column(name="NOTIFIVATION_ADMIN_YN")
 	private String notificationAdminYn;
 	
-	@Column(name="NOTIFIVATION_EMPLOYEE_NO")
-	private int notificationEmployeeNo;
+	@Column(name="NOTIFIVATION_EMPLOYEE_NO", nullable=true)
+	private Integer notificationEmployeeNo;
 	
 	@Column(name="NOTIFIVATION_RESERVATION_NO")
 	private int notificationReservationNo;
@@ -57,12 +57,14 @@ public class Notification implements Serializable{
 	@Column(name="NOTIFIVATION_ADMIN_NO")
 	private int notificationAdminNo;
 
-	public Notification() {
+	Notification() {
+		super();
 	}
 
-	public Notification(int notificationNo, String notificationText, Date notificationCreateTime,
-			String notificationReadYn, String notificationAdminYn, int notificationEmployeeNo,
-			int notificationReservationNo, int notificationAdminNo) {
+	Notification(int notificationNo, String notificationText, Date notificationCreateTime, String notificationReadYn,
+			String notificationAdminYn, Integer notificationEmployeeNo, int notificationReservationNo,
+			int notificationAdminNo) {
+		super();
 		this.notificationNo = notificationNo;
 		this.notificationText = notificationText;
 		this.notificationCreateTime = notificationCreateTime;
@@ -113,11 +115,11 @@ public class Notification implements Serializable{
 		this.notificationAdminYn = notificationAdminYn;
 	}
 
-	public int getNotificationEmployeeNo() {
+	public Integer getNotificationEmployeeNo() {
 		return notificationEmployeeNo;
 	}
 
-	public void setNotificationEmployeeNo(int notificationEmployeeNo) {
+	public void setNotificationEmployeeNo(Integer notificationEmployeeNo) {
 		this.notificationEmployeeNo = notificationEmployeeNo;
 	}
 
@@ -149,7 +151,5 @@ public class Notification implements Serializable{
 				+ ", notificationReservationNo=" + notificationReservationNo + ", notificationAdminNo="
 				+ notificationAdminNo + "]";
 	}
-	
-	
-	
+
 }

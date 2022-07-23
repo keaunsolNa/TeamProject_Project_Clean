@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<link href='/css/reservation/detail.css' rel='stylesheet'/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:include="common/header.html"></div>
+	<div th:include="common/adminReservationAside.html"></div>
+	<h1 class="head" align="center" >알림 상세 내용</h1>
+	<table align="center" border="1">
+		<tr>
+			<th>알림내용 : </th>
+			<td th:text="${ notification.notificationText }"></td>
+		</tr>
+		<tr>
+			<th>날짜 : </th>
+			<td th:text="${#dates.format(reservation.businessStartTime, 'yyyy-MM-dd HH:mm')}"></td>
+		</tr>
+		<tr>
+			<th>주소 : </th>
+			<td th:text="${ reservation.userAddress }"></td>
+		</tr>
+		<tr>
+			<th>평수 : </th>
+			<td th:text="${ reservation.userHouseSize } + '평'"></td>
+		</tr>
+		<tr>
+			<th>급여 : </th>
+			<td th:if="${ reservation.businessFixedPeople == 2}" th:text="${#numbers.formatInteger(reservation.totalPayment * 0.92 * 0.8 / 2 , 3, 'COMMA')} + '원'"></td>
+			<td th:if="${ reservation.businessFixedPeople == 1}" th:text="${#numbers.formatInteger(reservation.totalPayment * 0.92 * 0.8 , 3, 'COMMA')} + '원'"></td>
+		</tr>
+		<tr>
+			<th>시간 : </th>
+			<td th:text="${ workTime } + '시간'"></td>
+		</tr>
+		<tr>
+			<th>요청사항 : </th>
+			<td th:text="${ reservation.userRequirements }"></td>
+		</tr>
+		<tr>
+			<th>부가서비스 : </th>
+			<td>
+				<span th:if="${ reservation.gashoodCleanYn == 'Y'}" th:text="' 가스레인지 후드 청소 '"></span>
+				<span th:if="${ reservation.moldCleanYn == 'Y'}" th:text="' 곰팡이 제거 '" ></span>
+				<span th:if="${ reservation.filterCleanYn == 'Y'}" th:text="' 필터 청소 '"></span>
+				<span th:if="${ reservation.warehouseCleanYn == 'Y'}" th:text="' 창고 정리 '"></span>
+				<span th:if="${ reservation.petYn == 'Y'}" th:text="' 애완 동물 여부(관련청소) '"></span>
+				<span th:if="${ reservation.multipleLayerYn == 'Y'}" th:text="' 복층 여부 '"></span>
+			</td>
+		</tr>
+		
+		<tr>
+			<th>정원 : </th>
+			<td th:text="${ reservation.businessFixedPeople } + '명'"></td>
+		</tr>
+		
+		<tr>
+			<th>지원인원 : </th>
+			<td th:text="${ reservation.businessApplyPeople } + '명'"></td>
+		</tr> 
+		
+		<tr>
+			<th>지원 가능 여부 : </th>
+			<td style="color:red;" th:if="${ reservation.applyEndYn =='Y'}" th:text="불가능"></td>
+			<td style="color:blue;" th:if="${ reservation.applyEndYn =='N'}" th:text="가능"></td>
+		</tr>
+	</table>
+	<div>
+		<button th:onclick="'location.href = \'' + @{/admin/reservation/detail/{id}(id=${notification.notificationReservationNo})} + '\''">예약페이지</button>
+	</div>
+	<div>
+		<button onclick="history.back();">목록</button>
+	</div>
+</body>
+</html>

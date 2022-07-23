@@ -1,0 +1,58 @@
+body {
+	font-family: 'MinSans-Medium' !important;
+}
+.head {
+	margin: 20px auto 30px auto;
+}
+
+table {
+	width: 70%;
+	border: 1px solid black;
+	border-collapse: collapse;
+	margin-bottom: 30px;
+}
+
+th, td {
+	border: 1px solid black !important;
+	padding: 10px !important;
+	text-align: center !important;
+}
+
+th {
+	background-color: #9AE8F9;
+}
+
+span {
+	margin-right: 10px;
+	border-right: 3px solid #9AE8F9;
+}
+
+button {
+	font-family: 'MinSans-Medium';
+	width: 130px;
+	height: 40px;
+	background-color: #9AE8F9;
+	border-color: gray;
+	border-style: none;
+	font-weight: bold;
+	margin-top: 10px !important;
+}
+
+div {
+	text-align: center;
+}
+
+.emp{
+	font-weight: 700;
+	font-size: 15px;
+	background-color: #9AE8F9;
+	border: 5px solid white;
+	border-radius: 50px;
+	display: inline-block;
+	padding: 10px;
+	margin-bottom: 15px;
+}
+.empName, .empButton{
+	padding: 0px;
+	margin: 0px;
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<link href='/css/calendar.css' rel='stylesheet' />
+<script src='/js/calendar.js'></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- 해당 날짜 클릭 이벤트 -->
+<script th:inline="javascript">
+
+$(function(){
+		var calendarEl = document.getElementById('calendar');
+		let reservation = new Object();
+		
+	    var calendar = new FullCalendar.Calendar(calendarEl, {
+	      initialView: 'dayGridMonth',
+	      headerToolbar: {
+	        left: 'prev,next today',
+	        center: 'title',
+	        right: ''
+	      },
+	      locale: "ko",
+	      events: [			/* 여기에 날짜랑 지원가능 / 마감 수 가져와서 뿌려주면 됨 */
+				/*[# th:each = "reservation, i : ${reservationDateList}"]*/
+				{
+		            title: "지원 마감 : " + /*[[${unableCountList[i.index]}]]*/,	            
+		            url: '/admin/reservation/date/' + /*[[${dateList[i.index]}]]*/,
+		            start: /*[[${dateList[i.index]}]]*/
+		          },
+	          	{
+		            title: "지원 가능 : " + /*[[${ableCountList[i.index]}]]*/,
+		            url: '/admin/reservation/date/' + /*[[${dateList[i.index]}]]*/,
+		            start: /*[[${dateList[i.index]}]]*/
+		          },
+				/*[/]*/
+	    	  	
+	        ]
+	      , eventClick: function(info) {}
+		});
+    	calendar.render();
+	});
+
+
+</script>
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:include="common/header.html"></div>
+	<div th:include="common/adminReservationAside.html"></div>
+	<div style="margin: 30px auto 30px auto; width: 1000px; height: 700px;">
+		<div id='calendar'></div>
+	</div>
+</body>
+
+</html>

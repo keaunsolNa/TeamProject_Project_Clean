@@ -53,25 +53,28 @@
     </style>
 </head>
 <body>
-	<div th:include="common/header.html"></div>
-	<div th:include="common/hrAside.html"></div>
 	<div class="container">
 
-        <!-- 관리자 내용 -->
-           <!--  <div id="tab-2" class="tab-content">
-                <span>인사관리 카드 조회</span>
-                <form action="admin/hrCard/adminList" method="get">
-	                    <select th:with="searchCondition = ${selectCriteria.searchCondition}" name="searchCondition">
-	                        <option value="adminName" th:selected="${ searchCondition } == 'adminName'">이름</option>
-	                        <option value="adminJob"  th:selected="${ searchCondition } == 'adminJob'">직책명</option>
-	                    </select>
-	                <input type="hidden" name="currentPage" value="1">
-	                <input type="search" id="name" name="searchValue" th:value="${selectCriteria.searchValue}">
-	                <button type="button" id="search">검색</button>
+       
+      <div class="search-area" align="center">
+		<form id="searchForm" action="/admin/hrCard/retireAdminList" method="get" style="display: inline-block">
+				<select id="searchCondition" th:with="searchCondition = ${selectCriteria.searchCondition}"
+					 name="searchCondition">
+					<option value="adminName" th:selected="${ searchCondition } == 'adminName'">신청자명</option>
+					<option value="adminBirth" th:selected="${ searchCondition } == 'adminBirth'">생년월일</option>
+					<option value="adminRetireDate" th:selected="${ searchCondition } == 'adminRetireDate'">퇴사일</option>
+					<option value="adminJob" th:selected="${ searchCondition } == 'adminJob'">직책</option>
+					<option value="adminPhone" th:selected="${ searchCondition } == 'adminPhone'">휴대폰번호</option>
+				</select> 
+			
+			<input type="search" id="searchInput" name="searchValue" th:value="${selectCriteria.searchValue}">
+			<input type="date" id="adminBirth" name="searchValue" style="display: none">
+			<input type="date" id="adminRetireDate" name="searchValue" style="display: none">
+			<input type="text" style="display: none;"> <!-- enter - submit 방지 -->
+			
+			<button class="btn btn-bs" type="submit">검색하기</button>
+		</form>
                 
-                 </form> -->
-                
-                <!--  <div th:replace="hrCard/adminListPaging.html"></div> -->
                
                <a href="/admin/hrCard/adminList">재직자 목록</a>
                
@@ -82,7 +85,7 @@
                             <th>관리자번호</th>
                             <th>이름</th>
                             <th>생년월일</th>
-                            <th>입사일</th>
+                            <th>퇴사일</th>
                             <th>직급명</th>
                             <th>전화번호</th>
                         </tr>
@@ -92,13 +95,17 @@
 							<td th:text="${ index.adminNo }"></td>
 							<td th:text="${ index.adminName }"></td>
 							<td th:text="${ index.adminBirth }"></td>
-							<td th:text="${ index.adminHireDate }"></td>
+							<td th:text="${ index.adminRetireDate }"></td>
 							<td th:text="${ index.adminJob }"></td>
 							<td th:text="${ index.adminPhone }"></td>
 						</tr>
                     </tbody>
                 </table>    
             </div>
+       </div> 
+     <input type="hidden" name="currentPage" value="1">
+	<div th:replace="admin/hrCard/retireAdminListpaging.html"></div>
+     
        
     <script>
         
@@ -126,6 +133,26 @@
         	hover();
         })
        
+        $("#searchCondition").change(function(){        
+			  var result = $("#searchCondition option:selected").val();
+			  var input = document.getElementById(searchInput);
+			
+			  if(result == 'adminBirth'){
+				  $('#searchInput').hide().attr("disabled", "disabled");
+				  $('#adminBirth').show();
+				  $('#adminRetireDate').hide();
+				 
+			  } else if(result == 'adminRetireDate'){
+				  $('#searchInput').hide().attr("disabled", "disabled");
+				  $('#adminBirth').hide().attr("disabled", "disabled");
+				  $('#adminRetireDate').show();
+			  } else {
+				  $('#searchInput').show();
+			      $('#adminBirth').hide().attr("disabled", "disabled");
+				  $('#adminRetireDate').hide().attr("disabled", "disabled");
+			  }
+			})
+        
     </script>
     
 

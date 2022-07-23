@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<link href='/css/reservation/list.css' rel='stylesheet' />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:include="common/header.html"></div>
+	<div th:include="common/adminReservationAside.html"></div>
+	<h1 class="head"  align="center" th:text="${#dates.format(date, 'yyyy-MM-dd')}"></h1>
+	<table align="center" border="1">
+		<tr>
+			<th style="display: none;"></th>
+			<th>시작시간</th>
+			<th>종료시간</th>
+			<th>주소</th>
+			<th>직원 급여</th>
+			<th>평수</th>
+			<th>정원</th>
+			<th>예약인원</th>
+			<th>마감여부</th>
+		</tr>
+		<tr th:each="reservation : ${ reservationList }">
+			<td style="display: none;" th:text="${ reservation.reservationNo }"></td>
+			<td th:text="${#dates.format(reservation.businessStartTime, 'yyyy-MM-dd HH:mm')}"></td>
+			<td th:text="${#dates.format(reservation.businessEndTime, 'yyyy-MM-dd HH:mm')}"></td>
+			<td th:text="${ reservation.userAddress }"></td>
+			<td th:if="${ reservation.businessFixedPeople == 2}" th:text="${#numbers.formatInteger(reservation.totalPayment * 0.92 * 0.8 / 2 , 3, 'COMMA')} + '원'"></td>
+			<td th:if="${ reservation.businessFixedPeople == 1}" th:text="${#numbers.formatInteger(reservation.totalPayment * 0.92 * 0.8 , 3, 'COMMA')} + '원'"></td>
+			<td th:text="${ reservation.userHouseSize } + '평'"></td>
+			<td th:text="${ reservation.businessFixedPeople } + '명'"></td>
+			<td th:text="${ reservation.businessApplyPeople } + '명'"></td>
+			<td style="color:blue;" th:if="${ reservation.applyEndYn =='Y'}" th:text="마감"></td>
+			<td style="color:red;" th:if="${ reservation.applyEndYn =='N'}" th:text="지원필요"></td>
+		</tr>
+	</table>
+
+    <div th:replace="reservation/admin/adminReservationPaging.html"></div>
+	<script>
+		window.onload = function(){
+	        const employee = document.getElementsByTagName("td");
+	        
+	        for(let i = 0; i < employee.length; i++){
+	           employee[i].onmouseenter = function(){
+	                this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+	                this.parentNode.style.cursor = "pointer";
+	            }
+	           employee[i].onmouseout = function(){
+	                this.parentNode.style.backgroundColor = "white";
+	            }
+	           employee[i].onclick = function(){
+	                location.href="/admin/reservation/detail/" + this.parentNode.children[0].innerText;
+	            }
+	        }
+	    };
+	</script>
+	
+</body>
+</html>

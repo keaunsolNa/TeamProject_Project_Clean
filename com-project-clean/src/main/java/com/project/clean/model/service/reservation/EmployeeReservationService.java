@@ -1,7 +1,6 @@
 package com.project.clean.model.service.reservation;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -13,18 +12,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.clean.controller.common.paging.SelectCriteria;
+import com.project.clean.model.domain.commonEntity.Admin;
 import com.project.clean.model.domain.commonEntity.ApplyEmployee;
 import com.project.clean.model.domain.commonEntity.BookMark;
 import com.project.clean.model.domain.commonEntity.Employee;
 import com.project.clean.model.domain.commonEntity.Notification;
 import com.project.clean.model.domain.joinEntity.ApplyEmployeeAndReservationInfo;
 import com.project.clean.model.domain.reservation.Reservation;
+import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.ApplyEmployeeDTO;
 import com.project.clean.model.dto.commonDTO.BookMarkDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeDTO;
 import com.project.clean.model.dto.commonDTO.NotificationDTO;
 import com.project.clean.model.dto.commonDTO.ReservationInfoDTO;
 import com.project.clean.model.dto.joinDTO.ApplyEmployeeAndReservationInfoDTO;
+import com.project.clean.model.repository.admin.AdminRepository;
 import com.project.clean.model.repository.employee.EmpRepository;
 import com.project.clean.model.repository.reservation.ApplyEmployeeAndReservationInfoRepository;
 import com.project.clean.model.repository.reservation.ApplyEmployeeRepository;
@@ -40,28 +42,28 @@ public class EmployeeReservationService {
 	private final ReservationRepository reservationRepository;
 	private final EmpRepository empRepository;
 	private final ApplyEmployeeRepository applyEmployeeRepository;
-	private final ApplyEmployeeAndReservationInfoRepository applyEmployeeAndReservationInfoRepository;
 	private final BookMarkRepository bookMarkRepository;
+	private final ApplyEmployeeAndReservationInfoRepository applyEmployeeAndReservationInfoRepository;
 	private final NotificationRepository notificationRepository;
+	private final AdminRepository adminRepository;
 
 	private final ModelMapper modelMapper;
 
 	@Autowired
-	public EmployeeReservationService(ReservationRepository reservationRepository, EmpRepository empRepository,
-			ApplyEmployeeRepository applyEmployeeRepository,
+	EmployeeReservationService(ReservationRepository reservationRepository, EmpRepository empRepository,
+			ApplyEmployeeRepository applyEmployeeRepository, BookMarkRepository bookMarkRepository,
 			ApplyEmployeeAndReservationInfoRepository applyEmployeeAndReservationInfoRepository,
-			BookMarkRepository bookMarkRepository, NotificationRepository notificationRepository,
-			ModelMapper modelMapper) {
+			NotificationRepository notificationRepository, AdminRepository adminRepository, ModelMapper modelMapper) {
 		super();
 		this.reservationRepository = reservationRepository;
 		this.empRepository = empRepository;
 		this.applyEmployeeRepository = applyEmployeeRepository;
-		this.applyEmployeeAndReservationInfoRepository = applyEmployeeAndReservationInfoRepository;
 		this.bookMarkRepository = bookMarkRepository;
+		this.applyEmployeeAndReservationInfoRepository = applyEmployeeAndReservationInfoRepository;
 		this.notificationRepository = notificationRepository;
+		this.adminRepository = adminRepository;
 		this.modelMapper = modelMapper;
 	}
-	
 
 	/* 고객 신규 예약 */
 	@Transactional
@@ -90,7 +92,7 @@ public class EmployeeReservationService {
 		
 		int index = selectCriteria.getPageNo() - 1;			// Pageble객체를 사용시 페이지는 0부터 시작(1페이지가 0)
 		int count = selectCriteria.getLimit();
-		Pageable paging = PageRequest.of(index, count, Sort.by("businessDate"));	
+		Pageable paging = PageRequest.of(index, count, Sort.by("businessStartTime"));	
 		List<Reservation> reservationList = reservationRepository.findByBusinessDate(businessDate, paging);
 		return reservationList.stream().map(reservation -> modelMapper.map(reservation, ReservationInfoDTO.class)).toList();
 	}
@@ -110,8 +112,6 @@ public class EmployeeReservationService {
 	/* 직원 지원 insert */
 	@Transactional
 	public void insertNewApply(ApplyEmployeeDTO newApply) {
-		newApply.setApplyCancelYn("N");
-		newApply.setCheckEmployeeYn("N");
 		applyEmployeeRepository.save(modelMapper.map(newApply, ApplyEmployee.class));
 	}
 
@@ -139,6 +139,7 @@ public class EmployeeReservationService {
 	public void modifyApplyEmployeeApplyCancelYn(int reservationNo, int employeeNo) {
 		ApplyEmployee app = applyEmployeeRepository.findByApplyEmployeeNoAndApplyReservationNo(reservationNo, employeeNo);
 		app.setApplyCancelYn("Y");
+		app.setCheckEmployeeYn("N");
 	}
 	 
 	 /* 예약테이블 지원인원 -1 */
@@ -184,7 +185,7 @@ public class EmployeeReservationService {
 		book.setBookmarkCancelYn("N");
 	}
 
-	/* 지원취소된 건에 있어서 즐겨찾기한 직원에게 알림 전송 */
+	/* 알림 전송 */
 	@Transactional
 	public void insertNewNotificationMessage(NotificationDTO newNotification) {
 		notificationRepository.save(modelMapper.map(newNotification, Notification.class));
@@ -207,17 +208,38 @@ public class EmployeeReservationService {
 		int index = selectCriteria.getPageNo() - 1;			
 		int count = selectCriteria.getLimit();
 		
-		Sort.Order Order = Sort.Order.desc("applyReservationNo");
+		Sort.Order Order = Sort.Order.desc("applyReservationNo.businessStartTime");
 		Sort sort = Sort.by(Order);
 		Pageable paging = PageRequest.of(index, count, sort);
 		
 		List<ApplyEmployeeAndReservationInfo> reservationList = applyEmployeeAndReservationInfoRepository.findAllByApplyEmployeeNoAndApplyCancelYn(employeeNo, "N", paging);
 		System.out.println("reservationList" + reservationList);
-		System.out.println("reservationList" + reservationList);
-		System.out.println("reservationList" + reservationList);
-		System.out.println("reservationList" + reservationList);
 		
 		return reservationList.stream().map(reservation -> modelMapper.map(reservation, ApplyEmployeeAndReservationInfoDTO.class)).toList();
+	}
+
+	/* 직원 패널티 부여 */
+	@Transactional
+	public void modifyEmployeePenalty(int employeeNo) {
+		Employee emp = empRepository.findByEmployeeNo(employeeNo);
+		if(emp.getEmployeeSumCount() == 4) {
+			emp.setEmployeeSumCount(emp.getEmployeeSumCount() + 1);
+			emp.setEmployeeBlackListYn("Y");
+		} else {
+			emp.setEmployeeSumCount(emp.getEmployeeSumCount() + 1);
+		}
+	}
+
+	/* 관리자 전체 조회 */
+	public List<AdminDTO> findAllAdmin() {
+
+		List<Admin> adminList = adminRepository.findAll();
+		return adminList.stream().map(admin -> modelMapper.map(admin, AdminDTO.class)).toList();
+	}
+
+	public ApplyEmployeeDTO findByApplyReservationNoAndApplyCancelYn(int applyReservationNo, String string) {
+		ApplyEmployee app = applyEmployeeRepository.findByApplyReservationNoAndApplyCancelYn(applyReservationNo, string);
+		return modelMapper.map(app, ApplyEmployeeDTO.class);
 	}
 	
 }

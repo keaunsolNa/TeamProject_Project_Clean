@@ -32,11 +32,6 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler{
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		
-		ModelAndView mv = new ModelAndView();
-
-		System.out.println(authentication.getName());
-		System.out.println(request.getSession());
-		
 		Cookie[] myCookie = request.getCookies();
 		if(null != request.getCookies()) {
 			for(Cookie c : myCookie) {
@@ -45,24 +40,7 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler{
 			}
 		}
 		
-		authentication = SecurityContextHolder.getContext().getAuthentication();
-
-		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-
-		boolean isAdmin = authorities.stream().filter(o -> o.getAuthority().equals("ROLE_ADMIN")).findAny().isPresent();
-        
-        boolean isEmployee = authorities.stream().filter(o -> o.getAuthority().equals("RLOE_EMPLOYEE")).findAny().isPresent();
-        
-        if(isAdmin == true) {
-        	
-        	mv.setViewName("admin/adminMainPage");
-        	
-        } else if(isEmployee == true) {
-        	mv.setViewName("employee/empMainPage");
-        }  
-
-		response.sendRedirect("/main");
-		
+       	response.sendRedirect("/main");
 		
 	}
 

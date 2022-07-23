@@ -10,10 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.clean.controller.common.paging.Pagenation;
 import com.project.clean.controller.common.paging.SelectCriteria;
+import com.project.clean.model.domain.commonEntity.Employee;
+import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.EmployeeDTO;
 import com.project.clean.model.dto.commonDTO.NotificationDTO;
 import com.project.clean.model.dto.commonDTO.ReservationInfoDTO;
@@ -49,7 +52,7 @@ public class NotificationController {
 		
 		int totalCount = employeeNotificationService.selectTotalCount(employeeNo);
 		/* 한 페이지에 보여 줄 게시물 수 */
-		int limit = 3;		//얘도 파라미터로 전달받아도 된다.
+		int limit = 10;		//얘도 파라미터로 전달받아도 된다.
 
 		/* 한 번에 보여질 페이징 버튼의 갯수 */
 		int buttonAmount = 5;
@@ -61,7 +64,7 @@ public class NotificationController {
 		System.out.println("notificationList" + notificationList);
 		
 		if(notificationList.size() == 0) {		
-			mv.addObject("notificationMessage", "알림이 없습니다.");
+			mv.addObject("message", "알림이 없습니다.");
 			mv.setViewName("reservation/notificationList");
 			return mv;
 		 } 
@@ -95,6 +98,27 @@ public class NotificationController {
 		mv.addObject("workTime", workTime);
 		mv.setViewName("reservation/notificationDetail");
 		return mv;
+	}
+	
+	@GetMapping("/time")
+	@ResponseBody
+	public int notificationTime(Principal principal) {
+		
+		/* 직원 번호 불러옴 */ 
+		String employeeId = principal.getName();
+		EmployeeDTO employee = employeeNotificationService.findByEmployeeId(employeeId);
+		int employeeNo = employee.getEmployeeNo();
+		
+		List<NotificationDTO> notificationList = employeeNotificationService.findAllByNotificationEmployeeNoAndNotificationAdminYn(employeeNo, "N");
+		
+		int result = 0;
+		for(int i = 0; i < notificationList.size(); i++) {
+			NotificationDTO noti = notificationList.get(i);
+			if(noti.getNotificationReadYn().equals("N")) {
+				result++;
+			}
+		}
+		return result;
 	}
 		
 	
