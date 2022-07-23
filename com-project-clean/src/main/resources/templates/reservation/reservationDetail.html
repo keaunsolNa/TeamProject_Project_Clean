@@ -22,6 +22,9 @@
 	
 	<h1 class="head" align="center" th:text="${#dates.format(reservation.businessStartTime, 'yyyy/MM/dd')}"></h1>
 	<h3 class="head" align="center" th:text="${#dates.format(reservation.businessStartTime, 'HH:mm')} + '~' + ${#dates.format(reservation.businessEndTime, 'HH:mm')}"></h3>
+	<div th:if="${ applyButtonText == '지원취소'}">
+		<div class="applyYn">내가 지원한 내역입니다.</div>
+	</div>
 	<table align="center" border="1">
 		<tr>
 			<th>주소</th>
