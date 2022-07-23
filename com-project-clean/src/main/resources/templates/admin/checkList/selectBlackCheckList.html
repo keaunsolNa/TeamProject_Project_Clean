@@ -109,62 +109,77 @@
 	            var $afterEndPage = data.endPage;
 	            
 	            if($startPage == 0){
+	            	
 	            	$button = $("<button class='page' disabled>◀◀</button>");
-	                  $div.append($button);
-	               } else {
+	                 	$div.append($button);
+	                 	
+				} else {
+					
 	                  $button = $("<button class='page' id='goBackPage' onclick='returnPage(category,categoryValue,"+$beforeStartPage+")'>◀◀</button>");
 	                  $div.append($button);
-	               }
+	            }
 	               
-	               for(i=$startPage;i<$endPage;i++){
-	                  if(i!=$currentPage){
-	                     $button = $("<button class='page' onclick='returnPage(category,categoryValue,"+(i)+")'>"+(i+1)+"</button>");   
-	                  } else {
-	                     $button = $("<button disabled class='page'>"+(i+1)+"</button>");
-	                  }
+	            for(i=$startPage;i<$endPage;i++){
+	            	
+	            	if(i!=$currentPage){
+	            		
+						$button = $("<button class='page' onclick='returnPage(category,categoryValue,"+(i)+")'>"+(i+1)+"</button>");   
+	                     
+	                } else {
+	                	
+						$button = $("<button disabled class='page'>"+(i+1)+"</button>");
+	                }
 	                  
-	                  $div.append($button);
-	               }
+						$div.append($button);
+	                  
+	               	}
 	               
-	               if($maxPage==$endPage){
-	                  $button = $("<button class='page' disabled>▶▶</button>");
-	                  $div.append($button);
+	               	if($maxPage==$endPage){
+	            	   
+	                  	$button = $("<button class='page' disabled>▶▶</button>");
+	                  	$div.append($button);
+	                  	
 	               } else {
+	            	   
 	                  $button = $("<button class='page' id='goForwardPage' onclick='returnPage(category,categoryValue,"+$afterEndPage+")'>▶▶</button>");
 	                  $div.append($button);
+	                  
 	               }
 	               
+					const buttons = document.querySelectorAll('table#taskInfo tbody tr button');
+					
+					for(let i = 0; i < buttons.length; i++) {
+						
+						const button = buttons[i];
+						
+						button.onclick = function() {
+							
+							const resNo1 = document.querySelectorAll('table#taskInfo tbody tr td1');
+							const resNo2 = resNo1[i];
+
+							var resNo3 = resNo2.parentNode.querySelector('.rn').innerText;
+	 					 	location.href="/admin/checklist/acceptSelectDetails?re="+ resNo3; 
+								
+						}; 
+					};		
 	            },
+	            
 	            error : function(error){
+	            	
 	               console.log(error);
+	               
 	            }
-	         });
+			});
 		};
 	      
-	      function mainCheckList(){
+		function mainCheckList(){
 	    	  
-	    	  var queryString = $("form[name=mainPage]").serialize();
-	    	  checkListFunction
-	      };
-	      
- 			setTimeout(function() {
-				const buttons = document.querySelectorAll('table#taskInfo tbody tr button');
+			var queryString = $("form[name=mainPage]").serialize();
+			
+				checkListFunction
 				
-				for(let i = 0; i < buttons.length; i++) {
-					
-					const button = buttons[i];
-					
-					button.onclick = function() {
-						const resNo1 = document.querySelectorAll('table#taskInfo tbody tr td1');
-						const resNo2 = resNo1[i];
-
-						var resNo3 = resNo2.parentNode.querySelector('.rn').innerText;
- 					 	location.href="/admin/checklist/acceptSelectDetails?re="+ resNo3; 
-							
-					}; 
-				};						
-
-			}, 1000);
+	      	};
+	      
 </script>
 		
 </body>

@@ -52,6 +52,7 @@
 		<input type="hidden" value="0" name="category">
 	</form>
 	
+	
 	<div id="paging" style="display: flex; justify-content: center;">
 	
 	</div>
@@ -141,31 +142,30 @@
 		                  $div.append($button);
 		               }
 		               
+							const buttons = document.querySelectorAll('table#taskInfo tbody tr button');
+							
+							for(let i = 0; i < buttons.length; i++) {
+								
+								const button = buttons[i];
+								
+								button.onclick = function() {
+									const resNo1 = document.querySelectorAll('table#taskInfo tbody tr td1');
+									const resNo2 = resNo1[i];
+
+									var resNo3 = resNo2.parentNode.querySelector('.rn').innerText;
+			 					 	location.href="/admin/checklist/acceptSelectDetails?re="+ resNo3; 
+										
+								}; 
+							};		
+							
 		            },
+		            
 		            error : function(error){
 		               console.log(error);
 		            }
 		         });
 			};
 		      
-	 			setTimeout(function() {
-					const buttons = document.querySelectorAll('table#taskInfo tbody tr button');
-					
-					for(let i = 0; i < buttons.length; i++) {
-						
-						const button = buttons[i];
-						
-						button.onclick = function() {
-							const resNo1 = document.querySelectorAll('table#taskInfo tbody tr td1');
-							const resNo2 = resNo1[i];
-
-							var resNo3 = resNo2.parentNode.querySelector('.rn').innerText;
-	 					 	location.href="/admin/checklist/acceptSelectDetails?re="+ resNo3; 
-								
-						}; 
-					};						
-
-				}, 1000);
 	</script>
 	
 </body>
