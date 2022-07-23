@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 body {
-  font-family: "Lato", sans-serif;
+    font-family: 'MinSans-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 table td{
 text-align: center;}
@@ -63,6 +67,14 @@ text-align: center;}
   padding-right: 8px;
 }
 
+.section{
+    font-family: 'MinSans-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
 /* Some media queries for responsiveness */
 /* @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
@@ -76,20 +88,38 @@ text-align: center;}
     <button class="dropdown-btn">인사카드관리 
         <i class="fa fa-caret-down"></i>
       </button>
+      
       <div class="dropdown-container">
-        <a href="#">전체 인원 조회</a>
-        <a href="#">관리자 등록</a>
-        <a href="#">직원 등록</a>
-        <a href="#">블랙리스트 조회</a>
+      	<th:block sec:authorize="hasRole('ROLE_ADMIN')">
+        	<a href="/admin/select/AllEmployee/move">전체 인원 조회</a>
+        </th:block>
+        
+	        <a href="#">관리자 등록</a>
+	        
+        <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
+	        <a href="/admin/hr/regist/employeePage">직원 등록</a>
+        </th:block>
+        
+		<th:block sec:authorize="hasRole('ROLE_ADMIN')">
+	        <a href="/admin/select/blackList/move">블랙리스트 조회</a>
+        </th:block>
+        
       </div>
     <br>
     <button class="dropdown-btn">휴가관리 
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="#">휴가 신청</a>
-        <a href="#">나의 휴가 조회</a>
-        <a href="#">휴가 전체 조회</a>
+        	<a href="#">휴가 신청</a>
+        	
+        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+        	<a href="/admin/select/selectMyVacation/move">나의 휴가 조회</a>
+        </th:block>
+        
+        <th:black sec:authorize="hasRole('ROLE_ADMIN_HR')">
+        	<a href="/admin/hr/humanResource/selectAllVacation/move">휴가 전체 조회</a>
+        </th:block>
+        
         <a href="#">승인 대기 목록</a>
     </div>
 </div>

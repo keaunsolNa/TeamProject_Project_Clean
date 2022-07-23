@@ -4,84 +4,55 @@
     <meta charset="UTF-8">
     <title>Document</title>
 
-<style type="text/css">
+<style>
 
+.section{
+	margin-left: 0 !important;
+	margin-top: 0 !important;
+}
 /* 결재 테이블 */
-
-.tg td {
-	border-style: solid;
-	border-width: 1px;
+.confirmTableBox td {
+	border: solid 1px;
 	font-size: 14px;
 }
-
-.tg th {
-	border-style: solid;
-	border-width: 1px;
-	font-size: 14px;
-}
-
-/* 휴가신청서 */
-.tg2 td {
-	border-style: solid;
-	border-width: 1px;
-	font-size: 14px;
-	padding: 10px 10px;
-	height: 55px;
-}
-
-.tg2 th {
-	border-style: solid;
-	border-width: 1px;
-	font-size: 14px;
-	padding: 10px 10px;
-}
-
-.tg2 .tg2-7btt {
-	font-weight: bold;
-	text-align: center;
-}
-
-.tg .tg-amwm {
-	font-weight: bold;
-	text-align: center;
-}
-
-/* 반려사유 */
-.returnReason {
-	height: 50px;
-	line-height: 45px;
-}
-
-.confirmDateContainer {
-	margin: 25px;
-}
-
-.container {
-	width: 1500px;
-}
-
-.reason {
-	height: 100px;
-	line-height: 100px;
-}
-
-.confirmLine {
-	line-height: 75px;
-}
-
-
 
 .comfirmBox td {
 	height: 75px;
 }
 
-.confirmTable {
-	margin: 20px;
+.confirmTableBox {
+	width: 550px;
+	margin-bottom: 20px;
+	
 }
 
-.confirmHeight {
-	margin: auto;
-	line-height: center;
+.confirmNameBox{
+	 line-height: 80px;
+}
+
+.confirmDateBox{
+	height: 25px;
+}
+
+/* 인사 테이블 */
+.tableBox{
+	width: 750px;
+}
+
+.tableBox td {
+	border: solid 1px;
+	font-size: 14px;
+	padding: 10px 10px;
+}
+
+.buttonBox{
+	width:750px;
+	text-align: center;
+}
+
+.reasonBox{
+	height:150px;
+	text-align: center;
 }
 </style>
 
@@ -89,9 +60,9 @@
 <body>
     <div th:replace="/common/Header.html"></div>
 	<div th:replace="/admin/adminAside.html"></div>
+	<section class="section">
       <!-- 결재라인 -->
-      <div class="confirmDateContainer" align="center">
-        <table class="tg confirmTable" style="table-layout: fixed; width: 600px">
+        <table class="confirmTableBox">
           <colgroup>
             <col style="width: 186px">
             <col style="width: 201px">
@@ -99,83 +70,79 @@
           </colgroup>
           <thead>
             <tr>
-              <td class="tg-amwm">결재 신청 날짜</td>
-              <td class="tg-amwm" colspan="2">
-                <div name="confirmDate" th:text="${vacation.requestDate}"></div>
+              <td>결재 신청 날짜</td>
+              <td colspan="2">
+                <div class="confirmDateBox" name="confirmDate" th:text="${vacation.requestDate}"></div>
               </td>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td class="tg-amwm confirmHeight" rowspan="3">결재</td>
-              <td class="tg-amwm">인사담당자</td>
-              <td class="tg-amwm">대표</td>
+              <td rowspan="3">결재</td>
+              <td>인사담당자</td>
+              <td>대표</td>
             </tr>
             <tr class="comfirmBox">
-              <td class="tg-amwm">
-                <div id="humanResource" name="humanResource" th:text="${hrName}"></div>
+              <td>
+                <div class="confirmNameBox" id="humanResource" name="humanResource" th:text="${hrName}"></div>
               </td>
-              <td class="tg-amwm">
-                <div id="boss" name="boss" th:text="${bossName}"></div>
+              <td>
+                <div class="confirmNameBox" id="boss" name="boss" th:text="${bossName}"></div>
               </td>
             </tr>
             <tr>
-              <td class="tg-amwm" th:text="${hrConfirm}"></td>
-              <td class="tg-amwm" th:text="${bossConfirm}"></td>
+              <td class="confirmDateBox" th:text="${hrConfirm}"></td>
+              <td class="confirmDateBox" th:text="${bossConfirm}"></td>
             </tr>
           </tbody>
         </table>
-      </div>
 
-    <div class="registVacationContainer">
-        <table class="tg2" style="table-layout: fixed; width: 1000px">
+        <table class="tableBox">
             <colgroup>
             <col style="width: 250px">
             <col style="width: 450px">
             </colgroup>
+            
             <thead>
-              <tr>
-                <th class="tg2-7btt" colspan="2">휴가신청서</th>
-              </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="tg2-7btt">성명</td>
-                <td class="tg2-7btt" th:text="${admin.adminName}"></td>
+                <td>성명</td>
+                <td th:text="${admin.adminName}"></td>
               </tr>
               <tr>
-                <td class="tg2-7btt">직급</td>
-                <td class="tg2-7btt" th:text="${admin.adminJob}"></td>
+                <td>직급</td>
+                <td th:text="${admin.adminJob}"></td>
               </tr>
               <tr>
-                <td class="tg2-7btt">휴가명</td>
-                <td class="tg2-7btt" th:text="${vacation.vacationName}"></td>
+                <td>휴가명</td>
+                <td th:text="${vacation.vacationName}"></td>
               </tr>
               <tr>
-                <td class="tg2-7btt">기간</td>
-                <td class="tg2-7btt"th:text="${vacation.vacationStartDate} + '~' + ${vacation.vacationStartDate}"></td>
+                <td>기간</td>
+                <td th:text="${vacation.vacationStartDate} + ' ~ ' + ${vacation.vacationStartDate}"></td>
               </tr>
               <tr>
-                <td class="tg2-7btt">연락망</td>
-                <td class="tg2-7btt" th:text="${admin.adminPhone}"></td>
+                <td>연락망</td>
+                <td th:text="${admin.adminPhone}"></td>
               </tr>
               <tr>
-                <td class="tg2-7btt"><div class="reason" >사유</div></td>
-                <td class="tg2-7btt"><div class="reason" th:text="${vacation.vacationReason}"></div></td>
+                <td><div class="reason" >사유</div></td>
+                <td><div class="reason" th:text="${vacation.vacationReason}"></div></td>
               </tr>
               <tr>
-                <td class="tg2-7btt" colspan="2">위와 같이 휴가를 신청하오니 승인하여 주시기 바랍니다.</td>
+                <td colspan="2">위와 같이 휴가를 신청하오니 승인하여 주시기 바랍니다.</td>
               </tr>
               <tr>
-                <td class="tg2-7btt"><div class="returnReason">인사담당자 의견</div></td>
-                <td class="tg2-7btt"><div id="returnReason" th:text="${hrReason}"></div></td>
+                <td><div class="returnReason">인사담당자 의견</div></td>
+                <td><div class="reasonBox" id="returnReason" th:text="${hrReason}"></div></td>
               </tr>
               <tr>
-                <td class="tg2-7btt"><div class="returnReason">대표 의견</div></td>
-                <td class="tg2-7btt"><div id="returnReason" th:text="${bossReason}"></div></td>
+                <td><div class="returnReason">대표 의견</div></td>
+                <td><div class="reasonBox" id="returnReason" th:text="${bossReason}"></div></td>
               </tr>
             </tbody>
           </table>
-    </div>
+      </section>
 </body>
 </html>
