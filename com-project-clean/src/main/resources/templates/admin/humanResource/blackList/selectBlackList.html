@@ -8,8 +8,6 @@
     
     <style>
    	.section{
-	margin-left: 0 !important;
-	margin-top: 0 !important;
 	width: 1000px;
 	}
 	.tableBox{
@@ -24,9 +22,11 @@
 	}
 	.searchBox{
 		text-align: right;
+		margin-bottom: 10px;
 	}
 	.pagingBox{
 		 text-align: center;
+		 margin-top: 20px; 
 	}
 	.selectBox{
 		text-align: left;
@@ -37,8 +37,8 @@
 	<div th:replace="/common/Header.html"></div>
 	<div th:replace="/admin/adminAside.html"></div>
 	<section class="section">
+		<div>블랙리스트 조회</div>
 	<div class="searchBox">
-		
 		<form name="blackListForm" action="/admin/select/blackList" id="blackListForm">
 			<span>블랙리스트 조회</span>
 				<select name="category" id="category">
@@ -241,7 +241,7 @@
 
 			for (let i = 0; i < blackList.length; i++) {
 				blackList[i].onmouseenter = function() {
-					this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+					this.parentNode.style.backgroundColor = "#7dbeed96";
 					this.parentNode.style.cursor = "pointer";
 				}
 				blackList[i].onmouseout = function() {

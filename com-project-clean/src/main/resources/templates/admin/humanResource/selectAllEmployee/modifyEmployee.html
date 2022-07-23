@@ -7,8 +7,6 @@
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
 .section{
-	margin-left: 0 !important;
-	margin-top: 0 !important;
 	width: 1000px;
 }
 .tableBox td {
@@ -41,10 +39,10 @@
         
 	        <thead>
 	          <tr>
-	            <td>직원번호</td>
+	            <td class="subTitle">직원번호</td>
 	            <td th:text="${employee.employeeNo}"></td>
 	            <td style="display: none;"><input name="employeeNo" th:value="${employee.employeeNo}"></td>
-	            <td>이름</td>
+	            <td class="subTitle">이름</td>
 	            <td th:text="${employee.employeeName}"></td>
 	            <td colspan="2" rowspan="3"> <img id="pictureImg" th:src="@{/adminEmployeePicture/} + ${employee.employeePictureSaveName}" width="130px" height="130px"></td>
 	            <td style="display: none;"><input type="text" id="oldSaveRoot" name="oldSaveRoot" th:value="${employee.employeePictureSaveRoot}"></td>
@@ -54,9 +52,9 @@
 	            
 	          </tr>
 	          <tr>
-	            <td>ID</td>
+	            <td class="subTitle">ID</td>
 	            <td th:text="${employee.employeeId}"></td>
-                <td>전화번호</td>
+                <td class="subTitle">전화번호</td>
                 <td>
 	             	<select id="employeePhone1" name="employeePhone1" class="required">
 	             		<option value="010">010</option>
@@ -65,12 +63,12 @@
 	             		<option value="018">018</option>
 	             		<option value="019">019</option>
 	             	</select> -
-	             	<input type="text" id="employeePhone2" name="employeePhone2" class="required" maxlength='4' th:value="${phone.middlePhoneNumber}" required style="width: 40px"> -
-	             	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' th:value="${phone.lastPhoneNumber}" required style="width: 40px">
+	             	<input type="text" id="employeePhone2" name="employeePhone2" class="required" maxlength='4' th:value="${phone.middlePhoneNumber}" required style="width: 45px"> -
+	             	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' th:value="${phone.lastPhoneNumber}" required style="width: 45px">
 	             	<input style="display: none;" type="text" id="employeePhone" name="employeePhone">
-            		<div id="middleNumCheckMessage" >중간번호는 3~4자리 숫자를 입력하기로 약속해요</div>
-                   	<div id="endNumCheckMessage" >끝번호는 4자리 숫자를 입력하기로 약속해요</div>
-                   	<div id="duplicateCheckMessage" >중복된 핸드폰번호는 사용하지 않기로 약속해요</div>
+                    	<div class="warning" id="middleNumCheckMessage" >3~4자리 숫자를 입력해주세요</div>
+                    	<div class="warning" id="endNumCheckMessage" >4자리 숫자를 입력해주세요</div>
+                    	<div class="warning" id="duplicateCheckMessage" >중복된 핸드폰번호입니다.</div>
 	             	
 	             	</td>
 	             	<td style="display: none;"><input type="text" th:value="${phone.firstPhoneNumber}" id="firstPhoneNumber" name="firstPhoneNumber">
@@ -78,9 +76,9 @@
 	             	
 	          </tr>
 	          <tr>
-	            <td>생년월일</td>
+	            <td class="subTitle">생년월일</td>
 	            <td th:text="${employee.employeeBirth}"></td>
-	            <td>퇴사여부</td>
+	            <td class="subTitle">퇴사여부</td>
 	            <td>
 	              <Label for="Y">Y</Label>
 	              <input type="radio" name="employeeRetireYn" id="Y" value="Y">
@@ -97,7 +95,7 @@
 	          
 	          
 	          
-	          	<td>이메일</td>
+	          	<td class="subTitle">이메일</td>
 	            <td colspan="3"><input th:value="${email.email}" type="text" id="email" class="required" placeholder="이메일을 입력해주세요" required> @ 
 		 	        <input id="selfInput" name="selfInput" placeholder="이메일 주소를 입력하세요">
 		                <select name="domain" id="domain" >
@@ -108,8 +106,8 @@
 			                <option id="nate" value="nate.com">nate.com</option>
 			                <option id="self" value="id">직접입력</option>
 		                </select>
-                     <div id="emailCheckMessage">5~12자리 대소문자 + 영어로 입력하기로 약속해요</div>
-                     <div id="selfEmailCheckMessage">옳바른 도메인 입력을 약속해요</div>   
+                     <div class="warning" id="emailCheckMessage">5~12자리 대소문자 + 영어를 입력해 주세요</div>
+                     <div class="warning" id="selfEmailCheckMessage">옳바른 도메인을 입력해 주세요</div>   
 		         </td> 
                 <td style="display: none;"><input id="employeeEmail" name="employeeEmail" type="text"/></td>
                 <td style="display: none;"><input id="domainValue" type="text" th:value="${email.domain}"/></td>
@@ -118,33 +116,33 @@
 	                    <td style="display: none;"> <input type="file" id="picture" name="picture" onchange="loadImg(this,1)" accept="image/*">
 	          		</tr>
 	                  <tr>
-	                    <td>우편번호</td>
+	                    <td class="subTitle">우편번호</td>
 	                    <td><div id="addressNo" th:text="${address.addressNo}"></div></td>
-	                    <td>기본주소</td>
+	                    <td class="subTitle">기본주소</td>
 	                    <td><div id="address" th:text="${address.address}"></div></td>
-	                    <td colspan="2"><button type="button" id="findAddress">주소찾기</button></td> 
+	                    <td colspan="2"><button type="button" id="findAddress" style="width: 80px">주소찾기</button></td> 
 	                  </tr>
 	                  <tr>
-	                    <td>상세주소</td>
+	                    <td class="subTitle">상세주소</td>
 	                    <td colspan="5"><input type=text th:value="${address.addressDetail}" id="addressDetail" class="required" name="employeeDetailAddress" placeholder="상세주소를 입력해주세요" style="width: 300px" required ></td>
 	                    <td style="display: none;"><input id="employeeAddress" name="employeeAddress" type="text"/></td>
 	                  </tr>
 	          <tr>
-	            <td>입사일</td>
+	            <td class="subTitle">입사일</td>
 	            <td th:text="${employee.employeeHireDate}"></td>
-	            <td>퇴사일</td>
+	            <td class="subTitle">퇴사일</td>
 	            <td colspan="3" th:text="${employee.employeeRetireDate}"></td>
 	          </tr>
 	          <tr>
-	            <td>누적경고횟수</td>
+	            <td class="subTitle">누적경고횟수</td>
 	            <td th:text="${employee.employeeSumCount}"></td>
-	            <td>누적근무시간</td>
+	            <td class="subTitle">누적근무시간</td>
 	            <td colspan="3" th:text="${employee.employeeSumTime}"></td>
 	          </tr>
 	          <tr>
-	            <td>마지막 로그인 일자</td>
+	            <td class="subTitle">마지막 로그인 일자</td>
 	            <td th:text="${employee.employeeLastLoginDate}"></td>
-	            <td>블랙리스트 여부</td>
+	            <td class="subTitle">블랙리스트 여부</td>
 	            <td colspan="3" th:text="${employee.employeeBlackListYn}"></td>
 	          </tr>
 	        </tbody>
@@ -246,10 +244,16 @@
 										const addressDetail = $(
 												"#addressDetail").val();
 
-										if (!(phone2 || phone3)) {
-											alert("번호를 입력해주세요");
-											$("#employeePhone2").focus();
-										} else if (!(email)) {
+										if(!(phone2)){
+							   				alert("핸드폰 중간번호를 입력해주세요");
+							   				$("#employeePhone2").focus();
+							  			}
+							  			else if(!(phone3)){
+							   				alert("핸드폰 끝번호를 입력해주세요");
+							   				$("#employeePhone3").focus();
+							  			}
+										
+										else if (!(email)) {
 											alert("이메일을 입력해주세요");
 											$("#email").focus();
 										} else if (!(domain)
@@ -285,8 +289,7 @@
 											$(this).focus();
 										} else { // 중간번호 맞으면
 											$("#middleNumCheckMessage").hide();
-											$
-													.ajax({
+											$.ajax({
 														url:"/admin/hr/regist/employee/findMiddlePhone",														success : function(data) {
 															for (var i = 0; i < data.length; i++) {
 																if (data[i] == $("#employeePhone1").val() + $("#employeePhone2").val() + $("#employeePhone3").val()) { // 중복값이면
@@ -314,8 +317,7 @@
 							.focusout(
 									function() {
 										var regexp = /^[0-9]{4}/g;
-										if (!regexp.test($("#employeePhone3")
-												.val())) {
+										if (!regexp.test($("#employeePhone3").val())) {
 											$("#duplicateCheckMessage").hide();
 											$("#middleNumCheckMessage").hide();
 											$("#endNumCheckMessage").show();
@@ -326,6 +328,7 @@
 													.ajax({
 														url:"/admin/hr/regist/employee/findMiddlePhone",														success : function(data) {
 															for (var i = 0; i < data.length; i++) {
+											     				if(!$("#employeePhone2")){
 																if (data[i] == $("#employeePhone1").val()+ $("#employeePhone2").val()+ $("#employeePhone3").val()) {$("#duplicateCheckMessage").show();
 																	$("#middleNumCheckMessage").hide();
 																	$("#endNumCheckMessage").hide();
@@ -336,6 +339,7 @@
 																	$("#middleNumCheckMessage").hide();
 																	$("#endNumCheckMessage").hide();
 																}
+											     				}
 															}
 														},
 														error : function() {
@@ -378,7 +382,7 @@
 						if (!confirm("수정을 취소하시겠습니까?")) {
 						} else {
 							alert("취소 되었습니다.")
-							location.href = "/";
+							location.href = "/admin/select/AllEmployee/move";
 						}
 					});
 
