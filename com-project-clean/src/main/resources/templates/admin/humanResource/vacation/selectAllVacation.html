@@ -6,14 +6,44 @@
     <title>Document</title>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
-
+<style>
+	.section{
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		width: 1000px;
+	}
+	.tableBox{
+		width: 1000px;
+		border: 1px solid black;
+	}
+	.tableBox tr{
+		height: 45px;
+	}
+	.tableBox td{
+		height: 45px;
+	}
+	.searchBox{
+		text-align: right;
+	}
+	.pagingBox{
+		 text-align: center;
+	}
+	.selectBox{
+		text-align: left;
+	}
+</style>
 
 <body>
 
 	<div th:replace="/common/Header.html"></div>
-	<div th:replace="/admin/adminAside.html"></div>    
-      <div th:replace="admin/humanResource/vacation/selectAllVacationHeader"></div>
+	<div th:replace="/admin/adminAside.html"></div> 
+	
+	<section class="section">   
+	<div class="selectBox">
+    	<div th:replace="admin/humanResource/vacation/selectAllVacationHeader"></div>
+	</div>
       
+      <div class="searchBox">
       	<form name="myVacationForm" action="/admin/select/selectMyVacation" id="myVacationForm">
         <span>휴가 승인 반려 전체 조회</span>
 
@@ -27,14 +57,14 @@
 		<input type="text" id="categoryValue" name="categoryValue" placeholder="휴가 내역 검색">
 		<input type="date" id="startCalendar" name="startDate" style="display: none">
 		<input type="date" id="endCalendar" name="endDate" style="display: none">
-		<input type="text" style="display: none;"> <!-- enter - submit 방지 -->
 		<input type="hidden" id="adminNo" name="adminNo" th:value="${#authentication.principal.adminNo}">
 		
 		<button type="button" id="search" onclick="vacationListAjax();">검색</button>
 		<input type="hidden" value="0" name=page>
 	  </form>
-	
-        <table id="vacationTable" border="1">
+	</div>
+		
+        <table id="vacationTable" class="tableBox">
             <thead>
                 <tr>
                     <th>신청번호</th>
@@ -59,11 +89,10 @@
 		<input type="hidden" value="0" name=page>
         </form>
         
-        
-        	<div id="paging" style="display: flex; justify-content: center;">
+        	<div id="paging" class="pagingBox">
                <!-- /* 페이징 버튼들어올 공간 */ -->
 			</div>
-        
+        </section>
     <script>
 
 
