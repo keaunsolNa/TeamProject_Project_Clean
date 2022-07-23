@@ -26,3 +26,8 @@ table th, table tr, table td {
  }
  
  
+tr:nth-of-type(1){background: #7DBEED;}
+table th{
+	border: 1px solid black;
+}
+ 

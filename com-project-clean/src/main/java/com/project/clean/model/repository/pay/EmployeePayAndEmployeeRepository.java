@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.project.clean.model.domain.joinEntity.EmployeePayAndApplyEmployee;
+import com.project.clean.model.dto.joinDTO.EmployeePayAndApplyEmployeeDTO;
 
 public interface EmployeePayAndEmployeeRepository  extends JpaRepository<EmployeePayAndApplyEmployee, Integer> {
 
@@ -18,6 +19,9 @@ public interface EmployeePayAndEmployeeRepository  extends JpaRepository<Employe
 	List<EmployeePayAndApplyEmployee> findByEmployeeEmployeeNameContaining(String searchValue, Pageable paging);
 
 	List<EmployeePayAndApplyEmployee> findByEmployeeEmployeePhoneContaining(Integer valueOf, Pageable paging);
+
+	List<EmployeePayAndApplyEmployee> findAllByEmployeeEmployeeNo(int employeeNo, Pageable paging);
+
 	
 	
 	

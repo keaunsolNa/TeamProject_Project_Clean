@@ -1,9 +1,7 @@
 package com.project.clean.model.dto.commonDTO;
 
 import java.io.Serializable;
-import java.sql.Blob;
 import java.sql.Date;
-import java.util.Arrays;
 
 public class AdminDTO implements Serializable{
 	private static final long serialVersionUID = 39901060286130650L;

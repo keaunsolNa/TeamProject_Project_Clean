@@ -29,7 +29,7 @@ public interface PayService {
 	public List<AdminPayAndAdminDTO> adminPaySearch(SelectCriteria selectCriteria);
 
 	// 관리자 급여 상세 조회
-	public AdminPayAndAdminDTO findAdminPayByPayHistoryNo(int payHistoryAdminNo);
+	public AdminPayAndAdminDTO findAdminPayByPayHistoryAdminNo(int payHistoryAdminNo);
 	
 	// 급여를 한번도 받지 않은 신입 관리자 조회
 	public List<AdminAndAdminPayDTO> findNullAdmin();
@@ -37,10 +37,11 @@ public interface PayService {
 	// 이번 달 급여를 받은 관리자 조회
 	public List<AdminAndAdminPayDTO> findPaidAdmin();
 	
+	// 모든 관리자 조회
 	public List<AdminAndAdminPayDTO> findAllAdmin();
 
 	// 관리자 번호로 관리자 한명 조회
-	public AdminDTO findAdminByPayAdminNo(int adminNo);
+	public AdminDTO findAdminByAdminNo(int adminNo);
 	
 	// 관리자 급여 등록
 	public void registAdminPay(int adminNo, int salary, int insurance);
@@ -60,7 +61,9 @@ public interface PayService {
 
 	// 직원 급여 지급
 	public void registEmployeePay(int applyReservationNo, int applyEmployeeNo, int payEmployeeFinalSalary);
-
+	
+	// 직원 상세 조회
+	public EmployeePayAndApplyEmployeeDTO findEmployeePayByPayHistoryEmployeeNo(int payHistoryEmployeeNo);
 	
 	// 모든 직원 찾기
 	public List<EmployeeDTO> findAllEmployee();
@@ -73,8 +76,32 @@ public interface PayService {
 
 	// 이달의 우수사원 급여 전체 조회
 	public List<BestEmployeePayAndEmployeeDTO> bestEmployeePaySearch(SelectCriteria selectCriteria);
+	
 
-	public EmployeePayAndApplyEmployeeDTO findEmployeePayByPayHistoryEmployeeNo(int payHistoryEmployeeNo);
+	
+	// 내 급여----------------------------------------------------
+	// 관리자 내 급여 카운트
+	public int selectMyPayForAdminTotalCount(int adminNo);
+
+	public List<AdminPayAndAdminDTO> myPayForAdmin(int adminNo, SelectCriteria selectCriteria);
+	
+	// 아이디로 관리자 찾기
+	public AdminDTO findAdminByAdminId(String adminId);
+	
+	
+	// 아이디로 직원 찾기
+	public EmployeeDTO findEmployeeByEmployeeId(String employeeId);
+	
+	// 직원 내 급여 카운트
+	public int selectMyPayForEmployeeTotalCount(int employeeNo);
+
+	// 직원 내 급여 페이징
+	public List<EmployeePayAndApplyEmployeeDTO> myPayForEmployee(int employeeNo, SelectCriteria selectCriteria);
+	
+	
+
+
+	
 
 
 	

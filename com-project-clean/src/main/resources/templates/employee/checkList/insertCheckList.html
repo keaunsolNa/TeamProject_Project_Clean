@@ -11,12 +11,14 @@
     	th:href="@{/css/employee/checklist/checkList.css}">
    	<script 
    		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+ 	<script 
+		src="https://code.jquery.com/jquery-3.4.1.min.js"></script>		
 </head>
 
 <body>
 	<input hidden type="text" th:value="${userId}" class="employeeName" id="employeeName">
 	
-	<form hidden>
+	<form hidden id="sendForm">
     	<div>
      	 	<input type="text" id="sendingMessage">
         	<input type="text" id="sendingName" >
@@ -25,7 +27,7 @@
 	</form>
 
 	<section>
-		<form method="post" action="/employee/checkList/update"  enctype="multipart/form-data">
+		<form method="post" action="/employee/checkList/update"  enctype="multipart/form-data" id="formSender">
 			<input type="hidden" th:value="${ checkList.checkReservationNo }" class="reservationNo" name="reservationNo">
 			
 			<p th:utext="${ checkList.checkHTML }" class="jbHtml"></p>	
@@ -67,6 +69,14 @@
 	<br><br><br><br>    	
 	<input type="button" id="submitButton" value="제출" class="submittbtn" >	  
 	
+	<th:block sec:authorize="hasRole('ADMIN')">			
+		<h3><span hidden sec:authentication="principal.adminId" id="userId" th:value="principal.adminId"></span></h3>
+	</th:block>
+
+	<th:block sec:authorize="hasRole('EMPLOYEE')">			
+		<h3><span hidden sec:authentication="principal.employeeId" id="userId" th:value="principal.employeeId"></span></h3>
+	</th:block>
+	
     
 	<!-- submit script -->
     <script>
@@ -74,6 +84,7 @@
 	    const jbHtml = "";
 	    const userName = document.getElementById("employeeName").value
 	    var dataURL = "";
+	    
     	document.getElementById("submitButton").onclick = function(){
 	    	
 	    	if(dataURL == ""){
@@ -148,7 +159,6 @@
 		}
 	}
 
-
 	</script>	
 			
 	<!-- checkBox script -->		
@@ -173,7 +183,7 @@
 	
 	<!--  canvas script -->
 	<script>
-	window.onload = function() {
+	$(document).ready(function() {
 		(function(obj){      
 		                    obj.init();      
 		                    $(obj.onLoad);
@@ -253,9 +263,17 @@
 		                            }}})());  
 			
 							
-	};			
+	});			
 	</script>
 </body>
 
+	<script
+   		src="/js/socket.js"></script> 
+   	<script 
+    	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script 
+   		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script
+		src="http://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 
 </html>

@@ -9,23 +9,24 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <style>
-table td {
-	border-color: black;
-	border-style: solid;
-	border-width: 1px;
-	font-size: 14px;
-	overflow: hidden;
-	padding: 10px 10px;
-	font-weight: bold;
-	text-align: center;
+.section{
+	margin-left: 0 !important;
+	margin-top: 0 !important;
+	width: 1000px;
 }
 
-table th {
-	border-style: solid;
-	border-width: 1px;
+.tableBox td {
+	border: solid 1px;
 	font-size: 14px;
-	font-weight: normal;
-	overflow: hidden;
+	padding: 10px 10px;
+}
+
+.buttonBox{
+	width:840px;
+	text-align: center;
+
+}.selectBox{
+	text-align: left;
 }
 
 </style>
@@ -34,22 +35,28 @@ table th {
     <!-- jQuery library -->
 </head>
 
-<body>
+<body >
 
 	<div th:replace="/common/Header.html"></div>
 	<div th:replace="/admin/adminAside.html"></div>    
-	<div th:replace="/admin/humanResource/registEmployee/adminRegistMainHeader.html"></div>
 	
+	<section class="section">
+		<div class="selectBox">
+			<div th:replace="/admin/humanResource/registEmployee/adminRegistMainHeader.html"></div>
+		</div>
+		<br>
 		        <form action="/admin/hr/regist/employee" method="post" id="registForm" encType="multipart/form-data">
-	                <table class="tg" style="table-layout: fixed; width: 1536px">
+	                <table class="tableBox">
+	                
 	                <colgroup>
-	                <col style="width: 158px">
-	                <col style="width: 147px">
-	                <col style="width: 155px">
-	                <col style="width: 139px">
-	                <col style="width: 68px">
-	                <col style="width: 69px">
+	                <col style="width: 150px">
+	                <col style="width: 150px">
+	                <col style="width: 150px">
+	                <col style="width: 250px">
+	                <col style="width: 70px">
+	                <col style="width: 70px">
 	                </colgroup>
+	                
 	                <thead>
 	                  <tr>
 	                    <td class="tg-7btt">직원번호</td>
@@ -61,7 +68,7 @@ table th {
 	                    <div id="nameCheckMessage">2~4글자 한글을 입력하기로 해요</div></td>
 	                    
 	                    <!-- <td class="tg-7btt" colspan="2" rowspan="3"><div id="picture">사진</div></td> -->
-	                    <td class="tg-7btt" colspan="2" rowspan="3"><img id="pictureImg" width="100px" height="100px"></td>
+	                    <td class="tg-7btt" colspan="2" rowspan="3"><img id="pictureImg" width="120px" height="120px"></td>
 	                    
 	                    
 	                  </tr>
@@ -71,6 +78,7 @@ table th {
 	                    <td class="tg-7btt" style="display: none;"><input name="employeeId" th:value="${employeeId}"/></td>
 	                    <td class="tg-7btt">전화번호</td>
 	                    <td class="tg-7btt" style="width: 200px">
+	                    
 	                    	<select id="employeePhone1" name="employeePhone1" class="required">
 	                    		<option selected>010</option>
 	                    		<option>011</option>
@@ -78,6 +86,7 @@ table th {
 	                    		<option>017</option>
 	                    		<option>019</option>
 	                    	</select>-
+	                    	
 	                    	<input type="text" id="employeePhone2" name="employeePhone2" class="required" maxlength='4' required style="width: 50px" placeholder="숫자 3~4자리">-
 	                    	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' required style="width: 50px"  placeholder="숫자 4자리">
 	                    	<input style="display: none;" type="text" id="employeePhone" name="employeePhone">
@@ -96,29 +105,8 @@ table th {
 	                <tbody>
 	                  <tr>
 	                  
-	                  
-	                  
-	                  
-	                  
-	                  
-	                  
-	                  
-	                  
-	                  
-	                  
-	                  
-	                  
-	                  
-	                  
-	                  
-	                  
-	                  
-	                  
-	                  
-	                  
-	                  
 	                    <td class="tg-7btt">이메일</td>
-	                    <td class="tg-7btt" colspan="3"><input type="text" id="email" class="required" name="email" required style="width: 200px;"  placeholder="영문 대소문자+숫자 5~12자리"> @ 
+	                    <td class="tg-7btt" colspan="3"><input type="text" id="email" class="required" name="email" required style="width: 250px;"  placeholder="영문 대소문자+숫자 5~12자리"> @ 
 	                    <input id="selfInput" name="selfInput" placeholder="이메일 주소를 입력하세요">
 	                      <select name="domain" id="domain" style="width: 100px; height: 25px;">
 	                    <option id="naver" value="naver.com" selected>naver.com</option>
@@ -128,12 +116,7 @@ table th {
 	                    <option id="nate" value="nate.com">nate.com</option>
 	                    <option id="self">직접입력</option>
 	                      </select>
-	                      
-	                      
-	                      
-	                      
-	                      
-	                      
+
 	                      <div id="emailCheckMessage">5~12자리 대소문자 + 영어로 입력하기로 약속해요</div>
 	                      <div id="selfEmailCheckMessage">옳바른 도메인 입력을 약속해요</div>
 	                      </td>
@@ -178,16 +161,16 @@ table th {
 	                    <td class="tg-7btt">블랙리스트 여부</td>
 	                    <td class="tg-7btt" colspan="3">N</td>
 	                  </tr>
-	                  <tr>
-	                    <td colspan="6" class="button" style="border-left: none; border-right: none; border-bottom: none;">
-	                        <button type="button" id="regist">등록 확인</button>
-	                        <button type="button" id="resetButton">초기화</button>
-	                    </td>
-	                  </tr>
 	                </tbody>
 	                </table>
+	                <div class="buttonBox">
+	                        <button type="button" id="regist">등록 확인</button>
+	                        <button type="button" id="resetButton">초기화</button>
+	                </div>
                 </form>
+            </section>
                 <br>
+	
 
     <script>
 
