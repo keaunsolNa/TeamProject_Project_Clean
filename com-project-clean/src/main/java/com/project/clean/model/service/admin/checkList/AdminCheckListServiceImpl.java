@@ -106,7 +106,7 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 		/* 체크리스트 HTML 값 주입 */
 		checkListEntity.setCheckHTML(checkList.getCheckHTML());
 
-		/* parameter로 넘어온 값으로 각각의 체크리스트 상태에 맞는 체크리스트 조회 */
+		/* parameter로 넘어온 값으로 각각의 체크리스트 상태 변경*/
 		if(checkList.getCheckStatus().equals("D")) {
 			
 			checkListEntity.setCheckStatus("D");
@@ -117,6 +117,7 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 			
 		} else if(checkList.getCheckStatus().equals("B")) {
 			
+			/* 반려 시 추가 비지니스 로직 수행 */
 			checkListEntity.setCheckStatus("B");
 			
 			/* 체크리스트에서 예약 번호 조회 */
@@ -186,7 +187,8 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 				List<CheckList> checkArrayList = paging.getContent();
 				
 				checkList = checkArrayList.stream().map(list -> modelMapper.map(list, CheckListDTO.class)).toList();
-				System.out.println("Service Test1 :" + checkList);
+				
+				/* 페이징 처리 */
 				int currentPage = paging.getNumber();
 				int maxPage = paging.getTotalPages();
 				int startPage = (int)(currentPage / 5) * 5;
@@ -203,7 +205,6 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 				map.put("category", category);
 				map.put("categoryValue", categoryValue);
 				
-				System.out.println("Service 테스트2 : " + map);
 				/* 매개변수로 adminEntity 조회 */
 				Admin admin = adminRepository.findByAdminId(adminId);
 				
