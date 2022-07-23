@@ -29,7 +29,7 @@
 	</form>
 </section>
 
-<div class="submitarea">
+<div class="submitarea" id="submitarea">
 	<input type="button" value="승인" id="accept">
 	&nbsp;&nbsp;&nbsp;&nbsp;
 	<input type="button" value="블랙+" id="denial">
@@ -56,6 +56,14 @@
 <!-- textarea script -->
 <script>
 	
+	if(document.getElementById("employeeOpnion2")){
+		console.log("있음111")
+	} else{
+		console.log("없음222")
+		const div = document.getElementById("submitarea");
+		div.remove();
+	}
+	
 	$("#adminOpnion").prop("readonly", true);
 	$("#adminOpnion2").prop("readonly", true);
 	$("#employeeOpnion2").prop("readonly", true);
@@ -75,7 +83,7 @@
 		    
 	    	document.getElementById("denial").onclick = function(){
 	    		
-				if(confirm("해당 직원에게 블랙리스트 경고 횟수를 추가하시겠습니까? /n 직원에게 알림이 전송됩니다.")){
+				if(confirm("해당 직원에게 블랙리스트 경고 횟수를 추가하시겠습니까? 직원에게 알림이 전송됩니다.")){
 	    			
 	    			$("#sendingMessage").val("체크리스트가 재반려되었습니다. 블랙리스트 경고 횟수가 증가합니다.")
 	    			
