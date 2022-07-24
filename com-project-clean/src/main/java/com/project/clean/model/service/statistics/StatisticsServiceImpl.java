@@ -15,19 +15,21 @@ import com.project.clean.model.dto.commonDTO.EmployeeStatisticsDTO;
 import com.project.clean.model.dto.commonDTO.StatisticsDTO;
 import com.project.clean.model.dto.joinDTO.AdminAndAdminPayDTO;
 import com.project.clean.model.dto.joinDTO.AdminPayAndAdminDTO;
-import com.project.clean.model.repository.statistics.StatisticsAdminAndAdminPayRepository;
-import com.project.clean.model.repository.statistics.StatisticsRepository;
+import com.project.clean.model.repository.statistics.*;
 
 @Service
 public class StatisticsServiceImpl implements StatisticsService{
 	private final StatisticsRepository statisticsRepository;
 	private final StatisticsAdminAndAdminPayRepository statisticsAdminAndAdminPayRepository;
+	private final StatisticsEmployeeRepository statisticsEmployeeRepository;
 	private final ModelMapper modelMapper;
 	
 	@Autowired
-	public StatisticsServiceImpl(StatisticsRepository statisticsRepository, StatisticsAdminAndAdminPayRepository statisticsAdminAndAdminPayRepository, ModelMapper modelMapper) {
+	public StatisticsServiceImpl(StatisticsRepository statisticsRepository, StatisticsEmployeeRepository statisticsEmployeeRepository, 
+								StatisticsAdminAndAdminPayRepository statisticsAdminAndAdminPayRepository, ModelMapper modelMapper) {
 		this.statisticsRepository = statisticsRepository;
 		this.statisticsAdminAndAdminPayRepository = statisticsAdminAndAdminPayRepository;
+		this.statisticsEmployeeRepository = statisticsEmployeeRepository;
 		this.modelMapper = modelMapper;
 	}
 	
@@ -91,22 +93,20 @@ public class StatisticsServiceImpl implements StatisticsService{
 //		return employeeList;
 
 	/* 이달의 우수직원 조회 */
-	@Override
-	public List<EmployeeStatisticsDTO> findBestEmployeeWithQuery() {
-//		List<Employee> employeeList = statisticsRepository.findBestEmployeeWithQuery();					
-			
-		List<Object[]> resultList = statisticsRepository.findBestEmployeeWithQuery();
-		
-		for(Object[] row : resultList) {
-			System.out.println("" + row[0] + '/' + row[1] + '/' + row[2]);
-		}
-		
-		return resultList.stream().map(returnList -> new EmployeeStatisticsDTO(
-					Integer.parseInt(String.valueOf(returnList[0])),
-					(String) returnList[1],
-					Integer.parseInt(String.valueOf(returnList[2]))
-				)).collect(Collectors.toList());
-	}
+//	@Override
+//	public List<EmployeeStatisticsDTO> findBestEmployeeWithQuery() {		
+//		List<Object[]> resultList = statisticsRepository.findBestEmployeeWithQuery();
+//		
+//		for(Object[] row : resultList) {
+//			System.out.println("" + row[0] + '/' + row[1] + '/' + row[2]);
+//		}
+//		
+//		return resultList.stream().map(returnList -> new EmployeeStatisticsDTO(
+//					Integer.parseInt(String.valueOf(returnList[0])),
+//					(String) returnList[1],
+//					Integer.parseInt(String.valueOf(returnList[2]))
+//				)).collect(Collectors.toList());
+//	}
 
 	@Override
 	public List<AdminAndAdminPay> findByAdminJob(String job) {
@@ -114,8 +114,14 @@ public class StatisticsServiceImpl implements StatisticsService{
 	}
 
 	@Override
-	public List<Employee> findByEmployeeNo(int no) {
+	public List<Employee> findAll() {
+		// TODO Auto-generated method stub
+		return statisticsEmployeeRepository.findAll();
+	}
+	
+	public List<Employee> findAllOrderByEmployeeSumTimeDesc() {
 		// TODO Auto-generated method stub
 		return null;
+//		return statisticsEmployeeRepository.findAllOrderByEmployeeSumTimeDesc();
 	}
 }

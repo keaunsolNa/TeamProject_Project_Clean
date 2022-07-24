@@ -1,5 +1,6 @@
 package com.project.clean.controller.statistics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,10 +98,9 @@ private final StatisticsService statisticsService;
 	@GetMapping("employeeTotalWorkhoursDetail")
 	public ModelAndView detail(ModelAndView mv) {
 		
-		//List<Employee> employeeList = statisticsService.findall();
-		
-//		mv.addObject("workHoursDetail", employeeList);
-//		mv.setViewName("/statistics/workHoursDetail");
+		List<Employee> employeeList = statisticsService.findAll();
+		mv.addObject("employeeList", employeeList);
+		mv.setViewName("/statistics/employeeTotalWorkhoursDetail");
 		
 		return mv;
 	}
@@ -108,10 +108,16 @@ private final StatisticsService statisticsService;
 	/* 이달의 우수직원 조회 */
 	@GetMapping("bestEmployee")
 	public ModelAndView bestEmployee(ModelAndView mv) {
-		List<EmployeeStatisticsDTO> employeeList = statisticsService.findBestEmployeeWithQuery();
+//		List<EmployeeStatisticsDTO> employeeList = statisticsService.findBestEmployeeWithQuery();
+		List<Employee> employeeList = statisticsService.findAllOrderByEmployeeSumTimeDesc();
+		List<Employee> bestEmployeeList = new ArrayList<Employee>();
 		
-		mv.addObject("employeeList", employeeList);
-		mv.addObject("bestEmployee", employeeList.get(0).getName());
+		for(int i=0; i<5; i++) {
+			bestEmployeeList.add(employeeList.get(i));
+		}
+				
+		mv.addObject("employeeList", bestEmployeeList);
+		mv.addObject("bestEmployee", bestEmployeeList.get(0));
 		mv.setViewName("statistics/bestEmployee");
 		
 		return mv;

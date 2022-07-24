@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.project.clean.model.domain.commonEntity.Employee;
 import com.project.clean.model.domain.joinEntity.AdminAndAdminPay;
-import com.project.clean.model.dto.commonDTO.EmployeeStatisticsDTO;
 import com.project.clean.model.dto.commonDTO.StatisticsDTO;
 
 public interface StatisticsService {
@@ -33,8 +32,8 @@ public interface StatisticsService {
 	int findTotalHoursWithQuery();
 
 	/* 이달의 우수직원 조회 */
-	List<EmployeeStatisticsDTO> findBestEmployeeWithQuery();
+	List<Employee> findAllOrderByEmployeeSumTimeDesc();
 
 	/* 직원 근무시간 조회 */
-	List<Employee> findByEmployeeNo(int no);
+	List<Employee> findAll();
 }

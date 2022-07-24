@@ -6,10 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.project.clean.model.domain.commonEntity.Employee;
 
-public interface statisticsEmployeeRepository extends JpaRepository<Employee, Integer>{
+public interface StatisticsEmployeeRepository extends JpaRepository<Employee, Integer>{
 
 	/* 직원 근무시간 조회 */
-	public List<Employee> findByEmployeeNo(int no);
+	public List<Employee> findAll();
+	
+//	public List<Employee> findAllOrderByEmployeeSumTimeDesc();
+
 	
 	
 }
