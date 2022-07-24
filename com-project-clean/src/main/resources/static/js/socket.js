@@ -53,7 +53,6 @@ $(function () {
 
 $(document).ready(function(){
 	connect()
-	Notification.requestPermission();
 });	
 
  

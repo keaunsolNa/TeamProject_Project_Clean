@@ -214,7 +214,7 @@ public class CheckListServiceImpl implements CheckListService{
 			
 			/* parameter 인자값으로 다른 CheckList Entity 객체 조회 */
 			if(parameter == 1) {
-				checkList = checkListRepository.findAllByCheckStatusOrCheckStatus("D", "R");
+				checkList = checkListRepository.findAllByCheckStatusOrCheckStatusOrCheckStatus("D", "R", "E");
 			} else if(parameter == 2) {
 				checkList = checkListRepository.findAllByCheckStatus("A");
 			} else if(parameter == 3) {
@@ -280,6 +280,8 @@ public class CheckListServiceImpl implements CheckListService{
 							checkStatus = "확인중";
 						} else if(checkStatus.equals("D")) {
 							checkStatus = "반려";
+						} else if(checkStatus.equals("E")) {
+							checkStatus = "사유서 제출";
 						} else if(checkStatus.equals("A")) {
 							checkStatus = "통과";
 						} else if(checkStatus.equals("B")) {
