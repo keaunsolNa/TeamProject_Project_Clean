@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -110,16 +112,25 @@ public class AdminCheckListController {
 	
 	/* KS. 반려 체크리스트 목록 조회 */
 	@GetMapping("denial/select")
-	public String denialCheckListSelect() {
+	public ModelAndView denialCheckListSelect(ModelAndView mv) {
 		
-		return "admin/checkList/selectDenialCheckList";
+		List<CheckListDTO> checkList = adminCheckListService.selectAllCheckList(); 
+		
+		mv.addObject("CheckListArray", checkList);
+		mv.setViewName("admin/checkList/selectDenialCheckList");
+		return mv;
 	}
 	
 	/* KS. 반려 체크리스트 목록 조회 */
 	@PostMapping(value = "denial/select")
 	@ResponseBody
 	public Map<String, Object> denialCheckListSelect(Principal principal, String category, String categoryValue,
-			@PageableDefault(sort = "checkReservationNo", size = maxLine) Pageable pageable) throws JsonProcessingException {
+			@PageableDefault(size = maxLine)
+			@SortDefault.SortDefaults({
+				@SortDefault(sort = "checkStatus", direction = Sort.Direction.DESC), 
+				@SortDefault(sort = "checkReservationNo", direction = Sort.Direction.DESC)
+			})Pageable pageable)
+					throws JsonProcessingException {
 		
 		Map<String, Object> map = new HashMap<>();
 		String adminId = principal.getName();
@@ -161,7 +172,7 @@ public class AdminCheckListController {
 	@PostMapping(value = "accept/select")
 	@ResponseBody
 	public Map<String, Object> acceptCheckListSelect(Principal principal, String category, String categoryValue,
-			@PageableDefault(sort = "checkReservationNo", size = maxLine) Pageable pageable) throws JsonProcessingException {
+			@PageableDefault(sort = "checkReservationNo", size = maxLine, direction = Sort.Direction.DESC) Pageable pageable) throws JsonProcessingException {
 		
 		Map<String, Object> map = new HashMap<>();
 		String adminId = principal.getName();
@@ -261,7 +272,7 @@ public class AdminCheckListController {
 	@PostMapping(value = "black/select")
 	@ResponseBody
 	public Map<String, Object> blackCheckListSelect(Principal principal, String category, String categoryValue,
-				@PageableDefault(sort = "checkReservationNo", size = maxLine) Pageable pageable) throws JsonProcessingException {
+				@PageableDefault(sort = "checkReservationNo", size = maxLine, direction = Sort.Direction.DESC) Pageable pageable) throws JsonProcessingException {
 			
 			Map<String, Object> map = new HashMap<>();
 			String adminId = principal.getName();

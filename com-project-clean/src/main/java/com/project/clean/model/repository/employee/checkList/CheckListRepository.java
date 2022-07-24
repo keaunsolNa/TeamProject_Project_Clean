@@ -23,16 +23,21 @@ public interface CheckListRepository  extends JpaRepository<CheckList, Integer>{
 	/* KS. 예약번호로 체크리스트 조회 */
 	CheckList findByCheckReservationNo(Integer checkReservationNo);
 
-	/* KS. 체크리스트 상태 2개로 체크리스트 모두 조회 */
-	List<CheckList> findAllByCheckStatusOrCheckStatus(String string, String string2);
+	/* KS. 체크리스트 상태 3개로 체크리스트 모두 조회 */
+	List<CheckList> findAllByCheckStatusOrCheckStatusOrCheckStatus(String string, String string2, String string3);
 
 	/* KS. 체크리스트 상태로 체크리스트 조회 */
 	CheckList findByCheckStatus(String checkStatus);
 
-	/* KS. 체크리스트 페이징 */
-	int countByCheckStatus(String string);
-
+	/* KS. 모든 체크리스트 목록 조회 (페이징) */
 	Page<CheckList> findAllByCheckStatus(String status, Pageable pageable);
+
+	/* KS. 모든 체크리스트 목록 조회2 (페이징) */
+	Page<CheckList> findAllByCheckStatusAndAdminNo(String status, Integer adminNo, Pageable pageable);
+
+	/* KS. 모든 체크리스트 목록 조회 3 (페이징) */
+	Page<CheckList> findAllByCheckStatusOrCheckStatusAndAdminNo(String status, String status2, Integer adminNo,
+			Pageable pageable);
 
 
 

@@ -57,6 +57,8 @@
 		<input type="text" id="categoryValue" name="categoryValue" placeholder="휴가 내역 검색">
 		<input type="date" id="startCalendar" name="startDate" style="display: none">
 		<input type="date" id="endCalendar" name="endDate" style="display: none">
+		<input type="text" style="display: none;"> <!-- enter - submit 방지 -->
+		
 		<input type="hidden" id="adminNo" name="adminNo" th:value="${#authentication.principal.adminNo}">
 		
 		<button type="button" id="search" onclick="vacationListAjax();">검색</button>

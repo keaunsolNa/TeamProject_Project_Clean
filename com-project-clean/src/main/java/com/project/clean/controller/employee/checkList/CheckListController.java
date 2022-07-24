@@ -205,7 +205,7 @@ public class CheckListController {
 		
 		checkListDTO.setCheckReservationNo(reservationNo);
 		checkListDTO.setCheckHTML(request.getParameter("jbHtml"));
-		checkListDTO.setCheckStatus("D");
+		checkListDTO.setCheckStatus("E");
 		
 		int result = checkListService.updateCheckList(checkListDTO);
 		
