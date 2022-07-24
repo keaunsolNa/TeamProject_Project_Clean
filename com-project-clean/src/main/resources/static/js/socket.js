@@ -1,8 +1,8 @@
 var stompClient = null;
 var senderName = null;
 var clientName = document.getElementById("client").value;
-
-console.log(clientName)
+var movePath = null;
+var desPath = null;
 function setConnected(connected) {
     if (connected) {
         $("#conversation").show();
@@ -33,36 +33,39 @@ function sendName() {
 function showGreeting(message) {
     $("#ReceiveMessage").show();
     $("#ReceiveMessage").append("<tr><td>" + message + "</td></tr>");
-   
-}
-function sendjs(){
-	
-}
+//  $("#ReceiveMessage").append("<button id='move' type='button'>" + "관련 페이지로 이동" + "</button>");
+    $("#ReceiveMessage").append("<script>" + alert(message) + "</script>");
+//    $("#ReceiveMessage").append("<script>" + 'if(confirm("내용을 확인하시겠습니까?")){location.href="message"}' + "</script>");
 
+}
+	
 $(function () {
 	$("form").on('submit', function (e) {
 		if(document.getElementById("formSender")){
 			senderName = document.getElementById("employeeName").value;
+			desPath = document.getElementById("path").value;
         e.preventDefault();
 		    $( "#connect" ).click(function() { connect(); });
 			$( "#disconnect" ).click(function() { disconnect(); });
 	    	sendName();  
+	    	
 		}	
     });
 });
 
 $(document).ready(function(){
-	connect()
+	connect();
+	Notification.requestPermission();
 });	
 
  
-function calculate() {
+function calculate(movePath) {
     setTimeout(function () {
-        notify();
+        notify(movePath);
     }, 1000);
 }
  
-function notify() {
+function notify(movePath) {
     if (Notification.permission !== 'granted') {
         alert('알람 신청이 거부되었습니다. 승인이 필요합니다.');
     }
@@ -73,8 +76,10 @@ function notify() {
         });
  
         notification.onclick = function () {
-			movePath = document.getElementById("movePath").value;
-            window.open($("#path").val());
+	
+			movePath = document.getElementById("path").value;
+			console.log(movePath)
+            	window.open(movePath);
         };
     }
 }

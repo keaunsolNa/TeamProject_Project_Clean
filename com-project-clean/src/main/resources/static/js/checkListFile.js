@@ -1,5 +1,4 @@
-		
-	const $contentImgArea1 = document.getElementById("contentImgArea1");
+const $contentImgArea1 = document.getElementById("contentImgArea1");
 	const $contentImgArea2 = document.getElementById("contentImgArea2");
 	
 	$contentImgArea1.onclick = function() {
@@ -29,4 +28,3 @@
 			}
 		}
 	}
-

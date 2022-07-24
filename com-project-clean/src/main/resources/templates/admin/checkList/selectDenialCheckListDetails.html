@@ -47,24 +47,7 @@
     <button id="send" type="submit">Send</button>
 </form>
 
-<!-- textarea script -->
-<script>
-	
-	if(document.getElementById("employeeOpnion2")){
-	} else{
-		const div = document.getElementById("submitarea");
-		div.remove();
-	}
-	
-	$("#adminOpnion").prop("readonly", true);
-	$("#adminOpnion2").prop("readonly", true);
-	$("#employeeOpnion2").prop("readonly", true);
-	$('textarea').keyup(function(){
-		var letter = $(this).val()
-		$('#adminOpnion').html(letter)
-	})
-	
-</script>
+
 <!-- Submit script -->
     <script>
     	
@@ -152,5 +135,6 @@
    		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script
 		src="http://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-
+	<script 
+		src="/js/adminTextArea1.js"></script>
 </html>
