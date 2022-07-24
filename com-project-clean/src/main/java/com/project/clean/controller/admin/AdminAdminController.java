@@ -64,6 +64,14 @@ public class AdminAdminController {
 		return result;
 	}
 	
+	/* 관리자 마이페이지 이동 */
+	@GetMapping("hrCard/selectOneAdminMove")
+	public String selectAdminMyPage() {
+		
+		return "admin/hrCard/selectOneAdminMove";
+	}
+	
+	
 	/* 관리자 등록 양식 및 최대 관리자 번호, 아이디 조회 */
 	@GetMapping("hrCard/hr/adminRegist")
 	public ModelAndView registAdmin(ModelAndView mv, HttpServletRequest request) {
