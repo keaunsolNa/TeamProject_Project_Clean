@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -209,8 +210,7 @@
 										function() {
 
 											if ($(this).attr('id') == "self") { // 직접입력 선택 시
-												$("#selfInput").attr("style",
-														"display:inline");
+												$("#selfInput").attr("style", "display:inline");
 												$("#self").val("");
 												$("#selfInput").val('');
 
@@ -241,8 +241,7 @@
 										const addressNo = $("#addressNo")
 												.text();
 										const address = $("#address").text();
-										const addressDetail = $(
-												"#addressDetail").val();
+										const addressDetail = $("#addressDetail").val();
 
 										if(!(phone2)){
 							   				alert("핸드폰 중간번호를 입력해주세요");
@@ -281,11 +280,11 @@
 							.focusout(
 									function() {
 										var regexp = /^[0-9]{3,4}/g;
-										if (!regexp.test($("#employeePhone2")
-												.val())) { // 중간번호 틀리면
+										if (!regexp.test($("#employeePhone2").val())) { // 중간번호 틀리면
 											$("#duplicateCheckMessage").hide();
 											$("#middleNumCheckMessage").show();
 											$("#endNumCheckMessage").hide();
+									         $(this).val('');
 											$(this).focus();
 										} else { // 중간번호 맞으면
 											$("#middleNumCheckMessage").hide();
@@ -296,8 +295,8 @@
 																	$("#duplicateCheckMessage").show();
 																	$("#middleNumCheckMessage").hide();
 																	$("#endNumCheckMessage").hide();
-																	$("#employeePhone2")
-																			.focus();
+															         $("#employeePhone2").val('');
+																	$("#employeePhone2").focus();
 																	break;
 																} else { //성공하면
 																	$("#duplicateCheckMessage").hide();
@@ -321,6 +320,7 @@
 											$("#duplicateCheckMessage").hide();
 											$("#middleNumCheckMessage").hide();
 											$("#endNumCheckMessage").show();
+										     $(this).val('');
 											$(this).focus();
 										} else {
 											$("#endNumCheckMessage").hide();
@@ -332,6 +332,7 @@
 																if (data[i] == $("#employeePhone1").val()+ $("#employeePhone2").val()+ $("#employeePhone3").val()) {$("#duplicateCheckMessage").show();
 																	$("#middleNumCheckMessage").hide();
 																	$("#endNumCheckMessage").hide();
+											     				    $("#employeePhone3").val('');
 																	$("#employeePhone3").focus();
 																	break;
 																} else {
@@ -358,6 +359,7 @@
 						if (!regexp.test(emailCheck)) {
 							$("#emailCheckMessage").show();
 							$(this).focus();
+				             $(this).val(''); 
 						} else {
 							$("#emailCheckMessage").hide();
 						}
@@ -372,6 +374,7 @@
 						if (!regexp.test(emailCheck)) {
 							$("#selfEmailCheckMessage").show();
 							$(this).focus();
+				             $(this).val(''); 
 						} else {
 							$("#selfEmailCheckMessage").hide();
 						}
@@ -389,10 +392,7 @@
 					/* 퇴사자 라디오 버튼 체크 */
 					$(function() {
 						const checkedValue = $("#retireYn").val();
-						$(
-								":radio[name='employeeRetireYn'][value='"
-										+ checkedValue + "']").attr('checked',
-								true);
+						$(":radio[name='employeeRetireYn'][value='"+ checkedValue + "']").attr('checked',true);
 					})
 					/* 핸드폰 앞자리 선택 체크 */
 					const checkedFirstPhone = $("#firstPhoneNumber").val();

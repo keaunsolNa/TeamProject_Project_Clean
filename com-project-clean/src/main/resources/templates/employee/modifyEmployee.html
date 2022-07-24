@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -5,41 +6,46 @@
     <title>Document</title>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-        
-    <style type="text/css">
-        .tg  {border-collapse:collapse; border-spacing:0;}
-        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-          overflow:hidden;padding:10px 10px;word-break:normal;}
-        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-          font-weight:normal;overflow:hidden;padding:10px 10px;word-break:normal;}
-        .tg .tg-7btt{border-color:inherit;font-weight:bold;text-align:center;vertical-align:top}
-        #modify, #entire{
-            margin: 20px;
-        }
-        </style>
+<style>
+.section{
+	width: 1000px;
+}
+.tableBox td {
+	border: solid 1px;
+	font-size: 14px;
+	padding: 10px 10px;
+}
+
+.buttonBox{
+	width:840px;
+	text-align: center;
+}
+</style>
 </head>
 <body>
 	<div th:replace="/common/Header.html"></div>
 	<div th:replace="/admin/adminAside.html"></div>
-    <div>
-    	<form action="/admin/modify/employee" method="post" id="modifyForm" enctype="multipart/form-data">
-	        <table class="tg" style="table-layout: fixed; width: 736px">
-	        <colgroup>
-	        <col style="width: 158px">
-	        <col style="width: 147px">
-	        <col style="width: 155px">
-	        <col style="width: 139px">
-	        <col style="width: 68px">
-	        <col style="width: 69px">
-	        </colgroup>
+<section class="section">
+    	<form action="/employee/modify/employee" method="post" id="modifyForm" enctype="multipart/form-data">
+	        <table class="tableBox">
+        
+           <colgroup> <!-- width = 755px -->
+             <col style="width: 150px">
+             <col style="width: 205px">
+             <col style="width: 150px">
+             <col style="width: 205px">
+             <col style="width: 65px">
+             <col style="width: 65px">
+           </colgroup>
+        
 	        <thead>
 	          <tr>
-	            <td class="tg-7btt">직원번호</td>
-	            <td class="tg-7btt" th:text="${employee.employeeNo}"></td>
+	            <td class="subTitle">직원번호</td>
+	            <td th:text="${employee.employeeNo}"></td>
 	            <td style="display: none;"><input name="employeeNo" th:value="${employee.employeeNo}"></td>
-	            <td class="tg-7btt">이름</td>
-	            <td class="tg-7btt" th:text="${employee.employeeName}"></td>
-	            <td class="tg-7btt" colspan="2" rowspan="3"> <img id="pictureImg" th:src="@{/adminEmployeePicture/} + ${employee.employeePictureSaveName}" width="100px" height="100px"></td>
+	            <td class="subTitle">이름</td>
+	            <td th:text="${employee.employeeName}"></td>
+	            <td colspan="2" rowspan="3"> <img id="pictureImg" th:src="@{/adminEmployeePicture/} + ${employee.employeePictureSaveName}" width="130px" height="130px"></td>
 	            <td style="display: none;"><input type="text" id="oldSaveRoot" name="oldSaveRoot" th:value="${employee.employeePictureSaveRoot}"></td>
 	            <td style="display: none;"><input type="text" id="oldSaveName" name="oldSaveName" th:value="${employee.employeePictureSaveName}"></td>
 	            <td style="display: none;"><input type=text id="status" name="status" value="modify"></td>
@@ -47,23 +53,23 @@
 	            
 	          </tr>
 	          <tr>
-	            <td class="tg-7btt">ID</td>
-	            <td class="tg-7btt" th:text="${employee.employeeId}"></td>
-                <td class="tg-7btt">전화번호</td>
-                <td class="tg-7btt">
+	            <td class="subTitle">ID</td>
+	            <td th:text="${employee.employeeId}"></td>
+                <td class="subTitle">전화번호</td>
+                <td>
 	             	<select id="employeePhone1" name="employeePhone1" class="required">
 	             		<option value="010">010</option>
 	             		<option value="011">011</option>
 	             		<option value="017">017</option>
 	             		<option value="018">018</option>
 	             		<option value="019">019</option>
-	             	</select>-
-	             	<input type="text" id="employeePhone2" name="employeePhone2" class="required" maxlength='4' th:value="${phone.middlePhoneNumber}" required>-
-	             	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' th:value="${phone.lastPhoneNumber}" required>
+	             	</select> -
+	             	<input type="text" id="employeePhone2" name="employeePhone2" class="required" maxlength='4' th:value="${phone.middlePhoneNumber}" required style="width: 45px"> -
+	             	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' th:value="${phone.lastPhoneNumber}" required style="width: 45px">
 	             	<input style="display: none;" type="text" id="employeePhone" name="employeePhone">
-            		<div id="middleNumCheckMessage" >중간번호는 3~4자리 숫자를 입력하기로 약속해요</div>
-                   	<div id="endNumCheckMessage" >끝번호는 4자리 숫자를 입력하기로 약속해요</div>
-                   	<div id="duplicateCheckMessage" >중복된 핸드폰번호는 사용하지 않기로 약속해요</div>
+                    	<div class="warning" id="middleNumCheckMessage" >3~4자리 숫자를 입력해주세요</div>
+                    	<div class="warning" id="endNumCheckMessage" >4자리 숫자를 입력해주세요</div>
+                    	<div class="warning" id="duplicateCheckMessage" >중복된 핸드폰번호입니다.</div>
 	             	
 	             	</td>
 	             	<td style="display: none;"><input type="text" th:value="${phone.firstPhoneNumber}" id="firstPhoneNumber" name="firstPhoneNumber">
@@ -71,16 +77,16 @@
 	             	
 	          </tr>
 	          <tr>
-	            <td class="tg-7btt">생년월일</td>
-	            <td class="tg-7btt" th:text="${employee.employeeBirth}"></td>
-	            <td class="tg-7btt">퇴사여부</td>
-	            <td class="tg-7btt">
+	            <td class="subTitle">생년월일</td>
+	            <td th:text="${employee.employeeBirth}"></td>
+	            <td class="subTitle">퇴사여부</td>
+	            <td>
 	              <Label for="Y">Y</Label>
 	              <input type="radio" name="employeeRetireYn" id="Y" value="Y">
-	              <Label for="N">&nbsp;&nbsp;N</Label>
+	              <Label for="N">N</Label>
 	              <input type="radio" name="employeeRetireYn" id="N" value="N">
 	            </td>
-	            <td class="tg-7btt" th:text="${employee.employeeRetireYn}"></td>
+	            <td style="display: none;" th:text="${employee.employeeRetireYn}"></td>
 	            <td style="display: none;"><input type="text" th:value="${employee.employeeRetireYn}" id="retireYn" name="retireYn"></td>
 	          </tr>
 	        </thead>
@@ -90,10 +96,10 @@
 	          
 	          
 	          
-	          	<td class="tg-7btt">이메일</td>
-	            <td class="tg-7btt" colspan="3"><input th:value="${email.email}" type="text" id="email" class="required" placeholder="이메일을 입력해주세요" required style="width: 200px;"> @ 
+	          	<td class="subTitle">이메일</td>
+	            <td colspan="3"><input th:value="${email.email}" type="text" id="email" class="required" placeholder="이메일을 입력해주세요" required> @ 
 		 	        <input id="selfInput" name="selfInput" placeholder="이메일 주소를 입력하세요">
-		                <select name="domain" id="domain" style="width: 100px; height: 25px;">
+		                <select name="domain" id="domain" >
 			                <option id="naver" value="naver.com">naver.com</option>
 			                <option id="google" value="google.com">google.com</option>
 			                <option id="daum" value="daum.com">daum.com</option>
@@ -101,57 +107,54 @@
 			                <option id="nate" value="nate.com">nate.com</option>
 			                <option id="self" value="id">직접입력</option>
 		                </select>
-                     <div id="emailCheckMessage">5~12자리 대소문자 + 영어로 입력하기로 약속해요</div>
-                     <div id="selfEmailCheckMessage">옳바른 도메인 입력을 약속해요</div>   
+                     <div class="warning" id="emailCheckMessage">5~12자리 대소문자 + 영어를 입력해 주세요</div>
+                     <div class="warning" id="selfEmailCheckMessage">옳바른 도메인을 입력해 주세요</div>   
 		         </td> 
-                <td class="tg-7btt"style="display: none;"><input id="employeeEmail" name="employeeEmail" type="text"/></td>
-                <td class="tg-7btt"style="display: none;"><input id="domainValue" type="text" th:value="${email.domain}"/></td>
-	                    <td class="tg-7btt"> <button type="button" id="pictureModify" name="pictureModify">수정</button> </td>
-	                    <td class="tg-7btt"> <button type="button"id="pictureDelete" name="pictureDelete" >삭제</button> </td>
+                <td style="display: none;"><input id="employeeEmail" name="employeeEmail" type="text"/></td>
+                <td style="display: none;"><input id="domainValue" type="text" th:value="${email.domain}"/></td>
+	                    <td> <button type="button" id="pictureModify" name="pictureModify">수정</button> </td>
+	                    <td> <button type="button"id="pictureDelete" name="pictureDelete" >삭제</button> </td>
 	                    <td style="display: none;"> <input type="file" id="picture" name="picture" onchange="loadImg(this,1)" accept="image/*">
 	          		</tr>
 	                  <tr>
-	                    <td class="tg-7btt">우편번호</td>
-	                    <td class="tg-7btt"><div id="addressNo" th:text="${address.addressNo}"></div></td>
-	                    <td class="tg-7btt">기본주소</td>
-	                    <td class="tg-7btt"><div id="address" th:text="${address.address}"></div></td>
-	                    <td class="tg-7btt" colspan="3"><button type="button" id="findAddress">주소찾기</button></td> 
+	                    <td class="subTitle">우편번호</td>
+	                    <td><div id="addressNo" th:text="${address.addressNo}"></div></td>
+	                    <td class="subTitle">기본주소</td>
+	                    <td><div id="address" th:text="${address.address}"></div></td>
+	                    <td colspan="2"><button type="button" id="findAddress" style="width: 80px">주소찾기</button></td> 
 	                  </tr>
 	                  <tr>
-	                    <td class="tg-7btt">상세주소</td>
-	                    <td class="tg-7btt" colspan="5"><input type=text th:value="${address.addressDetail}" id="addressDetail" class="required" name="employeeDetailAddress" placeholder="상세주소를 입력해주세요" required></td>
-	                    <td class="tg-7btt"style="display: none;"><input id="employeeAddress" name="employeeAddress" type="text"/></td>
+	                    <td class="subTitle">상세주소</td>
+	                    <td colspan="5"><input type=text th:value="${address.addressDetail}" id="addressDetail" class="required" name="employeeDetailAddress" placeholder="상세주소를 입력해주세요" style="width: 300px" required ></td>
+	                    <td style="display: none;"><input id="employeeAddress" name="employeeAddress" type="text"/></td>
 	                  </tr>
 	          <tr>
-	            <td class="tg-7btt">입사일</td>
-	            <td class="tg-7btt" th:text="${employee.employeeHireDate}"></td>
-	            <td class="tg-7btt">퇴사일</td>
-	            <td class="tg-7btt" colspan="3" th:text="${employee.employeeRetireDate}"></td>
+	            <td class="subTitle">입사일</td>
+	            <td th:text="${employee.employeeHireDate}"></td>
+	            <td class="subTitle">퇴사일</td>
+	            <td colspan="3" th:text="${employee.employeeRetireDate}"></td>
 	          </tr>
 	          <tr>
-	            <td class="tg-7btt">누적경고횟수</td>
-	            <td class="tg-7btt" th:text="${employee.employeeSumCount}"></td>
-	            <td class="tg-7btt">누적근무시간</td>
-	            <td class="tg-7btt" colspan="3" th:text="${employee.employeeSumTime}"></td>
+	            <td class="subTitle">누적경고횟수</td>
+	            <td th:text="${employee.employeeSumCount}"></td>
+	            <td class="subTitle">누적근무시간</td>
+	            <td colspan="3" th:text="${employee.employeeSumTime}"></td>
 	          </tr>
 	          <tr>
-	            <td class="tg-7btt">마지막 로그인 일자</td>
-	            <td class="tg-7btt" th:text="${employee.employeeLastLoginDate}"></td>
-	            <td class="tg-7btt">블랙리스트 여부</td>
-	            <td class="tg-7btt" colspan="3" th:text="${employee.employeeBlackListYn}"></td>
+	            <td class="subTitle">마지막 로그인 일자</td>
+	            <td th:text="${employee.employeeLastLoginDate}"></td>
+	            <td class="subTitle">블랙리스트 여부</td>
+	            <td colspan="3" th:text="${employee.employeeBlackListYn}"></td>
 	          </tr>
 	        </tbody>
 	        </table>
 	        <br>
-	        <table class="button">
-	            <tr>
-	                <td><button type="button" id="modify">수정 확인</button></td>
-	                <td><button type="button" id="entire">수정 취소</button></td>
-	            </tr>
-	        </table>
+	        <div class="buttonBox">
+	                <span><button type="button" id="modify">수정 확인</button></span>
+	                <span><button type="button" id="entire">수정 취소</button></span>
+	        </div>
 		</form>
-    </div>
-    
+</section>
     
     <script>
     
@@ -207,8 +210,7 @@
 										function() {
 
 											if ($(this).attr('id') == "self") { // 직접입력 선택 시
-												$("#selfInput").attr("style",
-														"display:inline");
+												$("#selfInput").attr("style","display:inline");
 												$("#self").val("");
 												$("#selfInput").val('');
 
@@ -224,28 +226,30 @@
 					$("#modify")
 							.click(
 									function() {
-										const phone1 = $("#employeePhone1")
-												.val();
-										const phone2 = $("#employeePhone2")
-												.val();
-										const phone3 = $("#employeePhone3")
-												.val();
+										const phone1 = $("#employeePhone1").val();
+										const phone2 = $("#employeePhone2").val();
+										const phone3 = $("#employeePhone3").val();
 										const no = $("#employeeNo").text();
 										const name = $("#employeeName").val();
 										const birth = $("#employeeBirth").val();
 										const email = $("#email").val();
 										const domain = $("#selfInput").val();
 
-										const addressNo = $("#addressNo")
-												.text();
+										const addressNo = $("#addressNo").text();
 										const address = $("#address").text();
 										const addressDetail = $(
 												"#addressDetail").val();
 
-										if (!(phone2 || phone3)) {
-											alert("번호를 입력해주세요");
-											$("#employeePhone2").focus();
-										} else if (!(email)) {
+										if(!(phone2)){
+							   				alert("핸드폰 중간번호를 입력해주세요");
+							   				$("#employeePhone2").focus();
+							  			}
+							  			else if(!(phone3)){
+							   				alert("핸드폰 끝번호를 입력해주세요");
+							   				$("#employeePhone3").focus();
+							  			}
+										
+										else if (!(email)) {
 											alert("이메일을 입력해주세요");
 											$("#email").focus();
 										} else if (!(domain)
@@ -278,32 +282,31 @@
 											$("#duplicateCheckMessage").hide();
 											$("#middleNumCheckMessage").show();
 											$("#endNumCheckMessage").hide();
+									         $(this).val('');
 											$(this).focus();
 										} else { // 중간번호 맞으면
 											$("#middleNumCheckMessage").hide();
-											$
-													.ajax({
-														url : "/employee/regist/employee/findMiddlePhone",
-														success : function(data) {
-															for (var i = 0; i < data.length; i++) {
-																if (data[i] == $("#employeePhone1").val() + $("#employeePhone2").val() + $("#employeePhone3").val()) { // 중복값이면
-																	$("#duplicateCheckMessage").show();
-																	$("#middleNumCheckMessage").hide();
-																	$("#endNumCheckMessage").hide();
-																	$("#employeePhone2")
-																			.focus();
-																	break;
-																} else { //성공하면
-																	$("#duplicateCheckMessage").hide();
-																	$("#middleNumCheckMessage").hide();
-																	$("#endNumCheckMessage").hide();
-																}
+											$.ajax({
+													url:"/employee/regist/employee/findMiddlePhone",														success : function(data) {
+														for (var i = 0; i < data.length; i++) {
+															if (data[i] == $("#employeePhone1").val() + $("#employeePhone2").val() + $("#employeePhone3").val()) { // 중복값이면
+																$("#duplicateCheckMessage").show();
+																$("#middleNumCheckMessage").hide();
+																$("#endNumCheckMessage").hide();
+														         $("#employeePhone2").val('');
+																$("#employeePhone2").focus();
+																break;
+															} else { //성공하면
+																$("#duplicateCheckMessage").hide();
+																$("#middleNumCheckMessage").hide();
+																$("#endNumCheckMessage").hide();
 															}
-														},
-														error : function() {
-															alert("fail");
 														}
-													})
+													},
+													error : function() {
+														alert("fail");
+													}
+												})
 										}
 									});
 
@@ -311,22 +314,23 @@
 							.focusout(
 									function() {
 										var regexp = /^[0-9]{4}/g;
-										if (!regexp.test($("#employeePhone3")
-												.val())) {
+										if (!regexp.test($("#employeePhone3").val())) {
 											$("#duplicateCheckMessage").hide();
 											$("#middleNumCheckMessage").hide();
 											$("#endNumCheckMessage").show();
+										     $(this).val('');
 											$(this).focus();
 										} else {
 											$("#endNumCheckMessage").hide();
 											$
 													.ajax({
-														url : "/employee/regist/employee/findMiddlePhone",
-														success : function(data) {
+														url:"/employee/regist/employee/findMiddlePhone",														success : function(data) {
 															for (var i = 0; i < data.length; i++) {
+											     				if(!$("#employeePhone2")){
 																if (data[i] == $("#employeePhone1").val()+ $("#employeePhone2").val()+ $("#employeePhone3").val()) {$("#duplicateCheckMessage").show();
 																	$("#middleNumCheckMessage").hide();
 																	$("#endNumCheckMessage").hide();
+											     				    $("#employeePhone3").val('');
 																	$("#employeePhone3").focus();
 																	break;
 																} else {
@@ -334,6 +338,7 @@
 																	$("#middleNumCheckMessage").hide();
 																	$("#endNumCheckMessage").hide();
 																}
+											     				}
 															}
 														},
 														error : function() {
@@ -352,6 +357,7 @@
 						if (!regexp.test(emailCheck)) {
 							$("#emailCheckMessage").show();
 							$(this).focus();
+				             $(this).val(''); 
 						} else {
 							$("#emailCheckMessage").hide();
 						}
@@ -366,6 +372,7 @@
 						if (!regexp.test(emailCheck)) {
 							$("#selfEmailCheckMessage").show();
 							$(this).focus();
+				             $(this).val(''); 
 						} else {
 							$("#selfEmailCheckMessage").hide();
 						}
@@ -390,8 +397,7 @@
 					})
 					/* 핸드폰 앞자리 선택 체크 */
 					const checkedFirstPhone = $("#firstPhoneNumber").val();
-					$("#employeePhone1").val(checkedFirstPhone).prop(
-							"selected", true);
+					$("#employeePhone1").val(checkedFirstPhone).prop("selected", true);
 
 					/* 변형 */
 					$("#pictureModify").click(function() {
@@ -433,4 +439,3 @@
 				</script>
 </body>
 </html>
-
