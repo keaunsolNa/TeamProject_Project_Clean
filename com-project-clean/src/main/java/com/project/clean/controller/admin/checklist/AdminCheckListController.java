@@ -114,9 +114,6 @@ public class AdminCheckListController {
 	@GetMapping("denial/select")
 	public ModelAndView denialCheckListSelect(ModelAndView mv) {
 		
-		List<CheckListDTO> checkList = adminCheckListService.selectAllCheckList(); 
-		
-		mv.addObject("CheckListArray", checkList);
 		mv.setViewName("admin/checkList/selectDenialCheckList");
 		return mv;
 	}

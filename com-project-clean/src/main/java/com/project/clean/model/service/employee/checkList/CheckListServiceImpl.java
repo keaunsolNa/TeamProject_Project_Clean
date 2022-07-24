@@ -81,8 +81,6 @@ public class CheckListServiceImpl implements CheckListService{
 				/* reservationNo로 checkList Entity 조회 */
 				CheckList checkList = checkListRepository.findById(reservationNo).get();
 				
-				System.out.println("TEST : " + checkList);
-				
 				continue;
 				
 				} catch(java.util.NoSuchElementException e) {

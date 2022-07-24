@@ -8,6 +8,8 @@ public interface EmployeeRepositoryByPay  extends JpaRepository<Employee, Intege
 
 	Employee findByEmployeeId(String employeeId);
 
+	int countByEmployeeNo(int employeeNo);
+
 
 	
 

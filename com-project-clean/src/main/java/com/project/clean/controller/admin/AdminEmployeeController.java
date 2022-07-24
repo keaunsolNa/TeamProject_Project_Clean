@@ -132,77 +132,6 @@ public class AdminEmployeeController {
 		return map;
 	}
 
-//	/* 직원 전체 조회(퇴사자 main page) & 페이징*/
-//	@GetMapping(value = "/select/retireYAjax", produces = "application/json; charset=UTF-8")
-//	@ResponseBody
-//	public List<EmployeeAndAllDTO> retireYAjax(@RequestParam(value = "page", defaultValue = "0") int page, Model mv, HttpServletRequest request) {
-//		Page<EmployeeAndAllDTO> startPage = adminService.selectRetireYEmployee(page);
-//		List<EmployeeAndAllDTO> startList = startPage.toList();
-//		
-//		mv.addAttribute("pages", startPage );
-//		mv.addAttribute("maxPage", 5);
-//		mv.addAttribute("employeeAllList", startList);
-//		mv.addAttribute("entireYn", startList);
-//		mv.addAttribute("mainTain", "Y");
-//		return startList;
-//	}
-
-	/* ajax 직원 전체 조회 (퇴사자) */
-//	@GetMapping(value = "/select/retireYEmployee", produces = "application/json; charset=UTF-8;")
-//	@ResponseBody
-//	public List<EmployeeAndAllDTO> selectRetireYEmployee(Model mv, @PageableDefault(size = 2) Pageable page) {
-//		List<EmployeeAndAllDTO> selectRetireYEmployeeList = new ArrayList<>();
-//		selectRetireYEmployeeList = adminService.selectRetireYEmployee(page);
-//
-//		return selectRetireYEmployeeList;
-//	}
-
-//	@GetMapping("/list")
-//	public String welcome(@RequestParam(value = "page", defaultValue = "0") int page, Model mv){
-//
-//	    // 페이징 처리
-//	    Page<AdminEmployee> entireNEmployeeList = adminService.findAllPage(page);
-//
-//	    mv.addAttribute("pages", entireNEmployeeList );
-//	    mv.addAttribute("maxPage", 5);
-//	    return "admin/humanResource/selectAllEmployee/selectAllEmployee";
-//	}
-
-//	/* 직원 전체 조회(재직자 main page) & 재직자버튼 & 다음 페이지*/
-//	@GetMapping("/select/retireNEmployee/next")
-//	public String selectRetireNEmployeeNext(@PageableDefault(size = 1) Pageable pageable, Model mv) {
-//		List<EmployeeAndAllDTO> startList = adminService.selectRetireNEmployee(pageable.next());
-//		
-//		
-//		for(EmployeeAndAllDTO d : startList) {
-//			System.out.println(d);
-//		}
-//		
-//		mv.addAttribute("page", pageDTO);
-//		mv.addAttribute("entireNEmployeeList", startList);
-//		return "/admin/humanResource/selectAllEmployee/selectAllEmployee";
-//	}
-//	
-//	/* 직원 전체 조회(재직자 main page) & 재직자버튼 & 이전 페이지*/
-//	@GetMapping("/select/retireNEmployee/previous")
-//	public String selectRetireNEmployeePrevious(@PageableDefault(size = 5) Pageable pageable, Model mv) {
-//		List<EmployeeAndAllDTO> startList = adminService.selectRetireNEmployee(pageable.previousOrFirst());
-//		pageDTO.setPageNo(pageable.getPageNumber());
-//		
-//		mv.addAttribute("page", pageDTO);
-//		mv.addAttribute("entireNEmployeeList", startList);
-//		return "/admin/humanResource/selectAllEmployee/selectAllEmployee";
-//	}
-
-//	/* ajax 직원 전체 조회 (재직자) */
-//	@GetMapping(value = "/select/retireNEmployeeAjax", produces = "application/json; charset=UTF-8;")
-//	@ResponseBody
-//	public List<EmployeeAndAllDTO> selectRetireNEmployeeAjax(Model mv) {
-//		List<EmployeeAndAllDTO> selectRetireNEmployeeList = new ArrayList<>();
-//		selectRetireNEmployeeList = adminService.selectRetireNEmployee();
-//
-//		return selectRetireNEmployeeList;
-//	}
 
 	@GetMapping("/reitre/employee/{empNo}")
 	public String retireEmployee(@PathVariable int empNo) {
@@ -395,34 +324,6 @@ public class AdminEmployeeController {
 		return map;
 	}
 
-//	/* 직원 대기중 페이지 이동(HR) */
-//	@GetMapping("/hr/waiting/employeeBoss")
-//	public String waitingEmployeeListBoss(Model mv) {
-//		int maxMemberNo = adminService.getMaxMemberNo();
-//		
-//		String sysdateTimeStemp = String.valueOf(today());
-//		String sysdate = sysdateTimeStemp.substring(0, 10);
-//		
-//		String frontId = sysdate.replaceAll("-", "").substring(2);
-//		
-//		int id = Integer.valueOf(frontId + maxMemberNo);
-//		
-//		/* HR 대기중인 인원 조회 */
-//		List<EmployeeAndAllDTO> selectWaitingEmployeeList = adminService.selectWaitingEmployeeList();
-//		
-//		/* BOSS 대기중인 인원 조회 */
-//		List<EmployeeAndAllDTO> selectWaitingEmployeeListBoss = adminService.selectWaitingEmployeeListBoss();
-//		/* 직원들 중 1번째 승인과 최종승인이 N인 직원 */
-//		
-//		mv.addAttribute("waitingEmployeeList", selectWaitingEmployeeList); // HR authority
-//		mv.addAttribute("waitingEmployeeListBoss", selectWaitingEmployeeListBoss); // BOSS authority
-//		
-//		mv.addAttribute("employeeNo", maxMemberNo + 1);
-//		mv.addAttribute("employeeHireDate", sysdate);
-//		mv.addAttribute("employeeId", id + 1);
-//		
-//		return "admin/humanResource/registEmployee/waitingEmployeeListBoss";
-//	}
 
 	/* 반려 직원 페이지 이동 */
 	@GetMapping("/hr/return/employee/move")

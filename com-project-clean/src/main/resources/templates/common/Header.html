@@ -25,6 +25,16 @@
             </table>
         </div>
     </div>
+    <script>
+    if(document.getElementById("move")){
+    	$("#move").bind("click", function(){});
+    	$("#move").trigger("click");
+		document.getElementById("move").onclick = function(){
+			console.log("가냐!!!!!!!!!!!!!!!!!!!!!")
+			location.href="/main"
+		}    	
+    }
+    </script>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light ">
             <div class="container-fluid upnavvar">
@@ -57,8 +67,8 @@
 
                     <ul class="navbar-nav me-auto mb-3 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" id="adminMyPage"><img src="/image/mypage.png" class="btn2"></a>
-            
+                            <a class="nav-link" id="adminMyPage" href="admin/hrCard/selectOneAdminMove"><img src="/image/mypage.png" class="btn2"></a>
+            				
                         </li> 
                         <li class="nav-item">
                             <a class="nav-link" href="/member/logout"><img src="/image/logout.png" class="btn2"> </a>
@@ -67,7 +77,6 @@
                 </div>
             </div>
         </nav>
-
         <nav class="navbar navbar-expand-lg navbar-light bg-light ">
             <div class="container-fluid downnavbar">
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -211,4 +220,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
    	<script src="/js/socket.js"></script>
+   	
 </html>

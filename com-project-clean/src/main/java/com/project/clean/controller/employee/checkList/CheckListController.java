@@ -190,6 +190,7 @@ public class CheckListController {
 		mv.addObject("checkList", checkList);
 		mv.addObject("userId", adminName);
 		mv.addObject("adminId", aid);
+		
 		mv.setViewName("employee/checkList/selectDenialCheckListDetails");
 		return mv;
 		

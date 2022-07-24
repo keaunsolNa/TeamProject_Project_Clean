@@ -8,5 +8,7 @@ public interface AdminRepositoryByPay  extends JpaRepository<Admin, Integer> {
 
 	Admin findByAdminId(String adminId);
 
+	int countByAdminNo(int adminNo);
+
 
 }
