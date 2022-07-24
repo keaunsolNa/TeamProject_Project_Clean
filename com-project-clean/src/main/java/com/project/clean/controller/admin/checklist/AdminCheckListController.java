@@ -20,10 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.clean.model.dto.commonDTO.ApplyEmployeeDTO;
 import com.project.clean.model.dto.commonDTO.CheckListDTO;
-import com.project.clean.model.dto.commonDTO.ReservationInfoDTO;
-import com.project.clean.model.dto.commonDTO.SurchargeDTO;
 import com.project.clean.model.service.admin.checkList.AdminCheckListService;
 import com.project.clean.model.service.pay.PayService;
 
@@ -110,9 +107,13 @@ public class AdminCheckListController {
 	
 	/* KS. 반려 체크리스트 목록 조회 */
 	@GetMapping("denial/select")
-	public String denialCheckListSelect() {
+	public ModelAndView denialCheckListSelect(ModelAndView mv) {
 		
-		return "admin/checkList/selectDenialCheckList";
+		List<CheckListDTO> checkList = adminCheckListService.selectAllCheckList(); 
+		
+		mv.addObject("CheckListArray", checkList);
+		mv.setViewName("admin/checkList/selectDenialCheckList");
+		return mv;
 	}
 	
 	/* KS. 반려 체크리스트 목록 조회 */

@@ -56,6 +56,7 @@
     	<div class="form-group">
         	<input type="text" id="sendingMessage" class="form-control">
         	<input type="text" id="sendingName" class="form-control">
+        	<input type="text" id="path" class="form-control">
 	    	<button id="send" class="btn btn-default" type="submit">Send</button>
     	</div>
 	</form>
@@ -86,6 +87,7 @@
 			
 	    		if(confirm("서류를 반려하시겠습니까? 직원에게 알림이 전송됩니다.")){
 	    			
+	    			$("#path").val("/employee/checkList/denial/select")
 	    			$("#sendingMessage").val("체크리스트가 반려되었습니다.")
 	    			$("#sendingName").val(userName) 
 	    			
@@ -135,6 +137,7 @@
 			
 	    		if(confirm("서류를 승인하시겠습니까? 해당 직원에게 알림이 전송됩니다.")){
 	    			
+	    			$("#path").val("/employee/checkList/accept/select")
 	    			$("#sendingMessage").val("체크리스트가 승인되었습니다. 급여 확인부탁드립니다.")
 	    			$("#sendingName").val(userName)
 	    			

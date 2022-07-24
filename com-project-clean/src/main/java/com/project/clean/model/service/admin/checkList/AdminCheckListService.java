@@ -19,4 +19,7 @@ public interface AdminCheckListService {
 
 	/* KS. 체크리스트 조회 및 페이징 */
 	Map<String, Object> selectCheckList(String adminId, int parameter, String category, String categoryValue, Pageable pageable);
+
+	/* KS. 체크리스트 목록 조회 */
+	List<CheckListDTO> selectAllCheckList();
 }

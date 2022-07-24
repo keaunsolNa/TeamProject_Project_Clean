@@ -62,6 +62,7 @@
 	    <div>
 	        <input type="text" id="sendingMessage">
 	        <input type="text" id="sendingName" >
+	        <input type="text" id="path" >
 	    </div>
 	    <button id="send" type="submit">Send</button>
 	</form>
@@ -110,6 +111,7 @@
 			
 	    		if(confirm("사유서를 제출하시겠습니까? 담당 관리자에게 알람이 전송됩니다.")){
 	    			
+	    			$("#path").val("/admin/checklist/denial/select")
 	    			$("#sendingMessage").val("사유서가 제출되었습니다.")
 	    			$("#sendingName").val(userName)
 	    			

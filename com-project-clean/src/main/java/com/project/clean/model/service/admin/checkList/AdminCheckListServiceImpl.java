@@ -311,6 +311,20 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 			
 		}
 
+
+	/* KS. 사유서 확인을 위한 체크리스트 전체 목록 조회 */
+	@Override
+	public List<CheckListDTO> selectAllCheckList() {
+		
+		List<CheckListDTO> arrayCheckList = new ArrayList<>();
+		
+		List<CheckList> checkList = checkListRepository.findAllByCheckStatus("D");
+		
+		arrayCheckList = checkList.stream().map(list -> modelMapper.map(list, CheckListDTO.class)).toList();
+		
+		return arrayCheckList;
+	}
+
 }
 
 
