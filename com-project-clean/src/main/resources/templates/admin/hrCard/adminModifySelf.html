@@ -7,30 +7,76 @@
 <title>Document</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style>
-.tg  {border-collapse:collapse;border-spacing:0;}
-    .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-      overflow:hidden;padding:10px 5px;word-break:normal; border-color:#c0c0c0;text-align:center;vertical-align:middle}
-    .btn_regist {
-      background: #9AE8F9;
-      padding: 6px;
-      border-radius: 3px;
-      border : 0;
-      outline: 0;
-      cursor: pointer;
-    }
-    .btn_regist:hover {
-      box-shadow: 1px 1px 1px #ddd;
-    }
-    .btn_cascade {
-      background: #9AE8F9;
-      padding: 6px;
-      border-radius: 3px;
-      border : 0;
-      outline: 0;
-    }
-    .btn_cascade:hover {
-      box-shadow: 1px 1px 1px #ddd;
-    }
+.detailTable{
+	width: 770px;
+}
+.detailTable td {
+	border: solid 1px;
+	font-size: 14px;
+	padding: 10px 10px;
+	height: 50px;
+}
+
+.buttonBox{
+	margin-top : 20px;
+	width:780px;
+	text-align: center;
+}
+
+.btn_update{
+	margin-top:-6px;
+	width:70px;
+	height:32px;
+	border-radius: 5px;
+	font-size:13px;
+	padding: 0; 
+	background-color: #7dbeed96; 
+	border-style: none;
+}
+
+.btn_hrcard{
+	margin-top:-6px;
+	width:70px;
+	height:32px;
+	border-radius: 5px;
+	font-size:13px;
+	padding: 0; 
+	background-color: #7dbeed96; 
+	border-style: none;
+
+}
+
+.btn_hrcard:hover{
+    background:  #7DBEED;
+}
+.address_btn_address{
+	margin-top:-6px;
+	width:70px;
+	height:32px;
+	border-radius: 5px;
+	font-size:13px;
+	padding: 0; 
+	background-color: #7dbeed96; 
+	border-style: none;
+}
+.address_btn_address:hover{
+	background:  #7DBEED;
+}
+
+.btn_picture_btn{
+	margin-top:-6px;
+	width:70px;
+	height:32px;
+	border-radius: 5px;
+	font-size:13px;
+	padding: 0; 
+	background-color: #7dbeed96; 
+	border-style: none;
+}
+
+.btn_picture_btn:hover{
+	background:  #7DBEED;
+}
 </style>
 </head>
 <body>
@@ -39,19 +85,21 @@
 	<div th:replace="/common/Header.html"></div>
 	<div th:include="admin/adminAside.html"></div>
 	
+	<section class="section">
+	
     <form action="run" id="modifyForm" method="post" enctype="multipart/form-data">
-	    <table class="tg">
+	    <table class="detailTable">
 	    <colgroup>
-	    <col style="width: 100px">
-	    <col style="width: 120px">
-	    <col style="width: 100px">
-	    <col style="width: 200px">
-	    <col style="width: 60px">
-	    <col style="width: 60px">
-	    
+	   		 <col style="width: 250px">
+             <col style="width: 100px">
+             <col style="width: 250px">
+             <col style="width: 130px">
+             <col style="width: 50px">
+             <col style="width: 50px">
+	    </colgroup>
 		    <thead>
 		      <tr>
-		        <td class="tg-wman">관리자번호</td>
+		        <td>관리자번호</td>
 		        <td th:text="${ adminModify.adminNo }"></td>
 		        <td>이름</td>
 		        <td th:text="${ adminModify.adminName }"></td>
@@ -74,8 +122,8 @@
 	             		<option>017</option>
 	             		<option>019</option>
 	             	</select>-
-	             	<input type="text" id="adminPhone2" name="adminPhone2" class="required" maxlength='4' th:value="${phone.middlePhoneNumber}" required>-
-	             	<input type="text" id="adminPhone3" name="adminPhone3" class="required" maxlength='4' th:value="${phone.lastPhoneNumber}" required>
+	             	<input type="text" id="adminPhone2" name="adminPhone2" class="required" maxlength='4' th:value="${phone.middlePhoneNumber}" required style="width: 45px">-
+	             	<input type="text" id="adminPhone3" name="adminPhone3" class="required" maxlength='4' th:value="${phone.lastPhoneNumber}" required style="width: 45px">
 	            	<input style="display: none;" type="text" id="adminPhone" name="adminPhone">
 	            	<td style="display: none;"><input type="text" th:value="${phone.firstPhoneNumber}" id="firstPhoneNumber" name="firstPhoneNumber"></td>
 	            
@@ -84,7 +132,10 @@
 		        <td>생년월일</td>
 		        <td th:text="${ adminModify.adminBirth }"></td>
 		        <td>성별</td>
-		        <td th:text="${adminModify.adminGender}"></td>
+		        <td>
+		        	<span th:if="${adminModify.adminGender} == 'F'">여성</span>
+		        	<span th:unless="${adminModify.adminGender} == 'F'">남성</span>
+		        </td>
 		        
 		      </tr>
 		    </thead>
@@ -100,49 +151,53 @@
 		        <td style="display: none;"><input id="adminEmail" name="adminEmail" type="text"/></td> 
 		    	<td style="display: none;"><input id="domainValue" type="text" th:value="${email.domain}"/></td>
 		    	
-		    	<td class="tg-7btt" colspan="2"> <button type="button" id="pictureModify" name="pictureModify">수정</button> </td>
+		    	<td class="tg-7btt" colspan="2"> <button type="button" class="btn_picture_btn" id="pictureModify" name="pictureModify">사진 수정</button> </td>
 	            <!-- <td class="tg-7btt"> <button type="button"id="pictureDelete" name="pictureDelete">삭제</button> </td> -->
 	            <td style="display: none;"> <input type="file" id="picture" name="picture" onchange="loadImg(this,1)">
 		     </tr>
 		     <tr>
-		        <td class="tg-wman">우편번호</td>
-		        <td class="tg-wman"><input type="text" id="addressNo" name="addressNo" th:value="${address.addressNo}" readonly></td>
-		        <td class="tg-wman">기본주소</td>
-		        <td class="tg-wman"><input type="text" id="address" name="address" th:value="${address.address}" readonly></td>
-		        <td><input type="button" value="검색" class="btn btn-yg" id="searchAdminAddressNo"></td>
+		        <td>우편번호</td>
+		        <td><input type="text" id="addressNo" name="addressNo" th:value="${address.addressNo}" readonly></td>
+		        <td>기본주소</td>
+		        <td><input type="text" id="address" name="address" th:value="${address.address}" readonly></td>
+		        <td colspan="2"><input type="button" value="주소검색" class="address_btn_address" id="searchAdminAddressNo"></td>
 		        	            
 		      </tr>
 		      <tr>
 		        <td class="tg-wman">상세주소</td>
-		        <td class="tg-wman" colspan="5"><input type="text" id="addressDetail" name="addressDetail" th:value="${address.addressDetail}" required></td>
+		        <td class="tg-wman" colspan="5"><input type="text" id="addressDetail" name="addressDetail" th:value="${address.addressDetail}" required style="width: 500px;"></td>
 		      </tr>
 		      <tr>
 		        <td>입사일</td>
-		        <td colspan="2" th:text="${ adminModify.adminHireDate }"><input type="text" name="adminAddressNo" id="adminAddressNo" readonly></td>
+		        <td  th:text="${ adminModify.adminHireDate }"><input type="text" name="adminAddressNo" id="adminAddressNo" readonly></td>
 		        <td>퇴사일</td>
-		        <td colspan="2" th:text="${ adminModify.adminRetireDate }">-</td>
+		        <td colspan="3" th:text="${ adminModify.adminRetireDate }">-</td>
 		      </tr>
 		      <tr>
-		        <td>직급명</td>
-		        <td colspan="2" th:text="${ adminModify.adminJob }"></td>
-		        <td>마지막 로그인 일자</td>
-		        <td colspan="2" th:text="${ adminModify.adminLastLoginDate }"></td>
+		        <td>직책</td>
+		        <td  th:text="${ adminModify.adminJob }"></td>
+		        <td>마지막 로그인</td>
+		        <td colspan="3" th:text="${ adminModify.adminLastLoginDate }"></td>
 		      </tr>
 		      <tr>
-		        <td class="tg-wman">연차 사용 횟수</td>
-		        <td class="tg-wman" colspan="2" th:text="${ adminModify.annualVacationUse }"></td>
+		        <td >연차 사용 횟수</td>
+		        <td  th:text="${ adminModify.annualVacationUse }"></td>
 		        <td>퇴사여부</td>
-		        <td colspan="2" th:text="${ adminModify.adminRetireYn }"></td>
+		        <td colspan="3" th:text="${ adminModify.adminRetireYn }"></td>
 		      </tr>
 		    </tbody>      
    		 </table>
-   		 <input type="hidden" name="adminNo" th:value="${ adminModify.adminNo }"> 
-   		 
-   		<!--  <input type="file" id="thumbnailImg" name="thumbnailImg" onchange="loadImg(this,1)" style="display: none"> -->
-	   	
-	   	<input class="btn_hrcard" type="button" id="modify" value="수정완료">
-	    <input class="btn_hrcard" type="button" id="resetButton" value="수정취소">
+   		 <div class="buttonBox">
+	   		 <input type="hidden" name="adminNo" th:value="${ adminModify.adminNo }"> 
+	   		 
+	   		<!--  <input type="file" id="thumbnailImg" name="thumbnailImg" onchange="loadImg(this,1)" style="display: none"> -->
+		   	
+		   	<input class="btn_hrcard" type="button" id="modify" value="수정완료">
+		    <input class="btn_hrcard" type="button" id="resetButton" value="수정취소">
+    	</div>
     </form>
+    
+    </section>
     
      <script>
      
@@ -182,24 +237,65 @@
     $("#adminPhone2").focusout(function (event) {
 
   	var regexp = /^[0-9]{4}/g;
-      phoneCheck = $(this).val();
-      if (!regexp.test(phoneCheck)) {
-          alert("4자리의 숫자를 입력해 주세요.");
+      phoneCheck1 = $(this).val();
+      if (!regexp.test(phoneCheck1)) {
+    	  confirm("4자리의 숫자를 입력해 주세요.");
+          $(this).val('');
           document.location.leroad(true);
-        
+          
       }
   });
   
-  $("#adminPhone3").focusout(function (event) {
+  /* $("#adminPhone3").focusout(function (event) {
 
   	var regexp = /^[0-9]{4}/g;
       phoneCheck = $(this).val();
       if (!regexp.test(phoneCheck)) {
       	alert("4자리의 숫자를 입력해 주세요.");
+      	$(this).val('');
       	document.location.leroad(true);
       }
-  });
-    
+  }); */
+  /* 전화번호 중복 검사 */
+  $('#adminPhone3').focusout(function () {
+	  var regexp = /^[0-9]{4}/g;
+      phoneCheck2 = $(this).val();
+      if (!regexp.test(phoneCheck2)) {
+      confirm("4자리의 숫자를 입력해 주세요.");
+      $(this).val('');
+      document.location.leroad(true);
+      
+      	} else {
+      		/* const phone1 = $("#adminPhone1").val();
+    		const phone2 = $("#adminPhone2").val();
+    		const phone3 = $("#adminPhone3").val();
+	        // 전화번호를 서버로 전송 > DB 유효성 검사 > 결과 반환받기
+			$('#dupliCheck').attr('value', phone1 +"-"+ phone2 +"-"+ phone3 );
+	        
+	        const adminPhone = $("#dupliCheck").val();
+	         */
+	        $.ajax({
+	            url: '/admin/hr/duplication',
+	            data : 'adminPhone=' + $("#adminPhone1").val() + "-" + $("#adminPhone2").val() + "-" + $("#adminPhone3").val(),
+	            dataType: 'json',
+	            success: function(result) {
+	                if (result == '0') {
+	                	confirm("사용 가능한 전화번호입니다.");
+	                } else {
+	                	confirm("사용 중인 전화번호입니다. 다시 입력해주세요.");
+	                    $('#adminPhone2').val('');
+	                    $('#adminPhone3').val('');
+	                }
+	            },
+	            error: function() {
+	            	alert("fail");
+	            }
+	   					
+	        });
+	   				
+	    }
+		
+	});
  
     </script>
     
