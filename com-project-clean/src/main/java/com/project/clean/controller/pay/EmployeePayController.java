@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.project.clean.controller.common.paging.Pagenation;
 import com.project.clean.controller.common.paging.SelectCriteria;
 import com.project.clean.model.dto.commonDTO.EmployeeDTO;
-import com.project.clean.model.dto.joinDTO.AdminPayAndAdminDTO;
 import com.project.clean.model.dto.joinDTO.EmployeePayAndApplyEmployeeDTO;
 import com.project.clean.model.service.pay.PayService;
 
@@ -30,11 +29,13 @@ public class EmployeePayController {
 		this.payService = payService;
 	}
 
-	// 나의 급여조회
+	// 관리자의 나의 급여 조회는 다른 컨트롤러에 있음
+	
+	/* 나의 급여 조회(직원) */
     @GetMapping("/myPayForEmployee")
 	public ModelAndView myPayForAdmin(HttpServletRequest request, ModelAndView mv, Principal principal) {
 
-		/* 관리자 번호 가져오기 */
+		/* 직원 번호 가져오기 */
 		String employeeId = principal.getName();
 		
 		EmployeeDTO employee = payService.findEmployeeByEmployeeId(employeeId);
@@ -57,6 +58,7 @@ public class EmployeePayController {
 		
 		SelectCriteria selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
 
+		/* 받은 급여가 없을때 예외처리 */ 
 		List<EmployeePayAndApplyEmployeeDTO> employeePayList = payService.myPayForEmployee(employeeNo, selectCriteria);
 		if (pageNo == 1 && employeePayList.size() == 0) {
 			mv.addObject("ListNullMessage", "아직 받은 급여가 없습니다");
@@ -70,17 +72,17 @@ public class EmployeePayController {
 		return mv;
 	}
 		
-		/* 나의 직원 급여 상세조회 */
-		@GetMapping("/myPayForEmployeeSelectInfo/{payHistoryEmployeeNo}")
-		public ModelAndView findMyPayForAdminByPayHistoryAdminNo(ModelAndView mv, @PathVariable int payHistoryEmployeeNo) {
+	/* 나의 급여 상세조회(직원) */
+	@GetMapping("/myPayForEmployeeSelectInfo/{payHistoryEmployeeNo}")
+	public ModelAndView findMyPayForAdminByPayHistoryAdminNo(ModelAndView mv, @PathVariable int payHistoryEmployeeNo) {
 
-			EmployeePayAndApplyEmployeeDTO pay = payService.findEmployeePayByPayHistoryEmployeeNo(payHistoryEmployeeNo);
+		EmployeePayAndApplyEmployeeDTO pay = payService.findEmployeePayByPayHistoryEmployeeNo(payHistoryEmployeeNo);	// 급여 내역 번호(pk)
 
-			mv.addObject("pay", pay);
-			mv.setViewName("employee/pay/myPay/myPayForEmployeeSelectInfo");
-			
-			return mv;
-		}
+		mv.addObject("pay", pay);
+		mv.setViewName("employee/pay/myPay/myPayForEmployeeSelectInfo");
+		
+		return mv;
+	}
 
 	
 }

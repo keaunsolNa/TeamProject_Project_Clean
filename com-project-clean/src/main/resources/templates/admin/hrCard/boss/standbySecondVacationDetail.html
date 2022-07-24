@@ -65,10 +65,14 @@
     </style>
 </head>
 <body>
+	<div th:replace="/common/Header.html"></div>
+	<div th:include="admin/adminAside.html"></div>
+
  	<div class="container">
         <div class="confirmDateContainer">
-  <form id="standbyVacation" method="post">
-    </div>
+     </div>
+  <form id="standbySecondVacation" method="post">
+   
       <table class="tg2 confirmTable" style="table-layout: fixed; width: 588px">
         <colgroup>
           <col style="width: 186px">
@@ -91,15 +95,15 @@
           </tr>
           <tr class="comfirmBox">
             <td class="tg2-amwm">
-              <div id="humanResource" name="humanResource" th:text="${hrAdmin}"></div>
+              <div id="humanResource" th:text="${hrAdmin}"></div>
             </td>
             <td class="tg2-amwm" >
-              <div id="boss" name="boss"></div>
+              <div id="boss" name="boss" th:text="${boss}"></div>
             </td>
           </tr>
           <tr>
             <td class="tg2-amwm" width="50px" height="15px" th:text="${hrDate}"></td>
-            <td class="tg2-amwm" width="50px" height="15px"></td>
+            <td class="tg2-amwm" width="50px" height="15px" th:text="${bossDate}"></td>
           </tr>
         </tbody>
       </table>
@@ -162,31 +166,48 @@
             
               <td class="tg-wlph">사유</td>
               <td class="tg-wman" >
-              	<textarea class="vacationReason" name="hrConfirmReason" cols="50" rows="5"></textarea>
+              	<textarea class="vacationReason" cols="50" rows="5" th:text="${hrReason}"></textarea>
               </td>
+            
             </tr>
+            <!-- </th:block> -->
+           <!-- 인사관리자 <th:block sec:authorize="hasRole('MEMBER')"> -->
+           <!-- <th:block sec:authorize="hasRole('BOSS')"> -->
+             <tr>
+              <td class="tg-wlph">사유</td>
+              <td class="tg-wman" >
+              	<textarea class="vacationReason" name="bossConfirmReason" cols="50" rows="5" ></textarea>
+              </td> 
+            </tr>
+           <!-- 대표 <th:block sec:authorize="hasRole('BOSS')"> -->
           </thead>
      
           </table>
-          <input type="submit" id="approval" value="승인" formaction="approval"> 
-          <input type="submit" id="return" value="반려" formaction="return">
-          
+          <input name="vacationName" th:value="${ vacation.vacationName }">
           <input style="display: none;" name="adminNo" th:value="${adminNo}">
           <input style="display: none;" name="vacationNo" th:value="${vacation.vacationNo}">
       </div>
+      	  <button type="submit" id="approval2" formaction="approvalSecond">승인</button> 
+          <button type="submit" id="return2" formaction="returnSecond">반려</button>
+         
     </div>
    </form> 
    
 	 <script>
-		$("#approval").click(function(){
-		 	if(confirm("승인 하시겠습니까?")){
-		 		$("#standbyVacation").submit();
+		
+		$("#approval2").click(function(){
+		 	if(confirm("승인 하시겠습니까?") == true){
+		 		$("#standbySecondVacation").submit();
+		 	} else {
+		 		return false;
 		 	}
 		})
-		
-		 $("#return").click(function(){
-		 	if(confirm("반려 하시겠습니까?")){
-		 			$("#standbyVacation").submit();
+		 
+		 $("#return2").click(function(){
+		 	if(confirm("반려 하시겠습니까?")  == true){
+		 			$("#standbySecondVacation").submit();
+		 		}else{
+		 			return false;
 		 		}
 		 })
     </script>

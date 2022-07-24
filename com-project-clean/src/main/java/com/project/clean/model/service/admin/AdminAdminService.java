@@ -38,6 +38,14 @@ public class AdminAdminService{
 		this.retireAdminRepository = retireAdminRepository;
 	}
 
+	/* 전화번호 중복체크 */
+	public int findByAdminPhone(String adminPhone) {
+		
+		int admin = adminRepository.countByAdminPhone(adminPhone);
+		
+		return admin;
+	}
+	
 	/* 재직자 조회 - 생년월일, 입사일, 직급명, 전화번호 검색 */
 	public List<AdminDTO> findAdminList(SelectCriteria selectCriteria) {
 		
@@ -65,19 +73,23 @@ public class AdminAdminService{
 			/* 생년월일 검색 */
 			if("adminBirth".equals(selectCriteria.getSearchCondition())) {
 				
-				Date adminBirth = Date.valueOf(selectCriteria.getSearchValue()); 
+				if(!selectCriteria.getSearchValue().isBlank()) {
 				
-				adminList = adminRepository.findAllByAdminRetireYnAndAdminBirth("N", adminBirth, paging);
-				
+					Date adminBirth = Date.valueOf(selectCriteria.getSearchValue()); 
+					
+					adminList = adminRepository.findAllByAdminRetireYnAndAdminBirth("N", adminBirth, paging);
+				}
 			}
 			
 			/* 입사일 검색 */
 			if("adminHireDate".equals(selectCriteria.getSearchCondition())) {
 				
-				Date adminHireDate = Date.valueOf(selectCriteria.getSearchValue()); 
+				if(!selectCriteria.getSearchValue().isBlank()) {
 				
-				adminList = adminRepository.findAllByAdminRetireYnAndAdminHireDate("N", adminHireDate, paging);
-				
+					Date adminHireDate = Date.valueOf(selectCriteria.getSearchValue()); 
+					
+					adminList = adminRepository.findAllByAdminRetireYnAndAdminHireDate("N", adminHireDate, paging);
+				}
 			}
 			
 			/* 직책명 검색 */
@@ -97,7 +109,7 @@ public class AdminAdminService{
 		} else {
 			
 			/* 퇴사여부가 N인 관리자 전체 조회 */
-			adminList = adminRepository.findAllByAdminRetireYn("N");
+			adminList = adminRepository.findAllByAdminRetireYn("N", paging);
 		}
 		
 		
@@ -122,19 +134,23 @@ public class AdminAdminService{
 			/* 생년월일 페이징 */
 			if("adminBirth".equals(searchCondition)) {
 				
-				Date adminBirth = Date.valueOf(searchValue); 
+				if(!searchValue.isBlank()) {
 				
-				count = adminRepository.countByAdminRetireYnAndAdminBirth("N", adminBirth);
-				
+					Date adminBirth = Date.valueOf(searchValue); 
+					
+					count = adminRepository.countByAdminRetireYnAndAdminBirth("N", adminBirth);
+				}
 			}
 			
 			/* 입사일 페이징 */
 			if("adminHireDate".equals(searchCondition)) {
 				
-				Date adminHireDate = Date.valueOf(searchValue); 
+				if(!searchValue.isBlank()) {
 				
-				count = adminRepository.countByAdminRetireYnAndAdminHireDate("N", adminHireDate);
-				
+					Date adminHireDate = Date.valueOf(searchValue); 
+					
+					count = adminRepository.countByAdminRetireYnAndAdminHireDate("N", adminHireDate);
+				}
 			}
 			
 			/* 직책명 페이징 */
@@ -149,11 +165,12 @@ public class AdminAdminService{
 				
 				count = adminRepository.countByAdminRetireYnAndAdminPhoneContaining("N", searchValue);
 			}
+		} else {
 			
 			/* 전체 재직자 페이징 */
-			count = adminRepository.countByAdminRetireYn("N");
+			count = (int)adminRepository.countByAdminRetireYn("N");
+			
 		}
-		
 		return count;
 	}
 	
@@ -185,19 +202,23 @@ public class AdminAdminService{
 			/* 생년월일 검색 */
 			if("adminBirth".equals(selectCriteria.getSearchCondition())) {
 				
-				Date adminBirth = Date.valueOf(selectCriteria.getSearchValue()); 
+				if(!selectCriteria.getSearchValue().isBlank()) {
 				
-				retireAdminList = adminRepository.findAllByAdminRetireYnAndAdminBirth("Y", adminBirth, paging);
-				
+					Date adminBirth = Date.valueOf(selectCriteria.getSearchValue()); 
+					
+					retireAdminList = adminRepository.findAllByAdminRetireYnAndAdminBirth("Y", adminBirth, paging);
+				}
 			}
 			
 			/* 퇴사일 검색 */
 			if("adminRetireDate".equals(selectCriteria.getSearchCondition())) {
 				
-				Date adminRetireDate = Date.valueOf(selectCriteria.getSearchValue()); 
+				if(!selectCriteria.getSearchValue().isBlank()) {
 				
-				retireAdminList = adminRepository.findAllByAdminRetireYnAndAdminRetireDate("Y", adminRetireDate, paging);
-				
+					Date adminRetireDate = Date.valueOf(selectCriteria.getSearchValue()); 
+					
+					retireAdminList = adminRepository.findAllByAdminRetireYnAndAdminRetireDate("Y", adminRetireDate, paging);
+				}
 			}
 			
 			/* 직책명 검색 */
@@ -217,7 +238,7 @@ public class AdminAdminService{
 		} else {
 			
 			/* 퇴사여부가 Y인 관리자 전체 조회 */
-			retireAdminList = adminRepository.findAllByAdminRetireYn("Y");
+			retireAdminList = adminRepository.findAllByAdminRetireYn("Y", paging);
 		}
 	
 		
@@ -361,19 +382,23 @@ public class AdminAdminService{
 			/* 생년월일 페이징 */
 			if("adminBirth".equals(searchCondition)) {
 				
-				Date adminBirth = Date.valueOf(searchValue); 
+				if(!searchValue.isBlank()) {
 				
-				count = adminRepository.countByAdminRetireYnAndAdminBirth("Y", adminBirth);
-				
+					Date adminBirth = Date.valueOf(searchValue); 
+					
+					count = adminRepository.countByAdminRetireYnAndAdminBirth("Y", adminBirth);
+				}
 			}
 			
 			/* 퇴사일 페이징 */
 			if("adminRetireDate".equals(searchCondition)) {
 				
-				Date adminRetireDate = Date.valueOf(searchValue); 
-				
-				count = adminRepository.countByAdminRetireYnAndAdminRetireDate("Y", adminRetireDate);
-				
+				if(!searchValue.isBlank()) {
+					
+					Date adminRetireDate = Date.valueOf(searchValue); 
+					
+					count = adminRepository.countByAdminRetireYnAndAdminRetireDate("Y", adminRetireDate);
+				}
 			}
 			
 			/* 직책명 페이징 */
@@ -389,13 +414,18 @@ public class AdminAdminService{
 				count = adminRepository.countByAdminRetireYnAndAdminPhoneContaining("Y", searchValue);
 			}
 			
+		}else {
+			
 			/* 전체 퇴직자 페이징 */
-			count = adminRepository.countByAdminRetireYn("Y");
+			count = (int)adminRepository.countByAdminRetireYn("Y");
+			
 		}
 		
 		return count;
 		
 		
 	}
+
+	
 
 }

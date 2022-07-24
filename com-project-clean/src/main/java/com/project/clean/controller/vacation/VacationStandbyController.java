@@ -29,7 +29,7 @@ import com.project.clean.model.service.admin.AdminAdminService;
 import com.project.clean.model.service.vacation.VacationService;
 
 @Controller
-@RequestMapping("admin")
+@RequestMapping("admin/hrCard")
 public class VacationStandbyController {
 	
 	private final VacationService vacationService;
@@ -59,7 +59,7 @@ public class VacationStandbyController {
 		int totalCount = vacationService.selectTotalCount(searchCondition, searchValue);
 
 		/* 한 페이지에 보여 줄 게시물 수 */
-		int limit = 1;		//얘도 파라미터로 전달받아도 된다.
+		int limit = 5;		//얘도 파라미터로 전달받아도 된다.
 
 		/* 한 번에 보여질 페이징 버튼의 갯수 */
 		int buttonAmount = 3;
@@ -78,14 +78,14 @@ public class VacationStandbyController {
 		
 		mv.addObject("vacationList", vacationList);
 		mv.addObject("selectCriteria", selectCriteria);
-		mv.setViewName("admin/vacation/standbyFirstVacationList");
+		mv.setViewName("admin/hrCard/vacation/standbyFirstVacationList");
 		
 		return mv;
 	}
 
 	
 	/* 2차 승인 대기 목록 조회 */
-	@GetMapping("vacation/standbySecondVacationList")
+	@GetMapping("boss/standbySecondVacationList")
 	public ModelAndView standbySecondVacation(ModelAndView mv, HttpServletRequest request) {
 	
 		
@@ -102,7 +102,7 @@ public class VacationStandbyController {
 		int totalCount = vacationService.selectSecondTotalCount(searchCondition, searchValue);
 
 		/* 한 페이지에 보여 줄 게시물 수 */
-		int limit = 1;		//얘도 파라미터로 전달받아도 된다.
+		int limit = 5;		//얘도 파라미터로 전달받아도 된다.
 
 		/* 한 번에 보여질 페이징 버튼의 갯수 */
 		int buttonAmount = 3;
@@ -121,7 +121,7 @@ public class VacationStandbyController {
 		
 		mv.addObject("vacationList", vacationList);
 		mv.addObject("selectCriteria", selectCriteria);
-		mv.setViewName("admin/vacation/standbySecondVacationList");
+		mv.setViewName("admin/hrCard/boss/standbySecondVacationList");
 		
 		return mv;
 	}
@@ -156,13 +156,13 @@ public class VacationStandbyController {
 
 		
 		/* 경로를 지정한다. */
-		mv.setViewName("admin/vacation/standbyVacationDetail");
+		mv.setViewName("admin/hrCard/vacation/standbyVacationDetail");
 		
 		return mv;
 	}
 	
 	/* 대기 휴가 상세 조회 - 대표 */
-	@GetMapping("vacation/standbySecondVacationDetail/{vacationNo}")
+	@GetMapping("boss/standbySecondVacationDetail/{vacationNo}")
 	public ModelAndView standbyVacationSecondDetail(ModelAndView mv, @PathVariable int vacationNo) {
 		
 		/*
@@ -203,13 +203,13 @@ public class VacationStandbyController {
 		mv.addObject("vacation", vacation);
 		
 		/* 경로를 지정한다. */
-		mv.setViewName("admin/vacation/standbySecondVacationDetail");
+		mv.setViewName("admin/hrCard/boss/standbySecondVacationDetail");
 		
 		return mv;
 	}
 	
 	/* 휴가 신청폼 조회 */
-	@GetMapping("vacation/registVacation")
+	@GetMapping("registVacation")
 	@ResponseBody
 	public ModelAndView registVacationSelect(ModelAndView mv, Principal principal) {
 		
@@ -226,13 +226,13 @@ public class VacationStandbyController {
 		
 		mv.addObject("admin", admin);
 		mv.addObject("today", today);
-		mv.setViewName("admin/vacation/registVacation");
+		mv.setViewName("admin/hrCard/registVacation");
 		
 		return mv;
 	}
 	
 	/* 휴가 신청 */
-	@PostMapping("vacation/registVacation/run")
+	@PostMapping("registVacation/run")
 	public String registVacation(@ModelAttribute VacationDTO vacation, 
 			RedirectAttributes rttr, HttpServletRequest request) {
 		
@@ -252,7 +252,7 @@ public class VacationStandbyController {
 		
 		vacationService.registNewVacationApply(vacation);
 		
-		return "redirect:/admin/vacation/standbyFirstVacationList";
+		return "redirect:/admin/hrCard/vacation/standbyFirstVacationList";
 	}
 	
 	/* 휴가 1차 승인 */
@@ -295,11 +295,11 @@ public class VacationStandbyController {
 		/* 결재 내역 인서트 후 승인여부를 업데이트 한다. */
 		vacationService.modifyFirstConfirmYn(vacationNo);
 		
-		return "redirect:/admin/vacation/standbyFirstVacationList";
+		return "redirect:/admin/hrCard/vacation/standbyFirstVacationList";
 	}
 	
 	/* 휴가 2차 승인 */
-	@PostMapping("vacation/standbySecondVacationDetail/approvalSecond")
+	@PostMapping("boss/standbySecondVacationDetail/approvalSecond")
 	public String approvalSecondVacation(ModelAndView mv, RedirectAttributes rttr, @ModelAttribute 
 			VacationCommitDTO vacationCommit, Principal principal, HttpServletRequest request) {
 		
@@ -356,7 +356,7 @@ public class VacationStandbyController {
 		}
 		
 		
-		return "redirect:/admin/vacation/standbySecondVacationList";
+		return "redirect:/admin/hrCard/boss/standbySecondVacationList";
 	}
 	
 	/* 휴가 1차 반려 */
@@ -401,11 +401,11 @@ public class VacationStandbyController {
 		vacationService.modifyReturnYn(vacationNo);
 		
 		
-		return "redirect:/admin/vacation/standbyFirstVacationList";
+		return "redirect:/admin/hrCard/vacation/standbyFirstVacationList";
 	}
 	
 	/* 휴가 2차 반려 */
-	@PostMapping("vacation/standbySecondVacationDetail/returnSecond")
+	@PostMapping("boss/standbySecondVacationDetail/returnSecond")
 	public String returnSecondVacation(ModelAndView mv, RedirectAttributes rttr, @ModelAttribute 
 			VacationCommitDTO vacationCommit, Principal principal, HttpServletRequest request) {
 	
@@ -446,6 +446,6 @@ public class VacationStandbyController {
 		vacationService.modifyReturnYn(vacationNo);
 		
 		
-		return "redirect:/admin/vacation/standbySecondVacationList";
+		return "redirect:/admin/hrCard/boss/standbySecondVacationList";
 	}
 }

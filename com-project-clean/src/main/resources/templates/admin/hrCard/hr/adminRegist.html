@@ -65,8 +65,10 @@
 </head>
 <body>
 
-	<button onclick="history.back()">Back</button>
-    <form action="/admin/hrCard/adminRegist" id="registForm" method="post" enctype="multipart/form-data" onsubmit="sendjs();">
+	<div th:replace="/common/Header.html"></div>
+	<div th:include="admin/adminAside.html"></div>
+	
+    <form action="/admin/hrCard/hr/adminRegist" id="registForm" method="post" enctype="multipart/form-data" onsubmit="sendjs();">
 	    <table class="tg" style=" table-layout: fixed; width: 597px">
 	    <colgroup>
 	    <col style="width: 100px">
@@ -99,6 +101,7 @@
 	             	<input type="text" id="adminPhone2" name="adminPhone2" class="required" maxlength='4' required>-
 	             	<input type="text" id="adminPhone3" name="adminPhone3" class="required" maxlength='4' required>
 	             	<input style="display: none;" type="text" id="adminPhone" name="adminPhone">
+	             	<input style="display: none;" type="text" id="dupliCheck" name="dupliCheck">
 	             </td>
 		      </tr>
 		      <tr>
@@ -106,11 +109,10 @@
 		        <td><input type="date" id="adminBirth" name="adminBirth" min="1950-01-01" max="2003-01-01" required></td>
 		        <td>성별</td>
 		        <td>
-		        	<select name="adminGender" style="text-align: center;" required>
-		                <option value="F">여성</option>
-		                <option value="M">남성</option>
-		                <!-- <option value="총관리자">총관리자</option> -->
-		            </select>
+		        	<select name="adminGender" required >
+		        		<option value="M">남성</option>
+		        		<option value="F">여성</option>
+		        	</select>
 		        </td>
 		      </tr>
 		    </thead>
@@ -119,9 +121,11 @@
 		        <td>이메일</td>
 		        <td colspan="3"><input type="text" name="email" id="email" required> @ 
 		        <select name="domain" id="domain" style="width: 100px; height: 25px;">
-	                    <option value="naver.com" selected>naver.com</option>
-	                    <option value="google.com">google.com</option>
-	                    <option value="hanmail.com">hanmail.com</option>
+	                    <option id="naver" value="naver.com" selected>naver.com</option>
+	                    <option id="google" value="google.com">google.com</option>
+	                    <option id="daum" value="daum.com">daum.com</option>
+	                    <option id="yahoo" value="yahoo.com">yahoo.com</option>
+	                    <option id="nate" value="nate.com">nate.com</option>
 	            </select>
 	            <td style="display: none;"><input id="adminEmail" name="adminEmail" type="text"/></td>
 		         <td colspan="2"><input type="file" id="thumbnailImg" name="thumbnailImg" onchange="loadImg(this,1)" style="display: none"></td>
@@ -172,6 +176,7 @@
   </form>
   
   <script>
+  
   /* 회원 수정 정보 */
 	$("#regist").click(function(){
 		
@@ -182,6 +187,7 @@
  		const email = $("#email").val();
 		const domain = $("#domain").val();
 		const hireDate = $("#adminHireDate").val();
+		const img = $("#thumbnailImg").val();
 		
 		// 이미지 나중에 추가
 		
@@ -189,21 +195,25 @@
 		const address = $("#address").text();
 		const addressDetail = $("#addressDetail").val();
 		
-			if(!(phone2 && phone3 && email && addressDetail && birth && hireDate)){
+			if(!(phone2 && phone3 && email && addressDetail && birth && hireDate && img)){
 				alert("입력되지 않은 항목이 있습니다.");
 			}else{
-			if(confirm("등록하시겠습니까?")){
+			if(confirm("등록하시겠습니까?") == true){
 				$('#adminPhone').attr('value', phone1 +"-"+ phone2 +"-"+ phone3 );
 				/* $('#adminAddress').attr('value', addressNo + "@" + address + "@" + addressDetail); */
 				$('#adminEmail').attr('value', email + "@" + domain); 
 				$("#registForm").submit();
 				
+			}else{
+				return false;
 			}
 		}
 	})  
 	$("#resetButton").click(function(){
-		if(confirm("초기화 하시겠습니까?")){
+		if(confirm("초기화 하시겠습니까?") == true){
 			document.getElementById("registForm").reset();
+		}else{
+			return false;
 		}
 	})
 	
@@ -211,36 +221,77 @@
 	
   $("#adminPhone2").focusout(function (event) {
 
-  	var regexp = /^[0-9]{3,4}/gi;
-      phoneCheck = $(this).val();
-      if (!regexp.test(phoneCheck)) {
-          alert("3 ~ 4자리의 숫자만 사용하기로 약속해요");
-        
-      }
-  });
-  
-  $("#adminPhone3").focusout(function (event) {
-
-  	var regexp = /^[0-9]{4}/gi;
-      phoneCheck = $(this).val();
-      if (!regexp.test(phoneCheck)) {
-      	alert("4자리의 숫자만 사용하기로 약속해요");
+  	var regexp = /^[0-9]{4}/g;
+      phoneCheck1 = $(this).val();
+      if (!regexp.test(phoneCheck1)) {
+    	  confirm("4자리의 숫자를 입력해 주세요.");
+          $(this).val('');
+          document.location.leroad(true);
           
       }
   });
   
+ /*  $("#adminPhone3").focusout(function (event) {
+
+  	var regexp = /^[0-9]{4}/g;
+      phoneCheck = $(this).val();
+      if (!regexp.test(phoneCheck)) {
+      	alert("4자리의 숫자를 입력해 주세요.");
+      	document.location.leroad(true);
+      }
+  }); */
+  
   /* 이름 정규표현식 */
   $("#adminName").focusout(function (event) {
 
-  	var regexp =  /^[가-힣]{2,4}$/;
-      phoneCheck = $(this).val();
-      if (!regexp.test(phoneCheck)) {
-          alert("2~4글자의 한글만 사용하기로 약속해요");
-           $(this).val(''); 
-           document.location.reload(true);
+  	var regexp =   /^[가-힣]{2,4}$/;
+      nameCheck = $(this).val();
+      if (!regexp.test(nameCheck)) {
+          alert("2-4자의 한글 이름을 입력해 주세요.");
+          
       }
   });
 
+  /* 전화번호 중복 검사 */
+  $('#adminPhone3').focusout(function () {
+	  var regexp = /^[0-9]{4}/g;
+      phoneCheck2 = $(this).val();
+      if (!regexp.test(phoneCheck2)) {
+      confirm("4자리의 숫자를 입력해 주세요.");
+      $(this).val('');
+      document.location.leroad(true);
+      
+      	} else {
+      		/* const phone1 = $("#adminPhone1").val();
+    		const phone2 = $("#adminPhone2").val();
+    		const phone3 = $("#adminPhone3").val();
+	        // 전화번호를 서버로 전송 > DB 유효성 검사 > 결과 반환받기
+			$('#dupliCheck').attr('value', phone1 +"-"+ phone2 +"-"+ phone3 );
+	        
+	        const adminPhone = $("#dupliCheck").val();
+	         */
+	        $.ajax({
+	            url: '/admin/hr/duplication',
+	            data : 'adminPhone=' + $("#adminPhone1").val() + "-" + $("#adminPhone2").val() + "-" + $("#adminPhone3").val(),
+	            dataType: 'json',
+	            success: function(result) {
+	                if (result == '0') {
+	                	confirm("사용 가능한 전화번호입니다.");
+	                } else {
+	                	confirm("사용 중인 전화번호입니다. 다시 입력해주세요.");
+	                    $('#adminPhone2').val('');
+	                    $('#adminPhone3').val('');
+	                }
+	            },
+	            error: function() {
+	            	alert("fail");
+	            }
+	   					
+	        });
+	   				
+	    }
+		
+	});
   
   </script>
   

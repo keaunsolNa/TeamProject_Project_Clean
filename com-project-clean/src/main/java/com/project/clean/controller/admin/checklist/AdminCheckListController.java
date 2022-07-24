@@ -205,43 +205,46 @@ public class AdminCheckListController {
 		checkList.setCheckStatus("A");
 		
 		
-//		/* 다영 - 체크리스트가 승인되었을때 바로 급여를 지급함 ------------------------------------------------------------------*/
-//		// 1. 예약번호로 원래 급여를 가져옴
-//		ReservationInfoDTO reservationInfo = payService.findByTotalPaymentByReservationNo(reservationNo);
-//		int totalPayment = reservationInfo.getTotalPayment();
-//		
-//		// 2. 부가요금을 가져옴
-//		List<SurchargeDTO> surchargeList = payService.findSurchargeList();
-//		int insurance = surchargeList.get(0).getSurchargeInsurance(); 			  // 4대보험
-//		int commission = surchargeList.get(0).getSurchargeCommission();           // 수수료
-//		
-//		// 3. 예약번호로 예약별 직원의 목록을 가져옴 
-//		List<ApplyEmployeeDTO> applyEmployee = payService.findByApplyReservationNo(reservationNo);
-//		System.out.println("예약별 직원 리스트 개수" + applyEmployee.size());
-//		
-//		if(applyEmployee.size() == 1) {
-//			int applyReservationNo = applyEmployee.get(0).getApplyReservationNo();
-//			int applyEmployeeNo = applyEmployee.get(0).getApplyEmployeeNo();
-//			
-//			// 4대보험과 수수료를 뺀 최종 급여
-//			int payEmployeeFinalSalary = totalPayment - (totalPayment * insurance / 100) - (totalPayment * commission / 100);
-//			
-//			// 4. 급여 지급하기(직원번호, 예약번호, 최종급여 service로 보냄)
-//			payService.registEmployeePay(applyReservationNo, applyEmployeeNo, payEmployeeFinalSalary);
-//			
-//		}else {
-//			int applyReservationNo = applyEmployee.get(0).getApplyReservationNo();
-//			int applyEmployeeNo = applyEmployee.get(0).getApplyEmployeeNo();
-//			int applyReservationNo2 = applyEmployee.get(1).getApplyReservationNo();
-//			int applyEmployeeNo2 = applyEmployee.get(1).getApplyEmployeeNo();
-//			
-//			// 4대보험과 수수료를 뺀 최종 급여(2명일때 나누기 2를 추가로한다)
-//			int payEmployeeFinalSalary = (totalPayment - (totalPayment * insurance / 100) - (totalPayment * commission / 100))/2 ;
-//			// 4. 급여 지급하기(직원번호, 예약번호, 최종급여 service로 보냄)
-//			payService.registEmployeePay(applyReservationNo, applyEmployeeNo, payEmployeeFinalSalary);
-//			// 한명 더
-//			payService.registEmployeePay(applyReservationNo2, applyEmployeeNo2, payEmployeeFinalSalary);
-//		}
+		/* 다영 - 체크리스트가 승인되었을때 바로 급여를 지급함 ------------------------------------------------------------------*/
+		// 1. 예약번호로 원래 급여(계산전 급여)를 가져옴
+		ReservationInfoDTO reservationInfo = payService.findByTotalPaymentByReservationNo(reservationNo);
+		int totalPayment = reservationInfo.getTotalPayment();
+		
+		// 2. 부가요금을 가져옴
+		List<SurchargeDTO> surchargeList = payService.findSurchargeList();
+		int insurance = surchargeList.get(0).getSurchargeInsurance(); 			  // 4대보험
+		int commission = surchargeList.get(0).getSurchargeCommission();           // 수수료
+		
+		// 3. 예약번호로 예약별 직원의 목록을 가져옴 
+		List<ApplyEmployeeDTO> applyEmployee = payService.findByApplyReservationNo(reservationNo);
+		System.out.println("예약별 직원 리스트 개수" + applyEmployee.size());
+		
+		// 4. 청소를 맡은 직원이 한명일때, 직원이 2명일때 나누어서 계산
+		if(applyEmployee.size() == 1) {
+			int applyReservationNo = applyEmployee.get(0).getApplyReservationNo();
+			int applyEmployeeNo = applyEmployee.get(0).getApplyEmployeeNo();
+			
+			// 4대보험과 수수료를 뺀 최종 급여
+			int payEmployeeFinalSalary = totalPayment - (totalPayment * insurance / 100) - (totalPayment * commission / 100);
+			
+			// 5. 급여 지급하기(직원번호, 예약번호, 최종급여 service로 보냄)
+			payService.registEmployeePay(applyReservationNo, applyEmployeeNo, payEmployeeFinalSalary);
+			
+		}else {
+			int applyReservationNo = applyEmployee.get(0).getApplyReservationNo();
+			int applyEmployeeNo = applyEmployee.get(0).getApplyEmployeeNo();
+			int applyReservationNo2 = applyEmployee.get(1).getApplyReservationNo();
+			int applyEmployeeNo2 = applyEmployee.get(1).getApplyEmployeeNo();
+			
+			// 4대보험과 수수료를 뺀 최종 급여(2명일때 나누기 2를 추가로한다)
+			int payEmployeeFinalSalary = (totalPayment - (totalPayment * insurance / 100) - (totalPayment * commission / 100))/2 ;
+			
+			// 5. 급여 지급하기(직원번호, 예약번호, 최종급여 service로 보냄)
+			payService.registEmployeePay(applyReservationNo, applyEmployeeNo, payEmployeeFinalSalary);
+			
+			// 한명 더
+			payService.registEmployeePay(applyReservationNo2, applyEmployeeNo2, payEmployeeFinalSalary);
+		}
 		
 		
 		

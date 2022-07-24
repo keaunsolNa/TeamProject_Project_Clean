@@ -36,7 +36,8 @@
 <body>
 
 	
-	<button onclick="history.back()">Back</button>
+	<div th:replace="/common/Header.html"></div>
+	<div th:include="admin/adminAside.html"></div>
 	
     <form action="run" id="modifyForm" method="post" enctype="multipart/form-data">
 	    <table class="tg">
@@ -160,11 +161,13 @@
  			if(!(phone2 && phone3 && email && addressDetail)){
  				alert("입력되지 않은 항목이 있습니다.");
  			}else{
- 			if(confirm("수정하시겠습니까?")){
+ 			if(confirm("수정하시겠습니까?") == true){
  				$('#adminPhone').attr('value', phone1 +"-"+ phone2 +"-"+ phone3 );
  				$('#adminEmail').attr('value', email + "@" + domain); 
  				$("#modifyForm").submit();
  				
+ 			}else{
+ 				return false;
  			}
  		}
  	})  
@@ -178,23 +181,24 @@
 	
     $("#adminPhone2").focusout(function (event) {
 
-    	var regexp = /^[0-9]{3,4}/gi;
-        phoneCheck = $(this).val();
-        if (!regexp.test(phoneCheck)) {
-            alert("3 ~ 4자리의 숫자만 사용하기로 약속해요11");
-            $(this).val('');
-        }
-    });
-	
-    $("#adminPhone3").focusout(function (event) {
+  	var regexp = /^[0-9]{4}/g;
+      phoneCheck = $(this).val();
+      if (!regexp.test(phoneCheck)) {
+          alert("4자리의 숫자를 입력해 주세요.");
+          document.location.leroad(true);
+        
+      }
+  });
+  
+  $("#adminPhone3").focusout(function (event) {
 
-    	var regexp = /^[0-9]{3,4}/gi;
-        phoneCheck = $(this).val();
-        if (!regexp.test(phoneCheck)) {
-            alert("4자리의 숫자만 사용하기로 약속해요11");
-            $(this).val('');
-        }
-    });
+  	var regexp = /^[0-9]{4}/g;
+      phoneCheck = $(this).val();
+      if (!regexp.test(phoneCheck)) {
+      	alert("4자리의 숫자를 입력해 주세요.");
+      	document.location.leroad(true);
+      }
+  });
     
  
     </script>

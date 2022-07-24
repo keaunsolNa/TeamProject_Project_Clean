@@ -50,18 +50,20 @@
         .tab-content.current {
             display: inherit;
         }
+        
+       
     </style>
 </head>
 <body>
-
+	<div th:replace="/common/Header.html"></div>
+	<div th:include="admin/adminAside.html"></div>
 	
+	2차 휴가
 	 <div class="container">
-
-        
-        <div class="search-area" align="center">
-		<form id="searchForm" action="/admin/vacation/standbyFirstVacationList" method="get" style="display: inline-block">
-				<select id="searchCondition" th:with="searchCondition = ${selectCriteria.searchCondition}"
-					 name="searchCondition">
+	 <div class="search-area" align="center">
+		<form id="searchForm" action="/admin/hrCard/boss/standbySecondVacationList" method="get" style="display: inline-block">
+				<select th:with="searchCondition = ${selectCriteria.searchCondition}"
+					id="searchCondition" name="searchCondition">
 					<option value="requestAdmin" th:selected="${ searchCondition } == 'requestAdmin'">신청자</option>
 					<option value="vacationName" th:selected="${ searchCondition } == 'vacationName'">휴가구분</option>
 					<option value="vacationStartDate" th:selected="${ searchCondition } == 'vacationStartDate'">휴가 시작일</option>
@@ -72,13 +74,13 @@
 			<input type="date" id="vacationStartDate" name="searchValue" style="display: none">
 			<input type="date" id="vacationEndDate" name="searchValue" style="display: none">
 			<input type="text" style="display: none;"> <!-- enter - submit 방지 -->
-			
-			<button class="btn btn-bs" type="submit">검색하기</button>
+		
+			<button type="submit">검색하기</button>
 		</form>
 
-		
+  
 
-            <table id="vacationList" border="1" width="1000px">
+            <table id="vacationList" border="1">
                 <thead>
                     <tr>
                         <th>신청번호</th>
@@ -86,26 +88,25 @@
                         <th>휴가시작일</th>
                         <th>휴가종료일</th>
                         <th>휴가구분</th>
-                        <th>1차 승인 여부</th>
-                 		
+                        <th>2차 승인 여부</th>
                     </tr>
                 </thead>
                 <tbody>
-                   	<tr th:each="index : ${ vacationList }">
+                   <tr th:each="index : ${ vacationList }">
 						<td th:text="${ index.vacationNo }"></td>
 						<td th:text="${ index.requestAdmin }"></td>
 						<td th:text="${ index.vacationStartDate }"></td>
 						<td th:text="${ index.vacationEndDate }"></td>
 						<td th:text="${ index.vacationName }"></td>
-						<td th:text="${ index.vacationFirstConfirmYn }"></td>
+						<td th:text="${ index.vacationSecondConfirmYn }"></td>
 					</tr>
                 </tbody>
             </table>
         </div>
 	</div>
-	
 	<input type="hidden" name="currentPage" value="1">
-	<div th:replace="admin/vacation/vacationListpaging.html"></div>
+	
+	<div th:replace="admin/hrCard/boss/vacationSecondListpaging.html"></div>
 	<script>
 	 /* hover event */
 	    function hover(){
@@ -121,22 +122,15 @@
 	            }
 	
 	        	employee[i].onclick = function(){
-	                location.href="/admin/vacation/standbyVacationDetail/" + this.parentNode.children[0].innerText;
+	                location.href="/admin/hrCard/boss/standbySecondVacationDetail/" + this.parentNode.children[0].innerText;
 	            }
 	        }
 	    };
-	    
-	    
 	    
 	    /* 시작 할 때 hover event */
         $(function(){
         	hover();
         })
-
-	
-	</script>
-	
-	<script>
 			
 			$("#searchCondition").change(function(){        
 			  var result = $("#searchCondition option:selected").val();
@@ -158,8 +152,8 @@
 			  }
 			})
 			
-		</script>
 	
+	</script>
 
 </body>
 </html>

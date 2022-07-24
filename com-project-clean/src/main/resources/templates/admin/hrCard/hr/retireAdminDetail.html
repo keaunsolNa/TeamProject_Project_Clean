@@ -95,7 +95,7 @@
 		        <td>입사일</td>
 		        <td colspan="2" th:text="${ admin.adminHireDate }"></td>
 		        <td>퇴사일</td>
-		        <td colspan="2">-</td>
+		        <td colspan="2" th:text="${ admin.adminRetireDate }">-</td>
 		      </tr>
 		      <tr>
 		        <td>직급명</td>
@@ -125,45 +125,9 @@
 					    <input name="adminRetireYn" th:value="${ admin.adminRetireYn }">
 					    <input name="adminSalary" th:value="${ admin.adminSalary }">
 	     </div>
-	   	 <table>
-	   	 	<tr>
-	   	 		
-	   	 		<td><input type="button" id="updateMy" value="내수정"> </td>
 
-	   	 		 
-	   	 		<th:block sec:authorize="hasRole('ADMIN_HR')">
-	   	 		<!-- 인사관리자가 사용할 수 있는 것 -->
-	   	 		<td><input type="submit" id="retireY" value="퇴사처리"> </td>
-	   	 		</th:block>
-	   	 		
-	   	 		<td style="display: none" id="value" th:text="${admin.adminNo}" ></td>
-	   	 	</tr>
-	     </table>
     </form>
-    
  
-    <script>
-      
-    const value = $("#value").text();
-    
-      $("#updateMy").click(function(){
-    	  location.href="/admin/hrCard/adminModifySelf/"+value
-        });
-      
-      $("#retireY").click(function(){
-  		if(confirm("퇴사 처리 하시겠습니까?") == true){
-  			$("#retireForm").submit();
-			}else{
-				return false;
-			}
-        });
-      
-      /* $("#retireY").click(function(){
-    	  location.href="/admin/hrCard/adminModifySelf/Delete/"+value
-        }); */
-
-      </script>
-
     
 </body>
 </html>
