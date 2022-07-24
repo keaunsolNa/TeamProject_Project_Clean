@@ -39,7 +39,7 @@ public class EmployeeController {
 	@PostMapping("empMainPage")
 	public void EmployeeMainPage() {}
 	
-	/* (관리자가)직원 수정 페이지로 이동 */
+	/* (직원이)직원 수정 페이지로 이동 */
 	@GetMapping("/modify/employee/{empNo}")
 	public String adminModifyEmployee(@PathVariable int empNo, Model mv) {
 
@@ -84,7 +84,7 @@ public class EmployeeController {
 		return "/employee/modifyEmployee";
 	}
 	
-	/* (관리자가)직원 정보 수정 */
+	/* (직원이)직원 정보 수정 */
 	@PostMapping("/modify/employee")
 	public String modifyEmployee(EmployeeAndAllDTO employeeDTO, String oldSaveRoot, String oldSaveName, Model mv,
 			@RequestParam("picture") MultipartFile singleFile, HttpServletRequest request, String status) {
@@ -143,7 +143,6 @@ public class EmployeeController {
 
 		return "redirect:/member/selectEmployee/move";
 	}
-	
 	
 	@GetMapping("/regist/employee/findMiddlePhone")
 	@ResponseBody

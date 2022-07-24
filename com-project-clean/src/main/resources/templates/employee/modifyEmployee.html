@@ -78,9 +78,9 @@
 	          </tr>
 	          <tr>
 	            <td class="subTitle">생년월일</td>
-	            <td th:text="${employee.employeeBirth}"></td>
-	            <td class="subTitle">퇴사여부</td>
-	            <td>
+	            <td th:text="${employee.employeeBirth}" colspan="3"></td>
+	            <td class="subTitle" style="display: none;">퇴사여부</td>
+	            <td  style="display: none;">
 	              <Label for="Y">Y</Label>
 	              <input type="radio" name="employeeRetireYn" id="Y" value="Y">
 	              <Label for="N">N</Label>
