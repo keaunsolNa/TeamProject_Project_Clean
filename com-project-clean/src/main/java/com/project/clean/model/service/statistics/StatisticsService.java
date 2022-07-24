@@ -32,8 +32,10 @@ public interface StatisticsService {
 	int findTotalHoursWithQuery();
 
 	/* 이달의 우수직원 조회 */
-	List<Employee> findAllOrderByEmployeeSumTimeDesc();
+	List<Employee> findByEmployeeRetireYn(String yn);
 
 	/* 직원 근무시간 조회 */
-	List<Employee> findAll();
+	List<Employee> findByEmployeeRetireYnOrderByEmployeeSumTimeDesc(String yn);
+
+	
 }

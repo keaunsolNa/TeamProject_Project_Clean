@@ -3,6 +3,7 @@ package com.project.clean.model.repository.statistics;
 import java.util.List;
 import org.springframework.data.jpa.repository.*;
 import com.project.clean.model.domain.commonEntity.Admin;
+import com.project.clean.model.domain.commonEntity.Employee;
 import com.project.clean.model.domain.joinEntity.AdminAndAdminPay;
 
 public interface StatisticsRepository extends JpaRepository<Admin, Integer>{
@@ -53,8 +54,8 @@ public interface StatisticsRepository extends JpaRepository<Admin, Integer>{
 //	public int findByEmployeeNo();
 	
 	/* 이달의 우수직원 조회 */
-	@Query(value = "select rownum as ranking, EMPLOYEE_NAME, EMPLOYEE_SUM_TIME FROM\r\n"
+	@Query(value = "select * FROM\r\n"
 			+ "(SELECT * FROM TBL_EMPLOYEE ORDER BY EMPLOYEE_SUM_TIME DESC)\r\n"
 			+ "where rownum between 1 and 5", nativeQuery = true)
-	public List<Object[]> findBestEmployeeWithQuery();
+	public List<Employee> findBestEmployeeWithQuery();
 }

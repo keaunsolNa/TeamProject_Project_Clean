@@ -86,12 +86,6 @@ public class StatisticsServiceImpl implements StatisticsService{
 		return employeeTotalHours;
 	}
 	
-	/* 직원 근무시간 조회 */
-//	@Override
-//	public List<Employee> findByEmployeeNo(int no);
-//		int findByEmployeeNo = statisticsEmployeeRepository.findByEmployeeNo();
-//		return employeeList;
-
 	/* 이달의 우수직원 조회 */
 //	@Override
 //	public List<EmployeeStatisticsDTO> findBestEmployeeWithQuery() {		
@@ -114,14 +108,13 @@ public class StatisticsServiceImpl implements StatisticsService{
 	}
 
 	@Override
-	public List<Employee> findAll() {
+	public List<Employee> findByEmployeeRetireYn(String yn) {
 		// TODO Auto-generated method stub
-		return statisticsEmployeeRepository.findAll();
+		return statisticsEmployeeRepository.findByEmployeeRetireYn(yn);
 	}
 	
-	public List<Employee> findAllOrderByEmployeeSumTimeDesc() {
-		// TODO Auto-generated method stub
-		return null;
-//		return statisticsEmployeeRepository.findAllOrderByEmployeeSumTimeDesc();
+	public List<Employee> findByEmployeeRetireYnOrderByEmployeeSumTimeDesc(String yn) {
+		
+		return statisticsEmployeeRepository.findByEmployeeRetireYnOrderByEmployeeSumTimeDesc(yn);
 	}
 }

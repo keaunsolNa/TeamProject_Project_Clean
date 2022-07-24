@@ -9,9 +9,10 @@ import com.project.clean.model.domain.commonEntity.Employee;
 public interface StatisticsEmployeeRepository extends JpaRepository<Employee, Integer>{
 
 	/* 직원 근무시간 조회 */
-	public List<Employee> findAll();
+//	public List<Employee> findAll();
 	
-//	public List<Employee> findAllOrderByEmployeeSumTimeDesc();
+	public List<Employee> findByEmployeeRetireYn(String yn);
+	public List<Employee> findByEmployeeRetireYnOrderByEmployeeSumTimeDesc(String yn);
 
 	
 	

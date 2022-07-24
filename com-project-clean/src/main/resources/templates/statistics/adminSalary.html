@@ -5,13 +5,12 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="commonLayout.css">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<style>
-div {
-	width: 100%;
-	height: 100%;
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	
+<style>
+tr:nth-of-type(1) {
+	background: #7DBEED;
 }
 
 table {
@@ -21,51 +20,46 @@ table {
 	border-style: hidden;
 }
 
-.paging {
-	width: 100%;
+table th {
+	border: 1px solid black;
 }
 
-
-#averageSalesList {
-	width: 100%;
-	min-width: 700px;
-	height: 100%;
+table td {
+	border: 1px solid black;
 }
 
-#averageSalesList table {
-	width: 100%;
-	height: 100%;
-}
-
-#averageSalesList tr {
+table tr {
+	border: 1px solid black;
 	text-align: center;
-	border: 1px solid black;
-}
-
-#averageSalesList th {
-	background-color: lightgray;
-}
-
-#averageSalesList td {
-	border: 1px solid black;
-	background-color: white;
+	font-weight: bold;
+	font-size: 30;
 }
 
 #title {
 	font-weight: bold;
-	font-size: 20;
+	font-size: 26;
 }
 
-.value {
-	font-weight: bold;
-	font-size: 20;
-	color: #7DBEED;
+.paging {
+	width: 100%;
 }
 
-.month {
-	font-weight: bold;
-	font-size: 20;
-	color: #575757;
+.btn-bs {
+	width: 80px;
+	margin-top: -6px;
+	height: 32px;
+	font-size: 15px;
+	padding: 20;
+	background-color: #7DBEED;
+}
+
+.btn-bs2 {
+	width: 50px;
+	margin-top: -10px;
+	height: 26px;
+	font-size: 15px;
+	padding: 20;
+	background-color: #7DBEED;
 }
 </style>
 <title>Document</title>
@@ -78,8 +72,7 @@ table {
 		<div th:include="statistics/statisticsAside.html"></div>
 		<article>
 			<section>
-				<button class="btn btn-outline-success" type="submit">리스트</button>
-				<button class="btn btn-outline-success" type="submit">그래프</button>
+				
 
 				<h4 id="title" align="center">관리자 직급별 급여 평균</h4>
 				<div id="averageSalesList">
@@ -88,12 +81,11 @@ table {
 							<td>관리자 급여 평균</td>
 						</tr>
 						<tr>
-							<th th:text="${ totalAvgSalary }"> 원</th>
+							<th th:text="|${ totalAvgSalary } 원|"></th>
 						</tr>
 					</table>
 				</div>
-				<br> 
-				<br>
+				<br> <br>
 
 				<div id="averageSalesList">
 
@@ -105,14 +97,48 @@ table {
 						</tr>
 						<tr th:each="admin : ${ adminSalaryList }">
 							<td th:text="${ admin.job }"></td>
-							<td th:text="${ admin.avgSalary }"> 원</td>
-							<td><input type="button" value="조회"
-								th:onclick="|location.href='adminSalary/${ admin.jobCode }'|"></td>
+							<td th:text="|${ admin.avgSalary } |"></td>
+							<td><button class="btn-bs2" type="submit"
+									th:onclick="|location.href='adminSalary/${ admin.jobCode }'|">조회</button>
 						</tr>
 					</table>
 
 				</div>
+				<br>
+				
 
+<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawVisualization);
+
+      function drawVisualization() {
+        // Some raw data (not necessarily accurate)
+        var data = google.visualization.arrayToDataTable([
+          ['직급명', '평균 급여' ],
+          ['총관리자',  18400000 ],
+          ['일반관리자',  2300000 ],
+          ['보안담당자', 2300000  ],
+          ['인사담당자',  2622000 ],        
+          ['재정담당자',  3956000 ],             
+        ]);
+
+        var options = {
+          title : '관리자 직급별 평균 급여 그래프',
+          vAxis: {title: '금액'},
+          hAxis: {title: '직급명'},
+          seriesType: 'bars',
+          series: {5: {type: 'line'}}
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+  </body>
+  </html>
 			</section>
 		</article>
 	</main>

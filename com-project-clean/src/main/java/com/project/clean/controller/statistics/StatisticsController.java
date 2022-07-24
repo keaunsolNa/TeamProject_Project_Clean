@@ -68,6 +68,12 @@ private final StatisticsService statisticsService;
 		return mv;
 	}
 	
+//	@GetMapping("ChartsAdminSalary")
+//	public ModelAndView chartsAdminSalary (ModelAndView mv) {
+//		string chartsAdminSalary = 
+//		return null;
+//	}
+	
 	/* 총 매출, 순 수익 조회 */
 	@GetMapping("/totalSales")
 	public ModelAndView totalSales(ModelAndView mv) {
@@ -98,7 +104,7 @@ private final StatisticsService statisticsService;
 	@GetMapping("employeeTotalWorkhoursDetail")
 	public ModelAndView detail(ModelAndView mv) {
 		
-		List<Employee> employeeList = statisticsService.findAll();
+		List<Employee> employeeList = statisticsService.findByEmployeeRetireYn("N");
 		mv.addObject("employeeList", employeeList);
 		mv.setViewName("/statistics/employeeTotalWorkhoursDetail");
 		
@@ -109,14 +115,14 @@ private final StatisticsService statisticsService;
 	@GetMapping("bestEmployee")
 	public ModelAndView bestEmployee(ModelAndView mv) {
 //		List<EmployeeStatisticsDTO> employeeList = statisticsService.findBestEmployeeWithQuery();
-		List<Employee> employeeList = statisticsService.findAllOrderByEmployeeSumTimeDesc();
+		List<Employee> employeeList = statisticsService.findByEmployeeRetireYnOrderByEmployeeSumTimeDesc("N");
 		List<Employee> bestEmployeeList = new ArrayList<Employee>();
 		
 		for(int i=0; i<5; i++) {
 			bestEmployeeList.add(employeeList.get(i));
 		}
 				
-		mv.addObject("employeeList", bestEmployeeList);
+		mv.addObject("bestEmployeeList", bestEmployeeList);
 		mv.addObject("bestEmployee", bestEmployeeList.get(0));
 		mv.setViewName("statistics/bestEmployee");
 		

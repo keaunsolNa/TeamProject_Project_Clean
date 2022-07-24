@@ -8,9 +8,8 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
-div {
-	width: 100%;
-	height: 100%;
+tr:nth-of-type(1) {
+	background: #7DBEED;
 }
 
 table {
@@ -20,74 +19,43 @@ table {
 	border-style: hidden;
 }
 
-.paging {
-	width: 100%;
+table th {
+	border: 1px solid black;
 }
 
-#averageSalesList {
-	width: 100%;
-	min-width: 400px;
-	height: 100%;
-	display: flex;
-	justify-content: center;
+table td {
+	border: 1px solid black;
 }
 
-#averageSales th {
-	color: #04AFD4;
-	font-weight: bold;
-	background-color: lightgray;
-}
-
-#averageSales td {
-	background-color: lightgray;
-	font-weight: bold;
-	font-size: 20;
-	color: #04AFD4;
-	margin: auto;
-}
-
-#averageSalesList {
-	width: 100%;
-	min-width: 700px;
-	height: 100%;
-}
-
-#averageSalesList table {
-	width: 100%;
-	height: 100%;
-}
-
-#averageSalesList tr {
+table tr {
+	border: 1px solid black;
 	text-align: center;
-	border: 1px solid black;
-}
-
-#averageSalesList th {
-	background-color: lightgray;
-}
-
-#averageSalesList td {
-	border: 1px solid black;
-	background-color: white;
+	font-weight: bold;
+	font-size: 30;
 }
 
 #title {
 	font-weight: bold;
-	font-size: 20;
-	color: #04AFD4;
+	font-size: 26;
 }
 
-.value {
-	font-weight: bold;
-	font-size: 20;
-	color: #04AFD4;
+.paging {
+	width: 100%;
 }
 
-.month {
-	font-weight: bold;
-	font-size: 20;
-	color: #575757;
+ .btn-bs {
+      width:115px;
+      margin-top:-6px;
+      height:32px;
+      font-size:15px;
+      padding: 10; 
+      background-color: #7DBEED;
+   }
+
+.chart {
+	
 }
+
 </style>
 <title>Document</title>
 
@@ -99,32 +67,55 @@ table {
 		<div th:include="statistics/statisticsAside.html"></div>
 		<article>
 			<section>
-				<button class="btn btn-outline-success" type="submit">리스트</button>
-				<button class="btn btn-outline-success" type="submit">그래프</button>
-
 				<h4 id="title" align="center">직원 근무시간 조회</h4>
+				<br>
 				<div id="averageSalesList">
-					<table id="averageSales">
+
+					<table border="1">
+						<p>(한 달 단위)</p>
 						<tr>
-							<td>직원 총 근무시간</td>
+							<td>총 근무시간</td>
+							<td>평균 근무시간</td>
 						</tr>
 						<tr>
-							<th th:text="${ employeeTotalHours }"></th>
+							<td th:text="|${ employeeTotalHours } 시간|"></td>
+							<td th:text="|${ employeeAvgHours } 시간|"></td>
 						</tr>
-						<tr>
-							<td>직원 평균 근무시간</td>
-						</tr>
-						<tr>
-							<th th:text="${ employeeAvgHours }"></th>
-						</tr>
+						<button class="btn-bs" value="조회"
+							onclick="location.href='employeeTotalWorkhoursDetail'">직원 별 조회</button>
 
 					</table>
-					<input type="button" value="조회" onclick="location.href='employeeTotalWorkhoursDetail'">
-				</div>
 
+				</div>
+					
+				     <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawVisualization);
+
+      function drawVisualization() {
+        // Some raw data (not necessarily accurate)
+        var data = google.visualization.arrayToDataTable([
+          ['', '근무시간' ],
+          ['총 근무시간',  1844000 ],
+          ['평균 근무시간',  -67356000 ],
+                   
+        ]);
+        
+        var options = {
+          title : '직원 근무시간 그래프',
+          vAxis: {title: '시간'},
+          seriesType: 'bars',
+          series: {5: {type: 'line'}}
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+      </script>
+
+    <div id="chart_div" style="width: 900px; height: 500px;"></div> 
 			</section>
 		</article>
 	</main>
-
 </body>
 </html>
