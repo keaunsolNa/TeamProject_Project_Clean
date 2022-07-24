@@ -73,6 +73,7 @@
 	for(let i = 0; i < opnion.length; i++){
 		
 		if(i == 0){
+			$("#employeeOpnion2").prop("readonly", true);
 			continue;
 		} else {
 			alert("이미 사유서가 제출되었습니다.")
@@ -83,17 +84,16 @@
 </script>
 	
 <!--  textarea script -->
-<script>
+	<script>	
+    $("#adminOpnion").prop("readonly", true);
+    $("#adminOpnion2").prop("readonly", true);
+    
+    $('textarea').keyup(function(){
+    var letter = $(this).val()
+    $('#employeeOpnion2').html(letter)
+})
 	
-		$("#adminOpnion").prop("readonly", true);
-		$("#adminOpnion2").prop("readonly", true);
-		
-		$('textarea').keyup(function(){
-		var letter = $(this).val()
-		$('#employeeOpnion2').html(letter)
-	})
-	
-</script>	
+	</script>	
 <!-- Submit script -->
     <script>
 	    

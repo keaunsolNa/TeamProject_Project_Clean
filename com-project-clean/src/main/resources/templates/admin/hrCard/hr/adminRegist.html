@@ -6,84 +6,101 @@
 <title>Document</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style>
-    .tg  {border-collapse:collapse;border-spacing:0;}
-    .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-      overflow:hidden;padding:10px 5px;word-break:normal; border-color:#c0c0c0;text-align:center;vertical-align:middle}
+.detailTable{
+	width: 770px;
+}
+.detailTable td {
+	border: solid 1px;
+	font-size: 14px;
+	padding: 10px 10px;
+	height: 50px;
+}
 
-    .btn_sign {
-      background: #9AE8F9;
-      padding: 6px;
-      border-radius: 3px;
-      border : 0;
-      outline: 0;
-    }
-    .btn_sign:hover {
-      box-shadow: 1px 1px 1px #ddd;
-    }
+.buttonBox{
+	margin-top : 20px;
+	width:800px;
+	text-align: center;
+}
 
-    .btn_cancle {
-      background: #9AE8F9;
-      padding: 6px;
-      border-radius: 3px;
-      border : 0;
-      outline: 0;
-    }
-    .btn_cancle:hover {
-      box-shadow: 1px 1px 1px #ddd;
-    }
-    .btn_address {
-      background: #9AE8F9;
-      padding: 6px;
-      border-radius: 3px;
-      border : 0;
-      outline: 0;
-    }
-    .btn_address:hover {
-      box-shadow: 1px 1px 1px #ddd;
-    }
-    .btn_profile {
-      background: #9AE8F9;
-      padding: 6px;
-      border-radius: 3px;
-      border : 0;
-      outline: 0;
-    }
-    .btn_profile:hover {
-      box-shadow: 1px 1px 1px #ddd;
-    }
-    .btn_hrcard {
-      background: #9AE8F9;
-      padding: 6px;
-      border-radius: 3px;
-      border : 0;
-      outline: 0;
-    }
-    .btn_hrcard:hover {
-      box-shadow: 1px 1px 1px #ddd;
-    }
-    </style>
+.btn_update{
+	margin-top:-6px;
+	width:70px;
+	height:32px;
+	border-radius: 5px;
+	font-size:13px;
+	padding: 0; 
+	background-color: #7dbeed96; 
+	border-style: none;
+}
+
+.btn_hrcard{
+	margin-top:-6px;
+	width:70px;
+	height:32px;
+	border-radius: 5px;
+	font-size:13px;
+	padding: 0; 
+	background-color: #7dbeed96; 
+	border-style: none;
+
+}
+
+.btn_hrcard:hover{
+    background:  #7DBEED;
+}
+.address_btn_address{
+	margin-top:-6px;
+	width:70px;
+	height:32px;
+	border-radius: 5px;
+	font-size:13px;
+	padding: 0; 
+	background-color: #7dbeed96; 
+	border-style: none;
+}
+.address_btn_address:hover{
+	background:  #7DBEED;
+}
+
+.btn_picture_btn{
+	margin-top:-6px;
+	width:70px;
+	height:32px;
+	border-radius: 5px;
+	font-size:13px;
+	padding: 0; 
+	background-color: #7dbeed96; 
+	border-style: none;
+}
+
+.btn_picture_btn:hover{
+	background:  #7DBEED;
+}
+</style>
 </head>
 <body>
 
 	<div th:replace="/common/Header.html"></div>
 	<div th:include="admin/adminAside.html"></div>
 	
+	<section class="section">
+	
     <form action="/admin/hrCard/hr/adminRegist" id="registForm" method="post" enctype="multipart/form-data" onsubmit="sendjs();">
-	    <table class="tg" style=" table-layout: fixed; width: 597px">
+	    <table class="detailTable" style=" table-layout: fixed; width: 597px">
 	    <colgroup>
-	    <col style="width: 100px">
-	    <col style="width: 120px">
-	    <col style="width: 100px">
-	    <col style="width: 200px">
-	    <col style="width: 60px">
-	    <col style="width: 60px">
+	    	 <col style="width: 130px">
+             <col style="width: 180px">
+             <col style="width: 130px">
+             <col style="width: 200px">
+             <col style="width: 65px">
+             <col style="width: 65px">
 	    </colgroup>
 		    <thead>
 		      <tr>
 		        <td>관리자번호</td>
 		        <td th:text="${ adminNo }"></td>
 		        <td>이름</td>
-		        <td><input type="text" name="adminName" required></td>
+		        <td><input type="text" name="adminName" required style="width: 150px"></td>
 		        <td colspan="2" rowspan="3"><img id="adminImg" width="100" height="120"></td>
 		      </tr>
 		      <tr>
@@ -98,8 +115,8 @@
 	             		<option>017</option>
 	             		<option>019</option>
 	             	</select>-
-	             	<input type="text" id="adminPhone2" name="adminPhone2" class="required" maxlength='4' required>-
-	             	<input type="text" id="adminPhone3" name="adminPhone3" class="required" maxlength='4' required>
+	             	<input type="text" id="adminPhone2" name="adminPhone2" class="required" maxlength='4' required style="width: 45px;">-
+	             	<input type="text" id="adminPhone3" name="adminPhone3" class="required" maxlength='4' required style="width: 45px;">
 	             	<input style="display: none;" type="text" id="adminPhone" name="adminPhone">
 	             	<input style="display: none;" type="text" id="dupliCheck" name="dupliCheck">
 	             </td>
@@ -128,29 +145,31 @@
 	                    <option id="nate" value="nate.com">nate.com</option>
 	            </select>
 	            <td style="display: none;"><input id="adminEmail" name="adminEmail" type="text"/></td>
-		         <td colspan="2"><input type="file" id="thumbnailImg" name="thumbnailImg" onchange="loadImg(this,1)" style="display: none"></td>
+	            
+	            <td class="tg-7btt" colspan="2"> <button type="button" class="btn_picture_btn" id="picturebtn" name="picturebtn">사진 등록</button> 
+		         <td><input type="file" id="thumbnailImg" name="thumbnailImg" onchange="loadImg(this,1)" style="display: none"></td>
 		      </tr>
 		      <tr>
 		        <td>우편번호</td>
-		        <td><input type="text" name="addressNo" id="addressNo" readonly></td>
+		        <td><input type="text" name="addressNo" id="addressNo" readonly style="width: 150px"></td>
 		        <td>기본주소</td>
-		        <td><input type="text" name="address" id="address" readonly></td>
-		        <td colspan="2"><input type="button" value="검색" class="btn btn-yg" id="searchAdminAddressNo"></td>
+		        <td><input type="text" name="address" id="address" readonly style="width: 170px"></td>
+		        <td colspan="2"><input type="button" value="주소검색" class="address_btn_address" id="searchAdminAddressNo"></td>
 		      </tr>
 		      <tr>
 		        <td>상세주소</td>
-		        <td colspan="5"><input type="text" name="addressDetail" id="addressDetail" required></td>
+		        <td colspan="5"><input type="text" name="addressDetail" id="addressDetail" required style="width: 500px;"></td>
 		       <!--  <td class="tg-7btt"style="display: none;"><input id="adminAddress" name="adminAddress" type="text"/></td> -->
 		      </tr>
 		      <tr>
 		        <td>입사일</td>
-		        <td colspan="2"><input type="date" id="adminHireDate" name="adminHireDate" required></td>
+		        <td><input type="date" id="adminHireDate" name="adminHireDate" required></td>
 		        <td>퇴사일</td>
-		        <td colspan="2">-</td>
+		        <td colspan="3">-</td>
 		      </tr>
 		      <tr>
 		        <td>직책</td>
-		        <td colspan="2">
+		        <td>
 		        	<select name="adminJob" style="text-align: center;" required>
 		                <option value="일반관리자">일반관리자</option>
 		                <option value="인사관리자">인사관리자</option>
@@ -160,20 +179,26 @@
 		            </select>
 		        </td>
 		        <td>마지막 로그인 일자</td>
-		        <td colspan="2">-</td>
+		        <td colspan="3">-</td>
 		      </tr>
 		      <tr>
 		        <td>연차 사용 횟수</td>
-		        <td colspan="2">-</td>
+		        <td>-</td>
 		        <td>퇴사여부</td>
-		        <td colspan="2">N</td>
+		        <td colspan="3">-</td>
 		      </tr>
 		    </tbody>
 		    </table>
-	    <input class="btn_hrcard" type="button" id="regist" value="등록완료">
-	    <input class="btn_hrcard" type="button" id="resetButton" value="등록취소">
-	    <input name="adminId" type="hidden" th:value="${ adminId }">
+		    
+		<div class="buttonBox">
+		    <input class="btn_hrcard" type="button" id="regist" value="등록완료">
+		    <input class="btn_hrcard" type="button" id="resetButton" value="등록취소">
+		    <input name="adminId" type="hidden" th:value="${ adminId }">
+  		</div>
+  
   </form>
+  
+  </section>
   
   <script>
   
@@ -330,7 +355,7 @@
 		
 		<script>
 		/* 이미지 미리보기 관련 스크립트 */
-		const $adminImg = document.getElementById("adminImg");
+		const $adminImg = document.getElementById("picturebtn");
 		
 		$adminImg.onclick = function() {
 			document.getElementById("thumbnailImg").click();
