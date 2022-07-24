@@ -1,7 +1,5 @@
 package com.project.clean.controller.common;
 
-import java.security.Principal;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +24,12 @@ public class ReceiveController {
 
 	@MessageMapping("/hello{clientName}")
 	@SendTo("/queue/greetings{clientName}")
-	public ReceiveMessage greeting(SendMessage message, Principal principal, @DestinationVariable String clientName) throws Exception {
+	public ReceiveMessage greeting(SendMessage message, @DestinationVariable String clientName) throws InterruptedException {
 		Thread.sleep(1000); 
-		return new ReceiveMessage(HtmlUtils.htmlEscape(message.getName() +"님의 " + message.getMessage()));
-		
+		String path = message.getPath();
+			
+			return new ReceiveMessage(HtmlUtils.htmlEscape(message.getName() +"님의 " + message.getMessage()));
 	}
+	
 	
 }

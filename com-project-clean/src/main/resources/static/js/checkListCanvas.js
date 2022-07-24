@@ -1,4 +1,4 @@
-	window.onload = function() {
+	$(document).ready(function() {
 		(function(obj){      
 		                    obj.init();      
 		                    $(obj.onLoad);
@@ -60,9 +60,8 @@
 		
 		                            $("#save").on("click", function(){     
 		                            	const canvas = document.getElementById('canvas');
-		                            	const dataURL = canvas.toDataURL();
+		                            	dataURL = canvas.toDataURL();
 		                            	document.getElementById("signImg").src = dataURL;
-		                            	console.log(dataURL)
 		                            	document.getElementById("canvas").remove();
 		                            	
 		                            });        
@@ -79,4 +78,4 @@
 		                            }}})());  
 			
 							
-	};			
+	});		
