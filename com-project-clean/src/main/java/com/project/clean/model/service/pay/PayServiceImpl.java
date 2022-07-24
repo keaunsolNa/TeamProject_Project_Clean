@@ -435,7 +435,7 @@ public class PayServiceImpl implements PayService{
 	
 	/* 나의 급여 전체 조회(관리자,카운트) */
 	public int selectMyPayForAdminTotalCount(int adminNo) {
-		int count = (int)adminRepository.count();
+		int count = (int)adminRepository.countByAdminNo(adminNo);
 		System.out.println(count + "입니다");
 		return count;
 	}
@@ -470,7 +470,7 @@ public class PayServiceImpl implements PayService{
 
 	/* 나의 급여 전체 조회(직원,카운트) */
 	public int selectMyPayForEmployeeTotalCount(int employeeNo) {
-		int count = (int)employeeRepository.count();
+		int count = (int)employeeRepository.countByEmployeeNo(employeeNo);
 		System.out.println(count + "입니다");
 		return count;
 	}
