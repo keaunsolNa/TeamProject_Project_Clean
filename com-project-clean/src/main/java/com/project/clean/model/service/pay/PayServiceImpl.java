@@ -368,18 +368,18 @@ public class PayServiceImpl implements PayService{
 	}
 	
 	
-	/* 모든 직원 조회 */
-	public List<EmployeeDTO> findAllEmployee() {
-		List<Employee> employeeList = employeeRepository.findAll(Sort.by("employeeName"));				
-
-		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
-		return employeeList.stream().map(employee -> modelMapper.map(employee,EmployeeDTO.class)).collect(Collectors.toList());
-	}
-	
 	/* 이달의 우수직원 급여 지급 */
 	@Transactional
 	public void registBestEmployeePay(int bestEmployeeNo, int bestEmployeeBonus) {
 		bestEmployeePayRepository.registBestEmployeePay(bestEmployeeNo,bestEmployeeBonus);
+		
+	}
+	
+	
+	@Override
+	public BestEmployeePayAndEmployeeDTO hasBestEmployeePay(int bestEmployeeNo) {
+		BestEmployeePayAndEmployeeDTO hasBestEmployeePay =  bestEmployeePayRepository.hasBestEmployeePay(bestEmployeeNo);
+		return hasBestEmployeePay;
 		
 	}
 	
@@ -490,7 +490,6 @@ public class PayServiceImpl implements PayService{
 		/* 자바의 Stream API와 ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
 		return employeePayList.stream().map(pay -> modelMapper.map(pay,EmployeePayAndApplyEmployeeDTO.class)).toList();
 	}
-	
 
 
 }
