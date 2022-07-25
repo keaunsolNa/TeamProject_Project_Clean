@@ -27,13 +27,13 @@ function connect() {
 }
 
 function sendName() {
-    stompClient.send("/app/hello"+clientName, {}, JSON.stringify({'message': $("#sendingMessage").val(), 'name': $("#sendingName").val(), 'path': $("#path").val()}));
+    stompClient.send("/app/hello"+clientName, {}, JSON.stringify({'message': $("#sendingMessage").val(), 'name': $("#sendingName").val()}));
 }
 
 function showGreeting(message) {
     $("#ReceiveMessage").show();
     $("#ReceiveMessage").append("<tr><td>" + message + "</td></tr>");
-//  $("#ReceiveMessage").append("<button id='move' type='button'>" + "관련 페이지로 이동" + "</button>");
+//	$("#ReceiveMessage").append("<button id='move' type='button' onclick='location.href=`http://localhost:8724/desPath`'>" + "관련 페이지로 이동" + "</button>");
     $("#ReceiveMessage").append("<script>" + alert(message) + "</script>");
 //    $("#ReceiveMessage").append("<script>" + 'if(confirm("내용을 확인하시겠습니까?")){location.href="message"}' + "</script>");
 
@@ -43,7 +43,6 @@ $(function () {
 	$("form").on('submit', function (e) {
 		if(document.getElementById("formSender")){
 			senderName = document.getElementById("employeeName").value;
-			desPath = document.getElementById("path").value;
         e.preventDefault();
 		    $( "#connect" ).click(function() { connect(); });
 			$( "#disconnect" ).click(function() { disconnect(); });
