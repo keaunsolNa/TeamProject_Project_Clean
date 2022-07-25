@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/pay/employeePaySelectInfo.css}">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:include="common/header.html"></div>
+	<div th:include="common/payAside.html"></div>
+	<section>
+		<table>
+	        <tr>
+	            <th width="190px" height="200px" style="background-image:url(다운로드.jpg);"></th>
+	            <th width="230px">급여 지급 날짜  <p style="font-size: 22px">2020-06-10</p></th>
+	            <th width="290px" colspan="2">보험,수수료 미적용 급여 <p id="" style="color:#ababab;font-size: 22px">80000</p></th>
+	            <th width="275px">최종 급여 <br> <p id="" style="color:#68E4FF;font-size: 22px">60000</p></th>
+	        </tr>
+	        <tr>
+	            <th height="50px" colspan="1">직원이름</th>
+	            <th colspan="1">전화번호</th>
+	            <th colspan="0">근무날짜</th>
+	            <th colspan="0">근무시간</th>
+	            <th colspan="1">근무장소</th>
+	        </tr>
+	        <tr>
+	            <th height="90px" colspan="1">김가나</th>
+	            <th colspan="1">010-1234-5678</th>
+	            <th colspan="0" >2020-06-09</th>
+	            <th colspan="0">5</th>
+	            <th colspan="1"><p id="userAdress">서울특별시 강남구 클린아파트1동 102호</p></th>
+	        </tr>
+	    </table>
+    </section>
+</body>
+</html>

@@ -178,12 +178,18 @@
                             <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             통계관리
                             </a>
-                
+               			<th:block sec:authorize="hasRole('ADMIN')">
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">알림1</a></li>
-                                <li><a class="dropdown-item" href="#">알림2</a></li>
-                                <li><a class="dropdown-item" href="#">알림3</a></li>
+                                <li><a class="dropdown-item" href="/statistics/totalSales">총 매출 조회</a></li>
+                                <li><a class="dropdown-item" href="/statistics/adminSalary">관리자 평균 급여 조회</a></li>
                             </ul>
+                        </th:block>
+                		<th:block sec:authorize="hasRole('EMPLOYEE')">
+                			<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/statistics/employeeTotalWorkhours">직원 근무시간 조회</a></li>
+                                <li><a class="dropdown-item" href="/statistics/bestEmployee">이 달의 우수직원</a></li>
+                            </ul>
+                        </th:block>
                         </li>
 
                         <li class="nav-item dropdown">
