@@ -21,10 +21,10 @@ public class EmployeePay implements Serializable {
 	@Column(name="PAY_EMPLOYEE_DATE")
 	private java.sql.Date payEmployeeDate;
 	
-	@Column(name="APPLY_RESERVATION_NO")
+	@Column(name="PAY_APPLY_RESERVATION_NO")
 	private int applyReservationNo;
 
-	@Column(name="APPLY_EMPLOYEE_NO")
+	@Column(name="PAY_APPLY_EMPLOYEE_NO")
 	private int applyEmployeeNo;
 	
 	@Column(name="PAY_EMPLOYEE_FINAL_SALARY")

@@ -26,9 +26,8 @@ public class ReceiveController {
 	@SendTo("/queue/greetings{clientName}")
 	public ReceiveMessage greeting(SendMessage message, @DestinationVariable String clientName) throws InterruptedException {
 		Thread.sleep(1000); 
-		String path = message.getPath();
 			
-			return new ReceiveMessage(HtmlUtils.htmlEscape(message.getName() +"님의 " + message.getMessage()));
+			return new ReceiveMessage(HtmlUtils.htmlEscape(message.getMessage()));
 	}
 	
 	
