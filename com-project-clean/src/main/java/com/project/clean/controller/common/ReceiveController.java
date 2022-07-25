@@ -27,7 +27,7 @@ public class ReceiveController {
 	public ReceiveMessage greeting(SendMessage message, @DestinationVariable String clientName) throws InterruptedException {
 		Thread.sleep(1000); 
 			
-			return new ReceiveMessage(HtmlUtils.htmlEscape(message.getMessage()));
+			return new ReceiveMessage(HtmlUtils.htmlEscape(message.getName() +"님의 " + message.getMessage()));
 	}
 	
 	

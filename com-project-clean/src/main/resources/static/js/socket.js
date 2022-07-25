@@ -32,24 +32,28 @@ function sendName() {
 
 function showGreeting(message) {
     $("#ReceiveMessage").show();
-    $("#ReceiveMessage").append("<tr><td>" + message + "</td></tr>");
     $("#ReceiveMessage").append("<script>" + alert(message) + "</script>");
 	
-	if(confirm("해당 내역을 확인하시겠습니까?")){
-		console.log("TEST1 : " + $("#sendingMessage").val())
-		console.log("TEST2 : " + message)
-		console.log("TEST3 : " + $("#sendingMessage"))
+	if(clientName.indexOf("cleanup")){
 		
-		if(message === ("체크리스트가 재반려되었습니다. 블랙리스트 경고 횟수가 증가합니다.")){
-       		location.href='/employee/checkList/black/select'
-  		} else if(message === ("체크리스트가 승인되었습니다. 급여 확인 부탁드립니다.")) {
-     		location.href='/employee/checkList/accept/select'
- 		} else if(message === ("체크리스트가 반려되었습니다.")){
-			location.href='/employee/checkList/denial/select'
-		} else if(message === ("사유서가 제출되었습니다.")){
-    		location.href='/admin/checklist/denial/select'
-		} 
-	}
+		if(confirm("해당 내역을 확인하시겠습니까?")){
+			
+			if(message === clientName + "님의 체크리스트가 재반려되었습니다. 블랙리스트 경고 횟수가 증가합니다."){
+	       		location.href='/employee/checkList/black/select'
+	  		} else if(message === clientName + "님의 체크리스트가 승인되었습니다. 급여 확인 부탁드립니다.") {
+	     		location.href='/employee/checkList/accept/select'
+	 		} else if(message === clientName + "님의 체크리스트가 반려되었습니다."){
+				location.href='/employee/checkList/denial/select'
+			} 
+			
+		} else {
+			
+	  		$("#ReceiveMessage").append("<tr><td>" + message + "</td></tr>");
+	  		
+		}
+	
+	}		
+	
 	
 }
 	
