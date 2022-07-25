@@ -8,14 +8,8 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Service;
 
 import com.project.clean.model.domain.adminEntity.AdminEmployee;
-import com.project.clean.model.domain.commonEntity.Admin;
-import com.project.clean.model.domain.commonEntity.Employee;
 import com.project.clean.model.domain.joinEntity.AdminAndAdminPay;
-import com.project.clean.model.dto.commonDTO.AdminDTO;
-import com.project.clean.model.dto.commonDTO.EmployeeStatisticsDTO;
 import com.project.clean.model.dto.commonDTO.StatisticsDTO;
-import com.project.clean.model.dto.joinDTO.AdminAndAdminPayDTO;
-import com.project.clean.model.dto.joinDTO.AdminPayAndAdminDTO;
 import com.project.clean.model.repository.statistics.*;
 
 @Service
@@ -103,19 +97,19 @@ public class StatisticsServiceImpl implements StatisticsService{
 //				)).collect(Collectors.toList());
 //	}
 
+	/* 관리자 직급별 상세정보 조회 */
 	@Override
 	public List<AdminAndAdminPay> findByAdminJob(String job) {
 		return statisticsAdminAndAdminPayRepository.findByAdminJob(job);
 	}
 
+	/* 직원 근무시간 조회 */
 	@Override
 	public List<AdminEmployee> findByEmployeeRetireYn(String yn) {
-		// TODO Auto-generated method stub
 		return statisticsEmployeeRepository.findByEmployeeRetireYn(yn);
 	}
 	
 	public List<AdminEmployee> findByEmployeeRetireYnOrderByEmployeeSumTimeDesc(String yn) {
-		
 		return statisticsEmployeeRepository.findByEmployeeRetireYnOrderByEmployeeSumTimeDesc(yn);
 	}
 }
