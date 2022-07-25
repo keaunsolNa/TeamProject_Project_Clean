@@ -39,11 +39,19 @@ public class AdminAdminService{
 	}
 
 	/* 전화번호 중복체크 */
-	public int findByAdminPhone(String adminPhone) {
+	public int countByAdminPhone(String adminPhone) {
 		
 		int admin = adminRepository.countByAdminPhone(adminPhone);
 		
 		return admin;
+	}
+	
+	/* 전화번호 수정 중복체크 */
+	public AdminDTO findByAdminPhone(String adminPhone) {
+		
+		Admin admin = adminRepository.findByAdminPhone(adminPhone);
+		
+		return modelMapper.map(admin, AdminDTO.class);
 	}
 	
 	/* 재직자 조회 - 생년월일, 입사일, 직급명, 전화번호 검색 */
@@ -443,6 +451,8 @@ public class AdminAdminService{
 		adminModify.setAdminJob(admin.getAdminJob());
 		
 	}
+
+	
 
 	
 

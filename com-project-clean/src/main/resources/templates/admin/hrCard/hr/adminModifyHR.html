@@ -144,7 +144,7 @@
 		    <tbody>
 		     <tr>
 		        <td class="tg-wman">이메일</td>
-		        <td colspan="5"><input th:value="${email.email}" type="text" id="email" class="required" name="employeeEmail" placeholder="영문 숫자 4~19자" required style="width: 200px;"> @ 
+		        <td colspan="5"><input th:value="${email.email}" type="text" id="email" class="required" name="employeeEmail" maxlength="19" placeholder="영문 숫자 4~19자" required style="width: 200px;"> @ 
 		            <select id="domain" name="domain" style="width: 150px; height: 25px;">
 			            <option value="naver.com" selected>naver.com</option>
 			            <option value="google.com">google.com</option>
@@ -171,7 +171,7 @@
 		      </tr>
 		      <tr>
 		        <td class="tg-wman">상세주소</td>
-		        <td class="tg-wman" colspan="5"><input type="text" id="addressDetail" name="addressDetail" th:value="${address.addressDetail}" placeholder="상세주소를 입력해주세요." required style="width: 500px;"></td>
+		        <td class="tg-wman" colspan="5"><input type="text" id="addressDetail" name="addressDetail" th:value="${address.addressDetail}" maxlength="35" placeholder="상세주소를 입력해주세요." required style="width: 500px;"></td>
 		      </tr>
 		      <tr>
 		        <td>입사일</td>
@@ -208,6 +208,9 @@
 		   	
 		   	<input class="btn_hrcard" type="button" id="modify" value="수정완료">
 		    <input class="btn_hrcard" type="button" id="resetButton" value="수정취소">
+    	
+    		<input id="oldAdminPhone" type="hidden" th:value="${adminModify.adminPhone}">
+    		
     	</div>
     </form>
     
@@ -279,19 +282,32 @@
   
   /* 전화번호 중복 검사 */
   $('#adminPhone3').focusout(function () {
+	  
+	  var oldPhone = $("#oldAdminPhone").val();
+	  var inputPhone = $("#adminPhone1").val() + "-" + $("#adminPhone2").val() + "-" + $("#adminPhone3").val();
+	  
 	  var regexp = /^[0-9]{4}/g;
       phoneCheck2 = $(this).val();
+      
       if (!regexp.test(phoneCheck2)) {
+    	  
     	  $('#phoneNotice').show();
       	  $(this).val('');
       
-      
-      	} else {
+      	} else if(oldPhone === inputPhone){
+      		
       		$('#phoneNotice').hide();
+      		alert("기존 번호를 사용하시겠습니까?");
+      			
+      		} else {
+      		
+      		$('#phoneNotice').hide();
+      		
 	        $.ajax({
 	            url: '/admin/hr/duplication',
 	            data : 'adminPhone=' + $("#adminPhone1").val() + "-" + $("#adminPhone2").val() + "-" + $("#adminPhone3").val(),
 	            dataType: 'json',
+	            
 	            success: function(result) {
 	                if (result == '0') {
 	                	confirm("사용 가능한 전화번호입니다.");
@@ -308,7 +324,7 @@
 	        });
 	   				
 	    }
-		
+  
 	});
  
     </script>

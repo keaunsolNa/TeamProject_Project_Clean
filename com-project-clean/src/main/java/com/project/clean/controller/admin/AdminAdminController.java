@@ -59,21 +59,40 @@ public class AdminAdminController {
 	@ResponseBody
 	public int duplicationCheck(ModelAndView mv, HttpServletRequest request,String adminPhone) {	
 		
-		int result = adminService.findByAdminPhone(adminPhone);
+		int result = adminService.countByAdminPhone(adminPhone);
 		
 		return result;
 	}
 	
+	/* 전화번호 중복 검사 */
+//	@GetMapping("hr/duplication/modify")
+//	@ResponseBody
+//	public AdminDTO duplicationCheckModify(ModelAndView mv, HttpServletRequest request, String adminPhone, int adminNo) {	
+//		
+//			
+//		AdminDTO admin = adminService.findByAdminPhone(adminPhone);	
+//		
+//		int result = 0;
+//		if(admin != null) {
+//			
+//			if(adminNo == admin.getAdminNo()) {
+//				result = 0;
+//				
+//			}else{
+//				result = 1;
+//			}
+//		}else {
+//			
+//			result = 0;
+//		}
+//		
+//		return result;
+//		
+//	}
+	
 	/* 관리자 마이페이지 이동 */
 	@GetMapping("hrCard/selectOneAdminMove")
 	public String selectAdminMyPage() {
-		
-		System.out.println(" 여기는 오나요");
-		System.out.println(" 여기는 오나요");
-		System.out.println(" 여기는 오나요");
-		System.out.println(" 여기는 오나요");
-		System.out.println(" 여기는 오나요");
-		System.out.println(" 여기는 오나요");
 		
 		
 		return "admin/hrCard/selectOneAdminMove";

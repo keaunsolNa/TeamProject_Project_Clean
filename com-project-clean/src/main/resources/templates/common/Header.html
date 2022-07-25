@@ -51,11 +51,13 @@
 						<h3><span sec:authentication="principal.employeeName" id="userName" th:value="${#authentication.name}"></span></h3>
 						<input hidden type="text" th:value="${#authentication.name}" id="client">
 					</th:block>
-
+					
+					
                     <ul class="navbar-nav me-auto mb-3 mb-lg-0">
                         <li class="nav-item">
+                        <th:block sec:authorize="hasRole('ADMIN')">	
                             <a class="nav-link" id="adminMyPage" href="/admin/hrCard/selectOneAdminMove"><img src="/image/mypage.png" class="btn2"></a>
-            				
+            			</th:block>	
                         </li> 
                         <li class="nav-item">
                             <a class="nav-link" href="/member/logout"><img src="/image/logout.png" class="btn2"> </a>
@@ -97,7 +99,9 @@
 	        <a class="dropdown-item" href="/admin/select/blackList/move">블랙리스트 조회</a>
         </th:block>
         
+        <th:block sec:authorize="hasRole('ADMIN')">	
         <a class="dropdown-item" href="/admin/hrCard/registVacation">휴가 신청</a>
+       </th:block>
         
         <th:block sec:authorize="hasRole('ROLE_ADMIN')">
         	<a class="dropdown-item" href="/admin/select/selectMyVacation/move">나의 휴가 조회</a>
