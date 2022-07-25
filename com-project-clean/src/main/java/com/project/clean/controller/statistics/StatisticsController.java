@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.project.clean.model.domain.adminEntity.AdminEmployee;
 import com.project.clean.model.domain.commonEntity.Employee;
 import com.project.clean.model.domain.joinEntity.AdminAndAdminPay;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
@@ -104,7 +105,7 @@ private final StatisticsService statisticsService;
 	@GetMapping("employeeTotalWorkhoursDetail")
 	public ModelAndView detail(ModelAndView mv) {
 		
-		List<Employee> employeeList = statisticsService.findByEmployeeRetireYn("N");
+		List<AdminEmployee> employeeList = statisticsService.findByEmployeeRetireYn("N");
 		mv.addObject("employeeList", employeeList);
 		mv.setViewName("/statistics/employeeTotalWorkhoursDetail");
 		
@@ -115,8 +116,8 @@ private final StatisticsService statisticsService;
 	@GetMapping("bestEmployee")
 	public ModelAndView bestEmployee(ModelAndView mv) {
 //		List<EmployeeStatisticsDTO> employeeList = statisticsService.findBestEmployeeWithQuery();
-		List<Employee> employeeList = statisticsService.findByEmployeeRetireYnOrderByEmployeeSumTimeDesc("N");
-		List<Employee> bestEmployeeList = new ArrayList<Employee>();
+		List<AdminEmployee> employeeList = statisticsService.findByEmployeeRetireYnOrderByEmployeeSumTimeDesc("N");
+		List<AdminEmployee> bestEmployeeList = new ArrayList<AdminEmployee>();
 		
 		for(int i=0; i<5; i++) {
 			bestEmployeeList.add(employeeList.get(i));

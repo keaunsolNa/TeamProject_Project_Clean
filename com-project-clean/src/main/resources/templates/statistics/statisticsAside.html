@@ -73,16 +73,22 @@ body {
 			통계관리 <i class="fa fa-caret-down"></i>
 		</button>
 		<div class="dropdown-container">
-			<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-				<th:block sec:authorize="hasRole('ADMIN')">
-					<li><a class="dropdown-item" href="/statistics/totalSales">총 매출 조회</a></li>
-					<li><a class="dropdown-item" href="/statistics/adminSalary">관리자 평균 급여 조회</a></li>
-				</th:block>
-				<th:block sec:authorize="hasRole('EMPLOYEE')">
-					<li><a class="dropdown-item" href="/statistics/employeeTotalWorkingHours">직원 근무시간 조회</a></li>
-					<li><a class="dropdown-item" href="/statistics/employeeOfTheMonth">이 달의 우수직원</a></li>
-				</th:block>
-			</ul>
+			<th:block sec:authorize="hasRole('ADMIN')">
+				<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+					<li><a class="dropdown-item" href="/statistics/totalSales">총
+							매출 조회</a></li>
+					<li><a class="dropdown-item" href="/statistics/adminSalary">관리자
+							평균 급여 조회</a></li>
+				</ul>
+			</th:block>
+			<th:block sec:authorize="hasRole('EMPLOYEE')">
+				<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+					<li><a class="dropdown-item"
+						href="/statistics/employeeTotalWorkhours">직원 근무시간 조회</a></li>
+					<li><a class="dropdown-item"
+						href="/statistics/bestEmployee">이 달의 우수직원</a></li>
+				</ul>
+			</th:block>
 		</div>
 	</div>
 
