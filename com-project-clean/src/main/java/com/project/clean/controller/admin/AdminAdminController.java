@@ -17,12 +17,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,18 +44,36 @@ import com.project.clean.model.service.admin.AdminAdminService;
 public class AdminAdminController {
 	
 	private final AdminAdminService adminService;
-//	private final BCryptPasswordEncoder passwordEncoder;
+	private final BCryptPasswordEncoder passwordEncoder;
 	
 	
 	@Autowired
-	public AdminAdminController(AdminAdminService adminService) {
+	public AdminAdminController(AdminAdminService adminService, BCryptPasswordEncoder passwordEncoder) {
 		this.adminService = adminService;
-//		this.passwordEncoder = passwordEncoder;
+		this.passwordEncoder = passwordEncoder;
+	}
+	
+	
+	/* 전화번호 중복 검사 */
+	@GetMapping("hr/duplication")
+	@ResponseBody
+	public int duplicationCheck(ModelAndView mv, HttpServletRequest request,String adminPhone) {	
+		
+		int result = adminService.findByAdminPhone(adminPhone);
+		
+		return result;
+	}
+	
+	/* 관리자 마이페이지 이동 */
+	@GetMapping("hrCard/selectOneAdminMove")
+	public String selectAdminMyPage() {
+		
+		return "admin/hrCard/selectOneAdminMove";
 	}
 	
 	
 	/* 관리자 등록 양식 및 최대 관리자 번호, 아이디 조회 */
-	@GetMapping("hrCard/adminRegist")
+	@GetMapping("hrCard/hr/adminRegist")
 	public ModelAndView registAdmin(ModelAndView mv, HttpServletRequest request) {
 		
 		int admin = adminService.findMaxAdmin();
@@ -78,19 +98,19 @@ public class AdminAdminController {
 		
 		mv.addObject("adminNo", adminNo);
 		mv.addObject("adminId", adminId);
-		mv.setViewName("admin/hrCard/adminRegist");
+		mv.setViewName("admin/hrCard/hr/adminRegist");
 		
 		return mv;
 	}
 	
 	/* 관리자 등록 */
-	@PostMapping("hrCard/adminRegist")
+	@PostMapping("hrCard/hr/adminRegist")
 	@Transactional
 	public ModelAndView registAdminHrCard(@ModelAttribute AdminDTO newAdmin, ModelAndView mv, HttpServletRequest request,
 											@RequestParam("thumbnailImg") MultipartFile thumbnailImg) throws UnsupportedEncodingException, ThumbnailRegistException {
 		
 		/* 기본값 셋팅 */
-		String pwd = "000000";
+//		String pwd = "000000";
 		String adminRetireYn = "N";
 		Integer adminSalary = 2000000;
 		
@@ -101,8 +121,8 @@ public class AdminAdminController {
 		
 		String adminAddress = adminAddressNo + "@" + adminAddress1 + "@" + adminAddress2;
 		
-//		newAdmin.setAdminPwd(passwordEncoder.encode("000000"));
-		newAdmin.setAdminPwd(pwd);
+		newAdmin.setAdminPwd(passwordEncoder.encode("000000"));
+//		newAdmin.setAdminPwd(pwd);
 		newAdmin.setAdminRetireYn(adminRetireYn);
 		newAdmin.setAdminSalary(adminSalary);
 		newAdmin.setAdminAddress(adminAddress);
@@ -153,7 +173,7 @@ public class AdminAdminController {
 					newAdmin.setAdminPictureSaveName(adminPictureSaveName);
 					newAdmin.setAdminPictureSaveRoot(adminPictureSaveRoot);
 
-					adminService.registNewAdmin(newAdmin);
+					
 					
 						
 								
@@ -166,17 +186,18 @@ public class AdminAdminController {
 					
 				}
 				
+				adminService.registNewAdmin(newAdmin);
 			}
 		}
 
-		mv.setViewName("redirect:/admin/hrCard/adminList");
+		mv.setViewName("redirect:/admin/hrCard/hr/adminList");
 		
 		return mv;
 	}
 	
 	
 	/* 관리자 목록 조회(퇴사여부 N) */
-	@GetMapping("hrCard/adminList")
+	@GetMapping("hrCard/hr/adminList")
 	public ModelAndView findAdminList(ModelAndView mv, HttpServletRequest request) {
 
 		String currentPage = request.getParameter("currentPage");
@@ -192,10 +213,10 @@ public class AdminAdminController {
 		int totalCount = adminService.selectTotalCount(searchCondition, searchValue);
 
 		/* 한 페이지에 보여 줄 게시물 수 */
-		int limit = 3;		//얘도 파라미터로 전달받아도 된다.
+		int limit = 5;		//얘도 파라미터로 전달받아도 된다.
 
 		/* 한 번에 보여질 페이징 버튼의 갯수 */
-		int buttonAmount = 5;
+		int buttonAmount = 3;
 
 		/* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
 		SelectCriteria selectCriteria = null;
@@ -209,9 +230,10 @@ public class AdminAdminController {
 		
 		List<AdminDTO> adminList = adminService.findAdminList(selectCriteria);
 		
+		
 		mv.addObject("adminList", adminList);
 		mv.addObject("selectCriteria", selectCriteria);
-		mv.setViewName("admin/hrCard/adminList");
+		mv.setViewName("admin/hrCard/hr/adminList");
 		
 		return mv;
 		
@@ -219,7 +241,7 @@ public class AdminAdminController {
 	
 	
 	/* 퇴사한 관리자 목록 조회 */
-	@GetMapping(value = "hrCard/retireAdminList")
+	@GetMapping(value = "hrCard/hr/retireAdminList")
 	public ModelAndView findRetireAdminListAjax(ModelAndView mv,  HttpServletRequest request) {
 		
 		String currentPage = request.getParameter("currentPage");
@@ -235,10 +257,10 @@ public class AdminAdminController {
 		int totalCount = adminService.selectRetireTotalCount(searchCondition, searchValue);
 
 		/* 한 페이지에 보여 줄 게시물 수 */
-		int limit = 3;		//얘도 파라미터로 전달받아도 된다.
+		int limit = 5;		//얘도 파라미터로 전달받아도 된다.
 
 		/* 한 번에 보여질 페이징 버튼의 갯수 */
-		int buttonAmount = 5;
+		int buttonAmount = 3;
 
 		/* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
 		SelectCriteria selectCriteria = null;
@@ -253,7 +275,7 @@ public class AdminAdminController {
 		
 		mv.addObject("retireAdminList", retireAdminList);
 		mv.addObject("selectCriteria", selectCriteria);
-		mv.setViewName("admin/hrCard/retireAdminList");
+		mv.setViewName("admin/hrCard/hr/retireAdminList");
 		
 		return mv;
 	}
@@ -304,6 +326,39 @@ public class AdminAdminController {
 		return mv;
 	}
 	
+	/* 퇴사 관리자 상세조회 */
+	@GetMapping("hrCard/hr/retireAdminDetail/{adminNo}")
+	public ModelAndView findRetireAdminDetail(ModelAndView mv, @PathVariable int adminNo, HttpServletRequest request) {
+		
+		/* 관리자 기본 정보 조회 */
+		AdminDTO admin = adminService.findByAdminNo(adminNo);
+		
+		/* DB에 저장된 주소 @로 분리 */
+		String[] seperateAddress = admin.getAdminAddress().split("@");
+		String addressNo = seperateAddress[0];
+		String address = seperateAddress[1];
+		String addressDetail = seperateAddress[2];
+		
+		System.out.println("addressNo" + addressNo);
+		System.out.println("address" + address);
+		System.out.println("addressDetail" + addressDetail);
+		
+		/* 나눠진 주소를 담아준다. */
+		Map<String, String> addressMap = new HashMap<>();
+		addressMap.put("addressNo", addressNo);
+		addressMap.put("address", address);
+		addressMap.put("addressDetail", addressDetail);
+		
+		/* 화면에 보여줄 정보를 담아준다. */
+		mv.addObject("address", addressMap);
+		mv.addObject("admin", admin);
+		
+		/* 경로 설정 */
+		mv.setViewName("admin/hrCard/hr/retireAdminDetail");
+		
+		return mv;
+	}
+	
 	/* 관리자 마이페이지 조회 */
 	@GetMapping("hrCard/adminDetail/myPage")
 	public ModelAndView AdminMyPage(ModelAndView mv, Principal principal) {
@@ -319,24 +374,7 @@ public class AdminAdminController {
 		
 		return mv;
 	}
-	
-	
-	/* 퇴사자 상세 조회 */
-	@GetMapping("hrCard/retireAdminDetail/{retireAdminNo}")
-	public ModelAndView findRetireAdminDetail(ModelAndView mv, @PathVariable int retireAdminNo, HttpServletRequest request) {
-		
-		/* 관리자 기본 정보 조회 */
-		System.out.println("동작하나");
-		RetireAdminDTO retireAdmin = adminService.findByRetireAdminNo(retireAdminNo);
-		
-		/* 화면에 보여줄 정보를 담아준다. */
-		mv.addObject("retireAdmin", retireAdmin);
-		
-		/* 경로 설정 */
-		mv.setViewName("admin/hrCard/retireAdminDetail");
-		
-		return mv;
-	}
+
 	
 	/* 관리자 퇴사처리 */
 	@Transactional
@@ -393,7 +431,7 @@ public class AdminAdminController {
 		
 //		rttr.addFlashAttribute("modifySuccessMessage", "퇴사 처리에 성공하였습니다.");
 		
-		return "redirect:/admin/hrCard/adminList";
+		return "redirect:/admin/hrCard/hr/adminList";
 	}
 	
 	
@@ -566,7 +604,7 @@ public class AdminAdminController {
 		
 		}
 		
-		return "redirect:/admin/hrCard/adminList";
+		return "redirect:/admin/hrCard/adminDetail/" + adminNo;
 	}
 	
 	

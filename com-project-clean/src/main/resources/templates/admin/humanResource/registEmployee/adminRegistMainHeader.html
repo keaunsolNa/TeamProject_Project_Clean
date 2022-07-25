@@ -4,26 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    
+    <style>
+	.registEmployeeHeader button{
+    margin-top:-6px;
+    width:100px;
+    height:25px;
+	border-radius: 5px;
+    font-size:13px;
+    padding: 0; 
+    background-color: #86cdffa9; 
+    border-style: none;
+	}	
+
+ .registEmployeeHeader button:hover{
+  background:  #7DBEED ;
+ }
+</style>
+
 </head>
 
 <body>
-	<button onclick="location.href='/admin/hr/regist/employeePage'">직원등록</button>
-	
-	                <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
-
-                	<!-- HR -->
-                    <span sec:authorize="!hasRole('ROLE_ADMIN_BOSS')">	
-					<button onclick="location.href='/admin/hr/waiting/employeeHR/move'">대기중직원(인사)</button>
-                    </span>
-                    
-                    <!-- BOSS -->
-                    <span sec:authorize="hasRole('ROLE_ADMIN_BOSS')">
-						<button onclick="location.href='/admin/hr/waiting/employeeBoss/move'">대기중직원(대표)</button>
-
-                    </span>
-                </th:block>
-	
-	<button onclick="location.href='/admin/hr/return/employee/move'">반려직원</button>
+	<div class="registEmployeeHeader">
+		<th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
+			<button onclick="location.href='/admin/hr/regist/employeePage'">직원등록</button>
+		</th:block>
+		
+		 <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
+		
+		<!-- HR -->
+		<span sec:authorize="!hasRole('ROLE_ADMIN_BOSS')">	
+			<button onclick="location.href='/admin/hr/waiting/employeeHR/move'">대기중직원(인사)</button>
+		</span>
+		
+		<!-- BOSS -->
+		<span sec:authorize="hasRole('ROLE_ADMIN_BOSS')">
+			<button onclick="location.href='/admin/hr/waiting/employeeBoss/move'">대기중직원(대표)</button>
+		</span>
+		
+		</th:block>
+		
+		<th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
+			<button onclick="location.href='/admin/hr/return/employee/move'">반려직원</button>
+		</th:block>
+	</div>	
 </body>
 
 </html>

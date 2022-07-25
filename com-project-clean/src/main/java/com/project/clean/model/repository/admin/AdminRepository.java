@@ -80,7 +80,7 @@ public interface AdminRepository extends JpaRepository<Admin, Integer>{
 	/* ---------------------------------------------------------------------------------- */
 	
 	/* 재직 관리자 목록 조회 */
-	List<Admin> findAllByAdminRetireYn(String string);
+	List<Admin> findAllByAdminRetireYn(String string, Pageable paging);
 
 	/* 재직 관리자 이름 검색 */
 	List<Admin> findAllByAdminRetireYnAndAdminNameContaining(String string, String searchValue, Pageable paging);
@@ -125,5 +125,8 @@ public interface AdminRepository extends JpaRepository<Admin, Integer>{
 	/* 휴가 승인한 최종 관리자의 정보 불러오기 */
 	@Query(value="SELECT * FROM tbl_admin a WHERE a.admin_no = ?", nativeQuery = true)
 	Admin findByCommitAdmin(int bossNo);
+
+	/* 전화번호 중복 검사 */
+	int countByAdminPhone(String adminPhone);
 
 }

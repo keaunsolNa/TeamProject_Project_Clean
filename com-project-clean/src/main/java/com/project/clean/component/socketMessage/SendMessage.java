@@ -4,13 +4,13 @@ public class SendMessage {
 
 	private String name;
 	private String message;
-	private String location;
+	private String path;
 	public SendMessage() {
 	}
-	public SendMessage(String name, String message, String location) {
+	public SendMessage(String name, String message, String path) {
 		this.name = name;
 		this.message = message;
-		this.location = location;
+		this.path = path;
 	}
 	public String getName() {
 		return name;
@@ -24,16 +24,17 @@ public class SendMessage {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public String getLocation() {
-		return location;
+	public String getPath() {
+		return path;
 	}
-	public void setLocation(String location) {
-		this.location = location;
+	public void setPath(String path) {
+		this.path = path;
 	}
 	@Override
 	public String toString() {
-		return "SendMessage [name=" + name + ", message=" + message + ", location=" + location + "]";
+		return "SendMessage [name=" + name + ", message=" + message + ", path=" + path + "]";
 	}
+
 	
 	
 

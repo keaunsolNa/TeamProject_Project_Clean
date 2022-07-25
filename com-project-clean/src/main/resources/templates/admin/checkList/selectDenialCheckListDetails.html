@@ -35,56 +35,30 @@
 	<input type="button" value="블랙+" id="denial">
 </div>
 
-	<th:block sec:authorize="hasRole('ADMIN')">			
-		<h3><span hidden sec:authentication="principal.adminId" id="userId" th:value="principal.adminId"></span></h3>
-	</th:block>
-
-	<th:block sec:authorize="hasRole('EMPLOYEE')">			
-		<h3><span hidden sec:authentication="principal.employeeId" id="userId" th:value="principal.employeeId"></span></h3>
-	</th:block>
-
 <input hidden type="text" th:value="${employeeName}" class="employeeName" id="employeeName">
+<input hidden type="text" th:value="${employeeName}" class="employeeName" id="client">
 
 <form hidden id="sendForm">
     <div>
         <input type="text" id="sendingMessage">
         <input type="text" id="sendingName" >
+        <input type="text" id="path" >
     </div>
     <button id="send" type="submit">Send</button>
 </form>
 
-<!-- textarea script -->
-<script>
-	
-	if(document.getElementById("employeeOpnion2")){
-		console.log("있음111")
-	} else{
-		console.log("없음222")
-		const div = document.getElementById("submitarea");
-		div.remove();
-	}
-	
-	$("#adminOpnion").prop("readonly", true);
-	$("#adminOpnion2").prop("readonly", true);
-	$("#employeeOpnion2").prop("readonly", true);
-	$('textarea').keyup(function(){
-		var letter = $(this).val()
-		$('#adminOpnion').html(letter)
-	})
-	
-</script>
+
 <!-- Submit script -->
     <script>
     	
 		    const jbHtml = "";
 		    const userName = document.getElementById("employeeName").value
-		    const sessionName = document.getElementById("userId").value
 			const reservationNo = $('.reservationNo').val();
 		    
 	    	document.getElementById("denial").onclick = function(){
 	    		
 				if(confirm("해당 직원에게 블랙리스트 경고 횟수를 추가하시겠습니까? 직원에게 알림이 전송됩니다.")){
-	    			
+					$("#path").val("/employee/checkList/black/select")
 	    			$("#sendingMessage").val("체크리스트가 재반려되었습니다. 블랙리스트 경고 횟수가 증가합니다.")
 	    			
 		    		$("#sendingName").val(userName)
@@ -116,10 +90,11 @@
 	    			})
 	    		 } 
 	    	}
-	    	
+	    		
 	    	document.getElementById("accept").onclick = function(){
-	    		if(confirm("서류를 승인하시겠습니까? 직원에게 알람이 전송됩니다.")){
-	
+	    		if(confirm("서류를 승인하시겠습니까? 해당 직원에게 알림이 전송됩니다.")){
+	    			
+	    			$("#path").val("/employee/checkList/accept/select")
 	    			$("#sendingMessage").val("체크리스트가 승인되었습니다. 급여 확인 부탁드립니다.")
 	    			$("#sendingName").val(userName)
 	    			
@@ -160,5 +135,6 @@
    		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script
 		src="http://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-
+	<script 
+		src="/js/adminTextArea1.js"></script>
 </html>

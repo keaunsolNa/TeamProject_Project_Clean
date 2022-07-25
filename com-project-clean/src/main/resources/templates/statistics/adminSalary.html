@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="commonLayout.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	
+<style>
+tr:nth-of-type(1) {
+	background: #7DBEED;
+}
+
+table {
+	width: 100%;
+	height: 100%;
+	border-collapse: collapse;
+	border-style: hidden;
+}
+
+table th {
+	border: 1px solid black;
+}
+
+table td {
+	border: 1px solid black;
+}
+
+table tr {
+	border: 1px solid black;
+	text-align: center;
+	font-weight: bold;
+	font-size: 30;
+}
+
+#title {
+	font-weight: bold;
+	font-size: 26;
+}
+
+.paging {
+	width: 100%;
+}
+
+.btn-bs {
+	width: 80px;
+	margin-top: -6px;
+	height: 32px;
+	font-size: 15px;
+	padding: 20;
+	background-color: #7DBEED;
+}
+
+.btn-bs2 {
+	width: 50px;
+	margin-top: -10px;
+	height: 26px;
+	font-size: 15px;
+	padding: 20;
+	background-color: #7DBEED;
+}
+</style>
+<title>Document</title>
+
+
+</head>
+<body>
+	<main>
+		<div th:include="common/Header.html"></div>
+		<div th:include="statistics/statisticsAside.html"></div>
+		<article>
+			<section>
+				
+
+				<h4 id="title" align="center">관리자 직급별 급여 평균</h4>
+				<div id="averageSalesList">
+					<table>
+						<tr>
+							<td>관리자 급여 평균</td>
+						</tr>
+						<tr>
+							<th th:text="|${ totalAvgSalary } 원|"></th>
+						</tr>
+					</table>
+				</div>
+				<br> <br>
+
+				<div id="averageSalesList">
+
+					<table>
+						<tr>
+							<th class="month">직급명</th>
+							<th class="no">평균월급</th>
+							<th class="arSales">상세조회</th>
+						</tr>
+						<tr th:each="admin : ${ adminSalaryList }">
+							<td th:text="${ admin.job }"></td>
+							<td th:text="|${ admin.avgSalary } |"></td>
+							<td><button class="btn-bs2" type="submit"
+									th:onclick="|location.href='adminSalary/${ admin.jobCode }'|">조회</button>
+						</tr>
+					</table>
+
+				</div>
+				<br>
+				
+
+<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawVisualization);
+
+      function drawVisualization() {
+        // Some raw data (not necessarily accurate)
+        var data = google.visualization.arrayToDataTable([
+          ['직급명', '평균 급여' ],
+          ['총관리자',  18400000 ],
+          ['일반관리자',  2300000 ],
+          ['보안담당자', 2300000  ],
+          ['인사담당자',  2622000 ],        
+          ['재정담당자',  3956000 ],             
+        ]);
+
+        var options = {
+          title : '관리자 직급별 평균 급여 그래프',
+          vAxis: {title: '금액'},
+          hAxis: {title: '직급명'},
+          seriesType: 'bars',
+          series: {5: {type: 'line'}}
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+  </body>
+  </html>
+			</section>
+		</article>
+	</main>
+
+</body>
+</html>

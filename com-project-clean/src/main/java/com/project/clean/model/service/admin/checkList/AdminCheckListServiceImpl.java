@@ -166,23 +166,37 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 			List<CheckListDTO> checkList = new ArrayList<>();
 			Map<String, Object> map = new HashMap<>();
 			String status = "";
+			String status2 = "";
+			/* 매개변수로 adminEntity 조회 */
+			Admin admin = adminRepository.findByAdminId(adminId);
+			
+			/* AdminDTO로 전환 */
+			AdminDTO adminDTO = modelMapper.map(admin, AdminDTO.class);
+			
+			
+			/* AdminNo Integer 변수에 담기 */
+			Integer adminNo = adminDTO.getAdminNo();
 			
 			if(parameter == 1) {
 				status = "R";
+				paging =  checkListRepository.findAllByCheckStatus(status, pageable);
 			} else if(parameter == 2) {
 				status = "D";
+				status2 = "E";
+				paging =  checkListRepository.findAllByCheckStatusOrCheckStatusAndAdminNo(status, status2, adminNo, pageable);
 			} else if(parameter == 3) {
 				status = "A";
+				paging =  checkListRepository.findAllByCheckStatusAndAdminNo(status, adminNo, pageable);
 			} else if(parameter == 4) {
 				status = "B";
+				paging =  checkListRepository.findAllByCheckStatusAndAdminNo(status, adminNo, pageable);
+			} else {
+				paging =  checkListRepository.findAllByCheckStatus(status, pageable);
 			}
 				
 			List<CheckListAndReservationInfoAndEmployeeDTO> checkListAndReservationInfoAndEmployeeList = new ArrayList<>();
 			
 			try {
-				
-				/* 파라미터 값으로 모든 체크리스트 조회 */
-				paging =  checkListRepository.findAllByCheckStatus(status, pageable);
 				
 				List<CheckList> checkArrayList = paging.getContent();
 				
@@ -204,15 +218,6 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 				map.put("currentPage", currentPage);
 				map.put("category", category);
 				map.put("categoryValue", categoryValue);
-				
-				/* 매개변수로 adminEntity 조회 */
-				Admin admin = adminRepository.findByAdminId(adminId);
-				
-				/* AdminDTO로 전환 */
-				AdminDTO adminDTO = modelMapper.map(admin, AdminDTO.class);
-				
-				/* AdminNo Integer 변수에 담기 */
-				Integer adminNo = adminDTO.getAdminNo();
 				
 				/* 전달할 AdminName 변수에 담기 */
 				String adminName = "";
@@ -277,6 +282,8 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 								checkStatus = "완료";
 							} else if(checkStatus.equals("B")) {
 								checkStatus = "경고";
+							} else if(checkStatus.equals("E")) {
+								checkStatus = "사유서제출";
 							}
 							
 							/* 값 주입 */
@@ -311,6 +318,20 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 			}
 			
 		}
+
+
+	/* KS. 사유서 확인을 위한 체크리스트 전체 목록 조회 */
+	@Override
+	public List<CheckListDTO> selectAllCheckList() {
+		
+		List<CheckListDTO> arrayCheckList = new ArrayList<>();
+		
+		List<CheckList> checkList = checkListRepository.findAllByCheckStatus("D");
+		
+		arrayCheckList = checkList.stream().map(list -> modelMapper.map(list, CheckListDTO.class)).toList();
+		
+		return arrayCheckList;
+	}
 
 }
 

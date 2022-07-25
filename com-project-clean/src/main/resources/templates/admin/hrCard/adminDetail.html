@@ -7,30 +7,54 @@
 <title>Insert title here</title>
  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style>
-.tg  {border-collapse:collapse;border-spacing:0;}
-    .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-      overflow:hidden;padding:10px 5px;word-break:normal; border-color:#c0c0c0;text-align:center;vertical-align:middle}
-    .btn_regist {
-      background: #9AE8F9;
-      padding: 6px;
-      border-radius: 3px;
-      border : 0;
-      outline: 0;
-      cursor: pointer;
-    }
-    .btn_regist:hover {
-      box-shadow: 1px 1px 1px #ddd;
-    }
-    .btn_cascade {
-      background: #9AE8F9;
-      padding: 6px;
-      border-radius: 3px;
-      border : 0;
-      outline: 0;
-    }
-    .btn_cascade:hover {
-      box-shadow: 1px 1px 1px #ddd;
-    }
+	
+.detailTable{
+	width: 770px;
+}
+.detailTable td {
+	border: solid 1px;
+	font-size: 14px;
+	padding: 10px 10px;
+	height: 50px;
+}
+
+.buttonBox{
+	margin-top : 20px;
+	width:820px;
+	text-align: center;
+}
+
+.btn_update{
+	margin-top:-6px;
+	width:70px;
+	height:32px;
+	border-radius: 5px;
+	font-size:13px;
+	padding: 0; 
+	background-color: #7dbeed96; 
+	border-style: none;
+}
+
+.btn_retire{
+	margin-top:-6px;
+	width:70px;
+	height:32px;
+	border-radius: 5px;
+	font-size:13px;
+	padding: 0; 
+	background-color: #7dbeed96; 
+	border-style: none;
+
+}
+
+.btn_retire:hover{
+    background:  #7DBEED;
+}
+
+.btn_update:hover{
+    background:  #7DBEED;
+}
+
 </style>
 </head>
 <body>
@@ -38,26 +62,26 @@
 	<div th:replace="/common/Header.html"></div>
 	<div th:include="admin/adminAside.html"></div>
 	
-	
-	<button onclick="history.back()">Back</button>
+	<section class="section">
 	
     <form id="retireForm" action="Delete" method="post" enctype="multipart/form-data">
-	    <table class="tg">
+	    <table class="detailTable">
 	    <colgroup>
-	    <col style="width: 100px">
-	    <col style="width: 120px">
-	    <col style="width: 100px">
-	    <col style="width: 200px">
-	    <col style="width: 60px">
-	    <col style="width: 60px">
+	    	 <col style="width: 150px">
+             <col style="width: 150px">
+             <col style="width: 200px">
+             <col style="width: 200px">
+             <col style="width: 50px">
+             <col style="width: 50px">
+        </colgroup>
 		    <thead>
 		      <tr>
 		        <td class="tg-wman">관리자번호</td>
-		        <td th:text="${ admin.adminNo }"></td>
+		        <td id="adminNo" th:text="${ admin.adminNo }"></td>
 		        <td>이름</td>
 		        <td th:text="${ admin.adminName }"></td>
 				   <td colspan="2" rowspan="3">
-				   	<img width="100" height="120" 
+				   	<img width="120" height="120" 
 			        	th:src="@{/adminPicture/} + ${admin.adminPictureSaveName}"/>
 			        </td>
 		      </tr>
@@ -71,8 +95,10 @@
 		        <td>생년월일</td>
 		        <td th:text="${ admin.adminBirth }"></td>
 		        <td>성별</td>
-		        <td th:text="${admin.adminGender}"></td>
-		        
+		        <td>
+		        	<span th:if="${admin.adminGender} == 'F'">여성</span>
+		        	<span th:unless="${admin.adminGender} == 'F'">남성</span>
+		        </td>
 		      </tr>
 		    </thead>
 		    <tbody>
@@ -93,21 +119,21 @@
 		      </tr>
 		      <tr>
 		        <td>입사일</td>
-		        <td colspan="2" th:text="${ admin.adminHireDate }"></td>
+		        <td  th:text="${ admin.adminHireDate }"></td>
 		        <td>퇴사일</td>
-		        <td colspan="2" th:text="${ admin.adminRetireDate }">-</td>
+		        <td colspan="3">-</td>
 		      </tr>
 		      <tr>
 		        <td>직급명</td>
-		        <td colspan="2" th:text="${ admin.adminJob }"></td>
+		        <td  th:text="${ admin.adminJob }"></td>
 		        <td>마지막 로그인 일자</td>
-		        <td colspan="2" th:text="${ admin.adminLastLoginDate }"></td>
+		        <td colspan="3" th:text="${ admin.adminLastLoginDate }"></td>
 		      </tr>
 		      <tr>
-		        <td class="tg-wman">연차 사용 횟수</td>
-		        <td class="tg-wman" colspan="2" th:text="${ admin.annualVacationUse }"></td>
+		        <td >연차 사용 횟수</td>
+		        <td  th:text="${ admin.annualVacationUse }"></td>
 		        <td>퇴사여부</td>
-		        <td colspan="2" th:text="${ admin.adminRetireYn }"></td>
+		        <td colspan="3" th:text="${ admin.adminRetireYn }"></td>
 		      </tr>
 		    </tbody>      
    		 </table>
@@ -125,37 +151,53 @@
 					    <input name="adminRetireYn" th:value="${ admin.adminRetireYn }">
 					    <input name="adminSalary" th:value="${ admin.adminSalary }">
 	     </div>
-	   	 <table>
+	   	 <table class="buttonBox">
 	   	 	<tr>
-	   	 		
-	   	 		<td><input type="button" id="updateMy" value="내수정"> </td>
+	   	 		<td><div id="modify_btn"><input type="button" class="btn_update" id="updateMy" value="수정"></div></td>
+	   	 		 <td><div id="adminNoValue" style="display: none;" sec:authentication="principal.adminNo"></div><td>
 
 	   	 		 
-	   	 		<!-- <th:block sec:authorize="hasRole('MEMBER')"> -->
-	   	 		<!-- 인사관리자가 사용할 수 있는 것 -->
+	   	 		<th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
+	   	 		<td><div id="retire_btn"><input type="submit" class="btn_retire" id="retireY" value="퇴사처리"></div></td>
+	   	 		</th:block>
 	   	 		
-	   	 		<td><input type="submit" id="retireY" value="퇴사처리"> </td>
-	   	 		<!-- </th:block> -->
-	   	 		
-	   	 		<td style="display: none" id="value" th:text="${admin.adminNo}" ></td>
+	   	 		<td><input style="display:none" id="value" th:value="${ admin.adminNo }" ></td>
 	   	 	</tr>
 	     </table>
     </form>
     
+    </section>
  
     <script>
       
-    const value = $("#value").text();
+    const value = $("#value").val();
     
       $("#updateMy").click(function(){
     	  location.href="/admin/hrCard/adminModifySelf/"+value
         });
       
       $("#retireY").click(function(){
-  		if(confirm("퇴사 처리 하시겠습니까?")){
+  		if(confirm("퇴사 처리 하시겠습니까?") == true){
   			$("#retireForm").submit();
+			}else{
+				return false;
 			}
         });
+      
+      const userNo = $("#adminNoValue").text();
+      const adminNo = $("#adminNo").text();
+      
+      if(userNo == adminNo){
+    	  $('#modify_btn').show();
+      }else{
+    	  $('#modify_btn').hide();
+      }
+      
+      if(userNo == adminNo){
+    	  $('#retire_btn').hide();
+      }else{
+    	  $('#retire_btn').show();
+      }
       
       /* $("#retireY").click(function(){
     	  location.href="/admin/hrCard/adminModifySelf/Delete/"+value

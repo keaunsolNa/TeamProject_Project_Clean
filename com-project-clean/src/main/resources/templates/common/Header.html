@@ -4,38 +4,37 @@
 <head>
 <meta charset="UTF-8">
 <title>Project Clean</title>
-    <link rel="stylesheet" 
-    	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" >
-    <script 
-    	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-	<link 
-		rel="stylesheet" type="text/css" 
-		th:href="@{/css/common/commonLayout.css}" />
-	<script
-		src="http://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-	<script 
-		src="https://code.jquery.com/jquery-3.4.1.min.js"></script>	
-    <script 
-    	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <script 
-   		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-   	<script
-   		src="/js/socket.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" >
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/common/commonLayout.css}" />
+	<script src="http://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>	
+
 </head>
-    	
 
 <body>
+
     <div class="row">
         <div class="col-md-12">
             <table id="conversation" class="table table-striped">
                 <thead>
-                
+                	
                 </thead>
                 <tbody id="ReceiveMessage">
                 </tbody>
             </table>
         </div>
     </div>
+    <script>
+    if(document.getElementById("move")){
+    	$("#move").bind("click", function(){});
+    	$("#move").trigger("click");
+		document.getElementById("move").onclick = function(){
+			console.log("가냐!!!!!!!!!!!!!!!!!!!!!")
+			location.href="/main"
+		}    	
+    }
+    </script>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light ">
             <div class="container-fluid upnavvar">
@@ -48,10 +47,6 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
                     	
                         <li class="nav-item dropdown">
                             <a href="/member/chatt" target="_blank">
@@ -62,16 +57,18 @@
                     </ul>
 
                     <th:block sec:authorize="hasRole('ADMIN')">			
-						<h3><span sec:authentication="principal.adminName" id="userName" th:value="principal.adminName"></span></h3>
+						<h3><span sec:authentication="principal.adminName" id="userName" th:value="${#authentication.name}"></span></h3>
+						<input hidden type="text" th:value="${#authentication.name}" id="client">
 					</th:block>
                     <th:block sec:authorize="hasRole('EMPLOYEE')">			
-						<h3><span sec:authentication="principal.employeeName" id="userName" th:value="principal.employeeName"></span></h3>
+						<h3><span sec:authentication="principal.employeeName" id="userName" th:value="${#authentication.name}"></span></h3>
+						<input hidden type="text" th:value="${#authentication.name}" id="client">
 					</th:block>
 
                     <ul class="navbar-nav me-auto mb-3 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" id="adminMyPage"><img src="/image/mypage.png" class="btn2"></a>
-            
+                            <a class="nav-link" id="adminMyPage" href="admin/hrCard/selectOneAdminMove"><img src="/image/mypage.png" class="btn2"></a>
+            				
                         </li> 
                         <li class="nav-item">
                             <a class="nav-link" href="/member/logout"><img src="/image/logout.png" class="btn2"> </a>
@@ -80,7 +77,6 @@
                 </div>
             </div>
         </nav>
-
         <nav class="navbar navbar-expand-lg navbar-light bg-light ">
             <div class="container-fluid downnavbar">
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -96,8 +92,39 @@
                     			<th:block sec:authorize="hasRole('EMPLOYEE')">			
                               	   <li><a class="dropdown-item" id="selectMyInfo" href="/member/selectEmployee/move">내정보 조회</a></li>
                                 </th:block>
-                             	   <li><a class="dropdown-item" href="#">알림2</a></li>
-                             	   <li><a class="dropdown-item" href="#">알림3</a></li>
+						      	<th:block sec:authorize="hasRole('ROLE_ADMIN')">
+						        	<a class="dropdown-item" href="/admin/select/AllEmployee/move">전체 인원 조회</a>
+						        </th:block>    
+						        
+        <a class="dropdown-item" href="/admin/hrCard/adminList">관리자 조회</a>
+        
+        <a class="dropdown-item" href="/admin/hrCard/adminRegist">관리자 등록</a>
+        
+        <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
+	        <a class="dropdown-item" href="/admin/hr/regist/employeePage">직원 등록</a>
+        </th:block>
+        
+		<th:block sec:authorize="hasRole('ROLE_ADMIN')">
+	        <a class="dropdown-item" href="/admin/select/blackList/move">블랙리스트 조회</a>
+        </th:block>
+        
+        <a class="dropdown-item" href="/admin/vacation/registVacation">휴가 신청</a>
+        
+        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+        	<a class="dropdown-item" href="/admin/select/selectMyVacation/move">나의 휴가 조회</a>
+        </th:block>
+        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+        	<a class="dropdown-item" href="/admin/select/selectMyVacation/move">나의 휴가 조회</a>
+        </th:block>
+        
+        <th:black sec:authorize="hasRole('ROLE_ADMIN_HR')">
+        	<a class="dropdown-item" href="/admin/hr/humanResource/selectAllVacation/move">휴가 전체 조회</a>
+        </th:block>
+        
+        <a class="dropdown-item" href="/admin/vacation/standbyFirstVacationList">1 승인 대기 목록</a>
+        
+        <a class="dropdown-item" href="/admin/vacation/standbySecondVacationList">1 승인 대기 목록</a>
+                                
                                 
                             </ul>
                         </li>
@@ -151,12 +178,18 @@
                             <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             통계관리
                             </a>
-                
+               			<th:block sec:authorize="hasRole('ADMIN')">
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">알림1</a></li>
-                                <li><a class="dropdown-item" href="#">알림2</a></li>
-                                <li><a class="dropdown-item" href="#">알림3</a></li>
+                                <li><a class="dropdown-item" href="/statistics/totalSales">총 매출 조회</a></li>
+                                <li><a class="dropdown-item" href="/statistics/adminSalary">관리자 평균 급여 조회</a></li>
                             </ul>
+                        </th:block>
+                		<th:block sec:authorize="hasRole('EMPLOYEE')">
+                			<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/statistics/employeeTotalWorkhours">직원 근무시간 조회</a></li>
+                                <li><a class="dropdown-item" href="/statistics/bestEmployee">이 달의 우수직원</a></li>
+                            </ul>
+                        </th:block>
                         </li>
 
                         <li class="nav-item dropdown">
@@ -184,4 +217,8 @@
     </header>
     
 </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+   	<script src="/js/socket.js"></script>
+   	
 </html>

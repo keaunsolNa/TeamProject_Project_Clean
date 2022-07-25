@@ -67,12 +67,91 @@ text-align: center;}
   padding-right: 8px;
 }
 
+
+
+
+
+/* 직원 part css */
 .section{
     font-family: 'MinSans-Medium';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+    margin-left: 20px !important;
+	margin-top: 20px !important;
 }
+
+.selectBox{
+	margin-bottom: 20px;
+}
+ .searchBox button {
+    margin-top:-6px;
+    width:70px;
+    height:32px;
+	border-radius: 5px;
+    font-size:13px;
+    padding: 0; 
+    background-color: #7dbeed96; 
+    border-style: none;
+    }
+
+ .searchBox button:hover{
+  background:  #7DBEED ;
+ }
+ .tableBox button{
+	 border-radius: 5px;
+	 width:40px; 
+	 height:30px;
+	 margin: 5px;
+     background-color: #7dbeed96;
+     border-color:gray;
+     border-style: none;
+ }
+ 
+ .pagingBox button{
+	 border-radius: 5px;
+	 width:40px; 
+	 height:30px;
+	 margin: 5px;
+     background-color: #7dbeed96;
+     border-color:gray;
+     border-style: none;
+ }
+ 
+ .pagingBox button:hover {
+  background:  #7DBEED ;
+}
+
+ .buttonBox button{
+	 border-radius: 5px;
+	 width:100px; 
+	 height:35px;
+	 margin: 5px;
+	 margin-top: 20px;
+     background-color: #7dbeed96;
+     border-color:gray;
+     border-style: none;
+	 transition: all 0.1s ;
+}     
+
+.buttonBox button:hover {
+  background:  #7DBEED ;
+}
+
+/* detail 앞 글자들 */
+.subTitle {
+font-weight: bold;
+}
+
+.warning{
+	font-size: 15px;
+	color: red;
+	
+}
+     
+     
+     
+     
+     
+ 
 
 
 /* Some media queries for responsiveness */
@@ -90,42 +169,50 @@ text-align: center;}
       </button>
       
       <div class="dropdown-container">
+		
+		 <!--  <th:block sec:authorize="hasRole('ROLE_ADMIN_BOSS')"> -->	
+        <a style="font-size : 16px" href="/admin/hrCard/hr/adminList">관리자 조회</a>
+       
+
+
       	<th:block sec:authorize="hasRole('ROLE_ADMIN')">
-        	<a href="/admin/select/AllEmployee/move">전체 인원 조회</a>
+        	<a style="font-size : 16px" href="/admin/select/AllEmployee/move">전체 인원 조회</a>
         </th:block>
         
-        <a href="/admin/hrCard/adminList">관리자 조회</a>
-        
-        <a href="/admin/hrCard/adminRegist">관리자 등록</a>
-        
         <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
-	        <a href="/admin/hr/regist/employeePage">직원 등록</a>
+	        <a style="font-size : 16px" href="/admin/hr/regist/employeePage">직원 등록</a>
+        </th:block>
+        
+        <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">	
+        	<a style="font-size : 16px" href="/admin/hrCard/hr/adminRegist">관리자 등록</a>
         </th:block>
         
 		<th:block sec:authorize="hasRole('ROLE_ADMIN')">
-	        <a href="/admin/select/blackList/move">블랙리스트 조회</a>
+	        <a style="font-size : 16px" href="/admin/select/blackList/move">블랙리스트 조회</a>
         </th:block>
-        
+
       </div>
     <br>
     <button class="dropdown-btn">휴가관리 
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        
-        <a href="/admin/vacation/registVacation">휴가 신청</a>
+        <a style="font-size : 16px" href="/admin/hrCard/registVacation">휴가 신청</a>
         
         <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-        	<a href="/admin/select/selectMyVacation/move">나의 휴가 조회</a>
+        	<a style="font-size : 16px" href="/admin/select/selectMyVacation/move">나의 휴가 조회</a>
         </th:block>
         
         <th:black sec:authorize="hasRole('ROLE_ADMIN_HR')">
-        	<a href="/admin/hr/humanResource/selectAllVacation/move">휴가 전체 조회</a>
+        	<a style="font-size : 16px" href="/admin/hr/humanResource/selectAllVacation/move">휴가 전체 조회</a>
         </th:block>
-        
-        <a href="/admin/vacation/standbyFirstVacationList">1 승인 대기 목록</a>
-        
-        <a href="/admin/vacation/standbySecondVacationList">1 승인 대기 목록</a>
+        <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">	
+        <a style="font-size : 16px" href="/admin/hrCard/vacation/standbyFirstVacationList">1차 승인 대기 목록</a>
+        </th:block>
+        <th:block sec:authorize="hasRole('ROLE_ADMIN_BOSS')">	
+        <a style="font-size : 16px" href="/admin/hrCard/boss/standbySecondVacationList">2차 승인 대기 목록</a>
+    	</th:block>
+
     </div>
 </div>
 

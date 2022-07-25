@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+ <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style>
+	
+.detailTable{
+	width: 770px;
+}
+.detailTable td {
+	border: solid 1px;
+	font-size: 14px;
+	padding: 10px 10px;
+	height: 50px;
+}
+
+.buttonBox{
+	margin-top : 20px;
+	width:820px;
+	text-align: center;
+}
+
+.btn_update{
+	margin-top:-6px;
+	width:70px;
+	height:32px;
+	border-radius: 5px;
+	font-size:13px;
+	padding: 0; 
+	background-color: #7dbeed96; 
+	border-style: none;
+}
+
+.btn_retire{
+	margin-top:-6px;
+	width:70px;
+	height:32px;
+	border-radius: 5px;
+	font-size:13px;
+	padding: 0; 
+	background-color: #7dbeed96; 
+	border-style: none;
+
+}
+
+.btn_retire:hover{
+    background:  #7DBEED;
+}
+
+.btn_update:hover{
+    background:  #7DBEED;
+}
+
+</style>
+</head>
+<body>
+
+	<div th:replace="/common/Header.html"></div>
+	<div th:include="admin/adminAside.html"></div>
+	
+	<section class="section">
+	
+    <form id="retireForm" action="Delete" method="post" enctype="multipart/form-data">
+	    <table class="detailTable">
+	    <colgroup>
+	    	 <col style="width: 150px">
+             <col style="width: 150px">
+             <col style="width: 200px">
+             <col style="width: 200px">
+             <col style="width: 50px">
+             <col style="width: 50px">
+        </colgroup>
+		    <thead>
+		      <tr>
+		        <td class="tg-wman">관리자번호</td>
+		        <td id="adminNo" th:text="${ admin.adminNo }"></td>
+		        <td>이름</td>
+		        <td th:text="${ admin.adminName }"></td>
+				   <td colspan="2" rowspan="3">
+				   	<img width="120" height="120" 
+			        	th:src="@{/adminPicture/} + ${admin.adminPictureSaveName}"/>
+			        </td>
+		      </tr>
+		      <tr>
+		        <td>ID</td>
+		        <td th:text="${ admin.adminId }"></td>
+		        <td>전화번호</td>
+		        <td th:text="${ admin.adminPhone }"></td>
+		      </tr>
+		      <tr>
+		        <td>생년월일</td>
+		        <td th:text="${ admin.adminBirth }"></td>
+		        <td>성별</td>
+		        <td th:text="${admin.adminGender}"></td>
+		        
+		      </tr>
+		    </thead>
+		    <tbody>
+		     <tr>
+		        <td class="tg-wman">이메일</td>
+		        <td class="tg-wman" colspan="5" th:text="${admin.adminEmail}"></td>
+		        
+		     </tr>
+		     <tr>
+		        <td class="tg-wman">우편번호</td>
+		        <td class="tg-wman" th:text="${address.addressNo}"></td>
+		        <td class="tg-wman">기본주소</td>
+		        <td class="tg-wman" colspan="3" th:text="${address.address}"></td>
+		      </tr>
+		      <tr>
+		        <td class="tg-wman">상세주소</td>
+		        <td class="tg-wman" colspan="5" th:text="${address.addressDetail}"></td>
+		      </tr>
+		      <tr>
+		        <td>입사일</td>
+		        <td  th:text="${ admin.adminHireDate }"></td>
+		        <td>퇴사일</td>
+		        <td colspan="3" th:text="${ admin.adminRetireDate }"></td>
+		      </tr>
+		      <tr>
+		        <td>직급명</td>
+		        <td  th:text="${ admin.adminJob }"></td>
+		        <td>마지막 로그인 일자</td>
+		        <td colspan="3" th:text="${ admin.adminLastLoginDate }"></td>
+		      </tr>
+		      <tr>
+		        <td>연차 사용 횟수</td>
+		        <td  th:text="${ admin.annualVacationUse }"></td>
+		        <td>퇴사여부</td>
+		        <td colspan="3" th:text="${ admin.adminRetireYn }"></td>
+		      </tr>
+		    </tbody>      
+   		 </table>
+
+    </form>
+    
+    </section>
+ 
+    
+</body>
+</html>

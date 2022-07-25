@@ -1,15 +1,37 @@
+<!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
 	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    
+    <style>
+	.selectVacationHeader button{
+    margin-top:-6px;
+    width:100px;
+    height:25px;
+	border-radius: 5px;
+    font-size:13px;
+    padding: 0; 
+    background-color: #86cdffa9; 
+    border-style: none;
+	}	
+
+ .selectVacationHeader button:hover{
+  background:  #7DBEED ;
+ }
+</style>
+    
 </head>
 
 <body>
-
-	 <button onclick="location.href='/admin/hr/humanResource/selectAllVacation/move'">전체</button>
-	 <button onclick="location.href='/admin/hr/select/selectAllVacationConfirmList/move'">승인</button>
-	 <button onclick="location.href='/admin/hr/select/selectAllVacationReturnList/move'">반려</button>
+	<div class="selectVacationHeader">
+		<th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
+			 <button onclick="location.href='/admin/hr/humanResource/selectAllVacation/move'">전체</button>
+			 <button onclick="location.href='/admin/hr/select/selectAllVacationConfirmList/move'">승인</button>
+			 <button onclick="location.href='/admin/hr/select/selectAllVacationReturnList/move'">반려</button>
+		 </th:block>
+	</div>
 </body>
 
 </html>

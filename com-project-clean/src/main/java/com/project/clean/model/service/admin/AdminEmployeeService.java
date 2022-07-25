@@ -496,17 +496,6 @@ public class AdminEmployeeService {
 		Map<String, Object> map = new HashMap<>();
 		paging = vacationRepository.findByAdminNo(adminNo, pageable);
 		
-//		if ("all".equals(category)) {
-//		} else if ("request".equals(category)) {
-//			paging = vacationRepository.findByAdminNoAndRequestDateBetweeen(adminNo, startDate, endDate, pageable);
-//		} else if ("start".equals(category)) {
-//			paging = vacationRepository.findByAdminNoAndVacationStartDateBetweeen(adminNo, startDate, endDate, pageable);
-//		} else if ("end".equals(category)) {
-//			paging = vacationRepository.findByAdminNoAndVacationEndDateBetweeen(adminNo, startDate, endDate, pageable);
-//		} else {
-//			paging = vacationRepository.findByAdminNo(adminNo, pageable);
-//		}
-		
 		List<Vacation> employeeList = paging.getContent();
 
 		vacationList = employeeList.stream().map(name -> modelMapper.map(name, VacationDTO.class)).toList();
@@ -530,6 +519,11 @@ public class AdminEmployeeService {
 
 		return map;
 	}
+	
+	
+	
+	
+	
 
 	@Transactional
 	public Map<String, Object> selectAllVacaionList(String category, String categoryValue, String StartDate, String endDate, Pageable pageable) {

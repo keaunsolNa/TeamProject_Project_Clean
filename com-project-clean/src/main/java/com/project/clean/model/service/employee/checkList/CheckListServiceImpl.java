@@ -81,8 +81,6 @@ public class CheckListServiceImpl implements CheckListService{
 				/* reservationNo로 checkList Entity 조회 */
 				CheckList checkList = checkListRepository.findById(reservationNo).get();
 				
-				System.out.println("TEST : " + checkList);
-				
 				continue;
 				
 				} catch(java.util.NoSuchElementException e) {
@@ -214,7 +212,7 @@ public class CheckListServiceImpl implements CheckListService{
 			
 			/* parameter 인자값으로 다른 CheckList Entity 객체 조회 */
 			if(parameter == 1) {
-				checkList = checkListRepository.findAllByCheckStatusOrCheckStatus("D", "R");
+				checkList = checkListRepository.findAllByCheckStatusOrCheckStatusOrCheckStatus("D", "R", "E");
 			} else if(parameter == 2) {
 				checkList = checkListRepository.findAllByCheckStatus("A");
 			} else if(parameter == 3) {
@@ -275,12 +273,13 @@ public class CheckListServiceImpl implements CheckListService{
 						checkListAndReservationInfoAndEmployeeDTO.setEmployeeName(employeeName);
 						checkListAndReservationInfoAndEmployeeDTO.setCustomerName(userName);
 						checkListAndReservationInfoAndEmployeeDTO.setCheckReservationNo(checkReservationNo);
-						
 						/* View에서 뿌려줄 변수값 변환 */
 						if(checkStatus.equals("R")) {
 							checkStatus = "확인중";
 						} else if(checkStatus.equals("D")) {
 							checkStatus = "반려";
+						} else if(checkStatus.equals("E")) {
+							checkStatus = "사유서 제출";
 						} else if(checkStatus.equals("A")) {
 							checkStatus = "통과";
 						} else if(checkStatus.equals("B")) {
@@ -293,7 +292,7 @@ public class CheckListServiceImpl implements CheckListService{
 						
 						/* 매개변수 초기화 */
 						String adminName = "";
-						Integer adminNo = 0;
+						String adminId = "";
 						
 							/* 예외 처리 */
 							try {
@@ -309,10 +308,11 @@ public class CheckListServiceImpl implements CheckListService{
 								
 								/* 필요한 매개변수 가져오기 */
 								adminName = adminDTO.getAdminName();
-								adminNo = admin.getAdminNo();
+								adminId = adminDTO.getAdminId();
 								
 								/* 값 주입 */
 								checkListAndReservationInfoAndEmployeeDTO.setAdminName(adminName);
+								checkListAndReservationInfoAndEmployeeDTO.setAdminId(adminId);
 								
 								checkListAndReservationInfoAndEmployeeList.add(checkListAndReservationInfoAndEmployeeDTO);
 								

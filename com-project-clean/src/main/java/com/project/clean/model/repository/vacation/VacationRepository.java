@@ -177,7 +177,7 @@ public interface VacationRepository extends JpaRepository<Vacation, Integer>{
 
 	/* 휴가 2차 대기 목록 전체 조회 */
 	List<Vacation> findAllByVacationFirstConfirmYnAndVacationSecondConfirmYnAndVacationReturnYn(String string,
-			String string2, String string3);
+			String string2, String string3, Pageable paging);
 
 	/* 휴가 1차 대기목록 신청자 검색 */
 	List<Vacation> findAllByVacationFirstConfirmYnAndVacationReturnYnAndRequestAdminContaining(String string,

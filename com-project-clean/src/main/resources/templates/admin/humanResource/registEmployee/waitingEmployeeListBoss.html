@@ -9,8 +9,6 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <style>
 	.section{
-		margin-left: 0 !important;
-		margin-top: 0 !important;
 		width: 1000px;
 	}
 	.tableBox{
@@ -25,6 +23,7 @@
 	}
 	.searchBox{
 		text-align: right;
+		margin-bottom: 10px;
 	}
 	.pagingBox{
 		 text-align: center;
@@ -228,7 +227,7 @@
 
 			for (let i = 0; i < employee.length; i++) {
 				employee[i].onmouseenter = function() {
-					this.parentNode.style.backgroundColor = "rgb(50,150,250)";
+					this.parentNode.style.backgroundColor = "#7dbeed96";
 					this.parentNode.style.cursor = "pointer";
 				}
 				employee[i].onmouseout = function() {

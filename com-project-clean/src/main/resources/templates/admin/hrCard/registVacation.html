@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<style>
+/* 결재 테이블 */
+.confirmTable td {
+	border: solid 1px;
+	font-size: 14px;
+}
+
+.comfirmBox td {
+	height: 75px;
+}
+
+.confirmTable {
+	width: 550px;
+	margin-bottom: 20px;
+	
+}
+
+.confirmNameBox{
+	 line-height: 80px;
+}
+
+.confirmDateBox{
+	height: 25px;
+}
+
+/* 인사 테이블 */
+.vacationTable{
+	width: 750px;
+}
+
+.vacationTable td {
+	border: solid 1px;
+	font-size: 14px;
+	padding: 10px 10px;
+}
+
+.buttonBox{
+	margin-top: 10px;
+	width:750px;
+	text-align: center;
+}
+
+.reasonBox{
+	height:150px;
+	text-align: center;
+	line-height: 100px;
+}
+
+.vacation_btn{
+	margin-top:-6px;
+	width:70px;
+	height:32px;
+	border-radius: 5px;
+	font-size:13px;
+	padding: 0; 
+	background-color: #7dbeed96; 
+	border-style: none;
+}
+
+.vacation_btn:hover{
+	background:  #7DBEED;
+}
+
+</style>
+</head>
+<body>
+	<div th:replace="/common/Header.html"></div>
+	<div th:include="admin/adminAside.html"></div>
+	<section class="section">
+	
+ 	<div class="container">
+        <div class="confirmDateContainer">
+  
+    </div>
+    <form id="vacationForm" action="registVacation/run" method="post">
+      <table class="confirmTable" style="table-layout: fixed; width: 588px">
+        <colgroup>
+         		<col style="width: 186px">
+	            <col style="width: 201px">
+	            <col style="width: 201px">
+        </colgroup>
+        <thead>
+          <tr>
+            <td class="subTitle">결재 신청 날짜</td>
+            <td  colspan="2">
+              <div width="50px" th:text="${today}"></div>
+              <input style="display: none;" name="requestDate" th:value="${today}">
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="subTitle" rowspan="3">결재</td>
+            <td class="subTitle" width="50px">인사담당자</td>
+            <td class="subTitle" width="50px">대표</td>
+          </tr>
+          <tr class="comfirmBox">
+            <td class="tg2-amwm">
+              <div id="humanResource" name="humanResource"></div>
+            </td>
+            <td>
+              <div id="boss" name="boss"></div>
+            </td>
+          </tr>
+          <tr>
+            <td width="50px" height="22px"></td>
+            <td width="50px" height="22px"></td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+    <div class="registVacationContainer">
+        <table class="vacationTable" style="table-layout: fixed; width: 502px">
+            <colgroup>
+            <col style="width: 250px">
+            <col style="width: 450px">
+            </colgroup>
+            <thead>
+              <tr>
+                <td class="tg3-7btt" colspan="2" style="font-size: 20px">휴가신청서</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+              	<input style="display: none;" name="adminNo" th:value="${admin.adminNo}">
+                <td class="subTitle">성명</td>
+                <td th:text="${admin.adminName}"></td>
+                <input style="display: none;" name="requestAdmin" th:value="${admin.adminName}">
+              </tr>
+              <tr>
+                <td class="subTitle">직급</td>
+                <td th:text="${admin.adminJob}"></td>
+              </tr>
+              <tr>
+                <td class="subTitle">휴가명</td>
+                <td>
+                	<select required id="vacationName" name="vacationName">
+                		<option>연차</option>
+                		<option>공가</option>
+                		<option>경조사</option>
+                		<option>기타</option>
+                	</select>
+                </td>
+              </tr>
+              <tr>
+                <td class="subTitle">기간</td>
+                <td class="tg3-7btt"><input type="date" id="vacationStartDate" name="vacationStartDate" min="vacationStartDate" required> ~ <input type="date" id="vacationEndDate" name="vacationEndDate" value="xxx" min="한달 후" max="올해" required></td>
+              </tr>
+              <tr>
+                <td class="subTitle">연락망</td>
+                <td class="tg3-7btt" th:text="${admin.adminPhone}"></td>
+              </tr>
+              <tr>
+                <td class="subTitle">사유</td>
+                <td class="tg3-7btt"><div class="reason"> <textarea class="vacationReason" id="vacationReason" name="vacationReason" cols="40" rows="5" required></textarea></div></td>
+              </tr>
+              <tr>
+                <td class="subTitle" colspan="2">위와 같이 휴가를 신청하오니 승인하여 주시기 바랍니다.</td>
+              </tr>
+            </tbody>
+           </table>
+        
+        <div class="buttonBox">
+          <button type="button" class="vacation_btn" id="vacationSubmit">신청</button>
+      </div>
+    </div>
+
+   </form> 
+   
+  </div>
+   </section>
+   
+    <script>
+		$("#vacationSubmit").click(function(){
+		 		
+		 		const name = $("#vacationName").val();
+		 		const start = $("#vacationStartDate").val();
+		 		const end = $("#vacationEndDate").val();
+		  		const reason = $("#vacationReason").val();
+		
+		 		
+		 		// 이미지 나중에 추가
+		 		const addressDetail = $("#addressDetail").val();
+		 		
+		 			if(!(name && start && end && reason)){
+		 				alert("입력되지 않은 항목이 존재합니다.");
+		 			}else{
+		 			if(confirm("휴가를 신청하시겠습니까?") == true){
+		 				$("#vacationForm").submit();
+		 				
+		 			}else{
+		 				return false;
+		 			}
+		 		}
+		 	})  
+		 	$("#resetButton").click(function(){
+		 		if(confirm("휴가 신청을 초기화 하시겠습니까?") == true){
+		 			document.getElementById("vacationForm").reset();
+		 		}else{
+		 			return false;
+		 		}
+		 	})
+
+
+
+    </script>
+    
+  
+</body>
+</html>

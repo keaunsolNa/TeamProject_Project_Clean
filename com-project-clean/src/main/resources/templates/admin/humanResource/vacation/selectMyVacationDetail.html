@@ -5,11 +5,6 @@
     <title>Document</title>
 
 <style>
-
-.section{
-	margin-left: 0 !important;
-	margin-top: 0 !important;
-}
 /* 결재 테이블 */
 .confirmTableBox td {
 	border: solid 1px;
@@ -53,6 +48,7 @@
 .reasonBox{
 	height:150px;
 	text-align: center;
+	line-height: 100px;
 }
 </style>
 
@@ -70,7 +66,7 @@
           </colgroup>
           <thead>
             <tr>
-              <td>결재 신청 날짜</td>
+              <td class="subTitle">결재 신청 날짜</td>
               <td colspan="2">
                 <div class="confirmDateBox" name="confirmDate" th:text="${vacation.requestDate}"></div>
               </td>
@@ -78,9 +74,9 @@
           </thead>
           <tbody>
             <tr>
-              <td rowspan="3">결재</td>
-              <td>인사담당자</td>
-              <td>대표</td>
+              <td  class="subTitle" rowspan="3">결재</td>
+              <td class="subTitle">인사담당자</td>
+              <td class="subTitle">대표</td>
             </tr>
             <tr class="comfirmBox">
               <td>
@@ -107,38 +103,38 @@
             </thead>
             <tbody>
               <tr>
-                <td>성명</td>
+                <td class="subTitle">성명</td>
                 <td th:text="${admin.adminName}"></td>
               </tr>
               <tr>
-                <td>직급</td>
+                <td class="subTitle">직급</td>
                 <td th:text="${admin.adminJob}"></td>
               </tr>
               <tr>
-                <td>휴가명</td>
+                <td class="subTitle">휴가명</td>
                 <td th:text="${vacation.vacationName}"></td>
               </tr>
               <tr>
-                <td>기간</td>
+                <td class="subTitle">기간</td>
                 <td th:text="${vacation.vacationStartDate} + ' ~ ' + ${vacation.vacationStartDate}"></td>
               </tr>
               <tr>
-                <td>연락망</td>
+                <td class="subTitle">연락망</td>
                 <td th:text="${admin.adminPhone}"></td>
               </tr>
               <tr>
-                <td><div class="reason" >사유</div></td>
+                <td class="subTitle"><div class="reason" >사유</div></td>
                 <td><div class="reason" th:text="${vacation.vacationReason}"></div></td>
               </tr>
               <tr>
-                <td colspan="2">위와 같이 휴가를 신청하오니 승인하여 주시기 바랍니다.</td>
+                <td colspan="2" style="font-size: 23px">위와 같이 휴가를 신청하오니 승인하여 주시기 바랍니다.</td>
               </tr>
               <tr>
-                <td><div class="returnReason">인사담당자 의견</div></td>
+                <td><div class="returnReason subTitle">인사담당자 의견</div></td>
                 <td><div class="reasonBox" id="returnReason" th:text="${hrReason}"></div></td>
               </tr>
               <tr>
-                <td><div class="returnReason">대표 의견</div></td>
+                <td><div class="returnReason subTitle">대표 의견</div></td>
                 <td><div class="reasonBox" id="returnReason" th:text="${bossReason}"></div></td>
               </tr>
             </tbody>

@@ -81,7 +81,7 @@ public class CheckListController {
 		
 	}
 	
-	/* KS. 업무 시작 GetMapping 및 작성 중 체크리스트 유무 확인*/
+	/* KS. 업무 시작 GetMapping 및 작성 중인 체크리스트 유무 확인*/
 	@GetMapping("start")
 	public ModelAndView checkListInsert(ModelAndView mv, HttpServletRequest request, @RequestParam int re) {
 			
@@ -180,7 +180,7 @@ public class CheckListController {
 	
 	/* KS. 반려 체크리스트 상세 조회 */
 	@GetMapping("denialSelectDetails")
-	public ModelAndView selectDenialCheckListDetails(Principal principal, ModelAndView mv, @RequestParam int re ) {
+	public ModelAndView selectDenialCheckListDetails(Principal principal, ModelAndView mv, @RequestParam int re, @RequestParam String aid ) {
 		
 		String adminName = principal.getName();
 		int reservationNo = re;
@@ -189,6 +189,8 @@ public class CheckListController {
 
 		mv.addObject("checkList", checkList);
 		mv.addObject("userId", adminName);
+		mv.addObject("adminId", aid);
+		
 		mv.setViewName("employee/checkList/selectDenialCheckListDetails");
 		return mv;
 		
@@ -204,7 +206,7 @@ public class CheckListController {
 		
 		checkListDTO.setCheckReservationNo(reservationNo);
 		checkListDTO.setCheckHTML(request.getParameter("jbHtml"));
-		checkListDTO.setCheckStatus("D");
+		checkListDTO.setCheckStatus("E");
 		
 		int result = checkListService.updateCheckList(checkListDTO);
 		

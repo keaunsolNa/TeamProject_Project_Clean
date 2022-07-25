@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style>
+    body {
+            margin-top: 100px;
+            font-family: 'Trebuchet MS', serif;
+            line-height: 1.6
+        }
+
+        /* 페이징버튼 움직이는거 멈추기 */
+        .container {
+           height: 400px;
+        } 
+		
+		.section{
+			width: 1000px;
+			font-family: 'MinSans-Medium';
+		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff') format('woff');
+		    margin-left: 20px !important;
+			margin-top: 20px !important;
+		}
+		
+		.vacationListTable{
+			width: 1000px;
+			border: 1px solid black;
+		}
+		
+		.vacationListTable tr{
+			height: 45px;
+		}
+		
+		.vacationListTable td{
+		
+			height: 45px;
+		}
+		
+        ul.tabs {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+        }
+
+        /* 선택하지 않은 탭 css */
+        ul.tabs li {
+            background: rgba(219, 243, 249, 1);
+            color: rgb(0, 0, 0);
+            display: inline-block;
+            padding: 10px 15px;
+            /* 좌측은 위아래 사이즈 우측은 좌우 사이즈 */
+            cursor: pointer;
+        }
+
+        /* 선택한 탭 css 설정 */
+        ul.tabs li.current {
+            background-color: #86cdffa9;
+            color: rgb(0, 0, 0);
+        }
+
+        /* 선택한 탭의 내용 css 설정 */
+        .tab-content {
+            display: none;
+            background: #e95151;
+            padding: 15px;
+        }
+
+        .tab-content.current {
+            display: inherit;
+        }
+        
+        .search-area{
+        	text-align: right;
+			margin-bottom: 10px;
+			margin-top: 30px;
+			
+        }
+        
+        .ListPage{
+        	text-align: left;
+        	margin-bottom: 20px;
+        }
+        
+        .btn_search{
+        	margin-top:-6px;
+		    width:70px;
+		    height:32px;
+			border-radius: 5px;
+		    font-size:13px;
+		    padding: 0; 
+		    background-color: #7dbeed96; 
+		    border-style: none;
+        }
+        
+        .btn_search hover{
+        	background:  #7DBEED;
+        }
+        
+</style>
+</head>
+<body>
+	<div th:replace="/common/Header.html"></div>
+	<div th:include="admin/adminAside.html"></div>
+	
+	<section class="section">	
+
+	 <div class="container">
+	 <div class="search-area" align="center">
+		<form id="searchForm" action="/admin/hrCard/boss/standbySecondVacationList" method="get" style="display: inline-block">
+			<span>휴가 2차 결재 대기 목록 </span> 
+				<select th:with="searchCondition = ${selectCriteria.searchCondition}"
+					id="searchCondition" name="searchCondition">
+					<option value="requestAdmin" th:selected="${ searchCondition } == 'requestAdmin'">신청자</option>
+					<option value="vacationName" th:selected="${ searchCondition } == 'vacationName'">휴가구분</option>
+					<option value="vacationStartDate" th:selected="${ searchCondition } == 'vacationStartDate'">휴가 시작일</option>
+					<option value="vacationEndDate" th:selected="${ searchCondition } == 'vacationEndDate'">휴가 마지막일</option>
+				</select> 
+			
+			<input type="search" id="searchInput" name="searchValue" th:value="${selectCriteria.searchValue}">
+			<input type="date" id="vacationStartDate" name="searchValue" style="display: none">
+			<input type="date" id="vacationEndDate" name="searchValue" style="display: none">
+			<input type="text" style="display: none;"> <!-- enter - submit 방지 -->
+		
+			<button class="btn_search" type="submit">검색하기</button>
+		</form>
+
+  	</div>
+
+            <table class="vacationListTable" id="vacationList" border="1">
+            	<colgroup>
+	                <col style="width: 50px">
+	                <col style="width: 100px">
+	                <col style="width: 100px">
+	                <col style="width: 100px">
+	                <col style="width: 100px">
+	                <col style="width: 100px">
+	                <col style="width: 100px">
+	           </colgroup>
+            
+                <thead>
+                    <tr>
+                        <th>신청번호</th>
+                        <th>신청자</th>
+                        <th>휴가시작일</th>
+                        <th>휴가종료일</th>
+                        <th>휴가구분</th>
+                        <th>1차 승인 여부</th>
+                        <th>2차 승인 여부</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   <tr th:each="index : ${ vacationList }">
+						<td th:text="${ index.vacationNo }"></td>
+						<td th:text="${ index.requestAdmin }"></td>
+						<td th:text="${ index.vacationStartDate }"></td>
+						<td th:text="${ index.vacationEndDate }"></td>
+						<td th:text="${ index.vacationName }"></td>
+						<td>
+							<span th:if="${ index.vacationFirstConfirmYn } == 'N'">결재대기</span>
+							<span th:unless="${ index.vacationFirstConfirmYn } == 'N'">결재완료</span>
+						</td>
+						<td>
+							<span th:if="${ index.vacationSecondConfirmYn } == 'N'">결재대기</span>
+							<span th:unless="${ index.vacationSecondConfirmYn } == 'N'">결재완료</span>
+						</td>
+					</tr>
+                </tbody>
+            </table>
+        </div>
+
+	<input type="hidden" name="currentPage" value="1">
+	
+	<div th:replace="admin/hrCard/boss/vacationSecondListpaging.html"></div>
+	
+	</section>
+	
+	
+	<script>
+	 /* hover event */
+	    function hover(){
+	        const employee = document.getElementsByTagName("td");
+	
+	        for(let i = 0; i < employee.length; i++){
+	        	employee[i].onmouseenter = function(){
+	                this.parentNode.style.backgroundColor = "#7dbeed96";
+	                this.parentNode.style.cursor = "pointer";
+	            }
+	        	employee[i].onmouseout = function(){
+	                this.parentNode.style.backgroundColor = "white";
+	            }
+	
+	        	employee[i].onclick = function(){
+	                location.href="/admin/hrCard/boss/standbySecondVacationDetail/" + this.parentNode.children[0].innerText;
+	            }
+	        }
+	    };
+	    
+	    /* 시작 할 때 hover event */
+        $(function(){
+        	hover();
+        })
+			
+			$("#searchCondition").change(function(){        
+			  var result = $("#searchCondition option:selected").val();
+			  var input = document.getElementById(searchInput);
+			
+			  if(result == 'vacationStartDate'){
+				  $('#searchInput').hide().attr("disabled", "disabled");
+				  $('#vacationStartDate').show();
+				  $('#vacationEndDate').hide();
+				 
+			  } else if(result == 'vacationEndDate'){
+				  $('#searchInput').hide().attr("disabled", "disabled");
+				  $('#vacationStartDate').hide().attr("disabled", "disabled");
+				  $('#vacationEndDate').show();
+			  } else {
+				  $('#searchInput').show();
+			      $('#vacationStartDate').hide().attr("disabled", "disabled");
+				  $('#vacationEndDate').hide().attr("disabled", "disabled");
+			  }
+			})
+			
+	
+	</script>
+
+</body>
+</html>
