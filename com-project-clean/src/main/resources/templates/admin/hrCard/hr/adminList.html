@@ -126,8 +126,8 @@
 				</select> 
 			
 			<input type="search" id="searchInput" name="searchValue" th:value="${selectCriteria.searchValue}">
-			<input type="date" id="adminBirth" name="searchValue" style="display: none">
-			<input type="date" id="adminHireDate" name="searchValue" style="display: none">
+			<input type="date" id="adminBirth" name="searchValue" min="1950-01-01" max="2003-01-01" style="display: none">
+			<input type="date" id="adminHireDate" name="searchValue" min="2015-01-01" max="2022-07-28" style="display: none">
 			<input type="text" style="display: none;"> <!-- enter - submit 방지 -->
 		
 			<button class="btn_search" type="submit">검색</button>
@@ -210,7 +210,7 @@
         /* 시작 할 때 hover event */
         $(function(){
         	hover();
-        })
+        });
         
         $("#searchCondition").change(function(){        
 			  var result = $("#searchCondition option:selected").val();
@@ -231,37 +231,7 @@
 			      $('#adminBirth').hide().attr("disabled", "disabled");
 				  $('#adminHireDate').hide().attr("disabled", "disabled");
 			  }
-			})
-
-		/* $("#searchCondition").change(function(){        
-			  var result = $("#searchCondition option:selected").val();
-			  var input = document.getElementById(searchInput);
-			
-			  if(result == 'adminBirth'){
-				  $('#searchInput').hide();
-				  $('#adminBirth').show();
-				  $('#adminHireDate').hide();
-				  
-				  $('#searchInput').val('');
-				  $('#adminHireDate').val('');
-				  
-				 
-			  } else if(result == 'adminHireDate'){
-				  $('#searchInput').hide();
-				  $('#adminBirth').hide();
-				  $('#adminHireDate').show();
-				  
-				  $('#searchInput').val('');
-				  $('#adminBirth').val('');
-			  } else {
-				  $('#searchInput').show();
-			      $('#adminBirth').hide();
-				  $('#adminHireDate').hide();
-				  
-				  $('#adminBirth').val('');
-				  $('#adminHireDate').val('');
-			  }
-			}) */
+			});
         
        
     </script>

@@ -69,7 +69,7 @@
 						<td th:text="${returnEmployee.employeeNo}"></td>
 						<td class="subTitle">이름</td>
 						<td th:text="${returnEmployee.employeeName}"></td>
-						<td colspan="2" rowspan="3"><img id="pictureImg"th:src="@{/adminEmployeePicture/} + ${returnEmployee.employeePictureSaveName}" width="125px" height="125px"></td>
+						<td colspan="2" rowspan="3"><img id="pictureImg"th:src="@{/adminEmployeePicture/} + ${returnEmployee.employeePictureSaveName}" width="125px" height="125px" onerror="this.style.display='none'"></td>
 					</tr>
 					<tr>
 						<td class="subTitle">ID</td>

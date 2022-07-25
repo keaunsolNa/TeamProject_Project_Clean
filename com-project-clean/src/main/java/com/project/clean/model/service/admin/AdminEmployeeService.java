@@ -80,13 +80,6 @@ public class AdminEmployeeService {
 		return modelMapper.map(employee, EmployeeAndAllDTO.class);
 	}
 
-//	@Transactional
-//	public EmployeePictureDTO selectOneEmployeePicture(int empNo) {
-//		AdminEmployeePicture employeePicture = employeePictureRepository.findById(empNo).get();
-//
-//		return modelMapper.map(employeePicture, EmployeePictureDTO.class);
-//	}
-
 	@Transactional
 	public void modifyEmployee(int empNo, String entireYn) {
 		AdminEmployee employee = employeeRepository.findById(empNo).get();
@@ -212,25 +205,6 @@ public class AdminEmployeeService {
 		return map;
 	}
 
-//	@Transactional
-//	public List<EmployeeAndAllDTO> selectReturnEmployeeList() {
-//		
-//		List<AdminEmployee> selectReturnEmployeeList = employeeRepository.findByEmployeeRegistReturnYnAndEmployeeBlackListYn("Y", "N");
-//
-//		return selectReturnEmployeeList.stream().map(waiting -> modelMapper.map(waiting, EmployeeAndAllDTO.class))
-//				.toList();
-//	}
-
-//	@Transactional
-//	public Page<EmployeeAndAllDTO> selectRetireNEmployee(int startAt) {
-//
-//		Pageable pageable = PageRequest.of(startAt, selectEmployeeLineCount);
-//		Page<AdminEmployee> selectRetureNEmployee = employeeRepository
-//				.findByEmployeeRetireYnAndEmployeeLastConfirmYnAndEmployeeBlackListYn("N", "Y", "N", pageable);
-//
-//		return modelMapper.map(selectRetureNEmployee, Page.class);
-//	}
-	
 	@Transactional
 	public Map<String, Object> selectRetireNEmployee(String category, String categoryValue, Pageable pageable) {
 		Page<AdminEmployee> paging;
@@ -577,48 +551,6 @@ public class AdminEmployeeService {
 		return map;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	@Transactional
 	public Map<String, Object> selectAllVacationConfirmList(String category, String categoryValue, String StartDate, String endDate, Pageable pageable) {
 		
@@ -663,9 +595,6 @@ public class AdminEmployeeService {
 		
 		return map;
 	}
-	
-	
-	
 	
 	@Transactional
 	public Map<String, Object> selectAllVacaionReturnList(String category, String categoryValue, String StartDate, String endDate, Pageable pageable) {
@@ -740,34 +669,5 @@ public class AdminEmployeeService {
 		return employeePhoneNum.stream().map(phone -> modelMapper.map(phone, EmployeeAndAllDTO.class)).toList();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

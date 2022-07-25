@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<style>
+.container{
+    font-family: 'MinSans-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff') format('woff');
+    color: #7DBEED;
+	text-align: center;
+	border: 2px solid #7DBEED; 
+	margin-top: 20px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 50px;
+    padding-right: 50px;
+    border-radius: 10px;
+
+}
+
+.errorH1{
+	font-size: 45px;
+
+}
+
+.errorH2{
+	font-size: 35px;
+}
+
+.errorH3{
+	font-size: 20px;
+
+}
+
+
+</style>
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:replace="/common/Header.html"></div>
+	<div th:replace="/admin/adminAside.html"></div> 
+	
+		<div class="container">
+			<span class="errorH1">일시적 오류가 발생했습니다.</span>
+			<hr align="center">
+			<br>
+			<span class="errorH2">잠시 후 다시 시도해주세요.</span>
+			<br>
+			<br>
+			<span class="errorH3">관리자 번호 010 - 3396 - 2771</span>
+		</div>
+</body>
+</html>
+

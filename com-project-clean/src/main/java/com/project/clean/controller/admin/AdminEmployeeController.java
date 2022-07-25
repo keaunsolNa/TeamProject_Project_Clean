@@ -43,6 +43,7 @@ public class AdminEmployeeController {
 	private BCryptPasswordEncoder passwordEncoder;
 	private final int maxLine = 5;
 
+	/* 생성자를 통한 DI */
 	@Autowired
 	public AdminEmployeeController(AdminEmployeeService adminService, PageDTO pageDTO,
 			BCryptPasswordEncoder passwordEncoder) {
@@ -50,14 +51,14 @@ public class AdminEmployeeController {
 		this.pageDTO = pageDTO;
 		this.passwordEncoder = passwordEncoder;
 	}
-
+	/* sysdate를 대체할 today method */
 	public Date today() {
 		LocalDate now = LocalDate.now();
 		java.sql.Date today = java.sql.Date.valueOf(now);
 		return today;
 
 	}
-
+	/* 직원 등록 시 사진 업로드에 필요한 method */
 	public void registEmployeePicture(EmployeeAndAllDTO employeeDTO, @RequestParam("picture") MultipartFile singleFile,
 			HttpServletRequest request, Model mv) {
 
@@ -71,7 +72,7 @@ public class AdminEmployeeController {
 			mkdir.mkdirs();
 		}
 
-		/* 2. 파일을 전달받아 파일명 변경 처리 */
+		/*파일을 전달받아 파일명 변경 처리 */
 		if (!singleFile.getOriginalFilename().isEmpty()) {
 
 			String originFileName = singleFile.getOriginalFilename();
@@ -144,7 +145,8 @@ public class AdminEmployeeController {
 	/* (관리자가)직원 수정 페이지로 이동 */
 	@GetMapping("/modify/employee/{empNo}")
 	public String adminModifyEmployee(@PathVariable int empNo, Model mv) {
-
+		
+		try {
 		EmployeeAndAllDTO employeeDTO = adminService.selectOneEmployee(empNo);
 
 		String[] seperatephone = employeeDTO.getEmployeePhone().split("-");
@@ -183,8 +185,11 @@ public class AdminEmployeeController {
 		mv.addAttribute("address", addressMap);
 		mv.addAttribute("email", emailMap);
 		mv.addAttribute("employee", employeeDTO);
-
 		return "/admin/humanResource/selectAllEmployee/modifyEmployee";
+		
+		} catch(IndexOutOfBoundsException e) {
+			return "admin/error.html";
+		}
 	}
 
 	/* (관리자가)직원 정보 수정 */
@@ -270,7 +275,7 @@ public class AdminEmployeeController {
 
 		List<EmployeeAndAllDTO> employeeList = adminService.findMiddlePhoneNum();
 		List<String> middlePhoneList = new ArrayList<>();
-
+		
 		for (int i = 0; i < employeeList.size(); i++) {
 			String middlePhoneChange = employeeList.get(i).getEmployeePhone();
 
@@ -282,9 +287,6 @@ public class AdminEmployeeController {
 				String middlePhoneNum = middlePhoneChange.replaceAll("-", "");
 				middlePhoneList.add(middlePhoneNum);
 			}
-		}
-		for (String e : middlePhoneList) {
-			System.out.println("eeeeeeeeeeeeasdeee" + e);
 		}
 		return middlePhoneList;
 	}
@@ -359,9 +361,10 @@ public class AdminEmployeeController {
 	/* 승인 대기인원 상세 조회 */
 	@GetMapping("/select/waitingDetail/{empNo}")
 	public String waitingDetail(@PathVariable int empNo, Model mv) {
-		List<ReasonDTO> getRegistDate = adminService.getRegistDate(empNo);
-		List<AdminDTO> getAdminName = adminService.getAdminName(empNo);
-
+		
+		try {
+			List<ReasonDTO> getRegistDate = adminService.getRegistDate(empNo);
+			List<AdminDTO> getAdminName = adminService.getAdminName(empNo);
 		EmployeeAndAllDTO waitingEmployee = adminService.waitingEmployee(empNo);
 
 		String[] seperateAddress = waitingEmployee.getEmployeeAddress().split("@");
@@ -401,14 +404,17 @@ public class AdminEmployeeController {
 			mv.addAttribute("hrName", getAdminName.get(0).getAdminName());
 			mv.addAttribute("bossName", getAdminName.get(1).getAdminName());
 		}
-
 		mv.addAttribute("waitingEmployee", waitingEmployee);
 		return "admin/humanResource/registEmployee/waitingEmployee";
+		} catch (Exception e) {
+			return "admin/error.html";
+		}
 	}
 
 	/* 반려인원 상세 조회 */
 	@GetMapping("/select/returnDetail/{empNo}")
 	public String returnDetail(@PathVariable int empNo, Model mv) {
+		try {
 		List<ReasonDTO> reason = adminService.getRegistDate(empNo);
 		List<AdminDTO> getAdminName = adminService.getAdminName(empNo);
 
@@ -453,17 +459,15 @@ public class AdminEmployeeController {
 
 		mv.addAttribute("returnEmployee", returnEmployee);
 		return "admin/humanResource/registEmployee/returnEmployee";
+		} catch (Exception e) {
+			return "admin/error.html";
+		}
 	}
 
 	/* 인사관리자 1차 승인 */
 	@PostMapping("/hr/confirm/restCommit")
 	public String insertRestCommitConfirm(ReasonDTO restCommitDTO, AdminDTO adminDTO) {
-//		LocalDate now = LocalDate.now();
-//		java.sql.Date today = java.sql.Date.valueOf(now);
-//
-//		restCommitDTO.setEmployeeRegistDate(today);
 		restCommitDTO.setAdminDTO(adminDTO);
-
 		adminService.insertRestCommitConfirm(restCommitDTO);
 
 		return "redirect:/admin/hr/regist/employeePage";
@@ -515,7 +519,7 @@ public class AdminEmployeeController {
 	/* 블랙리스트 상세 조회 */
 	@GetMapping("/selectBlackListDetail/{empNo}")
 	public String selectBlackListDetail(@PathVariable int empNo, Model mv) {
-
+		try {
 		EmployeeAndAllDTO employeeDTO = adminService.selectOneEmployee(empNo);
 
 		String[] seperatephone = employeeDTO.getEmployeePhone().split("-");
@@ -555,6 +559,9 @@ public class AdminEmployeeController {
 		mv.addAttribute("employee", employeeDTO);
 
 		return "admin/humanResource/blackList/selectBlackListDetail";
+		} catch (Exception e) {
+			return "admin/error.html";
+		}
 	}
 
 	@GetMapping("/test")
@@ -716,5 +723,6 @@ public class AdminEmployeeController {
 
 		return map;
 	}
+	
 
 }

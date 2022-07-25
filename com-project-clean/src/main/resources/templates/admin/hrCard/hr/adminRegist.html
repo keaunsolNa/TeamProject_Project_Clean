@@ -98,7 +98,7 @@
 		    <thead>
 		      <tr>
 		        <td>관리자번호</td>
-		        <td th:text="${ adminNo }"></td>
+		        <td id="adminNo" th:text="${ adminNo }"></td>
 		        <td>이름</td>
 		        <td>
 		        <input type="text" id="adminName" name="adminName" maxlength='4' required placeholder="한글 2~4글자" style="width: 150px">
@@ -152,7 +152,7 @@
 	            <!-- <input type="text" name="domain" id="selfDomain" style="display:none"> -->
 	            <div id="emailNotice" style="display:none; color: red;">4~19자 이내의 영문과 숫자로 조합된 이메일 아이디를 입력해 주세요.</div>
 	            </td>
-	            <td style="display: none;"><input id="adminEmail" name="adminEmail" type="text"/></td>
+	            <td style="display: none;"><input id="adminEmail" name="adminEmail" type="text" maxlength="19"/></td>
 	            
 	            <td class="tg-7btt" colspan="2"> <button type="button" class="btn_picture_btn" id="picturebtn" name="picturebtn">사진 등록</button> 
 		         <td><input type="file" id="thumbnailImg" name="thumbnailImg" onchange="loadImg(this,1)" style="display: none"></td>
@@ -166,7 +166,7 @@
 		      </tr>
 		      <tr>
 		        <td>상세주소</td>
-		        <td colspan="5"><input type="text" name="addressDetail" id="addressDetail" required style="width: 500px;" placeholder="상세주소를 입력해주세요."></td>
+		        <td colspan="5"><input type="text" name="addressDetail" id="addressDetail" maxlength="35" required style="width: 500px;" placeholder="상세주소를 입력해주세요."></td>
 		       <!--  <td class="tg-7btt"style="display: none;"><input id="adminAddress" name="adminAddress" type="text"/></td> -->
 		      </tr>
 		      <tr>
@@ -209,19 +209,7 @@
   </section>
   
   <script>
-  
- /*  $("#domain").change(function(){
-	var result = $("#domain option:selected").val();
-	
-	if(result = 'self'){
-		
-		$('#selfDomain').show();
-		$('#domain').hide();
-	}else{
-		$('#selfDomain').hide();
-		$('#domain').show();
-	}
-  }) */
+
   
   /* 회원 수정 정보 */
 	$("#regist").click(function(){
@@ -307,18 +295,13 @@
   $('#adminPhone3').focusout(function () {
 	  var regexp = /^[0-9]{4}/g;
       phoneCheck2 = $(this).val();
-      phoneCheck3 = $("#adminPhone2").val();
-  
-      
-      if (!regexp.test(phoneCheck2) && !regexp.test(phoneCheck3)) {
+      if (!regexp.test(phoneCheck2)) {
     	  $('#phoneNotice').show();
-    	  $(this).val('');
-
+      	  $(this).val('');
+      
       
       	} else {
-      		
       		$('#phoneNotice').hide();
-      		
 	        $.ajax({
 	            url: '/admin/hr/duplication',
 	            data : 'adminPhone=' + $("#adminPhone1").val() + "-" + $("#adminPhone2").val() + "-" + $("#adminPhone3").val(),
@@ -336,7 +319,7 @@
 	            	alert("fail");
 	            }
 	   					
-	        })
+	        });
 	   				
 	    }
 		
