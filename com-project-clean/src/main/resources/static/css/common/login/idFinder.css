@@ -1,8 +1,19 @@
+@font-face {
+    font-family: 'MinSans-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff') format('woff');
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: 'MinSans-Medium';
+}
+
 .logintopnav{
     width: 100%;
     height: 20%;
     border: 0px solid;
-    background-color: rgba(104, 228, 255, 1);
+    background-color: #7DBEED;
     font-size: xx-large;
     font-style: italic;
     color: white;
@@ -14,10 +25,10 @@
     text-align: center;
     font-size: xx-large;
     font-style: oblique;
-    color: rgba(104, 228, 255, 1);
+    color: #7DBEED;
     text-shadow: 1px 1px 4px gray;
     margin-top: 5%;
-    margin-bottom: 5%;
+    margin-bottom: 2%;
 }
 
 .loginbottomnav{
@@ -31,7 +42,7 @@ label{
 }
 
 input{
-    width: 20%;
+    width:10%;
     background-color: rgba(217, 217, 217, 1);
     border: 0px;
 
@@ -40,7 +51,7 @@ input{
 .login {
     border: 0px;
     width: 10%;
-    margin-top: 10%;
+    margin-top: 2%;
 }
 
 .idFind {
@@ -68,6 +79,6 @@ a{
 
 select{
 	width:20%;
-	margin-left: 40%
+	margin-left: 40%;
 	
 }

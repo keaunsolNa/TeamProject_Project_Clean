@@ -266,7 +266,6 @@
 	     			     	$("#endNumCheckMessage").hide();
 	     			     	
 	     				    $("#employeePhone2").val('');
-	     				    $("#employeePhone2").focus();
 	     					break;
 	     				}else{						//성공하면
 	     					$("#duplicateCheckMessage").hide();
@@ -296,7 +295,7 @@
 	     		url: "/admin/hr/regist/employee/findMiddlePhone",
 	     		success: function(data){
 	     			for(var i = 0; i < data.length; i++){
-	     				if(!$("#employeePhone2")){
+	     				if($("#employeePhone2")){
 	     				if(data[i] ==$("#employeePhone1").val() + $("#employeePhone2").val() + $("#employeePhone3").val()){
 	     					$("#duplicateCheckMessage").show();
 	     			     	$("#middleNumCheckMessage").hide();
@@ -421,12 +420,3 @@
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
