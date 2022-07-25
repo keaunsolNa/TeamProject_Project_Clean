@@ -3,43 +3,9 @@
 	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" th:href="@{/css/humanResource/registEmployee/returnEmployee.css}">
 <title>Document</title>
-<style type="text/css">
 
-/* 결재 테이블 */
-.confirmTableBox td {
-	border: solid 1px;
-	font-size: 14px;
-}
-
-.comfirmBox td {
-	height: 75px;
-}
-
-.confirmTableBox {
-	width: 550px;
-	margin-bottom: 20px;
-}
-
-.confirmNameBox{
-	 line-height: 80px;
-}
-
-.confirmDateBox{
-	height: 25px;
-}
-
-/* 인사 테이블 */
-.tableBox{
-	width: 750px;
-}
-.tableBox td {
-	border: solid 1px;
-	font-size: 14px;
-	padding: 10px 10px;
-}
-
-</style>
 </head>
 <body>
 	<div th:replace="/common/Header.html"></div>
@@ -103,7 +69,7 @@
 						<td th:text="${returnEmployee.employeeNo}"></td>
 						<td class="subTitle">이름</td>
 						<td th:text="${returnEmployee.employeeName}"></td>
-						<td colspan="2" rowspan="3"><img id="pictureImg"th:src="@{/adminEmployeePicture/} + ${returnEmployee.employeePictureSaveName}"></td>
+						<td colspan="2" rowspan="3"><img id="pictureImg"th:src="@{/adminEmployeePicture/} + ${returnEmployee.employeePictureSaveName}" width="125px" height="125px"></td>
 					</tr>
 					<tr>
 						<td class="subTitle">ID</td>

@@ -4,26 +4,11 @@
 	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" th:href="@{/css/humanResource/registEmployee/registEmployeeList.css}">
 <title>Document</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-<style>
-.tableBox td {
-	border: solid 1px;
-	font-size: 14px;
-	padding: 10px 10px;
-}
-
-.buttonBox{
-	width:840px;
-	text-align: center;
-
-}.selectBox{
-	text-align: left;
-}
-
-</style>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <!-- jQuery library -->
@@ -281,7 +266,6 @@
 	     			     	$("#endNumCheckMessage").hide();
 	     			     	
 	     				    $("#employeePhone2").val('');
-	     				    $("#employeePhone2").focus();
 	     					break;
 	     				}else{						//성공하면
 	     					$("#duplicateCheckMessage").hide();
@@ -311,7 +295,7 @@
 	     		url: "/admin/hr/regist/employee/findMiddlePhone",
 	     		success: function(data){
 	     			for(var i = 0; i < data.length; i++){
-	     				if(!$("#employeePhone2")){
+	     				if($("#employeePhone2")){
 	     				if(data[i] ==$("#employeePhone1").val() + $("#employeePhone2").val() + $("#employeePhone3").val()){
 	     					$("#duplicateCheckMessage").show();
 	     			     	$("#middleNumCheckMessage").hide();
@@ -436,12 +420,3 @@
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-

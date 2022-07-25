@@ -337,9 +337,13 @@ public class AdminAdminService{
 		adminModify.setAdminAddress(adminDTO.getAdminAddress());
 		adminModify.setAdminPhone(adminDTO.getAdminPhone());
 		adminModify.setAdminEmail(adminDTO.getAdminEmail());
-		adminModify.setAdminPictureSaveRoot(adminDTO.getAdminPictureSaveRoot());
-		adminModify.setAdminPictureSaveName(adminDTO.getAdminPictureSaveName());
 		
+		if(adminDTO.getAdminPictureSaveName() != null) {
+			
+			adminModify.setAdminPictureSaveRoot(adminDTO.getAdminPictureSaveRoot());
+			adminModify.setAdminPictureSaveName(adminDTO.getAdminPictureSaveName());
+		}
+	
 	}
 
 	/* 퇴사자 정보 퇴사자 테이블에 삽입 */
@@ -423,6 +427,20 @@ public class AdminAdminService{
 		
 		return count;
 		
+		
+	}
+
+	/* 관리자가 관리자 수정 */
+	@Transactional
+	public void modifyAdminHRCard(AdminDTO admin) {
+		Admin adminModify = adminRepository.findByAdminNo(admin.getAdminNo()).get();
+		
+		adminModify.setAdminAddress(admin.getAdminAddress());
+		adminModify.setAdminPhone(admin.getAdminPhone());
+		adminModify.setAdminEmail(admin.getAdminEmail());
+		adminModify.setAdminPictureSaveRoot(admin.getAdminPictureSaveRoot());
+		adminModify.setAdminPictureSaveName(admin.getAdminPictureSaveName());
+		adminModify.setAdminJob(admin.getAdminJob());
 		
 	}
 

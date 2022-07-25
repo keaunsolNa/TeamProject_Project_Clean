@@ -177,7 +177,8 @@ public class AdminEmployeeController {
 		emailMap.put("domain", domain);
 
 		employeeDTO.setEmployeePhone(firstPhoneNumber + "-" + middlePhoneNumber + "-" + lastPhoneNumber);
-
+		
+		mv.addAttribute("fullPhone", firstPhoneNumber+middlePhoneNumber+lastPhoneNumber);
 		mv.addAttribute("phone", phone);
 		mv.addAttribute("address", addressMap);
 		mv.addAttribute("email", emailMap);
@@ -224,12 +225,9 @@ public class AdminEmployeeController {
 				}
 			} else {
 
-				/*
-				 * null이면 사진 바꾸지말고 다시 화면으로 가 (들어와서 사진 변경 안하고 수정확인 눌렀을 경우 file은 null이기 때문에 대비함)
-				 */
 			}
-
 			adminService.modifyEmployee(employeeDTO);
+
 
 			mv.addAttribute("employeeDTO", employeeDTO);
 

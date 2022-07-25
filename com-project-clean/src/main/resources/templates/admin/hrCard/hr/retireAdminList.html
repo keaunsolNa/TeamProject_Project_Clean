@@ -136,7 +136,7 @@
                 
       		<input type="radio" id="AdminRadio"  OnClick="location.href='/admin/hrCard/hr/adminList';">
 			<label for="AdminRadio">재직자</label> 
-			<input type="radio" id="retireAdminRadio" OnClick="location.href='/admin/hrCard/hr/retireAdminList'"> 
+			<input type="radio" id="retireAdminRadio" checked OnClick="location.href='/admin/hrCard/hr/retireAdminList'"> 
 			<label for="retireAdminRadio">퇴사자</label>
              
          </div>
@@ -208,27 +208,28 @@
         /* 시작 할 때 hover event */
         $(function(){
         	hover();
-        })
+        });
        
-        $("#searchCondition").change(function(){        
+       $("#searchCondition").change(function(){        
 			  var result = $("#searchCondition option:selected").val();
 			  var input = document.getElementById(searchInput);
 			
 			  if(result == 'adminBirth'){
 				  $('#searchInput').hide().attr("disabled", "disabled");
-				  $('#adminBirth').show();
-				  $('#adminRetireDate').hide();
+				  $('#adminBirth').show().attr("disabled", false);
+				  $('#adminRetireDate').hide().attr("disabled", "disabled");
 				 
 			  } else if(result == 'adminRetireDate'){
 				  $('#searchInput').hide().attr("disabled", "disabled");
 				  $('#adminBirth').hide().attr("disabled", "disabled");
-				  $('#adminRetireDate').show();
+				  $('#adminRetireDate').show().attr("disabled", false);
+				 
 			  } else {
-				  $('#searchInput').show();
+				  $('#searchInput').show().attr("disabled", false);
 			      $('#adminBirth').hide().attr("disabled", "disabled");
 				  $('#adminRetireDate').hide().attr("disabled", "disabled");
 			  }
-			})
+			});
         
     </script>
     

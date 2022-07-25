@@ -66,6 +66,7 @@
 	             	</select> -
 	             	<input type="text" id="employeePhone2" name="employeePhone2" class="required" maxlength='4' th:value="${phone.middlePhoneNumber}" required style="width: 45px"> -
 	             	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' th:value="${phone.lastPhoneNumber}" required style="width: 45px">
+	             	<input type="text" id="fullPhone" name="fullPhone" th:value="${fullPhone}" required style="display: none;">
 	             	<input style="display: none;" type="text" id="employeePhone" name="employeePhone">
                     	<div class="warning" id="middleNumCheckMessage" >3~4자리 숫자를 입력해주세요</div>
                     	<div class="warning" id="endNumCheckMessage" >4자리 숫자를 입력해주세요</div>
@@ -223,8 +224,7 @@
 							});
 
 					/* 회원 수정 정보 */
-					$("#modify")
-							.click(
+					$("#modify").click(
 									function() {
 										const phone1 = $("#employeePhone1").val();
 										const phone2 = $("#employeePhone2").val();
@@ -274,11 +274,10 @@
 									})
 
 					$("#employeePhone2")
-							.focusout(
-									function() {
+							.focusout(function() {
+						            	const fullPhone = $("#fullPhone").val();
 										var regexp = /^[0-9]{3,4}/g;
-										if (!regexp.test($("#employeePhone2")
-												.val())) { // 중간번호 틀리면
+										if (!regexp.test($("#employeePhone2").val())) { // 중간번호 틀리면
 											$("#duplicateCheckMessage").hide();
 											$("#middleNumCheckMessage").show();
 											$("#endNumCheckMessage").hide();
@@ -287,14 +286,14 @@
 										} else { // 중간번호 맞으면
 											$("#middleNumCheckMessage").hide();
 											$.ajax({
-													url:"/employee/regist/employee/findMiddlePhone",														success : function(data) {
+													url:"/employee/regist/employee/findMiddlePhone",														
+													success : function(data) {
 														for (var i = 0; i < data.length; i++) {
-															if (data[i] == $("#employeePhone1").val() + $("#employeePhone2").val() + $("#employeePhone3").val()) { // 중복값이면
+															if ((data[i] == $("#employeePhone1").val()+ $("#employeePhone2").val()+ $("#employeePhone3").val()) && data[i] != fullPhone ) {
 																$("#duplicateCheckMessage").show();
 																$("#middleNumCheckMessage").hide();
 																$("#endNumCheckMessage").hide();
 														         $("#employeePhone2").val('');
-																$("#employeePhone2").focus();
 																break;
 															} else { //성공하면
 																$("#duplicateCheckMessage").hide();
@@ -310,9 +309,9 @@
 										}
 									});
 
-					$("#employeePhone3")
-							.focusout(
+					$("#employeePhone3").focusout(
 									function() {
+						            	const fullPhone = $("#fullPhone").val();
 										var regexp = /^[0-9]{4}/g;
 										if (!regexp.test($("#employeePhone3").val())) {
 											$("#duplicateCheckMessage").hide();
@@ -322,29 +321,29 @@
 											$(this).focus();
 										} else {
 											$("#endNumCheckMessage").hide();
-											$
-													.ajax({
-														url:"/employee/regist/employee/findMiddlePhone",														success : function(data) {
-															for (var i = 0; i < data.length; i++) {
-											     				if(!$("#employeePhone2")){
-																if (data[i] == $("#employeePhone1").val()+ $("#employeePhone2").val()+ $("#employeePhone3").val()) {$("#duplicateCheckMessage").show();
-																	$("#middleNumCheckMessage").hide();
-																	$("#endNumCheckMessage").hide();
-											     				    $("#employeePhone3").val('');
-																	$("#employeePhone3").focus();
-																	break;
-																} else {
-																	$("#duplicateCheckMessage").hide();
-																	$("#middleNumCheckMessage").hide();
-																	$("#endNumCheckMessage").hide();
-																}
-											     				}
+											$.ajax({
+													url:"/employee/regist/employee/findMiddlePhone",														success : function(data) {
+														for (var i = 0; i < data.length; i++) {
+										     				if($("#employeePhone2")){
+															if ((data[i] == $("#employeePhone1").val()+ $("#employeePhone2").val()+ $("#employeePhone3").val()) && data[i] != fullPhone ) {
+																$("#duplicateCheckMessage").show();
+																$("#middleNumCheckMessage").hide();
+																$("#endNumCheckMessage").hide();
+										     				    $("#employeePhone3").val('');
+																$("#employeePhone3").focus();
+																break;
+															} else {
+																$("#duplicateCheckMessage").hide();
+																$("#middleNumCheckMessage").hide();
+																$("#endNumCheckMessage").hide();
 															}
-														},
-														error : function() {
-															alert("fail");
+										     				}
 														}
-													})
+													},
+													error : function() {
+														alert("fail");
+													}
+												})
 										}
 									});
 

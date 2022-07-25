@@ -122,7 +122,6 @@
 			<input type="search" id="searchInput" name="searchValue" th:value="${selectCriteria.searchValue}">
 			<input type="date" id="vacationStartDate" name="searchValue" style="display: none">
 			<input type="date" id="vacationEndDate" name="searchValue" style="display: none">
-			<input type="text" style="display: none;"> <!-- enter - submit 방지 -->
 		
 			<button class="btn_search" type="submit">검색하기</button>
 		</form>
@@ -209,15 +208,16 @@
 			
 			  if(result == 'vacationStartDate'){
 				  $('#searchInput').hide().attr("disabled", "disabled");
-				  $('#vacationStartDate').show();
-				  $('#vacationEndDate').hide();
+				  $('#vacationStartDate').show().attr("disabled", false);
+				  $('#vacationEndDate').hide().attr("disabled", "disabled");
 				 
 			  } else if(result == 'vacationEndDate'){
 				  $('#searchInput').hide().attr("disabled", "disabled");
 				  $('#vacationStartDate').hide().attr("disabled", "disabled");
-				  $('#vacationEndDate').show();
+				  $('#vacationEndDate').show().attr("disabled", false);
+				  
 			  } else {
-				  $('#searchInput').show();
+				  $('#searchInput').show().attr("disabled", false);
 			      $('#vacationStartDate').hide().attr("disabled", "disabled");
 				  $('#vacationEndDate').hide().attr("disabled", "disabled");
 			  }

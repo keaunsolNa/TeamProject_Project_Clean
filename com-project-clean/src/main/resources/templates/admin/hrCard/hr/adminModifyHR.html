@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+
+<meta charset="UTF-8">
+<title>Document</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style>
+.detailTable{
+	width: 770px;
+}
+.detailTable td {
+	border: solid 1px;
+	font-size: 14px;
+	padding: 10px 10px;
+	height: 50px;
+}
+
+.buttonBox{
+	margin-top : 20px;
+	width:780px;
+	text-align: center;
+}
+
+.btn_update{
+	margin-top:-6px;
+	width:70px;
+	height:32px;
+	border-radius: 5px;
+	font-size:13px;
+	padding: 0; 
+	background-color: #7dbeed96; 
+	border-style: none;
+}
+
+.btn_hrcard{
+	margin-top:-6px;
+	width:70px;
+	height:32px;
+	border-radius: 5px;
+	font-size:13px;
+	padding: 0; 
+	background-color: #7dbeed96; 
+	border-style: none;
+
+}
+
+.btn_hrcard:hover{
+    background:  #7DBEED;
+}
+.address_btn_address{
+	margin-top:-6px;
+	width:70px;
+	height:32px;
+	border-radius: 5px;
+	font-size:13px;
+	padding: 0; 
+	background-color: #7dbeed96; 
+	border-style: none;
+}
+.address_btn_address:hover{
+	background:  #7DBEED;
+}
+
+.btn_picture_btn{
+	margin-top:-6px;
+	width:70px;
+	height:32px;
+	border-radius: 5px;
+	font-size:13px;
+	padding: 0; 
+	background-color: #7dbeed96; 
+	border-style: none;
+}
+
+.btn_picture_btn:hover{
+	background:  #7DBEED;
+}
+</style>
+</head>
+<body>
+
+	
+	<div th:replace="/common/Header.html"></div>
+	<div th:include="admin/adminAside.html"></div>
+	
+	<section class="section">
+	
+    <form action="hr" id="modifyForm" method="post" enctype="multipart/form-data">
+	    <table class="detailTable">
+	    <colgroup>
+	   		 <col style="width: 250px">
+             <col style="width: 100px">
+             <col style="width: 250px">
+             <col style="width: 130px">
+             <col style="width: 50px">
+             <col style="width: 50px">
+	    </colgroup>
+		    <thead>
+		      <tr>
+		        <td>관리자번호</td>
+		        <td th:text="${ adminModify.adminNo }"></td>
+		        <td>이름</td>
+		        <td th:text="${ adminModify.adminName }"></td>
+				   <td colspan="2" rowspan="3">
+				   <img width="100" height="120" id="pictureImg"
+			        	th:src="@{/adminPicture/} + ${adminModify.adminPictureSaveName}"/>
+			        </td>
+			        <td style="display: none;"><input type="text" id="oldSaveRoot" name="oldSaveRoot" th:value="${adminModify.adminPictureSaveRoot}"></td>
+	           	    <td style="display: none;"><input type="text" id="oldSaveName" name="oldSaveName" th:value="${adminModify.adminPictureSaveName}"></td>
+		      </tr>
+		      <tr>
+		        <td>ID</td>
+		        <td th:text="${ adminModify.adminId }"></td>
+		        <td>전화번호</td>
+		        <td> 
+		        	<select id="adminPhone1" name="adminPhone1" class="required">
+	             		<option selected>010</option>
+	             		<option>011</option>
+	             		<option>016</option>
+	             		<option>017</option>
+	             		<option>019</option>
+	             	</select>-
+	             	<input type="text" id="adminPhone2" name="adminPhone2" class="required" maxlength='4' th:value="${phone.middlePhoneNumber}" placeholder="0000" required style="width: 45px">-
+	             	<input type="text" id="adminPhone3" name="adminPhone3" class="required" maxlength='4' th:value="${phone.lastPhoneNumber}" placeholder="0000" required style="width: 45px">
+	            	<div id="phoneNotice" style="display:none; color: red;">4자리 숫자의 번호를<br> 입력해 주세요.</div>
+	            	
+	            	<input style="display: none;" type="text" id="adminPhone" name="adminPhone"></td>
+	            	<td style="display: none;"><input type="text" th:value="${phone.firstPhoneNumber}" id="firstPhoneNumber" name="firstPhoneNumber"></td>
+	            
+		      </tr>
+		      <tr>
+		        <td>생년월일</td>
+		        <td th:text="${ adminModify.adminBirth }"></td>
+		        <td>성별</td>
+		        <td>
+		        	<span th:if="${adminModify.adminGender} == 'F'">여성</span>
+		        	<span th:unless="${adminModify.adminGender} == 'F'">남성</span>
+		        </td>
+		        
+		      </tr>
+		    </thead>
+		    <tbody>
+		     <tr>
+		        <td class="tg-wman">이메일</td>
+		        <td colspan="5"><input th:value="${email.email}" type="text" id="email" class="required" name="employeeEmail" placeholder="영문 숫자 4~19자" required style="width: 200px;"> @ 
+		            <select id="domain" name="domain" style="width: 150px; height: 25px;">
+			            <option value="naver.com" selected>naver.com</option>
+			            <option value="google.com">google.com</option>
+			            <option value="hanmail.com">daum.com</option>
+			            <option id="yahoo" value="yahoo.com">kakao.com</option>
+	                    <option id="nate" value="nate.com">nate.com</option>
+		            </select>
+		            <div id="emailNotice" style="display:none; color: red;">4~19자 이내의 영문과 숫자로 조합된 이메일 아이디를 입력해 주세요.</div>
+	            </td>
+		        <td style="display: none;"><input id="adminEmail" name="adminEmail" type="text"/></td> 
+		    	<td style="display: none;"><input id="domainValue" type="text" th:value="${email.domain}"/></td>
+		    	
+		    	<!-- <td class="tg-7btt" colspan="2"> <button type="button" class="btn_picture_btn" id="pictureModify" name="pictureModify">사진 수정</button> </td>
+	
+	            <td style="display: none;"> <input type="file" id="picture" name="picture" onchange="loadImg(this,1)"> -->
+		     </tr>
+		     <tr>
+		        <td>우편번호</td>
+		        <td><input type="text" id="addressNo" name="addressNo" th:value="${address.addressNo}" readonly></td>
+		        <td>기본주소</td>
+		        <td><input type="text" id="address" name="address" th:value="${address.address}" readonly></td>
+		        <td colspan="2"><input type="button" value="주소검색" class="address_btn_address" id="searchAdminAddressNo"></td>
+		        	            
+		      </tr>
+		      <tr>
+		        <td class="tg-wman">상세주소</td>
+		        <td class="tg-wman" colspan="5"><input type="text" id="addressDetail" name="addressDetail" th:value="${address.addressDetail}" placeholder="상세주소를 입력해주세요." required style="width: 500px;"></td>
+		      </tr>
+		      <tr>
+		        <td>입사일</td>
+		        <td  th:text="${ adminModify.adminHireDate }"><input type="text" name="adminAddressNo" id="adminAddressNo" readonly></td>
+		        <td>퇴사일</td>
+		        <td colspan="3" th:text="${ adminModify.adminRetireDate }">-</td>
+		      </tr>
+		      <tr>
+		        <td>직책</td>
+		        <td>
+		        	<select id="job" name="adminJob" style="text-align: center;" required>
+		                <option value="일반관리자">일반관리자</option>
+		                <option value="인사관리자">인사관리자</option>
+		                <option value="재정담당자">재정담당자</option>
+		                <option value="보안담당자">보안담당자</option>
+		                <option value="총관리자">총관리자</option>
+		            </select>
+		        </td>
+		        <td>마지막 로그인</td>
+		        <td colspan="3" th:text="${ adminModify.adminLastLoginDate }"></td>
+		      </tr>
+		      <tr>
+		        <td >연차 사용 횟수</td>
+		        <td  th:text="${ adminModify.annualVacationUse }"></td>
+		        <td>퇴사여부</td>
+		        <td colspan="3" th:text="${ adminModify.adminRetireYn }"></td>
+		      </tr>
+		    </tbody>      
+   		 </table>
+   		 <div class="buttonBox">
+	   		 <input type="hidden" name="adminNo" th:value="${ adminModify.adminNo }"> 
+	   		 
+	   		<input type="file" id="thumbnailImg" name="thumbnailImg" onchange="loadImg(this,1)" style="display: none">
+		   	
+		   	<input class="btn_hrcard" type="button" id="modify" value="수정완료">
+		    <input class="btn_hrcard" type="button" id="resetButton" value="수정취소">
+    	</div>
+    </form>
+    
+    </section>
+    
+     <script>
+     
+     /* 회원 수정 정보 */
+ 	$("#modify").click(function(){
+ 		
+ 		const phone1 = $("#adminPhone1").val();
+ 		const phone2 = $("#adminPhone2").val();
+ 		const phone3 = $("#adminPhone3").val();
+  		const email = $("#email").val();
+ 		const domain = $("#domain").val();
+ 		const job = $("#job").val();
+ 		
+ 		// 이미지 나중에 추가
+ 		const addressDetail = $("#addressDetail").val();
+ 		
+ 			if(!(phone2 && phone3 && email && addressDetail && job)){
+ 				alert("입력되지 않은 항목이 존재합니다.");
+ 			}else{
+ 			if(confirm("수정하시겠습니까?") == true){
+ 				$('#adminPhone').attr('value', phone1 +"-"+ phone2 +"-"+ phone3 );
+ 				$('#adminEmail').attr('value', email + "@" + domain); 
+ 				$("#modifyForm").submit();
+ 				
+ 			}else{
+ 				return false;
+ 			}
+ 		}
+ 	});
+     
+ 	$("#resetButton").click(function(){
+ 		if(confirm("초기화 하시겠습니까?")){
+ 			document.getElementById("modifyForm").reset();
+ 		}else{
+ 			return false;
+ 		}
+ 	});
+    
+	/* 핸드폰 번호 정규표현식 */
+	
+   $("#adminPhone2").focusout(function (event) {
+
+  	var regexp = /^[0-9]{4}/g;
+      phoneCheck1 = $(this).val();
+      if (!regexp.test(phoneCheck1)) {
+    	  $('#phoneNotice').show();
+          $(this).val('');
+      }else{
+    	  $('#phoneNotice').hide();
+      }
+  });
+  
+   /* 이메일 정규표현식 */
+   $("#email").focusout(function (event){
+ 	
+ 	  var regexp = /[A-Za-z0-9]{3,19}$/;
+ 	   emailCheck = $(this).val();
+ 	   if(!regexp.test(emailCheck)){
+ 		   $('#emailNotice').show();
+ 	   }else{
+ 		   $('#emailNotice').hide();
+ 	   }
+   });
+	
+  
+  /* 전화번호 중복 검사 */
+  $('#adminPhone3').focusout(function () {
+	  var regexp = /^[0-9]{4}/g;
+      phoneCheck2 = $(this).val();
+      if (!regexp.test(phoneCheck2)) {
+    	  $('#phoneNotice').show();
+      	  $(this).val('');
+      
+      
+      	} else {
+      		$('#phoneNotice').hide();
+	        $.ajax({
+	            url: '/admin/hr/duplication',
+	            data : 'adminPhone=' + $("#adminPhone1").val() + "-" + $("#adminPhone2").val() + "-" + $("#adminPhone3").val(),
+	            dataType: 'json',
+	            success: function(result) {
+	                if (result == '0') {
+	                	confirm("사용 가능한 전화번호입니다.");
+	                } else {
+	                	confirm("사용 중인 전화번호입니다. 다시 입력해주세요.");
+	                    $('#adminPhone2').val('');
+	                    $('#adminPhone3').val('');
+	                }
+	            },
+	            error: function() {
+	            	alert("fail");
+	            }
+	   					
+	        });
+	   				
+	    }
+		
+	});
+ 
+    </script>
+    
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script>
+		const $searchZipCode = document.getElementById("searchAdminAddressNo");
+		 const $goMain = document.getElementById("goMain");
+		
+		$searchZipCode.onclick = function() {
+		
+			/* 다음 우편번호 검색 창을 오픈하면서 동작할 콜백 메소드를 포함한 객체를 매개변수로 전달한다. */
+			new daum.Postcode({
+				oncomplete: function(data){
+					
+					/* 팝업에서 검색결과 항목을 클릭했을 시 실행할 코드를 작성하는 부분 */
+					document.getElementById("addressNo").value = data.zonecode;
+					document.getElementById("address").value = data.address;
+					document.getElementById("addressDetail").focus();
+				}
+			}).open();
+		}
+		
+		$goMain.onclick = function() {
+			location.href = "${ pageContext.servletContext.contextPath }";
+		} 
+		
+		const handlePress = (e) => {
+	        const regex = /^[0-9\b -]{0,13}$/;
+	        if (regex.test(e.target.value)) {
+	            setTel(e.target.value);
+	        }
+	    };
+	</script>
+	
+	
+	<script>
+			
+			/* 이미지 미리보기 관련 스크립트 */
+			const pictureModify = document.getElementById("pictureModify");
+			
+			pictureModify.onclick = function() {
+				document.getElementById("picture").click();
+			}
+	
+			/* 이미지 미리보기 관련 함수(File API 활용하기) */
+			function loadImg(value, num) {
+				
+				/* https://developer.mozilla.org/ko/docs/Web/API/FileReader 참고 (MDN 사이트 참고)*/
+				if (value.files && value.files[0]) {			// value.files[0]는 파일 이름
+					const reader = new FileReader();
+				
+					reader.readAsDataURL(value.files[0]);		// Base64방식으로 파일을 FileReader에 전달 (Base64로 인코딩한 것은 브라우저가 원래 데이터로 만들게 됨)
+					
+					/* load 이벤트의 핸들러로 읽기 동작이 성공적으로 완료 되었을 때마다 발생한다. */
+					reader.onload = function(e) {				// load EventListener에 function 등록 (FileReader에서 전달 받은 파일을 다 읽으면 리스너에 등록한 function이 호출 됨)
+							document.getElementById("pictureImg").src = e.target.result;
+							
+						}
+					}
+				}
+			
+		</script>
+		
+		
+</body>
+</html>

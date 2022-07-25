@@ -85,7 +85,7 @@
 	
 	<section class="section">
 	
-    <form action="/admin/hrCard/hr/adminRegist" id="registForm" method="post" enctype="multipart/form-data" onsubmit="sendjs();">
+    <form action="/admin/hrCard/hr/adminRegist" id="registForm" method="post" enctype="multipart/form-data">
 	    <table class="detailTable" style=" table-layout: fixed; width: 597px">
 	    <colgroup>
 	    	 <col style="width: 130px">
@@ -100,7 +100,10 @@
 		        <td>관리자번호</td>
 		        <td th:text="${ adminNo }"></td>
 		        <td>이름</td>
-		        <td><input type="text" name="adminName" required style="width: 150px"></td>
+		        <td>
+		        <input type="text" id="adminName" name="adminName" maxlength='4' required placeholder="한글 2~4글자" style="width: 150px">
+		        <div id="nameNotice" style="display:none; color: red;">2~4자의 한글 이름을<br> 입력해 주세요.</div>
+		        </td>
 		        <td colspan="2" rowspan="3"><img id="adminImg" width="100" height="120"></td>
 		      </tr>
 		      <tr>
@@ -115,10 +118,11 @@
 	             		<option>017</option>
 	             		<option>019</option>
 	             	</select>-
-	             	<input type="text" id="adminPhone2" name="adminPhone2" class="required" maxlength='4' required style="width: 45px;">-
-	             	<input type="text" id="adminPhone3" name="adminPhone3" class="required" maxlength='4' required style="width: 45px;">
+	             	<input type="text" id="adminPhone2" name="adminPhone2" class="required" maxlength='4' required style="width: 45px;" placeholder="0000">-
+	             	<input type="text" id="adminPhone3" name="adminPhone3" class="required" maxlength='4' required style="width: 45px;" placeholder="0000">
 	             	<input style="display: none;" type="text" id="adminPhone" name="adminPhone">
 	             	<input style="display: none;" type="text" id="dupliCheck" name="dupliCheck">
+	             	<div id="phoneNotice" style="display:none; color: red;">4자리 숫자의 번호를<br> 입력해 주세요.</div>
 	             </td>
 		      </tr>
 		      <tr>
@@ -136,14 +140,18 @@
 		    <tbody>
 		      <tr>
 		        <td>이메일</td>
-		        <td colspan="3"><input type="text" name="email" id="email" required> @ 
-		        <select name="domain" id="domain" style="width: 100px; height: 25px;">
+		        <td colspan="3"><input type="text" name="email" id="email" required placeholder="영문 숫자 4~19자"> @ 
+		        <select name="domain" id="domain" style="width: 150px; height: 25px;">
 	                    <option id="naver" value="naver.com" selected>naver.com</option>
 	                    <option id="google" value="google.com">google.com</option>
 	                    <option id="daum" value="daum.com">daum.com</option>
-	                    <option id="yahoo" value="yahoo.com">yahoo.com</option>
+	                    <option id="yahoo" value="yahoo.com">kakao.com</option>
 	                    <option id="nate" value="nate.com">nate.com</option>
+	                    <!-- <option id="self">직접입력</option> -->
 	            </select>
+	            <!-- <input type="text" name="domain" id="selfDomain" style="display:none"> -->
+	            <div id="emailNotice" style="display:none; color: red;">4~19자 이내의 영문과 숫자로 조합된 이메일 아이디를 입력해 주세요.</div>
+	            </td>
 	            <td style="display: none;"><input id="adminEmail" name="adminEmail" type="text"/></td>
 	            
 	            <td class="tg-7btt" colspan="2"> <button type="button" class="btn_picture_btn" id="picturebtn" name="picturebtn">사진 등록</button> 
@@ -158,7 +166,7 @@
 		      </tr>
 		      <tr>
 		        <td>상세주소</td>
-		        <td colspan="5"><input type="text" name="addressDetail" id="addressDetail" required style="width: 500px;"></td>
+		        <td colspan="5"><input type="text" name="addressDetail" id="addressDetail" required style="width: 500px;" placeholder="상세주소를 입력해주세요."></td>
 		       <!--  <td class="tg-7btt"style="display: none;"><input id="adminAddress" name="adminAddress" type="text"/></td> -->
 		      </tr>
 		      <tr>
@@ -175,7 +183,7 @@
 		                <option value="인사관리자">인사관리자</option>
 		                <option value="재정담당자">재정담당자</option>
 		                <option value="보안담당자">보안담당자</option>
-		                <!-- <option value="총관리자">총관리자</option> -->
+		                <option value="총관리자">총관리자</option>
 		            </select>
 		        </td>
 		        <td>마지막 로그인 일자</td>
@@ -201,6 +209,19 @@
   </section>
   
   <script>
+  
+ /*  $("#domain").change(function(){
+	var result = $("#domain option:selected").val();
+	
+	if(result = 'self'){
+		
+		$('#selfDomain').show();
+		$('#domain').hide();
+	}else{
+		$('#selfDomain').hide();
+		$('#domain').show();
+	}
+  }) */
   
   /* 회원 수정 정보 */
 	$("#regist").click(function(){
@@ -240,31 +261,22 @@
 		}else{
 			return false;
 		}
-	})
+	});
 	
 	/* 핸드폰 번호 정규표현식 */
 	
-  $("#adminPhone2").focusout(function (event) {
+ 	$("#adminPhone2").focusout(function (event) {
 
   	var regexp = /^[0-9]{4}/g;
       phoneCheck1 = $(this).val();
       if (!regexp.test(phoneCheck1)) {
-    	  confirm("4자리의 숫자를 입력해 주세요.");
-          $(this).val('');
-          document.location.leroad(true);
-          
+    	  $('#phoneNotice').show();
+ 
+      }else{
+    	  $('#phoneNotice').hide();
       }
   });
-  
- /*  $("#adminPhone3").focusout(function (event) {
 
-  	var regexp = /^[0-9]{4}/g;
-      phoneCheck = $(this).val();
-      if (!regexp.test(phoneCheck)) {
-      	alert("4자리의 숫자를 입력해 주세요.");
-      	document.location.leroad(true);
-      }
-  }); */
   
   /* 이름 정규표현식 */
   $("#adminName").focusout(function (event) {
@@ -272,29 +284,41 @@
   	var regexp =   /^[가-힣]{2,4}$/;
       nameCheck = $(this).val();
       if (!regexp.test(nameCheck)) {
-          alert("2-4자의 한글 이름을 입력해 주세요.");
+          $('#nameNotice').show();
           
+      }else{
+    	  $('#nameNotice').hide();
       }
   });
 
+  /* 이메일 정규표현식 */
+  $("#email").focusout(function (event){
+	
+	  var regexp = /[A-Za-z0-9]{3,19}$/;
+	   emailCheck = $(this).val();
+	   if(!regexp.test(emailCheck)){
+		   $('#emailNotice').show();
+	   }else{
+		   $('#emailNotice').hide();
+	   }
+  });
+  
   /* 전화번호 중복 검사 */
   $('#adminPhone3').focusout(function () {
 	  var regexp = /^[0-9]{4}/g;
       phoneCheck2 = $(this).val();
-      if (!regexp.test(phoneCheck2)) {
-      confirm("4자리의 숫자를 입력해 주세요.");
-      $(this).val('');
-      document.location.leroad(true);
+      phoneCheck3 = $("#adminPhone2").val();
+  
+      
+      if (!regexp.test(phoneCheck2) && !regexp.test(phoneCheck3)) {
+    	  $('#phoneNotice').show();
+    	  $(this).val('');
+
       
       	} else {
-      		/* const phone1 = $("#adminPhone1").val();
-    		const phone2 = $("#adminPhone2").val();
-    		const phone3 = $("#adminPhone3").val();
-	        // 전화번호를 서버로 전송 > DB 유효성 검사 > 결과 반환받기
-			$('#dupliCheck').attr('value', phone1 +"-"+ phone2 +"-"+ phone3 );
-	        
-	        const adminPhone = $("#dupliCheck").val();
-	         */
+      		
+      		$('#phoneNotice').hide();
+      		
 	        $.ajax({
 	            url: '/admin/hr/duplication',
 	            data : 'adminPhone=' + $("#adminPhone1").val() + "-" + $("#adminPhone2").val() + "-" + $("#adminPhone3").val(),
@@ -312,7 +336,7 @@
 	            	alert("fail");
 	            }
 	   					
-	        });
+	        })
 	   				
 	    }
 		
@@ -338,7 +362,7 @@
 					document.getElementById("addressDetail").focus();
 				}
 			}).open();
-		}
+		};
 		
 		$goMain.onclick = function() {
 			location.href = "${ pageContext.servletContext.contextPath }";
@@ -375,7 +399,7 @@
 						
 					}
 				}
-			}
+			};
 		
 		
 		</script>

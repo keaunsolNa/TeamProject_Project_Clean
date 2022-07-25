@@ -1,62 +1,59 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 <meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" th:href="@{/css/common/login/loginPage.css}" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/common/login/loginPage.css}" />
 <title>Project Clean ERP</title>
 </head>
 <body>
 
 	<script>
 		const Message = "[[${Message}]]";
-		if(Message){
+		if (Message) {
 			alert(Message)
 		}
 	</script>
-	
+
 	<th:block sec:authorize="isAnonymous()">
 		<section class="container-fluid">
 			<div class="logintopnav col-xl-3">
-            	<a href="/"><h1>CLEANUP</h1></a>
-        	</div>
-
-        	<div class="loginmidnav col-xl-3">
-            	CLEANUP ERP
-        	</div>
-		
-	        <form action="/common/login" method="post" id="loginForm" name="loginForm">
-	            <div class="loginbottomnav col-xl-3">
-	                <label class="personalcolordiv col-xl-3">아이디 : </label>
-	                <input type="text" id="username" name="username"><br>
-	            </div>
-				<br>
-	            <div class="loginbottomnav col-xl-3">
-	                <label class="personalcolordiv col-xl-3">비밀번호 : </label>
-	                <input type="password" name="password"><br><br>
-	               	<label>로그인 상태 유지</label> 
-	                <input type="checkbox" class="custom-control-input" name ="_spring_security_remember_me" value="true" id="customCheck1">
-	            </div>
-	
-	            <div  class="loginbottomnav col-xl-3">
-	                <button type="submit" class="login col-xl-3 accent username-submit">로그인</button>
-	            </div>
-	            
-	            	
-	        </form>
-
-	        <div>
-	
+				<a href="/"><h1>CLEANUP</h1></a>
+			</div>
+			<br><br>
+			<div class="loginmidnav col-xl-3">CLEANUP ERP</div>
 			<br>
-	            <div class="loginbottomnav col-xl-3">
-	                <button type="button" onclick="location.href='common/find/id'" class="idFind col-xl-3">아이디 찾기</button>
-	            </div>
-            <br>
-	        </div>
-	        
-    	</section>
-	</th:block>	
+			<form action="/common/login" method="post" id="loginForm"
+				name="loginForm">
+				<div id="loginWrap">
+					<div class="loginbottomnav col-xl-3">
+						<label class="personalcolordiv col-xl-3">아이디 : </label> <input type="text" id="username" name="username"><br>
+					</div>
+					<br>
+					<div class="loginbottomnav col-xl-3">
+						<label class="personalcolordiv col-xl-3">비밀번호 : </label> <input type="password" name="password">
+					</div>
+				</div>
+				<div class="loginbottomnav col-xl-3 loginbt">
+					<button type="submit" class="login col-xl-3 accent username-submit">로그인</button>
+				</div>
+				<br clear="both"> 
+				<br>
+				<label>로그인 상태 유지</label> 
+				<input type="checkbox" class="custom-control-input" name="_spring_security_remember_me" value="true" id="customCheck1">
+				<div class="loginbottomnav col-xl-3">
+					<button type="button" onclick="location.href='common/find/id'" class="idFind col-xl-3">아이디 찾기</button>
+				</div>
+
+
+			</form>
+
+
+		</section>
+	</th:block>
 
 </body>
 </html>

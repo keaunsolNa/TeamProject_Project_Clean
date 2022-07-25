@@ -3,24 +3,11 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/humanResource/selectAllEmployee/modifyEmployee.css}">
     <title>Document</title>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<style>
-.section{
-	width: 1000px;
-}
-.tableBox td {
-	border: solid 1px;
-	font-size: 14px;
-	padding: 10px 10px;
-}
 
-.buttonBox{
-	width:840px;
-	text-align: center;
-}
-</style>
 </head>
 <body>
 	<div th:replace="/common/Header.html"></div>
@@ -66,7 +53,9 @@
 	             	</select> -
 	             	<input type="text" id="employeePhone2" name="employeePhone2" class="required" maxlength='4' th:value="${phone.middlePhoneNumber}" required style="width: 45px"> -
 	             	<input type="text" id="employeePhone3" name="employeePhone3" class="required" maxlength='4' th:value="${phone.lastPhoneNumber}" required style="width: 45px">
+	             	<input type="text" id="fullPhone" name="fullPhone" th:value="${fullPhone}" required style="display: none;">
 	             	<input style="display: none;" type="text" id="employeePhone" name="employeePhone">
+	             	
                     	<div class="warning" id="middleNumCheckMessage" >3~4자리 숫자를 입력해주세요</div>
                     	<div class="warning" id="endNumCheckMessage" >4자리 숫자를 입력해주세요</div>
                     	<div class="warning" id="duplicateCheckMessage" >중복된 핸드폰번호입니다.</div>
@@ -276,9 +265,9 @@
 										}
 									})
 
-					$("#employeePhone2")
-							.focusout(
+					$("#employeePhone2").focusout(
 									function() {
+						            	const fullPhone = $("#fullPhone").val();
 										var regexp = /^[0-9]{3,4}/g;
 										if (!regexp.test($("#employeePhone2").val())) { // 중간번호 틀리면
 											$("#duplicateCheckMessage").hide();
@@ -289,14 +278,16 @@
 										} else { // 중간번호 맞으면
 											$("#middleNumCheckMessage").hide();
 											$.ajax({
-													url:"/admin/hr/regist/employee/findMiddlePhone",														success : function(data) {
+													url:"/admin/hr/regist/employee/findMiddlePhone",														
+													success : function(data) {
 														for (var i = 0; i < data.length; i++) {
-															if (data[i] == $("#employeePhone1").val() + $("#employeePhone2").val() + $("#employeePhone3").val()) { // 중복값이면
+															if ((data[i] == $("#employeePhone1").val()+ $("#employeePhone2").val()+ $("#employeePhone3").val()) && data[i] != fullPhone ) {
 																$("#duplicateCheckMessage").show();
 																$("#middleNumCheckMessage").hide();
 																$("#endNumCheckMessage").hide();
-														         $("#employeePhone2").val('');
-																$("#employeePhone2").focus();
+														        $("#employeePhone2").val('');
+																/* $("#employeePhone2").focus(); */
+																
 																break;
 															} else { //성공하면
 																$("#duplicateCheckMessage").hide();
@@ -310,38 +301,43 @@
 													}
 												})
 										}
-									});
-
-					$("#employeePhone3")
-							.focusout(
+									}
+									
+									);
+				
+					
+					$("#employeePhone3").focusout(
 									function() {
+						            	const fullPhone = $("#fullPhone").val();
 										var regexp = /^[0-9]{4}/g;
-										if (!regexp.test($("#employeePhone3").val())) {
+										if (!regexp.test($("#employeePhone3").val())) {	//정규표현식이 틀리면
 											$("#duplicateCheckMessage").hide();
 											$("#middleNumCheckMessage").hide();
 											$("#endNumCheckMessage").show();
 										     $(this).val('');
 											$(this).focus();
-										} else {
+										} else {		// 정규표현식이 맞다면
 											$("#endNumCheckMessage").hide();
-											$
-												.ajax({
-													url:"/admin/hr/regist/employee/findMiddlePhone",														success : function(data) {
-														for (var i = 0; i < data.length; i++) {
-										     				if(!$("#employeePhone2")){
-															if (data[i] == $("#employeePhone1").val()+ $("#employeePhone2").val()+ $("#employeePhone3").val()) {$("#duplicateCheckMessage").show();
-																$("#middleNumCheckMessage").hide();
-																$("#endNumCheckMessage").hide();
+											$.ajax({
+													url:"/admin/hr/regist/employee/findMiddlePhone",														
+													success : function(data) {
+										     			for(var i = 0; i < data.length; i++){
+										     				if($("#employeePhone2")){
+										     					if ((data[i] == $("#employeePhone1").val()+ $("#employeePhone2").val()+ $("#employeePhone3").val()) && data[i] != fullPhone ) {
+										     					$("#duplicateCheckMessage").show();
+										     			     	$("#middleNumCheckMessage").hide();
+										     			     	$("#endNumCheckMessage").hide();
+										     			     	
 										     				    $("#employeePhone3").val('');
-																$("#employeePhone3").focus();
-																break;
-															} else {
-																$("#duplicateCheckMessage").hide();
-																$("#middleNumCheckMessage").hide();
-																$("#endNumCheckMessage").hide();
-															}
+										     				    $("#employeePhone3").focus();
+										     					break;
+										     				}else{
+										     					$("#duplicateCheckMessage").hide();
+										     			     	$("#middleNumCheckMessage").hide();
+										     			     	$("#endNumCheckMessage").hide();
 										     				}
-														}
+										     			}
+										     			}
 													},
 													error : function() {
 														alert("fail");
@@ -396,8 +392,7 @@
 					})
 					/* 핸드폰 앞자리 선택 체크 */
 					const checkedFirstPhone = $("#firstPhoneNumber").val();
-					$("#employeePhone1").val(checkedFirstPhone).prop(
-							"selected", true);
+					$("#employeePhone1").val(checkedFirstPhone).prop("selected", true);
 
 					/* 변형 */
 					$("#pictureModify").click(function() {
@@ -439,4 +434,3 @@
 				</script>
 </body>
 </html>
-
