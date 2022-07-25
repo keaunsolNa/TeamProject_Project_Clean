@@ -85,7 +85,7 @@
 	
 	<section class="section">
 	
-    <form action="/admin/hrCard/hr/adminRegist" id="registForm" method="post" enctype="multipart/form-data" onsubmit="sendjs();">
+    <form action="/admin/hrCard/hr/adminRegist" id="registForm" method="post" enctype="multipart/form-data">
 	    <table class="detailTable" style=" table-layout: fixed; width: 597px">
 	    <colgroup>
 	    	 <col style="width: 130px">
@@ -261,7 +261,7 @@
 		}else{
 			return false;
 		}
-	})
+	});
 	
 	/* 핸드폰 번호 정규표현식 */
 	
@@ -331,7 +331,7 @@
 	            	alert("fail");
 	            }
 	   					
-	        });
+	        })
 	   				
 	    }
 		
@@ -357,7 +357,7 @@
 					document.getElementById("addressDetail").focus();
 				}
 			}).open();
-		}
+		};
 		
 		$goMain.onclick = function() {
 			location.href = "${ pageContext.servletContext.contextPath }";
@@ -394,7 +394,7 @@
 						
 					}
 				}
-			}
+			};
 		
 		
 		</script>

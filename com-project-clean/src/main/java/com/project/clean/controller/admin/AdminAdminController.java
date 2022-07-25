@@ -109,6 +109,14 @@ public class AdminAdminController {
 	public ModelAndView registAdminHrCard(@ModelAttribute AdminDTO newAdmin, ModelAndView mv, HttpServletRequest request,
 											@RequestParam("thumbnailImg") MultipartFile thumbnailImg) throws UnsupportedEncodingException, ThumbnailRegistException {
 		
+		
+		System.out.println("여기까지는 왔나");
+		System.out.println("여기까지는 왔나");
+		System.out.println("여기까지는 왔나");
+		System.out.println("여기까지는 왔나");
+		System.out.println("여기까지는 왔나");
+		System.out.println("여기까지는 왔나");
+		
 		/* 기본값 셋팅 */
 //		String pwd = "000000";
 		String adminRetireYn = "N";
