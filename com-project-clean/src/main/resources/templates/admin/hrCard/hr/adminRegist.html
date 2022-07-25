@@ -183,7 +183,7 @@
 		                <option value="인사관리자">인사관리자</option>
 		                <option value="재정담당자">재정담당자</option>
 		                <option value="보안담당자">보안담당자</option>
-		                <!-- <option value="총관리자">총관리자</option> -->
+		                <option value="총관리자">총관리자</option>
 		            </select>
 		        </td>
 		        <td>마지막 로그인 일자</td>
@@ -307,6 +307,7 @@
   $('#adminPhone3').focusout(function () {
 	  var regexp = /^[0-9]{4}/g;
       phoneCheck2 = $(this).val();
+      
       if (!regexp.test(phoneCheck2)) {
     	  $('#phoneNotice').show();
     	  $(this).val('');

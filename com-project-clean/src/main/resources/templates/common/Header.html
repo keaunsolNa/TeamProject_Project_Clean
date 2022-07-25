@@ -67,7 +67,7 @@
 
                     <ul class="navbar-nav me-auto mb-3 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" id="adminMyPage" href="admin/hrCard/selectOneAdminMove"><img src="/image/mypage.png" class="btn2"></a>
+                            <a class="nav-link" id="adminMyPage" href="/admin/hrCard/selectOneAdminMove"><img src="/image/mypage.png" class="btn2"></a>
             				
                         </li> 
                         <li class="nav-item">
@@ -124,10 +124,12 @@
         </th:block>
         
         <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">	
-        <a class="dropdown-item" href="/admin/hrCard/vacation/standbyFirstVacationList">1차 결재 대기 목록</a>
+        <th:block sec:authorize="!hasRole('ROLE_ADMIN_BOSS')">	
+        <a class="dropdown-item" href="/admin/hrCard/vacation/standbyFirstVacationList">결재 대기 목록</a>
+        </th:block>
         </th:block>
         <th:block sec:authorize="hasRole('ROLE_ADMIN_BOSS')">	
-        <a class="dropdown-item" href="/admin/hrCard/boss/standbySecondVacationList">2차 결재 대기 목록</a>
+        <a class="dropdown-item" href="/admin/hrCard/boss/standbySecondVacationList">결재 대기 목록</a>
     	</th:block>
                                 
                                 

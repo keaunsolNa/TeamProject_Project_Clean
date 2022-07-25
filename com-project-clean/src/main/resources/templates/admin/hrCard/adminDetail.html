@@ -20,7 +20,7 @@
 
 .buttonBox{
 	margin-top : 20px;
-	width:820px;
+	width:800px;
 	text-align: center;
 }
 
@@ -54,7 +54,21 @@
 .btn_update:hover{
     background:  #7DBEED;
 }
+.btn_hr{
+	margin-top:-6px;
+	width:70px;
+	height:32px;
+	border-radius: 5px;
+	font-size:13px;
+	padding: 0; 
+	background-color: #7dbeed96; 
+	border-style: none;
 
+}
+
+.btn_hr:hover{
+    background:  #7DBEED;
+}
 </style>
 </head>
 <body>
@@ -156,10 +170,16 @@
 	   	 		<td><div id="modify_btn"><input type="button" class="btn_update" id="updateMy" value="수정"></div></td>
 	   	 		 <td><div id="adminNoValue" style="display: none;" sec:authentication="principal.adminNo"></div><td>
 
+
+				<th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
+	   	 		<td><div id="update_HR"><input type="button" class="btn_hr" id="updateHR" value="HR수정"></div></td>
+	   	 		</th:block>
 	   	 		 
 	   	 		<th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
 	   	 		<td><div id="retire_btn"><input type="submit" class="btn_retire" id="retireY" value="퇴사처리"></div></td>
 	   	 		</th:block>
+	   	 		
+	   	 		
 	   	 		
 	   	 		<td><input style="display:none" id="value" th:value="${ admin.adminNo }" ></td>
 	   	 	</tr>
@@ -184,6 +204,10 @@
 			}
         });
       
+      $("#updateHR").click(function(){
+    	  location.href="/admin/hrCard/hr/adminModifyHR/"+value
+        });
+      
       const userNo = $("#adminNoValue").text();
       const adminNo = $("#adminNo").text();
       
@@ -197,6 +221,12 @@
     	  $('#retire_btn').hide();
       }else{
     	  $('#retire_btn').show();
+      }
+      
+      if(userNo == adminNo){
+    	  $('#update_HR').hide();
+      }else{
+    	  $('#update_HR').show();
       }
       
       /* $("#retireY").click(function(){

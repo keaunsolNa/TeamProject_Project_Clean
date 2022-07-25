@@ -68,6 +68,14 @@ public class AdminAdminController {
 	@GetMapping("hrCard/selectOneAdminMove")
 	public String selectAdminMyPage() {
 		
+		System.out.println(" 여기는 오나요");
+		System.out.println(" 여기는 오나요");
+		System.out.println(" 여기는 오나요");
+		System.out.println(" 여기는 오나요");
+		System.out.println(" 여기는 오나요");
+		System.out.println(" 여기는 오나요");
+		
+		
 		return "admin/hrCard/selectOneAdminMove";
 	}
 	
@@ -305,6 +313,16 @@ public class AdminAdminController {
 	@GetMapping("hrCard/adminDetail/{adminNo}")
 	public ModelAndView findAdminDetail(ModelAndView mv, @PathVariable int adminNo, HttpServletRequest request) {
 		
+		System.out.println("오나요");
+		System.out.println("오나요");
+		System.out.println("오나요");
+		System.out.println("오나요");
+		System.out.println("오나요");
+		System.out.println("오나요");
+		System.out.println("오나요");
+		
+		
+		
 		/* 관리자 기본 정보 조회 */
 		AdminDTO admin = adminService.findByAdminNo(adminNo);
 		
@@ -517,6 +535,80 @@ public class AdminAdminController {
 		return mv;
 	}
 	
+	/* 관리자 본인 인사카드 수정 페이지로 이동 */
+	@GetMapping("hrCard/hr/adminModifyHR/{adminNo}")
+	public ModelAndView adminModifyHR(@PathVariable int adminNo, ModelAndView mv) {
+		
+		AdminDTO adminModify = adminService.selectOneAdmin(adminNo);
+		
+		/* 핸드폰 번호 출력 시 - 추가 */
+//		String firstPhoneNumber = "";
+//		String middlePhoneNumber = "";
+//		String lastPhoneNumber = "";
+//		if (employeeDTO.getEmployeePhone().length() == 11) {
+//			firstPhoneNumber = employeeDTO.getEmployeePhone().substring(0, 3);
+//			middlePhoneNumber = employeeDTO.getEmployeePhone().substring(3, 7);
+//			lastPhoneNumber = employeeDTO.getEmployeePhone().substring(7, 11);
+//		} else if (employeeDTO.getEmployeePhone().length() == 10) {
+//			middlePhoneNumber = employeeDTO.getEmployeePhone().substring(3, 6);
+//			lastPhoneNumber = employeeDTO.getEmployeePhone().substring(6, 10);
+//		}
+
+		
+		/* DB에 저장된 전화번호 - 로 분리 */
+		String[] seperatephone = adminModify.getAdminPhone().split("-");		
+		
+		String firstPhoneNumber = seperatephone[0];
+		String middlePhoneNumber = seperatephone[1];
+		String lastPhoneNumber = seperatephone[2];
+		
+		System.out.println(firstPhoneNumber);
+		System.out.println(middlePhoneNumber);
+		System.out.println(lastPhoneNumber);
+		
+		/* 나눠진 번호를 담아준다. */
+		Map<String, String> phone = new HashMap<>();
+		phone.put("firstPhoneNumber", firstPhoneNumber);
+		phone.put("middlePhoneNumber", middlePhoneNumber);
+		phone.put("lastPhoneNumber", lastPhoneNumber);
+
+		/* DB에 저장된 주소 @로 분리 */
+		String[] seperateAddress = adminModify.getAdminAddress().split("@");
+		String addressNo = seperateAddress[0];
+		String address = seperateAddress[1];
+		String addressDetail = seperateAddress[2];
+		
+		/* 나눠진 주소를 담아준다. */
+		Map<String, String> addressMap = new HashMap<>();
+		addressMap.put("addressNo", addressNo);
+		addressMap.put("address", address);
+		addressMap.put("addressDetail", addressDetail);
+
+		/* DB에 저장된 이메일을 @로 분리 */
+		String[] seperateEmail = adminModify.getAdminEmail().split("@");
+		String email = seperateEmail[0];
+		String domain = seperateEmail[1];
+		
+		/* 분리한 이메일을 담아준다. */
+		Map<String, String> emailMap = new HashMap<>();
+		emailMap.put("email", email);
+		emailMap.put("domain", domain);
+
+//		adminModify.setAdminPhone(firstPhoneNumber+"-"+middlePhoneNumber+"-"+lastPhoneNumber);
+		
+		
+		/* 화면에 보여줄 정보를 담아준다. */
+		mv.addObject("phone", phone);
+		mv.addObject("address", addressMap);
+		mv.addObject("email", emailMap);
+		mv.addObject("adminModify", adminModify);
+		
+		/* 경로를 설정 */
+		mv.setViewName("admin/hrCard/hr/adminModifyHR");
+		
+		return mv;
+	}
+	
 	
 	/* 관리자 본인 정보 수정 */
 	@Transactional
@@ -524,65 +616,65 @@ public class AdminAdminController {
 	public String adminModify(RedirectAttributes rttr,@ModelAttribute AdminDTO admin, @RequestParam("picture") MultipartFile thumbnailImg, HttpServletRequest request) {
 		
 		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
-		
-		/* 화면으로부터 전달받은 파일 수정(기존 파일로 업데이트) */
-		
-		/* 저장경로 설정 */
-		String saveRoot = request.getSession().getServletContext().getRealPath("/");
-		String adminPictureSaveRoot = saveRoot + "/adminPicture";
+	
+			
+			/* 화면으로부터 전달받은 파일 수정(기존 파일로 업데이트) */
+			
+			/* 저장경로 설정 */
+			String saveRoot = request.getSession().getServletContext().getRealPath("/");
+			String adminPictureSaveRoot = saveRoot + "/adminPicture";
+			
+			/* 이미지 저장 */
+//			String saveRoot = System.getProperty("user.dir") + "/src/main/resources/static" + adminPictureSaveRoot;
+//			String adminPictureSaveRoot = "/adminPicture";
+			
+			/* 파일 저장경로가 존재하지 않을 경우를 대비해 생성하는 코드 */
+			File directory = new File(adminPictureSaveRoot);
+			if(!directory.exists()) {
+				System.out.println("폴더 생성 : " + directory.mkdir());
+			}
 
-		
-		
-		/* 이미지 저장 */
-//		String saveRoot = System.getProperty("user.dir") + "/src/main/resources/static" + adminPictureSaveRoot;
-//		String adminPictureSaveRoot = "/adminPicture";
-		
-		/* 파일 저장경로가 존재하지 않을 경우를 대비해 생성하는 코드 */
-		File directory = new File(adminPictureSaveRoot);
-		if(!directory.exists()) {
-			System.out.println("폴더 생성 : " + directory.mkdir());
-		}
+			List<MultipartFile> fileList = new ArrayList<>();
+			fileList.add(thumbnailImg);
+			for(MultipartFile file : fileList) {
+				if(file.getSize() > 0) {
+					
+					/* 파일명 전달받기 */
+					String adminPictureOriginName = thumbnailImg.getOriginalFilename();
+					
+					System.out.println("원본 파일명은 ? : " + adminPictureOriginName);
+					
+					/* 파일명 변경 */
+					String ext = adminPictureOriginName.substring(adminPictureOriginName.lastIndexOf("."));
+					String adminPictureSaveName = UUID.randomUUID().toString().replace("-", "") + ext;
+					
+					
+					/* 이미지 확장자 검사 */
+//					String[] supportFormat = { "bmp", "jpg", "jpeg", "png" };
+//	                if (!Arrays.asList(supportFormat).contains(formatName)) {
+//	                    throw new IllegalArgumentException("지원하지 않는 format 입니다.");
+//	                }
+					
+					System.out.println("변경할 이름 확인 : " + adminPictureSaveName);
+					
+					
+					try {
+								
+						thumbnailImg.transferTo(new File(adminPictureSaveRoot + "/" + adminPictureSaveName));
 
-		List<MultipartFile> fileList = new ArrayList<>();
-		fileList.add(thumbnailImg);
-		for(MultipartFile file : fileList) {
-			if(file.getSize() > 0) {
-				
-				/* 파일명 전달받기 */
-				String adminPictureOriginName = thumbnailImg.getOriginalFilename();
-				
-				System.out.println("원본 파일명은 ? : " + adminPictureOriginName);
-				
-				/* 파일명 변경 */
-				String ext = adminPictureOriginName.substring(adminPictureOriginName.lastIndexOf("."));
-				String adminPictureSaveName = UUID.randomUUID().toString().replace("-", "") + ext;
-				
-				
-				/* 이미지 확장자 검사 */
-//				String[] supportFormat = { "bmp", "jpg", "jpeg", "png" };
-//                if (!Arrays.asList(supportFormat).contains(formatName)) {
-//                    throw new IllegalArgumentException("지원하지 않는 format 입니다.");
-//                }
-				
-				System.out.println("변경할 이름 확인 : " + adminPictureSaveName);
-				
-				
-				try {
-							
-					thumbnailImg.transferTo(new File(adminPictureSaveRoot + "/" + adminPictureSaveName));
+						/* DB에 업로드할 파일의 정보를 DTO에 set */
+						admin.setAdminPictureSaveName(adminPictureSaveName);
+						admin.setAdminPictureSaveRoot(adminPictureSaveRoot);
+						
 
-					/* DB에 업로드할 파일의 정보를 DTO에 set */
-					admin.setAdminPictureSaveName(adminPictureSaveName);
-					admin.setAdminPictureSaveRoot(adminPictureSaveRoot);
-					
-
-				} catch (IllegalStateException | IOException e) {
-					
-					e.printStackTrace();
-					
-					/* 실패시 파일 삭제 */
-					new File(adminPictureSaveRoot + "/" + adminPictureSaveName).delete();
-					
+					} catch (IllegalStateException | IOException e) {
+						
+						e.printStackTrace();
+						
+						/* 실패시 파일 삭제 */
+						new File(adminPictureSaveRoot + "/" + adminPictureSaveName).delete();
+						
+					}
 				}
 			}
 			
@@ -610,7 +702,54 @@ public class AdminAdminController {
 			rttr.addFlashAttribute("adminModifySuccessMessage", "수정에 성공하셨습니다");
 		
 		
-		}
+		
+		
+		return "redirect:/admin/hrCard/adminDetail/" + adminNo;
+	}
+
+	
+	@Transactional
+	@PostMapping("hrCard/hr/adminModifyHR/hr")
+	public String adminModifyHR(RedirectAttributes rttr,@ModelAttribute AdminDTO admin, HttpServletRequest request) {
+		
+		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
+			
+			/* api를 통해 받아온 주소 합치기 */
+			String adminAddressNo = request.getParameter("addressNo");
+			String adminAddress1 = request.getParameter("address");
+			String adminAddress2 = request.getParameter("addressDetail");
+			
+			/* 이메일 주소 합치기 */
+			String adminAddress = adminAddressNo + "@" + adminAddress1 + "@" + adminAddress2;
+	 	
+			String adminPhone = request.getParameter("adminPhone");
+			
+			String adminEmail = request.getParameter("adminEmail");
+			
+			
+			/* 기존 사진으로 업데이트 */
+			String adminPictureSaveRoot = request.getParameter("oldSaveRoot");
+			String adminPictureSaveName = request.getParameter("oldSaveName");
+			
+			/* 전달받은 관리자 직업 저장 */
+			String adminJob = request.getParameter("adminJob");
+			
+			
+			/* 받아온 수정할 정보 담아주기 */
+			admin.setAdminAddress(adminAddress);
+			admin.setAdminEmail(adminEmail);
+			admin.setAdminPhone(adminPhone);
+			admin.setAdminJob(adminJob);
+			admin.setAdminPictureSaveRoot(adminPictureSaveRoot);
+			admin.setAdminPictureSaveName(adminPictureSaveName);
+			
+			
+			adminService.modifyAdminHRCard(admin);
+
+			rttr.addFlashAttribute("adminModifySuccessMessage", "수정에 성공하셨습니다");
+		
+		
+//		}
 		
 		return "redirect:/admin/hrCard/adminDetail/" + adminNo;
 	}
