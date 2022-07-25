@@ -177,7 +177,8 @@ public class AdminEmployeeController {
 		emailMap.put("domain", domain);
 
 		employeeDTO.setEmployeePhone(firstPhoneNumber + "-" + middlePhoneNumber + "-" + lastPhoneNumber);
-
+		
+		mv.addAttribute("fullPhone", firstPhoneNumber+middlePhoneNumber+lastPhoneNumber);
 		mv.addAttribute("phone", phone);
 		mv.addAttribute("address", addressMap);
 		mv.addAttribute("email", emailMap);
@@ -222,10 +223,10 @@ public class AdminEmployeeController {
 					new File(filePath + "/" + saveName).delete();
 					mv.addAttribute("message", "파일 업로드 실패!");
 				}
-				adminService.modifyEmployee(employeeDTO);
 			} else {
 
 			}
+			adminService.modifyEmployee(employeeDTO);
 
 
 			mv.addAttribute("employeeDTO", employeeDTO);

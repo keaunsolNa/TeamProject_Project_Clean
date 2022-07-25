@@ -77,6 +77,7 @@ public class EmployeeController {
 		employeeDTO.setEmployeePhone(firstPhoneNumber + "-" + middlePhoneNumber + "-" + lastPhoneNumber);
 
 		mv.addAttribute("phone", phone);
+		mv.addAttribute("fullPhone", firstPhoneNumber+middlePhoneNumber+lastPhoneNumber);
 		mv.addAttribute("address", addressMap);
 		mv.addAttribute("email", emailMap);
 		mv.addAttribute("employee", employeeDTO);
@@ -162,9 +163,6 @@ public class EmployeeController {
 				String middlePhoneNum = middlePhoneChange.replaceAll("-", "");
 				middlePhoneList.add(middlePhoneNum);
 			}
-		}
-		for (String e : middlePhoneList) {
-			System.out.println("eeeeeeeeeeeeasdeee" + e);
 		}
 		return middlePhoneList;
 	}
