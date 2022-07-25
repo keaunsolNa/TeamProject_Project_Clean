@@ -170,11 +170,6 @@ font-weight: bold;
       
       <div class="dropdown-container">
 		
-		 <!--  <th:block sec:authorize="hasRole('ROLE_ADMIN_BOSS')"> -->	
-        <a style="font-size : 16px" href="/admin/hrCard/hr/adminList">관리자 조회</a>
-       
-
-
       	<th:block sec:authorize="hasRole('ROLE_ADMIN')">
         	<a style="font-size : 16px" href="/admin/select/AllEmployee/move">전체 인원 조회</a>
         </th:block>
@@ -207,10 +202,12 @@ font-weight: bold;
         	<a style="font-size : 16px" href="/admin/hr/humanResource/selectAllVacation/move">휴가 전체 조회</a>
         </th:block>
         <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">	
-        <a style="font-size : 16px" href="/admin/hrCard/vacation/standbyFirstVacationList">1차 승인 대기 목록</a>
+        <th:block sec:authorize="!hasRole('ROLE_ADMIN_BOSS')">	
+        <a style="font-size : 16px" href="/admin/hrCard/vacation/standbyFirstVacationList">결재 대기 목록</a>
         </th:block>
-        <th:block sec:authorize="hasRole('ROLE_ADMIN_BOSS')">	
-        <a style="font-size : 16px" href="/admin/hrCard/boss/standbySecondVacationList">2차 승인 대기 목록</a>
+        </th:block>
+        <th:block sec:authorize="hasRole('ROLE_ADMIN_BOSS')">
+        <a style="font-size : 16px" href="/admin/hrCard/boss/standbySecondVacationList">결재 대기 목록</a>
     	</th:block>
 
     </div>

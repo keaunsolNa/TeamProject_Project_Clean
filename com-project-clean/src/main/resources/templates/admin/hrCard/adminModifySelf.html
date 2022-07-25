@@ -107,6 +107,7 @@
 				   <img width="100" height="120" id="pictureImg"
 			        	th:src="@{/adminPicture/} + ${adminModify.adminPictureSaveName}"/>
 			        </td>
+			  
 			        <td style="display: none;"><input type="text" id="oldSaveRoot" name="oldSaveRoot" th:value="${adminModify.adminPictureSaveRoot}"></td>
 	           	    <td style="display: none;"><input type="text" id="oldSaveName" name="oldSaveName" th:value="${adminModify.adminPictureSaveName}"></td>
 		      </tr>
@@ -122,9 +123,11 @@
 	             		<option>017</option>
 	             		<option>019</option>
 	             	</select>-
-	             	<input type="text" id="adminPhone2" name="adminPhone2" class="required" maxlength='4' th:value="${phone.middlePhoneNumber}" required style="width: 45px">-
-	             	<input type="text" id="adminPhone3" name="adminPhone3" class="required" maxlength='4' th:value="${phone.lastPhoneNumber}" required style="width: 45px">
-	            	<input style="display: none;" type="text" id="adminPhone" name="adminPhone">
+	             	<input type="text" id="adminPhone2" name="adminPhone2" class="required" maxlength='4' th:value="${phone.middlePhoneNumber}" placeholder="0000" required style="width: 45px">-
+	             	<input type="text" id="adminPhone3" name="adminPhone3" class="required" maxlength='4' th:value="${phone.lastPhoneNumber}" placeholder="0000" required style="width: 45px">
+	            	<div id="phoneNotice" style="display:none; color: red;">4자리 숫자의 번호를<br> 입력해 주세요.</div>
+	            	
+	            	<input style="display: none;" type="text" id="adminPhone" name="adminPhone"></td>
 	            	<td style="display: none;"><input type="text" th:value="${phone.firstPhoneNumber}" id="firstPhoneNumber" name="firstPhoneNumber"></td>
 	            
 		      </tr>
@@ -142,12 +145,16 @@
 		    <tbody>
 		     <tr>
 		        <td class="tg-wman">이메일</td>
-		        <td colspan="3"><input th:value="${email.email}" type="text" id="email" class="required" name="employeeEmail" placeholder="이메일을 입력해주세요" required style="width: 200px;"> @ 
-		            <select id="domain" name="domain" style="width: 100px; height: 25px;">
+		        <td colspan="3"><input th:value="${email.email}" type="text" id="email" class="required" name="employeeEmail" placeholder="영문 숫자 4~19자" required style="width: 200px;"> @ 
+		            <select id="domain" name="domain" style="width: 150px; height: 25px;">
 			            <option value="naver.com" selected>naver.com</option>
 			            <option value="google.com">google.com</option>
-			            <option value="hanmail.com">hanmail.com</option>
+			            <option value="hanmail.com">daum.com</option>
+			            <option id="yahoo" value="yahoo.com">kakao.com</option>
+	                    <option id="nate" value="nate.com">nate.com</option>
 		            </select>
+		            <div id="emailNotice" style="display:none; color: red;">4~19자 이내의 영문과 숫자로 조합된 이메일 아이디를 입력해 주세요.</div>
+	            </td>
 		        <td style="display: none;"><input id="adminEmail" name="adminEmail" type="text"/></td> 
 		    	<td style="display: none;"><input id="domainValue" type="text" th:value="${email.domain}"/></td>
 		    	
@@ -165,7 +172,7 @@
 		      </tr>
 		      <tr>
 		        <td class="tg-wman">상세주소</td>
-		        <td class="tg-wman" colspan="5"><input type="text" id="addressDetail" name="addressDetail" th:value="${address.addressDetail}" required style="width: 500px;"></td>
+		        <td class="tg-wman" colspan="5"><input type="text" id="addressDetail" name="addressDetail" th:value="${address.addressDetail}" placeholder="상세주소를 입력해주세요." required style="width: 500px;"></td>
 		      </tr>
 		      <tr>
 		        <td>입사일</td>
@@ -209,6 +216,7 @@
  		const phone3 = $("#adminPhone3").val();
   		const email = $("#email").val();
  		const domain = $("#domain").val();
+ 		const img = $("#picture").val();
  		
  		// 이미지 나중에 추가
  		const addressDetail = $("#addressDetail").val();
@@ -225,55 +233,55 @@
  				return false;
  			}
  		}
- 	})  
+ 	});
+     
  	$("#resetButton").click(function(){
  		if(confirm("초기화 하시겠습니까?")){
  			document.getElementById("modifyForm").reset();
+ 		}else{
+ 			return false;
  		}
- 	})
+ 	});
     
 	/* 핸드폰 번호 정규표현식 */
 	
-    $("#adminPhone2").focusout(function (event) {
+   $("#adminPhone2").focusout(function (event) {
 
   	var regexp = /^[0-9]{4}/g;
       phoneCheck1 = $(this).val();
       if (!regexp.test(phoneCheck1)) {
-    	  confirm("4자리의 숫자를 입력해 주세요.");
+    	  $('#phoneNotice').show();
           $(this).val('');
-          document.location.leroad(true);
-          
+      }else{
+    	  $('#phoneNotice').hide();
       }
   });
   
-  /* $("#adminPhone3").focusout(function (event) {
-
-  	var regexp = /^[0-9]{4}/g;
-      phoneCheck = $(this).val();
-      if (!regexp.test(phoneCheck)) {
-      	alert("4자리의 숫자를 입력해 주세요.");
-      	$(this).val('');
-      	document.location.leroad(true);
-      }
-  }); */
+   /* 이메일 정규표현식 */
+   $("#email").focusout(function (event){
+ 	
+ 	  var regexp = /[A-Za-z0-9]{3,19}$/;
+ 	   emailCheck = $(this).val();
+ 	   if(!regexp.test(emailCheck)){
+ 		   $('#emailNotice').show();
+ 	   }else{
+ 		   $('#emailNotice').hide();
+ 	   }
+   });
+	
+  
   /* 전화번호 중복 검사 */
   $('#adminPhone3').focusout(function () {
 	  var regexp = /^[0-9]{4}/g;
       phoneCheck2 = $(this).val();
-      if (!regexp.test(phoneCheck2)) {
-      confirm("4자리의 숫자를 입력해 주세요.");
-      $(this).val('');
-      document.location.leroad(true);
       
-      	} else {
-      		/* const phone1 = $("#adminPhone1").val();
-    		const phone2 = $("#adminPhone2").val();
-    		const phone3 = $("#adminPhone3").val();
-	        // 전화번호를 서버로 전송 > DB 유효성 검사 > 결과 반환받기
-			$('#dupliCheck').attr('value', phone1 +"-"+ phone2 +"-"+ phone3 );
-	        
-	        const adminPhone = $("#dupliCheck").val();
-	         */
+      if (!regexp.test(phoneCheck2)) {
+    	  $('#phoneNotice').show();
+      	  $(this).val('');
+      
+      
+      	} else if(regexp.test(phoneCheck2)){
+      		$('#phoneNotice').hide();
 	        $.ajax({
 	            url: '/admin/hr/duplication',
 	            data : 'adminPhone=' + $("#adminPhone1").val() + "-" + $("#adminPhone2").val() + "-" + $("#adminPhone3").val(),

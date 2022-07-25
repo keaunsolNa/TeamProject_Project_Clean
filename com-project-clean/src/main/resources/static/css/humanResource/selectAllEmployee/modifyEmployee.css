@@ -1,0 +1,13 @@
+.section{
+	width: 1000px;
+}
+.tableBox td {
+	border: solid 1px;
+	font-size: 14px;
+	padding: 10px 10px;
+}
+
+.buttonBox{
+	width:840px;
+	text-align: center;
+}
