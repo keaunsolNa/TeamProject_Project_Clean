@@ -87,7 +87,7 @@
 	
 	<section class="section">
 	
-    <form action="run" id="modifyForm" method="post" enctype="multipart/form-data">
+    <form action="hr" id="modifyForm" method="post" enctype="multipart/form-data">
 	    <table class="detailTable">
 	    <colgroup>
 	   		 <col style="width: 250px">
@@ -107,7 +107,6 @@
 				   <img width="100" height="120" id="pictureImg"
 			        	th:src="@{/adminPicture/} + ${adminModify.adminPictureSaveName}"/>
 			        </td>
-			  
 			        <td style="display: none;"><input type="text" id="oldSaveRoot" name="oldSaveRoot" th:value="${adminModify.adminPictureSaveRoot}"></td>
 	           	    <td style="display: none;"><input type="text" id="oldSaveName" name="oldSaveName" th:value="${adminModify.adminPictureSaveName}"></td>
 		      </tr>
@@ -145,7 +144,7 @@
 		    <tbody>
 		     <tr>
 		        <td class="tg-wman">이메일</td>
-		        <td colspan="3"><input th:value="${email.email}" type="text" id="email" class="required" name="employeeEmail" placeholder="영문 숫자 4~19자" required style="width: 200px;"> @ 
+		        <td colspan="5"><input th:value="${email.email}" type="text" id="email" class="required" name="employeeEmail" placeholder="영문 숫자 4~19자" required style="width: 200px;"> @ 
 		            <select id="domain" name="domain" style="width: 150px; height: 25px;">
 			            <option value="naver.com" selected>naver.com</option>
 			            <option value="google.com">google.com</option>
@@ -158,9 +157,9 @@
 		        <td style="display: none;"><input id="adminEmail" name="adminEmail" type="text"/></td> 
 		    	<td style="display: none;"><input id="domainValue" type="text" th:value="${email.domain}"/></td>
 		    	
-		    	<td class="tg-7btt" colspan="2"> <button type="button" class="btn_picture_btn" id="pictureModify" name="pictureModify">사진 수정</button> </td>
-	            <!-- <td class="tg-7btt"> <button type="button"id="pictureDelete" name="pictureDelete">삭제</button> </td> -->
-	            <td style="display: none;"> <input type="file" id="picture" name="picture" onchange="loadImg(this,1)">
+		    	<!-- <td class="tg-7btt" colspan="2"> <button type="button" class="btn_picture_btn" id="pictureModify" name="pictureModify">사진 수정</button> </td>
+	
+	            <td style="display: none;"> <input type="file" id="picture" name="picture" onchange="loadImg(this,1)"> -->
 		     </tr>
 		     <tr>
 		        <td>우편번호</td>
@@ -182,7 +181,15 @@
 		      </tr>
 		      <tr>
 		        <td>직책</td>
-		        <td  th:text="${ adminModify.adminJob }"></td>
+		        <td>
+		        	<select id="job" name="adminJob" style="text-align: center;" required>
+		                <option value="일반관리자">일반관리자</option>
+		                <option value="인사관리자">인사관리자</option>
+		                <option value="재정담당자">재정담당자</option>
+		                <option value="보안담당자">보안담당자</option>
+		                <option value="총관리자">총관리자</option>
+		            </select>
+		        </td>
 		        <td>마지막 로그인</td>
 		        <td colspan="3" th:text="${ adminModify.adminLastLoginDate }"></td>
 		      </tr>
@@ -197,7 +204,7 @@
    		 <div class="buttonBox">
 	   		 <input type="hidden" name="adminNo" th:value="${ adminModify.adminNo }"> 
 	   		 
-	   		<!--  <input type="file" id="thumbnailImg" name="thumbnailImg" onchange="loadImg(this,1)" style="display: none"> -->
+	   		<input type="file" id="thumbnailImg" name="thumbnailImg" onchange="loadImg(this,1)" style="display: none">
 		   	
 		   	<input class="btn_hrcard" type="button" id="modify" value="수정완료">
 		    <input class="btn_hrcard" type="button" id="resetButton" value="수정취소">
@@ -216,13 +223,13 @@
  		const phone3 = $("#adminPhone3").val();
   		const email = $("#email").val();
  		const domain = $("#domain").val();
- 		const img = $("#picture").val();
+ 		const job = $("#job").val();
  		
  		// 이미지 나중에 추가
  		const addressDetail = $("#addressDetail").val();
  		
- 			if(!(phone2 && phone3 && email && addressDetail)){
- 				alert("입력되지 않은 항목이 있습니다.");
+ 			if(!(phone2 && phone3 && email && addressDetail && job)){
+ 				alert("입력되지 않은 항목이 존재합니다.");
  			}else{
  			if(confirm("수정하시겠습니까?") == true){
  				$('#adminPhone').attr('value', phone1 +"-"+ phone2 +"-"+ phone3 );
@@ -274,13 +281,12 @@
   $('#adminPhone3').focusout(function () {
 	  var regexp = /^[0-9]{4}/g;
       phoneCheck2 = $(this).val();
-      
       if (!regexp.test(phoneCheck2)) {
     	  $('#phoneNotice').show();
       	  $(this).val('');
       
       
-      	} else if(regexp.test(phoneCheck2)){
+      	} else {
       		$('#phoneNotice').hide();
 	        $.ajax({
 	            url: '/admin/hr/duplication',
