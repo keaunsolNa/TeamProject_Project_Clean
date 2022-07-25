@@ -263,31 +263,43 @@
 										}
 									})
 
-					$("#employeePhone2")
-							.focusout(
+					$("#employeePhone2").focusout(
 									function() {
 										var regexp = /^[0-9]{3,4}/g;
 										if (!regexp.test($("#employeePhone2").val())) { // 중간번호 틀리면
 											$("#duplicateCheckMessage").hide();
+										console.log(1);
 											$("#middleNumCheckMessage").show();
+										console.log(2);
 											$("#endNumCheckMessage").hide();
+										console.log(3);
 									         $(this).val('');
+										console.log(4);
 											$(this).focus();
+										console.log(5);
 										} else { // 중간번호 맞으면
 											$("#middleNumCheckMessage").hide();
 											$.ajax({
-													url:"/admin/hr/regist/employee/findMiddlePhone",														success : function(data) {
+													url:"/admin/hr/regist/employee/findMiddlePhone",														
+													success : function(data) {
+										console.log(6);
 														for (var i = 0; i < data.length; i++) {
+										console.log(77);
 															if (data[i] == $("#employeePhone1").val() + $("#employeePhone2").val() + $("#employeePhone3").val()) { // 중복값이면
+										console.log(8);
 																$("#duplicateCheckMessage").show();
 																$("#middleNumCheckMessage").hide();
 																$("#endNumCheckMessage").hide();
-														         $("#employeePhone2").val('');
-																$("#employeePhone2").focus();
+														        $("#employeePhone2").val('');
+																/* $("#employeePhone2").focus(); */
+																
 																break;
 															} else { //성공하면
+										console.log(9);
 																$("#duplicateCheckMessage").hide();
+										console.log(10);
 																$("#middleNumCheckMessage").hide();
+										console.log(11);
 																$("#endNumCheckMessage").hide();
 															}
 														}
@@ -297,38 +309,56 @@
 													}
 												})
 										}
-									});
-
-					$("#employeePhone3")
-							.focusout(
+									}
+									
+									);
+				
+					
+					$("#employeePhone3").focusout(
 									function() {
 										var regexp = /^[0-9]{4}/g;
-										if (!regexp.test($("#employeePhone3").val())) {
+										if (!regexp.test($("#employeePhone3").val())) {	//정규표현식이 틀리면
+											console.log(12);
 											$("#duplicateCheckMessage").hide();
+											console.log(13);
 											$("#middleNumCheckMessage").hide();
+											console.log(14);
 											$("#endNumCheckMessage").show();
+											console.log(15);
 										     $(this).val('');
+										     console.log(16);
 											$(this).focus();
-										} else {
+										     console.log(17);
+										} else {		// 정규표현식이 맞다면
+										     console.log(18);
 											$("#endNumCheckMessage").hide();
-											$
-												.ajax({
-													url:"/admin/hr/regist/employee/findMiddlePhone",														success : function(data) {
-														for (var i = 0; i < data.length; i++) {
-										     				if(!$("#employeePhone2")){
-															if (data[i] == $("#employeePhone1").val()+ $("#employeePhone2").val()+ $("#employeePhone3").val()) {$("#duplicateCheckMessage").show();
-																$("#middleNumCheckMessage").hide();
-																$("#endNumCheckMessage").hide();
+										     console.log(19);
+											$.ajax({
+													url:"/admin/hr/regist/employee/findMiddlePhone",														
+													success : function(data) {
+										     console.log(20);
+										     			for(var i = 0; i < data.length; i++){
+										     console.log(21);
+										     				if($("#employeePhone2")){
+										     console.log(22);
+										     				if(data[i] ==$("#employeePhone1").val() + $("#employeePhone2").val() + $("#employeePhone3").val()){
+										     console.log(23);
+										     					$("#duplicateCheckMessage").show();
+										     console.log(24);
+										     			     	$("#middleNumCheckMessage").hide();
+										     console.log(25);
+										     			     	$("#endNumCheckMessage").hide();
+										     			     	
 										     				    $("#employeePhone3").val('');
-																$("#employeePhone3").focus();
-																break;
-															} else {
-																$("#duplicateCheckMessage").hide();
-																$("#middleNumCheckMessage").hide();
-																$("#endNumCheckMessage").hide();
-															}
+										     				    $("#employeePhone3").focus();
+										     					break;
+										     				}else{
+										     					$("#duplicateCheckMessage").hide();
+										     			     	$("#middleNumCheckMessage").hide();
+										     			     	$("#endNumCheckMessage").hide();
 										     				}
-														}
+										     			}
+										     			}
 													},
 													error : function() {
 														alert("fail");
@@ -399,7 +429,8 @@
 					})
 
 					/* 사진등록 */
-					const pictureModify = document.getElementById("pictureModify");
+					const pictureModify = document
+							.getElementById("pictureModify");
 
 					pictureModify.onclick = function() {
 						document.getElementById("picture").click();
@@ -425,4 +456,3 @@
 				</script>
 </body>
 </html>
-

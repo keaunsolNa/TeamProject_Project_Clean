@@ -287,14 +287,14 @@
 										} else { // 중간번호 맞으면
 											$("#middleNumCheckMessage").hide();
 											$.ajax({
-													url:"/employee/regist/employee/findMiddlePhone",														success : function(data) {
+													url:"/employee/regist/employee/findMiddlePhone",														
+													success : function(data) {
 														for (var i = 0; i < data.length; i++) {
 															if (data[i] == $("#employeePhone1").val() + $("#employeePhone2").val() + $("#employeePhone3").val()) { // 중복값이면
 																$("#duplicateCheckMessage").show();
 																$("#middleNumCheckMessage").hide();
 																$("#endNumCheckMessage").hide();
 														         $("#employeePhone2").val('');
-																$("#employeePhone2").focus();
 																break;
 															} else { //성공하면
 																$("#duplicateCheckMessage").hide();
@@ -314,7 +314,7 @@
 							.focusout(
 									function() {
 										var regexp = /^[0-9]{4}/g;
-										if (!regexp.test($("#employeePhone3").val())) {
+										if (regexp.test($("#employeePhone3").val())) {
 											$("#duplicateCheckMessage").hide();
 											$("#middleNumCheckMessage").hide();
 											$("#endNumCheckMessage").show();
