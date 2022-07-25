@@ -1,0 +1,13 @@
+.tableBox{
+	width: 770px;
+}
+.tableBox td {
+	border: solid 1px;
+	font-size: 14px;
+	padding: 10px 10px;
+}
+
+.buttonBox{
+	width:755px;
+	text-align: center;
+}

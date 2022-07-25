@@ -1,0 +1,24 @@
+   	.section{
+	width: 1000px;
+	}
+	.tableBox{
+		width: 1000px;
+		border: 1px solid black;
+	}
+	.tableBox tr{
+		height: 45px;
+	}
+	.tableBox td{
+		height: 45px;
+	}
+	.searchBox{
+		text-align: right;
+		margin-bottom: 10px;
+	}
+	.pagingBox{
+		 text-align: center;
+		 margin-top: 20px; 
+	}
+	.selectBox{
+		text-align: left;
+	}

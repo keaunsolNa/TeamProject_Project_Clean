@@ -2,55 +2,8 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/humanResource/vacation/selectMyVacationDetail.css}">
     <title>Document</title>
-
-<style>
-/* 결재 테이블 */
-.confirmTableBox td {
-	border: solid 1px;
-	font-size: 14px;
-}
-
-.comfirmBox td {
-	height: 75px;
-}
-
-.confirmTableBox {
-	width: 550px;
-	margin-bottom: 20px;
-	
-}
-
-.confirmNameBox{
-	 line-height: 80px;
-}
-
-.confirmDateBox{
-	height: 25px;
-}
-
-/* 인사 테이블 */
-.tableBox{
-	width: 750px;
-}
-
-.tableBox td {
-	border: solid 1px;
-	font-size: 14px;
-	padding: 10px 10px;
-}
-
-.buttonBox{
-	width:750px;
-	text-align: center;
-}
-
-.reasonBox{
-	height:150px;
-	text-align: center;
-	line-height: 100px;
-}
-</style>
 
 </head>
 <body>
@@ -127,7 +80,7 @@
                 <td><div class="reason" th:text="${vacation.vacationReason}"></div></td>
               </tr>
               <tr>
-                <td colspan="2" style="font-size: 23px">위와 같이 휴가를 신청하오니 승인하여 주시기 바랍니다.</td>
+                <td colspan="2">위와 같이 휴가를 신청하오니 승인하여 주시기 바랍니다.</td>
               </tr>
               <tr>
                 <td><div class="returnReason subTitle">인사담당자 의견</div></td>
