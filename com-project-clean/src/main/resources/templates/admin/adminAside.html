@@ -192,7 +192,9 @@ font-weight: bold;
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a style="font-size : 16px" href="/admin/hrCard/registVacation">휴가 신청</a>
+    	<th:block sec:authorize="hasRole('ADMIN')">	
+        	<a style="font-size : 16px" href="/admin/hrCard/registVacation">휴가 신청</a>
+        </th:block>
         
         <th:block sec:authorize="hasRole('ROLE_ADMIN')">
         	<a style="font-size : 16px" href="/admin/select/selectMyVacation/move">나의 휴가 조회</a>
@@ -211,13 +213,15 @@ font-weight: bold;
         <th:black sec:authorize="hasRole('ROLE_ADMIN_HR')">
         	<a style="font-size : 16px" href="/admin/hr/humanResource/selectAllVacation/move">휴가 전체 조회</a>
         </th:block>
+        
         <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">	
         <th:block sec:authorize="!hasRole('ROLE_ADMIN_BOSS')">	
-        <a style="font-size : 16px" href="/admin/hrCard/vacation/standbyFirstVacationList">결재 대기 목록</a>
+        	<a style="font-size : 16px" href="/admin/hrCard/vacation/standbyFirstVacationList">결재 대기 목록</a>
         </th:block>
         </th:block>
+        
         <th:block sec:authorize="hasRole('ROLE_ADMIN_BOSS')">
-        <a style="font-size : 16px" href="/admin/hrCard/boss/standbySecondVacationList">결재 대기 목록</a>
+        	<a style="font-size : 16px" href="/admin/hrCard/boss/standbySecondVacationList">결재 대기 목록</a>
     	</th:block>
 
     </div>

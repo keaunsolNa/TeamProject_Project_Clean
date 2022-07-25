@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Service;
 
+import com.project.clean.model.domain.adminEntity.AdminEmployee;
 import com.project.clean.model.domain.commonEntity.Admin;
 import com.project.clean.model.domain.commonEntity.Employee;
 import com.project.clean.model.domain.joinEntity.AdminAndAdminPay;
@@ -108,12 +109,12 @@ public class StatisticsServiceImpl implements StatisticsService{
 	}
 
 	@Override
-	public List<Employee> findByEmployeeRetireYn(String yn) {
+	public List<AdminEmployee> findByEmployeeRetireYn(String yn) {
 		// TODO Auto-generated method stub
 		return statisticsEmployeeRepository.findByEmployeeRetireYn(yn);
 	}
 	
-	public List<Employee> findByEmployeeRetireYnOrderByEmployeeSumTimeDesc(String yn) {
+	public List<AdminEmployee> findByEmployeeRetireYnOrderByEmployeeSumTimeDesc(String yn) {
 		
 		return statisticsEmployeeRepository.findByEmployeeRetireYnOrderByEmployeeSumTimeDesc(yn);
 	}
