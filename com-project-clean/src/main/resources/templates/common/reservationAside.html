@@ -86,12 +86,12 @@ $(function(){
 			const $notificationA = $(".notificationA");
 			if(data != 0){
 				$notificationA.css("color", "red");
-				setInterval(function () {
+				$(function () {
 					$('.notificationSpan').text(data);
 					$('.notificationSpan').fadeIn(100 , function () {
 						$('.notificationSpan').fadeOut(1000);
 					});
-				}, 2000);
+				});
 			}
 		},
 		error:function(error){
