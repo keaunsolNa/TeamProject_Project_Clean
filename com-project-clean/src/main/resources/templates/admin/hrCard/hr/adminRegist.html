@@ -265,13 +265,13 @@
 	
 	/* 핸드폰 번호 정규표현식 */
 	
-  $("#adminPhone2").focusout(function (event) {
+ 	$("#adminPhone2").focusout(function (event) {
 
   	var regexp = /^[0-9]{4}/g;
       phoneCheck1 = $(this).val();
       if (!regexp.test(phoneCheck1)) {
     	  $('#phoneNotice').show();
-          $(this).val('');
+ 
       }else{
     	  $('#phoneNotice').hide();
       }
@@ -307,14 +307,18 @@
   $('#adminPhone3').focusout(function () {
 	  var regexp = /^[0-9]{4}/g;
       phoneCheck2 = $(this).val();
+      phoneCheck3 = $("#adminPhone2").val();
+  
       
-      if (!regexp.test(phoneCheck2)) {
+      if (!regexp.test(phoneCheck2) && !regexp.test(phoneCheck3)) {
     	  $('#phoneNotice').show();
     	  $(this).val('');
 
       
       	} else {
+      		
       		$('#phoneNotice').hide();
+      		
 	        $.ajax({
 	            url: '/admin/hr/duplication',
 	            data : 'adminPhone=' + $("#adminPhone1").val() + "-" + $("#adminPhone2").val() + "-" + $("#adminPhone3").val(),

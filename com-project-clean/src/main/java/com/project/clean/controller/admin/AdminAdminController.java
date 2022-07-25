@@ -118,13 +118,6 @@ public class AdminAdminController {
 											@RequestParam("thumbnailImg") MultipartFile thumbnailImg) throws UnsupportedEncodingException, ThumbnailRegistException {
 		
 		
-		System.out.println("여기까지는 왔나");
-		System.out.println("여기까지는 왔나");
-		System.out.println("여기까지는 왔나");
-		System.out.println("여기까지는 왔나");
-		System.out.println("여기까지는 왔나");
-		System.out.println("여기까지는 왔나");
-		
 		/* 기본값 셋팅 */
 //		String pwd = "000000";
 		String adminRetireYn = "N";
@@ -312,16 +305,6 @@ public class AdminAdminController {
 	/* 관리자 상세조회 */
 	@GetMapping("hrCard/adminDetail/{adminNo}")
 	public ModelAndView findAdminDetail(ModelAndView mv, @PathVariable int adminNo, HttpServletRequest request) {
-		
-		System.out.println("오나요");
-		System.out.println("오나요");
-		System.out.println("오나요");
-		System.out.println("오나요");
-		System.out.println("오나요");
-		System.out.println("오나요");
-		System.out.println("오나요");
-		
-		
 		
 		/* 관리자 기본 정보 조회 */
 		AdminDTO admin = adminService.findByAdminNo(adminNo);
