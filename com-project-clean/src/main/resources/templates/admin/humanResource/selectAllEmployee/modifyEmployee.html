@@ -3,24 +3,11 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/humanResource/selectAllEmployee/modifyEmployee.css}">
     <title>Document</title>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<style>
-.section{
-	width: 1000px;
-}
-.tableBox td {
-	border: solid 1px;
-	font-size: 14px;
-	padding: 10px 10px;
-}
 
-.buttonBox{
-	width:840px;
-	text-align: center;
-}
-</style>
 </head>
 <body>
 	<div th:replace="/common/Header.html"></div>
@@ -412,8 +399,7 @@
 					})
 
 					/* 사진등록 */
-					const pictureModify = document
-							.getElementById("pictureModify");
+					const pictureModify = document.getElementById("pictureModify");
 
 					pictureModify.onclick = function() {
 						document.getElementById("picture").click();

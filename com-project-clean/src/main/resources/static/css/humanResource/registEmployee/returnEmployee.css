@@ -1,0 +1,32 @@
+/* 결재 테이블 */
+.confirmTableBox td {
+	border: solid 1px;
+	font-size: 14px;
+}
+
+.comfirmBox td {
+	height: 75px;
+}
+
+.confirmTableBox {
+	width: 550px;
+	margin-bottom: 20px;
+}
+
+.confirmNameBox{
+	 line-height: 80px;
+}
+
+.confirmDateBox{
+	height: 25px;
+}
+
+/* 인사 테이블 */
+.tableBox{
+	width: 750px;
+}
+.tableBox td {
+	border: solid 1px;
+	font-size: 14px;
+	padding: 10px 10px;
+}
