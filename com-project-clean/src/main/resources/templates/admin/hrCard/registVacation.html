@@ -152,7 +152,7 @@
               </tr>
               <tr>
                 <td class="subTitle">기간</td>
-                <td class="tg3-7btt"><input type="date" id="vacationStartDate" name="vacationStartDate" min="vacationStartDate" required> ~ <input type="date" id="vacationEndDate" name="vacationEndDate" value="xxx" min="한달 후" max="올해" required></td>
+                <td class="tg3-7btt"><input type="date" id="vacationStartDate" name="vacationStartDate" min="startDate" max="endDate" required> ~ <input type="date" id="vacationEndDate" name="vacationEndDate" value="xxx" min="startDate" max="endDate" required></td>
               </tr>
               <tr>
                 <td class="subTitle">연락망</td>
@@ -209,7 +209,11 @@
 		 			return false;
 		 		}
 		 	});
-
+	
+		 	var startDate = new Date(year, month, day + 7);
+		 	
+		 	var endDate = new Date(year, month + 3, day);
+		 	
 
     </script>
     
