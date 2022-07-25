@@ -4,8 +4,10 @@
 <head>
 <link href='/css/common/error/error.css' rel='stylesheet' />
 <meta charset="UTF-8">
+
 <title>Insert title here</title>
 </head>
+
 <body>
 	<div th:if="${message} == 404" class="background404">
 		<input class="btn_error4" type="button" value="이전 페이지로 돌아가기" onClick="history.go(-1)"> 
@@ -13,6 +15,6 @@
 	<div th:if="${message} == 500" class="background500">
 		<input class="btn_error5" type="button" value="이전 페이지로 돌아가기" onClick="history.go(-1)"> 
 	</div>	
-	
+	나오냐
 </body>
 </html>

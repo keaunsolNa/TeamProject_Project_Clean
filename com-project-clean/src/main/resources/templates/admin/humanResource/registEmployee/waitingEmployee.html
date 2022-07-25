@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
 	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
@@ -71,7 +71,7 @@
 	                <td style="display: none;"><input name="employeeNo" th:value="${waitingEmployee.employeeNo}"></td>
 	                <td class="subTitle">이름</td>
 	                <td th:text="${waitingEmployee.employeeName}"></td>
-	                <td colspan="2" rowspan="3"> <img id="pictureImg" th:src="@{/adminEmployeePicture/} + ${waitingEmployee.employeePictureSaveName}" width="125px" height="125px"></td>
+	                <td colspan="2" rowspan="3"> <img id="pictureImg" th:src="@{/adminEmployeePicture/} + ${waitingEmployee.employeePictureSaveName}" width="125px" height="125px" onerror="this.style.display='none'"></td>
 	              </tr>
 	              <tr>
 	                <td class="subTitle">ID</td>
