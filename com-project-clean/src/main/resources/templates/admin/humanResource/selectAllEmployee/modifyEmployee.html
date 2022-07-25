@@ -32,7 +32,7 @@
 	            <td style="display: none;"><input name="employeeNo" th:value="${employee.employeeNo}"></td>
 	            <td class="subTitle">이름</td>
 	            <td th:text="${employee.employeeName}"></td>
-	            <td colspan="2" rowspan="3"> <img id="pictureImg" th:src="@{/adminEmployeePicture/} + ${employee.employeePictureSaveName}" width="130px" height="130px"></td>
+	            <td colspan="2" rowspan="3"> <img id="pictureImg" th:src="@{/adminEmployeePicture/} + ${employee.employeePictureSaveName}" width="130px" height="130px" onerror="this.style.display='none';"/></td>
 	            <td style="display: none;"><input type="text" id="oldSaveRoot" name="oldSaveRoot" th:value="${employee.employeePictureSaveRoot}"></td>
 	            <td style="display: none;"><input type="text" id="oldSaveName" name="oldSaveName" th:value="${employee.employeePictureSaveName}"></td>
 	            <td style="display: none;"><input type=text id="status" name="status" value="modify"></td>
