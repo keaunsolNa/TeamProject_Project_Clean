@@ -114,15 +114,21 @@ public class AdminEmployeeService {
 	@Transactional
 	public void modifyEmployee(EmployeeAndAllDTO employeeDTO) {
 		AdminEmployee employee = employeeRepository.findById(employeeDTO.getEmployeeNo()).get();
-
-		employee.setEmployeePictureSaveRoot(employeeDTO.getEmployeePictureSaveRoot());
-		employee.setEmployeePictureSaveName(employeeDTO.getEmployeePictureSaveName());
+		if(employeeDTO.getEmployeePictureSaveName() != null) {
+			employee.setEmployeePictureSaveRoot(employeeDTO.getEmployeePictureSaveRoot());
+			employee.setEmployeePictureSaveName(employeeDTO.getEmployeePictureSaveName());
+		}
 		employee.setEmployeePhone(employeeDTO.getEmployeePhone());
 		employee.setEmployeeRetireYn(employeeDTO.getEmployeeRetireYn());
 		employee.setEmployeeEmail(employeeDTO.getEmployeeEmail());
 		employee.setEmployeeAddress(employeeDTO.getEmployeeAddress());
 
 	}
+	
+	
+	
+	
+	
 	
 
 	@Transactional

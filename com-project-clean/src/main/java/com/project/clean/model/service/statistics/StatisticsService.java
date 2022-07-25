@@ -2,6 +2,7 @@ package com.project.clean.model.service.statistics;
 
 import java.util.List;
 
+import com.project.clean.model.domain.adminEntity.AdminEmployee;
 import com.project.clean.model.domain.commonEntity.Employee;
 import com.project.clean.model.domain.joinEntity.AdminAndAdminPay;
 import com.project.clean.model.dto.commonDTO.StatisticsDTO;
@@ -32,10 +33,10 @@ public interface StatisticsService {
 	int findTotalHoursWithQuery();
 
 	/* 이달의 우수직원 조회 */
-	List<Employee> findByEmployeeRetireYn(String yn);
+	List<AdminEmployee> findByEmployeeRetireYn(String yn);
 
 	/* 직원 근무시간 조회 */
-	List<Employee> findByEmployeeRetireYnOrderByEmployeeSumTimeDesc(String yn);
+	List<AdminEmployee> findByEmployeeRetireYnOrderByEmployeeSumTimeDesc(String yn);
 
 	
 }
