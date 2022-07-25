@@ -252,7 +252,7 @@ public class VacationStandbyController {
 		
 		vacationService.registNewVacationApply(vacation);
 		
-		return "redirect:/admin/hrCard/vacation/standbyFirstVacationList";
+		return "redirect:/admin/select/selectMyVacation/move";
 	}
 	
 	/* 휴가 1차 승인 */

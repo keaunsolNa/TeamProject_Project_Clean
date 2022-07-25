@@ -57,7 +57,7 @@
 
                     <ul class="navbar-nav me-auto mb-3 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" id="adminMyPage" href="admin/hrCard/selectOneAdminMove"><img src="/image/mypage.png" class="btn2"></a>
+                            <a class="nav-link" id="adminMyPage" href="/admin/hrCard/selectOneAdminMove"><img src="/image/mypage.png" class="btn2"></a>
             				
                         </li> 
                         <li class="nav-item">
@@ -86,9 +86,11 @@
 						        	<a class="dropdown-item" href="/admin/select/AllEmployee/move">전체 인원 조회</a>
 						        </th:block>    
 						        
-        <a class="dropdown-item" href="/admin/hrCard/adminList">관리자 조회</a>
         
-        <a class="dropdown-item" href="/admin/hrCard/adminRegist">관리자 등록</a>
+       
+       	<th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">	
+        	<a class="dropdown-item" href="/admin/hrCard/hr/adminRegist">관리자 등록</a>
+        </th:block>
         
         <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
 	        <a class="dropdown-item" href="/admin/hr/regist/employeePage">직원 등록</a>
@@ -98,7 +100,7 @@
 	        <a class="dropdown-item" href="/admin/select/blackList/move">블랙리스트 조회</a>
         </th:block>
         
-        <a class="dropdown-item" href="/admin/vacation/registVacation">휴가 신청</a>
+        <a class="dropdown-item" href="/admin/hrCard/registVacation">휴가 신청</a>
         
         <th:block sec:authorize="hasRole('ROLE_ADMIN')">
         	<a class="dropdown-item" href="/admin/select/selectMyVacation/move">나의 휴가 조회</a>
@@ -111,9 +113,14 @@
         	<a class="dropdown-item" href="/admin/hr/humanResource/selectAllVacation/move">휴가 전체 조회</a>
         </th:block>
         
-        <a class="dropdown-item" href="/admin/vacation/standbyFirstVacationList">1 승인 대기 목록</a>
-        
-        <a class="dropdown-item" href="/admin/vacation/standbySecondVacationList">1 승인 대기 목록</a>
+        <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">	
+        <th:block sec:authorize="!hasRole('ROLE_ADMIN_BOSS')">	
+        <a class="dropdown-item" href="/admin/hrCard/vacation/standbyFirstVacationList">결재 대기 목록</a>
+        </th:block>
+        </th:block>
+        <th:block sec:authorize="hasRole('ROLE_ADMIN_BOSS')">	
+        <a class="dropdown-item" href="/admin/hrCard/boss/standbySecondVacationList">결재 대기 목록</a>
+    	</th:block>
                                 
                                 
                             </ul>
