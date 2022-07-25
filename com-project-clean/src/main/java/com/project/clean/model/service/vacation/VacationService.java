@@ -184,6 +184,13 @@ public class VacationService {
 				
 				if(!selectCriteria.getSearchValue().isBlank()) {
 					
+					System.out.println("여기까지 왔니");
+					System.out.println("여기까지 왔니");
+					System.out.println("여기까지 왔니");
+					System.out.println("여기까지 왔니");
+					System.out.println("여기까지 왔니");
+					System.out.println("여기까지 왔니");
+					
 					Date vacationStartDate = Date.valueOf(selectCriteria.getSearchValue()); 
 					
 					vacationList = vacationRepository.findAllByVacationFirstConfirmYnAndVacationSecondConfirmYnAndVacationReturnYnAndVacationStartDate("Y", "N", "N", vacationStartDate, paging);

@@ -211,17 +211,20 @@
 			
 			  if(result == 'vacationStartDate'){
 				  $('#searchInput').hide().attr("disabled", "disabled");
-				  $('#vacationStartDate').show();
-				  $('#vacationEndDate').hide();
+				  $('#vacationStartDate').show().attr("disabled", false);
+				  $('#vacationEndDate').hide().attr("disabled", "disabled");
+				  
 				 
 			  } else if(result == 'vacationEndDate'){
 				  $('#searchInput').hide().attr("disabled", "disabled");
 				  $('#vacationStartDate').hide().attr("disabled", "disabled");
-				  $('#vacationEndDate').show();
+				  $('#vacationEndDate').show().attr("disabled", false);
+
 			  } else {
-				  $('#searchInput').show();
+				  $('#searchInput').show().attr("disabled", false);
 			      $('#vacationStartDate').hide().attr("disabled", "disabled");
 				  $('#vacationEndDate').hide().attr("disabled", "disabled");
+				  
 			  }
 			})
 			

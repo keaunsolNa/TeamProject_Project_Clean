@@ -211,26 +211,57 @@
         $(function(){
         	hover();
         })
-
-		$("#searchCondition").change(function(){        
+        
+        $("#searchCondition").change(function(){        
 			  var result = $("#searchCondition option:selected").val();
 			  var input = document.getElementById(searchInput);
-			
+
+			  
 			  if(result == 'adminBirth'){
 				  $('#searchInput').hide().attr("disabled", "disabled");
-				  $('#adminBirth').show();
-				  $('#adminHireDate').hide();
+				  $('#adminBirth').show().attr("disabled", false);
+				  $('#adminHireDate').hide().attr("disabled", "disabled");
 				 
 			  } else if(result == 'adminHireDate'){
 				  $('#searchInput').hide().attr("disabled", "disabled");
 				  $('#adminBirth').hide().attr("disabled", "disabled");
-				  $('#adminHireDate').show();
+				  $('#adminHireDate').show().attr("disabled", false);
 			  } else {
-				  $('#searchInput').show();
+				  $('#searchInput').show().attr("disabled", false);
 			      $('#adminBirth').hide().attr("disabled", "disabled");
 				  $('#adminHireDate').hide().attr("disabled", "disabled");
 			  }
 			})
+
+		/* $("#searchCondition").change(function(){        
+			  var result = $("#searchCondition option:selected").val();
+			  var input = document.getElementById(searchInput);
+			
+			  if(result == 'adminBirth'){
+				  $('#searchInput').hide();
+				  $('#adminBirth').show();
+				  $('#adminHireDate').hide();
+				  
+				  $('#searchInput').val('');
+				  $('#adminHireDate').val('');
+				  
+				 
+			  } else if(result == 'adminHireDate'){
+				  $('#searchInput').hide();
+				  $('#adminBirth').hide();
+				  $('#adminHireDate').show();
+				  
+				  $('#searchInput').val('');
+				  $('#adminBirth').val('');
+			  } else {
+				  $('#searchInput').show();
+			      $('#adminBirth').hide();
+				  $('#adminHireDate').hide();
+				  
+				  $('#adminBirth').val('');
+				  $('#adminHireDate').val('');
+			  }
+			}) */
         
        
     </script>
