@@ -1,8 +1,6 @@
 var stompClient = null;
 var senderName = null;
 var clientName = document.getElementById("client").value;
-var movePath = null;
-var desPath = null;
 function setConnected(connected) {
     if (connected) {
         $("#conversation").show();
@@ -35,7 +33,6 @@ function showGreeting(message) {
     $("#ReceiveMessage").append("<script>" + alert(message) + "</script>");
 	
 	if(clientName.indexOf("cleanup")){
-		
 		if(confirm("해당 내역을 확인하시겠습니까?")){
 			
 			if(message === clientName + "님의 체크리스트가 재반려되었습니다. 블랙리스트 경고 횟수가 증가합니다."){
@@ -51,10 +48,7 @@ function showGreeting(message) {
 	  		$("#ReceiveMessage").append("<tr><td>" + message + "</td></tr>");
 	  		
 		}
-	
 	}		
-	
-	
 }
 	
 $(function () {
@@ -72,32 +66,4 @@ $(function () {
 
 $(document).ready(function(){
 	connect();
-	Notification.requestPermission();
 });	
-
- 
-function calculate(movePath) {
-    setTimeout(function () {
-        notify(movePath);
-    }, 1000);
-}
- 
-function notify(movePath) {
-    if (Notification.permission !== 'granted') {
-        alert('알람 신청이 거부되었습니다. 승인이 필요합니다.');
-    }
-    else {
-        var notification = new Notification('Notification title', {
-            icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
-            body: '신규 알림을 확인하세요~',
-        });
- 
-        notification.onclick = function () {
-	
-			movePath = document.getElementById("path").value;
-			console.log(movePath)
-            	window.open(movePath);
-        };
-    }
-}
-
