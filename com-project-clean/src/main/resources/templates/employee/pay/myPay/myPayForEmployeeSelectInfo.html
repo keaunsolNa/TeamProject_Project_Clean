@@ -12,7 +12,7 @@
 	<section>
 		<table border="1">
 	        <tr>	
-				<th width="230px" height="220px"><img id="pictureImg" th:src="@{/employeePicture/} + ${pay.employee.employeePictureSaveName}" alt="사진을 등록해주세요" width="100%" height="100%"></th>
+				<th width="230px" height="220px"><img id="pictureImg" th:src="@{/adminEmployeePicture/} + ${pay.employee.employeePictureSaveName}" alt="사진을 등록해주세요" width="100%" height="100%"></th>
 	            <th width="230px" th:utext="|급여 지급 날짜 <br> <p>${ pay.payEmployeeDate }</p>|"><br></th>
 	            <th width="230px" colspan="2" th:utext="|4대보험,수수료,근무인원 미적용 급여 <br> <p>${ pay.reservationInfo.totalPayment}원</p>|"></th>
 	            <th colspan="2" width="230px" th:utext="|최종 급여 <br> <p>${ pay.payEmployeeFinalSalary }원</p>|"></th>

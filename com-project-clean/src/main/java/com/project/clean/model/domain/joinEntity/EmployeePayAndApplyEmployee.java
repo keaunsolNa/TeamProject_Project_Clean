@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.project.clean.model.domain.adminEntity.AdminEmployee;
 import com.project.clean.model.domain.commonEntity.Employee;
 import com.project.clean.model.domain.commonEntity.ReservationInfo;
 
@@ -31,20 +32,18 @@ public class EmployeePayAndApplyEmployee implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "PAY_APPLY_EMPLOYEE_NO", referencedColumnName="EMPLOYEE_NO")
-	private Employee employee;
+	private AdminEmployee employee;
 	
 	@ManyToOne
 	@JoinColumn(name= "PAY_APPLY_RESERVATION_NO", referencedColumnName="RESERVATION_NO")
 	private ReservationInfo reservationInfo;
 	
-	
 	public EmployeePayAndApplyEmployee() {
 		// TODO Auto-generated constructor stub
 	}
-
-
+	
 	public EmployeePayAndApplyEmployee(int payHistoryEmployeeNo, Date payEmployeeDate, int payEmployeeFinalSalary,
-			Employee employee, ReservationInfo reservationInfo) {
+			AdminEmployee employee, ReservationInfo reservationInfo) {
 		super();
 		this.payHistoryEmployeeNo = payHistoryEmployeeNo;
 		this.payEmployeeDate = payEmployeeDate;
@@ -53,61 +52,49 @@ public class EmployeePayAndApplyEmployee implements Serializable {
 		this.reservationInfo = reservationInfo;
 	}
 
-
 	public int getPayHistoryEmployeeNo() {
 		return payHistoryEmployeeNo;
 	}
-
 
 	public void setPayHistoryEmployeeNo(int payHistoryEmployeeNo) {
 		this.payHistoryEmployeeNo = payHistoryEmployeeNo;
 	}
 
-
 	public java.sql.Date getPayEmployeeDate() {
 		return payEmployeeDate;
 	}
-
 
 	public void setPayEmployeeDate(java.sql.Date payEmployeeDate) {
 		this.payEmployeeDate = payEmployeeDate;
 	}
 
-
 	public int getPayEmployeeFinalSalary() {
 		return payEmployeeFinalSalary;
 	}
-
 
 	public void setPayEmployeeFinalSalary(int payEmployeeFinalSalary) {
 		this.payEmployeeFinalSalary = payEmployeeFinalSalary;
 	}
 
-
-	public Employee getEmployee() {
+	public AdminEmployee getEmployee() {
 		return employee;
 	}
 
-
-	public void setEmployee(Employee employee) {
+	public void setEmployee(AdminEmployee employee) {
 		this.employee = employee;
 	}
-
 
 	public ReservationInfo getReservationInfo() {
 		return reservationInfo;
 	}
 
-
 	public void setReservationInfo(ReservationInfo reservationInfo) {
 		this.reservationInfo = reservationInfo;
 	}
 
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
 
 	@Override
 	public String toString() {
@@ -115,6 +102,8 @@ public class EmployeePayAndApplyEmployee implements Serializable {
 				+ payEmployeeDate + ", payEmployeeFinalSalary=" + payEmployeeFinalSalary + ", employee=" + employee
 				+ ", reservationInfo=" + reservationInfo + "]";
 	}
+	
+	
 	
 	
 	
