@@ -703,7 +703,7 @@ public class AdminEmployeeController {
 	@GetMapping("/hr/select/selectAllVacation")
 	@ResponseBody
 	public Map<String, Object> selectAllVacationList(String category, String categoryValue, String startDate,
-			String endDate, @PageableDefault(size = maxLine) Pageable pageable) {
+			String endDate, @PageableDefault(direction = Direction.DESC, sort = "vacationNo",size = maxLine) Pageable pageable) {
 		Map<String, Object> map = new HashMap<>();
 		map = adminService.selectAllVacaionList(category, categoryValue, startDate, endDate, pageable);
 
@@ -721,7 +721,7 @@ public class AdminEmployeeController {
 	@GetMapping("/hr/select/selectAllVacationConfirmList")
 	@ResponseBody
 	public Map<String, Object> selectAllVacationConfirmList(String category, String categoryValue, String startDate,
-			String endDate, @PageableDefault(size = maxLine) Pageable pageable) {
+			String endDate, @PageableDefault(direction = Direction.DESC, sort = "vacationNo",size = maxLine) Pageable pageable) {
 		Map<String, Object> map = new HashMap<>();
 		map = adminService.selectAllVacationConfirmList(category, categoryValue, startDate, endDate, pageable);
 
@@ -739,7 +739,7 @@ public class AdminEmployeeController {
 	@GetMapping("/hr/select/selectAllVacationReturnList")
 	@ResponseBody
 	public Map<String, Object> selectAllVacationReturnList(String category, String categoryValue, String startDate,
-			String endDate, @PageableDefault(size = maxLine) Pageable pageable) {
+			String endDate, @PageableDefault(direction = Direction.DESC, sort = "vacationNo",size = maxLine) Pageable pageable) {
 		Map<String, Object> map = new HashMap<>();
 		map = adminService.selectAllVacaionReturnList(category, categoryValue, startDate, endDate, pageable);
 
