@@ -257,9 +257,9 @@ public class PayServiceImpl implements PayService{
 
 	
 	/* 급여를 한번도 받지 않은 신입 관리자 조회  */
-	public List<AdminAndAdminPayDTO> findNullAdmin() {
+	public List<AdminAndAdminPayDTO> findNullAdmin(String Yn) {
 		
-		List<AdminAndAdminPay> adminList = adminAndAdminPayRepository.findNullAdminNativeQuery();				
+		List<AdminAndAdminPay> adminList = adminAndAdminPayRepository.findNullAdminNativeQuery(Yn);				
 		System.out.println("--------- DTO에서 adminPay 여부 확인 ----------");
 		for (AdminAndAdminPay adminAndAdminPay : adminList) {
 			System.out.println(adminAndAdminPay.getAdminPay());
@@ -280,10 +280,10 @@ public class PayServiceImpl implements PayService{
 	}
 
 	
-	/* 모든 관리자 조회 */
-	public List<AdminAndAdminPayDTO> findAllAdmin() {
-		
-		List<AdminAndAdminPay> adminList3 = adminAndAdminPayRepository.findAll(Sort.by("adminName"));				
+	/* 모든 관리자 조회(퇴사하지 않은) */
+	public List<AdminAndAdminPayDTO> findByAdminRetireYn(String Yn) {
+		System.out.println("YN의 값 " + Yn);
+		List<AdminAndAdminPay> adminList3 = adminAndAdminPayRepository.findByadminRetireYn(Yn);				
 
 		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
 		return adminList3.stream().map(admin -> modelMapper.map(admin,AdminAndAdminPayDTO.class)).collect(Collectors.toList());
@@ -378,7 +378,16 @@ public class PayServiceImpl implements PayService{
 	
 	@Override
 	public BestEmployeePayAndEmployeeDTO hasBestEmployeePay(int bestEmployeeNo) {
-		BestEmployeePayAndEmployeeDTO hasBestEmployeePay =  bestEmployeePayRepository.hasBestEmployeePay(bestEmployeeNo);
+		
+		BestEmployeePayAndEmployeeDTO hasBestEmployeePay = new BestEmployeePayAndEmployeeDTO();
+		try {
+			hasBestEmployeePay =  bestEmployeePayRepository.hasBestEmployeePay(bestEmployeeNo);
+			
+		} catch(org.springframework.core.convert.ConverterNotFoundException e) {
+			
+			hasBestEmployeePay = new BestEmployeePayAndEmployeeDTO();
+		}
+		
 		return hasBestEmployeePay;
 		
 	}

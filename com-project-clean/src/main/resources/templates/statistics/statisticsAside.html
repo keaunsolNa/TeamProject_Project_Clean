@@ -6,7 +6,10 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 body {
-	font-family: "Lato", sans-serif;
+    font-family: 'MinSans-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 /* Fixed sidenav, full height */
@@ -22,28 +25,33 @@ body {
 
 /* Style the sidenav links and the dropdown button */
 .sidenav a, .dropdown-btn {
-	padding: 6px 8px 6px 16px;
-	text-decoration: none;
-	font-size: 20px;
-	color: #575757;
-	display: block;
-	border: none;
-	background: none;
-	width: 100%;
-	text-align: left;
-	cursor: pointer;
-	outline: none;
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #575757;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+
+.dropdown-btn  {
+ font-size: 20px;
+ font-weight: bold;
 }
 
 /* On mouse-over */
-.sidenav a:hover, .dropdown-btn:hover {
-	-webkit-text-stroke: 1px;
+.sidenav a:hover {
+  -webkit-text-stroke: 1px;
+  color:#7DBEED;
 }
 
 /* Add an active class to the active dropdown button */
 .active {
-	background-color: #f1f1f1;
-	-webkit-text-stroke: 1px;
+    background-color : #f1f1f1;
 }
 
 /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */

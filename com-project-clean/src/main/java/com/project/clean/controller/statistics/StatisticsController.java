@@ -2,9 +2,11 @@ package com.project.clean.controller.statistics;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,7 +20,8 @@ import com.project.clean.model.service.statistics.StatisticsService;
 public class StatisticsController {
 
 private final StatisticsService statisticsService;
-	
+private static final Random RANDOM = new Random(System.currentTimeMillis());
+
 	@Autowired
 	public StatisticsController(StatisticsService statisticsService) {
 		System.out.print(1);
@@ -130,5 +133,18 @@ private final StatisticsService statisticsService;
 			return mv;
 		}
 	}
+	
+	@GetMapping
+    public String index(Model model) { 
+        model.addAttribute("chartData", getChartData()); 
+        return "index";
+    }
+
+    private List<List<Object>> getChartData() { 
+        return List.of(
+               List.of("총 매출금액", RANDOM.nextInt(2)),
+               List.of("순 수익 금액", RANDOM.nextInt(2))     
+        );
+    }
 
 }

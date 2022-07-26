@@ -92,8 +92,11 @@ public class AdminEmployeeService {
 		return maxMemberNo;
 	}
 
+	/* 직원등록 */
 	@Transactional
 	public void registEmployee(EmployeeAndAllDTO employeeDTO) {
+		int empNo = employeeRepository.findMaxSequenceNo();
+		employeeDTO.setEmployeeId(employeeDTO.getEmployeeId() + empNo);
 		employeeRepository.save(modelMapper.map(employeeDTO, AdminEmployee.class));
 
 	}

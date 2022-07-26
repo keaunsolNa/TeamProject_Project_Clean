@@ -109,7 +109,7 @@
 	</script>
 	<script th:inline="javascript">
 	$(function(){
-			const start = new Date([[${#dates.format(reservation.businessStartTime, 'yyyy-MM-dd')}]]);
+			const start = new Date([[${#dates.format(reservation.businessStartTime, 'yyyy-MM-dd HH:mm:ss')}]]);
 			const now = new Date();
 			if(start.getTime() < now.getTime()){
 				alert("이미 종료된 예약입니다.");

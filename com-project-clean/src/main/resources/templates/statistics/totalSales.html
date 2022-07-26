@@ -63,7 +63,7 @@ table tr {
 </head>
 <body>
 	<main>
-		<div th:include="common/header.html"></div>
+		<div th:replace="/common/Header.html"></div>
 		<div th:include="statistics/statisticsAside.html"></div>
 		<article>
 			<section>
@@ -81,6 +81,7 @@ table tr {
 				<br>
 				<br>
 				
+<<<<<<< HEAD
 				<script type="text/javascript">
 			      google.charts.load('current', {'packages':['corechart']});
 			      google.charts.setOnLoadCallback(drawVisualization);
@@ -93,16 +94,38 @@ table tr {
 			          ['순 수익 금액',  -67356000 ],
 			                   
 			        ]);
+=======
+				<script type="text/javascript" th:inline="javascript">
+			      google.charts.load('current', {'packages':['corechart']});
+			      google.charts.setOnLoadCallback(drawVisualization);
+			
+			      
+			      function drawVisualization() {
+			        // Some raw data (not necessarily accurate)
+			        var data = google.visualization.arrayToDataTable([
+			          ['직급명', '급여 액수'],
+			          ['', 0],
+			          ['총 매출 금액', '[[${ totalSales }]]'],
+			          ['순 수익 금액', '[[${ netProfit }]]']
+			          
+			         			        	  
+			          ]);
+>>>>>>> master
 			        
 			        var options = {
 			          title : '회사 매출 통계 그래프',
 			          vAxis: {title: '금액'},
 			          seriesType: 'bars',
 			          series: {5: {type: 'line'}}
+<<<<<<< HEAD
+=======
+			          
+>>>>>>> master
 			        };
 			
 			        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
 			        chart.draw(data, options);
+<<<<<<< HEAD
 			      }
 			      </script>
 			
@@ -110,5 +133,14 @@ table tr {
 				</section>
 			</article>
 		</main>
+=======
+			      	}
+			      </script>
+			
+			    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+			</section>
+		</article>
+	</main>
+>>>>>>> master
 </body>
 </html>
