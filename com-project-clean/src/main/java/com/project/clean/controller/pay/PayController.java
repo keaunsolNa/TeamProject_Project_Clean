@@ -170,10 +170,11 @@ public class PayController {
 	/* 관리자 급여 대기목록 */
 	@GetMapping("/management/adminPayWaiting")
 	public ModelAndView findAdminList(ModelAndView mv) {
-		List<AdminAndAdminPayDTO> adminList = payService.findNullAdmin();		// 급여를 한번도 받지 않은 관리자(신입사원)
-		List<AdminAndAdminPayDTO> adminList2 = payService.findPaidAdmin();		// 급여를 이미 받은 관리자(달 기준)
-		List<AdminAndAdminPayDTO> adminList3 = payService.findAllAdmin();		// 모든 관리자(급여를 받은 관리자와 비교하기 위함)
-		List<SurchargeDTO> surchargeList = payService.findSurchargeList();		// 부가요금 테이블
+		String Yn = "N" ;	// 퇴사하지 않은
+		List<AdminAndAdminPayDTO> adminList = payService.findNullAdmin(Yn);				// 급여를 한번도 받지 않은 관리자(신입사원)
+		List<AdminAndAdminPayDTO> adminList2 = payService.findPaidAdmin();				// 급여를 이미 받은 관리자(달 기준)
+		List<AdminAndAdminPayDTO> adminList3 = payService.findByAdminRetireYn(Yn);		// 모든 관리자 조회(퇴사하지 않은)(급여를 받은 관리자와 비교하기 위함)
+		List<SurchargeDTO> surchargeList = payService.findSurchargeList();				// 부가요금 테이블
 		
 		// 부가요금 테이블에서 4대보험료 불러오기 (급여계산에 쓰기 위해) 
 		int insurance =surchargeList.get(0).getSurchargeInsurance();
@@ -193,7 +194,8 @@ public class PayController {
 	@ResponseBody
 	public List<AdminAndAdminPayDTO> findAdminSelect(){
 		
-		return payService.findAllAdmin();
+		String Yn = "N" ;
+		return payService.findByAdminRetireYn(Yn);
 	
 	}
 	
@@ -277,9 +279,8 @@ public class PayController {
 	
 	/* 이달의 우수직원 급여 지급 페이지 - 우수 직원 조회(ajax)*/
 	@GetMapping(value="/bestEmployee", produces = "application/json; charset=UTF-8")
-	@ResponseBody
+	@ResponseBody 
 	public List<AdminEmployee> findBestEmployeeSelect(){
-		System.out.println("ㅁㄴㄹㅇㄹ");
 		System.out.println(statisticsService.findByEmployeeRetireYnOrderByEmployeeSumTimeDesc("N"));
 		return statisticsService.findByEmployeeRetireYnOrderByEmployeeSumTimeDesc("N");
 	
@@ -310,7 +311,7 @@ public class PayController {
 			
 			rttr.addFlashAttribute("modifyFailMessage", "우수직원이 이미 급여를 받았습니다!!");
 			
-			return "redirect:/admin/pay/management/bestEmployeePaySelect";
+			return "redirect:/admin/pay/management/bestEmployeePayWaiting";
 			
 		}
 		 
