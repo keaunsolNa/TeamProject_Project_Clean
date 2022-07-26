@@ -167,9 +167,6 @@ public class CheckListController {
 	@PostMapping("update")
 	public String updateCheckList(HttpServletRequest request) {
 		
-		System.out.println("TEST1 : " + request.getParameter("resNo"));
-		System.out.println("TEST1 : " + request.getParameter("resNo"));
-		System.out.println("TEST1 : " + request.getParameter("resNo"));
 		int reservationNo = Integer.parseInt(request.getParameter("reservationNo"));
 		
 		CheckListDTO checkListDTO = new CheckListDTO();
