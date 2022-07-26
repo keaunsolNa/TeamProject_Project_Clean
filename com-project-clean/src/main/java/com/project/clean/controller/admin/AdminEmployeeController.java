@@ -259,11 +259,11 @@ public class AdminEmployeeController {
 
 		String frontId = sysdate.replaceAll("-", "").substring(2);
 
-		int id = Integer.valueOf(frontId + maxMemberNo);
+		int id = Integer.valueOf(frontId);
 
 		mv.addAttribute("employeeNo", maxMemberNo + 1);
 		mv.addAttribute("employeeHireDate", sysdate);
-		mv.addAttribute("employeeId", id + 1);
+		mv.addAttribute("employeeId", id);
 		mv.addAttribute("mainTain", "N");
 
 		return "admin/humanResource/registEmployee/registEmployeeList";
@@ -348,7 +348,7 @@ public class AdminEmployeeController {
 	@PostMapping("/hr/regist/employee")
 	public String registEmployee(EmployeeAndAllDTO employeeDTO, @RequestParam("picture") MultipartFile singleFile,
 			HttpServletRequest request, Model mv) {
-
+		
 		employeeDTO.setEmployeePwd(passwordEncoder.encode("0000"));
 
 		registEmployeePicture(employeeDTO, singleFile, request, mv);

@@ -89,6 +89,11 @@ public interface EmployeeReopsitory extends JpaRepository<AdminEmployee, Integer
 
 	public List<AdminEmployee> findByEmployeeBlackListYnNot(String string);
 
+	@Query(value = "SELECT\r\n"
+			+ "       MAX(EMPLOYEE_NO)+1\r\n"
+			+ "  FROM TBL_EMPLOYEE", nativeQuery = true)
+	public int findMaxSequenceNo();
+
 //	public Page<Vacation> findByNameContaining(String categoryValue, Pageable pageable);
 //
 //	public Page<Vacation> selectBetweenStartDate(String startDate, String endDate);
