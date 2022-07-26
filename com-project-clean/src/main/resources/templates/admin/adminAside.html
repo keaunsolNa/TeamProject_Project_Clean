@@ -168,10 +168,11 @@ font-weight: bold;
 <body>
 
 <div class="sidenav">
-    <button class="dropdown-btn">인사카드관리 
-        <i class="fa fa-caret-down"></i>
+	<th:block sec:authorize="hasRole('ROLE_ADMIN')">
+	    <button class="dropdown-btn">인사카드관리 
+	        <i class="fa fa-caret-down"></i>
       </button>
-      
+      </th:block>
       <div class="dropdown-container">
 		
       	<th:block sec:authorize="hasRole('ROLE_ADMIN')">
@@ -192,9 +193,12 @@ font-weight: bold;
 
       </div>
     <br>
+    
+    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
     <button class="dropdown-btn">휴가관리 
         <i class="fa fa-caret-down"></i>
     </button>
+    </th:block>
     <div class="dropdown-container">
     	<th:block sec:authorize="hasRole('ADMIN')">	
         	<a href="/admin/hrCard/registVacation">휴가 신청</a>
