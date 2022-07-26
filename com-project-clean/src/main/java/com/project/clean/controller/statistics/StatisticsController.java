@@ -46,9 +46,9 @@ private static final Random RANDOM = new Random(System.currentTimeMillis());
 	public ModelAndView adminSalaryDetail(ModelAndView mv, @PathVariable int jobCode) {
 		String job = "";
 		switch (jobCode) {
-			case 1 :	job = "총관리자";
+			case 2 :	job = "총관리자";
 						break;
-			case 2 :	job = "일반관리자";
+			case 1 :	job = "일반관리자";
 						break;
 			case 3 :	job = "보안담당자";
 						break;
