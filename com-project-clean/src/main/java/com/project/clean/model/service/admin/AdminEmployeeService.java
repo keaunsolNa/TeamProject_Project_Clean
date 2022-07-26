@@ -92,6 +92,7 @@ public class AdminEmployeeService {
 		return maxMemberNo;
 	}
 
+	/* 직원등록 */
 	@Transactional
 	public void registEmployee(EmployeeAndAllDTO employeeDTO) {
 		employeeRepository.save(modelMapper.map(employeeDTO, AdminEmployee.class));
