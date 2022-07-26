@@ -35,7 +35,7 @@ public class AdminCheckListController {
 	
 	private AdminCheckListService adminCheckListService;
 	private PayService payService;
-	private final int maxLine = 5;
+	private final int maxLine = 10;
 	
 	@Autowired 
 	public AdminCheckListController(AdminCheckListService adminCheckListService,PayService payService) {

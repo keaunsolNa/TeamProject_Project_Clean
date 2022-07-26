@@ -85,7 +85,7 @@ public class VacationStandbyController {
 		
 		}catch(Exception e){
 			
-			mv.setViewName("admin/error.html");
+			mv.setViewName("admin/error");
 			
 			return mv;
 		}
@@ -136,7 +136,7 @@ public class VacationStandbyController {
 		
 		}catch(Exception e){
 			
-			mv.setViewName("admin/error.html");
+			mv.setViewName("admin/error");
 			
 			return mv;
 		}
@@ -180,7 +180,7 @@ public class VacationStandbyController {
 			
 		}catch(Exception e){
 			
-			mv.setViewName("admin/error.html");
+			mv.setViewName("admin/error");
 			
 			return mv;
 		}
@@ -238,7 +238,7 @@ public class VacationStandbyController {
 			
 		}catch(Exception e){
 			
-			mv.setViewName("admin/error.html");
+			mv.setViewName("admin/error");
 			
 			return mv;
 		}
@@ -270,7 +270,7 @@ public class VacationStandbyController {
 			
 		}catch(Exception e){
 			
-			mv.setViewName("admin/error.html");
+			mv.setViewName("admin/error");
 			
 			return mv;
 		}
@@ -303,7 +303,7 @@ public class VacationStandbyController {
 			
 		}catch(Exception e){
 			
-			return "redirect:/admin/error.html";
+			return "redirect:/admin/error";
 		}
 	}
 	
@@ -352,7 +352,7 @@ public class VacationStandbyController {
 			
 		}catch(Exception e){
 			
-			return "redirect:/admin/error.html";
+			return "redirect:/admin/error";
 		}
 	}
 	
@@ -419,7 +419,7 @@ public class VacationStandbyController {
 			
 		}catch(Exception e){
 			
-			return "redirect:/admin/error.html";
+			return "redirect:/admin/error";
 		}
 	}
 	
@@ -470,7 +470,7 @@ public class VacationStandbyController {
 			
 		}catch(Exception e){
 			
-			return "redirect:/admin/error.html";
+			return "redirect:/admin/error";
 		}
 	}
 	
@@ -521,7 +521,7 @@ public class VacationStandbyController {
 		
 		}catch(Exception e){
 			
-			return "redirect:/admin/error.html";
+			return "redirect:/admin/error";
 		}
 	}
 }
