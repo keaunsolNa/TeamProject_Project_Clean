@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,25 +18,28 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.clean.controller.common.paging.Pagenation;
 import com.project.clean.controller.common.paging.SelectCriteria;
+import com.project.clean.model.domain.adminEntity.AdminEmployee;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
-import com.project.clean.model.dto.commonDTO.EmployeeDTO;
 import com.project.clean.model.dto.commonDTO.SurchargeDTO;
 import com.project.clean.model.dto.joinDTO.AdminAndAdminPayDTO;
 import com.project.clean.model.dto.joinDTO.AdminPayAndAdminDTO;
 import com.project.clean.model.dto.joinDTO.BestEmployeePayAndEmployeeDTO;
 import com.project.clean.model.dto.joinDTO.EmployeePayAndApplyEmployeeDTO;
-import com.project.clean.model.repository.pay.AdminRepositoryByPay;
 import com.project.clean.model.service.pay.PayService;
+import com.project.clean.model.service.statistics.StatisticsService;
 
 @Controller
 @RequestMapping("/admin/pay")
 public class PayController {
 	
 	private final PayService payService;
+	private final StatisticsService statisticsService;
 	
 	@Autowired
-	public PayController(PayService payService) {
+	public PayController(PayService payService, StatisticsService statisticsService) {
+		super();
 		this.payService = payService;
+		this.statisticsService = statisticsService;
 	}
 	
 	// 직원 급여 -----------------------------------------------------------------------------------------------
@@ -85,6 +89,8 @@ public class PayController {
 		
 	}
 	
+
+
 	/* 직원 급여 상세 조회 */
 	@GetMapping("/management/employeePaySelectInfo/{payHistoryEmployeeNo}")
 	public ModelAndView findEmployeePayByPayHistoryEmployeeNo(ModelAndView mv, @PathVariable int payHistoryEmployeeNo) {
@@ -97,7 +103,7 @@ public class PayController {
 		return mv;
 	}
 	
-
+ 
 	
 	/* 직원 급여 지급 */
 	// admin.checklist.AdminCheckListController에 acceptCheckList부분에 작성했다(체크리스트가 승인될때 바로 급여를 지급하게 만들었음)
@@ -269,12 +275,13 @@ public class PayController {
 	@GetMapping("/management/bestEmployeePayWaiting")
 	public void bestEmployeePayWaiting() {}
 	
-	/* 이달의 우수직원 급여 지급 페이지 - 모든 직원 조회(ajax)*/
-	@GetMapping(value="/employee", produces = "application/json; charset=UTF-8")
+	/* 이달의 우수직원 급여 지급 페이지 - 우수 직원 조회(ajax)*/
+	@GetMapping(value="/bestEmployee", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public List<EmployeeDTO> findEmployeeSelect(){
-		
-		return payService.findAllEmployee();
+	public List<AdminEmployee> findBestEmployeeSelect(){
+		System.out.println("ㅁㄴㄹㅇㄹ");
+		System.out.println(statisticsService.findByEmployeeRetireYnOrderByEmployeeSumTimeDesc("N"));
+		return statisticsService.findByEmployeeRetireYnOrderByEmployeeSumTimeDesc("N");
 	
 	}
 	
@@ -282,17 +289,30 @@ public class PayController {
 	@PostMapping("/management/bestEmployeePayWaiting")
 	public String registBestEmployeePay(RedirectAttributes rttr, int bestEmployeeNo) {
 		
-		// 우수직원 보너스를 가져옴
-		List<SurchargeDTO> surchargeList = payService.findSurchargeList();
-		int bestEmployeeBonus = surchargeList.get(0).getSurchargeBonus();
+		// 이미 있는 급여인지 확인(이달의 우수직원 보너스가 있는지 확인)
+		BestEmployeePayAndEmployeeDTO hasBestEmployeePay = payService.hasBestEmployeePay(bestEmployeeNo);
 		
-		
-		// 우수직원 번호, 보너스를 service로 보냄
-		payService.registBestEmployeePay(bestEmployeeNo, bestEmployeeBonus);
-		 
-		rttr.addFlashAttribute("modifySuccessMessage", "우수사원 보너스 지급에 성공하였습니다");
-		  
-		return "redirect:/admin/pay/management/bestEmployeePayWaiting";
+		// 보너스를 아직 받지 않았다면
+		if(hasBestEmployeePay == null) {
+			
+			// 우수직원 보너스를 가져옴
+			List<SurchargeDTO> surchargeList = payService.findSurchargeList();
+			int bestEmployeeBonus = surchargeList.get(0).getSurchargeBonus();
+			
+			// 우수직원 번호, 보너스를 service로 보냄
+			payService.registBestEmployeePay(bestEmployeeNo, bestEmployeeBonus);
+			
+			rttr.addFlashAttribute("modifySuccessMessage", "우수직원 보너스 지급에 성공하였습니다");
+			
+			return "redirect:/admin/pay/management/bestEmployeePayWaiting";
+			
+		}else {
+			
+			rttr.addFlashAttribute("modifyFailMessage", "우수직원이 이미 급여를 받았습니다!!");
+			
+			return "redirect:/admin/pay/management/bestEmployeePaySelect";
+			
+		}
 		 
 	}
 	

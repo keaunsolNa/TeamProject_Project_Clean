@@ -65,14 +65,25 @@ section{
 			})
 	}
 	
+	// 이미 우수직원이 급여를 받았을때 실패
+	const modifyFailMessage = "[[${ modifyFailMessage }]]";
+	if(modifyFailMessage){
+		Swal.fire({
+			  position: 'mid',
+			  icon: 'fail',
+			  title: '이미 이달의 우수직원 보너스를 받았습니다!',
+			  showConfirmButton: false,
+			  timer: 3000
+			})
+	}
+	
 	// 이번 달 가져오기
 	var now = new Date();	// 현재 날짜 및 시간
 	var month = now.getMonth() + 1;	// 월
 	console.log("월 : ", month);
-	document.getElementById('current_date').innerHTML = '<a href="/statistics/bestEmployee"> <b style="color:#7DBEED">' + month +'</b>' + '월달의 우수사원 보러가기 </a>' ;
+	// 이제 ajax에서 innerHTML로 추가한다.
 	
-	
-	
+
 	// select text 가져오기
 	var form = $('#modifyForm')
 	var employeeName = document.getElementById('bestEmployeeNo');
@@ -93,14 +104,14 @@ section{
 	// ajax 직원 이름 select로 가져오기
 	$(function(){
 			$.ajax({
-				url: "/admin/pay/employee",
+				url: "/admin/pay/bestEmployee",
 				success: function(data){
 					const $employeeNo = $("#bestEmployeeNo");
+					const $currentDate = document.getElementById('current_date');
 					$employeeNo.html("");
 					
-					for (let index in data){
-						$employeeNo.append($("<option>").val(data[index].employeeNo).text(data[index].employeeName))
-					}
+					$employeeNo.append($("<option>").val(data[0].employeeNo).text(data[0].employeeName))
+					$currentDate.innerHTML = '<a href="/statistics/bestEmployee"> <b style="color:#7DBEED">' + month +'</b>' + '월달의 우수사원은 ' + data[0].employeeName +'님 입니다. </a>' ;
 				},
 				error: function(xhr){
 					console.log(xhr);
