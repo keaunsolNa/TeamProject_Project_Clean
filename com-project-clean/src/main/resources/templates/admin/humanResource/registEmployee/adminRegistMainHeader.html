@@ -12,25 +12,25 @@
 <body>
 	<div class="registEmployeeHeader">
 		<th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
-			<button onclick="location.href='/admin/hr/regist/employeePage'">직원등록</button>
+			<button onclick="location.href='/admin/hr/regist/employeePage'">직원 등록</button>
 		</th:block>
 		
 		 <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
 		
 		<!-- HR -->
 		<span sec:authorize="!hasRole('ROLE_ADMIN_BOSS')">	
-			<button onclick="location.href='/admin/hr/waiting/employeeHR/move'">대기중직원(인사)</button>
+			<button onclick="location.href='/admin/hr/waiting/employeeHR/move'">대기중 직원</button>
 		</span>
 		
 		<!-- BOSS -->
 		<span sec:authorize="hasRole('ROLE_ADMIN_BOSS')">
-			<button onclick="location.href='/admin/hr/waiting/employeeBoss/move'">대기중직원(대표)</button>
+			<button onclick="location.href='/admin/hr/waiting/employeeBoss/move'">대기중 직원</button>
 		</span>
 		
 		</th:block>
 		
 		<th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
-			<button onclick="location.href='/admin/hr/return/employee/move'">반려직원</button>
+			<button onclick="location.href='/admin/hr/return/employee/move'">반려 직원</button>
 		</th:block>
 	</div>	
 </body>

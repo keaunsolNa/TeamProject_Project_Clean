@@ -703,7 +703,7 @@ public class AdminEmployeeController {
 	@GetMapping("/hr/select/selectAllVacation")
 	@ResponseBody
 	public Map<String, Object> selectAllVacationList(String category, String categoryValue, String startDate,
-			String endDate, @PageableDefault(direction = Direction.DESC, sort = "vacationNo",size = maxLine) Pageable pageable) {
+			String endDate, @PageableDefault(direction = Direction.DESC, sort = "vacationNo", size = maxLine) Pageable pageable) {
 		Map<String, Object> map = new HashMap<>();
 		map = adminService.selectAllVacaionList(category, categoryValue, startDate, endDate, pageable);
 

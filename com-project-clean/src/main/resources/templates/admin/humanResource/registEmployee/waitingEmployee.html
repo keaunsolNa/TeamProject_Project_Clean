@@ -1,4 +1,4 @@
-\<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
 	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
@@ -121,7 +121,7 @@
 	              </tr>
 	              <tr>
 	                <td>
-	                  <div class="subTitle" style="line-height: 150px;">반려사유</div>
+	                  <div class="subTitle" style="line-height: 150px;">사유</div>
 	                </td>
 	                <td colspan="5">
 	                  <textarea name="Reason" id="returnReason" cols="70" rows="10" style="resize: none;"
@@ -134,13 +134,13 @@
               <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
               
 	              <th:block sec:authorize="hasRole('ROLE_ADMIN_BOSS')">
-	             <button type="button" id="bossConfirm">boss승인</button>
-	             <button type="button" id="bossReturn">boss반려</button>
+	             <button type="button" id="bossConfirm">승인</button>
+	             <button type="button" id="bossReturn">반려</button>
 	          	  </th:block>
 	          	  
 	          	  <th:block sec:authorize="!hasRole('ROLE_ADMIN_BOSS')">
-	             <button type="button" id="hrConfirm">hr승인</button>
-	             <button type="button" id="hrReturn">hr반려</button>
+	             <button type="button" id="hrConfirm">승인</button>
+	             <button type="button" id="hrReturn">반려</button>
 	          	  </th:block>
 	          	  
           	  </th:block>
