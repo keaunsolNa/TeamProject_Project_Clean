@@ -41,11 +41,11 @@ public interface StatisticsRepository extends JpaRepository<Admin, Integer>{
 	public int findNetProfitWithQuery();
 	
 	/* 직원 평균 누적근무시간 */
-	@Query(value = "SELECT ROUND(AVG(EMPLOYEE_SUM_TIME)) EMPLOYEE_SUM_TIME FROM TBL_EMPLOYEE", nativeQuery = true)
+	@Query(value = "SELECT ROUND(AVG(EMPLOYEE_SUM_TIME)) EMPLOYEE_SUM_TIME FROM TBL_EMPLOYEE WHERE EMPLOYEE_RETIRE_YN='N'", nativeQuery = true)
 	public int findAvgHoursWithQuery();
 	
 	/* 직원 총 누적근무시간 */
-	@Query(value = "SELECT ROUND(SUM(EMPLOYEE_SUM_TIME)) EMPLOYEE_SUM_TIME FROM TBL_EMPLOYEE", nativeQuery = true)
+	@Query(value = "SELECT ROUND(SUM(EMPLOYEE_SUM_TIME)) EMPLOYEE_SUM_TIME FROM TBL_EMPLOYEE WHERE EMPLOYEE_RETIRE_YN='N'", nativeQuery = true)
 	public int findTotalHoursWithQuery();
 	
 	/* 직원 근무시간 조회 */
