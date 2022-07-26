@@ -81,20 +81,6 @@ table tr {
 				<br>
 				<br>
 				
-<<<<<<< HEAD
-				<script type="text/javascript">
-			      google.charts.load('current', {'packages':['corechart']});
-			      google.charts.setOnLoadCallback(drawVisualization);
-			
-			      function drawVisualization() {
-			        // Some raw data (not necessarily accurate)
-			        var data = google.visualization.arrayToDataTable([
-			          ['직급명', '평균 급여' ],
-			          ['총 매출 금액',  1844000 ],
-			          ['순 수익 금액',  -67356000 ],
-			                   
-			        ]);
-=======
 				<script type="text/javascript" th:inline="javascript">
 			      google.charts.load('current', {'packages':['corechart']});
 			      google.charts.setOnLoadCallback(drawVisualization);
@@ -107,8 +93,7 @@ table tr {
 			          ['', 0],
 			          ['총 매출 금액', '[[${ totalSales }]]'],
 			          ['순 수익 금액', '[[${ netProfit }]]']
-			          
-			         			        	  
+			  		        	  
 			          ]);
 			        
 			        var options = {
@@ -116,8 +101,6 @@ table tr {
 			          vAxis: {title: '금액'},
 			          seriesType: 'bars',
 			          series: {5: {type: 'line'}}
-
-			          
 
 			        };
 			
@@ -131,14 +114,6 @@ table tr {
 				</section>
 			</article>
 		</main>
-=======
-			      	}
-			      </script>
-			
-			    <div id="chart_div" style="width: 900px; height: 500px;"></div>
-			</section>
-		</article>
-	</main>
->>>>>>> master
+
 </body>
 </html>
