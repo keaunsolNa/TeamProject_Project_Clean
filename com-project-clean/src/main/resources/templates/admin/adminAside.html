@@ -32,7 +32,7 @@ text-align: center;}
 .sidenav a, .dropdown-btn {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 18px;
   color: #575757;
   display: block;
   border: none;
@@ -43,15 +43,19 @@ text-align: center;}
   outline: none;
 }
 
+.dropdown-btn  {
+ font-size: 20px;
+ font-weight: bold;
+}
 /* On mouse-over */
-.sidenav a:hover, .dropdown-btn:hover {
+.sidenav a:hover {
   -webkit-text-stroke: 1px;
+  color:#7DBEED;
 }
 
 /* Add an active class to the active dropdown button */
 .active {
     background-color : #f1f1f1;
-    -webkit-text-stroke: 1px;
 }
 
 /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
@@ -171,19 +175,19 @@ font-weight: bold;
       <div class="dropdown-container">
 		
       	<th:block sec:authorize="hasRole('ROLE_ADMIN')">
-        	<a style="font-size : 16px" href="/admin/select/AllEmployee/move">전체 인원 조회</a>
+        	<a href="/admin/select/AllEmployee/move">전체 인원 조회</a>
         </th:block>
         
         <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
-	        <a style="font-size : 16px" href="/admin/hr/regist/employeePage">직원 등록</a>
+	        <a href="/admin/hr/regist/employeePage">직원 등록</a>
         </th:block>
         
         <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">	
-        	<a style="font-size : 16px" href="/admin/hrCard/hr/adminRegist">관리자 등록</a>
+        	<a href="/admin/hrCard/hr/adminRegist">관리자 등록</a>
         </th:block>
         
 		<th:block sec:authorize="hasRole('ROLE_ADMIN')">
-	        <a style="font-size : 16px" href="/admin/select/blackList/move">블랙리스트 조회</a>
+	        <a href="/admin/select/blackList/move">블랙리스트 조회</a>
         </th:block>
 
       </div>
@@ -193,25 +197,25 @@ font-weight: bold;
     </button>
     <div class="dropdown-container">
     	<th:block sec:authorize="hasRole('ADMIN')">	
-        	<a style="font-size : 16px" href="/admin/hrCard/registVacation">휴가 신청</a>
+        	<a href="/admin/hrCard/registVacation">휴가 신청</a>
         </th:block>
         
         <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-        	<a style="font-size : 16px" href="/admin/select/selectMyVacation/move">나의 휴가 조회</a>
+        	<a href="/admin/select/selectMyVacation/move">나의 휴가 조회</a>
         </th:block>
         
         <th:black sec:authorize="hasRole('ROLE_ADMIN_HR')">
-        	<a style="font-size : 16px" href="/admin/hr/humanResource/selectAllVacation/move">휴가 전체 조회</a>
+        	<a href="/admin/hr/humanResource/selectAllVacation/move">휴가 전체 조회</a>
         </th:block>
         
         <th:block sec:authorize="hasRole('ROLE_ADMIN_HR')">	
         <th:block sec:authorize="!hasRole('ROLE_ADMIN_BOSS')">	
-        	<a style="font-size : 16px" href="/admin/hrCard/vacation/standbyFirstVacationList">결재 대기 목록</a>
+        	<a href="/admin/hrCard/vacation/standbyFirstVacationList">결재 대기 목록</a>
         </th:block>
         </th:block>
         
         <th:block sec:authorize="hasRole('ROLE_ADMIN_BOSS')">
-        	<a style="font-size : 16px" href="/admin/hrCard/boss/standbySecondVacationList">결재 대기 목록</a>
+        	<a href="/admin/hrCard/boss/standbySecondVacationList">결재 대기 목록</a>
     	</th:block>
 
     </div>
