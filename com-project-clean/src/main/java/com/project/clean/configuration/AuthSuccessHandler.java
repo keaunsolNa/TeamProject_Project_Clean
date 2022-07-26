@@ -15,11 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.RequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 @Configuration
 @Service("com.project.clean")
@@ -32,16 +28,6 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler{
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		
-		Cookie[] myCookie = request.getCookies();
-		if(null != request.getCookies()) {
-			for(Cookie c : myCookie) {
-				System.out.println(c.getName());
-				System.out.println(c.getValue());
-			}
-		}
-		
-       	response.sendRedirect("/main");
-		
+		response.sendRedirect("/main");
 	}
-
 }
