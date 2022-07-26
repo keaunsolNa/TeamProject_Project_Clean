@@ -67,7 +67,7 @@ table tr {
 				<br>
 				<div id="averageSalesList">
 					<table id="averageSales">
-					<th class="month">총 매출 금액</th><th class="month">순 수익 금액</th>
+					<th class="total">총 매출 금액</th><th class="revenue">순 수익 금액</th>
 						<tr>
 							<th th:text="|${ totalSales } 원|"></th><td th:text="|${ netProfit } 원|">원</td>
 						</tr>
@@ -88,8 +88,7 @@ table tr {
 			          ['', 0],
 			          ['총 매출 금액', '[[${ totalSales }]]'],
 			          ['순 수익 금액', '[[${ netProfit }]]']
-			          
-			         			        	  
+			  		        	  
 			          ]);
 			        
 			        var options = {
@@ -97,17 +96,19 @@ table tr {
 			          vAxis: {title: '금액'},
 			          seriesType: 'bars',
 			          series: {5: {type: 'line'}}
-			          
+
 			        };
 			
 			        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
 			        chart.draw(data, options);
-			      	}
+
+			      }
 			      </script>
 			
-			    <div id="chart_div" style="width: 900px; height: 500px;"></div>
-			</section>
-		</article>
-	</main>
+			    	<div id="chart_div" style="width: 900px; height: 500px;"></div>
+				</section>
+			</article>
+		</main>
+
 </body>
 </html>
