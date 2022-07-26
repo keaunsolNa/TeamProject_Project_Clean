@@ -109,7 +109,7 @@ public class AdminAdminController {
 			
 		}catch(Exception e){
 			
-			mv.setViewName("admin/error.html");
+			mv.setViewName("admin/error");
 			
 			return mv;
 		}
@@ -209,7 +209,7 @@ public class AdminAdminController {
 			
 		}catch(Exception e){
 			
-			mv.setViewName("admin/error.html");
+			mv.setViewName("admin/error");
 			
 			return mv;
 		}
@@ -261,7 +261,7 @@ public class AdminAdminController {
 			
 		}catch(Exception e){
 			
-			mv.setViewName("admin/error.html");
+			mv.setViewName("admin/error");
 			
 			return mv;
 		}
@@ -312,7 +312,7 @@ public class AdminAdminController {
 		
 		}catch(Exception e){
 			
-			mv.setViewName("admin/error.html");
+			mv.setViewName("admin/error");
 			
 			return mv;
 		}
@@ -367,7 +367,7 @@ public class AdminAdminController {
 		
 		} catch(IndexOutOfBoundsException e) {
 			
-			mv.setViewName("admin/error.html");
+			mv.setViewName("admin/error");
 			
 			return mv;
 		}
@@ -409,7 +409,7 @@ public class AdminAdminController {
 			
 		}catch(IndexOutOfBoundsException e){
 			
-			mv.setViewName("admin/error.html");
+			mv.setViewName("admin/error");
 			
 			return mv;
 		}
@@ -435,7 +435,7 @@ public class AdminAdminController {
 			return mv;
 		
 		} catch (NullPointerException e) {
-			mv.setViewName("admin/error.html");
+			mv.setViewName("admin/error");
 			
 			return mv;
 		}
@@ -502,7 +502,7 @@ public class AdminAdminController {
 		
 		}catch(Exception e){
 			
-			return "redirect:/admin/error.html";
+			return "redirect:/admin/error";
 		}
 	}
 	
@@ -569,7 +569,7 @@ public class AdminAdminController {
 		
 		}catch(IndexOutOfBoundsException e){
 			
-			mv.setViewName("admin/error.html");
+			mv.setViewName("admin/error");
 			
 			return mv;
 		}
@@ -639,7 +639,7 @@ public class AdminAdminController {
 		
 		}catch(IndexOutOfBoundsException e){
 			
-			mv.setViewName("admin/error.html");
+			mv.setViewName("admin/error");
 			
 			return mv;
 		}
@@ -749,7 +749,7 @@ public class AdminAdminController {
 		}catch(Exception e){
 			
 			
-			return "redirect:/admin/error.html";
+			return "redirect:/admin/error";
 		}
 	}
 
@@ -803,7 +803,7 @@ public class AdminAdminController {
 		}catch(IndexOutOfBoundsException e){
 			
 
-			return "redirect:/admin/error.html";
+			return "redirect:/admin/error";
 		}
 	}
 	
