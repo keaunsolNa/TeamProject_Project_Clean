@@ -83,6 +83,7 @@ public class CheckListServiceImpl implements CheckListService{
 				
 				continue;
 				
+				/* 이미 시작한 대기중 CheckList가 없을 때만 시행한다. */
 				} catch(java.util.NoSuchElementException e) {
 
 						/* reservationNo로 ReservationInfo Entity 조회 */
@@ -341,7 +342,8 @@ public class CheckListServiceImpl implements CheckListService{
 			
 			/* 값 반환 */
 			return checkListAndReservationInfoAndEmployeeList;
-		}
+		} 
+		
 		return checkListAndReservationInfoAndEmployeeList; 
 		
 	}
@@ -363,6 +365,11 @@ public class CheckListServiceImpl implements CheckListService{
 		} catch(java.util.NoSuchElementException e) {
 			
 			/* 빈 객체 생성 */
+			CheckListDTO checkListDTO = new CheckListDTO();
+			
+			return checkListDTO;
+		} catch(java.lang.NullPointerException e) {
+			
 			CheckListDTO checkListDTO = new CheckListDTO();
 			
 			return checkListDTO;
