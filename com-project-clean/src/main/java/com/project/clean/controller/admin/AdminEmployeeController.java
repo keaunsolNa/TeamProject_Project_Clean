@@ -622,10 +622,10 @@ public class AdminEmployeeController {
 			mv.addAttribute("hrReason", selectVacation.getVacationCommitList().get(0).getConfirmReason());
 
 		} else if (selectVacation.getVacationCommitList().size() == 2) {
-			mv.addAttribute("hrConfirm", selectVacation.getVacationCommitList().get(1).getConfirmDate());
-			mv.addAttribute("hrReason", selectVacation.getVacationCommitList().get(1).getConfirmReason());
-			mv.addAttribute("bossConfirm", selectVacation.getVacationCommitList().get(0).getConfirmDate());
-			mv.addAttribute("bossReason", selectVacation.getVacationCommitList().get(0).getConfirmReason());
+			mv.addAttribute("hrConfirm", selectVacation.getVacationCommitList().get(0).getConfirmDate());
+			mv.addAttribute("hrReason", selectVacation.getVacationCommitList().get(0).getConfirmReason());
+			mv.addAttribute("bossConfirm", selectVacation.getVacationCommitList().get(1).getConfirmDate());
+			mv.addAttribute("bossReason", selectVacation.getVacationCommitList().get(1).getConfirmReason());
 		}
 
 		String firstName = "";

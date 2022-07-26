@@ -1,5 +1,6 @@
 package com.project.clean.model.service.admin;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -647,7 +648,11 @@ public class AdminEmployeeService {
 	@Transactional
 	public void retireEmployee(int empNo) {
 		AdminEmployee employeeDTO = employeeRepository.findById(empNo).get();
+		LocalDate now = LocalDate.now();
+		java.sql.Date today = java.sql.Date.valueOf(now);
+		
 		employeeDTO.setEmployeeRetireYn("Y");
+		employeeDTO.setEmployeeRetireDate(today);
 	}
 
 	@Transactional
