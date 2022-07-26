@@ -21,6 +21,7 @@ public class RetireEmployeeDTO implements Serializable{
 	private String retireEmployeeEmail;
 	private String retireEmployeeRetireYn;
 	private java.sql.Date retireEmployeeLastLoginDate;
+	
 	public RetireEmployeeDTO() {
 	}
 	public RetireEmployeeDTO(int retireEmployeeNo, String retireEmployeeName, String retireEmployeeId,

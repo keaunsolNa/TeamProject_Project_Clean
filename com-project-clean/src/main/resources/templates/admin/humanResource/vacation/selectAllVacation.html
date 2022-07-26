@@ -53,9 +53,12 @@
                     <th>휴가구분</th>
                     <th>1차 승인여부</th>
                     <th>2차 승인여부</th>
+                    <!-- 
                     <th>반려 여부</th>
                     <th>최종승인여부</th>
+                     -->
                     </tr>
+                    
             </thead>
 				<tbody>
 						
@@ -112,6 +115,7 @@
              const confirmN = "반려";
              const returnY = "반려";
              const returnN = "승인";
+             const wait = "대기중";
              
              /* 데이터 필드, 페이징버튼 필드 초기화 */
              $table.html("");
@@ -128,18 +132,73 @@
 					$startTd = $("<td>").text(data.vacationList[index].vacationStartDate);
 					$endTd = $("<td>").text(data.vacationList[index].vacationEndDate);
 					$vNameTd = $("<td>").text(data.vacationList[index].vacationName);
+									
 					
-					if(data.vacationList[index].vacationFirstConfirmYn == "Y"){
-						$firstTd = $("<td>").html(confirmY);
-					}else{
-						$firstTd = $("<td>").html(confirmN);
-					}
+					if (	data.vacationList[index].vacationFirstConfirmYn == "N" &&
+							data.vacationList[index].vacationSecondConfirmYn == "N" &&
+							data.vacationList[index].vacationReturnYn == "N" &&
+						    data.vacationList[index].vacationLastConfirmYn == "N") {
+						$firstTd = $("<td>").html("대기중");
+					} else if (	data.vacationList[index].vacationFirstConfirmYn == "N" &&
+							data.vacationList[index].vacationSecondConfirmYn == "N" &&
+							data.vacationList[index].vacationReturnYn == "Y" &&
+						    data.vacationList[index].vacationLastConfirmYn == "N") {
+						$firstTd = $("<td>").html("반려");
+						}else if (	data.vacationList[index].vacationFirstConfirmYn == "Y" &&
+								data.vacationList[index].vacationSecondConfirmYn == "N" &&
+								data.vacationList[index].vacationReturnYn == "N" &&
+							    data.vacationList[index].vacationLastConfirmYn == "N") {
+							$firstTd = $("<td>").html("승인");
+						}else if (	data.vacationList[index].vacationFirstConfirmYn == "Y" &&
+								data.vacationList[index].vacationSecondConfirmYn == "Y" &&
+								data.vacationList[index].vacationReturnYn == "Y" &&
+							    data.vacationList[index].vacationLastConfirmYn == "N") {
+							$firstTd = $("<td>").html("승인");
+						} else if (	data.vacationList[index].vacationFirstConfirmYn == "Y" &&
+								data.vacationList[index].vacationSecondConfirmYn == "Y" &&
+								data.vacationList[index].vacationReturnYn == "N" &&
+							    data.vacationList[index].vacationLastConfirmYn == "Y") {
+							$firstTd = $("<td>").html("승인");
+						} else if (	data.vacationList[index].vacationFirstConfirmYn == "Y" &&
+								data.vacationList[index].vacationSecondConfirmYn == "N" &&
+								data.vacationList[index].vacationReturnYn == "Y" &&
+							    data.vacationList[index].vacationLastConfirmYn == "N") {
+							$firstTd = $("<td>").html("반려");
+						}else{
+						$secondTd = $("<td>").text(" ");
+						}
 					
+					
+					
+					if (	data.vacationList[index].vacationFirstConfirmYn == "N" &&
+							data.vacationList[index].vacationSecondConfirmYn == "N" &&
+							data.vacationList[index].vacationReturnYn == "N" &&
+						    data.vacationList[index].vacationLastConfirmYn == "N") {
+						$secondTd = $("<td>").text("대기중");
+					} else if (	data.vacationList[index].vacationFirstConfirmYn == "Y" &&
+							data.vacationList[index].vacationSecondConfirmYn == "N" &&
+							data.vacationList[index].vacationReturnYn == "N" &&
+						    data.vacationList[index].vacationLastConfirmYn == "N") {
+						$secondTd = $("<td>").text("대기중");
+						}else if (	data.vacationList[index].vacationFirstConfirmYn == "Y" &&
+								data.vacationList[index].vacationSecondConfirmYn == "N" &&
+								data.vacationList[index].vacationReturnYn == "Y" &&
+							    data.vacationList[index].vacationLastConfirmYn == "N") {
+						$secondTd = $("<td>").text(" ");
+						}else if (	data.vacationList[index].vacationFirstConfirmYn == "Y" &&
+								data.vacationList[index].vacationSecondConfirmYn == "Y" &&
+								data.vacationList[index].vacationReturnYn == "N" &&
+							    data.vacationList[index].vacationLastConfirmYn == "Y") {
+						$secondTd = $("<td>").text("승인");
+						}else{
+						$secondTd = $("<td>").text(" ");
+						}
+/* 					
 					if(data.vacationList[index].vacationSecondConfirmYn == "Y"){
 						$secondTd = $("<td>").html(confirmY);
 					}else{
 						$secondTd = $("<td>").html(confirmN);
-					}
+					} */
 					
 					if(data.vacationList[index].vacationReturnYn == "Y"){
 						$returnTd = $("<td>").html(returnY);
@@ -147,11 +206,16 @@
 						$returnTd = $("<td>").html(returnN);
 					}
 					
-					if(data.vacationList[index].vacationLastConfirmYn == "Y"){
-						$lastTd = $("<td>").html(confirmY);
-					}else{
-						$lastTd = $("<td>").html(confirmN);
-					}
+					if (	data.vacationList[index].vacationLastConfirmYn == "N" 
+						&& data.vacationList[index].vacationReturnYn == "N") {
+						$lastTd = $("<td>").text("승인 대기중");
+					} else if (	data.vacationList[index].vacationLastConfirmYn == "N" 
+							&& data.vacationList[index].vacationReturnYn == "Y") {
+							$lastTd = $("<td>").text("반려");
+						}else if (	data.vacationList[index].vacationLastConfirmYn == "Y" 
+							&& data.vacationList[index].vacationReturnYn == "N") {
+							$lastTd = $("<td>").text("승인");
+						}
 					
 					$tr.append($noTd);
 					$tr.append($nameTd);
@@ -161,9 +225,10 @@
 					$tr.append($vNameTd);
 					$tr.append($firstTd);
 					$tr.append($secondTd);
+					/* 
 					$tr.append($returnTd);
 					$tr.append($lastTd);
-
+ */
 					$table.append($tr);
 
 					hover();

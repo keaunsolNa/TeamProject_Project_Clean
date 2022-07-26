@@ -14,7 +14,7 @@
 	<div th:replace="/admin/adminAside.html"></div>
 
 <section class="section">
-	
+	<form action="/admin/reitre/employee" id="retireTable">
         <table class="tableBox">
         
 	            <colgroup> <!-- width = 755px -->
@@ -85,12 +85,29 @@
           </tr>
         </tbody>
         </table>
-        
+          		 <div style="display:none">
+	         		<input name="retireEmployeeNo" th:value="${ employee.employeeNo }">
+				    <input name="retireEmployeeName" th:value="${ employee.employeeName }">
+				    <input name="retireEmployeeId" th:value="${ employee.employeeId }">
+				    <input name="retireEmployeePwd" th:value="${ employee.employeePwd }">
+				    <input name="retireEmployeeBirth" th:value="${ employee.employeeBirth }">
+				    <input name="retireEmployeeGender" th:value="${ employee.employeeGender }">
+				    <input name="retireEmployeePhone" th:value="${ employee.employeePhone }">
+				    <input name="retireEmployeeHireDate" th:value="${ employee.employeeHireDate }">
+				    <input name="retireEmployeeSumCount" th:value="${ employee.employeeSumCount }">
+				    <input name="retireEmployeeSumTime" th:value="${ employee.employeeSumTime }">
+				    <input name="retireEmployeeEmail" th:value="${ employee.employeeEmail }">
+				    <input name="retireEmployeeLastLoginDate" th:value="${ employee.employeeLastLoginDate }">
+	    		 </div>
+      </form>
         <br>
         
         <div class="buttonBox">
             <span>
             <span:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
+            <!-- 
+                <span><button id="adminModify" th:if="${employee.employeeRetireYn == 'N'}">Hr수정</button></span>
+             -->    
                 <span><button id="adminModify">Hr수정</button></span>
             </span:block>
                  
@@ -126,7 +143,7 @@
 	$("#entire").click(function(){
 		
 		if(confirm("탈퇴처리 하시겠습니까?")){
-			location.href="/admin/reitre/employee/"+value;
+			$("#retireTable").submit();
 		}
 	})
     </script>
