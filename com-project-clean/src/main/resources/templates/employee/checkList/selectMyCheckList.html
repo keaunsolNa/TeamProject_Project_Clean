@@ -95,24 +95,24 @@
 						const businessStartDay = button.parentNode.querySelector('.st').innerText.substring(8, 10)
 						const businessStartHours = button.parentNode.querySelector('.st').innerText.substring(10, 16);
 						
-						 //if(nowDay == businessStartDay){ 
+						 if(nowDay == businessStartDay){ 
 							console.log(businessStartHours)
-							 //if(businessStartHours > nowHours && businessStartHours < maxHours){ 
+							 if(businessStartHours > nowHours && businessStartHours < maxHours){ 
 							
 								const resNo1 = document.querySelectorAll('table#taskInfo tbody tr td1');
 								const resNo2 = resNo1[i];
 								var resNo3 = resNo2.parentNode.querySelector('.rn').innerText;
 								
  							 	location.href="/employee/checkList/start?re="+ resNo3;
- 						//} else{
+ 						} else{
 							
-						//	alert("업무를 시작할 수 없습니다. ")
-					//	};
+							alert("업무를 시작할 수 없습니다. ")
+						};
  							
-						// } else{
-						//	
-						//	alert("업무를 시작할 수 없습니다. ")
-						//};  
+						 } else{
+							
+							alert("업무를 시작할 수 없습니다. ")
+						};  
 					}						
 
 				}
