@@ -2,11 +2,8 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="commonLayout.css">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<link rel="stylesheet" href="commonLayout.css">
 	
 <style>
 tr:nth-of-type(1) {
@@ -118,8 +115,8 @@ table tr {
         var data = google.visualization.arrayToDataTable([
           ['직급명', '평균 급여' ],
           ['', 0],
-          ['총관리자', 0],
-          ['일반관리자', 0],
+          ['총관리자', 18400000],
+          ['일반관리자', 2001000],
           ['보안담당자', 2300000  ],
           ['인사담당자',  2622000 ],        
           ['재정담당자',  3956000 ]          
@@ -137,11 +134,9 @@ table tr {
         chart.draw(data, options);
       }
     </script>
-  </head>
-  <body>
+
     <div id="chart_div" style="width: 900px; height: 500px;"></div>
-  </body>
-  </html>
+
 			</section>
 		</article>
 	</main>

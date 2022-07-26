@@ -1,5 +1,6 @@
 package com.project.clean.model.service.admin.checkList;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -106,6 +107,32 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 		/* 체크리스트 HTML 값 주입 */
 		checkListEntity.setCheckHTML(checkList.getCheckHTML());
 
+		int reservationNo = checkListEntity.getCheckReservationNo();
+		ReservationInfo reservationInfo = reservationInfoRepository.findByReservationNo(checkList.getCheckReservationNo());
+		
+		/* Entity DTO로 매핑 */
+		ReservationInfoDTO reservationInfoDTO = modelMapper.map(reservationInfo, ReservationInfoDTO.class);
+		
+		/* 예약번호로 List<ApplyEmployeeEmbedded> 조회 */
+		List<ApplyEmployeeEmbedded> applyEmployeeList = applyRepository.findAllEmployeeApply2(reservationNo);
+		
+		/* List<ApplyEmployeeEmbedded> Entity DTO로 매핑 */
+		List<EmployeeDTO> employeeArrayList = new ArrayList<>();
+		
+		/* 업무 시작, 종료 시간 구하기 */
+		java.util.Date startTime = reservationInfo.getBusinessStartTime();
+		java.util.Date endTime = reservationInfo.getBusinessEndTime();
+		
+		/* SimpleDateFormat */
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH"); 
+		String strDate = simpleDateFormat.format(startTime);
+		String endDate = simpleDateFormat.format(endTime);
+		Integer strbnsDate = Integer.valueOf(strDate);
+		Integer endbnxDate = Integer.valueOf(endDate);
+		
+		/* 총 업무 시간 구하기 */
+		int bnsDate = endbnxDate - strbnsDate;
+		
 		/* parameter로 넘어온 값으로 각각의 체크리스트 상태 변경*/
 		if(checkList.getCheckStatus().equals("D")) {
 			
@@ -115,25 +142,21 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 			
 			checkListEntity.setCheckStatus("A");
 			
+			
+			for (ApplyEmployeeEmbedded applyEmployeeEmbedded : applyEmployeeList) {
+				
+				Integer employeeNo = applyEmployeeEmbedded.getApplyEmployeeIdAndApplyReservationNo().getApplyEmployeeNo();
+						
+				Employee employee = empRepository.findByEmployeeNo(employeeNo);
+				
+				employee.setEmployeeSumTime(bnsDate);
+			}
+			
+			
 		} else if(checkList.getCheckStatus().equals("B")) {
 			
 			/* 반려 시 추가 비지니스 로직 수행 */
 			checkListEntity.setCheckStatus("B");
-			
-			/* 체크리스트에서 예약 번호 조회 */
-			int reservationNo = checkListEntity.getCheckReservationNo();
-			
-			/* 예약번호로 예약 리스트 조회 */
-			ReservationInfo reservationInfo = reservationInfoRepository.findByReservationNo(reservationNo);
-			
-			/* Entity DTO로 매핑 */
-			ReservationInfoDTO reservationInfoDTO = modelMapper.map(reservationInfo, ReservationInfoDTO.class);
-			
-			/* 예약번호로 List<ApplyEmployeeEmbedded> 조회 */
-			List<ApplyEmployeeEmbedded> applyEmployeeList = applyRepository.findAllEmployeeApply2(reservationNo);
-			
-			/* List<ApplyEmployeeEmbedded> Entity DTO로 매핑 */
-			List<EmployeeDTO> employeeArrayList = new ArrayList<>();
 			
 			/* for문 시행 */
 			for (ApplyEmployeeEmbedded applyEmployeeEmbedded : applyEmployeeList) {
@@ -151,6 +174,8 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 					}
 				/* 블랙리스트 횟수 추가 */
 				employee.setEmployeeSumCount(sumCount);
+				
+				employee.setEmployeeSumTime(bnsDate);
 			}
 		}
 		

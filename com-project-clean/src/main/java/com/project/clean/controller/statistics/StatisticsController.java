@@ -11,13 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.clean.model.domain.adminEntity.AdminEmployee;
-import com.project.clean.model.domain.commonEntity.Employee;
 import com.project.clean.model.domain.joinEntity.AdminAndAdminPay;
-import com.project.clean.model.dto.commonDTO.AdminDTO;
-import com.project.clean.model.dto.commonDTO.EmployeeStatisticsDTO;
 import com.project.clean.model.dto.commonDTO.StatisticsDTO;
-import com.project.clean.model.dto.joinDTO.AdminAndAdminPayDTO;
-import com.project.clean.model.dto.joinDTO.AdminPayAndAdminDTO;
 import com.project.clean.model.service.statistics.StatisticsService;
 
 @Controller
@@ -119,6 +114,7 @@ private static final Random RANDOM = new Random(System.currentTimeMillis());
 	@GetMapping("bestEmployee")
 	public ModelAndView bestEmployee(ModelAndView mv) {
 //		List<EmployeeStatisticsDTO> employeeList = statisticsService.findBestEmployeeWithQuery();
+		try {
 		List<AdminEmployee> employeeList = statisticsService.findByEmployeeRetireYnOrderByEmployeeSumTimeDesc("N");
 		List<AdminEmployee> bestEmployeeList = new ArrayList<AdminEmployee>();
 		
@@ -131,6 +127,11 @@ private static final Random RANDOM = new Random(System.currentTimeMillis());
 		mv.setViewName("statistics/bestEmployee");
 		
 		return mv;
+		
+		}catch(java.util.NoSuchElementException e) {
+			
+			return mv;
+		}
 	}
 	
 	@GetMapping
