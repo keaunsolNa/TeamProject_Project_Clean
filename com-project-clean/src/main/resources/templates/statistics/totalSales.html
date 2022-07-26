@@ -72,7 +72,7 @@ table tr {
 				<br>
 				<div id="averageSalesList">
 					<table id="averageSales">
-					<th class="month">총 매출 금액</th><th class="month">순 수익 금액</th>
+					<th class="total">총 매출 금액</th><th class="revenue">순 수익 금액</th>
 						<tr>
 							<th th:text="|${ totalSales } 원|"></th><td th:text="|${ netProfit } 원|">원</td>
 						</tr>
@@ -82,33 +82,33 @@ table tr {
 				<br>
 				
 				<script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawVisualization);
-
-      function drawVisualization() {
-        // Some raw data (not necessarily accurate)
-        var data = google.visualization.arrayToDataTable([
-          ['직급명', '평균 급여' ],
-          ['총 매출 금액',  1844000 ],
-          ['순 수익 금액',  -67356000 ],
-                   
-        ]);
-        
-        var options = {
-          title : '회사 매출 통계 그래프',
-          vAxis: {title: '금액'},
-          seriesType: 'bars',
-          series: {5: {type: 'line'}}
-        };
-
-        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
-      </script>
-
-    <div id="chart_div" style="width: 900px; height: 500px;"></div>
-			</section>
-		</article>
-	</main>
+			      google.charts.load('current', {'packages':['corechart']});
+			      google.charts.setOnLoadCallback(drawVisualization);
+			
+			      function drawVisualization() {
+			        // Some raw data (not necessarily accurate)
+			        var data = google.visualization.arrayToDataTable([
+			          ['직급명', '평균 급여' ],
+			          ['총 매출 금액',  1844000 ],
+			          ['순 수익 금액',  -67356000 ],
+			                   
+			        ]);
+			        
+			        var options = {
+			          title : '회사 매출 통계 그래프',
+			          vAxis: {title: '금액'},
+			          seriesType: 'bars',
+			          series: {5: {type: 'line'}}
+			        };
+			
+			        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+			        chart.draw(data, options);
+			      }
+			      </script>
+			
+			    	<div id="chart_div" style="width: 900px; height: 500px;"></div>
+				</section>
+			</article>
+		</main>
 </body>
 </html>
