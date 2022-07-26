@@ -45,12 +45,14 @@
                     <th>신청자</th>
                     <th>신청날짜</th>
                     <th>휴가시작일</th>
-                    <th>휴가종료일</th>
+                    <th>휴가종123료일</th>
                     <th>휴가구분</th>
                     <th>1차 승인여부</th>
                     <th>2차 승인여부</th>
+                    <!-- 
                     <th>반려 여부</th>
                     <th>최종승인여부</th>
+                     -->
                     </tr>
             </thead>
 				<tbody>
@@ -108,6 +110,7 @@
              const confirmN = "반려";
              const returnY = "반려";
              const returnN = "승인";
+             const wait = "대기중";
              /* 데이터 필드, 페이징버튼 필드 초기화 */
              $table.html("");
              $div.html("");
@@ -146,6 +149,9 @@
 					}else{
 						$lastTd = $("<td>").html(confirmN);
 					}
+					if(data.vacationList[index].vacationFirstConfirmYn == "N"){
+						$secondTd = $("<td>").html(wait);
+					}
 							$tr.append($noTd);
 							$tr.append($nameTd);
 							$tr.append($requestTd);
@@ -154,8 +160,8 @@
 							$tr.append($vNameTd);
 							$tr.append($firstTd);
 							$tr.append($secondTd);
-							$tr.append($returnTd);
-							$tr.append($lastTd);
+					/* 		$tr.append($returnTd);
+							$tr.append($lastTd); */
 
 							$table.append($tr);
 

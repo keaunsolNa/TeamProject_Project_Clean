@@ -88,24 +88,22 @@
 
 							for ( var index in data.vacationList) {
 								$tr = $("<tr>");
-								$noTd = $("<td>").text(
-										data.vacationList[index].vacationNo);
-								$requestTd = $("<td>").text(
-										data.vacationList[index].requestDate);
-								$startTd = $("<td>")
-										.text(
-												data.vacationList[index].vacationStartDate);
-								$endTd = $("<td>")
-										.text(
-												data.vacationList[index].vacationEndDate);
-								$nameTd = $("<td>").text(
-										data.vacationList[index].vacationName);
+								$noTd = $("<td>").text(data.vacationList[index].vacationNo);
+								$requestTd = $("<td>").text(data.vacationList[index].requestDate);
+								$startTd = $("<td>").text(data.vacationList[index].vacationStartDate);
+								$endTd = $("<td>").text(data.vacationList[index].vacationEndDate);
+								$nameTd = $("<td>").text(data.vacationList[index].vacationName);
 
-								if (data.vacationList[index].vacationLastConfirmYn == "Y") {
-									$lastTd = $("<td>").text("승인완료");
-								} else {
-									$lastTd = $("<td>").text("승인반려");
-								}
+								if (	data.vacationList[index].vacationLastConfirmYn == "N" 
+										&& data.vacationList[index].vacationReturnYn == "N") {
+										$lastTd = $("<td>").text("승인 대기중");
+									} else if (	data.vacationList[index].vacationLastConfirmYn == "N" 
+											&& data.vacationList[index].vacationReturnYn == "Y") {
+											$lastTd = $("<td>").text("반려");
+										}else if (	data.vacationList[index].vacationLastConfirmYn == "Y" 
+											&& data.vacationList[index].vacationReturnYn == "N") {
+											$lastTd = $("<td>").text("승인");
+										}
 
 								$tr.append($noTd);
 								$tr.append($requestTd);

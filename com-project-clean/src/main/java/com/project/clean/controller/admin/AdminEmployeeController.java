@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.PageDTO;
 import com.project.clean.model.dto.commonDTO.ReasonDTO;
+import com.project.clean.model.dto.commonDTO.RetireEmployeeDTO;
 import com.project.clean.model.dto.commonDTO.VacationDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
 import com.project.clean.model.service.admin.AdminEmployeeService;
@@ -134,13 +135,34 @@ public class AdminEmployeeController {
 	}
 
 
-	@GetMapping("/reitre/employee/{empNo}")
-	public String retireEmployee(@PathVariable int empNo) {
-		System.out.println("empNoempNoempNoempNoempNoempNoempNoempNoempNoempNo" + empNo);
-		adminService.retireEmployee(empNo);
+	
+	
+	
+	
+	
+	
+	
+	
+	@GetMapping("/reitre/employee")
+	public String retireEmployee(RetireEmployeeDTO retireEmployeeDTO) {
+		adminService.retireEmployee(retireEmployeeDTO);
 
 		return "redirect:/admin/select/AllEmployee/move";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/* (관리자가)직원 수정 페이지로 이동 */
 	@GetMapping("/modify/employee/{empNo}")

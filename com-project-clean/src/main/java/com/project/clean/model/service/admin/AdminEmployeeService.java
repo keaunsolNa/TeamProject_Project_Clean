@@ -20,13 +20,16 @@ import com.project.clean.model.domain.adminEntity.AdminEmployee;
 import com.project.clean.model.domain.adminEntity.AdminReason;
 import com.project.clean.model.domain.commonEntity.Admin;
 import com.project.clean.model.domain.commonEntity.Employee;
+import com.project.clean.model.domain.commonEntity.RetireEmployee;
 import com.project.clean.model.domain.commonEntity.Vacation;
 import com.project.clean.model.dto.commonDTO.AdminDTO;
 import com.project.clean.model.dto.commonDTO.ReasonDTO;
+import com.project.clean.model.dto.commonDTO.RetireEmployeeDTO;
 import com.project.clean.model.dto.commonDTO.VacationDTO;
 import com.project.clean.model.dto.joinDTO.EmployeeAndAllDTO;
 import com.project.clean.model.repository.admin.AdminRepository;
 import com.project.clean.model.repository.admin.ReasonRepository;
+import com.project.clean.model.repository.admin.RetireEmployeeRepository;
 import com.project.clean.model.repository.employee.EmpRepository;
 import com.project.clean.model.repository.employee.EmployeeReopsitory;
 import com.project.clean.model.repository.vacation.VacationRepository;
@@ -39,16 +42,18 @@ public class AdminEmployeeService {
 	private final ReasonRepository reasonRepository;
 	private final AdminRepository adminRepository;
 	private final VacationRepository vacationRepository;
+	private final RetireEmployeeRepository retireEmployeeRepository;
 	private final int selectEmployeeLineCount = 1;
 
 	@Autowired
 	public AdminEmployeeService(EmployeeReopsitory employeeReopsitory, ModelMapper modelMapper,
-			ReasonRepository reasonRepository, AdminRepository adminRepository, VacationRepository vacationRepository) {
+			ReasonRepository reasonRepository, AdminRepository adminRepository, VacationRepository vacationRepository, RetireEmployeeRepository retireEmployeeRepository) {
 		this.employeeRepository = employeeReopsitory;
 		this.modelMapper = modelMapper;
 		this.reasonRepository = reasonRepository;
 		this.adminRepository = adminRepository;
 		this.vacationRepository = vacationRepository;
+		this.retireEmployeeRepository = retireEmployeeRepository;
 	}
 
 //	/* 전체 직원 조회(재직자) */
@@ -646,13 +651,17 @@ public class AdminEmployeeService {
 	}
 
 	@Transactional
-	public void retireEmployee(int empNo) {
-		AdminEmployee employeeDTO = employeeRepository.findById(empNo).get();
+	public void retireEmployee(RetireEmployeeDTO retireEmployeeDTO) {
 		LocalDate now = LocalDate.now();
 		java.sql.Date today = java.sql.Date.valueOf(now);
 		
+		AdminEmployee employeeDTO = employeeRepository.findById(retireEmployeeDTO.getRetireEmployeeNo()).get();
 		employeeDTO.setEmployeeRetireYn("Y");
 		employeeDTO.setEmployeeRetireDate(today);
+
+		retireEmployeeDTO.setRetireEmployeeRetireYn("Y");
+		retireEmployeeDTO.setRetireEmployeeRetireDate(today);
+		retireEmployeeRepository.save(modelMapper.map(retireEmployeeDTO, RetireEmployee.class));
 	}
 
 	@Transactional
