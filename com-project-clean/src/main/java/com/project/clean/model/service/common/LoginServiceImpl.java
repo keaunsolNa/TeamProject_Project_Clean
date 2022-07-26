@@ -90,6 +90,9 @@ public class LoginServiceImpl implements LoginService{
 			if(user.getEmployeeBlackListYn().equals("Y")) {
 				System.out.println("블랙리스트");
 				throw new DisabledException(user.getEmployeeId());
+			} else if(null == user.getEmployeeHireDate()) {
+				System.out.println("최종 입사 안됨");
+				throw new DisabledException(user.getEmployeeId());
 			}
 			
 			/* 값 반환 */

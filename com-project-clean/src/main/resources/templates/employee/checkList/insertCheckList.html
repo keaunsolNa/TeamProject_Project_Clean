@@ -84,17 +84,10 @@
 	    	
 			const reservationNo = $('.reservationNo').val();
     		const jbHtml = $( 'section' ).html();
-    		
     		if(confirm("체크리스트를 전송하시겠습니까?")){
     			
     			$("#sendingMessage").val("체크리스트가 제출되었습니다.")
     			$("#sendingName").val(userName)
-    			
-    			$("#send").bind("click", function(){
-	    			});
-	    			
-	    		$("#send").trigger("click");
-	    			
     			
     			$.ajax({
     				url: "/employee/checkList/update",

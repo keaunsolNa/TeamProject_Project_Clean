@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 body {
-  font-family: "Lato", sans-serif;
+    font-family: 'MinSans-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 section{
@@ -27,7 +31,7 @@ section{
 .sidenav a, .dropdown-btn {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
-  font-size: 19px;
+  font-size: 18px;
   color: #575757;
   display: block;
   border: none;
@@ -38,8 +42,13 @@ section{
   outline: none;
 }
 
+.dropdown-btn  {
+ font-size: 20px;
+ font-weight: bold;
+}
+
 /* On mouse-over */
-.sidenav a:hover, .dropdown-btn:hover {
+.sidenav a:hover {
   -webkit-text-stroke: 1px;
   color:#7DBEED;
 }
@@ -47,7 +56,6 @@ section{
 /* Add an active class to the active dropdown button */
 .active {
     background-color : #f1f1f1;
-    -webkit-text-stroke: 1px;
 }
 
 /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
@@ -61,10 +69,6 @@ section{
 .fa-caret-down {
   float: right;
   padding-right: 8px;
-}
-
-.dropdown-btn {
-  font-weight: bold;
 }
 
 /* Some media queries for responsiveness */

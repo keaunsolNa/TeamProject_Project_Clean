@@ -54,13 +54,13 @@ public interface PayService {
 	/* 관리자 급여(급여지급) */
 
 	// 급여를 한번도 받지 않은 신입 관리자 조회
-	public List<AdminAndAdminPayDTO> findNullAdmin();
+	public List<AdminAndAdminPayDTO> findNullAdmin(String yn);
 	
 	// 이번 달 급여를 받은 관리자 조회
 	public List<AdminAndAdminPayDTO> findPaidAdmin();
 	
-	// 모든 관리자 조회
-	public List<AdminAndAdminPayDTO> findAllAdmin();
+	// 모든 관리자 조회(퇴사하지 않은)
+	public List<AdminAndAdminPayDTO> findByAdminRetireYn(String yn);
 
 	// 관리자 번호로 관리자 한명 조회
 	public AdminDTO findAdminByAdminNo(int adminNo);
