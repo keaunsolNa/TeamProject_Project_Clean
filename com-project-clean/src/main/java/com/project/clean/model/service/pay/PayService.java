@@ -71,14 +71,14 @@ public interface PayService {
 	
 	/* 이달의 우수직원 */
 	
+	// 이미 이달의 우수직원 보너스를 받았는지 확인
+	public BestEmployeePayAndEmployeeDTO hasBestEmployeePay(int bestEmployeeNo);
+	
 	// 이달의 우수직원 급여 전체 조회(카운트)
 	public int selectBestEmployeePayTotalCount(String searchCondition, String searchValue);
 	
 	// 이달의 우수직원 급여 전체 조회(페이징,검색)
 	public List<BestEmployeePayAndEmployeeDTO> bestEmployeePaySearch(SelectCriteria selectCriteria);
-	
-	// 모든 직원 조회
-	public List<EmployeeDTO> findAllEmployee();
 	
 	// 이달의 우수직원 급여 지급
 	public void registBestEmployeePay(int bestEmployeeNo, int bestEmployeeBonus);
@@ -112,6 +112,8 @@ public interface PayService {
 
 	// 나의 급여 전체 조회(직원,페이징)
 	public List<EmployeePayAndApplyEmployeeDTO> myPayForEmployee(int employeeNo, SelectCriteria selectCriteria);
+
+
 	
 	
 

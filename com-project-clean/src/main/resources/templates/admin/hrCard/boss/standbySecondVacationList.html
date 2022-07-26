@@ -120,8 +120,8 @@
 				</select> 
 			
 			<input type="search" id="searchInput" name="searchValue" th:value="${selectCriteria.searchValue}">
-			<input type="date" id="vacationStartDate" name="searchValue" style="display: none">
-			<input type="date" id="vacationEndDate" name="searchValue" style="display: none">
+			<input type="date" id="vacationStartDate" name="searchValue" min="2015-01-01" style="display: none">
+			<input type="date" id="vacationEndDate" name="searchValue" min="2015-01-01" style="display: none">
 		
 			<button class="btn_search" type="submit">검색하기</button>
 		</form>

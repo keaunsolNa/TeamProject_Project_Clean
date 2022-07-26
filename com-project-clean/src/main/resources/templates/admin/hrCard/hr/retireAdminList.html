@@ -127,8 +127,8 @@
 				</select> 
 			
 			<input type="search" id="searchInput" name="searchValue" th:value="${selectCriteria.searchValue}">
-			<input type="date" id="adminBirth" name="searchValue" style="display: none">
-			<input type="date" id="adminRetireDate" name="searchValue" style="display: none">
+			<input type="date" id="adminBirth" name="searchValue" min="1950-01-01" max="2003-01-01" style="display: none">
+			<input type="date" id="adminRetireDate" name="searchValue" min="2019-07-28" max="2022-07-28" style="display: none">
 			<input type="text" style="display: none;"> <!-- enter - submit 방지 -->
 			
 			<button class="btn_search" type="submit">검색</button>

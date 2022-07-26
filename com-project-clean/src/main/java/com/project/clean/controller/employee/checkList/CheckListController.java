@@ -83,7 +83,7 @@ public class CheckListController {
 	
 	/* KS. 업무 시작 GetMapping 및 작성 중인 체크리스트 유무 확인*/
 	@GetMapping("start")
-	public ModelAndView checkListInsert(ModelAndView mv, HttpServletRequest request, @RequestParam int re) {
+	public ModelAndView checkListInsert(ModelAndView mv, HttpServletRequest request, @RequestParam int re, RedirectAttributes rttr) {
 			
 		int reservationNo = re;
 		
@@ -92,6 +92,7 @@ public class CheckListController {
 		if(result > 0) {
 
 			mv.addObject("Message", "작성 중인 체크리스트가 있습니다.");
+//			rttr.addFlashAttribute("Message", "작성 중인 체크리스트가 있습니다.");
 			mv.setViewName("employee/checkList/selectMyCheckList");
 			return mv;
 			

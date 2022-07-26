@@ -39,7 +39,6 @@ public class MainController {
 	public ModelAndView main(@AuthenticationPrincipal User userinfo, ModelAndView mv) {
 			
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
 			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
 	        boolean isAdmin = authorities.stream().filter(o -> o.getAuthority().equals("ROLE_ADMIN")).findAny().isPresent();
