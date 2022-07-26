@@ -83,7 +83,7 @@ public class CheckListController {
 	
 	/* KS. 업무 시작 GetMapping 및 작성 중인 체크리스트 유무 확인*/
 	@GetMapping("start")
-	public ModelAndView checkListInsert(ModelAndView mv, HttpServletRequest request, @RequestParam int re, RedirectAttributes rttr) {
+	public ModelAndView checkListInsert(ModelAndView mv, HttpServletRequest request, @RequestParam int re) {
 			
 		int reservationNo = re;
 		
@@ -167,8 +167,11 @@ public class CheckListController {
 	@PostMapping("update")
 	public String updateCheckList(HttpServletRequest request) {
 		
+		System.out.println("TEST1 : " + request.getParameter("resNo"));
+		System.out.println("TEST1 : " + request.getParameter("resNo"));
+		System.out.println("TEST1 : " + request.getParameter("resNo"));
 		int reservationNo = Integer.parseInt(request.getParameter("reservationNo"));
-
+		
 		CheckListDTO checkListDTO = new CheckListDTO();
 		checkListDTO.setCheckReservationNo(reservationNo);
 		checkListDTO.setCheckHTML(request.getParameter("jbHtml"));

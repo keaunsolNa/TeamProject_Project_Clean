@@ -208,7 +208,7 @@ public class AdminReservationController {
 		}
 		/* 직원번호가 다르면 return */		
 		EmployeeDTO employeeDTO = adminReservationService.findByEmployeeNo(employeeNo);
-		if(employeeDTO.getEmployeeNo() == 0 || "Y".equals(employeeDTO.getEmployeeRetireYn()) || "Y".equals(employeeDTO.getEmployeeBlackListYn())) {
+		if(employeeDTO.getEmployeeNo() == 0 || "Y".equals(employeeDTO.getEmployeeRetireYn()) || "Y".equals(employeeDTO.getEmployeeBlackListYn()) || "N".equals(employeeDTO.getEmployeeLastConfirmYn())) {
 			mv.addObject("message", "해당 번호의 직원이 없습니다.\n다시 확인 후 추가해주세요");
 			mv.addObject("reservationNo", reservationNo);
 			mv.addObject("reservation", reservationInfo);
