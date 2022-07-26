@@ -8,10 +8,10 @@ public class StatisticsDTO implements Serializable{
 	
 	private int jobCode;
 	private String job;
-	private String avgSalary;
+	private int avgSalary;
 	
 	public StatisticsDTO() {}
-	public StatisticsDTO(int jobCode, String job, String avgSalary) {
+	public StatisticsDTO(int jobCode, String job, int avgSalary) {
 
 		this.jobCode = jobCode;
 		this.job = job;
@@ -29,10 +29,10 @@ public class StatisticsDTO implements Serializable{
 	public void setJob(String job) {
 		this.job = job;
 	}
-	public String getAvgSalary() {
+	public int getAvgSalary() {
 		return avgSalary;
 	}
-	public void setAvgSalary(String avgSalary) {
+	public void setAvgSalary(int avgSalary) {
 		this.avgSalary = avgSalary;
 	}
 	@Override

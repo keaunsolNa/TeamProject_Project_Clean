@@ -45,7 +45,7 @@
                     <th>신청자</th>
                     <th>신청날짜</th>
                     <th>휴가시작일</th>
-                    <th>휴가종123료일</th>
+                    <th>휴가종료일</th>
                     <th>휴가구분</th>
                     <th>1차 승인여부</th>
                     <th>2차 승인여부</th>
@@ -132,26 +132,29 @@
 						$firstTd = $("<td>").html(confirmN);
 					}
 					
-					if(data.vacationList[index].vacationSecondConfirmYn == "Y"){
-						$secondTd = $("<td>").html(confirmY);
-					}else{
-						$secondTd = $("<td>").html(confirmN);
-					}
-					
-					if(data.vacationList[index].vacationReturnYn == "Y"){
-						$returnTd = $("<td>").html(returnY);
-					}else{
-						$returnTd = $("<td>").html(returnN);
-					}
-					
-					if(data.vacationList[index].vacationLastConfirmYn == "Y"){
-						$lastTd = $("<td>").html(confirmY);
-					}else{
-						$lastTd = $("<td>").html(confirmN);
-					}
-					if(data.vacationList[index].vacationFirstConfirmYn == "N"){
-						$secondTd = $("<td>").html(wait);
-					}
+					if (	data.vacationList[index].vacationFirstConfirmYn == "N" &&
+							data.vacationList[index].vacationSecondConfirmYn == "N" &&
+							data.vacationList[index].vacationReturnYn == "N" &&
+						    data.vacationList[index].vacationLastConfirmYn == "N") {
+						$secondTd = $("<td>").html("대기중");
+					} else if (	data.vacationList[index].vacationFirstConfirmYn == "Y" &&
+							data.vacationList[index].vacationSecondConfirmYn == "N" &&
+							data.vacationList[index].vacationReturnYn == "Y" &&
+						    data.vacationList[index].vacationLastConfirmYn == "N") {
+						$secondTd = $("<td>").html("반려");
+						}else if (	data.vacationList[index].vacationFirstConfirmYn == "Y" &&
+								data.vacationList[index].vacationSecondConfirmYn == "N" &&
+								data.vacationList[index].vacationReturnYn == "N" &&
+							    data.vacationList[index].vacationLastConfirmYn == "N") {
+							$secondTd = $("<td>").html("대기중");
+						}else if (	data.vacationList[index].vacationFirstConfirmYn == "Y" &&
+								data.vacationList[index].vacationSecondConfirmYn == "Y" &&
+								data.vacationList[index].vacationReturnYn == "N" &&
+							    data.vacationList[index].vacationLastConfirmYn == "Y") {
+							$secondTd = $("<td>").html("승인");
+						} else{
+						$secondTd = $("<td>").text(" ");
+						}
 							$tr.append($noTd);
 							$tr.append($nameTd);
 							$tr.append($requestTd);

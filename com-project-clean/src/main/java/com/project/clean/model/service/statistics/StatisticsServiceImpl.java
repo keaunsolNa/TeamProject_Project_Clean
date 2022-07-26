@@ -46,7 +46,7 @@ public class StatisticsServiceImpl implements StatisticsService{
 		return resultList.stream().map(adminSalaryList -> new StatisticsDTO(
 					Integer.parseInt(String.valueOf(adminSalaryList[0])),
 					(String) adminSalaryList[1],
-					String.valueOf(adminSalaryList[2] + " 원")
+					Integer.parseInt(String.valueOf(adminSalaryList[2]))
 				)).collect(Collectors.toList());
 	}
 

@@ -105,14 +105,14 @@
         <div class="buttonBox">
             <span>
             <span:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
-            <!-- 
-                <span><button id="adminModify" th:if="${employee.employeeRetireYn == 'N'}">Hr수정</button></span>
-             -->    
+                <span><button id="adminModify" th:if="${employee.employeeRetireYn == 'N'}">수정</button></span>
+                <!-- 
                 <span><button id="adminModify">Hr수정</button></span>
+                 -->
             </span:block>
                  
             <span:block sec:authorize="hasRole('ROLE_EMPLOYEE')">
-                <span><button id="employeeModify">Emp수정</button></span>
+                <span><button id="employeeModify">수정</button></span>
             </span:block>
                  
                 <span:block sec:authorize="hasRole('ADMIN_HR')">

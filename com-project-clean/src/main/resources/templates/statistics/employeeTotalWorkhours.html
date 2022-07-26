@@ -88,8 +88,7 @@ table tr {
         // Some raw data (not necessarily accurate)
         var data = google.visualization.arrayToDataTable([
           ['', '근무시간' ],
-          ['', 0 ],
-          ['총 근무시간', '[[${ employeeTotalHours }]]' ],
+          ['총 근무시간', parseInt('[[${ employeeTotalHours }]]') ],
           ['평균 근무시간', '[[${ employeeAvgHours }]]' ]
                    
         ]);
