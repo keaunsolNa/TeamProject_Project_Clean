@@ -105,7 +105,10 @@
         <div class="buttonBox">
             <span>
             <span:block sec:authorize="hasRole('ROLE_ADMIN_HR')">
+            <!-- 
                 <span><button id="adminModify" th:if="${employee.employeeRetireYn == 'N'}">Hr수정</button></span>
+             -->    
+                <span><button id="adminModify">Hr수정</button></span>
             </span:block>
                  
             <span:block sec:authorize="hasRole('ROLE_EMPLOYEE')">
