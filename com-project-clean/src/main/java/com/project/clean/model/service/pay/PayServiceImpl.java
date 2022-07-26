@@ -283,7 +283,7 @@ public class PayServiceImpl implements PayService{
 	/* 모든 관리자 조회(퇴사하지 않은) */
 	public List<AdminAndAdminPayDTO> findByAdminRetireYn(String Yn) {
 		System.out.println("YN의 값 " + Yn);
-		List<AdminAndAdminPay> adminList3 = adminAndAdminPayRepository.findByadminRetireYn(Yn);				
+		List<AdminAndAdminPay> adminList3 = adminAndAdminPayRepository.findByadminRetireYn(Yn,Sort.by("adminName"));				
 
 		/* ModelMapper를 이용하여 entity를 DTO로 변환 후 List<MenuDTO>로 반환 */
 		return adminList3.stream().map(admin -> modelMapper.map(admin,AdminAndAdminPayDTO.class)).collect(Collectors.toList());
