@@ -116,7 +116,9 @@
             </span:block>
                  
                 <span:block sec:authorize="hasRole('ADMIN_HR')">
+                <!-- 
                 <span><button id="entire" th:if="${employee.employeeRetireYn == 'N'}">탈퇴 처리</button></span>
+                 -->
                 </span:block> 
                  
                 <span id="value" th:text="${employee.employeeNo}" style="display: none"></span>

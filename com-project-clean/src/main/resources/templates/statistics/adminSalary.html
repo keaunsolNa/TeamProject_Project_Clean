@@ -114,6 +114,7 @@ table tr {
         // Some raw data (not necessarily accurate)
         var data = google.visualization.arrayToDataTable([
           ['직급명', '평균 급여' ],
+          
           ['[[${ adminSalaryList.get(0).job }]]'.replace(/\"/g,''), parseInt('[[${ adminSalaryList.get(0).avgSalary }]]')],
           ['[[${ adminSalaryList.get(1).job }]]'.replace(/\"/g,''), '[[${ adminSalaryList.get(1).avgSalary }]]'],
           ['[[${ adminSalaryList.get(2).job }]]'.replace(/\"/g,''), '[[${ adminSalaryList.get(2).avgSalary }]]'  ],

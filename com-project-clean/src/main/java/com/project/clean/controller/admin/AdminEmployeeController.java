@@ -644,10 +644,10 @@ public class AdminEmployeeController {
 			mv.addAttribute("hrReason", selectVacation.getVacationCommitList().get(0).getConfirmReason());
 
 		} else if (selectVacation.getVacationCommitList().size() == 2) {
-			mv.addAttribute("hrConfirm", selectVacation.getVacationCommitList().get(0).getConfirmDate());
-			mv.addAttribute("hrReason", selectVacation.getVacationCommitList().get(0).getConfirmReason());
-			mv.addAttribute("bossConfirm", selectVacation.getVacationCommitList().get(1).getConfirmDate());
-			mv.addAttribute("bossReason", selectVacation.getVacationCommitList().get(1).getConfirmReason());
+			mv.addAttribute("hrConfirm", selectVacation.getVacationCommitList().get(1).getConfirmDate());
+			mv.addAttribute("hrReason", selectVacation.getVacationCommitList().get(1).getConfirmReason());
+			mv.addAttribute("bossConfirm", selectVacation.getVacationCommitList().get(0).getConfirmDate());
+			mv.addAttribute("bossReason", selectVacation.getVacationCommitList().get(0).getConfirmReason());
 		}
 
 		String firstName = "";
@@ -665,10 +665,10 @@ public class AdminEmployeeController {
 			mv.addAttribute("hrName", firstName);
 		} else if (selectVacation.getVacationCommitList().size() == 2) {
 			for (int i = 0; i < adminList.size(); i++) {
-				if (adminList.get(i).getAdminNo() == selectVacation.getVacationCommitList().get(1).getAdminNo()) {
+				if (adminList.get(i).getAdminNo() == selectVacation.getVacationCommitList().get(0).getAdminNo()) {
 					firstName = adminList.get(i).getAdminName();
 				}
-				if (adminList.get(i).getAdminNo() == selectVacation.getVacationCommitList().get(0).getAdminNo()) {
+				if (adminList.get(i).getAdminNo() == selectVacation.getVacationCommitList().get(1).getAdminNo()) {
 					secondName = adminList.get(i).getAdminName();
 				}
 			}

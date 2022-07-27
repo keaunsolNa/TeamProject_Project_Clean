@@ -148,8 +148,8 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 				Integer employeeNo = applyEmployeeEmbedded.getApplyEmployeeIdAndApplyReservationNo().getApplyEmployeeNo();
 						
 				Employee employee = empRepository.findByEmployeeNo(employeeNo);
-				
-				employee.setEmployeeSumTime(bnsDate);
+				int time = employee.getEmployeeSumTime();
+				employee.setEmployeeSumTime(time + bnsDate);
 			}
 			
 			

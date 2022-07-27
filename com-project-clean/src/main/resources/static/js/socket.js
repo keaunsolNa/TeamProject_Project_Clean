@@ -31,7 +31,7 @@ function sendName() {
 function showGreeting(message) {
     $("#ReceiveMessage").show();
     $("#ReceiveMessage").append("<script>" + alert(message) + "</script>");
-	
+	console.log(clientName)
 	if(clientName.indexOf("cleanup")){
 		if(confirm("해당 내역을 확인하시겠습니까?")){
 			

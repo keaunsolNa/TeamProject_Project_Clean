@@ -44,9 +44,9 @@ public class StatisticsServiceImpl implements StatisticsService{
 //			System.out.println("" + row[0] + '/' + row[1] + '/' + row[2]);
 //		}
 		return resultList.stream().map(adminSalaryList -> new StatisticsDTO(
-					Integer.parseInt(String.valueOf(adminSalaryList[0])),
+					(int)(Double.parseDouble(String.valueOf(adminSalaryList[0]))),
 					(String) adminSalaryList[1],
-					Integer.parseInt(String.valueOf(adminSalaryList[2]))
+					(int)Double.parseDouble(String.valueOf(adminSalaryList[2]))
 				)).collect(Collectors.toList());
 	}
 
