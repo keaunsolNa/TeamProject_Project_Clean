@@ -59,7 +59,7 @@ public class AdminCheckListController {
 		String adminId = principal.getName();
 		int parameter = 1;
 		
-		map = adminCheckListService.selectCheckList(adminId, parameter, category, categoryValue, pageable);
+		map = adminCheckListService.selectCheckList(adminId, parameter, pageable);
 		
 		return map;
 	}
@@ -89,6 +89,7 @@ public class AdminCheckListController {
 	@PostMapping(value = "denial", produces="application/json; charset=UTF-8")
 	@ResponseBody
 	public String denialCheckList(HttpServletRequest request) throws JsonProcessingException {
+		
 		int reservationNo = Integer.parseInt(request.getParameter("reservationNo"));
 		String htmlData = request.getParameter("jbHtml");
 		int BlackListYn = Integer.parseInt(request.getParameter("blackYn"));
@@ -121,7 +122,7 @@ public class AdminCheckListController {
 	/* KS. 반려 체크리스트 목록 조회 */
 	@PostMapping(value = "denial/select")
 	@ResponseBody
-	public Map<String, Object> denialCheckListSelect(Principal principal, String category, String categoryValue,
+	public Map<String, Object> denialCheckListSelect(Principal principal,
 			@PageableDefault(size = maxLine)
 			@SortDefault.SortDefaults({
 				@SortDefault(sort = "checkStatus", direction = Sort.Direction.DESC), 
@@ -133,7 +134,7 @@ public class AdminCheckListController {
 		String adminId = principal.getName();
 		int parameter = 2;
 		
-		map = adminCheckListService.selectCheckList(adminId, parameter, category, categoryValue, pageable);
+		map = adminCheckListService.selectCheckList(adminId, parameter, pageable);
 		
 		return map;
 	}
@@ -175,7 +176,7 @@ public class AdminCheckListController {
 		String adminId = principal.getName();
 		int parameter = 3;
 		
-		map = adminCheckListService.selectCheckList(adminId, parameter, category, categoryValue, pageable);
+		map = adminCheckListService.selectCheckList(adminId, parameter, pageable);
 		
 		return map;
 	}
@@ -201,6 +202,7 @@ public class AdminCheckListController {
 	@PostMapping(value = "accept", produces="application/json; charset=UTF-8")
 	@ResponseBody
 	public String acceptCheckList(HttpServletRequest request) throws JsonProcessingException {
+		
 		int reservationNo = Integer.parseInt(request.getParameter("reservationNo"));
 		String htmlData = request.getParameter("jbHtml");
 		
@@ -268,14 +270,14 @@ public class AdminCheckListController {
 	/* KS. 블랙된 체크리스트 조회 */
 	@PostMapping(value = "black/select")
 	@ResponseBody
-	public Map<String, Object> blackCheckListSelect(Principal principal, String category, String categoryValue,
+	public Map<String, Object> blackCheckListSelect(Principal principal,
 				@PageableDefault(sort = "checkReservationNo", size = maxLine, direction = Sort.Direction.DESC) Pageable pageable) throws JsonProcessingException {
 			
 			Map<String, Object> map = new HashMap<>();
 			String adminId = principal.getName();
 			int parameter = 4;
 			
-			map = adminCheckListService.selectCheckList(adminId, parameter, category, categoryValue, pageable);
+			map = adminCheckListService.selectCheckList(adminId, parameter, pageable);
 			
 			return map;
 		}

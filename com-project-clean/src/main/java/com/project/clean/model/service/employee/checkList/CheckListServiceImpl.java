@@ -51,7 +51,6 @@ public class CheckListServiceImpl implements CheckListService{
 	
 	/* KS. 본인 예약 업무 조회 */
 	@Override
-	@Transactional
 	public List<ReservationInfoDTO> selectReservationListByEmployeeId(String employeeId) {
 
 		/* employeeId로 Employee Entity 조회 */
@@ -80,7 +79,6 @@ public class CheckListServiceImpl implements CheckListService{
 					
 				/* reservationNo로 checkList Entity 조회 */
 				CheckList checkList = checkListRepository.findById(reservationNo).get();
-				
 				continue;
 				
 				/* 이미 시작한 대기중 CheckList가 없을 때만 시행한다. */
@@ -94,7 +92,6 @@ public class CheckListServiceImpl implements CheckListService{
 						
 						/* 기존에 생성한 reservationInfoArrayList에 값 추가 */
 						reservationInfoArrayList.add(reservationInfoList);
-						
 						continue;
 				}  
 		}
@@ -394,14 +391,12 @@ public class CheckListServiceImpl implements CheckListService{
 			/* checkList가 있다면 */
 			if(!(checkList.equals(null))) {
 				
-				/* 결과값 선언 */
 				result = 1;
 			}
 			
 			/* checkList가 없다면 */
 		} catch(java.lang.NullPointerException e) {
 			
-			/* 결과값 선언 */
 			result = 0;
 		}
 			

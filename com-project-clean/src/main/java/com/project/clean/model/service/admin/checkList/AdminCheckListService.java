@@ -18,6 +18,6 @@ public interface AdminCheckListService {
 	int modifyCheckList(CheckListDTO checkList);
 
 	/* KS. 체크리스트 조회 및 페이징 */
-	Map<String, Object> selectCheckList(String adminId, int parameter, String category, String categoryValue, Pageable pageable);
+	Map<String, Object> selectCheckList(String adminId, int parameter, Pageable pageable);
 
 }

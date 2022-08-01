@@ -28,3 +28,5 @@ const $contentImgArea1 = document.getElementById("contentImgArea1");
 			}
 		}
 	}
+	
+	

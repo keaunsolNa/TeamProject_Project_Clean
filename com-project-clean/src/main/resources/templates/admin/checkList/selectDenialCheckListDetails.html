@@ -20,21 +20,18 @@
 <body>
 <section>
 	<form method="post" action="admin/checklist/denial"  enctype="multipart/form-data" id ="formSender">
-	
-		<input type="hidden" th:value="${checkList.checkReservationNo}" class="reservationNo" name="reservationNo"> 
 		
 		<p th:utext="${checkList.checkHTML}" class="jbHtml"></p>			
 		
-		<br><br>				
 	</form>
 </section>
 
 <div class="submitarea" id="submitarea">
 	<input type="button" value="승인" id="accept">
-	&nbsp;&nbsp;&nbsp;&nbsp;
 	<input type="button" value="블랙+" id="denial">
 </div>
 
+<input type="hidden" th:value="${checkList.checkReservationNo}" class="reservationNo" name="reservationNo"> 
 <input hidden type="text" th:value="${employeeName}" class="employeeName" id="employeeName">
 <input hidden type="text" th:value="${employeeName}" class="employeeName" id="client">
 
@@ -42,7 +39,6 @@
     <div>
         <input type="text" id="sendingMessage">
         <input type="text" id="sendingName" >
-        <input type="text" id="path" >
     </div>
     <button id="send" type="submit">Send</button>
 </form>
@@ -58,16 +54,11 @@
 	    	document.getElementById("denial").onclick = function(){
 	    		
 				if(confirm("해당 직원에게 블랙리스트 경고 횟수를 추가하시겠습니까? 직원에게 알림이 전송됩니다.")){
-					$("#path").val("/employee/checkList/black/select")
+					
 	    			$("#sendingMessage").val("체크리스트가 재반려되었습니다. 블랙리스트 경고 횟수가 증가합니다.")
-	    			
 		    		$("#sendingName").val(userName)
-	    			
-	    			$("#send").bind("click", function(){
-	    			});
-	    			
+	    			$("#send").bind("click", function(){});
 	    			$("#send").trigger("click");
-	    			
 	    			const jbHtml = $( 'section' ).html();
 	    			const blackYn = 2;
 	    			
@@ -85,7 +76,7 @@
 			    			location.href="/admin/checklist/accept/select"
 	    				},
 	    				error : function(request, status){
-	    					alert("전송 실패")
+	    					alert("전송 실패. 관리자에게 문의하세요.")
 	    				}
 	    			})
 	    		 } 
@@ -94,7 +85,6 @@
 	    	document.getElementById("accept").onclick = function(){
 	    		if(confirm("서류를 승인하시겠습니까? 해당 직원에게 알림이 전송됩니다.")){
 	    			
-	    			$("#path").val("/employee/checkList/accept/select")
 	    			$("#sendingMessage").val("체크리스트가 승인되었습니다. 급여 확인 부탁드립니다.")
 	    			$("#sendingName").val(userName)
 	    			

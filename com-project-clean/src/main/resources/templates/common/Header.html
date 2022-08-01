@@ -51,8 +51,6 @@
 						<h3><span sec:authentication="principal.employeeName" id="userName" th:value="${#authentication.name}"></span></h3>
 						<input hidden type="text" th:value="${#authentication.name}" id="client">
 					</th:block>
-					
-					
                     <ul class="navbar-nav me-auto mb-3 mb-lg-0">
                         <li class="nav-item">
                         <th:block sec:authorize="hasRole('ADMIN')">	

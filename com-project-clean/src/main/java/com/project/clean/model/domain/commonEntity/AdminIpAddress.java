@@ -5,8 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 @Entity
 @Table(name="TBL_ADMIN_IP_ADRESS")
+@DynamicUpdate
+@DynamicInsert
 public class AdminIpAddress implements java.io.Serializable{
 
 	private static final long serialVersionUID = 4101364744100557303L;

@@ -92,7 +92,6 @@ public class CheckListController {
 		if(result > 0) {
 
 			mv.addObject("Message", "작성 중인 체크리스트가 있습니다.");
-//			rttr.addFlashAttribute("Message", "작성 중인 체크리스트가 있습니다.");
 			mv.setViewName("employee/checkList/selectMyCheckList");
 			return mv;
 			
@@ -115,8 +114,6 @@ public class CheckListController {
 		
 		String inputText = request.getParameter("jbHtml");
 		String userId = principal.getName();
-		
-		int employeeNo = checkListService.selectEmployeeNo(userId);
 		
 		CheckListDTO checkListDTO = new CheckListDTO();
 

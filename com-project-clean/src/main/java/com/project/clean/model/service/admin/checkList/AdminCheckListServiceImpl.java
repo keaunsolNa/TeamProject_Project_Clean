@@ -110,14 +110,8 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 		int reservationNo = checkListEntity.getCheckReservationNo();
 		ReservationInfo reservationInfo = reservationInfoRepository.findByReservationNo(checkList.getCheckReservationNo());
 		
-		/* Entity DTO로 매핑 */
-		ReservationInfoDTO reservationInfoDTO = modelMapper.map(reservationInfo, ReservationInfoDTO.class);
-		
 		/* 예약번호로 List<ApplyEmployeeEmbedded> 조회 */
 		List<ApplyEmployeeEmbedded> applyEmployeeList = applyRepository.findAllEmployeeApply2(reservationNo);
-		
-		/* List<ApplyEmployeeEmbedded> Entity DTO로 매핑 */
-		List<EmployeeDTO> employeeArrayList = new ArrayList<>();
 		
 		/* 업무 시작, 종료 시간 구하기 */
 		java.util.Date startTime = reservationInfo.getBusinessStartTime();
@@ -169,13 +163,15 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 				
 				/* 블랙리스트 현재 누적 횟수 + 1 변수에 담기*/
 				int sumCount = employee.getEmployeeSumCount()+1;
+				
 					if(sumCount >= 5) {
 						employee.setEmployeeBlackListYn("Y");
 					}
+					
 				/* 블랙리스트 횟수 추가 */
 				employee.setEmployeeSumCount(sumCount);
-				
-				employee.setEmployeeSumTime(bnsDate);
+				int time = employee.getEmployeeSumTime();
+				employee.setEmployeeSumTime(time + bnsDate);
 			}
 		}
 		
@@ -184,7 +180,7 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 
 	/* 체크리스트 조회 및 페이징 */
 	@Override
-	public Map<String, Object> selectCheckList(String adminId, int parameter, String category, String categoryValue,
+	public Map<String, Object> selectCheckList(String adminId, int parameter, 
 			Pageable pageable) {
 		
 			Page<CheckList> paging;
@@ -197,7 +193,6 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 			
 			/* AdminDTO로 전환 */
 			AdminDTO adminDTO = modelMapper.map(admin, AdminDTO.class);
-			
 			
 			/* AdminNo Integer 변수에 담기 */
 			Integer adminNo = adminDTO.getAdminNo();
@@ -241,8 +236,6 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 				map.put("startPage", startPage);
 				map.put("endPage", endPage);
 				map.put("currentPage", currentPage);
-				map.put("category", category);
-				map.put("categoryValue", categoryValue);
 				
 				/* 전달할 AdminName 변수에 담기 */
 				String adminName = "";
@@ -250,9 +243,9 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 				/* for-each문 시작 */
 				for (CheckListDTO checkLists : checkList) {
 					
+					/* 아직 담당자가 없거나 본인이 조회한 체크리스트만 조회 */
 					if((checkLists.getAdminNo() == null || checkLists.getAdminNo() == adminNo)) {
 						
-						Integer checkAdminNo = checkLists.getAdminNo();
 						String checkHTML = checkLists.getCheckHTML();
 						String checkStatus = checkLists.getCheckStatus();
 						Integer checkReservationNo = checkLists.getCheckReservationNo();
@@ -271,9 +264,6 @@ public class AdminCheckListServiceImpl implements AdminCheckListService {
 						
 						/* DTO의 reservationNo로 List<ApplyEmployeeEmbedded> 조회 */
 						List<ApplyEmployeeEmbedded> applyEmployeeList = applyRepository.findAllEmployeeApply2(reservationNo);
-						
-						/* 빈 List<EmployeeDTO> 객체 생성 */
-						List<EmployeeDTO> employeeArrayList = new ArrayList<>();
 						
 						/* 2중 for-each문 시작 */
 						for (ApplyEmployeeEmbedded applyEmployeeEmbedded : applyEmployeeList) {

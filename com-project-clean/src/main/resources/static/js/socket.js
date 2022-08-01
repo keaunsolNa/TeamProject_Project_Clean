@@ -31,8 +31,7 @@ function sendName() {
 function showGreeting(message) {
     $("#ReceiveMessage").show();
     $("#ReceiveMessage").append("<script>" + alert(message) + "</script>");
-	console.log(clientName)
-	if(clientName.indexOf("cleanup")){
+	if((clientName.indexOf("cleanup")) == -1){
 		if(confirm("해당 내역을 확인하시겠습니까?")){
 			
 			if(message === clientName + "님의 체크리스트가 재반려되었습니다. 블랙리스트 경고 횟수가 증가합니다."){
@@ -43,11 +42,9 @@ function showGreeting(message) {
 				location.href='/employee/checkList/denial/select'
 			} 
 			
-		} else {
-			
-	  		$("#ReceiveMessage").append("<tr><td>" + message + "</td></tr>");
-	  		
-		}
+		} else {$("#ReceiveMessage").append("<tr><td>" + message + "</td></tr>");}
+	  	
+	  	$("#ReceiveMessage").append("<tr><td>" + message + "</td></tr>");
 	}		
 }
 	

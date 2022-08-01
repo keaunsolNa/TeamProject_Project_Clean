@@ -30,8 +30,6 @@ public class AuthFailedHandler implements AuthenticationFailureHandler{
 		
 		String errorMessage = null;
 		
-		System.out.println("로그인 실패 컨트롤러 도착 확인");
-		
 		if(exception instanceof BadCredentialsException) {
 			errorMessage ="아이디나 비밀번호가 일치하지 않습니다. 다시 확인 해 주십시오.";
 		} else if(exception instanceof DisabledException) {
